@@ -86,6 +86,8 @@ minecraft {
         client {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
 
         server {
@@ -122,6 +124,14 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com"
+    }
+
+    maven {
+        url = "https://maven.blamejared.com"
+    }
 }
 
 dependencies {
@@ -146,6 +156,9 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    compileOnly fg.deobf("dev.emi:emi-forge:${emi_version}:api")
+    runtimeOnly fg.deobf("dev.emi:emi-forge:${emi_version}")
+    implementation fg.deobf("org.embeddedt:embeddium-1.20.1:0.2.11-git.23aedfb+mc1.20.1")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
