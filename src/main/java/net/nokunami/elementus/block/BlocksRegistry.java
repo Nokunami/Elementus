@@ -26,8 +26,6 @@ public class BlocksRegistry {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK).sound(SoundType.NETHERITE_BLOCK)));
     public static final RegistryObject<Block> REMNANT = registerBlock("remnant",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.ANCIENT_DEBRIS).sound(SoundType.ANCIENT_DEBRIS)));
-    public static final RegistryObject<Block> TEST_BLOCK = registerBlock("test_block",
-            () -> new TestBlock(BlockBehaviour.Properties.copy(Blocks.ANCIENT_DEBRIS).sound(SoundType.ANCIENT_DEBRIS)));
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

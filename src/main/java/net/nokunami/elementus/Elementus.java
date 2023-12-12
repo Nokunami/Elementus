@@ -15,7 +15,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.nokunami.elementus.block.BlocksRegistry;
-import net.nokunami.elementus.enchantment.EnchantmentRegistry;
 import net.nokunami.elementus.item.ItemsRegistry;
 import org.slf4j.Logger;
 
@@ -33,7 +32,6 @@ public class Elementus
 
         ItemsRegistry.register(modEventBus);
         BlocksRegistry.register(modEventBus);
-        EnchantmentRegistry.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
