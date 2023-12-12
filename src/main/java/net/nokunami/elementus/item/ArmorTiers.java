@@ -1,84 +1,102 @@
 package net.nokunami.elementus.item;
 
+import com.google.common.base.Suppliers;
+import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.LazyLoadedValue;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.nokunami.elementus.Elementus;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.EnumMap;
 import java.util.function.Supplier;
 
 public enum ArmorTiers implements ArmorMaterial {
-    STEEL("steel", 24, new int[]{ 2, 6, 7, 2 }, 10,
-            SoundEvents.ARMOR_EQUIP_IRON, 1.0f, 0.025f, () -> Ingredient.of(ItemsRegistry.STEEL_INGOT.get())),
-    ANTHEKTITE("anthektite", 34, new int[]{ 3, 6, 8, 3 }, 15,
-            SoundEvents.ARMOR_EQUIP_NETHERITE, 2.25f, 0.125f, () -> Ingredient.of(ItemsRegistry.STEEL_INGOT.get())),
-    DIARKRITE("diarkrite", 40, new int[]{ 3, 6, 8, 3 }, 18,
-            SoundEvents.ARMOR_EQUIP_NETHERITE, 4.0f, 0.175f, () -> Ingredient.of(ItemsRegistry.STEEL_INGOT.get()));
+    STEEL("steel", 24, Util.make(new EnumMap<>(ArmorItem.Type.class), (armor) -> {
+        armor.put(ArmorItem.Type.BOOTS, 2);
+        armor.put(ArmorItem.Type.LEGGINGS, 6);
+        armor.put(ArmorItem.Type.CHESTPLATE, 7);
+        armor.put(ArmorItem.Type.HELMET, 2);
+    }), 10, SoundEvents.ARMOR_EQUIP_IRON,
+            1.0f, 0.025f,
+            () -> Ingredient.of(ItemsRegistry.STEEL_INGOT.get())),
+    ANTHEKTITE("anthektite", 34, Util.make(new EnumMap<>(ArmorItem.Type.class), (armor) -> {
+        armor.put(ArmorItem.Type.BOOTS, 3);
+        armor.put(ArmorItem.Type.LEGGINGS, 6);
+        armor.put(ArmorItem.Type.CHESTPLATE, 8);
+        armor.put(ArmorItem.Type.HELMET, 3);
+    }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE,
+            2.25f, 0.125f,
+            () -> Ingredient.of(ItemsRegistry.ANTHEKTITE_INGOT.get())),
+    DIARKRITE("diarkrite", 40, Util.make(new EnumMap<>(ArmorItem.Type.class), (armor) -> {
+        armor.put(ArmorItem.Type.BOOTS, 3);
+        armor.put(ArmorItem.Type.LEGGINGS, 6);
+        armor.put(ArmorItem.Type.CHESTPLATE, 8);
+        armor.put(ArmorItem.Type.HELMET, 3);
+    }), 18, SoundEvents.ARMOR_EQUIP_NETHERITE,
+            4.0f, 0.175f,
+            () -> Ingredient.of(ItemsRegistry.DIARKRITE_INGOT.get()));
 
+    private static final EnumMap<ArmorItem.Type, Integer> HEALTH_FUNCTION_FOR_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), (p_266653_) -> {
+        p_266653_.put(ArmorItem.Type.BOOTS, 13);
+        p_266653_.put(ArmorItem.Type.LEGGINGS, 15);
+        p_266653_.put(ArmorItem.Type.CHESTPLATE, 16);
+        p_266653_.put(ArmorItem.Type.HELMET, 11);});
     private final String name;
     private final int durabilityMultiplier;
-    private final int[] protectionAmounts;
+    private final EnumMap<ArmorItem.Type, Integer> protectionFunctionForType;
     private final int enchantmentValue;
-    private final SoundEvent equipSound;
+    private final SoundEvent sound;
     private final float toughness;
     private final float knockbackResistance;
     private final Supplier<Ingredient> repairIngredient;
 
-    private static final int[] BASE_DURABILITY = { 11, 16, 16, 13 };
-
-    ArmorTiers(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantmentValue, SoundEvent equipSound,
-                      float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
+    ArmorTiers(String name, int durabilityMultiplier, EnumMap<ArmorItem.Type, Integer> protection, int enchantmentValue, SoundEvent soundEvent, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
-        this.protectionAmounts = protectionAmounts;
+        this.protectionFunctionForType = protection;
         this.enchantmentValue = enchantmentValue;
-        this.equipSound = equipSound;
+        this.sound = soundEvent;
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
-        this.repairIngredient = repairIngredient;
+        this.repairIngredient = Suppliers.memoize(repairIngredient::get);
     }
 
-    @Override
-    public int getDurabilityForType(ArmorItem.Type pType) {
-        return BASE_DURABILITY[pType.ordinal()] * this.durabilityMultiplier;
+    public int getDurabilityForType(ArmorItem.@NotNull Type typeDurability) {
+        return HEALTH_FUNCTION_FOR_TYPE.get(typeDurability) * this.durabilityMultiplier;
     }
 
-    @Override
-    public int getDefenseForType(ArmorItem.Type pType) {
-        return this.protectionAmounts[pType.ordinal()];
+    public int getDefenseForType(ArmorItem.@NotNull Type typeDefense) {
+        return this.protectionFunctionForType.get(typeDefense);
     }
 
-    @Override
     public int getEnchantmentValue() {
-        return enchantmentValue;
+        return this.enchantmentValue;
     }
 
-    @Override
-    public SoundEvent getEquipSound() {
-        return this.equipSound;
+    public @NotNull SoundEvent getEquipSound() {
+        return this.sound;
     }
 
-    @Override
-    public Ingredient getRepairIngredient() {
+    public @NotNull Ingredient getRepairIngredient() {
         return this.repairIngredient.get();
     }
 
-    @Override
-    public String getName() {
-        return Elementus.MODID + ":" + this.name;
+    public @NotNull String getName() {
+        return this.name;
     }
 
-    @Override
     public float getToughness() {
         return this.toughness;
     }
 
-    @Override
     public float getKnockbackResistance() {
         return this.knockbackResistance;
+    }
+
+    public String getSerializedName() {
+        return this.name;
     }
 }

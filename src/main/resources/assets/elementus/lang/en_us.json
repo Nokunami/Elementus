@@ -3,6 +3,11 @@
   "item.elementus.steel_scrap": "Steel Scrap",
   "item.elementus.steel_ingot": "Steel Ingot",
   "item.elementus.steel_nugget": "Steel Nugget",
+  "item.elementus.anthektite_scrap": "Anthektite Scrap",
+  "item.elementus.anthektite_ingot": "Anthektite Ingot",
+  "item.elementus.diarkrite_ingot": "Diarkrite Ingot",
+
+
 
   "item.elementus.steel_sword": "Steel Sword",
   "item.elementus.steel_shovel": "Steel Shovel",
@@ -10,8 +15,44 @@
   "item.elementus.steel_axe": "Steel Axe",
   "item.elementus.steel_hoe": "Steel Hoe",
 
+  "item.elementus.anthektite_sword": "Anthektite Sword",
+  "item.elementus.anthektite_shovel": "Anthektite Shovel",
+  "item.elementus.anthektite_pickaxe": "Anthektite Pickaxe",
+  "item.elementus.anthektite_axe": "Anthektite Axe",
+  "item.elementus.anthektite_hoe": "Anthektite Hoe",
+
+  "item.elementus.diarkrite_sword": "Diarkrite Sword",
+  "item.elementus.diarkrite_shovel": "Diarkrite Shovel",
+  "item.elementus.diarkrite_pickaxe": "Diarkrite Pickaxe",
+  "item.elementus.diarkrite_axe": "Diarkrite Axe",
+  "item.elementus.diarkrite_hoe": "Diarkrite Hoe",
+
+
+
   "item.elementus.steel_helmet": "Steel Helmet",
   "item.elementus.steel_chestplate": "Steel Chestplate",
   "item.elementus.steel_leggings": "Steel Leggings",
-  "item.elementus.steel_boots": "Steel Boots"
+  "item.elementus.steel_boots": "Steel Boots",
+
+  "item.elementus.anthektite_helmet": "Anthektite Helmet",
+  "item.elementus.anthektite_chestplate": "Anthektite Chestplate",
+  "item.elementus.anthektite_leggings": "Anthektite Leggings",
+  "item.elementus.anthektite_boots": "Anthektite Boots",
+
+  "item.elementus.diarkrite_helmet": "Diarkrite Helmet",
+  "item.elementus.diarkrite_chestplate": "Diarkrite Chestplate",
+  "item.elementus.diarkrite_leggings": "Diarkrite Leggings",
+  "item.elementus.diarkrite_boots": "Diarkrite Boots",
+
+
+
+  "block.elementus.steel_block": "Block of Steel",
+  "block.elementus.anthektite_block": "Block of Anthektite",
+  "block.elementus.diarkrite_block": "Block of Diarkrite",
+  "block.elementus.remnant": "Remnant",
+
+
+
+  "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",
+  "enchantment.elementus.arcane_sharpness.desc": "Bonus damage based on item's enchantability"
 }
