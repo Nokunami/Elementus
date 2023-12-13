@@ -6,6 +6,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.block.BlocksRegistry;
+import net.nokunami.elementus.item.armor.custom.AnthektiteArmor;
 import net.nokunami.elementus.item.armor.custom.SteelArmor;
 
 import static net.nokunami.elementus.Elementus.MODID;
@@ -83,6 +84,15 @@ public class ItemsRegistry {
             () -> new SteelArmor(ArmorTiers.STEEL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> STEEL_BOOTS = ITEMS.register("steel_boots",
             () -> new SteelArmor(ArmorTiers.STEEL, ArmorItem.Type.BOOTS, new Item.Properties()));
+
+    public static final RegistryObject<Item> ANTHEKTITE_HELEMT = ITEMS.register("anthektite_helmet",
+            () -> new AnthektiteArmor(ArmorTiers.ANTHEKTITE, ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> ANTHEKTITE_CHESTPLATE = ITEMS.register("anthektite_chestplate",
+            () -> new AnthektiteArmor(ArmorTiers.ANTHEKTITE, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> ANTHEKTITE_LEGGINGS = ITEMS.register("anthektite_leggings",
+            () -> new AnthektiteArmor(ArmorTiers.ANTHEKTITE, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> ANTHEKTITE_BOOTS = ITEMS.register("anthektite_boots",
+            () -> new AnthektiteArmor(ArmorTiers.ANTHEKTITE, ArmorItem.Type.BOOTS, new Item.Properties()));
 
 /*
     public static final RegistryObject<BlockItem> STEEL_BLOCK = ITEMS.register("steel_block",

@@ -16,11 +16,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @OnlyIn(Dist.CLIENT)
-public class TestArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
+public class LayeredArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("elementus", "testarmormodel"), "main");
 	private final ModelPart Head;
 	private final ModelPart UnderHat;
@@ -53,7 +50,7 @@ public class TestArmorModel<T extends LivingEntity> extends HumanoidModel<T> {
 
 	private final EquipmentSlot slot;
 
-	public TestArmorModel(ModelPart root, EquipmentSlot slot) {
+	public LayeredArmorModel(ModelPart root, EquipmentSlot slot) {
 		super(root);
 		this.slot = slot;
 		this.Head = root.getChild("Head");

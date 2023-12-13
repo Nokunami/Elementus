@@ -1,0 +1,7 @@
+// 1.20.1	2023-12-13T12:58:38.3079324	Registries
+e05a787066d4441657006d7abc74c2025919ce30 data/elementus/forge/biome_modifier/add_remnant_ore.json
+24986df4e7f4c2da3ae50e37e55e6b36e6c29a43 data/elementus/forge/biome_modifier/add_remnant_ore_buried.json
+e56ae5174311b470ee85ed9d4fdcf2ee6d19e23f data/elementus/worldgen/configured_feature/remnant_ore.json
+8fe0c604749414fabbbe8a98c21e9fafc4f0dd87 data/elementus/worldgen/configured_feature/remnant_ore_buried.json
+13ba061377183ff4ead7fb3a2f5b406d2e7bc05d data/elementus/worldgen/placed_feature/remnant_ore_buried_placed.json
+a7bccefa92e05988c1ff5cb7c078896846796fe0 data/elementus/worldgen/placed_feature/remnant_ore_placed.json
