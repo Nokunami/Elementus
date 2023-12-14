@@ -16,6 +16,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.nokunami.elementus.block.BlocksRegistry;
 import net.nokunami.elementus.item.ItemsRegistry;
+import net.nokunami.elementus.loot.ModLootModifiers;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -33,7 +34,7 @@ public class Elementus
         ItemsRegistry.register(modEventBus);
         BlocksRegistry.register(modEventBus);
 
-
+        ModLootModifiers.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
@@ -201,6 +202,61 @@ public class Elementus
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
             event.getEntries().putAfter(ItemsRegistry.STEEL_LEGGINGS.get().getDefaultInstance(),
                     ItemsRegistry.STEEL_BOOTS.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.getEntries().putAfter(Items.DIAMOND_BOOTS.getDefaultInstance(),
+                    ItemsRegistry.ANTHEKTITE_HELEMT.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.getEntries().putAfter(ItemsRegistry.ANTHEKTITE_HELEMT.get().getDefaultInstance(),
+                    ItemsRegistry.ANTHEKTITE_CHESTPLATE.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.getEntries().putAfter(ItemsRegistry.ANTHEKTITE_CHESTPLATE.get().getDefaultInstance(),
+                    ItemsRegistry.ANTHEKTITE_LEGGINGS.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.getEntries().putAfter(ItemsRegistry.ANTHEKTITE_LEGGINGS.get().getDefaultInstance(),
+                    ItemsRegistry.ANTHEKTITE_BOOTS.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.getEntries().putAfter(Items.NETHERITE_BOOTS.getDefaultInstance(),
+                    ItemsRegistry.DIARKRITE_HELEMT.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.getEntries().putAfter(ItemsRegistry.DIARKRITE_HELEMT.get().getDefaultInstance(),
+                    ItemsRegistry.DIARKRITE_CHESTPLATE.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.getEntries().putAfter(ItemsRegistry.DIARKRITE_CHESTPLATE.get().getDefaultInstance(),
+                    ItemsRegistry.DIARKRITE_LEGGINGS.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.getEntries().putAfter(ItemsRegistry.DIARKRITE_LEGGINGS.get().getDefaultInstance(),
+                    ItemsRegistry.DIARKRITE_BOOTS.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+
+
+
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.getEntries().putAfter(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.getDefaultInstance(),
+                    ItemsRegistry.ANTHEKTITE_UPGRADE_SMITHING_TEMPLATE.get().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        }
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.getEntries().putAfter(ItemsRegistry.ANTHEKTITE_UPGRADE_SMITHING_TEMPLATE.get().getDefaultInstance(),
+                    ItemsRegistry.DIARKRITE_UPGRADE_SMITHING_TEMPLATE.get().getDefaultInstance(),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
 

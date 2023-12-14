@@ -30,7 +30,7 @@ public class DataGenerators {
         //        new BlockTagGenerator(packOutput, lookupProvider, existingFileHelper));
         //generator.addProvider(event.includeServer(), new ItemTagGenerator(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 
-        //generator.addProvider(event.includeServer(), new GlobalLootModifiersProvider(packOutput));
+        generator.addProvider(event.includeServer(), new ProviderGlobalLootModifiers(packOutput));
         //generator.addProvider(event.includeServer(), new PoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
 
         generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookupProvider));

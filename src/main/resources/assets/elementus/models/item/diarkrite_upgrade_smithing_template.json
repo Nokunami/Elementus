@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "elementus:item/diarkrite_upgrade_smithing_template"
+  }
+}

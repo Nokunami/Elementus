@@ -53,6 +53,16 @@
 
 
 
+  "upgrade.minecraft.anthektite_upgrade": "Anthektite Upgrade",
+  "item.minecraft.smithing_template.anthektite_upgrade.applies_to": "Steel Equipment",
+  "item.minecraft.smithing_template.anthektite_upgrade.ingredients": "Anthektite Ingot",
+
+  "upgrade.minecraft.diarkrite_upgrade": "Diarkrite Upgrade",
+  "item.minecraft.smithing_template.diarkrite_upgrade.applies_to": "Anthektite Equipment",
+  "item.minecraft.smithing_template.diarkrite_upgrade.ingredients": "Diarkrite Ingot",
+
+
+
   "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",
   "enchantment.elementus.arcane_sharpness.desc": "Bonus damage based on item's enchantability"
 }

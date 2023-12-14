@@ -7,6 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.block.BlocksRegistry;
 import net.nokunami.elementus.item.armor.custom.AnthektiteArmor;
+import net.nokunami.elementus.item.armor.custom.DiarkriteArmor;
 import net.nokunami.elementus.item.armor.custom.SteelArmor;
 
 import static net.nokunami.elementus.Elementus.MODID;
@@ -27,6 +28,10 @@ public class ItemsRegistry {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_INGOT = ITEMS.register("diarkrite_ingot",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ANTHEKTITE_UPGRADE_SMITHING_TEMPLATE = ITEMS.register("anthektite_upgrade_smithing_template",
+            ModSmithingTemplateItem::createAnthektiteUpgradeTemplate);
+    public static final RegistryObject<Item> DIARKRITE_UPGRADE_SMITHING_TEMPLATE = ITEMS.register("diarkrite_upgrade_smithing_template",
+            ModSmithingTemplateItem::createDiarkriteUpgradeTemplate);
 
     public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword",
             () -> new SwordItem(ItemTiers.STEEL, (int) 3f, -2.4f,
@@ -93,6 +98,15 @@ public class ItemsRegistry {
             () -> new AnthektiteArmor(ArmorTiers.ANTHEKTITE, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> ANTHEKTITE_BOOTS = ITEMS.register("anthektite_boots",
             () -> new AnthektiteArmor(ArmorTiers.ANTHEKTITE, ArmorItem.Type.BOOTS, new Item.Properties()));
+
+    public static final RegistryObject<Item> DIARKRITE_HELEMT = ITEMS.register("diarkrite_helmet",
+            () -> new DiarkriteArmor(ArmorTiers.DIARKRITE, ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final RegistryObject<Item> DIARKRITE_CHESTPLATE = ITEMS.register("diarkrite_chestplate",
+            () -> new DiarkriteArmor(ArmorTiers.DIARKRITE, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final RegistryObject<Item> DIARKRITE_LEGGINGS = ITEMS.register("diarkrite_leggings",
+            () -> new DiarkriteArmor(ArmorTiers.DIARKRITE, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final RegistryObject<Item> DIARKRITE_BOOTS = ITEMS.register("diarkrite_boots",
+            () -> new DiarkriteArmor(ArmorTiers.DIARKRITE, ArmorItem.Type.BOOTS, new Item.Properties()));
 
 /*
     public static final RegistryObject<BlockItem> STEEL_BLOCK = ITEMS.register("steel_block",
