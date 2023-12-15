@@ -1,0 +1,14 @@
+{
+  "entries": [
+    "elementus:anthektite_upgrade_in_simple_dungeon",
+    "elementus:anthektite_upgrade_in_ruined_portal",
+    "elementus:diarkrite_upgrade_in_bastion_treasure",
+    "elementus:anthektite_leggings_in_ancient_city",
+    "elementus:anthektite_upgrade_in_shipwreck_treasure",
+    "elementus:diarkrite_upgrade_in_ancient_city",
+    "elementus:anthektite_upgrade_in_woodland_mansion",
+    "elementus:diarkrite_upgrade_in_end_city_treasure",
+    "elementus:anthektite_hoe_in_ancient_city"
+  ],
+  "replace": false
+}
