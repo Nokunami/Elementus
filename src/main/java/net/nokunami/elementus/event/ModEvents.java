@@ -13,7 +13,7 @@ import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.item.ItemsRegistry;
+import net.nokunami.elementus.registry.ItemsRegistry;
 
 import java.util.List;
 

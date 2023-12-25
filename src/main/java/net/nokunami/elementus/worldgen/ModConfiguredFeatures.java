@@ -14,7 +14,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTes
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.block.BlocksRegistry;
+import net.nokunami.elementus.registry.BlocksRegistry;
 
 import java.util.List;
 

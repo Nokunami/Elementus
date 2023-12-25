@@ -62,6 +62,15 @@
   "item.minecraft.smithing_template.diarkrite_upgrade.ingredients": "Diarkrite Ingot",
 
 
+  "trim_material.elementus.steel": "Steel Material",
+  "trim_material.elementus.anthektite": "Anthektite Material",
+  "trim_material.elementus.diarkrite": "Diarkrite Material",
+
+  "item.elementus.steel_knife": "Steel Knife",
+  "item.elementus.anthektite_knife": "Anthektite Knife",
+  "item.elementus.diarkrite_knife": "Diarkrite Knife",
+
+  "creativetab.elementus_mod_integration": "Elementus Mod Integration",
 
   "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",
   "enchantment.elementus.arcane_sharpness.desc": "Bonus damage based on item's enchantability"

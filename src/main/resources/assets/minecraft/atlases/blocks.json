@@ -1,0 +1,19 @@
+{
+  "sources": [
+    {
+      "type": "paletted_permutations",
+      "textures": [
+        "trims/items/leggings_trim",
+        "trims/items/chestplate_trim",
+        "trims/items/helmet_trim",
+        "trims/items/boots_trim"
+      ],
+      "palette_key": "trims/color_palettes/trim_palette",
+      "permutations": {
+        "steel": "elementus:trims/color_palettes/steel",
+        "anthektite": "elementus:trims/color_palettes/anthektite",
+        "diarkrite": "elementus:trims/color_palettes/diarkrite"
+      }
+    }
+  ]
+}

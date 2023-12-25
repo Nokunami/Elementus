@@ -1,6 +1,7 @@
 package net.nokunami.elementus;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -8,15 +9,18 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.nokunami.elementus.block.BlocksRegistry;
-import net.nokunami.elementus.item.ItemsRegistry;
-import net.nokunami.elementus.loot.ModLootModifiers;
+import net.nokunami.elementus.registry.BlocksRegistry;
+import net.nokunami.elementus.Compat.farmersdelight.FDItemsRegistry;
+import net.nokunami.elementus.registry.IntegrationTab;
+import net.nokunami.elementus.registry.ItemsRegistry;
+import net.nokunami.elementus.datagen.loot.ModLootModifiers;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -27,6 +31,10 @@ public class Elementus
     public static final String MODID = "elementus";
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public static ResourceLocation modLoc(String location) {
+        return new ResourceLocation(Elementus.MODID, location);
+    }
+
     public Elementus()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -35,6 +43,12 @@ public class Elementus
         BlocksRegistry.register(modEventBus);
 
         ModLootModifiers.register(modEventBus);
+
+        IntegrationTab.register(modEventBus);
+
+        if (ModList.get().isLoaded("farmersdelight")) {
+            FDItemsRegistry.register(modEventBus);
+        }
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
@@ -90,12 +104,12 @@ public class Elementus
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.getEntries().putAfter(Items.NETHERITE_SWORD.getDefaultInstance(),
+            event.getEntries().putAfter(Items.DIAMOND_SWORD.getDefaultInstance(),
                     ItemsRegistry.ANTHEKTITE_SWORD.get().getDefaultInstance(),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.getEntries().putAfter(ItemsRegistry.ANTHEKTITE_SWORD.get().getDefaultInstance(),
+            event.getEntries().putAfter(Items.NETHERITE_SWORD.getDefaultInstance(),
                     ItemsRegistry.DIARKRITE_SWORD.get().getDefaultInstance(),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
@@ -106,12 +120,12 @@ public class Elementus
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.getEntries().putAfter(Items.NETHERITE_AXE.getDefaultInstance(),
+            event.getEntries().putAfter(Items.DIAMOND_AXE.getDefaultInstance(),
                     ItemsRegistry.ANTHEKTITE_AXE.get().getDefaultInstance(),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.getEntries().putAfter(ItemsRegistry.ANTHEKTITE_AXE.get().getDefaultInstance(),
+            event.getEntries().putAfter(Items.NETHERITE_AXE.getDefaultInstance(),
                     ItemsRegistry.DIARKRITE_AXE.get().getDefaultInstance(),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }

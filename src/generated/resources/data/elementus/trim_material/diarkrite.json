@@ -1,0 +1,9 @@
+{
+  "asset_name": "diarkrite",
+  "description": {
+    "color": "#6C809D",
+    "translate": "trim_material.elementus.diarkrite"
+  },
+  "ingredient": "elementus:diarkrite_ingot",
+  "item_model_index": 0.24
+}

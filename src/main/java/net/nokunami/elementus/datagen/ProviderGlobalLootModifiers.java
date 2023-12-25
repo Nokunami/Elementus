@@ -2,14 +2,13 @@ package net.nokunami.elementus.datagen;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.item.ItemsRegistry;
-import net.nokunami.elementus.loot.AddItemModifier;
+import net.nokunami.elementus.registry.ItemsRegistry;
+import net.nokunami.elementus.datagen.loot.AddItemModifier;
 
 public class ProviderGlobalLootModifiers extends GlobalLootModifierProvider {
     public ProviderGlobalLootModifiers(PackOutput output) {

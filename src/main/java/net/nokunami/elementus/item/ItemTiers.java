@@ -3,6 +3,7 @@ package net.nokunami.elementus.item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.ForgeTier;
+import net.nokunami.elementus.registry.ItemsRegistry;
 
 public class ItemTiers {
     public static final ForgeTier STEEL = new ForgeTier(
