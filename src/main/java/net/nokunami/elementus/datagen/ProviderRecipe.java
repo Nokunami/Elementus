@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.fml.ModList;
-import net.nokunami.elementus.Compat.farmersdelight.FDItemsRegistry;
+import net.nokunami.elementus.compat.farmersdelight.FDItemsRegistry;
 import net.nokunami.elementus.registry.BlocksRegistry;
 import net.nokunami.elementus.registry.ItemsRegistry;
 

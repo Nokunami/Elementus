@@ -1,4 +1,4 @@
-// 1.20.1	2023-12-25T16:58:49.2289117	Item Models: elementus
+// 1.20.1	2024-01-18T18:40:44.9493949	Item Models: elementus
 7dacd9b6c59e94318a6b6ceffabb937046681711 assets/elementus/models/item/anthektite_axe.json
 1344df550c4bc0f7e94f2d1cf1f83bc6e514c84f assets/elementus/models/item/anthektite_block.json
 8dab3cedd17ec349448d6f680785fe2702f6bf93 assets/elementus/models/item/anthektite_boots.json
@@ -60,6 +60,8 @@ fc2cceb82fcf7023c7eade536728c6b27bb1dfe3 assets/elementus/models/item/anthektite
 f560353d02acfa4acec2774a610accfd0b91ffce assets/elementus/models/item/anthektite_leggings_quartz_trim.json
 cf751e668e3a3fed9844c6a7152f77e1d29307ed assets/elementus/models/item/anthektite_leggings_redstone_trim.json
 ea9baac082c2c63a5214d5c48352867f73011181 assets/elementus/models/item/anthektite_leggings_steel_trim.json
+3b6e424a6501c9cc25aa3bee54acf0319f274866 assets/elementus/models/item/anthektite_paxel.json
+c10a7fca7bff2cbbf0f3ad902ebcb9b72dddfb2c assets/elementus/models/item/anthektite_paxel_upgrade_kit.json
 5aa1aac1b5743b021cefe80f44684bcea0286aa1 assets/elementus/models/item/anthektite_pickaxe.json
 dcaa828478f09ee7b2eae525395be97913ed2c57 assets/elementus/models/item/anthektite_scrap.json
 296407bd1de135a502df37e8f9146118ea544b2f assets/elementus/models/item/anthektite_shovel.json
@@ -127,6 +129,8 @@ d21ddb759a783d4a33bf980a513c4b94f5b0aeaf assets/elementus/models/item/diarkrite_
 4b8bcf49729b2ce18fd02f09a0ce69cde03d8e23 assets/elementus/models/item/diarkrite_leggings_quartz_trim.json
 995196d22a911e0d916310f06fefa58fc10a3060 assets/elementus/models/item/diarkrite_leggings_redstone_trim.json
 892ef7830b19ab9ba0d649ca446d5b6608cd1bab assets/elementus/models/item/diarkrite_leggings_steel_trim.json
+5aa3be92240a8806bab6085f94eb2736e382ce41 assets/elementus/models/item/diarkrite_paxel.json
+0b3137b12668211178d86e3a85e8cccc7f286a79 assets/elementus/models/item/diarkrite_paxel_upgrade_kit.json
 e5db366c01d112e14138fff8d48b7018c1b707bf assets/elementus/models/item/diarkrite_pickaxe.json
 07adcbd6e3ca0178bc11c7e940e28995cd6de067 assets/elementus/models/item/diarkrite_shovel.json
 a5372b9d95cc9c759e4669c5a829cadac5b8f8d0 assets/elementus/models/item/diarkrite_sword.json
@@ -194,6 +198,7 @@ b9810b65753f5591a1e4795b63bb6476bff6b8cd assets/elementus/models/item/steel_legg
 f74f01dec20c359cdd4edd03f3d75b0c77a66b77 assets/elementus/models/item/steel_leggings_redstone_trim.json
 eb6b3427f5d3fc077528b9ca001db555827f7703 assets/elementus/models/item/steel_leggings_steel_trim.json
 a80c6f485cc29f58a38d42aaa7f90f6498cfff5e assets/elementus/models/item/steel_nugget.json
+36c281806eaf1de126b6c46db93e40b5f70a1ac2 assets/elementus/models/item/steel_paxel.json
 bbc805f3aa09b7f683ad1485a65a2e4f774419a7 assets/elementus/models/item/steel_pickaxe.json
 c73921cea21a7a3fc95663dd3ec93af5de3d84e4 assets/elementus/models/item/steel_scrap.json
 de52f6c8d47585aff4a4d02b970b12484cc4b657 assets/elementus/models/item/steel_shovel.json

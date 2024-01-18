@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementus:steel_paxel_upgrade_kit"
+    }
+  ],
+  "result": {
+    "item": "elementus:steel_ingot",
+    "count": 5
+  }
+}

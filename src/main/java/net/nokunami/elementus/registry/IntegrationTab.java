@@ -8,7 +8,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import net.nokunami.elementus.Compat.farmersdelight.FDItemsRegistry;
+import net.nokunami.elementus.compat.farmersdelight.FDItemsRegistry;
+import net.nokunami.elementus.compat.farmersdelight.PiercingPaxelsItemsRegistry;
 import net.nokunami.elementus.Elementus;
 
 public class IntegrationTab {
@@ -23,6 +24,14 @@ public class IntegrationTab {
                         pOutput.accept(FDItemsRegistry.STEEL_KNIFE.get());
                         pOutput.accept(FDItemsRegistry.ANTHEKTITE_KNIFE.get());
                         pOutput.accept(FDItemsRegistry.DIARKRITE_KNIFE.get());
+                        }
+
+                        if (ModList.get().isLoaded("piercingpaxels")) {
+                        pOutput.accept(PiercingPaxelsItemsRegistry.STEEL_PAXEL.get());
+                        pOutput.accept(PiercingPaxelsItemsRegistry.ANTHEKTITE_PAXEL.get());
+                        pOutput.accept(PiercingPaxelsItemsRegistry.DIARKRITE_PAXEL.get());
+                        pOutput.accept(PiercingPaxelsItemsRegistry.ANTHEKTITE_UPGRADE_KIT.get());
+                        pOutput.accept(PiercingPaxelsItemsRegistry.DIARKRITE_UPGRADE_KIT.get());
                         }
 
                     })

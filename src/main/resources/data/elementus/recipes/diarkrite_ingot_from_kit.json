@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elementus:diarkrite_paxel_upgrade_kit"
+    }
+  ],
+  "result": {
+    "item": "elementus:diarkrite_ingot",
+    "count": 5
+  }
+}

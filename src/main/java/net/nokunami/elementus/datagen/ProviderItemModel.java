@@ -12,7 +12,8 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.nokunami.elementus.Compat.farmersdelight.FDItemsRegistry;
+import net.nokunami.elementus.compat.farmersdelight.FDItemsRegistry;
+import net.nokunami.elementus.compat.farmersdelight.PiercingPaxelsItemsRegistry;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.registry.BlocksRegistry;
 import net.nokunami.elementus.registry.ItemsRegistry;
@@ -82,6 +83,14 @@ public class ProviderItemModel extends ItemModelProvider {
             toolItem(FDItemsRegistry.STEEL_KNIFE);
             toolItem(FDItemsRegistry.ANTHEKTITE_KNIFE);
             toolItem(FDItemsRegistry.DIARKRITE_KNIFE);
+        }
+
+        if (ModList.get().isLoaded("farmersdelight")) {
+            toolItem(PiercingPaxelsItemsRegistry.STEEL_PAXEL);
+            toolItem(PiercingPaxelsItemsRegistry.ANTHEKTITE_PAXEL);
+            toolItem(PiercingPaxelsItemsRegistry.DIARKRITE_PAXEL);
+            normalItem(PiercingPaxelsItemsRegistry.ANTHEKTITE_UPGRADE_KIT);
+            normalItem(PiercingPaxelsItemsRegistry.DIARKRITE_UPGRADE_KIT);
         }
     }
 

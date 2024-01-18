@@ -19,6 +19,7 @@ import net.nokunami.elementus.client.ArmorModelLayered;
 import net.nokunami.elementus.item.ArmorTiers;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -27,9 +28,7 @@ public class ElementusArmorItem extends ArmorItem {
 
     protected final ArmorItem.Type type;
     private final int defense;
-    private final float toughness;
     protected final float knockbackResistance;
-    private final float attackSpeed;
     protected final ArmorMaterial material;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
@@ -38,9 +37,8 @@ public class ElementusArmorItem extends ArmorItem {
         this.material = material;
         this.type = type;
         this.defense = material.getDefenseForType(type);
-        this.toughness = material.getToughness();
+        float toughness = material.getToughness();
         this.knockbackResistance = material.getKnockbackResistance();
-        this.attackSpeed = material.getAttackSpeed();
         DispenserBlock.registerBehavior(this, DISPENSE_ITEM_BEHAVIOR);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
@@ -49,7 +47,11 @@ public class ElementusArmorItem extends ArmorItem {
         if (this.knockbackResistance > 0) {
             builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Armor knockback resistance", (double)this.knockbackResistance, AttributeModifier.Operation.ADDITION));
         }
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(uuid, "Armor Attack Speed Bonus", (double) this.attackSpeed, AttributeModifier.Operation.MULTIPLY_BASE));
+        for (Map.Entry<Attribute, AttributeModifier> modifierEntry : material.getAdditionalAttributes().entrySet()) {
+            AttributeModifier atr = modifierEntry.getValue();
+            atr = new AttributeModifier(uuid, atr.getName(), atr.getAmount(), atr.getOperation());
+            builder.put(modifierEntry.getKey(), atr);
+        }
 
         this.defaultModifiers = builder.build();
     }

@@ -183,6 +183,12 @@ dependencies {
 
     compileOnly fg.deobf("maven.modrinth:farmers-delight:${farmersdelight_version}")
     runtimeOnly fg.deobf("maven.modrinth:farmers-delight:${farmersdelight_version}")
+
+    compileOnly fg.deobf("maven.modrinth:piercingpaxels:${piercingpaxels_version}")
+    runtimeOnly fg.deobf("maven.modrinth:piercingpaxels:${piercingpaxels_version}")
+
+    compileOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
+    runtimeOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

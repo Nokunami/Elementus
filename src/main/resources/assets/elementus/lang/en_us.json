@@ -70,6 +70,12 @@
   "item.elementus.anthektite_knife": "Anthektite Knife",
   "item.elementus.diarkrite_knife": "Diarkrite Knife",
 
+  "item.elementus.steel_paxel": "Steel Paxel",
+  "item.elementus.anthektite_paxel": "Anthektite Paxel",
+  "item.elementus.diarkrite_paxel": "Diarkrite Paxel",
+  "item.elementus.anthektite_paxel_upgrade_kit": "Anthektite Paxel Upgrade Kit",
+  "item.elementus.diarkrite_paxel_upgrade_kit": "Diarkrite Paxel Upgrade Kit",
+
   "creativetab.elementus_mod_integration": "Elementus Mod Integration",
 
   "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",

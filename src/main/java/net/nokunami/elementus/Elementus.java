@@ -16,8 +16,9 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.nokunami.elementus.compat.farmersdelight.PiercingPaxelsItemsRegistry;
 import net.nokunami.elementus.registry.BlocksRegistry;
-import net.nokunami.elementus.Compat.farmersdelight.FDItemsRegistry;
+import net.nokunami.elementus.compat.farmersdelight.FDItemsRegistry;
 import net.nokunami.elementus.registry.IntegrationTab;
 import net.nokunami.elementus.registry.ItemsRegistry;
 import net.nokunami.elementus.datagen.loot.ModLootModifiers;
@@ -48,6 +49,10 @@ public class Elementus
 
         if (ModList.get().isLoaded("farmersdelight")) {
             FDItemsRegistry.register(modEventBus);
+        }
+
+        if (ModList.get().isLoaded("piercingpaxels")) {
+            PiercingPaxelsItemsRegistry.register(modEventBus);
         }
 
         modEventBus.addListener(this::commonSetup);

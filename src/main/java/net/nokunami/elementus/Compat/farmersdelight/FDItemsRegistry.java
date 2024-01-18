@@ -1,4 +1,4 @@
-package net.nokunami.elementus.Compat.farmersdelight;
+package net.nokunami.elementus.compat.farmersdelight;
 
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;

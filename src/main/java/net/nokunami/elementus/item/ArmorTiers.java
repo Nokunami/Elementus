@@ -4,6 +4,9 @@ import com.google.common.base.Suppliers;
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -12,6 +15,7 @@ import net.nokunami.elementus.registry.ItemsRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public enum ArmorTiers implements ArmorMaterial {
@@ -22,7 +26,7 @@ public enum ArmorTiers implements ArmorMaterial {
         armor.put(ArmorItem.Type.HELMET, 2);
     }), 10, SoundEvents.ARMOR_EQUIP_IRON,
             1.0f, 0.025f,
-            () -> Ingredient.of(ItemsRegistry.STEEL_INGOT.get()),0F),
+            () -> Ingredient.of(ItemsRegistry.STEEL_INGOT.get()), Map.of()),
     ANTHEKTITE("anthektite", 34, Util.make(new EnumMap<>(ArmorItem.Type.class), (armor) -> {
         armor.put(ArmorItem.Type.BOOTS, 3);
         armor.put(ArmorItem.Type.LEGGINGS, 6);
@@ -30,7 +34,9 @@ public enum ArmorTiers implements ArmorMaterial {
         armor.put(ArmorItem.Type.HELMET, 3);
     }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE,
             2.25f, 0.125f,
-            () -> Ingredient.of(ItemsRegistry.ANTHEKTITE_INGOT.get()), 0F),
+            () -> Ingredient.of(ItemsRegistry.ANTHEKTITE_INGOT.get()), Map.of(
+                    Attributes.MOVEMENT_SPEED, new AttributeModifier("Anthektite Heaviness", -0.02F, AttributeModifier.Operation.MULTIPLY_BASE)
+    )),
     DIARKRITE("diarkrite", 40, Util.make(new EnumMap<>(ArmorItem.Type.class), (armor) -> {
         armor.put(ArmorItem.Type.BOOTS, 3);
         armor.put(ArmorItem.Type.LEGGINGS, 6);
@@ -38,7 +44,9 @@ public enum ArmorTiers implements ArmorMaterial {
         armor.put(ArmorItem.Type.HELMET, 3);
     }), 18, SoundEvents.ARMOR_EQUIP_NETHERITE,
             4.0f, 0.175f,
-            () -> Ingredient.of(ItemsRegistry.DIARKRITE_INGOT.get()), 0.1F);
+            () -> Ingredient.of(ItemsRegistry.DIARKRITE_INGOT.get()), Map.of(
+            Attributes.ATTACK_SPEED, new AttributeModifier("Diarkrite Attack Speed Bonus", 0.1F, AttributeModifier.Operation.MULTIPLY_BASE)
+    ));
 
     private static final EnumMap<ArmorItem.Type, Integer> HEALTH_FUNCTION_FOR_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), (p_266653_) -> {
         p_266653_.put(ArmorItem.Type.BOOTS, 13);
@@ -53,9 +61,10 @@ public enum ArmorTiers implements ArmorMaterial {
     private final float toughness;
     private final float knockbackResistance;
     private final Supplier<Ingredient> repairIngredient;
-    private final float attackSpeed;
 
-    ArmorTiers(String name, int durabilityMultiplier, EnumMap<ArmorItem.Type, Integer> protection, int enchantmentValue, SoundEvent soundEvent, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient, float attackSpeed) {
+    private final Map<Attribute, AttributeModifier> additionalAttributes;
+
+    ArmorTiers(String name, int durabilityMultiplier, EnumMap<ArmorItem.Type, Integer> protection, int enchantmentValue, SoundEvent soundEvent, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient, Map<Attribute, AttributeModifier> additionalAttributes) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.protectionFunctionForType = protection;
@@ -64,7 +73,7 @@ public enum ArmorTiers implements ArmorMaterial {
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
         this.repairIngredient = Suppliers.memoize(repairIngredient::get);
-        this.attackSpeed = attackSpeed;
+        this.additionalAttributes = additionalAttributes;
     }
 
     public int getDurabilityForType(ArmorItem.@NotNull Type typeDurability) {
@@ -98,10 +107,6 @@ public enum ArmorTiers implements ArmorMaterial {
     public float getKnockbackResistance() {
         return this.knockbackResistance;
     }
-
-    public float getAttackSpeed() {return this.attackSpeed;}
-
-    public String getSerializedName() {
-        return this.name;
-    }
+    
+    public Map<Attribute, AttributeModifier> getAdditionalAttributes() {return additionalAttributes;}
 }
