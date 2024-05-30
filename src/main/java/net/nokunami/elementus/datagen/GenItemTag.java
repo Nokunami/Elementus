@@ -9,7 +9,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.ModList;
 import net.nokunami.elementus.compat.farmersdelight.FDItemsRegistry;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.registry.ItemsRegistry;
+import net.nokunami.elementus.compat.theaether.AEItemsRegistry;
+import net.nokunami.elementus.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
 import javax.annotation.Nullable;
@@ -25,49 +26,66 @@ public class GenItemTag extends ItemTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
 
         this.tag(ItemTags.SWORDS)
-                .add(ItemsRegistry.STEEL_SWORD.get(),
-                        ItemsRegistry.ANTHEKTITE_SWORD.get(),
-                        ItemsRegistry.DIARKRITE_SWORD.get());
+                .add(
+                        ModItems.STEEL_SWORD.get(),
+                        ModItems.ANTHEKTITE_SWORD.get(),
+                        ModItems.DIARKRITE_SWORD.get()
+                );
 
         this.tag(ItemTags.SHOVELS)
-                .add(ItemsRegistry.STEEL_SHOVEL.get(),
-                        ItemsRegistry.ANTHEKTITE_SHOVEL.get(),
-                        ItemsRegistry.DIARKRITE_SHOVEL.get());
+                .add(
+                        ModItems.STEEL_SHOVEL.get(),
+                        ModItems.ANTHEKTITE_SHOVEL.get(),
+                        ModItems.DIARKRITE_SHOVEL.get()
+                );
 
         this.tag(ItemTags.PICKAXES)
-                .add(ItemsRegistry.STEEL_PICKAXE.get(),
-                        ItemsRegistry.ANTHEKTITE_PICKAXE.get(),
-                        ItemsRegistry.DIARKRITE_PICKAXE.get());
+                .add(
+                        ModItems.STEEL_PICKAXE.get(),
+                        ModItems.ANTHEKTITE_PICKAXE.get(),
+                        ModItems.DIARKRITE_PICKAXE.get()
+                );
 
         this.tag(ItemTags.AXES)
-                .add(ItemsRegistry.STEEL_AXE.get(),
-                        ItemsRegistry.ANTHEKTITE_AXE.get(),
-                        ItemsRegistry.DIARKRITE_AXE.get());
+                .add(
+                        ModItems.STEEL_AXE.get(),
+                        ModItems.ANTHEKTITE_AXE.get(),
+                        ModItems.DIARKRITE_AXE.get()
+                );
 
         this.tag(ItemTags.HOES)
-                .add(ItemsRegistry.STEEL_HOE.get(),
-                        ItemsRegistry.ANTHEKTITE_HOE.get(),
-                        ItemsRegistry.DIARKRITE_HOE.get());
+                .add(
+                        ModItems.STEEL_HOE.get(),
+                        ModItems.ANTHEKTITE_HOE.get(),
+                        ModItems.DIARKRITE_HOE.get()
+                );
 
         this.tag(ItemTags.TRIMMABLE_ARMOR)
-                .add(ItemsRegistry.STEEL_HELEMT.get(),
-                        ItemsRegistry.STEEL_CHESTPLATE.get(),
-                        ItemsRegistry.STEEL_LEGGINGS.get(),
-                        ItemsRegistry.STEEL_BOOTS.get(),
-                        ItemsRegistry.ANTHEKTITE_HELEMT.get(),
-                        ItemsRegistry.ANTHEKTITE_CHESTPLATE.get(),
-                        ItemsRegistry.ANTHEKTITE_LEGGINGS.get(),
-                        ItemsRegistry.ANTHEKTITE_BOOTS.get(),
-                        ItemsRegistry.DIARKRITE_HELEMT.get(),
-                        ItemsRegistry.DIARKRITE_CHESTPLATE.get(),
-                        ItemsRegistry.DIARKRITE_LEGGINGS.get(),
-                        ItemsRegistry.DIARKRITE_BOOTS.get());
+                .add(
+                        ModItems.STEEL_HELMET.get(),
+                        ModItems.STEEL_CHESTPLATE.get(),
+                        ModItems.STEEL_LEGGINGS.get(),
+                        ModItems.STEEL_BOOTS.get(),
+                        ModItems.ANTHEKTITE_HELEMT.get(),
+                        ModItems.ANTHEKTITE_CHESTPLATE.get(),
+                        ModItems.ANTHEKTITE_LEGGINGS.get(),
+                        ModItems.ANTHEKTITE_BOOTS.get(),
+                        ModItems.DIARKRITE_HELEMT.get(),
+                        ModItems.DIARKRITE_CHESTPLATE.get(),
+                        ModItems.DIARKRITE_LEGGINGS.get(),
+                        ModItems.DIARKRITE_BOOTS.get()
+//                        AEItemsRegistry.STEEL_GLOVES.get(),
+//                        AEItemsRegistry.DIARKRITE_GLOVES.get(),
+//                        AEItemsRegistry.ANTHEKTITE_GLOVES.get()
+                );
 
         if (ModList.get().isLoaded("farmersdelight")) {
             this.tag(ModTags.KNIVES)
-                    .add(FDItemsRegistry.STEEL_KNIFE.get(),
+                    .add(
+                            FDItemsRegistry.STEEL_KNIFE.get(),
                             FDItemsRegistry.ANTHEKTITE_KNIFE.get(),
-                            FDItemsRegistry.DIARKRITE_KNIFE.get());
+                            FDItemsRegistry.DIARKRITE_KNIFE.get()
+                    );
 
         }
     }

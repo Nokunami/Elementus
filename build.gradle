@@ -5,6 +5,7 @@ plugins {
     id 'net.neoforged.gradle' version '[6.0.18,6.2)'
     id 'org.spongepowered.mixin' version "${mixingradle_version}"
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'io.github.0ffz.github-packages' version '[1,2)'
 }
 
 version = mod_version
@@ -152,6 +153,23 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+
+    maven {
+        name = "Iron's Maven - Release"
+        url = "https://code.redspace.io/releases"
+    }
+
+    maven {
+        name = "Iron's Maven - Snapshots"
+        url = "https://code.redspace.io/releases"
+    }
+
+    maven { url = "https://maven.enginehub.org/repo/" }
+    maven { url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
+    maven { url = "https://maven.theillusivec4.top" }
+    maven { url = "https://cursemaven.com" }
+    maven { url = "https://maven.blamejared.com" }
+    maven { url = "https://maven.kosmx.dev/" }
 }
 
 dependencies {
@@ -162,7 +180,7 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.neoforged:forge:${minecraft_version}-${neo_version}"
 
-    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+    //annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
@@ -189,6 +207,57 @@ dependencies {
 
     compileOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
     runtimeOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
+
+    compileOnly fg.deobf("maven.modrinth:nethers-delight:${nethersdelight_version}")
+    runtimeOnly fg.deobf("maven.modrinth:nethers-delight:${nethersdelight_version}")
+
+    compileOnly fg.deobf("maven.modrinth:aether:${aether_version}")
+    runtimeOnly fg.deobf("maven.modrinth:aether:${aether_version}")
+
+    compileOnly fg.deobf("maven.modrinth:simply-swords:${simply_swords_version}")
+    runtimeOnly fg.deobf("maven.modrinth:simply-swords:${simply_swords_version}")
+
+    compileOnly fg.deobf("maven.modrinth:dixtas-armory:${dixtas_armory_version}")
+    runtimeOnly fg.deobf("maven.modrinth:dixtas-armory:${dixtas_armory_version}")
+
+    compileOnly fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}")
+    runtimeOnly fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}")
+
+    compileOnly fg.deobf("maven.modrinth:modernfix:${modernfix_version}")
+    runtimeOnly fg.deobf("maven.modrinth:modernfix:${modernfix_version}")
+
+    compileOnly fg.deobf("maven.modrinth:ferrite-core:${ferritecore_version}")
+    runtimeOnly fg.deobf("maven.modrinth:ferrite-core:${ferritecore_version}")
+
+    // IRONS SPELLS N SPELLBOOKS **********************************************************************************
+    compileOnly fg.deobf("io.redspace.ironsspellbooks:irons_spellbooks:${irons_spells_version}")
+    runtimeOnly fg.deobf("io.redspace.ironsspellbooks:irons_spellbooks:${irons_spells_version}")
+
+    // GECKOLIB ***************************************************************************************************
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${geckolib_version}")
+
+    // CAELUS *****************************************************************************************************
+    compileOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
+
+    // PLAYER ANIMATOR ********************************************************************************************
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}")
+
+    // JEI ********************************************************************************************************
+    compileOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}")
+
+    // CURIOS *****************************************************************************************************
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+    //Uncomment the following line to run with Curios in dev
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+
+    // PATCHOULI **************************************************************************************************
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+//    compileOnly fg.deobf("maven.modrinth:46KJle7n:XHhmgiU9")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

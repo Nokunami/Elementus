@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "elementus:item/anthektite_shovel"
+    "layer0": "elementus:item/tools/anthektite_shovel"
   }
 }

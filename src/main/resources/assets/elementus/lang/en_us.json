@@ -3,10 +3,10 @@
   "item.elementus.steel_scrap": "Steel Scrap",
   "item.elementus.steel_ingot": "Steel Ingot",
   "item.elementus.steel_nugget": "Steel Nugget",
-  "item.elementus.anthektite_scrap": "Anthektite Scrap",
-  "item.elementus.anthektite_ingot": "Anthektite Ingot",
+  "item.elementus.anthektite_scrap": "Convert to Atelis Scrap",
+  "item.elementus.atelis_scrap": "Atelis Scrap",
   "item.elementus.diarkrite_ingot": "Diarkrite Ingot",
-
+  "item.elementus.anthektite_ingot": "Anthektite Ingot",
 
 
   "item.elementus.steel_sword": "Steel Sword",
@@ -15,18 +15,22 @@
   "item.elementus.steel_axe": "Steel Axe",
   "item.elementus.steel_hoe": "Steel Hoe",
 
-  "item.elementus.anthektite_sword": "Anthektite Sword",
-  "item.elementus.anthektite_shovel": "Anthektite Shovel",
-  "item.elementus.anthektite_pickaxe": "Anthektite Pickaxe",
-  "item.elementus.anthektite_axe": "Anthektite Axe",
-  "item.elementus.anthektite_hoe": "Anthektite Hoe",
-
   "item.elementus.diarkrite_sword": "Diarkrite Sword",
   "item.elementus.diarkrite_shovel": "Diarkrite Shovel",
   "item.elementus.diarkrite_pickaxe": "Diarkrite Pickaxe",
   "item.elementus.diarkrite_axe": "Diarkrite Axe",
   "item.elementus.diarkrite_hoe": "Diarkrite Hoe",
 
+  "item.elementus.anthektite_sword": "Anthektite Sword",
+  "item.elementus.anthektite_shovel": "Anthektite Shovel",
+  "item.elementus.anthektite_pickaxe": "Anthektite Pickaxe",
+  "item.elementus.anthektite_axe": "Anthektite Axe",
+  "item.elementus.anthektite_hoe": "Anthektite Hoe",
+
+
+  "item.elementus.steel_shield": "Steel Shield",
+  "item.elementus.anthektite_shield": "Anthektite Shield",
+  "item.elementus.diarkrite_shield": "Diarkrite Shield",
 
 
   "item.elementus.steel_helmet": "Steel Helmet",
@@ -34,16 +38,15 @@
   "item.elementus.steel_leggings": "Steel Leggings",
   "item.elementus.steel_boots": "Steel Boots",
 
-  "item.elementus.anthektite_helmet": "Anthektite Helmet",
-  "item.elementus.anthektite_chestplate": "Anthektite Chestplate",
-  "item.elementus.anthektite_leggings": "Anthektite Leggings",
-  "item.elementus.anthektite_boots": "Anthektite Boots",
-
   "item.elementus.diarkrite_helmet": "Diarkrite Helmet",
   "item.elementus.diarkrite_chestplate": "Diarkrite Chestplate",
   "item.elementus.diarkrite_leggings": "Diarkrite Leggings",
   "item.elementus.diarkrite_boots": "Diarkrite Boots",
 
+  "item.elementus.anthektite_helmet": "Anthektite Helmet",
+  "item.elementus.anthektite_chestplate": "Anthektite Chestplate",
+  "item.elementus.anthektite_leggings": "Anthektite Leggings",
+  "item.elementus.anthektite_boots": "Anthektite Boots",
 
 
   "block.elementus.steel_block": "Block of Steel",
@@ -51,32 +54,178 @@
   "block.elementus.diarkrite_block": "Block of Diarkrite",
   "block.elementus.remnant": "Remnant",
 
+  "upgrade.minecraft.diarkrite_upgrade": "Convert to Atelis Template",
+  "item.minecraft.smithing_template.diarkrite_upgrade.applies_to": "Crafting shapeless",
+  "item.minecraft.smithing_template.diarkrite_upgrade.ingredients": "None",
 
+  "upgrade.minecraft.anthektite_upgrade": "Convert to Atelis Template",
+  "item.minecraft.smithing_template.anthektite_upgrade.applies_to": "Crafting shapeless",
+  "item.minecraft.smithing_template.anthektite_upgrade.ingredients": "None",
 
-  "upgrade.minecraft.anthektite_upgrade": "Anthektite Upgrade",
-  "item.minecraft.smithing_template.anthektite_upgrade.applies_to": "Steel Equipment",
-  "item.minecraft.smithing_template.anthektite_upgrade.ingredients": "Anthektite Ingot",
+  "upgrade.minecraft.atelis_upgrade": "Anthektite / Diarkrite Upgrade",
+  "item.minecraft.smithing_template.atelis_upgrade.applies_to": "Steel Equipment",
+  "item.minecraft.smithing_template.atelis_upgrade.ingredients": "Anthektite / Diarkrite Ingot",
 
-  "upgrade.minecraft.diarkrite_upgrade": "Diarkrite Upgrade",
-  "item.minecraft.smithing_template.diarkrite_upgrade.applies_to": "Anthektite Equipment",
-  "item.minecraft.smithing_template.diarkrite_upgrade.ingredients": "Diarkrite Ingot",
-
-
-  "trim_material.elementus.steel": "Steel Material",
-  "trim_material.elementus.anthektite": "Anthektite Material",
-  "trim_material.elementus.diarkrite": "Diarkrite Material",
-
-  "item.elementus.steel_knife": "Steel Knife",
-  "item.elementus.anthektite_knife": "Anthektite Knife",
-  "item.elementus.diarkrite_knife": "Diarkrite Knife",
-
-  "item.elementus.steel_paxel": "Steel Paxel",
-  "item.elementus.anthektite_paxel": "Anthektite Paxel",
-  "item.elementus.diarkrite_paxel": "Diarkrite Paxel",
-  "item.elementus.anthektite_paxel_upgrade_kit": "Anthektite Paxel Upgrade Kit",
-  "item.elementus.diarkrite_paxel_upgrade_kit": "Diarkrite Paxel Upgrade Kit",
+  "item.elementus.echoing_mirror": "Echoing Mirror",
+  "item.minecraft.echoing_mirror.applies_to": "Applies to:",
+  "item.minecraft.echoing_mirror.mirror_swap": "Mirrorable Equipment",
+  "item.minecraft.echoing_mirror.description_1": "Temporary item, swap Diarkrite/Anthektite and vise versa.",
+  "item.minecraft.echoing_mirror.description_2": "Will be removed in the next update",
 
   "creativetab.elementus_mod_integration": "Elementus Mod Integration",
+
+  "advancements.story.smelt_steel.title": "But Steel's heavier than feathers!",
+  "advancements.story.smelt_steel.description": "Smelt an Steel Ingot",
+
+  "advancements.story.recycle_steel.title": "Reducing my carbon footprint!",
+  "advancements.story.recycle_steel.description": "Smelt a Steel equipment to get Steel Scraps",
+
+  "advancements.story.obtain_remnant.title": "I remember throwing 8 of those away",
+  "advancements.story.obtain_remnant.description": "Obtain Remnant, an ancient metallic material embedded in the depths of The Overworld",
+
+  "trim_material.elementus.steel": "Steel Material",
+  "trim_material.elementus.diarkrite": "Diarkrite Material",
+  "trim_material.elementus.anthektite": "Anthektite Material",
+
+
+  "item.elementus.steel_knife": "Steel Knife",
+  "item.elementus.diarkrite_knife": "Diarkrite Knife",
+  "item.elementus.anthektite_knife": "Anthektite Knife",
+
+
+  "item.elementus.steel_paxel": "Steel Paxel",
+  "item.elementus.diarkrite_paxel": "Diarkrite Paxel",
+  "item.elementus.anthektite_paxel": "Anthektite Paxel",
+  "item.elementus.diarkrite_paxel_upgrade_kit": "Diarkrite Paxel Upgrade Kit",
+  "item.elementus.anthektite_paxel_upgrade_kit": "Anthektite Paxel Upgrade Kit",
+
+
+  "item.elementus.steel_machete": "Steel Machete",
+  "item.elementus.diarkrite_machete": "Diarkrite Machete",
+  "item.elementus.anthektite_machete": "Anthektite Machete",
+
+
+  "item.elementus.steel_spell_book": "Steel-Trimmed Tome",
+  "item.elementus.diarkrite_spell_book": "Vynatos Tome",
+  "item.elementus.anthektite_spell_book": "Tachytita Grimoire",
+  "item.elementus.diarkrite_mage_helmet": "Diarkrite Mage Helmet",
+  "item.elementus.diarkrite_mage_chestplate": "Diarkrite Mage Chestplate",
+  "item.elementus.diarkrite_mage_leggings": "Diarkrite Mage Leggings",
+  "item.elementus.diarkrite_mage_boots": "Diarkrite Mage Boots",
+  "item.elementus.anthektite_mage_helmet": "Anthektite Mage Helmet",
+  "item.elementus.anthektite_mage_chestplate": "Anthektite Mage Chestplate",
+  "item.elementus.anthektite_mage_leggings": "Anthektite Mage Leggings",
+  "item.elementus.anthektite_mage_boots": "Anthektite Mage Boots",
+
+
+  "item.elementus.steel_chakram": "Steel Chakram",
+  "item.elementus.steel_claymore": "Steel Claymore",
+  "item.elementus.steel_cutlass": "Steel Cutlass",
+  "item.elementus.steel_glaive": "Steel Glaive",
+  "item.elementus.steel_greataxe": "Steel Greataxe",
+  "item.elementus.steel_greathammer": "Steel Greathammer",
+  "item.elementus.steel_halberd": "Steel Halberd",
+  "item.elementus.steel_katana": "Steel Katana",
+  "item.elementus.steel_longsword": "Steel Longsword",
+  "item.elementus.steel_rapier": "Steel Rapier",
+  "item.elementus.steel_sai": "Steel Sai",
+  "item.elementus.steel_scythe": "Steel Scythe",
+  "item.elementus.steel_spear": "Steel Spear",
+  "item.elementus.steel_twinblade": "Steel Twinblade",
+  "item.elementus.steel_warglaive": "Steel Warglaive",
+
+  "item.elementus.diarkrite_chakram": "Diarkrite Chakram",
+  "item.elementus.diarkrite_claymore": "Diarkrite Claymore",
+  "item.elementus.diarkrite_cutlass": "Diarkrite Cutlass",
+  "item.elementus.diarkrite_glaive": "Diarkrite Glaive",
+  "item.elementus.diarkrite_greataxe": "Diarkrite Greataxe",
+  "item.elementus.diarkrite_greathammer": "Diarkrite Greathammer",
+  "item.elementus.diarkrite_halberd": "Diarkrite Halberd",
+  "item.elementus.diarkrite_katana": "Diarkrite Katana",
+  "item.elementus.diarkrite_longsword": "Diarkrite Longsword",
+  "item.elementus.diarkrite_rapier": "Diarkrite Rapier",
+  "item.elementus.diarkrite_sai": "Diarkrite Sai",
+  "item.elementus.diarkrite_scythe": "Diarkrite Scythe",
+  "item.elementus.diarkrite_spear": "Diarkrite Spear",
+  "item.elementus.diarkrite_twinblade": "Diarkrite Twinblade",
+  "item.elementus.diarkrite_warglaive": "Diarkrite Warglaive",
+
+  "item.elementus.anthektite_chakram": "Anthektite Chakram",
+  "item.elementus.anthektite_claymore": "Anthektite Claymore",
+  "item.elementus.anthektite_cutlass": "Anthektite Cutlass",
+  "item.elementus.anthektite_glaive": "Anthektite Glaive",
+  "item.elementus.anthektite_greataxe": "Anthektite Greataxe",
+  "item.elementus.anthektite_greathammer": "Anthektite Greathammer",
+  "item.elementus.anthektite_halberd": "Anthektite Halberd",
+  "item.elementus.anthektite_katana": "Anthektite Katana",
+  "item.elementus.anthektite_longsword": "Anthektite Longsword",
+  "item.elementus.anthektite_rapier": "Anthektite Rapier",
+  "item.elementus.anthektite_sai": "Anthektite Sai",
+  "item.elementus.anthektite_scythe": "Anthektite Scythe",
+  "item.elementus.anthektite_spear": "Anthektite Spear",
+  "item.elementus.anthektite_twinblade": "Anthektite Twinblade",
+  "item.elementus.anthektite_warglaive": "Anthektite Warglaive",
+
+
+  "item.elementus.steel_gloves": "Steel Gloves",
+  "item.elementus.diarkrite_gloves": "Diarkrite Gloves",
+  "item.elementus.anthektite_gloves": "Anthektite Gloves",
+
+
+  "item.dixtas_armory.steel_dagger": "Steel Dagger",
+  "item.dixtas_armory.steel_shortsword": "Steel Shortsword",
+  "item.dixtas_armory.steel_stiletto": "Steel Stiletto",
+  "item.dixtas_armory.steel_rapier": "Steel Rapier",
+  "item.dixtas_armory.steel_katana": "Steel Katana",
+  "item.dixtas_armory.steel_katana_two_handed": "Steel Katana",
+  "item.dixtas_armory.steel_greatsword": "Steel Greatsword",
+  "item.dixtas_armory.steel_longsword": "Steel Longsword",
+  "item.dixtas_armory.steel_twinblade": "Steel Twinblade",
+  "item.dixtas_armory.steel_zweihander": "Steel Zweihander",
+  "item.dixtas_armory.steel_battle_axe": "Steel Battle Axe",
+  "item.dixtas_armory.steel_battle_axe_two_handed": "Steel Battle Axe",
+  "item.dixtas_armory.steel_glaive": "Steel Glaive",
+  "item.dixtas_armory.steel_spear": "Steel Spear",
+  "item.dixtas_armory.steel_spear_two_handed": "Steel Spear",
+  "item.dixtas_armory.steel_halberd": "Steel Halberd",
+  "item.dixtas_armory.steel_pike": "Steel Pike",
+
+  "item.dixtas_armory.diarkrite_dagger": "Diarkrite Dagger",
+  "item.dixtas_armory.diarkrite_shortsword": "Diarkrite Shortsword",
+  "item.dixtas_armory.diarkrite_stiletto": "Diarkrite Stiletto",
+  "item.dixtas_armory.diarkrite_rapier": "Diarkrite Rapier",
+  "item.dixtas_armory.diarkrite_katana": "Diarkrite Katana",
+  "item.dixtas_armory.diarkrite_katana_two_handed": "Diarkrite Katana",
+  "item.dixtas_armory.diarkrite_greatsword": "Diarkrite Greatsword",
+  "item.dixtas_armory.diarkrite_longsword": "Diarkrite Longsword",
+  "item.dixtas_armory.diarkrite_twinblade": "Diarkrite Twinblade",
+  "item.dixtas_armory.diarkrite_zweihander": "Diarkrite Zweihander",
+  "item.dixtas_armory.diarkrite_battle_axe": "Diarkrite Battle Axe",
+  "item.dixtas_armory.diarkrite_battle_axe_two_handed": "Diarkrite Battle Axe",
+  "item.dixtas_armory.diarkrite_glaive": "Diarkrite Glaive",
+  "item.dixtas_armory.diarkrite_spear": "Diarkrite Spear",
+  "item.dixtas_armory.diarkrite_spear_two_handed": "Diarkrite Spear",
+  "item.dixtas_armory.diarkrite_halberd": "Diarkrite Halberd",
+  "item.dixtas_armory.diarkrite_pike": "Diarkrite Pike",
+
+  "item.dixtas_armory.anthektite_dagger": "Anthektite Dagger",
+  "item.dixtas_armory.anthektite_shortsword": "Anthektite Shortsword",
+  "item.dixtas_armory.anthektite_stiletto": "Anthektite Stiletto",
+  "item.dixtas_armory.anthektite_rapier": "Anthektite Rapier",
+  "item.dixtas_armory.anthektite_katana": "Anthektite Katana",
+  "item.dixtas_armory.anthektite_katana_two_handed": "Anthektite Katana",
+  "item.dixtas_armory.anthektite_greatsword": "Anthektite Greatsword",
+  "item.dixtas_armory.anthektite_longsword": "Anthektite Longsword",
+  "item.dixtas_armory.anthektite_twinblade": "Anthektite Twinblade",
+  "item.dixtas_armory.anthektite_zweihander": "Anthektite Zweihander",
+  "item.dixtas_armory.anthektite_battle_axe": "Anthektite Battle Axe",
+  "item.dixtas_armory.anthektite_battle_axe_two_handed": "Anthektite Battle Axe",
+  "item.dixtas_armory.anthektite_glaive": "Anthektite Glaive",
+  "item.dixtas_armory.anthektite_spear": "Anthektite Spear",
+  "item.dixtas_armory.anthektite_spear_two_handed": "Anthektite Spear",
+  "item.dixtas_armory.anthektite_halberd": "Anthektite Halberd",
+  "item.dixtas_armory.anthektite_pike": "Anthektite Pike",
+
 
   "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",
   "enchantment.elementus.arcane_sharpness.desc": "Bonus damage based on item's enchantability"

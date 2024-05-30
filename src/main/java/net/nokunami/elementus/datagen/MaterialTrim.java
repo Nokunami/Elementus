@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.registry.ItemsRegistry;
+import net.nokunami.elementus.registry.ModItems;
 
 import java.util.Map;
 
@@ -42,9 +42,9 @@ public class MaterialTrim {
     }
 
     public static void bootstrap(BootstapContext<TrimMaterial> context) {
-        register(context, STEEL, ItemsRegistry.STEEL_INGOT.getHolder().get(), Style.EMPTY.withColor(12238276));
-        register(context, ANTHEKTITE, ItemsRegistry.ANTHEKTITE_INGOT.getHolder().get(), Style.EMPTY.withColor(6052206));
-        register(context, DIARKRITE, ItemsRegistry.DIARKRITE_INGOT.getHolder().get(), Style.EMPTY.withColor(7110813));
+        register(context, STEEL, ModItems.STEEL_INGOT.getHolder().get(), Style.EMPTY.withColor(12238276));
+        register(context, ANTHEKTITE, ModItems.ANTHEKTITE_INGOT.getHolder().get(), Style.EMPTY.withColor(7110813));
+        register(context, DIARKRITE, ModItems.DIARKRITE_INGOT.getHolder().get(), Style.EMPTY.withColor(6052206));
     }
 
     private static void register(BootstapContext<TrimMaterial> context, ResourceKey<TrimMaterial> trimKey, Holder<Item> trimItem, Style color) {

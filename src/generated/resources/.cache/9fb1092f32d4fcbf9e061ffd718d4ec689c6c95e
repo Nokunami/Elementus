@@ -1,13 +1,7 @@
-// 1.20.1	2023-12-25T17:11:02.7364282	Recipes
-5b8f78c89c272efa5c499e1d4a23ea34ae72c8e8 data/elementus/advancements/recipes/combat/anthektite_knife_smithing_advancement.json
-747f0b4030a6adca3514db3b5ea5c0ec0e4b8111 data/elementus/advancements/recipes/combat/diarkrite_knife_smithing_advancement.json
-746582683359a07d71f628122b5e0833b4671f17 data/elementus/advancements/recipes/combat/steel_knife.json
+// 1.20.1	2024-03-23T18:28:49.6819842	Recipes
 9207f859ab79825c2f9f4ad77a64d4592b5a60d8 data/elementus/advancements/recipes/misc/anthektite_block.json
 268f90eddfa102279b193273a3e5e851f943f159 data/elementus/advancements/recipes/misc/diarkrite_block.json
 eb3a9ba65efac76bd213faeb83e9efac274737d0 data/elementus/advancements/recipes/misc/steel_block.json
 93325de5648717b22035d33f94a6e7e75bb431a6 data/elementus/recipes/anthektite_block.json
-321dc6bdd1a4a2c39e396957196c9bf792ac0f01 data/elementus/recipes/anthektite_knife_smithing_advancement.json
 c9b2f113be3ead2b486c2401d6011e7aa298f907 data/elementus/recipes/diarkrite_block.json
-6a1e2a8ac060532069d5ba34a0ec5d9e1b1812b1 data/elementus/recipes/diarkrite_knife_smithing_advancement.json
 0c71f0e30c6c086cffa0fdad4aa60ab66bd8b12f data/elementus/recipes/steel_block.json
-5100c3c3e2be405651aa6afe19765af9eeeac89a data/elementus/recipes/steel_knife.json

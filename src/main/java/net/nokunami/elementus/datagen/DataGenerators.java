@@ -6,9 +6,13 @@ import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.datagen.generators.ModItemModelData;
+import net.nokunami.elementus.datagen.providers.ProviderGlobalLootModifiers;
+import net.nokunami.elementus.datagen.providers.ModItemModelProvider;
+import net.nokunami.elementus.datagen.providers.ProviderRecipe;
+import net.nokunami.elementus.datagen.providers.ProviderWorldGen;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,7 +29,7 @@ public class DataGenerators {
         //generator.addProvider(event.includeServer(), LootTableProvidor.create(packOutput));
 
         //generator.addProvider(event.includeClient(), new BlockStateProvider(packOutput, existingFileHelper));
-        generator.addProvider(event.includeClient(), new ProviderItemModel(packOutput, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModItemModelData(packOutput, existingFileHelper));
 
         GenBlockTag blockTagGenerator = generator.addProvider(event.includeServer(),
                 new GenBlockTag(packOutput, lookupProvider, existingFileHelper));

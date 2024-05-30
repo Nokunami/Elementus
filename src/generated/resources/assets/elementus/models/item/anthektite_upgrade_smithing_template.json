@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "elementus:item/anthektite_upgrade_smithing_template"
+    "layer0": "elementus:item/ingredients/anthektite_upgrade_smithing_template"
   }
 }

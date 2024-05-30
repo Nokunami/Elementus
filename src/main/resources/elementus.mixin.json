@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "client.HumanoidArmorLayerMixin"
+    "client.HumanoidArmorLayerMixin",
+    "client.HumanoidArmorLayerAccessor"
   ],
   "server": [
   ],

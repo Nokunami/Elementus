@@ -1,8 +1,8 @@
-// 1.20.1	2023-12-25T01:19:41.89033	Tags for minecraft:item mod id elementus
+// 1.20.1	2024-05-30T21:18:14.6619332	Tags for minecraft:item mod id elementus
 81520a48e7308e7d489699cc4ab268a9f1a9b334 data/farmersdelight/tags/items/tools/knives.json
 2c42897e74c51949c427934c9a7e3faa14c5684c data/minecraft/tags/items/axes.json
 a0c161847dd33df1c4792293161b3afb44fca179 data/minecraft/tags/items/hoes.json
 ca4c2e63a1a3bfde30a9585cf40620663b580d73 data/minecraft/tags/items/pickaxes.json
 efed8b3d890f0c7c5299a2bacd8c5a098cb8d266 data/minecraft/tags/items/shovels.json
 21723a9feac883f567722660122d99c9101a8378 data/minecraft/tags/items/swords.json
-2c13ac4382b73dac652942b33d03067ac1aebf43 data/minecraft/tags/items/trimmable_armor.json
+06270c43a2ba028a21c317935fead4a51324779c data/minecraft/tags/items/trimmable_armor.json

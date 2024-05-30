@@ -1,7 +1,9 @@
 {
   "materials": {
     "steel": 0,
-    "anthektite": 1,
-    "diarkrite": 2
+    "diarkrite": 1,
+    "anthektite": 2,
+    "diarkrite_mage": 3,
+    "anthektite_mage": 4
   }
 }

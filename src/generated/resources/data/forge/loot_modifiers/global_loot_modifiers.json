@@ -1,14 +1,28 @@
 {
   "entries": [
-    "elementus:anthektite_upgrade_in_simple_dungeon",
-    "elementus:anthektite_upgrade_in_ruined_portal",
-    "elementus:diarkrite_upgrade_in_bastion_treasure",
-    "elementus:anthektite_leggings_in_ancient_city",
-    "elementus:anthektite_upgrade_in_shipwreck_treasure",
-    "elementus:diarkrite_upgrade_in_ancient_city",
-    "elementus:anthektite_upgrade_in_woodland_mansion",
-    "elementus:diarkrite_upgrade_in_end_city_treasure",
-    "elementus:anthektite_hoe_in_ancient_city"
+    "elementus:ancient_city_addition_atelis_template",
+    "elementus:village_weaponsmith_addition_steel_leggings",
+    "elementus:shipwreck_treasure_addition_steel_nugget",
+    "elementus:village_weaponsmith_addition_steel_boots",
+    "elementus:village_armorer_addition_steel_boots",
+    "elementus:village_weaponsmith_addition_steel_ingot",
+    "elementus:pillager_outpost_addition_steel_scrap",
+    "elementus:underwater_ruin_small_addition_steel_nugget",
+    "elementus:village_weaponsmith_addition_steel_helmet",
+    "elementus:buried_treasure_addition_steel_ingot",
+    "elementus:village_armorer_addition_steel_ingot",
+    "elementus:underwater_ruin_big_addition_steel_nugget",
+    "elementus:village_weaponsmith_addition_steel_pickaxe",
+    "elementus:ancient_city_addition_atelis_scrap",
+    "elementus:village_weaponsmith_addition_steel_sword",
+    "elementus:village_weaponsmith_addition_steel_chestplate",
+    "elementus:woodland_mansion_addition_atelis_upgrade",
+    "elementus:end_city_treasure_addition_atelis_upgrade",
+    "elementus:shipwreck_treasure_addition_steel_ingot",
+    "elementus:pillager_outpost_addition_steel_ingot",
+    "elementus:buried_treasure_addition_steel_sword",
+    "elementus:village_armorer_addition_steel_chestplate",
+    "elementus:bastion_treasure_addition_atelis_upgrade"
   ],
   "replace": false
 }

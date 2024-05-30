@@ -14,7 +14,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTes
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.registry.BlocksRegistry;
+import net.nokunami.elementus.registry.ModBlocks;
 
 import java.util.List;
 
@@ -29,8 +29,8 @@ public class ModConfiguredFeatures {
         RuleTest endReplaceables = new BlockMatchTest(Blocks.END_STONE);
 
         List<OreConfiguration.TargetBlockState> overworldRemnantOres = List.of(OreConfiguration.target(stoneReplaceable,
-                        BlocksRegistry.REMNANT.get().defaultBlockState()),
-                OreConfiguration.target(deepslateReplaceables, BlocksRegistry.REMNANT.get().defaultBlockState()));
+                        ModBlocks.REMNANT.get().defaultBlockState()),
+                OreConfiguration.target(deepslateReplaceables, ModBlocks.REMNANT.get().defaultBlockState()));
 
         register(context, OVERWORLD_REMNANT_KEY, Feature.ORE, new OreConfiguration(overworldRemnantOres, 4, 0.5F));
         register(context, OVERWORLD_REMNANT_BURIED_KEY, Feature.ORE, new OreConfiguration(overworldRemnantOres, 8, 1.0F));

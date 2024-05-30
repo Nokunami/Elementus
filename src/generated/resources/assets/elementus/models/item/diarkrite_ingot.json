@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "elementus:item/diarkrite_ingot"
+    "layer0": "elementus:item/ingredients/diarkrite_ingot"
   }
 }

@@ -6,7 +6,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.registry.BlocksRegistry;
+import net.nokunami.elementus.registry.ModBlocks;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
@@ -19,14 +19,14 @@ public class GenBlockTag extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider pProvider) {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(BlocksRegistry.STEEL_BLOCK.get(),
-                     BlocksRegistry.ANTHEKTITE_BLOCK.get(),
-                     BlocksRegistry.DIARKRITE_BLOCK.get(),
-                     BlocksRegistry.REMNANT.get());
+                .add(ModBlocks.STEEL_BLOCK.get(),
+                     ModBlocks.ANTHEKTITE_BLOCK.get(),
+                     ModBlocks.DIARKRITE_BLOCK.get(),
+                     ModBlocks.REMNANT.get());
 
         this.tag(BlockTags.BEACON_BASE_BLOCKS)
-                .add(BlocksRegistry.STEEL_BLOCK.get(),
-                     BlocksRegistry.ANTHEKTITE_BLOCK.get(),
-                     BlocksRegistry.DIARKRITE_BLOCK.get());
+                .add(ModBlocks.STEEL_BLOCK.get(),
+                     ModBlocks.ANTHEKTITE_BLOCK.get(),
+                     ModBlocks.DIARKRITE_BLOCK.get());
     }
 }
