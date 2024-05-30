@@ -1,0 +1,11 @@
+{  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "elementus:item/diarkrite_spell_book_model"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "elementus:item/diarkrite_spell_book_gui"
+    }
+  }
+}

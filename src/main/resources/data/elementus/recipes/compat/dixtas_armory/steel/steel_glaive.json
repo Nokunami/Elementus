@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#",
+        "#",
+        "D"
+    ],
+    "key": {
+        "#": {
+            "tag": "forge:ingots/steel"
+        },
+        "D": {
+            "item": "dixtas_armory:pole"
+        }
+    },
+    "result": {
+        "item": "dixtas_armory:steel_glaive",
+        "count": 1
+    }
+}

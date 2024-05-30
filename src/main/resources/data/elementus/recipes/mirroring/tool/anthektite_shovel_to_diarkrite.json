@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": [],
+  "base": {
+    "item": "elementus:anthektite_shovel"
+  },
+  "result": {
+    "item": "elementus:diarkrite_shovel"
+  },
+  "template": {
+    "item": "elementus:echoing_mirror"
+  }
+}

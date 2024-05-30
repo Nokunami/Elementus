@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:diarkrite_ingot"
+  },
+  "base": {
+    "item": "elementus:steel_pickaxe"
+  },
+  "result": {
+    "item": "elementus:diarkrite_pickaxe"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:diarkrite_ingot"
+  },
+  "base": {
+    "item": "elementus:steel_helmet"
+  },
+  "result": {
+    "item": "elementus:diarkrite_helmet"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

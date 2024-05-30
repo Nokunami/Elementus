@@ -1,0 +1,17 @@
+{  "parent": "minecraft:item/handheld",
+	"loader": "forge:separate_transforms",
+	"base": {
+		"parent": "simplyswords:item/template_claymore",
+		"textures": {
+			"layer0": "elementus:item/compat/simplyswords/diarkrite/diarkrite_claymore"
+		}
+	},
+	"perspectives": {
+		"gui": {
+			"parent": "minecraft:item/generated",
+			"textures": {
+				"layer0": "elementus:item/compat/simplyswords/diarkrite/diarkrite_claymore_gui"
+			}
+		}
+	}
+}

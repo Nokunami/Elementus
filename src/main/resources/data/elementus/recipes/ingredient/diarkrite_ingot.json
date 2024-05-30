@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "diarkrite_ingot",
+  "pattern": [
+    " E ",
+    "SSS",
+    "AAA"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:ingots/steel"
+    },
+    "A": {
+      "item": "elementus:atelis_scrap"
+    },
+    "E": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "result": {
+    "item": "elementus:diarkrite_ingot"
+  }
+}

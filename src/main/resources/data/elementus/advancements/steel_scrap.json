@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "item": "elementus:steel_scrap"
+    },
+    "title": {
+      "translate": "advancements.story.recycle_steel.title"
+    },
+    "description": {
+      "translate": "advancements.story.recycle_steel.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "elementus:steel",
+  "criteria": {
+    "steel_scrap": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementus:steel_scrap"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "steel_scrap"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

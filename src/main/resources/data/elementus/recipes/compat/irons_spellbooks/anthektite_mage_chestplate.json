@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CRC",
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "irons_spellbooks:magic_cloth"
+    },
+    "R": {
+      "tag": "forge:ingots/anthektite"
+    }
+  },
+  "result": {
+    "item": "elementus:anthektite_mage_chestplate",
+    "count": 1
+  }
+}

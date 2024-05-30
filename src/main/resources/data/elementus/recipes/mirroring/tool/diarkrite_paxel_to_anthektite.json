@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": [],
+  "base": {
+    "item": "elementus:diarkrite_paxel"
+  },
+  "result": {
+    "item": "elementus:anthektite_paxel"
+  },
+  "template": {
+    "item": "elementus:echoing_mirror"
+  }
+}

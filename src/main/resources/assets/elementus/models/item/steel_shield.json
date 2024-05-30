@@ -1,0 +1,10 @@
+{
+	"parent": "elementus:item/elementus_model_shield",
+	"textures": {
+		"1": "elementus:item/shield/steel_shield"
+	},
+
+	"overrides": [
+		{"predicate": {"blocking": 1}, "model": "elementus:item/steel_shield_blocking"}
+	]
+}

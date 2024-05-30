@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0" : "elementus:item/compat/dixtas_armory/diarkrite/diarkrite_rapier"
+  }
+}

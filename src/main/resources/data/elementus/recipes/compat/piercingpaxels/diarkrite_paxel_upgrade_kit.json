@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NSN",
+    "SNS",
+    "NSN"
+  ],
+  "key": {
+    "N": {
+      "item": "elementus:diarkrite_ingot"
+    },
+    "S": {
+      "tag": "forge:rod/wooden"
+    }
+  },
+  "result": {
+    "item": "elementus:diarkrite_paxel_upgrade_kit"
+  }
+}

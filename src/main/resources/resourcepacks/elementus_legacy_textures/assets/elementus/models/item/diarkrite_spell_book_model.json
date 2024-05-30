@@ -1,0 +1,73 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "elementus:item/compat/irons_spellbooks/diarkrite_spell_book_model"
+	},
+	"elements": [
+		{
+			"name": "BookCover",
+			"from": [6, 0, 3],
+			"to": [10, 8, 13],
+			"faces": {
+				"north": {"uv": [12, 4, 14, 0], "rotation": 180, "texture": "#0"},
+				"east": {"uv": [0, 0, 4, 5], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [14, 0, 16, 4], "texture": "#0"},
+				"west": {"uv": [6, 0, 10, 5], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [10, 0, 12, 5], "texture": "#0"},
+				"down": {"uv": [4, 0, 6, 5], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"name": "Pages",
+			"from": [7, 1, 3],
+			"to": [9, 7, 13],
+			"faces": {
+				"north": {"uv": [7, 8.5, 8, 5], "rotation": 180, "texture": "#0"},
+				"east": {"uv": [0, 5, 2.5, 10], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [8, 5, 9, 8.5], "texture": "#0"},
+				"west": {"uv": [3.5, 5, 6, 10], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [6, 5, 7, 10], "texture": "#0"},
+				"down": {"uv": [2.5, 5, 3.5, 10], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"name": "InnerBook",
+			"from": [9, 0, 3],
+			"to": [7, 7, 13],
+			"faces": {
+				"east": {"uv": [9.5, 0, 6, 5], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [4, 0, 0.5, 5], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [7, 5, 8, 10], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [90, 180, 0],
+			"translation": [0, -2, 2],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [90, 180, 0],
+			"translation": [0, -2, 2],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [-137, 10, 90],
+			"translation": [-4, 2, -3.75]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-137, 10, -90],
+			"translation": [3.5, 2, -3.75]
+		},
+		"ground": {
+			"rotation": [90, 0, 0],
+			"translation": [0, 4.5, 2.25]
+		},
+		"gui": {
+			"rotation": [48, -135, 85],
+			"translation": [0, 3.25, 0]
+		}
+	}
+}

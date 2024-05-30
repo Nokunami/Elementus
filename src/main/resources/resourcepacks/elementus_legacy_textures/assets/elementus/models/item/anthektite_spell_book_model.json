@@ -1,0 +1,153 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "elementus:item/compat/irons_spellbooks/anthektite_spell_book_model"
+	},
+	"elements": [
+		{
+			"from": [8.6, -0.1, 7],
+			"to": [10.6, 1.9, 9],
+			"faces": {
+				"north": {"uv": [0, 11, 1, 12], "rotation": 180, "texture": "#0"},
+				"east": {"uv": [1, 10, 2, 11], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [1, 11, 2, 12], "texture": "#0"},
+				"west": {"uv": [3, 10, 4, 11], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [2, 10, 3, 11], "texture": "#0"},
+				"down": {"uv": [0, 10, 1, 11], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"from": [5.505, -0.01, 7.005],
+			"to": [10.495, 2, 8.995],
+			"faces": {
+				"north": {"uv": [0, 13, 2.495, 14.005], "rotation": 180, "texture": "#0"},
+				"east": {"uv": [2.5, 12, 3.505, 12.995], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [2.5, 13, 4.995, 14.005], "texture": "#0"},
+				"west": {"uv": [6, 12, 7.005, 12.995], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [3.5, 12, 5.995, 12.995], "texture": "#0"},
+				"down": {"uv": [0, 12, 2.495, 12.995], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"name": "OuterCover",
+			"from": [5.5, 0, 3],
+			"to": [10.5, 8, 13],
+			"faces": {
+				"north": {"uv": [5, 9, 7.5, 5], "rotation": 180, "texture": "#0"},
+				"east": {"uv": [0, 0, 4, 5], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [7.5, 5, 10, 9], "texture": "#0"},
+				"west": {"uv": [4, 0, 8, 5], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [0, 5, 2.5, 10], "texture": "#0"},
+				"down": {"uv": [2.5, 5, 5, 10], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"name": "InnerCover",
+			"from": [9.5, 0, 3],
+			"to": [6.5, 7, 13],
+			"faces": {
+				"east": {"uv": [7, 0, 4, 5], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [4, 0, 1, 5], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"name": "Pages",
+			"from": [6.5, 1, 3],
+			"to": [9.5, 7, 13],
+			"faces": {
+				"north": {"uv": [11.5, 8, 13, 5], "rotation": 180, "texture": "#0"},
+				"south": {"uv": [13, 5, 14.5, 8], "texture": "#0"},
+				"down": {"uv": [10, 5, 11.5, 10], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"name": "Trim",
+			"from": [5.41, -0.09, 2.91],
+			"to": [10.59, 8.09, 13.09],
+			"faces": {
+				"east": {"uv": [8, 0, 12, 5], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [12, 0, 16, 5], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"name": "MetalBacking",
+			"from": [5.41, 6.91, 2.91],
+			"to": [10.59, 8.09, 13.09],
+			"faces": {
+				"north": {"uv": [13, 10.5, 15.5, 10], "rotation": 180, "texture": "#0"},
+				"east": {"uv": [7, 10, 7.5, 15], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [13, 10.5, 15.5, 11], "texture": "#0"},
+				"west": {"uv": [10, 10, 10.5, 15], "rotation": 270, "texture": "#0"},
+				"up": {"uv": [10.5, 10, 13, 15], "texture": "#0"},
+				"down": {"uv": [7.5, 10, 10, 15], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"name": "ArcaneCircleEast",
+			"from": [11, 2, 5],
+			"to": [11, 6, 9],
+			"faces": {
+				"east": {"uv": [13.5, 13, 15.5, 15], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [15.5, 13, 13.5, 15], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"name": "ArcaneCircleWest",
+			"from": [5, 2, 5],
+			"to": [5, 6, 9],
+			"faces": {
+				"east": {"uv": [13.5, 13, 15.5, 15], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [15.5, 13, 13.5, 15], "rotation": 270, "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [90, 180, 0],
+			"translation": [0, -2, 2],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [90, 180, 0],
+			"translation": [0, -2, 2],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [-137, 10, 90],
+			"translation": [-4, 2, -3.75]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-137, 10, -90],
+			"translation": [3.5, 2, -3.75]
+		},
+		"ground": {
+			"translation": [0, 4.5, 2.25]
+		},
+		"gui": {
+			"rotation": [48, -135, 85],
+			"translation": [0, 3.25, 0]
+		}
+	},
+	"groups": [
+		{
+			"name": "Clasp",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1]
+		},
+		{
+			"name": "BookCover",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [2, 3]
+		},
+		4,
+		{
+			"name": "Designs",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [5, 6, 7, 8]
+		}
+	]
+}

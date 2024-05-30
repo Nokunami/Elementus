@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "NNA",
+    "IBA",
+    "NNA"
+  ],
+  "key":
+  {
+    "N":
+    {
+      "tag": "forge:nuggets/steel"
+    },
+    "I":
+    {
+      "tag": "forge:ingots/steel"
+    },
+    "B":
+    {
+      "item": "minecraft:book"
+    },
+    "A":
+    {
+      "item": "irons_spellbooks:arcane_essence"
+    }
+  },
+  "result":
+  {
+    "item": "elementus:steel_spell_book",
+    "count": 1
+  }
+}

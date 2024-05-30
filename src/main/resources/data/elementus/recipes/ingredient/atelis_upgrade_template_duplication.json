@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EIE",
+    "ENE",
+    "EEE"
+  ],
+  "key": {
+    "I": {
+      "item": "elementus:atelis_upgrade_smithing_template"
+    },
+    "N": {
+      "item": "minecraft:cobbled_deepslate"
+    },
+    "E": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "elementus:atelis_upgrade_smithing_template",
+    "count": 2
+  }
+}

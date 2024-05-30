@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "tag": "forge:rods/wooden"
+    },
+    "X": {
+      "tag": "forge:ingots/steel"
+    },
+    "Y": {
+      "tag": "forge:nuggets/steel"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "YYY",
+    " # "
+  ],
+  "result": {
+    "item": "elementus:steel_greathammer"
+  }
+}

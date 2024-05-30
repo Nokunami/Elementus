@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "forge:ingots/anthektite"
+  },
+  "base": {
+    "item": "dixtas_armory:steel_stiletto"
+  },
+  "result": {
+    "item": "dixtas_armory:anthektite_stiletto"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

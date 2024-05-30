@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "item": "elementus:steel_ingot"
+    },
+    "title": {
+      "translate": "advancements.story.smelt_steel.title"
+    },
+    "description": {
+      "translate": "advancements.story.smelt_steel.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:story/smelt_iron",
+  "criteria": {
+    "steel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementus:steel_ingot"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "steel"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,14 @@
+{
+  "type": "elementus:add_item",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/underwater_ruin_small"
+    },
+    {
+      "chance": 5.0,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "elementus:steel_nugget"
+}

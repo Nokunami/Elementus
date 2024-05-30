@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "forge:ingots/diarkrite"
+  },
+  "base": {
+    "item": "dixtas_armory:steel_glaive"
+  },
+  "result": {
+    "item": "dixtas_armory:diarkrite_glaive"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

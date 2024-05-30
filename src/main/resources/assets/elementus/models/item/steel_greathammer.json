@@ -1,0 +1,17 @@
+{  "parent": "minecraft:item/handheld",
+	"loader": "forge:separate_transforms",
+	"base": {
+		"parent": "simplyswords:item/template_reworked_greathammer",
+		"textures": {
+			"texture": "elementus:item/compat/simplyswords/steel/steel_greathammer"
+		}
+	},
+	"perspectives": {
+		"gui": {
+			"parent": "minecraft:item/generated",
+			"textures": {
+				"layer0": "elementus:item/compat/simplyswords/steel/steel_greathammer_gui"
+			}
+		}
+	}
+}

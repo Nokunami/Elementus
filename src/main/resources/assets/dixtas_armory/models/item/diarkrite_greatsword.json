@@ -1,0 +1,39 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "textures": {
+    "layer0" : "elementus:item/compat/dixtas_armory/diarkrite/diarkrite_greatsword_gui"
+  },
+  "base": {
+    "parent": "item/handheld",
+    "textures": {
+      "layer0" : "elementus:item/compat/dixtas_armory/diarkrite/diarkrite_greatsword_gui"
+    }
+  },
+  "perspectives": {
+    "thirdperson_righthand": {
+      "parent": "dixtas_armory:item/greatsword",
+      "textures": {
+        "layer0" : "elementus:item/compat/dixtas_armory/diarkrite/diarkrite_greatsword_handheld"
+      }
+    },
+    "thirdperson_lefthand": {
+      "parent": "dixtas_armory:item/greatsword",
+      "textures": {
+        "layer0" : "elementus:item/compat/dixtas_armory/diarkrite/diarkrite_greatsword_handheld"
+      }
+    },
+    "firstperson_righthand": {
+      "parent": "dixtas_armory:item/greatsword",
+      "textures": {
+        "layer0" : "elementus:item/compat/dixtas_armory/diarkrite/diarkrite_greatsword_handheld"
+      }
+    },
+    "firstperson_lefthand": {
+      "parent": "dixtas_armory:item/greatsword",
+      "textures": {
+        "layer0" : "elementus:item/compat/dixtas_armory/diarkrite/diarkrite_greatsword_handheld"
+      }
+    }
+  }
+}

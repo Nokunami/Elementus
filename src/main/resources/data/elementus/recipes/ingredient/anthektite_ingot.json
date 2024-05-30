@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "anthektite_ingot",
+  "pattern": [
+  "SSS",
+  "AAA",
+  " E "
+],
+  "key": {
+    "S": {
+      "tag": "forge:ingots/steel"
+    },
+    "A": {
+      "item": "elementus:atelis_scrap"
+    },
+    "E": {
+      "item": "minecraft:echo_shard"
+    }
+  },
+  "result": {
+    "item": "elementus:anthektite_ingot"
+  }
+}

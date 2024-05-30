@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "elementus:item/compat/simplyswords/anthektite/anthektite_sai"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "display": {
+    "icon": {
+      "item": "elementus:remnant"
+    },
+    "title": {
+      "translate": "advancements.story.obtain_remnant.title"
+    },
+    "description": {
+      "translate": "advancements.story.obtain_remnant.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "elementus:steel",
+  "criteria": {
+    "remnant": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementus:remnant"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "remnant"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

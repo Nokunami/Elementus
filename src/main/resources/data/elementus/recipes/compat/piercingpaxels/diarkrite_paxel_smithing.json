@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:diarkrite_paxel_upgrade_kit"
+  },
+  "base": {
+    "item": "elementus:steel_paxel"
+  },
+  "result": {
+    "item": "elementus:diarkrite_paxel"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

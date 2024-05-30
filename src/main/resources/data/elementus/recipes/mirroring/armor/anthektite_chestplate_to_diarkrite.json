@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": [],
+  "base": {
+    "item": "elementus:anthektite_chestplate"
+  },
+  "result": {
+    "item": "elementus:diarkrite_chestplate"
+  },
+  "template": {
+    "item": "elementus:echoing_mirror"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": [],
+  "base": {
+    "item": "elementus:anthektite_hoe"
+  },
+  "result": {
+    "item": "elementus:diarkrite_hoe"
+  },
+  "template": {
+    "item": "elementus:echoing_mirror"
+  }
+}

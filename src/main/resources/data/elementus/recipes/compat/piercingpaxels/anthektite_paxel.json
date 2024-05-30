@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PAO",
+    "WSH",
+    " S "
+  ],
+  "key": {
+    "W": {
+      "item": "elementus:anthektite_sword"
+    },
+    "P": {
+      "item": "elementus:anthektite_pickaxe"
+    },
+    "A": {
+      "item": "elementus:anthektite_axe"
+    },
+    "O": {
+      "item": "elementus:anthektite_shovel"
+    },
+    "H": {
+      "item": "elementus:anthektite_hoe"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "elementus:anthektite_paxel"
+  }
+}

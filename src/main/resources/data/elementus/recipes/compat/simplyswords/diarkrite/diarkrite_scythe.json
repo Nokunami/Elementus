@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": {
+    "item": "elementus:steel_scythe"
+  },
+  "addition": {
+    "tag": "forge:ingots/diarkrite"
+  },
+  "result": {
+    "item": "elementus:diarkrite_scythe"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}
