@@ -1,9 +1,6 @@
 package net.nokunami.elementus;
 
-import com.aetherteam.aether.client.renderer.accessory.GlovesRenderer;
 import com.mojang.logging.LogUtils;
-import io.redspace.ironsspellbooks.item.SpellBook;
-import io.redspace.ironsspellbooks.render.SpellBookCurioRenderer;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
@@ -15,39 +12,33 @@ import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.util.MutableHashedLinkedMap;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.resource.PathPackResources;
-import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.compat.farmersdelight.NDItemsRegistry;
 import net.nokunami.elementus.compat.ironsspellbooks.ISSItemsRegistry;
 import net.nokunami.elementus.compat.piercingpaxels.PPItemsRegistry;
 import net.nokunami.elementus.compat.simplyswords.SSItemsRegistry;
 import net.nokunami.elementus.compat.simplyswords.config.ConfigWrapper;
 import net.nokunami.elementus.compat.simplyswords.config.WeaponAttributesConfig;
+import net.nokunami.elementus.compat.sniffsweapons.SniffsWeaponsRegistry;
 import net.nokunami.elementus.compat.theaether.AEItemsRegistry;
-import net.nokunami.elementus.item.ElementusShield;
 import net.nokunami.elementus.registry.ModBlocks;
 import net.nokunami.elementus.compat.farmersdelight.FDItemsRegistry;
 import net.nokunami.elementus.registry.IntegrationTab;
 import net.nokunami.elementus.registry.ModItems;
 import net.nokunami.elementus.datagen.loot.ModLootModifiers;
 import org.slf4j.Logger;
-import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -58,7 +49,6 @@ public class Elementus {
     public static final String MODID = "elementus";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static WeaponAttributesConfig weaponAttributesConfig;
-    public static CommonProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public static ResourceLocation modLoc(String location) {
         return new ResourceLocation(Elementus.MODID, location);
@@ -84,6 +74,8 @@ public class Elementus {
             IntegrationTab.register(modEventBus);
         } else if (ModList.get().isLoaded("simplyswords")) {
             IntegrationTab.register(modEventBus);
+        } else if (ModList.get().isLoaded("sniffsweapons")) {
+            IntegrationTab.register(modEventBus);
         }
 
         if (ModList.get().isLoaded("farmersdelight")) {
@@ -107,14 +99,13 @@ public class Elementus {
             AutoConfig.register(ConfigWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
             weaponAttributesConfig = AutoConfig.getConfigHolder(ConfigWrapper.class).getConfig().weapon_attributes;
         }
-
-        PROXY.init();
+        if (ModList.get().isLoaded("sniffsweapons")) {
+            SniffsWeaponsRegistry.register(modEventBus);
+        }
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(this::addPackFinders);
-        modEventBus.addListener(this::setupClient);
-        modEventBus.addListener(this::setupEntityModelLayers);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, "elementus_armor_config.toml");
@@ -161,7 +152,22 @@ public class Elementus {
             // Shields
             putAfter(entries, Items.SHIELD, ModItems.STEEL_SHIELD);
             putAfter(entries, ModItems.STEEL_SHIELD.get(), ModItems.DIARKRITE_SHIELD);
-            putAfter(entries, ModItems.DIARKRITE_SHIELD.get(), ModItems.ANTHEKTITE_SHIELD);        }
+            putAfter(entries, ModItems.DIARKRITE_SHIELD.get(), ModItems.ANTHEKTITE_SHIELD);
+
+            if (ModList.get().isLoaded("sniffsweapons")) {
+                putAfter(entries, ModItems.STEEL_SWORD.get(), SniffsWeaponsRegistry.STEEL_GREAT_SWORD);
+                putAfter(entries, ModItems.DIARKRITE_SWORD.get(), SniffsWeaponsRegistry.DIARKRITE_GREAT_SWORD);
+                putAfter(entries, ModItems.ANTHEKTITE_SWORD.get(), SniffsWeaponsRegistry.ANTHEKTITE_GREAT_SWORD);
+
+                putAfter(entries, ModItems.STEEL_AXE.get(), SniffsWeaponsRegistry.STEEL_GREAT_AXE);
+                putAfter(entries, ModItems.DIARKRITE_AXE.get(), SniffsWeaponsRegistry.DIARKRITE_GREAT_AXE);
+                putAfter(entries, ModItems.ANTHEKTITE_AXE.get(), SniffsWeaponsRegistry.ANTHEKTITE_GREAT_AXE);
+
+                putAfter(entries, ModItems.STEEL_AXE.get(), SniffsWeaponsRegistry.STEEL_GREAT_PICKAXE);
+                putAfter(entries, ModItems.DIARKRITE_AXE.get(), SniffsWeaponsRegistry.DIARKRITE_GREAT_PICKAXE);
+                putAfter(entries, ModItems.ANTHEKTITE_AXE.get(), SniffsWeaponsRegistry.ANTHEKTITE_GREAT_PICKAXE);
+            }
+        }
 
         // Tools
         if (tab == CreativeModeTabs.TOOLS_AND_UTILITIES) {
@@ -188,13 +194,13 @@ public class Elementus {
             putAfter(entries, ModItems.STEEL_CHESTPLATE.get(), ModItems.STEEL_LEGGINGS);
             putAfter(entries, ModItems.STEEL_LEGGINGS.get(), ModItems.STEEL_BOOTS);
 
-            putAfter(entries, ModItems.STEEL_BOOTS.get(), ModItems.DIARKRITE_HELEMT);
-            putAfter(entries, ModItems.DIARKRITE_HELEMT.get(), ModItems.DIARKRITE_CHESTPLATE);
+            putAfter(entries, ModItems.STEEL_BOOTS.get(), ModItems.DIARKRITE_HELMET);
+            putAfter(entries, ModItems.DIARKRITE_HELMET.get(), ModItems.DIARKRITE_CHESTPLATE);
             putAfter(entries, ModItems.DIARKRITE_CHESTPLATE.get(), ModItems.DIARKRITE_LEGGINGS);
             putAfter(entries, ModItems.DIARKRITE_LEGGINGS.get(), ModItems.DIARKRITE_BOOTS);
 
-            putAfter(entries, ModItems.DIARKRITE_BOOTS.get(), ModItems.ANTHEKTITE_HELEMT);
-            putAfter(entries, ModItems.ANTHEKTITE_HELEMT.get(), ModItems.ANTHEKTITE_CHESTPLATE);
+            putAfter(entries, ModItems.DIARKRITE_BOOTS.get(), ModItems.ANTHEKTITE_HELMET);
+            putAfter(entries, ModItems.ANTHEKTITE_HELMET.get(), ModItems.ANTHEKTITE_CHESTPLATE);
             putAfter(entries, ModItems.ANTHEKTITE_CHESTPLATE.get(), ModItems.ANTHEKTITE_LEGGINGS);
             putAfter(entries, ModItems.ANTHEKTITE_LEGGINGS.get(), ModItems.ANTHEKTITE_BOOTS);
 
@@ -202,6 +208,23 @@ public class Elementus {
                 putAfter(entries, ModItems.STEEL_BOOTS.get(), AEItemsRegistry.STEEL_GLOVES);
                 putAfter(entries, ModItems.DIARKRITE_BOOTS.get(), AEItemsRegistry.DIARKRITE_GLOVES);
                 putAfter(entries, ModItems.ANTHEKTITE_BOOTS.get(), AEItemsRegistry.ANTHEKTITE_GLOVES);
+            }
+
+            if (ModList.get().isLoaded("sniffsweapons")) {
+                putAfter(entries, ModItems.STEEL_HELMET.get(), SniffsWeaponsRegistry.STEEL_HELM);
+                putAfter(entries, SniffsWeaponsRegistry.STEEL_HELM.get(), SniffsWeaponsRegistry.STEEL_HORNED_HELM);
+                putAfter(entries, ModItems.STEEL_CHESTPLATE.get(), SniffsWeaponsRegistry.STEEL_SURCOAT);
+                putAfter(entries, SniffsWeaponsRegistry.STEEL_SURCOAT.get(), SniffsWeaponsRegistry.PLATED_STEEL_CHESTPLATE);
+
+                putAfter(entries, ModItems.DIARKRITE_HELMET.get(), SniffsWeaponsRegistry.DIARKRITE_HELM);
+                putAfter(entries, SniffsWeaponsRegistry.DIARKRITE_HELM.get(), SniffsWeaponsRegistry.DIARKRITE_HORNED_HELM);
+                putAfter(entries, ModItems.DIARKRITE_CHESTPLATE.get(), SniffsWeaponsRegistry.DIARKRITE_SURCOAT);
+                putAfter(entries, SniffsWeaponsRegistry.DIARKRITE_SURCOAT.get(), SniffsWeaponsRegistry.PLATED_DIARKRITE_CHESTPLATE);
+
+                putAfter(entries, ModItems.ANTHEKTITE_HELMET.get(), SniffsWeaponsRegistry.ANTHEKTITE_HELM);
+                putAfter(entries, SniffsWeaponsRegistry.ANTHEKTITE_HELM.get(), SniffsWeaponsRegistry.ANTHEKTITE_HORNED_HELM);
+                putAfter(entries, ModItems.ANTHEKTITE_CHESTPLATE.get(), SniffsWeaponsRegistry.ANTHEKTITE_SURCOAT);
+                putAfter(entries, SniffsWeaponsRegistry.ANTHEKTITE_SURCOAT.get(), SniffsWeaponsRegistry.PLATED_ANTHEKTITE_CHESTPLATE);
             }
         }
 
@@ -231,36 +254,6 @@ public class Elementus {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-    }
-
-    private void setupClient(FMLClientSetupEvent event) {
-        PROXY.clientInit();
-    }
-
-    private void setupEntityModelLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        ModModelLayers.register(event);
-    }
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            ElementusShield.addShieldItemProperties();
-
-            if (ModList.get().isLoaded("irons_spellbooks")) {
-                ISSItemsRegistry.getISSCompatItems().stream().filter((item) -> {
-                    return item.get() instanceof SpellBook;
-                }).forEach((item) -> {
-                    CuriosRendererRegistry.register((Item) item.get(), SpellBookCurioRenderer::new);
-                });
-            }
-            if (ModList.get().isLoaded("aether")) {
-                CuriosRendererRegistry.register(AEItemsRegistry.STEEL_GLOVES.get(), GlovesRenderer::new);
-                CuriosRendererRegistry.register(AEItemsRegistry.ANTHEKTITE_GLOVES.get(), GlovesRenderer::new);
-                CuriosRendererRegistry.register(AEItemsRegistry.DIARKRITE_GLOVES.get(), GlovesRenderer::new);
-            }
-        }
     }
 
     public void addPackFinders(AddPackFindersEvent event) {

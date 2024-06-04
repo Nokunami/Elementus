@@ -14,6 +14,7 @@ import net.nokunami.elementus.compat.ironsspellbooks.ISSItemsRegistry;
 import net.nokunami.elementus.compat.piercingpaxels.PPItemsRegistry;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.compat.simplyswords.SSItemsRegistry;
+import net.nokunami.elementus.compat.sniffsweapons.SniffsWeaponsRegistry;
 import net.nokunami.elementus.compat.theaether.AEItemsRegistry;
 
 public class IntegrationTab {
@@ -112,6 +113,32 @@ public class IntegrationTab {
                             pOutput.accept(SSItemsRegistry.ANTHEKTITE_SPEAR.get());
                             pOutput.accept(SSItemsRegistry.ANTHEKTITE_TWINBLADE.get());
                             pOutput.accept(SSItemsRegistry.ANTHEKTITE_WARGLAIVE.get());
+                        }
+
+                        if (ModList.get().isLoaded("sniffsweapons")) {
+                            pOutput.accept(SniffsWeaponsRegistry.STEEL_GREAT_SWORD.get());
+                            pOutput.accept(SniffsWeaponsRegistry.STEEL_GREAT_AXE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.STEEL_GREAT_PICKAXE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.STEEL_SURCOAT.get());
+                            pOutput.accept(SniffsWeaponsRegistry.STEEL_HELM.get());
+                            pOutput.accept(SniffsWeaponsRegistry.PLATED_STEEL_CHESTPLATE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.STEEL_HORNED_HELM.get());
+
+                            pOutput.accept(SniffsWeaponsRegistry.DIARKRITE_GREAT_SWORD.get());
+                            pOutput.accept(SniffsWeaponsRegistry.DIARKRITE_GREAT_AXE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.DIARKRITE_GREAT_PICKAXE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.DIARKRITE_SURCOAT.get());
+                            pOutput.accept(SniffsWeaponsRegistry.DIARKRITE_HELM.get());
+                            pOutput.accept(SniffsWeaponsRegistry.PLATED_DIARKRITE_CHESTPLATE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.DIARKRITE_HORNED_HELM.get());
+
+                            pOutput.accept(SniffsWeaponsRegistry.ANTHEKTITE_GREAT_SWORD.get());
+                            pOutput.accept(SniffsWeaponsRegistry.ANTHEKTITE_GREAT_AXE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.ANTHEKTITE_GREAT_PICKAXE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.ANTHEKTITE_SURCOAT.get());
+                            pOutput.accept(SniffsWeaponsRegistry.ANTHEKTITE_HELM.get());
+                            pOutput.accept(SniffsWeaponsRegistry.PLATED_ANTHEKTITE_CHESTPLATE.get());
+                            pOutput.accept(SniffsWeaponsRegistry.ANTHEKTITE_HORNED_HELM.get());
                         }
 
                     })

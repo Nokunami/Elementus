@@ -227,6 +227,36 @@
   "item.dixtas_armory.anthektite_pike": "Anthektite Pike",
 
 
+
+  "item.elementus.steel_great_sword": "Steel Great Sword",
+  "item.elementus.diarkrite_great_sword": "Diarkrite Great Sword",
+  "item.elementus.anthektite_great_sword": "Anthektite Great Sword",
+
+  "item.elementus.steel_great_axe": "Steel Great Axe",
+  "item.elementus.diarkrite_great_axe": "Diarkrite Great Axe",
+  "item.elementus.anthektite_great_axe": "Anthektite Great Axe",
+
+  "item.elementus.steel_great_pickaxe": "Steel Great Pickaxe",
+  "item.elementus.diarkrite_great_pickaxe": "Diarkrite Great Pickaxe",
+  "item.elementus.anthektite_great_pickaxe": "Anthektite Great Pickaxe",
+
+  "item.elementus.steel_surcoat": "Steel Surcoat",
+  "item.elementus.diarkrite_surcoat": "Diarkrite Surcoat",
+  "item.elementus.anthektite_surcoat": "Anthektite Surcoat",
+
+  "item.elementus.steel_helm": "Steel Helm",
+  "item.elementus.diarkrite_helm": "Diarkrite Helm",
+  "item.elementus.anthektite_helm": "Anthektite Helm",
+
+  "item.elementus.plated_steel_chestplate": "Plated Steel Chestplate",
+  "item.elementus.plated_diarkrite_chestplate": "Plated Diarkrite Chestplate",
+  "item.elementus.plated_anthektite_chestplate": "Plated Anthektite Chestplate",
+
+  "item.elementus.steel_horned_helm": "Steel Horned Helm",
+  "item.elementus.diarkrite_horned_helm": "Diarkrite Horned Helm",
+  "item.elementus.anthektite_horned_helm": "Anthektite Horned Helm",
+
+
   "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",
   "enchantment.elementus.arcane_sharpness.desc": "Bonus damage based on item's enchantability"
 }

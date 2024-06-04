@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:iron_ingot"
+  },
+  "base": {
+    "item": "elementus:diarkrite_chestplate"
+  },
+  "result": {
+    "item": "elementus:plated_diarkrite_chestplate"
+  },
+  "template": {
+    "item": "sniffsweapons:plated_armor_trim_smithing_template"
+  }
+}

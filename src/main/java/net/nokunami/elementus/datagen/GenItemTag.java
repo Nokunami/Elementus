@@ -9,7 +9,6 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.ModList;
 import net.nokunami.elementus.compat.farmersdelight.FDItemsRegistry;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.compat.theaether.AEItemsRegistry;
 import net.nokunami.elementus.registry.ModItems;
 import vectorwing.farmersdelight.common.tag.ModTags;
 
@@ -66,11 +65,11 @@ public class GenItemTag extends ItemTagsProvider {
                         ModItems.STEEL_CHESTPLATE.get(),
                         ModItems.STEEL_LEGGINGS.get(),
                         ModItems.STEEL_BOOTS.get(),
-                        ModItems.ANTHEKTITE_HELEMT.get(),
+                        ModItems.ANTHEKTITE_HELMET.get(),
                         ModItems.ANTHEKTITE_CHESTPLATE.get(),
                         ModItems.ANTHEKTITE_LEGGINGS.get(),
                         ModItems.ANTHEKTITE_BOOTS.get(),
-                        ModItems.DIARKRITE_HELEMT.get(),
+                        ModItems.DIARKRITE_HELMET.get(),
                         ModItems.DIARKRITE_CHESTPLATE.get(),
                         ModItems.DIARKRITE_LEGGINGS.get(),
                         ModItems.DIARKRITE_BOOTS.get()

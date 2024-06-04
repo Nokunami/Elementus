@@ -51,12 +51,12 @@ public class ModItemModelData extends ModItemModelProvider {
         trimmedArmorItem(ModItems.STEEL_LEGGINGS);
         trimmedArmorItem(ModItems.STEEL_BOOTS);
 
-        trimmedArmorItem(ModItems.ANTHEKTITE_HELEMT);
+        trimmedArmorItem(ModItems.ANTHEKTITE_HELMET);
         trimmedArmorItem(ModItems.ANTHEKTITE_CHESTPLATE);
         trimmedArmorItem(ModItems.ANTHEKTITE_LEGGINGS);
         trimmedArmorItem(ModItems.ANTHEKTITE_BOOTS);
 
-        trimmedArmorItem(ModItems.DIARKRITE_HELEMT);
+        trimmedArmorItem(ModItems.DIARKRITE_HELMET);
         trimmedArmorItem(ModItems.DIARKRITE_CHESTPLATE);
         trimmedArmorItem(ModItems.DIARKRITE_LEGGINGS);
         trimmedArmorItem(ModItems.DIARKRITE_BOOTS);

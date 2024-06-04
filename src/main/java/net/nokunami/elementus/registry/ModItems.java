@@ -108,7 +108,7 @@ public class ModItems {
     public static final RegistryObject<ArmorItem> STEEL_BOOTS = ITEMS.register("steel_boots",
             () -> new ElementusArmorItem(CustomArmorMaterial.STEEL, ArmorItem.Type.BOOTS, new Item.Properties()));
 
-    public static final RegistryObject<ArmorItem> ANTHEKTITE_HELEMT = ITEMS.register("anthektite_helmet",
+    public static final RegistryObject<ArmorItem> ANTHEKTITE_HELMET = ITEMS.register("anthektite_helmet",
             () -> new ElementusArmorItem(CustomArmorMaterial.ANTHEKTITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
     public static final RegistryObject<ArmorItem> ANTHEKTITE_CHESTPLATE = ITEMS.register("anthektite_chestplate",
             () -> new ElementusArmorItem(CustomArmorMaterial.ANTHEKTITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
@@ -117,7 +117,7 @@ public class ModItems {
     public static final RegistryObject<ArmorItem> ANTHEKTITE_BOOTS = ITEMS.register("anthektite_boots",
             () -> new ElementusArmorItem(CustomArmorMaterial.ANTHEKTITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<ArmorItem> DIARKRITE_HELEMT = ITEMS.register("diarkrite_helmet",
+    public static final RegistryObject<ArmorItem> DIARKRITE_HELMET = ITEMS.register("diarkrite_helmet",
             () -> new ElementusArmorItem(CustomArmorMaterial.DIARKRITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
     public static final RegistryObject<ArmorItem> DIARKRITE_CHESTPLATE = ITEMS.register("diarkrite_chestplate",
             () -> new ElementusArmorItem(CustomArmorMaterial.DIARKRITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));

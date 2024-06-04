@@ -95,11 +95,18 @@ side="BOTH"
 modId="aether"
 mandatory=false
 versionRange="[1.20.1-1,)"
-ordering="NONE"
+ordering="AFTER"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
 modId="simplyswords"
+mandatory=false
+versionRange="[1,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="sniffsweapons"
 mandatory=false
 versionRange="[1,)"
 ordering="NONE"

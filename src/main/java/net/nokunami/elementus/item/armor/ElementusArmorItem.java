@@ -14,9 +14,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.client.ArmorModelLayered;
-import net.nokunami.elementus.item.armor.CustomArmorMaterial;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class ElementusArmorItem extends ArmorItem {
@@ -28,12 +27,12 @@ public class ElementusArmorItem extends ArmorItem {
     }
 
     @Override
-    public CustomArmorMaterial getMaterial() {
+    public @NotNull CustomArmorMaterial getMaterial() {
         return this.material;
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
+    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
         if (pEquipmentSlot == this.type.getSlot()) {
             return this.material.getSlotToAttributeMap().get(pEquipmentSlot);
         } else {
@@ -43,18 +42,23 @@ public class ElementusArmorItem extends ArmorItem {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) Elementus.PROXY.getArmorRenderProperties());
+    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+        consumer.accept(new IClientItemExtensions() {
+            @Override
+            public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
+                return new ArmorModelLayered<>(ArmorModelLayered.createBodyLayer().bakeRoot(), armorSlot);
+            }
+        });
     }
 
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         if (material == CustomArmorMaterial.STEEL) {
-            return Elementus.MODID + ":textures/models/armor/steel_layer_" + (slot == EquipmentSlot.LEGS ? "2.png" : "1.png");
+            return Elementus.MODID + ":textures/models/armor/steel_layer.png";
         } else if (material == CustomArmorMaterial.DIARKRITE) {
-            return Elementus.MODID + ":textures/models/armor/diarkrite_layer_" + (slot == EquipmentSlot.LEGS ? "2.png" : "1.png");
+            return Elementus.MODID + ":textures/models/armor/diarkrite_layer.png";
         } else if (material == CustomArmorMaterial.ANTHEKTITE) {
-            return Elementus.MODID + ":textures/models/armor/anthektite_layer_" + (slot == EquipmentSlot.LEGS ? "2.png" : "1.png");
+            return Elementus.MODID + ":textures/models/armor/anthektite_layer.png";
         }
-        return Elementus.MODID + ":textures/models/armor/steel_layer_" + (slot == EquipmentSlot.LEGS ? "2.png" : "1.png");
+        return Elementus.MODID + ":textures/models/armor/steel_layerpng";
     }
 }
