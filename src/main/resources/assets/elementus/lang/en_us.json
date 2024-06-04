@@ -1,4 +1,6 @@
 {
+  "#elementus:steel_recyclable": "Steel Recyclables",
+
   "item.elementus.crude_steel": "Crude Steel",
   "item.elementus.steel_scrap": "Steel Scrap",
   "item.elementus.steel_ingot": "Steel Ingot",
@@ -54,23 +56,9 @@
   "block.elementus.diarkrite_block": "Block of Diarkrite",
   "block.elementus.remnant": "Remnant",
 
-  "upgrade.minecraft.diarkrite_upgrade": "Convert to Atelis Template",
-  "item.minecraft.smithing_template.diarkrite_upgrade.applies_to": "Crafting shapeless",
-  "item.minecraft.smithing_template.diarkrite_upgrade.ingredients": "None",
-
-  "upgrade.minecraft.anthektite_upgrade": "Convert to Atelis Template",
-  "item.minecraft.smithing_template.anthektite_upgrade.applies_to": "Crafting shapeless",
-  "item.minecraft.smithing_template.anthektite_upgrade.ingredients": "None",
-
   "upgrade.minecraft.atelis_upgrade": "Anthektite / Diarkrite Upgrade",
   "item.minecraft.smithing_template.atelis_upgrade.applies_to": "Steel Equipment",
   "item.minecraft.smithing_template.atelis_upgrade.ingredients": "Anthektite / Diarkrite Ingot",
-
-  "item.elementus.echoing_mirror": "Echoing Mirror",
-  "item.minecraft.echoing_mirror.applies_to": "Applies to:",
-  "item.minecraft.echoing_mirror.mirror_swap": "Mirrorable Equipment",
-  "item.minecraft.echoing_mirror.description_1": "Temporary item, swap Diarkrite/Anthektite and vise versa.",
-  "item.minecraft.echoing_mirror.description_2": "Will be removed in the next update",
 
   "creativetab.elementus_mod_integration": "Elementus Mod Integration",
 
@@ -225,6 +213,206 @@
   "item.dixtas_armory.anthektite_spear_two_handed": "Anthektite Spear",
   "item.dixtas_armory.anthektite_halberd": "Anthektite Halberd",
   "item.dixtas_armory.anthektite_pike": "Anthektite Pike",
+
+
+
+  "item.elementus.steel_great_sword": "Steel Great Sword",
+  "item.elementus.diarkrite_great_sword": "Diarkrite Great Sword",
+  "item.elementus.anthektite_great_sword": "Anthektite Great Sword",
+
+  "item.elementus.steel_great_axe": "Steel Great Axe",
+  "item.elementus.diarkrite_great_axe": "Diarkrite Great Axe",
+  "item.elementus.anthektite_great_axe": "Anthektite Great Axe",
+
+  "item.elementus.steel_great_pickaxe": "Steel Great Pickaxe",
+  "item.elementus.diarkrite_great_pickaxe": "Diarkrite Great Pickaxe",
+  "item.elementus.anthektite_great_pickaxe": "Anthektite Great Pickaxe",
+
+  "item.elementus.steel_surcoat": "Steel Surcoat",
+  "item.elementus.diarkrite_surcoat": "Diarkrite Surcoat",
+  "item.elementus.anthektite_surcoat": "Anthektite Surcoat",
+
+  "item.elementus.steel_helm": "Steel Helm",
+  "item.elementus.diarkrite_helm": "Diarkrite Helm",
+  "item.elementus.anthektite_helm": "Anthektite Helm",
+
+  "item.elementus.plated_steel_chestplate": "Plated Steel Chestplate",
+  "item.elementus.plated_diarkrite_chestplate": "Plated Diarkrite Chestplate",
+  "item.elementus.plated_anthektite_chestplate": "Plated Anthektite Chestplate",
+
+  "item.elementus.steel_horned_helm": "Steel Horned Helm",
+  "item.elementus.diarkrite_horned_helm": "Diarkrite Horned Helm",
+  "item.elementus.anthektite_horned_helm": "Anthektite Horned Helm",
+
+
+
+  "item.elementus.diarkrite_iron_ingot": "Diarkrite-Iron Ingot",
+  "item.elementus.diarkrite_gold_ingot": "Diarkrite-Gold Ingot",
+  "item.elementus.diarkrite_emerald_ingot": "Diarkrite-Emerald Ingot",
+  "item.elementus.diarkrite_diamond_ingot": "Diarkrite-Diamond Ingot",
+
+  "item.elementus.anthektite_iron_ingot": "Anthektite-Iron Ingot",
+  "item.elementus.anthektite_gold_ingot": "Anthektite-Gold Ingot",
+  "item.elementus.anthektite_emerald_ingot": "Anthektite-Emerald Ingot",
+  "item.elementus.anthektite_diamond_ingot": "Anthektite-Diamond Ingot",
+
+  "item.elementus.diarkrite_iron_sword": "Diarkrite-Iron Sword",
+  "item.elementus.diarkrite_iron_shovel": "Diarkrite-Iron Shovel",
+  "item.elementus.diarkrite_iron_pickaxe": "Diarkrite-Iron Pickaxe",
+  "item.elementus.diarkrite_iron_axe": "Diarkrite-Iron Axe",
+  "item.elementus.diarkrite_iron_hoe": "Diarkrite-Iron Hoe",
+
+  "item.elementus.diarkrite_gold_sword": "Diarkrite-Gold Sword",
+  "item.elementus.diarkrite_gold_shovel": "Diarkrite-Gold Shovel",
+  "item.elementus.diarkrite_gold_pickaxe": "Diarkrite-Gold Pickaxe",
+  "item.elementus.diarkrite_gold_axe": "Diarkrite-Gold Axe",
+  "item.elementus.diarkrite_gold_hoe": "Diarkrite-Gold Hoe",
+
+  "item.elementus.diarkrite_emerald_sword": "Diarkrite-Emerald Sword",
+  "item.elementus.diarkrite_emerald_shovel": "Diarkrite-Emerald Shovel",
+  "item.elementus.diarkrite_emerald_pickaxe": "Diarkrite-Emerald Pickaxe",
+  "item.elementus.diarkrite_emerald_axe": "Diarkrite-Emerald Axe",
+  "item.elementus.diarkrite_emerald_hoe": "Diarkrite-Emerald Hoe",
+
+  "item.elementus.diarkrite_diamond_sword": "Diarkrite-Diamond Sword",
+  "item.elementus.diarkrite_diamond_shovel": "Diarkrite-Diamond Shovel",
+  "item.elementus.diarkrite_diamond_pickaxe": "Diarkrite-Diamond Pickaxe",
+  "item.elementus.diarkrite_diamond_axe": "Diarkrite-Diamond Axe",
+  "item.elementus.diarkrite_diamond_hoe": "Diarkrite-Diamond Hoe",
+
+  "item.elementus.anthektite_iron_sword": "Anthektite-Iron Sword",
+  "item.elementus.anthektite_iron_shovel": "Anthektite-Iron Shovel",
+  "item.elementus.anthektite_iron_pickaxe": "Anthektite-Iron Pickaxe",
+  "item.elementus.anthektite_iron_axe": "Anthektite-Iron Axe",
+  "item.elementus.anthektite_iron_hoe": "Anthektite-Iron Hoe",
+
+  "item.elementus.anthektite_gold_sword": "Anthektite-Gold Sword",
+  "item.elementus.anthektite_gold_shovel": "Anthektite-Gold Shovel",
+  "item.elementus.anthektite_gold_pickaxe": "Anthektite-Gold Pickaxe",
+  "item.elementus.anthektite_gold_axe": "Anthektite-Gold Axe",
+  "item.elementus.anthektite_gold_hoe": "Anthektite-Gold Hoe",
+
+  "item.elementus.anthektite_emerald_sword": "Anthektite-Emerald Sword",
+  "item.elementus.anthektite_emerald_shovel": "Anthektite-Emerald Shovel",
+  "item.elementus.anthektite_emerald_pickaxe": "Anthektite-Emerald Pickaxe",
+  "item.elementus.anthektite_emerald_axe": "Anthektite-Emerald Axe",
+  "item.elementus.anthektite_emerald_hoe": "Anthektite-Emerald Hoe",
+
+  "item.elementus.anthektite_diamond_sword": "Anthektite-Diamond Sword",
+  "item.elementus.anthektite_diamond_shovel": "Anthektite-Diamond Shovel",
+  "item.elementus.anthektite_diamond_pickaxe": "Anthektite-Diamond Pickaxe",
+  "item.elementus.anthektite_diamond_axe": "Anthektite-Diamond Axe",
+  "item.elementus.anthektite_diamond_hoe": "Anthektite-Diamond Hoe",
+
+  "item.elementus.diarkrite_iron_helmet": "Diarkrite-Iron Helmet",
+  "item.elementus.diarkrite_iron_chestplate": "Diarkrite-Iron Chestplate",
+  "item.elementus.diarkrite_iron_leggings": "Diarkrite-Iron Leggings",
+  "item.elementus.diarkrite_iron_boots": "Diarkrite-Iron Boots",
+
+  "item.elementus.diarkrite_gold_helmet": "Diarkrite-Gold Helmet",
+  "item.elementus.diarkrite_gold_chestplate": "Diarkrite-Gold Chestplate",
+  "item.elementus.diarkrite_gold_leggings": "Diarkrite-Gold Leggings",
+  "item.elementus.diarkrite_gold_boots": "Diarkrite-Gold Boots",
+
+  "item.elementus.diarkrite_emerald_helmet": "Diarkrite-Emerald Helmet",
+  "item.elementus.diarkrite_emerald_chestplate": "Diarkrite-Emerald Chestplate",
+  "item.elementus.diarkrite_emerald_leggings": "Diarkrite-Emerald Leggings",
+  "item.elementus.diarkrite_emerald_boots": "Diarkrite-Emerald Boots",
+
+  "item.elementus.diarkrite_diamond_helmet": "Diarkrite-Diamond Helmet",
+  "item.elementus.diarkrite_diamond_chestplate": "Diarkrite-Diamond Chestplate",
+  "item.elementus.diarkrite_diamond_leggings": "Diarkrite-Diamond Leggings",
+  "item.elementus.diarkrite_diamond_boots": "Diarkrite-Diamond Boots",
+
+  "item.elementus.anthektite_iron_helmet": "Anthektite-Iron Helmet",
+  "item.elementus.anthektite_iron_chestplate": "Anthektite-Iron Chestplate",
+  "item.elementus.anthektite_iron_leggings": "Anthektite-Iron Leggings",
+  "item.elementus.anthektite_iron_boots": "Anthektite-Iron Boots",
+
+  "item.elementus.anthektite_gold_helmet": "Anthektite-Gold Helmet",
+  "item.elementus.anthektite_gold_chestplate": "Anthektite-Gold Chestplate",
+  "item.elementus.anthektite_gold_leggings": "Anthektite-Gold Leggings",
+  "item.elementus.anthektite_gold_boots": "Anthektite-Gold Boots",
+
+  "item.elementus.anthektite_emerald_helmet": "Anthektite-Emerald Helmet",
+  "item.elementus.anthektite_emerald_chestplate": "Anthektite-Emerald Chestplate",
+  "item.elementus.anthektite_emerald_leggings": "Anthektite-Emerald Leggings",
+  "item.elementus.anthektite_emerald_boots": "Anthektite-Emerald Boots",
+
+  "item.elementus.anthektite_diamond_helmet": "Anthektite-Diamond Helmet",
+  "item.elementus.anthektite_diamond_chestplate": "Anthektite-Diamond Chestplate",
+  "item.elementus.anthektite_diamond_leggings": "Anthektite-Diamond Leggings",
+  "item.elementus.anthektite_diamond_boots": "Anthektite-Diamond Boots",
+
+  "block.elementus.diarkrite_iron_block": "Block of Diarkrite-Iron",
+  "block.elementus.diarkrite_gold_block": "Block of Diarkrite-Gold",
+  "block.elementus.diarkrite_emerald_block": "Block of Diarkrite-Emerald",
+  "block.elementus.diarkrite_diamond_block": "Block of Diarkrite-Diamond",
+
+  "block.elementus.anthektite_iron_block": "Block of Anthektite-Iron",
+  "block.elementus.anthektite_gold_block": "Block of Anthektite-Gold",
+  "block.elementus.anthektite_emerald_block": "Block of Anthektite-Emerald",
+  "block.elementus.anthektite_diamond_block": "Block of Anthektite-Diamond",
+
+
+
+  "item.elementus.steel_samurai_helmet": "Steel Samurai Helmet",
+  "item.elementus.steel_samurai_chestplate": "Steel Samurai Chestplate",
+  "item.elementus.steel_samurai_leggings": "Steel Samurai Leggings",
+  "item.elementus.steel_samurai_boots": "Steel Samurai Boots",
+
+  "item.elementus.steel_samurai_helmet_light": "Light Steel Samurai Helmet",
+  "item.elementus.steel_samurai_chestplate_light": "Light Steel Samurai Chestplate",
+  "item.elementus.steel_samurai_leggings_light": "Light Steel Samurai Leggings",
+  "item.elementus.steel_samurai_boots_light": "Light Steel Samurai Boots",
+
+  "item.elementus.steel_samurai_helmet_master": "Master Steel Samurai Helmet",
+  "item.elementus.steel_samurai_chestplate_master": "Master Steel Samurai Chestplate",
+  "item.elementus.steel_samurai_leggings_master": "Master Steel Samurai Leggings",
+  "item.elementus.steel_samurai_boots_master": "Master Steel Samurai Boots",
+
+
+  "item.elementus.diarkrite_samurai_helmet": "Diarkrite Samurai Helmet",
+  "item.elementus.diarkrite_samurai_chestplate": "Diarkrite Samurai Chestplate",
+  "item.elementus.diarkrite_samurai_leggings": "Diarkrite Samurai Leggings",
+  "item.elementus.diarkrite_samurai_boots": "Diarkrite Samurai Boots",
+
+  "item.elementus.diarkrite_samurai_helmet_light": "Light Diarkrite Samurai Helmet",
+  "item.elementus.diarkrite_samurai_chestplate_light": "Light Diarkrite Samurai Chestplate",
+  "item.elementus.diarkrite_samurai_leggings_light": "Light Diarkrite Samurai Leggings",
+  "item.elementus.diarkrite_samurai_boots_light": "Light Diarkrite Samurai Boots",
+
+  "item.elementus.diarkrite_samurai_helmet_master": "Master Diarkrite Samurai Helmet",
+  "item.elementus.diarkrite_samurai_chestplate_master": "Master Diarkrite Samurai Chestplate",
+  "item.elementus.diarkrite_samurai_leggings_master": "Master Diarkrite Samurai Leggings",
+  "item.elementus.diarkrite_samurai_boots_master": "Master Diarkrite Samurai Boots",
+
+
+  "item.elementus.anthektite_samurai_helmet": "Anthektite Samurai Helmet",
+  "item.elementus.anthektite_samurai_chestplate": "Anthektite Samurai Chestplate",
+  "item.elementus.anthektite_samurai_leggings": "Anthektite Samurai Leggings",
+  "item.elementus.anthektite_samurai_boots": "Anthektite Samurai Boots",
+
+  "item.elementus.anthektite_samurai_helmet_light": "Light Anthektite Samurai Helmet",
+  "item.elementus.anthektite_samurai_chestplate_light": "Light Anthektite Samurai Chestplate",
+  "item.elementus.anthektite_samurai_leggings_light": "Light Anthektite Samurai Leggings",
+  "item.elementus.anthektite_samurai_boots_light": "Light Anthektite Samurai Boots",
+
+  "item.elementus.anthektite_samurai_helmet_master": "Master Anthektite Samurai Helmet",
+  "item.elementus.anthektite_samurai_chestplate_master": "Master Anthektite Samurai Chestplate",
+  "item.elementus.anthektite_samurai_leggings_master": "Master Anthektite Samurai Leggings",
+  "item.elementus.anthektite_samurai_boots_master": "Master Anthektite Samurai Boots",
+
+
+
+  "tetra.material.diarkrite.prefix": "Diarkrite",
+  "tetra.material.anthektite.prefix": "Anthektite",
+
+  "tetra.improvement.basic_hilt/movcadia.name":"Movcadia",
+  "tetra.improvement.basic_hilt/movcadia.description":"Strange purple wood",
+  "tetra.improvement.basic_handle/movcadia.name":"Movcadia",
+  "tetra.improvement.basic_handle/movcadia.description":"Strange purple wood",
+
 
 
   "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",

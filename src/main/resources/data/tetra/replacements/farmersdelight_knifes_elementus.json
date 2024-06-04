@@ -1,0 +1,77 @@
+[
+  {
+    "conditions": [
+      {
+        "type": "forge:mod_loaded",
+        "modid":"farmersdelight"
+      }
+    ],
+    "predicate": {
+      "items": [
+        "elementus:steel_knife"
+      ]
+    },
+    "item": "tetra:modular_sword",
+    "modules": {
+      "sword/blade": [
+        "sword/knife",
+        "knife/steel"
+      ],"sword/hilt": [
+        "sword/basic_hilt",
+        "basic_hilt/stick"
+      ]
+    }
+  },
+  {
+    "conditions": [
+      {
+        "type": "forge:mod_loaded",
+        "modid":"farmersdelight"
+      }
+    ],
+    "predicate": {
+      "items": [
+        "elementus:diarkrite_knife"
+      ]
+    },
+    "item": "tetra:modular_sword",
+    "modules": {
+      "sword/blade": [
+        "sword/knife",
+        "knife/diarkrite"
+      ],"sword/hilt": [
+        "sword/basic_hilt",
+        "basic_hilt/stick"
+      ]
+    },
+    "improvements" : {
+      "sword/hilt:basic_hilt/movcadia":0
+    }
+  },
+  {
+    "conditions": [
+      {
+        "type": "forge:mod_loaded",
+        "modid":"farmersdelight"
+      }
+    ],
+    "predicate": {
+      "items": [
+        "elementus:anthektite_knife"
+      ]
+    },
+    "item": "tetra:modular_sword",
+    "modules": {
+      "sword/blade": [
+        "sword/knife",
+        "knife/anthektite"
+      ],"sword/hilt": [
+        "sword/basic_hilt",
+        "basic_hilt/stick"
+      ]
+    },
+    "improvements" : {
+      "sword/hilt:basic_hilt/movcadia":0
+    }
+  }
+]

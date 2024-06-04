@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementus:anthektite_paxel_upgrade_kit"
+    }
+  ],
+  "result": {
+    "count": 5,
+    "item": "elementus:anthektite_ingot"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "sniffsweapons:handheld/great_sword_handheld",
+    "textures": {
+      "layer0": "elementus:item/compat/sniffsweapons/items/steel_great_sword"
+    }
+  },
+
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "elementus:item/compat/sniffsweapons/items/steel_great_sword_gui"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diarkrite_great_pickaxe": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/diarkrite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementus:diarkrite_great_pickaxe_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_diarkrite_great_pickaxe",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementus:diarkrite_great_pickaxe_smithing"
+    ]
+  },
+  "sends_telemetry_event": false
+}

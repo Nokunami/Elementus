@@ -1,0 +1,20 @@
+{
+  "type": "advancednetherite:crop_drops_loot_modifier",
+  "conditions": [
+    {
+      "condition": "minecraft:match_tool",
+      "predicate": {
+        "items": [
+          "elementus:diarkrite_iron_hoe",
+          "elementus:diarkrite_gold_hoe",
+          "elementus:diarkrite_emerald_hoe",
+          "elementus:diarkrite_diamond_hoe",
+          "elementus:anthektite_iron_hoe",
+          "elementus:anthektite_gold_hoe",
+          "elementus:anthektite_emerald_hoe",
+          "elementus:anthektite_diamond_hoe"
+        ]
+      }
+    }
+  ]
+}

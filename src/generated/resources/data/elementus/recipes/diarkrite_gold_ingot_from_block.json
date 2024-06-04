@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "elementus:diarkrite_gold_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "elementus:diarkrite_gold_ingot"
+  }
+}

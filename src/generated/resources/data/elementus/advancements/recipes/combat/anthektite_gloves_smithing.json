@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_anthektite_gloves": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/anthektite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementus:anthektite_gloves_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_anthektite_gloves",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementus:anthektite_gloves_smithing"
+    ]
+  },
+  "sends_telemetry_event": false
+}

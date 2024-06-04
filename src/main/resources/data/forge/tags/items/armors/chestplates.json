@@ -2,6 +2,40 @@
   "values": [
     "elementus:steel_chestplate",
     "elementus:anthektite_chestplate",
-    "elementus:diarkrite_chestplate"
+    "elementus:diarkrite_chestplate",
+
+    {
+      "id": "elementus:diarkrite_iron_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_chestplate",
+      "required": false
+    },
+
+    {
+      "id": "elementus:anthektite_iron_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_chestplate",
+      "required": false
+    }
   ]
 }

@@ -1,9 +1,9 @@
 {
   "asset_name": "anthektite",
   "description": {
-    "color": "#6C809D",
+    "color": "#899AA9",
     "translate": "trim_material.elementus.anthektite"
   },
   "ingredient": "elementus:anthektite_ingot",
-  "item_model_index": 0.25
+  "item_model_index": 0.2
 }

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:anthektite_emerald_ingot"
+  },
+  "base": {
+    "item": "elementus:anthektite_gold_shovel"
+  },
+  "result": {
+    "item": "elementus:anthektite_emerald_shovel"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

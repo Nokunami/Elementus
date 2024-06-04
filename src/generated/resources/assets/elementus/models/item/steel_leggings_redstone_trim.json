@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "elementus:item/steel_leggings",
+    "layer0": "elementus:item/armor/steel_leggings",
     "layer1": "minecraft:trims/items/leggings_trim_redstone"
   }
 }

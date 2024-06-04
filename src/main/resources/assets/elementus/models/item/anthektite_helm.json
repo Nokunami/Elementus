@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sniffsweapons:item/feathers",
+    "layer1": "elementus:item/compat/sniffsweapons/armor/anthektite_helm"
+  }
+}

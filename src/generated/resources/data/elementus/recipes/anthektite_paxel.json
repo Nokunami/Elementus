@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "/": {
+      "tag": "forge:rods/wooden"
+    },
+    "1": {
+      "item": "elementus:anthektite_sword"
+    },
+    "2": {
+      "item": "elementus:anthektite_shovel"
+    },
+    "3": {
+      "item": "elementus:anthektite_pickaxe"
+    },
+    "4": {
+      "item": "elementus:anthektite_pickaxe"
+    },
+    "5": {
+      "item": "elementus:anthektite_hoe"
+    }
+  },
+  "pattern": [
+    "342",
+    "1/5",
+    " / "
+  ],
+  "result": {
+    "item": "elementus:anthektite_paxel"
+  },
+  "show_notification": true
+}

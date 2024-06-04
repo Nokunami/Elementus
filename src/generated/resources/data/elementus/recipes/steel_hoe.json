@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/steel"
+    },
+    "/": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "##",
+    " /",
+    " /"
+  ],
+  "result": {
+    "item": "elementus:steel_hoe"
+  },
+  "show_notification": true
+}

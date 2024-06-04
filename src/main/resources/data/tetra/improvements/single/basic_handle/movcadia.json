@@ -1,0 +1,10 @@
+[
+  {
+    "key" : "basic_handle/movcadia",
+    "models" : [
+      {
+        "location" : "elementus:item/tetra/module/single/handle/improvements/movcadia_single"
+      }
+    ]
+  }
+]

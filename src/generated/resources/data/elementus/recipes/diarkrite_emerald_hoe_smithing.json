@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:diarkrite_emerald_ingot"
+  },
+  "base": {
+    "item": "elementus:diarkrite_gold_hoe"
+  },
+  "result": {
+    "item": "elementus:diarkrite_emerald_hoe"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

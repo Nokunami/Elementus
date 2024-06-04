@@ -2,6 +2,40 @@
   "values": [
     "elementus:steel_leggings",
     "elementus:anthektite_leggings",
-    "elementus:diarkrite_leggings"
+    "elementus:diarkrite_leggings",
+
+    {
+      "id": "elementus:diarkrite_iron_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_leggings",
+      "required": false
+    },
+
+    {
+      "id": "elementus:anthektite_iron_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_leggings",
+      "required": false
+    }
   ]
 }

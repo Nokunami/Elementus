@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:diarkrite_diamond_ingot"
+  },
+  "base": {
+    "item": "elementus:diarkrite_emerald_leggings"
+  },
+  "result": {
+    "item": "elementus:diarkrite_diamond_leggings"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

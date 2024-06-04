@@ -1,9 +1,9 @@
-// 1.20.1	2024-03-23T18:28:49.798946	Registries
+// 1.20.1	2024-07-16T15:47:19.1885789	Registries
 e05a787066d4441657006d7abc74c2025919ce30 data/elementus/forge/biome_modifier/add_remnant_ore.json
 24986df4e7f4c2da3ae50e37e55e6b36e6c29a43 data/elementus/forge/biome_modifier/add_remnant_ore_buried.json
-0e265873323c8df0bd736149227604c30226d253 data/elementus/trim_material/anthektite.json
-c583f5a10de27b841d042fab73c713da0a8bccb0 data/elementus/trim_material/diarkrite.json
-897b5fa662bd53f922728c5315197d3bf45dffe3 data/elementus/trim_material/steel.json
+52188ec2a5774494e30d2e9a8d166041b5ebf2d1 data/elementus/trim_material/anthektite.json
+c3dbe6938af90828cefa399215c582f68ae59c00 data/elementus/trim_material/diarkrite.json
+e3d6bcc70a2b44e74abfd1038870c49f6c454356 data/elementus/trim_material/steel.json
 e56ae5174311b470ee85ed9d4fdcf2ee6d19e23f data/elementus/worldgen/configured_feature/remnant_ore.json
 8fe0c604749414fabbbe8a98c21e9fafc4f0dd87 data/elementus/worldgen/configured_feature/remnant_ore_buried.json
 13ba061377183ff4ead7fb3a2f5b406d2e7bc05d data/elementus/worldgen/placed_feature/remnant_ore_buried_placed.json

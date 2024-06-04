@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "forge:ingots/diarkrite"
+  },
+  "base": {
+    "item": "elementus:steel_samurai_boots"
+  },
+  "result": {
+    "item": "elementus:diarkrite_samurai_boots"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

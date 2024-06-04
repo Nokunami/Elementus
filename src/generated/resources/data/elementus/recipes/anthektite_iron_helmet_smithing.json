@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:anthektite_iron_ingot"
+  },
+  "base": {
+    "item": "elementus:anthektite_helmet"
+  },
+  "result": {
+    "item": "elementus:anthektite_iron_helmet"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

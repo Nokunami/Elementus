@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "irons_spellbooks:arcane_ingot"
+    },
+    "B": {
+      "item": "irons_spellbooks:lightning_bottle"
+    },
+    "D": {
+      "tag": "forge:ingots/diarkrite"
+    },
+    "P": {
+      "item": "irons_spellbooks:divine_pearl"
+    },
+    "R": {
+      "item": "irons_spellbooks:ruined_book"
+    },
+    "S": {
+      "tag": "forge:ingots/steel"
+    }
+  },
+  "pattern": [
+    "SAP",
+    "DRB",
+    "SAP"
+  ],
+  "result": {
+    "item": "elementus:diarkrite_spell_book"
+  },
+  "show_notification": true
+}

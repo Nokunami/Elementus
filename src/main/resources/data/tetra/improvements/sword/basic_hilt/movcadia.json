@@ -1,0 +1,10 @@
+[
+  {
+    "key" : "basic_hilt/movcadia",
+    "models" : [
+      {
+        "location" : "elementus:item/tetra/module/sword/hilt/basic/improvements/movcadia_hilt"
+      }
+    ]
+  }
+]

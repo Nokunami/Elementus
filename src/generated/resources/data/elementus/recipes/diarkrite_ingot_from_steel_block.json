@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "diarkrite_ingot",
+  "ingredients": [
+    {
+      "item": "elementus:diarkrite_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "elementus:diarkrite_ingot"
+  }
+}

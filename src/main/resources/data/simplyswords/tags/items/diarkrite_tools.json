@@ -1,0 +1,65 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "elementus:diarkrite_chakram",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_claymore",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_cutlass",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_glaive",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_greataxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_greathammer",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_halberd",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_katana",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_longsword",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_rapier",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_sai",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_scythe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_spear",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_twinblade",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_warglaive",
+      "required": false
+    }
+  ]
+}

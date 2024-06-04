@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "irons_spellbooks:arcane_ingot"
+    },
+    "B": {
+      "item": "irons_spellbooks:lightning_bottle"
+    },
+    "D": {
+      "tag": "forge:ingots/anthektite"
+    },
+    "P": {
+      "item": "irons_spellbooks:divine_pearl"
+    },
+    "R": {
+      "item": "irons_spellbooks:ruined_book"
+    }
+  },
+  "pattern": [
+    "AAP",
+    "DRB",
+    "AAP"
+  ],
+  "result": {
+    "item": "elementus:anthektite_spell_book"
+  },
+  "show_notification": true
+}

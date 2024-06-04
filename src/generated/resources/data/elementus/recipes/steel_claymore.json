@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/steel"
+    },
+    "/": {
+      "tag": "forge:rods/wooden"
+    },
+    "N": {
+      "item": "elementus:steel_nugget"
+    }
+  },
+  "pattern": [
+    " N#",
+    "N#N",
+    "/N "
+  ],
+  "result": {
+    "item": "elementus:steel_claymore"
+  },
+  "show_notification": true
+}

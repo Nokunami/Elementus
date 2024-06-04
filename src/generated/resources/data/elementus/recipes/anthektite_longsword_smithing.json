@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "forge:ingots/anthektite"
+  },
+  "base": {
+    "item": "elementus:steel_longsword"
+  },
+  "result": {
+    "item": "elementus:anthektite_longsword"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

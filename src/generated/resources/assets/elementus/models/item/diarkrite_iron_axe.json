@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "elementus:item/compat/advancednetherite/tools/diarkrite_iron_axe"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_anthektite_emerald_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "elementus:anthektite_emerald_sword"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementus:anthektite_diamond_sword_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_anthektite_emerald_sword",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementus:anthektite_diamond_sword_smithing"
+    ]
+  },
+  "sends_telemetry_event": false
+}

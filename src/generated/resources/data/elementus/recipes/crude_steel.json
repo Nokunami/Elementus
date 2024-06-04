@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:raw_materials/iron"
+    },
+    {
+      "tag": "forge:ores/coal"
+    },
+    {
+      "tag": "forge:ores/coal"
+    }
+  ],
+  "result": {
+    "item": "elementus:crude_steel"
+  }
+}

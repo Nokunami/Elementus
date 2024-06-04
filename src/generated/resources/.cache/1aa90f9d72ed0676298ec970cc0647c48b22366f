@@ -1,8 +1,10 @@
-// 1.20.1	2024-05-30T21:18:14.6619332	Tags for minecraft:item mod id elementus
+// 1.20.1	2024-07-17T23:52:55.1319399	Tags for minecraft:item mod id elementus
+cf335b14ae8be830ab92a63605fd67175a4a7b9d data/advancednetherite/tags/items/tiers/armor/netherite_diamond.json
+44c9b14254b0bb00aaec6f98a26a236f8801faac data/advancednetherite/tags/items/tiers/armor/netherite_emerald.json
+aac6d25187e7052a69dca95544162c1e77b88fc0 data/advancednetherite/tags/items/tiers/armor/netherite_gold.json
+42d9e024d0046a21e4c694d941db4c5210132b22 data/advancednetherite/tags/items/tiers/armor/netherite_iron.json
+56ab4d92d40aa36223c0702eb76cc128feeda8a8 data/advancednetherite/tags/items/tiers/tools/netherite_diamond.json
+cf483452825af9942c6603cc49168024fcb5e7f8 data/advancednetherite/tags/items/tiers/tools/netherite_emerald.json
+ce1494c0616b1a677888992de5347da8d4f61193 data/advancednetherite/tags/items/tiers/tools/netherite_gold.json
+eb6451d15faec0a818ae44c0f0d5a9dfbe847ffa data/advancednetherite/tags/items/tiers/tools/netherite_iron.json
 81520a48e7308e7d489699cc4ab268a9f1a9b334 data/farmersdelight/tags/items/tools/knives.json
-2c42897e74c51949c427934c9a7e3faa14c5684c data/minecraft/tags/items/axes.json
-a0c161847dd33df1c4792293161b3afb44fca179 data/minecraft/tags/items/hoes.json
-ca4c2e63a1a3bfde30a9585cf40620663b580d73 data/minecraft/tags/items/pickaxes.json
-efed8b3d890f0c7c5299a2bacd8c5a098cb8d266 data/minecraft/tags/items/shovels.json
-21723a9feac883f567722660122d99c9101a8378 data/minecraft/tags/items/swords.json
-06270c43a2ba028a21c317935fead4a51324779c data/minecraft/tags/items/trimmable_armor.json

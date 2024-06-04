@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "elementus:item/diarkrite_boots",
+    "layer0": "elementus:item/armor/diarkrite_boots",
     "layer1": "minecraft:trims/items/boots_trim_diamond"
   }
 }

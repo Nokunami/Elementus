@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "irons_spellbooks:magic_cloth"
+    },
+    "M": {
+      "item": "elementus:anthektite_ingot"
+    }
+  },
+  "pattern": [
+    "CMC",
+    "CCC",
+    "CCC"
+  ],
+  "result": {
+    "item": "elementus:anthektite_mage_chestplate"
+  },
+  "show_notification": true
+}

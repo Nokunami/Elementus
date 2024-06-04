@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/steel"
+    },
+    "/": {
+      "item": "elementus:steel_pickaxe"
+    },
+    "S": {
+      "item": "sniffsweapons:binding_string"
+    }
+  },
+  "pattern": [
+    "###",
+    "#S#",
+    " / "
+  ],
+  "result": {
+    "item": "elementus:steel_great_pickaxe"
+  },
+  "show_notification": true
+}

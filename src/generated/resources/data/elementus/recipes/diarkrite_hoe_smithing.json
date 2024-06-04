@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "forge:ingots/diarkrite"
+  },
+  "base": {
+    "item": "elementus:steel_hoe"
+  },
+  "result": {
+    "item": "elementus:diarkrite_hoe"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

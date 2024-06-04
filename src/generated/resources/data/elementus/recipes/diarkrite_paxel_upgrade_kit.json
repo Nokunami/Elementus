@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "elementus:diarkrite_ingot"
+    },
+    "/": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "#/#",
+    "/#/",
+    "#/#"
+  ],
+  "result": {
+    "item": "elementus:diarkrite_paxel_upgrade_kit"
+  },
+  "show_notification": true
+}

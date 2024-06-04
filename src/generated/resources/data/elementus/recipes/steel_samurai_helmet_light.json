@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/steel"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "pattern": [
+    " I ",
+    "I#I",
+    "# #"
+  ],
+  "result": {
+    "item": "elementus:steel_samurai_helmet_light"
+  },
+  "show_notification": true
+}

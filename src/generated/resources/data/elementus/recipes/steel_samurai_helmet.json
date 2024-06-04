@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/steel"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "J": {
+      "item": "epicsamurai:jade"
+    }
+  },
+  "pattern": [
+    " # ",
+    "IJI",
+    "# #"
+  ],
+  "result": {
+    "item": "elementus:steel_samurai_helmet"
+  },
+  "show_notification": true
+}

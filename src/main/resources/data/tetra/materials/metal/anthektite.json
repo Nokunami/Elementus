@@ -1,0 +1,29 @@
+{
+  "key": "anthektite",
+  "category": "metal",
+  "primary": 6.0,
+  "secondary": 3.45,
+  "tertiary": 2.76,
+  "durability": 1946,
+  "integrityCost": 2,
+  "integrityGain": 7,
+  "magicCapacity": 90,
+  "toolLevel": "minecraft:netherite",
+  "toolEfficiency": 12,
+  "tints": {
+    "glyph": "899AA9",
+    "texture": "6C809D"
+  },
+  "textures": [
+    "heavy",
+    "metal"
+  ],
+  "material": {
+    "items": [
+      "elementus:anthektite_ingot"
+    ]
+  },
+  "requiredTools": {
+    "hammer_dig": "minecraft:iron"
+  }
+}

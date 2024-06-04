@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sniffsweapons:item/plated_chestplate_layer",
+    "layer1": "elementus:item/compat/sniffsweapons/armor/plated_diarkrite_chestplate"
+  }
+}

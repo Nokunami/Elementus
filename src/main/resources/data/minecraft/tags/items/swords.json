@@ -1,0 +1,41 @@
+{
+  "values": [
+    "elementus:steel_sword",
+    "elementus:anthektite_sword",
+    "elementus:diarkrite_sword",
+
+    {
+      "id": "elementus:diarkrite_iron_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_sword",
+      "required": false
+    },
+
+    {
+      "id": "elementus:anthektite_iron_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_sword",
+      "required": false
+    }
+  ]
+}

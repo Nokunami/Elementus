@@ -14,24 +14,6 @@
       }
     },
     {
-      "model": "elementus:item/steel_helmet_steel_trim",
-      "predicate": {
-        "minecraft:trim_type": 0.22
-      }
-    },
-    {
-      "model": "elementus:item/steel_helmet_diarkrite_trim",
-      "predicate": {
-        "minecraft:trim_type": 0.24
-      }
-    },
-    {
-      "model": "elementus:item/steel_helmet_anthektite_trim",
-      "predicate": {
-        "minecraft:trim_type": 0.25
-      }
-    },
-    {
       "model": "elementus:item/steel_helmet_netherite_trim",
       "predicate": {
         "minecraft:trim_type": 0.3
@@ -78,9 +60,27 @@
       "predicate": {
         "minecraft:trim_type": 1.0
       }
+    },
+    {
+      "model": "elementus:item/steel_helmet_steel_trim",
+      "predicate": {
+        "minecraft:trim_type": 1.1
+      }
+    },
+    {
+      "model": "elementus:item/steel_helmet_diarkrite_trim",
+      "predicate": {
+        "minecraft:trim_type": 1.2
+      }
+    },
+    {
+      "model": "elementus:item/steel_helmet_anthektite_trim",
+      "predicate": {
+        "minecraft:trim_type": 1.3
+      }
     }
   ],
   "textures": {
-    "layer0": "elementus:item/steel_helmet"
+    "layer0": "elementus:item/armor/steel_helmet"
   }
 }

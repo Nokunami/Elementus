@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:leather"
+  },
+  "base": {
+    "item": "elementus:anthektite_chestplate"
+  },
+  "result": {
+    "item": "elementus:anthektite_surcoat"
+  },
+  "template": {
+    "item": "sniffsweapons:surcoat_armor_trim_smithing_template"
+  }
+}

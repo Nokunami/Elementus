@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_diarkrite_gloves": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/diarkrite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "elementus:diarkrite_gloves_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_diarkrite_gloves",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "elementus:diarkrite_gloves_smithing"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "elementus:block/compat/advancednetherite/diarkrite_iron_block"
+  }
+}

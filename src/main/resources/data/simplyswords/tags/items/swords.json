@@ -1,0 +1,187 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "elementus:steel_chakram",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_claymore",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_cutlass",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_glaive",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_greataxe",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_greathammer",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_halberd",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_katana",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_longsword",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_rapier",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_sai",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_scythe",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_spear",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_twinblade",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_warglaive",
+      "required": false
+    },
+
+    {
+      "id": "elementus:diarkrite_chakram",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_claymore",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_cutlass",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_glaive",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_greataxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_greathammer",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_halberd",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_katana",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_longsword",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_rapier",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_sai",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_scythe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_spear",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_twinblade",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_warglaive",
+      "required": false
+    },
+
+    {
+      "id": "elementus:anthektite_chakram",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_claymore",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_cutlass",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_glaive",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_greataxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_greathammer",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_halberd",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_katana",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_longsword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_rapier",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_sai",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_scythe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_spear",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_twinblade",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_warglaive",
+      "required": false
+    }
+  ]
+}

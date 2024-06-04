@@ -1,0 +1,719 @@
+
+    "materials": {
+      "steel": {
+        "uses": 756,
+        "speed": 7,
+        "enchantmentValue": 15,
+        "repairItem": "elementus:steel_ingot"
+      },
+      "diarkrite": {
+        "uses": 2346,
+        "speed": 8,
+        "enchantmentValue": 15,
+        "repairItem": "elementus:diarkrite_ingot"
+      },
+      "anthektite": {
+        "uses": 1946,
+        "speed": 10,
+        "enchantmentValue": 15,
+        "repairItem": "elementus:anthektite_ingot"
+      }
+
+
+
+      "steel_dagger": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 3.5,
+        "speed": 3.5,
+        "range": 1.8,
+
+        "invincibilityTime": 5,
+
+        "canSweep": true,
+        "sweepRadius": 0.25
+      },
+
+      "steel_shortsword": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 5.3,
+        "speed": 2.2,
+        "range": 2.25,
+
+        "canSweep": true,
+        "sweepRadius": 0.75
+      },
+
+      "steel_stiletto": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 3.6,
+        "speed": 2.5,
+        "range": 2,
+
+        "piercingChance": 0.25,
+        "piercingAmount": 3,
+        "invincibilityTime": 7
+      },
+
+      "steel_rapier": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 4,
+        "speed": 2,
+
+        "unarmoredBonus": 2.2,
+
+        "canSweep": true
+      },
+
+      "steel_katana": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 6.1,
+        "speed": 1.8,
+        "range": 3.25,
+
+        "canSweep": true,
+        "sweepRadius": 1.25,
+        "sweepDamage": 2,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "twoHandedMinDamage": 1,
+        "twoHandedMajDamage": 4,
+        "twoHandedMinSpeed": 0.1,
+        "twoHandedMajSpeed": 1
+      },
+
+      "steel_greatsword": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 6.7,
+        "speed": 1.2,
+        "range": 3.5,
+
+        "canSweep": true,
+        "sweepRadius": 1.5,
+        "sweepDamage": 4,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "steel_longsword": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 7.8,
+        "speed": 1.3,
+        "range": 3.5,
+
+        "canSweep": true,
+        "sweepRadius": 2,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "steel_twinblade": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 6.2,
+        "speed": 1.9,
+        "range": 3.5,
+
+        "canSweep": true,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "steel_zweihander": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 6.4,
+        "speed": 1,
+        "range": 4,
+
+        "canSweep": true,
+        "sweepRadius": 2.5,
+        "sweepDamage": 2,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 4,
+        "twoHandedMajSpeed": 0.5
+      },
+
+      "steel_battle_axe": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+        "weaponType": "Axe",
+
+        "damage": 12.3,
+        "speed": 0.6,
+        "range": 3.25,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "twoHandedMinDamage": 1,
+        "twoHandedMajDamage": 3,
+        "twoHandedMinSpeed": 0.1,
+        "twoHandedMajSpeed": 0.3
+      },
+
+      "steel_glaive": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 8.4,
+        "speed": 1,
+        "range": 4,
+
+        "canSweep": true,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 4,
+        "twoHandedMajSpeed": 0.5
+      },
+
+      "steel_spear": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 5,
+        "speed": 1.3,
+        "range": 4.2,
+
+        "piercingAmount": 0.8,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "twoHandedMajDamage": 2,
+        "twoHandedMinSpeed": 0.1,
+        "twoHandedMajSpeed": 0.55
+      },
+
+      "steel_halberd": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 8.2,
+        "speed": 0.7,
+        "range": 4.5,
+
+        "piercingChance": 0.5,
+        "piercingAmount": 3,
+        "breachChance": 1,
+        "breachTime": 1.5,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 3,
+        "twoHandedMajSpeed": 0.2
+      },
+
+      "steel_pike": {
+        "dependencies": "elementus",
+
+        "tier": "steel",
+
+        "damage": 7,
+        "speed": 0.8,
+        "range": 5,
+
+        "piercingAmount": 1,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 3,
+        "twoHandedMajSpeed": 0.3
+      },
+
+      "diarkrite_dagger": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 6,
+        "speed": 3.2,
+        "range": 1.8,
+
+        "invincibilityTime": 3,
+
+        "canSweep": true,
+        "sweepRadius": 0.25
+      },
+
+      "diarkrite_shortsword": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 8.8,
+        "speed": 1.9,
+        "range": 2.25,
+
+        "canSweep": true,
+        "sweepRadius": 0.75
+      },
+
+      "diarkrite_stiletto": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 6,
+        "speed": 2.2,
+        "range": 2,
+
+        "piercingChance": 0.25,
+        "piercingAmount": 5,
+        "invincibilityTime": 5
+      },
+
+      "diarkrite_rapier": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 6.4,
+        "speed": 1.7,
+
+        "unarmoredBonus": 4.5,
+
+        "canSweep": true
+      },
+
+      "diarkrite_katana": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 9.8,
+        "speed": 1.5,
+        "range": 3.25,
+
+        "canSweep": true,
+        "sweepRadius": 1.25,
+        "sweepDamage": 3,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "twoHandedMinDamage": 1,
+        "twoHandedMajDamage": 4,
+        "twoHandedMinSpeed": 0.1,
+        "twoHandedMajSpeed": 1
+      },
+
+      "diarkrite_greatsword": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 11.2,
+        "speed": 0.9,
+        "range": 3.5,
+
+        "canSweep": true,
+        "sweepRadius": 1.5,
+        "sweepDamage": 6,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "diarkrite_longsword": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 12.1,
+        "speed": 1,
+        "range": 3.5,
+
+        "canSweep": true,
+        "sweepRadius": 2,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "diarkrite_twinblade": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 9.5,
+        "speed": 1.6,
+        "range": 3.5,
+
+        "canSweep": true,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "diarkrite_zweihander": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 12.4,
+        "speed": 0.7,
+        "range": 4,
+
+        "canSweep": true,
+        "sweepRadius": 2.5,
+        "sweepDamage": 2,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 4,
+        "twoHandedMajSpeed": 0.5
+      },
+
+      "diarkrite_battle_axe": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+        "weaponType": "Axe",
+
+        "damage": 21.4,
+        "speed": 0.3,
+        "range": 3.25,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "twoHandedMinDamage": 1,
+        "twoHandedMajDamage": 3,
+        "twoHandedMinSpeed": 0.1,
+        "twoHandedMajSpeed": 0.2
+      },
+
+      "diarkrite_glaive": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 14,
+        "speed": 0.7,
+        "range": 4,
+
+        "canSweep": true,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 4,
+        "twoHandedMajSpeed": 0.5
+      },
+
+      "diarkrite_spear": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 8.9,
+        "speed": 1,
+        "range": 4.2,
+
+        "piercingAmount": 3.0,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "twoHandedMajDamage": 2,
+        "twoHandedMinSpeed": 0.1,
+        "twoHandedMajSpeed": 0.55
+      },
+
+      "diarkrite_halberd": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 15.5,
+        "speed": 0.4,
+        "range": 4.5,
+
+        "piercingChance": 0.5,
+        "piercingAmount": 5,
+        "breachChance": 1,
+        "breachTime": 1.5,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 3,
+        "twoHandedMajSpeed": 0.2
+      },
+
+      "diarkrite_pike": {
+        "dependencies": "elementus",
+
+        "tier": "diarkrite",
+
+        "damage": 13,
+        "speed": 0.5,
+        "range": 5,
+
+        "piercingAmount": 1,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 3,
+        "twoHandedMajSpeed": 0.3
+      },
+
+      "anthektite_dagger": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 4,
+        "speed": 3.8,
+        "range": 1.8,
+
+        "invincibilityTime": 5,
+
+        "canSweep": true,
+        "sweepRadius": 0.25
+      },
+
+      "anthektite_shortsword": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 6,
+        "speed": 2.5,
+        "range": 2.25,
+
+        "canSweep": true,
+        "sweepRadius": 0.75
+      },
+
+      "anthektite_stiletto": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 4,
+        "speed": 2.8,
+        "range": 2,
+
+        "piercingChance": 0.25,
+        "piercingAmount": 4,
+        "invincibilityTime": 7
+      },
+
+      "anthektite_rapier": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 4,
+        "speed": 2.3,
+
+        "unarmoredBonus": 3,
+
+        "canSweep": true
+      },
+
+      "anthektite_katana": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 7,
+        "speed": 2.1,
+        "range": 3.25,
+
+        "canSweep": true,
+        "sweepRadius": 1.25,
+        "sweepDamage": 2,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "createThdCopy": true,
+        "twoHandedMinDamage": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMinSpeed": 0.05,
+        "twoHandedMajSpeed": 1
+      },
+
+      "anthektite_greatsword": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 8,
+        "speed": 1.5,
+        "range": 3.5,
+
+        "canSweep": true,
+        "sweepRadius": 1.5,
+        "sweepDamage": 5,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 6,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "anthektite_longsword": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 9,
+        "speed": 1.6,
+        "range": 3.5,
+
+        "canSweep": true,
+        "sweepRadius": 2,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 6,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "anthektite_twinblade": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 7,
+        "speed": 2.2,
+        "range": 3.5,
+
+        "canSweep": true,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 6,
+        "twoHandedMajSpeed": 0.4
+      },
+
+      "anthektite_zweihander": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 8,
+        "speed": 1.3,
+        "range": 4,
+
+        "canSweep": true,
+        "sweepRadius": 2.5,
+        "sweepDamage": 2,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMajSpeed": 0.5
+      },
+
+      "anthektite_battle_axe": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+        "weaponType": "Axe",
+
+        "damage": 15,
+        "speed": 0.9,
+        "range": 3.25,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "twoHandedMinDamage": 1,
+        "twoHandedMajDamage": 4,
+        "twoHandedMinSpeed": 0.1,
+        "twoHandedMajSpeed": 0.3
+      },
+
+      "anthektite_glaive": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 10,
+        "speed": 1.3,
+        "range": 4,
+
+        "canSweep": true,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 4,
+        "twoHandedMajSpeed": 0.5
+      },
+
+      "anthektite_spear": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 5,
+        "speed": 1.6,
+        "range": 4.2,
+
+        "piercingAmount": 2,
+
+        "twoHandedLevel": 1,
+    "createThdCopy": true,
+        "twoHandedMajDamage": 3,
+        "twoHandedMinSpeed": 0.1,
+        "twoHandedMajSpeed": 0.55
+      },
+
+      "anthektite_halberd": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 10,
+        "speed": 1,
+        "range": 4.5,
+
+        "piercingChance": 0.5,
+        "piercingAmount": 4,
+        "breachChance": 1,
+        "breachTime": 1.5,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 5,
+        "twoHandedMajSpeed": 0.2
+      },
+
+      "anthektite_pike": {
+        "dependencies": "elementus",
+
+        "tier": "anthektite",
+
+        "damage": 8,
+        "speed": 1.1,
+        "range": 5,
+
+        "piercingAmount": 2,
+
+        "twoHandedLevel": 2,
+        "twoHandedMajDamage": 4,
+        "twoHandedMajSpeed": 0.3
+      }

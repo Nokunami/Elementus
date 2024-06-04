@@ -1,0 +1,127 @@
+[
+  {
+    "predicate" : {
+      "items" : [
+        "elementus:anthektite_sword"
+      ]
+    },
+    "item" : "tetra:modular_sword",
+    "modules" : {
+      "sword/blade" : [
+        "sword/basic_blade",
+        "basic_blade/anthektite"
+      ],
+      "sword/hilt" : [
+        "sword/basic_hilt",
+        "basic_hilt/stick"
+      ],
+      "sword/pommel" : [
+        "sword/decorative_pommel",
+        "decorative_pommel/anthektite"
+      ],
+      "sword/guard" : [
+        "sword/makeshift_guard",
+        "makeshift_guard/anthektite"
+      ]
+    },
+    "improvements" : {
+      "sword/hilt:basic_hilt/movcadia":0
+    }
+  },
+  {
+    "predicate" : {
+      "items" : [
+        "elementus:anthektite_shovel"
+      ]
+    },
+    "item" : "tetra:modular_single",
+    "modules" : {
+      "single/head" : [
+        "single/basic_shovel",
+        "basic_shovel/anthektite"
+      ],
+      "single/handle" : [
+        "single/basic_handle",
+        "basic_handle/stick"
+      ]
+    },
+    "improvements" : {
+      "single/handle:basic_handle/movcadia":0
+    }
+  },
+  {
+    "predicate" : {
+      "items" : [
+        "elementus:anthektite_pickaxe"
+      ]
+    },
+    "item" : "tetra:modular_double",
+    "modules" : {
+      "double/head_left" : [
+        "double/basic_pickaxe_left",
+        "basic_pickaxe/anthektite"
+      ],
+      "double/head_right" : [
+        "double/basic_pickaxe_right",
+        "basic_pickaxe/anthektite"
+      ],
+      "double/handle" : [
+        "double/basic_handle",
+        "basic_handle/stick"
+      ]
+    },
+    "improvements" : {
+      "double/handle:basic_handle/movcadia":0
+    }
+  },
+  {
+    "predicate" : {
+      "items" : [
+        "elementus:anthektite_hoe"
+      ]
+    },
+    "item":"tetra:modular_double",
+    "modules" : {
+      "double/head_left" : [
+        "double/hoe_left",
+        "hoe/anthektite"
+      ],
+      "double/head_right" : [
+        "double/butt_right",
+        "butt/anthektite"
+      ],
+      "double/handle" : [
+        "double/basic_handle",
+        "basic_handle/stick"
+      ]
+    },
+    "improvements" : {
+      "double/handle:basic_handle/movcadia":0
+    }
+  },
+  {
+    "predicate" : {
+      "items" : [
+        "elementus:anthektite_axe"
+      ]
+    },
+    "item" : "tetra:modular_double",
+    "modules" : {
+      "double/head_left" : [
+        "double/basic_axe_left",
+        "basic_axe/anthektite"
+      ],
+      "double/head_right" : [
+        "double/butt_right",
+        "butt/anthektite"
+      ],
+      "double/handle" : [
+        "double/basic_handle",
+        "basic_handle/stick"
+      ]
+    },
+    "improvements" : {
+      "double/handle:basic_handle/movcadia":0
+    }
+  }
+]

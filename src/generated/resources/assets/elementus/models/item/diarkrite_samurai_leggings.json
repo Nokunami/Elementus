@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "elementus:item/compat/epicsamurai/diarkrite_samurai_leggings"
+  }
+}
