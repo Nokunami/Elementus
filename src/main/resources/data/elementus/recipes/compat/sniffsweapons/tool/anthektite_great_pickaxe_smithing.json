@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:anthektite_ingot"
+  },
+  "base": {
+    "item": "elementus:steel_great_pickaxe"
+  },
+  "result": {
+    "item": "elementus:anthektite_great_pickaxe"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}

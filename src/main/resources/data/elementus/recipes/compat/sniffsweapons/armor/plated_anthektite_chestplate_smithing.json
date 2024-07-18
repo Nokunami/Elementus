@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "elementus:anthektite_ingot"
+  },
+  "base": {
+    "item": "elementus:plated_steel_chestplate"
+  },
+  "result": {
+    "item": "elementus:plated_anthektite_chestplate"
+  },
+  "template": {
+    "item": "elementus:atelis_upgrade_smithing_template"
+  }
+}
