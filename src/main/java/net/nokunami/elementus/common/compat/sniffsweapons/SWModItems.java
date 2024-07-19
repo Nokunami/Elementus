@@ -49,6 +49,16 @@ public class SWModItems {
             () -> new GreatPickaxeItem(ModTiers.ANTHEKTITE, 3, -(3.05F - anthektiteSpeed),new Item.Properties().fireResistant()));
 
 
+    public static final RegistryObject<Item> STEEL_NAGINATA = ITEMS.register("steel_naginata",
+            () -> new NaginataItem(ModTiers.STEEL, 4, -3.0F,new Item.Properties()));
+
+    public static final RegistryObject<Item> DIARKRITE_NAGINATA = ITEMS.register("diarkrite_naginata",
+            () -> new NaginataItem(ModTiers.DIARKRITE, 4, -(3.0F + diarkriteSpeed),new Item.Properties().fireResistant()));
+
+    public static final RegistryObject<Item> ANTHEKTITE_NAGINATA = ITEMS.register("anthektite_naginata",
+            () -> new NaginataItem(ModTiers.ANTHEKTITE, 4, -(3.0F - anthektiteSpeed),new Item.Properties().fireResistant()));
+
+
     public static final RegistryObject<Item> STEEL_SURCOAT = ITEMS.register("steel_surcoat",
             () -> new StylishArmorItem(ModArmorMaterials.STEEL, ArmorItem.Type.CHESTPLATE, "stylish", 10511680, new Item.Properties()));
 
@@ -87,6 +97,26 @@ public class SWModItems {
 
     public static final RegistryObject<Item> ANTHEKTITE_HORNED_HELM = ITEMS.register("anthektite_horned_helm",
             () -> new HornedArmorItem(ModArmorMaterials.ANTHEKTITE, ArmorItem.Type.HELMET, 16777215, new Item.Properties().fireResistant()));
+
+
+    public static final RegistryObject<Item> STEEL_DO = ITEMS.register("steel_do",
+            () -> new SamuraiArmorItem(ModArmorMaterials.STEEL, ArmorItem.Type.CHESTPLATE, 10511680, new Item.Properties()));
+
+    public static final RegistryObject<Item> DIARKRITE_DO = ITEMS.register("diarkrite_do",
+            () -> new SamuraiArmorItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.CHESTPLATE, 10511680, new Item.Properties().fireResistant()));
+
+    public static final RegistryObject<Item> ANTHEKTITE_DO = ITEMS.register("anthektite_do",
+            () -> new SamuraiArmorItem(ModArmorMaterials.ANTHEKTITE, ArmorItem.Type.CHESTPLATE, 10511680, new Item.Properties().fireResistant()));
+
+
+    public static final RegistryObject<Item> STEEL_KABUTO = ITEMS.register("steel_kabuto",
+            () -> new SamuraiArmorItem(ModArmorMaterials.STEEL, ArmorItem.Type.HELMET, 16777215, new Item.Properties()));
+
+    public static final RegistryObject<Item> DIARKRITE_KABUTO = ITEMS.register("diarkrite_kabuto",
+            () -> new SamuraiArmorItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.HELMET, 16777215, new Item.Properties().fireResistant()));
+
+    public static final RegistryObject<Item> ANTHEKTITE_KABUTO = ITEMS.register("anthektite_kabuto",
+            () -> new SamuraiArmorItem(ModArmorMaterials.ANTHEKTITE, ArmorItem.Type.HELMET, 16777215, new Item.Properties().fireResistant()));
 
     public static void register(IEventBus eventBus) {ITEMS.register(eventBus);}
 }

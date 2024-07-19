@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "elementus:movcadia_log"
+    },
+    "/": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "item": "elementus:movcadia_planks"
+    }
+  },
+  "pattern": [
+    "#I#",
+    "#I#",
+    " / "
+  ],
+  "result": {
+    "item": "elementus:sturdy_movcadia_sign"
+  },
+  "show_notification": true
+}

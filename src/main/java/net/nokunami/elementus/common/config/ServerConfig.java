@@ -47,8 +47,8 @@ public class ServerConfig {
         BUILDER.push("Elementus Armor Attributes");
         BUILDER.comment("Changing armor values requires world restart");
         STEEL_ARMOR_CONFIG = defineConfig(BUILDER, "steel",
-                List.of(2, 5, 6, 2),
-                1.0F,
+                List.of(3, 6, 8, 3),
+                0.0F,
                 0,
                 0,
                 0);

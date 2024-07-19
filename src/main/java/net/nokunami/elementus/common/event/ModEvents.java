@@ -1,7 +1,19 @@
 package net.nokunami.elementus.common.event;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.common.registry.ModBlocks;
+import net.nokunami.elementus.common.registry.ModItems;
 
 @Mod.EventBusSubscriber(modid = Elementus.MODID)
 public class ModEvents {
@@ -175,4 +187,17 @@ public class ModEvents {
 //            }
 //        }
 //    }
+
+    @SubscribeEvent
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        if(event.getItemStack().getItem() instanceof AxeItem) {
+            if (event.getLevel().getBlockState(event.getPos()).getBlock() == ModBlocks.MOVCADIA_LOG.get()) {
+                spawnItem(event.getLevel(), event.getPos(), ModItems.MOVCADIA_BARK.get());
+            }
+        }
+    }
+
+    public static void spawnItem(Level world, BlockPos blockPos, Item item) {
+        world.addFreshEntity(new ItemEntity(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(item)));
+    }
 }

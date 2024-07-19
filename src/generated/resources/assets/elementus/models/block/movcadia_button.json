@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button",
+  "textures": {
+    "texture": "elementus:block/building/movcadia_planks"
+  }
+}

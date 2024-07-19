@@ -14,6 +14,16 @@
         "anthektite": "elementus:trims/color_palettes/anthektite",
         "diarkrite": "elementus:trims/color_palettes/diarkrite"
       }
+    },
+    {
+      "type": "directory",
+      "source": "entity/chest",
+      "prefix": "entity/chest/"
+    },
+    {
+      "type": "directory",
+      "source": "entity/chest/trapped",
+      "prefix": "entity/chest/trapped/"
     }
   ]
 }

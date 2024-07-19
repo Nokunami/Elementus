@@ -1,0 +1,39 @@
+{
+  "values": [
+    "elementus:steel_block",
+    "elementus:anthektite_block",
+    "elementus:diarkrite_block",
+    {
+      "id": "elementus:diarkrite_iron_block",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_block",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_block",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_block",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_block",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_block",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_block",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_block",
+      "required": false
+    }
+  ]
+}

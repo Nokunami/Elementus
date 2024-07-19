@@ -1,0 +1,39 @@
+{
+  "values": [
+    "elementus:steel_boots",
+    "elementus:diarkrite_boots",
+    "elementus:anthektite_boots",
+    {
+      "id": "elementus:diarkrite_iron_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_boots",
+      "required": false
+    }
+  ]
+}

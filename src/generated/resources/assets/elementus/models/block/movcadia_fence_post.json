@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "elementus:block/building/movcadia_planks"
+  }
+}

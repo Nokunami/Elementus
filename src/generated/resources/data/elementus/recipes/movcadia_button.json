@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "elementus:movcadia_planks"
+    }
+  ],
+  "result": {
+    "item": "elementus:movcadia_button"
+  }
+}

@@ -7,7 +7,8 @@
   ],
   "client": [
     "client.HumanoidArmorLayerMixin",
-    "client.HumanoidArmorLayerAccessor"
+    "client.HumanoidArmorLayerAccessor",
+    "client.HangingSignEditScreenMixin"
   ],
   "server": [
   ],

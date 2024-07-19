@@ -50,11 +50,47 @@
   "item.elementus.anthektite_leggings": "Anthektite Leggings",
   "item.elementus.anthektite_boots": "Anthektite Boots",
 
+  "item.elementus.movcadia_bark": "Movcadia Bark",
+
+  "item.elementus.movcadia_boat": "Movcadia Boat",
+  "item.elementus.movcadia_chest_boat": "Movcadia Chest Boat",
+
 
   "block.elementus.steel_block": "Block of Steel",
   "block.elementus.anthektite_block": "Block of Anthektite",
   "block.elementus.diarkrite_block": "Block of Diarkrite",
   "block.elementus.remnant": "Remnant",
+
+  "block.elementus.steel_bars": "Steel Bars",
+
+  "block.elementus.movcadia_sapling": "Movcadia Sapling",
+  "block.elementus.movcadia_roots": "Movcadia Roots",
+
+  "block.elementus.movcadia_log": "Movcadia Log",
+  "block.elementus.stripped_movcadia_log": "Stripped Movcadia Log",
+  "block.elementus.movcadia_wood": "Movcadia Wood",
+  "block.elementus.stripped_movcadia_wood": "Stripped Movcadia Wood",
+
+  "block.elementus.movcadia_leaves": "Movcadia Leaves",
+
+  "block.elementus.movcadia_planks": "Movcadia Planks",
+  "block.elementus.movcadia_stairs": "Movcadia Stairs",
+  "block.elementus.movcadia_slab": "Movcadia Slab",
+
+  "block.elementus.movcadia_door": "Movcadia Door",
+  "block.elementus.movcadia_trapdoor": "Movcadia Trapdoor",
+
+  "block.elementus.movcadia_fence": "Movcadia Fence",
+  "block.elementus.movcadia_fence_gate": "Movcadia Fence Gate",
+
+  "block.elementus.movcadia_pressure_plate": "Movcadia Pressure Plate",
+  "block.elementus.movcadia_button": "Movcadia Button",
+
+  "block.elementus.movcadia_sign": "Movcadia Sign",
+  "block.elementus.movcadia_hanging_sign": "Movcadia Hanging Sign",
+  "block.elementus.sturdy_movcadia_sign": "Sturdy Movcadia Sign",
+
+  "block.elementus.movcadia_chest": "Movcadia Chest",
 
   "upgrade.minecraft.atelis_upgrade": "Anthektite / Diarkrite Upgrade",
   "item.minecraft.smithing_template.atelis_upgrade.applies_to": "Steel Equipment",
@@ -76,10 +112,16 @@
   "trim_material.elementus.anthektite": "Anthektite Material",
 
 
+  "entity.elementus.mod_chest_boat": "Boat with Chest",
+
+  "tag.item.elementus.steel_recyclable": "Steel Recyclable",
+  "tag.item.elementus.movcadia_logs": "Movcadia Logs",
+
+
   "item.elementus.steel_knife": "Steel Knife",
   "item.elementus.diarkrite_knife": "Diarkrite Knife",
   "item.elementus.anthektite_knife": "Anthektite Knife",
-
+  "block.elementus.movcadia_cabinet":"Movcadia Cabinet",
 
   "item.elementus.steel_paxel": "Steel Paxel",
   "item.elementus.diarkrite_paxel": "Diarkrite Paxel",
@@ -87,11 +129,9 @@
   "item.elementus.diarkrite_paxel_upgrade_kit": "Diarkrite Paxel Upgrade Kit",
   "item.elementus.anthektite_paxel_upgrade_kit": "Anthektite Paxel Upgrade Kit",
 
-
   "item.elementus.steel_machete": "Steel Machete",
   "item.elementus.diarkrite_machete": "Diarkrite Machete",
   "item.elementus.anthektite_machete": "Anthektite Machete",
-
 
   "item.elementus.steel_spell_book": "Steel-Trimmed Tome",
   "item.elementus.diarkrite_spell_book": "Vynatos Tome",
@@ -215,34 +255,93 @@
   "item.dixtas_armory.anthektite_pike": "Anthektite Pike",
 
 
-
   "item.elementus.steel_great_sword": "Steel Great Sword",
   "item.elementus.diarkrite_great_sword": "Diarkrite Great Sword",
   "item.elementus.anthektite_great_sword": "Anthektite Great Sword",
+  "item.elementus.sniffs_weapons/steel_great_sword": "Steel Great Sword",
+  "item.elementus.sniffs_weapons/diarkrite_great_sword": "Diarkrite Great Sword",
+  "item.elementus.sniffs_weapons/anthektite_great_sword": "Anthektite Great Sword",
+
 
   "item.elementus.steel_great_axe": "Steel Great Axe",
   "item.elementus.diarkrite_great_axe": "Diarkrite Great Axe",
   "item.elementus.anthektite_great_axe": "Anthektite Great Axe",
 
+  "item.elementus.sniffs_weapons/steel_great_axe": "Steel Great Axe",
+  "item.elementus.sniffs_weapons/diarkrite_great_axe": "Diarkrite Great Axe",
+  "item.elementus.sniffs_weapons/anthektite_great_axe": "Anthektite Great Axe",
+
+
   "item.elementus.steel_great_pickaxe": "Steel Great Pickaxe",
   "item.elementus.diarkrite_great_pickaxe": "Diarkrite Great Pickaxe",
   "item.elementus.anthektite_great_pickaxe": "Anthektite Great Pickaxe",
+
+  "item.elementus.sniffs_weapons/steel_great_pickaxe": "Steel Great Pickaxe",
+  "item.elementus.sniffs_weapons/diarkrite_great_pickaxe": "Diarkrite Great Pickaxe",
+  "item.elementus.sniffs_weapons/anthektite_great_pickaxe": "Anthektite Great Pickaxe",
+
+
+  "item.elementus.steel_naginata": "Steel Naginata",
+  "item.elementus.diarkrite_naginata": "Diarkrite Naginata",
+  "item.elementus.anthektite_naginata": "Anthektite Naginata",
+
+  "item.elementus.sniffs_weapons/steel_naginata": "Steel Naginata",
+  "item.elementus.sniffs_weapons/diarkrite_naginata": "Diarkrite Naginata",
+  "item.elementus.sniffs_weapons/anthektite_naginata": "Anthektite Naginata",
+
 
   "item.elementus.steel_surcoat": "Steel Surcoat",
   "item.elementus.diarkrite_surcoat": "Diarkrite Surcoat",
   "item.elementus.anthektite_surcoat": "Anthektite Surcoat",
 
+  "item.elementus.sniffs_weapons/steel_surcoat": "Steel Surcoat",
+  "item.elementus.sniffs_weapons/diarkrite_surcoat": "Diarkrite Surcoat",
+  "item.elementus.sniffs_weapons/anthektite_surcoat": "Anthektite Surcoat",
+
+
   "item.elementus.steel_helm": "Steel Helm",
   "item.elementus.diarkrite_helm": "Diarkrite Helm",
   "item.elementus.anthektite_helm": "Anthektite Helm",
+
+  "item.elementus.sniffs_weapons/steel_helm": "Steel Helm",
+  "item.elementus.sniffs_weapons/diarkrite_helm": "Diarkrite Helm",
+  "item.elementus.sniffs_weapons/anthektite_helm": "Anthektite Helm",
+
 
   "item.elementus.plated_steel_chestplate": "Plated Steel Chestplate",
   "item.elementus.plated_diarkrite_chestplate": "Plated Diarkrite Chestplate",
   "item.elementus.plated_anthektite_chestplate": "Plated Anthektite Chestplate",
 
+  "item.elementus.sniffs_weapons/plated_steel_chestplate": "Plated Steel Chestplate",
+  "item.elementus.sniffs_weapons/plated_diarkrite_chestplate": "Plated Diarkrite Chestplate",
+  "item.elementus.sniffs_weapons/plated_anthektite_chestplate": "Plated Anthektite Chestplate",
+
+
   "item.elementus.steel_horned_helm": "Steel Horned Helm",
   "item.elementus.diarkrite_horned_helm": "Diarkrite Horned Helm",
   "item.elementus.anthektite_horned_helm": "Anthektite Horned Helm",
+
+  "item.elementus.sniffs_weapons/steel_horned_helm": "Steel Horned Helm",
+  "item.elementus.sniffs_weapons/diarkrite_horned_helm": "Diarkrite Horned Helm",
+  "item.elementus.sniffs_weapons/anthektite_horned_helm": "Anthektite Horned Helm",
+
+
+  "item.elementus.steel_kabuto": "Steel Kabuto",
+  "item.elementus.diarkrite_kabuto": "Diarkrite Kabuto",
+  "item.elementus.anthektite_kabuto": "Anthektite Kabuto",
+
+  "item.elementus.sniffs_weapons/steel_kabuto": "Steel Kabuto",
+  "item.elementus.sniffs_weapons/diarkrite_kabuto": "Diarkrite Kabuto",
+  "item.elementus.sniffs_weapons/anthektite_kabuto": "Anthektite Kabuto",
+
+
+  "item.elementus.steel_do": "Steel Dō",
+  "item.elementus.diarkrite_do": "Diarkrite Dō",
+  "item.elementus.anthektite_do": "Anthektite Dō",
+
+  "item.elementus.sniffs_weapons/steel_do": "Steel Dō",
+  "item.elementus.sniffs_weapons/diarkrite_do": "Diarkrite Dō",
+  "item.elementus.sniffs_weapons/anthektite_do": "Anthektite Dō",
 
 
 
@@ -412,6 +511,10 @@
   "tetra.improvement.basic_hilt/movcadia.description":"Strange purple wood",
   "tetra.improvement.basic_handle/movcadia.name":"Movcadia",
   "tetra.improvement.basic_handle/movcadia.description":"Strange purple wood",
+
+
+
+  "block.elementus.movcadia_table":"Movcadia Table",
 
 
 

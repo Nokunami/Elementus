@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "elementus:block/movcadia_slab"
+    },
+    "type=double": {
+      "model": "elementus:block/movcadia_planks"
+    },
+    "type=top": {
+      "model": "elementus:block/movcadia_slab_top"
+    }
+  }
+}

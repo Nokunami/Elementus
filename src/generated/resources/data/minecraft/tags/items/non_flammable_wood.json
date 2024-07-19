@@ -1,0 +1,28 @@
+{
+  "values": [
+    "elementus:movcadia_log",
+    "elementus:stripped_movcadia_log",
+    "elementus:movcadia_wood",
+    "elementus:stripped_movcadia_wood",
+    "elementus:movcadia_planks",
+    "elementus:movcadia_slab",
+    "elementus:movcadia_stairs",
+    "elementus:movcadia_fence",
+    "elementus:movcadia_fence_gate",
+    "elementus:movcadia_door",
+    "elementus:movcadia_trapdoor",
+    "elementus:movcadia_pressure_plate",
+    "elementus:movcadia_button",
+    "elementus:movcadia_sign",
+    "elementus:sturdy_movcadia_sign",
+    "elementus:movcadia_hanging_sign",
+    {
+      "id": "elementus:movcadia_cabinet",
+      "required": false
+    },
+    {
+      "id": "elementus:movcadia_table",
+      "required": false
+    }
+  ]
+}

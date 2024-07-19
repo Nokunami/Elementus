@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:gold_nugget"
+  },
+  "base": {
+    "item": "elementus:anthektite_chestplate"
+  },
+  "result": {
+    "item": "elementus:anthektite_do"
+  },
+  "template": {
+    "item": "sniffsweapons:samurai_armor_trim_smithing_template"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "values": [
+    "elementus:steel_sword",
+    "elementus:steel_shovel",
+    "elementus:steel_pickaxe",
+    "elementus:steel_axe",
+    "elementus:steel_hoe",
+    "elementus:steel_helmet",
+    "elementus:steel_chestplate",
+    "elementus:steel_leggings",
+    "elementus:steel_boots",
+    "elementus:steel_shield",
+    {
+      "id": "dixtas_armory:steel_dagger",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_shortsword",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_stiletto",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_rapier",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_katana",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_katana_two_handed",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_greatsword",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_longsword",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_twinblade",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_zweihander",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_battle_axe",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_battle_axe_two_handed",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_glaive",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_spear",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_spear_two_handed",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_halberd",
+      "required": false
+    },
+    {
+      "id": "dixtas_armory:steel_pike",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_knife",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_machete",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_paxel",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_chakram",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_claymore",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_cutlass",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_glaive",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_greataxe",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_greatehammer",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_halberd",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_katana",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_longsword",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_rapier",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_sai",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_scythe",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_spear",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_twinblade",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_warglaive",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_gloves",
+      "required": false
+    }
+  ]
+}

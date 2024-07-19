@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.ModClientEvents;
 import net.nokunami.elementus.common.compat.advancednetherite.util.ANUtil;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.NotNull;
@@ -156,7 +156,7 @@ public class ANArmorItem extends AdvancedArmorItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) Elementus.PROXY.getArmorRenderProperties());
+        consumer.accept((IClientItemExtensions) ModClientEvents.PROXY.getArmorRenderProperties());
     }
 
 

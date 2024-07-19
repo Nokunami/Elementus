@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class ImbuableChestplateArmorItem extends ElementusWizardArmorItem implements IPresetSpellContainer {
-    public ImbuableChestplateArmorItem(MagicArmorMaterial material, Type type, Properties properties) {
+    public ImbuableChestplateArmorItem(MagicArmorMaterial1 material, Type type, Properties properties) {
         super(material, type, new Properties());
     }
 

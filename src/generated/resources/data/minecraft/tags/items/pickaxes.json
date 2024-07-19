@@ -1,0 +1,39 @@
+{
+  "values": [
+    "elementus:steel_pickaxe",
+    "elementus:anthektite_pickaxe",
+    "elementus:diarkrite_pickaxe",
+    {
+      "id": "elementus:diarkrite_iron_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_pickaxe",
+      "required": false
+    }
+  ]
+}

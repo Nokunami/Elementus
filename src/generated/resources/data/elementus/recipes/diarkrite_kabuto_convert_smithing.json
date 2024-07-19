@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:gold_nugget"
+  },
+  "base": {
+    "item": "elementus:diarkrite_helmet"
+  },
+  "result": {
+    "item": "elementus:diarkrite_kabuto"
+  },
+  "template": {
+    "item": "sniffsweapons:samurai_armor_trim_smithing_template"
+  }
+}

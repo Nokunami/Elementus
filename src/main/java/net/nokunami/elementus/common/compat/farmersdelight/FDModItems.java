@@ -1,5 +1,6 @@
 package net.nokunami.elementus.common.compat.farmersdelight;
 
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -23,6 +24,9 @@ public class FDModItems {
             () -> new KnifeItem(ModTiers.DIARKRITE, 0.5F, -(2.0F + diarkriteSpeed), new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANTHEKTITE_KNIFE = ITEMS.register("anthektite_knife",
             () -> new KnifeItem(ModTiers.ANTHEKTITE, 0.5F, -(2.0F - anthektiteSpeed), new Item.Properties().fireResistant()));
+
+    public static final RegistryObject<Item> MOVCADIA_CABINET = ITEMS.register("movcadia_cabinet",
+            () -> new BlockItem(FDModBlocks.MOVCADIA_CABINET.get(), new Item.Properties().fireResistant()));
 
     public static void register(IEventBus eventBus) {ITEMS.register(eventBus);}
 }

@@ -52,8 +52,8 @@ public class ANAxeItem extends AdvancedAxeItem {
                 this.customDurabilityBarColor(stack).getColor()) : ANUtil.getDurabilityBarColor(originalColor, stack);
     }
 
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
-        float originalSpeed = super.getDestroySpeed(stack, state);
-        return ANUtil.getDestroySpeed(originalSpeed, stack, state);
-    }
+//    public float getDestroySpeed(ItemStack stack, BlockState state) {
+//        float originalSpeed = super.getDestroySpeed(stack, state);
+//        return ANUtil.getDestroySpeed(originalSpeed, stack, state);
+//    }
 }

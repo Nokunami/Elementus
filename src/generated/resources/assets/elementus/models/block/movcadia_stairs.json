@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "elementus:block/building/movcadia_planks",
+    "side": "elementus:block/building/movcadia_planks",
+    "top": "elementus:block/building/movcadia_planks"
+  }
+}

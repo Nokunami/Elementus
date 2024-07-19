@@ -3,33 +3,46 @@ package net.nokunami.elementus.common.registry;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
+import net.nokunami.elementus.common.config.TierConfig;
+import net.nokunami.elementus.common.config.TierConfig;
 
 import java.util.function.Supplier;
 
 public enum ModTiers implements Tier {
-    STEEL(3, 756, 7.0F,2.0F, 15,
+    STEEL(TierConfig.steelTierHarvestLevel, TierConfig.steelTierDurability, TierConfig.steelTierEfficiency,
+            TierConfig.steelTierDamage, TierConfig.steelTierEnchantability,
             () -> Ingredient.of(ModItems.STEEL_INGOT.get())),
-    DIARKRITE(4, 2546, 9.0F, 6.0F, 15,
+    DIARKRITE(TierConfig.diarkriteTierHarvestLevel, TierConfig.diarkriteTierDurability, TierConfig.diarkriteTierEfficiency,
+            TierConfig.diarkriteTierDamage, TierConfig.diarkriteTierEnchantability,
             () -> Ingredient.of(ModItems.DIARKRITE_INGOT.get())),
-    ANTHEKTITE(4, 1946, 12.0F, 3.0F, 15,
+    ANTHEKTITE(TierConfig.anthektiteTierHarvestLevel, TierConfig.anthektiteTierDurability, TierConfig.anthektiteTierEfficiency,
+            TierConfig.anthektiteTierDamage, TierConfig.anthektiteTierEnchantability,
             () -> Ingredient.of(ModItems.ANTHEKTITE_INGOT.get())),
 
-    DIARKRITE_IRON(4, 2608, 1.0F, 6.0F, 15,
+    DIARKRITE_IRON(TierConfig.diarkriteIronTierHarvestLevel, TierConfig.diarkriteIronTierDurability, TierConfig.diarkriteIronTierEfficiency,
+            TierConfig.diarkriteIronTierDamage, TierConfig.diarkriteIronTierEnchantability,
             () -> Ingredient.of(ANModItems.DIARKRITE_IRON.get())),
-    DIARKRITE_GOLD(4, 2899, 1.0F, 6.0F, 25,
+    DIARKRITE_GOLD(TierConfig.diarkriteGoldTierHarvestLevel, TierConfig.diarkriteGoldTierDurability, TierConfig.diarkriteGoldTierEfficiency,
+            TierConfig.diarkriteGoldTierDamage, TierConfig.diarkriteGoldTierEnchantability,
             () -> Ingredient.of(ANModItems.DIARKRITE_GOLD.get())),
-    DIARKRITE_EMERALD(4, 3323, 1.0F, 7.0F, 20,
+    DIARKRITE_EMERALD(TierConfig.diarkriteEmeraldTierHarvestLevel, TierConfig.diarkriteEmeraldTierDurability, TierConfig.diarkriteEmeraldTierEfficiency,
+            TierConfig.diarkriteEmeraldTierDamage, TierConfig.diarkriteEmeraldTierEnchantability,
             () -> Ingredient.of(ANModItems.DIARKRITE_EMERALD.get())),
-    DIARKRITE_DIAMOND(4, 3876, 1.0F, 7.0F, 15,
+    DIARKRITE_DIAMOND(TierConfig.diarkriteDiamondTierHarvestLevel, TierConfig.diarkriteDiamondTierDurability, TierConfig.diarkriteDiamondTierEfficiency,
+            TierConfig.diarkriteDiamondTierDamage, TierConfig.diarkriteDiamondTierEnchantability,
             () -> Ingredient.of(ANModItems.DIARKRITE_DIAMOND.get())),
 
-    ANTHEKTITE_IRON(4, 1994, 1.0F, 3.0F, 15,
+    ANTHEKTITE_IRON(TierConfig.anthektiteIronTierHarvestLevel, TierConfig.anthektiteIronTierDurability, TierConfig.anthektiteIronTierEfficiency,
+            TierConfig.anthektiteIronTierDamage, TierConfig.anthektiteIronTierEnchantability,
             () -> Ingredient.of(ANModItems.ANTHEKTITE_IRON.get())),
-    ANTHEKTITE_GOLD(4, 2216, 1.0F, 3.0F, 25,
+    ANTHEKTITE_GOLD(TierConfig.anthektiteGoldTierHarvestLevel, TierConfig.anthektiteGoldTierDurability, TierConfig.anthektiteGoldTierEfficiency,
+            TierConfig.anthektiteGoldTierDamage, TierConfig.anthektiteGoldTierEnchantability,
             () -> Ingredient.of(ANModItems.ANTHEKTITE_GOLD.get())),
-    ANTHEKTITE_EMERALD(4, 2540, 1.0F, 4.0F, 20,
+    ANTHEKTITE_EMERALD(TierConfig.anthektiteEmeraldTierHarvestLevel, TierConfig.anthektiteEmeraldTierDurability, TierConfig.anthektiteEmeraldTierEfficiency,
+            TierConfig.anthektiteEmeraldTierDamage, TierConfig.anthektiteEmeraldTierEnchantability,
             () -> Ingredient.of(ANModItems.ANTHEKTITE_EMERALD.get())),
-    ANTHEKTITE_DIAMOND(4, 2962, 1.0F, 4.0F, 15,
+    ANTHEKTITE_DIAMOND(TierConfig.anthektiteDiamondTierHarvestLevel, TierConfig.anthektiteDiamondTierDurability, TierConfig.anthektiteDiamondTierEfficiency,
+            TierConfig.anthektiteDiamondTierDamage, TierConfig.anthektiteDiamondTierEnchantability,
             () -> Ingredient.of(ANModItems.ANTHEKTITE_DIAMOND.get()));
 
     private final int harvestLevel;
@@ -39,9 +52,9 @@ public enum ModTiers implements Tier {
     private final int enchantValue;
     private final Supplier<Ingredient> repaireItem;
 
-    ModTiers(int harvestLevel, int uses, float toolEfficiency, float attackDamage, int enchantValue, Supplier repaireItem) {
+    ModTiers(int harvestLevel, int durability, float toolEfficiency, float attackDamage, int enchantValue, Supplier repaireItem) {
         this.harvestLevel = harvestLevel;
-        this.durability = uses;
+        this.durability = durability;
         this.toolEfficiency = toolEfficiency;
         this.attackDamage = attackDamage;
         this.enchantValue = enchantValue;

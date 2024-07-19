@@ -4,23 +4,21 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraftforge.fml.ModList;
+import net.nokunami.elementus.ModChecker;
 import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
 import net.nokunami.elementus.common.registry.ModItems;
 
 public class ElementusShield {
-     public ElementusShield() {
-
-     }
 
      public static void addShieldItemProperties() {
-         makeShield((Item) ModItems.STEEL_SHIELD.get());
-         makeShield((Item) ModItems.ANTHEKTITE_SHIELD.get());
-         makeShield((Item) ModItems.DIARKRITE_SHIELD.get());
+         makeShield(ModItems.STEEL_SHIELD.get());
+         makeShield(ModItems.ANTHEKTITE_SHIELD.get());
+         makeShield(ModItems.DIARKRITE_SHIELD.get());
 
-         if (ModList.get().isLoaded("sniffsweapons")) {
-             makeShield((Item) SWModItems.STEEL_GREAT_PICKAXE.get());
-             makeShield((Item) SWModItems.DIARKRITE_GREAT_PICKAXE.get());
-             makeShield((Item) SWModItems.ANTHEKTITE_GREAT_PICKAXE.get());
+         if (ModChecker.sniffsweapons()) {
+             makeShield(SWModItems.STEEL_GREAT_PICKAXE.get());
+             makeShield(SWModItems.DIARKRITE_GREAT_PICKAXE.get());
+             makeShield(SWModItems.ANTHEKTITE_GREAT_PICKAXE.get());
          }
      }
 

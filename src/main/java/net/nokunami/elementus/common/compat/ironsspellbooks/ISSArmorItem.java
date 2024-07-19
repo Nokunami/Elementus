@@ -7,19 +7,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.ModClientEvents;
 
 import java.util.Locale;
 
 public class ISSArmorItem extends ImbuableChestplateArmorItem {
-    public ISSArmorItem(MagicArmorMaterial material, Type type, Properties properties) {
+    public ISSArmorItem(MagicArmorMaterial1 material, Type type, Properties properties) {
         super(material, type, new Properties());
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) Elementus.PROXY.getArmorRenderProperties());
+        consumer.accept((IClientItemExtensions) ModClientEvents.PROXY.getArmorRenderProperties());
     }
 
     public @org.jetbrains.annotations.Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {

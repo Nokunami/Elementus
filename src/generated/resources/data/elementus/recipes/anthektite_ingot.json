@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "A": {
-      "tag": "forge:ores/atelis"
+      "tag": "forge:ores/atelis_scrap"
     },
     "E": {
       "item": "minecraft:echo_shard"

@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.client.model.armor.*;
 
 @OnlyIn(Dist.CLIENT)
@@ -29,8 +30,12 @@ public class ModModelLayers {
     public static final ModelLayerLocation SAMURAI_MASTER_ARMOR_MODEL = createLocation("samurai_master_armor_model", "main");
     public static final ModelLayerLocation SAMURAI_MASTER_ARMOR_MODEL_LEGS = createLocation("samurai_master_armor_model_leg", "main");
 
-    public ModModelLayers() {
-    }
+
+    public static final ModelLayerLocation MOVCADIA_BOAT_LAYER = new ModelLayerLocation(
+            new ResourceLocation(Elementus.MODID, "boat/movcadia"), "main");
+    public static final ModelLayerLocation MOVCADIA_CHEST_BOAT_LAYER = new ModelLayerLocation(
+            new ResourceLocation(Elementus.MODID, "chest_boat/movcadia"), "main");
+
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(EXTENDED_ARMOR_MODEL, () -> {

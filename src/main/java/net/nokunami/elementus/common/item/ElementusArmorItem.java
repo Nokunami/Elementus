@@ -10,7 +10,7 @@ import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.ModClientEvents;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +43,7 @@ public class ElementusArmorItem extends ArmorItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) Elementus.PROXY.getArmorRenderProperties());
+        consumer.accept((IClientItemExtensions) ModClientEvents.PROXY.getArmorRenderProperties());
     }
 
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
@@ -56,29 +56,4 @@ public class ElementusArmorItem extends ArmorItem {
 
         return String.format(Locale.ROOT, "%s:textures/models/armor/%s_layer_" + (helmet ? "1.png" : chestplate ? "2.png" : leggings ? "3.png" : "4.png"), domain, texture);
     }
-
-//    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-//        boolean leggings = slot == EquipmentSlot.LEGS;
-//        ArmorMaterial armorMaterial = ((ArmorItem) stack.getItem()).getMaterial();
-//        if (STEEL_ARMOR.equals(armorMaterial)) {
-//            return Elementus.MODID + ":textures/models/armor/steel_layer_" + (leggings ? "2.png" : "1.png");
-//        } else if (DIARKRITE_ARMOR.equals(armorMaterial)) {
-//            return Elementus.MODID + ":textures/models/armor/diarkrite_layer_" + (leggings ? "2.png" : "1.png");
-//        } else if (ANTHEKTITE_ARMOR.equals(armorMaterial)) {
-//            return Elementus.MODID + ":textures/models/armor/anthektite_layer_" + (leggings ? "2.png" : "1.png");
-//        }
-//        return Elementus.MODID + ":textures/models/armor/steel_layer_" + (leggings ? "2.png" : "1.png");
-//    }
-
-//    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-//        boolean leggings = slot == EquipmentSlot.LEGS;
-//        if (material == ModArmorMaterial.STEEL) {
-//            return Elementus.MODID + ":textures/models/armor/steel_layer_" + (leggings ? "2.png" : "1.png");
-//        } else if (material == ModArmorMaterial.DIARKRITE) {
-//            return Elementus.MODID + ":textures/models/armor/diarkrite_layer_" + (leggings ? "2.png" : "1.png");
-//        } else if (material == ModArmorMaterial.ANTHEKTITE) {
-//            return Elementus.MODID + ":textures/models/armor/anthektite_layer_" + (leggings ? "2.png" : "1.png");
-//        }
-//        return Elementus.MODID + ":textures/models/armor/steel_layer_" + (leggings ? "2.png" : "1.png");
-//    }
 }

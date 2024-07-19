@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:gold_nugget"
+  },
+  "base": {
+    "item": "elementus:steel_helmet"
+  },
+  "result": {
+    "item": "elementus:steel_kabuto"
+  },
+  "template": {
+    "item": "sniffsweapons:samurai_armor_trim_smithing_template"
+  }
+}

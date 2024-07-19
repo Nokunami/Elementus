@@ -2,11 +2,16 @@ package net.nokunami.elementus.common.compat.advancednetherite;
 
 import com.autovw.advancednetherite.common.item.AdvancedAxeItem;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.common.compat.advancednetherite.item.*;
+import net.nokunami.elementus.common.config.ANConfig;
+import net.nokunami.elementus.common.config.BaseConfig;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModTiers;
@@ -20,49 +25,49 @@ public class ANModItems {
      protected static float anthektiteSpeed = ModItems.anthektiteSpeed;
 
     public static final RegistryObject<Item> DIARKRITE_IRON_AXE = ITEMS.register("diarkrite_iron_axe", () -> new ANAxeItem(ModTiers.DIARKRITE_IRON,
-            6, -(3.0f + diarkriteSpeed), new Item.Properties()));
+            ANConfig.diarkriteIronAxeDamage, ANConfig.diarkriteIronAxeAttackSpeed - (float) BaseConfig.diarkriteWeaponHeaviness + (float) BaseConfig.diarkriteWeaponSpeedBoost, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_GOLD_AXE = ITEMS.register("diarkrite_gold_axe", () -> new ANAxeItem(ModTiers.DIARKRITE_GOLD,
-            7, -(3.0f + diarkriteSpeed), new Item.Properties()));
+            ANConfig.diarkriteGoldAxeDamage, ANConfig.diarkriteGoldAxeAttackSpeed - (float) BaseConfig.diarkriteWeaponHeaviness + (float) BaseConfig.diarkriteWeaponSpeedBoost, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_EMERALD_AXE = ITEMS.register("diarkrite_emerald_axe", () -> new ANAxeItem(ModTiers.DIARKRITE_EMERALD,
-            7, -(3.0f + diarkriteSpeed), new Item.Properties()));
+            ANConfig.diarkriteEmeraldAxeDamage, ANConfig.diarkriteEmeraldAxeAttackSpeed - (float) BaseConfig.diarkriteWeaponHeaviness + (float) BaseConfig.diarkriteWeaponSpeedBoost, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_DIAMOND_AXE = ITEMS.register("diarkrite_diamond_axe", () -> new ANAxeItem(ModTiers.DIARKRITE_DIAMOND,
-            8, -(3.0f + diarkriteSpeed), new Item.Properties()));
+            ANConfig.diarkriteDiamondAxeDamage, ANConfig.diarkriteDiamondAxeAttackSpeed - (float) BaseConfig.diarkriteWeaponHeaviness + (float) BaseConfig.diarkriteWeaponSpeedBoost, new Item.Properties()));
 
     public static final RegistryObject<Item> DIARKRITE_IRON_HOE = ITEMS.register("diarkrite_iron_hoe", () -> new ANHoeItem(ModTiers.DIARKRITE_IRON,
-            -3, -3.0f, new Item.Properties()));
+            ANConfig.diarkriteIronHoeDamage, ANConfig.diarkriteIronHoeAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_GOLD_HOE = ITEMS.register("diarkrite_gold_hoe", () -> new ANHoeItem(ModTiers.DIARKRITE_GOLD,
-            -3, -3.0f, new Item.Properties()));
+            ANConfig.diarkriteGoldHoeDamage, ANConfig.diarkriteGoldHoeAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_EMERALD_HOE = ITEMS.register("diarkrite_emerald_hoe", () -> new ANHoeItem(ModTiers.DIARKRITE_EMERALD,
-            -4, -3.0f, new Item.Properties()));
+            ANConfig.diarkriteEmeraldHoeDamage, ANConfig.diarkriteEmeraldHoeAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_DIAMOND_HOE = ITEMS.register("diarkrite_diamond_hoe", () -> new ANHoeItem(ModTiers.DIARKRITE_DIAMOND,
-            -4, -3.0f, new Item.Properties()));
+            ANConfig.diarkriteDiamondHoeDamage, ANConfig.diarkriteDiamondHoeAttackSpeed, new Item.Properties()));
 
     public static final RegistryObject<Item> DIARKRITE_IRON_PICKAXE = ITEMS.register("diarkrite_iron_pickaxe", () -> new ANPickaxeItem(ModTiers.DIARKRITE_IRON,
-            1, -2.8f, new Item.Properties()));
+            ANConfig.diarkriteIronPickaxeDamage, ANConfig.diarkriteIronPickaxeAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_GOLD_PICKAXE = ITEMS.register("diarkrite_gold_pickaxe", () -> new ANPickaxeItem(ModTiers.DIARKRITE_GOLD,
-            1, -2.8f, new Item.Properties()));
+            ANConfig.diarkriteGoldPickaxeDamage, ANConfig.diarkriteGoldPickaxeAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_EMERALD_PICKAXE = ITEMS.register("diarkrite_emerald_pickaxe", () -> new ANPickaxeItem(ModTiers.DIARKRITE_EMERALD,
-            1, -2.8f, new Item.Properties()));
+            ANConfig.diarkriteEmeraldPickaxeDamage, ANConfig.diarkriteEmeraldPickaxeAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_DIAMOND_PICKAXE = ITEMS.register("diarkrite_diamond_pickaxe", () -> new ANPickaxeItem(ModTiers.DIARKRITE_DIAMOND,
-            1, -2.8f, new Item.Properties()));
+            ANConfig.diarkriteDiamondPickaxeDamage, ANConfig.diarkriteDiamondPickaxeAttackSpeed, new Item.Properties()));
 
     public static final RegistryObject<Item> DIARKRITE_IRON_SHOVEL = ITEMS.register("diarkrite_iron_shovel", () -> new ANShovelItem(ModTiers.DIARKRITE_IRON,
-            1.5F, -3.0f, new Item.Properties()));
+            ANConfig.diarkriteIronShovelDamage, ANConfig.diarkriteIronShovelAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_GOLD_SHOVEL = ITEMS.register("diarkrite_gold_shovel", () -> new ANShovelItem(ModTiers.DIARKRITE_GOLD,
-            1.5F, -3.0f, new Item.Properties()));
+            ANConfig.diarkriteGoldShovelDamage, ANConfig.diarkriteGoldShovelAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_EMERALD_SHOVEL = ITEMS.register("diarkrite_emerald_shovel", () -> new ANShovelItem(ModTiers.DIARKRITE_EMERALD,
-            1.5F, -3.0f, new Item.Properties()));
+            ANConfig.diarkriteEmeraldShovelDamage, ANConfig.diarkriteEmeraldShovelAttackSpeed, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_DIAMOND_SHOVEL = ITEMS.register("diarkrite_diamond_shovel", () -> new ANShovelItem(ModTiers.DIARKRITE_DIAMOND,
-            1.5F, -3.0f, new Item.Properties()));
+            ANConfig.diarkriteDiamondShovelDamage, ANConfig.diarkriteDiamondShovelAttackSpeed, new Item.Properties()));
 
     public static final RegistryObject<Item> DIARKRITE_IRON_SWORD = ITEMS.register("diarkrite_iron_sword", () -> new ANSwordItem(ModTiers.DIARKRITE_IRON,
-            3, -(2.4f + diarkriteSpeed), new Item.Properties()));
+            ANConfig.diarkriteIronSwordDamage, ANConfig.diarkriteIronSwordAttackSpeed - (float) BaseConfig.diarkriteWeaponHeaviness + (float) BaseConfig.diarkriteWeaponSpeedBoost, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_GOLD_SWORD = ITEMS.register("diarkrite_gold_sword", () -> new ANSwordItem(ModTiers.DIARKRITE_GOLD,
-            4, -(2.4f + diarkriteSpeed), new Item.Properties()));
+            ANConfig.diarkriteGoldSwordDamage, ANConfig.diarkriteGoldSwordAttackSpeed - (float) BaseConfig.diarkriteWeaponHeaviness + (float) BaseConfig.diarkriteWeaponSpeedBoost, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_EMERALD_SWORD = ITEMS.register("diarkrite_emerald_sword", () -> new ANSwordItem(ModTiers.DIARKRITE_EMERALD,
-            4, -(2.4f + diarkriteSpeed), new Item.Properties()));
+            ANConfig.diarkriteEmeraldSwordDamage, ANConfig.diarkriteEmeraldSwordAttackSpeed - (float) BaseConfig.diarkriteWeaponHeaviness + (float) BaseConfig.diarkriteWeaponSpeedBoost, new Item.Properties()));
     public static final RegistryObject<Item> DIARKRITE_DIAMOND_SWORD = ITEMS.register("diarkrite_diamond_sword", () -> new ANSwordItem(ModTiers.DIARKRITE_DIAMOND,
-            5, -(2.4f + diarkriteSpeed), new Item.Properties()));
+            ANConfig.diarkriteDiamondSwordDamage, ANConfig.diarkriteDiamondSwordAttackSpeed - (float) BaseConfig.diarkriteWeaponHeaviness + (float) BaseConfig.diarkriteWeaponSpeedBoost, new Item.Properties()));
 
 
     public static final RegistryObject<Item> ANTHEKTITE_IRON_AXE = ITEMS.register("anthektite_iron_axe", () -> new ANAxeItem(ModTiers.ANTHEKTITE_IRON,
@@ -202,6 +207,25 @@ public class ANModItems {
             () -> new ANItem(new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANTHEKTITE_DIAMOND = ITEMS.register("anthektite_diamond_ingot",
             () -> new ANItem(new Item.Properties().fireResistant()));
+
+
+    public static final RegistryObject<Item> DIARKRITE_IRON_BLOCK = ITEMS.register("diarkrite_iron_block",
+            () -> new BlockItem(ANModBlocks.DIARKRITE_IRON_BLOCK.get(), new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> DIARKRITE_GOLD_BLOCK = ITEMS.register("diarkrite_gold_block",
+            () -> new BlockItem(ANModBlocks.DIARKRITE_GOLD_BLOCK.get(), new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> DIARKRITE_EMERALD_BLOCK = ITEMS.register("diarkrite_emerald_block",
+            () -> new BlockItem(ANModBlocks.DIARKRITE_EMERALD_BLOCK.get(), new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> DIARKRITE_DIAMOND_BLOCK = ITEMS.register("diarkrite_diamond_block",
+            () -> new BlockItem(ANModBlocks.DIARKRITE_DIAMOND_BLOCK.get(), new Item.Properties().fireResistant()));
+
+    public static final RegistryObject<Item> ANTHEKTITE_IRON_BLOCK = ITEMS.register("anthektite_iron_block",
+            () -> new BlockItem(ANModBlocks.ANTHEKTITE_IRON_BLOCK.get(), new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ANTHEKTITE_GOLD_BLOCK = ITEMS.register("anthektite_gold_block",
+            () -> new BlockItem(ANModBlocks.ANTHEKTITE_GOLD_BLOCK.get(), new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ANTHEKTITE_EMERALD_BLOCK = ITEMS.register("anthektite_emerald_block",
+            () -> new BlockItem(ANModBlocks.ANTHEKTITE_EMERALD_BLOCK.get(), new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ANTHEKTITE_DIAMOND_BLOCK = ITEMS.register("anthektite_diamond_block",
+            () -> new BlockItem(ANModBlocks.ANTHEKTITE_DIAMOND_BLOCK.get(), new Item.Properties().fireResistant()));
 
 
     public static void register(IEventBus eventBus) {ITEMS.register(eventBus);}

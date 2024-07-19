@@ -89,7 +89,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
     ANTHEKTITE_SAMURAI_MASTER("anthektite_samurai_master", ServerConfig.ANTHEKTITE_SAMURAI_MASTER_ARMOR_CONFIG, 35, 15, SoundEvents.ARMOR_EQUIP_NETHERITE,
             () -> Ingredient.of(ModItems.ANTHEKTITE_INGOT.get()));
 
-    private static final int[] HEALTH_PER_SLOT = new int[]{13,15,16,11};
+//    private static final int[] HEALTH_PER_SLOT = new int[]{13,15,16,11};
     private final String name;
     private final int durabilityMultiplier;
     private final int enchantmentValue;
@@ -155,20 +155,6 @@ public enum ModArmorMaterials implements ArmorMaterial {
             builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(uuid, "Armor Attack Speed Bonus", atkSpeedBoost, AttributeModifier.Operation.MULTIPLY_BASE));
         }
         return builder.build();
-    }
-
-    static public EnumMap<ArmorItem.Type, Integer> makeArmorMap(int helmet, int chestplate, int leggings, int boots) {
-        return Util.make(new EnumMap<>(ArmorItem.Type.class), (p_266655_) -> {
-            p_266655_.put(ArmorItem.Type.BOOTS, boots);
-            p_266655_.put(ArmorItem.Type.LEGGINGS, leggings);
-            p_266655_.put(ArmorItem.Type.CHESTPLATE, chestplate);
-            p_266655_.put(ArmorItem.Type.HELMET, helmet);
-        });
-    }
-
-
-    public int getDurabilityForSlot(EquipmentSlot slot) {
-        return HEALTH_PER_SLOT[slot.getIndex()] * this.durabilityMultiplier;
     }
 
     private static final EnumMap<ArmorItem.Type, Integer> HEALTH_FUNCTION_FOR_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), (p_266653_) -> {

@@ -1,0 +1,7 @@
+{
+  "parent": "elementus:block/chest_model",
+  "textures": {
+    "wood_type": "elementus:entity/chest/movcadia_chest",
+    "particle": "elementus:block/building/movcadia_planks"
+  }
+}

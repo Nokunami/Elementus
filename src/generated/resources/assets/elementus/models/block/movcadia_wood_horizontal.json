@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "elementus:block/natural/movcadia_log",
+    "side": "elementus:block/natural/movcadia_log"
+  }
+}

@@ -5,286 +5,201 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import net.nokunami.elementus.common.config.ConfigDefaultValue;
-import net.nokunami.elementus.common.config.EConfig;
+import net.nokunami.elementus.common.config.simplyswords.ConfigDefaultValue;
+import net.nokunami.elementus.common.config.simplyswords.SimplySwordsConfigHelper;
 import net.nokunami.elementus.common.registry.ModTiers;
-import net.sweenus.simplyswords.config.Config;
-import net.sweenus.simplyswords.config.ConfigDefaultValues;
+
+import java.util.HashMap;
+import java.util.Locale;
 
 import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.common.config.simplyswords.ConfigDefaultValue.*;
 
 public class SSModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-    static float steel_modifier =  Config.getFloat("steel_damageModifier", "WeaponAttributes", ConfigDefaultValues.steel_damageModifier);
-    static float diarkrite_modifier = EConfig.getFloat("diarkrite_damageModifier", "WeaponAttributes", (float) ConfigDefaultValue.simply_sword_diarkrite_damageModifier);
-    static float anthektite_modifier = EConfig.getFloat("anthektite_damageModifier", "WeaponAttributes", (float) ConfigDefaultValue.simply_sword_anthektite_damageModifier);
-    static float diarkrite_atkSpeedAdd = EConfig.getFloat("darkrite_atkSpeedAdd", "WeaponAttributes", (float) ConfigDefaultValue.simply_sword_darkrite_atkSpeedAdd);
-    static float diarkrite_atkSpeedNeg = EConfig.getFloat("darkrite_atkSpeedNeg", "WeaponAttributes", (float) ConfigDefaultValue.simply_sword_darkrite_atkSpeedNeg);
-    static float anthektite_atkSpeedAdd = EConfig.getFloat("anthektite_atkSpeedAdd", "WeaponAttributes", (float) ConfigDefaultValue.simply_sword_anthektite_atkSpeedAdd);
-    static float anthektite_atkSpeedNeg = EConfig.getFloat("anthektite_atkSpeedNeg", "WeaponAttributes", (float) ConfigDefaultValue.simply_sword_anthektite_atkSpeedNeg);
-
-    static float longsword_positive_modifier = Config.getFloat("longsword_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.longsword_positiveDamageModifier);
-    static float twinblade_positive_modifier = Config.getFloat("twinblade_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.twinblade_positiveDamageModifier);
-    static float rapier_positive_modifier = Config.getFloat("rapier_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.rapier_positiveDamageModifier);
-    static float katana_positive_modifier = Config.getFloat("katana_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.katana_positiveDamageModifier);
-    static float sai_positive_modifier = Config.getFloat("sai_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.sai_positiveDamageModifier);
-    static float spear_positive_modifier = Config.getFloat("spear_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.spear_positiveDamageModifier);
-    static float glaive_positive_modifier = Config.getFloat("glaive_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.glaive_positiveDamageModifier);
-    static float warglaive_positive_modifier = Config.getFloat("warglaive_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.warglaive_positiveDamageModifier);
-    static float cutlass_positive_modifier = Config.getFloat("cutlass_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.cutlass_positiveDamageModifier);
-    static float claymore_positive_modifier = Config.getFloat("claymore_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.claymore_positiveDamageModifier);
-    static float greataxe_positive_modifier = Config.getFloat("greataxe_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.greataxe_positiveDamageModifier);
-    static float greathammer_positive_modifier = Config.getFloat("greathammer_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.greathammer_positiveDamageModifier);
-    static float chakram_positive_modifier = Config.getFloat("chakram_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.chakram_positiveDamageModifier);
-    static float scythe_positive_modifier = Config.getFloat("scythe_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.scythe_positiveDamageModifier);
-    static float halberd_positive_modifier = Config.getFloat("halberd_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValues.halberd_positiveDamageModifier);
-
-    static float longsword_negative_modifier = Config.getFloat("longsword_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.longsword_negativeDamageModifier);
-    static float twinblade_negative_modifier = Config.getFloat("twinblade_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.twinblade_negativeDamageModifier);
-    static float rapier_negative_modifier = Config.getFloat("rapier_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.rapier_negativeDamageModifier);
-    static float sai_negative_modifier = Config.getFloat("sai_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.sai_negativeDamageModifier);
-    static float spear_negative_modifier = Config.getFloat("spear_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.spear_negativeDamageModifier);
-    static float katana_negative_modifier = Config.getFloat("katana_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.katana_negativeDamageModifier);
-    static float glaive_negative_modifier = Config.getFloat("glaive_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.glaive_negativeDamageModifier);
-    static float warglaive_negative_modifier = Config.getFloat("warglaive_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.warglaive_negativeDamageModifier);
-    static float cutlass_negative_modifier = Config.getFloat("cutlass_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.cutlass_negativeDamageModifier);
-    static float claymore_negative_modifier = Config.getFloat("claymore_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.claymore_negativeDamageModifier);
-    static float greataxe_negative_modifier = Config.getFloat("greataxe_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.greataxe_negativeDamageModifier);
-    static float greathammer_negative_modifier = Config.getFloat("greathammer_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.greathammer_negativeDamageModifier);
-    static float chakram_negative_modifier = Config.getFloat("chakram_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.chakram_negativeDamageModifier);
-    static float scythe_negative_modifier = Config.getFloat("scythe_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.scythe_negativeDamageModifier);
-    static float halberd_negative_modifier = Config.getFloat("halberd_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValues.halberd_negativeDamageModifier);
-
-    static float longsword_attackspeed = Config.getFloat("longsword_attackSpeed", "WeaponAttributes", ConfigDefaultValues.longsword_attackSpeed);
-    static float twinblade_attackspeed = Config.getFloat("twinblade_attackSpeed", "WeaponAttributes", ConfigDefaultValues.twinblade_attackSpeed);
-    static float rapier_attackspeed = Config.getFloat("rapier_attackSpeed", "WeaponAttributes", ConfigDefaultValues.rapier_attackSpeed);
-    static float sai_attackspeed = Config.getFloat("sai_attackSpeed", "WeaponAttributes", ConfigDefaultValues.sai_attackSpeed);
-    static float spear_attackspeed = Config.getFloat("spear_attackSpeed", "WeaponAttributes", ConfigDefaultValues.spear_attackSpeed);
-    static float katana_attackspeed = Config.getFloat("katana_attackSpeed", "WeaponAttributes", ConfigDefaultValues.katana_attackSpeed);
-    static float glaive_attackspeed = Config.getFloat("glaive_attackSpeed", "WeaponAttributes", ConfigDefaultValues.glaive_attackSpeed);
-    static float warglaive_attackspeed = Config.getFloat("warglaive_attackSpeed", "WeaponAttributes", ConfigDefaultValues.warglaive_attackSpeed);
-    static float cutlass_attackspeed = Config.getFloat("cutlass_attackSpeed", "WeaponAttributes", ConfigDefaultValues.cutlass_attackSpeed);
-    static float claymore_attackspeed = Config.getFloat("claymore_attackSpeed", "WeaponAttributes", ConfigDefaultValues.claymore_attackSpeed);
-    static float greataxe_attackspeed = Config.getFloat("greataxe_attackSpeed", "WeaponAttributes", ConfigDefaultValues.greataxe_attackSpeed);
-    static float greathammer_attackspeed = Config.getFloat("greathammer_attackSpeed", "WeaponAttributes", ConfigDefaultValues.greathammer_attackSpeed);
-    static float chakram_attackspeed = Config.getFloat("chakram_attackSpeed", "WeaponAttributes", ConfigDefaultValues.chakram_attackSpeed);
-    static float scythe_attackspeed = Config.getFloat("scythe_attackSpeed", "WeaponAttributes", ConfigDefaultValues.scythe_attackSpeed);
-    static float halberd_attackspeed = Config.getFloat("halberd_attackSpeed", "WeaponAttributes", ConfigDefaultValues.halberd_attackSpeed);
-
-    public static final RegistryObject<Item> STEEL_CHARKRAM = ITEMS.register("steel_chakram",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + chakram_positive_modifier - chakram_negative_modifier), chakram_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_CLAYMORE = ITEMS.register("steel_claymore",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + claymore_positive_modifier - claymore_negative_modifier), claymore_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_CUTLASS = ITEMS.register("steel_cutlass",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + cutlass_positive_modifier - cutlass_negative_modifier), cutlass_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_GLAIVE = ITEMS.register("steel_glaive",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + glaive_positive_modifier - glaive_negative_modifier), glaive_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_GREATAXE = ITEMS.register("steel_greataxe",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + greataxe_positive_modifier - greataxe_negative_modifier), greataxe_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_GREATHAMMER = ITEMS.register("steel_greathammer",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + greathammer_positive_modifier - greathammer_negative_modifier), greathammer_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_HALBERD = ITEMS.register("steel_halberd",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + halberd_positive_modifier - halberd_negative_modifier), halberd_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_KATANA = ITEMS.register("steel_katana",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + katana_positive_modifier - katana_negative_modifier), katana_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_LONGSWORD = ITEMS.register("steel_longsword",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + longsword_positive_modifier - longsword_negative_modifier), longsword_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_RAPIER = ITEMS.register("steel_rapier",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + rapier_positive_modifier - rapier_negative_modifier), rapier_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_SAI = ITEMS.register("steel_sai",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + sai_positive_modifier - sai_negative_modifier), sai_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_SCYTHE = ITEMS.register("steel_scythe",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + scythe_positive_modifier - scythe_negative_modifier), scythe_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_SPEAR = ITEMS.register("steel_spear",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + spear_positive_modifier - spear_negative_modifier), spear_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_TWINBLADE = ITEMS.register("steel_twinblade",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + twinblade_positive_modifier - twinblade_negative_modifier), twinblade_attackspeed,
-                    new Item.Properties()));
-    public static final RegistryObject<Item> STEEL_WARGLAIVE = ITEMS.register("steel_warglaive",
-            () -> new SimplySwordItem(ModTiers.STEEL,
-                    (int) (steel_modifier + warglaive_positive_modifier - warglaive_negative_modifier), warglaive_attackspeed,
-                    new Item.Properties()));
+    static double steel_modifier =  SimplySwordsConfigHelper.getDouble("steel_damageModifier", "WeaponAttributes", ConfigDefaultValue.SS_STEEL);
+    static double diarkrite_modifier = SimplySwordsConfigHelper.getDouble("diarkrite_damageModifier", "WeaponAttributes", ConfigDefaultValue.SS_DIARKRITE);
+    static double anthektite_modifier = SimplySwordsConfigHelper.getDouble("anthektite_damageModifier", "WeaponAttributes", ConfigDefaultValue.SS_ANTHEKTITE);
+    static double diarkrite_atkSpeedAdd = SimplySwordsConfigHelper.getDouble("darkrite_atkSpeedAdd", "WeaponAttributes", ConfigDefaultValue.SS_DIARKRITE_ATK_SPD_ADD);
+    static double diarkrite_atkSpeedNeg = SimplySwordsConfigHelper.getDouble("darkrite_atkSpeedNeg", "WeaponAttributes", ConfigDefaultValue.SS_DIARKRITE_ATK_SPD_NEG);
+    static double anthektite_atkSpeedAdd = SimplySwordsConfigHelper.getDouble("anthektite_atkSpeedAdd", "WeaponAttributes", ConfigDefaultValue.SS_ANTHEKTITE_ATK_SPD_ADD);
+    static double anthektite_atkSpeedNeg = SimplySwordsConfigHelper.getDouble("anthektite_atkSpeedNeg", "WeaponAttributes", ConfigDefaultValue.SS_ANTHEKTITE_ATK_SPD_NEG);
 
 
-    public static final RegistryObject<Item> DIARKRITE_CHARKRAM = ITEMS.register("diarkrite_chakram",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + chakram_positive_modifier - chakram_negative_modifier),
-                    chakram_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_CLAYMORE = ITEMS.register("diarkrite_claymore",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + claymore_positive_modifier - claymore_negative_modifier),
-                    claymore_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_CUTLASS = ITEMS.register("diarkrite_cutlass",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + cutlass_positive_modifier - cutlass_negative_modifier),
-                    cutlass_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_GLAIVE = ITEMS.register("diarkrite_glaive",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + glaive_positive_modifier - glaive_negative_modifier),
-                    glaive_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_GREATAXE = ITEMS.register("diarkrite_greataxe",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + greataxe_positive_modifier - greataxe_negative_modifier),
-                    greataxe_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_GREATHAMMER = ITEMS.register("diarkrite_greathammer",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + greathammer_positive_modifier - greathammer_negative_modifier),
-                    greathammer_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_HALBERD = ITEMS.register("diarkrite_halberd",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + halberd_positive_modifier - halberd_negative_modifier)
-                    , halberd_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_KATANA = ITEMS.register("diarkrite_katana",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + katana_positive_modifier - katana_negative_modifier),
-                    katana_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_LONGSWORD = ITEMS.register("diarkrite_longsword",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + longsword_positive_modifier - longsword_negative_modifier),
-                    longsword_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_RAPIER = ITEMS.register("diarkrite_rapier",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + rapier_positive_modifier - rapier_negative_modifier),
-                    rapier_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_SAI = ITEMS.register("diarkrite_sai",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + sai_positive_modifier - sai_negative_modifier),
-                    sai_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_SCYTHE = ITEMS.register("diarkrite_scythe",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + scythe_positive_modifier - scythe_negative_modifier),
-                    scythe_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_SPEAR = ITEMS.register("diarkrite_spear",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + spear_positive_modifier - spear_negative_modifier),
-                    spear_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_TWINBLADE = ITEMS.register("diarkrite_twinblade",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + twinblade_positive_modifier - twinblade_negative_modifier),
-                    twinblade_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_WARGLAIVE = ITEMS.register("diarkrite_warglaive",
-            () -> new SimplySwordItem(ModTiers.DIARKRITE,
-                    (int) (diarkrite_modifier + warglaive_positive_modifier - warglaive_negative_modifier),
-                    warglaive_attackspeed + diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
+    static float longsword_positive_modifier = SimplySwordsConfigHelper.getFloat("longsword_positiveDamageModifier", "WeaponAttributes", longsword_positiveDamageModifier);
+    static float twinblade_positive_modifier = SimplySwordsConfigHelper.getFloat("twinblade_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.twinblade_positiveDamageModifier);
+    static float rapier_positive_modifier = SimplySwordsConfigHelper.getFloat("rapier_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.rapier_positiveDamageModifier);
+    static float katana_positive_modifier = SimplySwordsConfigHelper.getFloat("katana_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.katana_positiveDamageModifier);
+    static float sai_positive_modifier = SimplySwordsConfigHelper.getFloat("sai_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.sai_positiveDamageModifier);
+    static float spear_positive_modifier = SimplySwordsConfigHelper.getFloat("spear_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.spear_positiveDamageModifier);
+    static float glaive_positive_modifier = SimplySwordsConfigHelper.getFloat("glaive_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.glaive_positiveDamageModifier);
+    static float warglaive_positive_modifier = SimplySwordsConfigHelper.getFloat("warglaive_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.warglaive_positiveDamageModifier);
+    static float cutlass_positive_modifier = SimplySwordsConfigHelper.getFloat("cutlass_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.cutlass_positiveDamageModifier);
+    static float claymore_positive_modifier = SimplySwordsConfigHelper.getFloat("claymore_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.claymore_positiveDamageModifier);
+    static float greataxe_positive_modifier = SimplySwordsConfigHelper.getFloat("greataxe_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.greataxe_positiveDamageModifier);
+    static float greathammer_positive_modifier = SimplySwordsConfigHelper.getFloat("greathammer_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.greathammer_positiveDamageModifier);
+    static float chakram_positive_modifier = SimplySwordsConfigHelper.getFloat("chakram_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.chakram_positiveDamageModifier);
+    static float scythe_positive_modifier = SimplySwordsConfigHelper.getFloat("scythe_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.scythe_positiveDamageModifier);
+    static float halberd_positive_modifier = SimplySwordsConfigHelper.getFloat("halberd_positiveDamageModifier", "WeaponAttributes", ConfigDefaultValue.halberd_positiveDamageModifier);
+
+    static float longsword_negative_modifier = SimplySwordsConfigHelper.getFloat("longsword_negativeDamageModifier", "WeaponAttributes", longsword_negativeDamageModifier);
+    static float twinblade_negative_modifier = SimplySwordsConfigHelper.getFloat("twinblade_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.twinblade_negativeDamageModifier);
+    static float rapier_negative_modifier = SimplySwordsConfigHelper.getFloat("rapier_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.rapier_negativeDamageModifier);
+    static float sai_negative_modifier = SimplySwordsConfigHelper.getFloat("sai_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.sai_negativeDamageModifier);
+    static float spear_negative_modifier = SimplySwordsConfigHelper.getFloat("spear_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.spear_negativeDamageModifier);
+    static float katana_negative_modifier = SimplySwordsConfigHelper.getFloat("katana_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.katana_negativeDamageModifier);
+    static float glaive_negative_modifier = SimplySwordsConfigHelper.getFloat("glaive_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.glaive_negativeDamageModifier);
+    static float warglaive_negative_modifier = SimplySwordsConfigHelper.getFloat("warglaive_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.warglaive_negativeDamageModifier);
+    static float cutlass_negative_modifier = SimplySwordsConfigHelper.getFloat("cutlass_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.cutlass_negativeDamageModifier);
+    static float claymore_negative_modifier = SimplySwordsConfigHelper.getFloat("claymore_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.claymore_negativeDamageModifier);
+    static float greataxe_negative_modifier = SimplySwordsConfigHelper.getFloat("greataxe_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.greataxe_negativeDamageModifier);
+    static float greathammer_negative_modifier = SimplySwordsConfigHelper.getFloat("greathammer_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.greathammer_negativeDamageModifier);
+    static float chakram_negative_modifier = SimplySwordsConfigHelper.getFloat("chakram_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.chakram_negativeDamageModifier);
+    static float scythe_negative_modifier = SimplySwordsConfigHelper.getFloat("scythe_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.scythe_negativeDamageModifier);
+    static float halberd_negative_modifier = SimplySwordsConfigHelper.getFloat("halberd_negativeDamageModifier", "WeaponAttributes", ConfigDefaultValue.halberd_negativeDamageModifier);
+
+    static float longsword_attackspeed = SimplySwordsConfigHelper.getFloat("longsword_attackSpeed", "WeaponAttributes", ConfigDefaultValue.longsword_attackSpeed);
+    static float twinblade_attackspeed = SimplySwordsConfigHelper.getFloat("twinblade_attackSpeed", "WeaponAttributes", ConfigDefaultValue.twinblade_attackSpeed);
+    static float rapier_attackspeed = SimplySwordsConfigHelper.getFloat("rapier_attackSpeed", "WeaponAttributes", ConfigDefaultValue.rapier_attackSpeed);
+    static float sai_attackspeed = SimplySwordsConfigHelper.getFloat("sai_attackSpeed", "WeaponAttributes", ConfigDefaultValue.sai_attackSpeed);
+    static float spear_attackspeed = SimplySwordsConfigHelper.getFloat("spear_attackSpeed", "WeaponAttributes", ConfigDefaultValue.spear_attackSpeed);
+    static float katana_attackspeed = SimplySwordsConfigHelper.getFloat("katana_attackSpeed", "WeaponAttributes", ConfigDefaultValue.katana_attackSpeed);
+    static float glaive_attackspeed = SimplySwordsConfigHelper.getFloat("glaive_attackSpeed", "WeaponAttributes", ConfigDefaultValue.glaive_attackSpeed);
+    static float warglaive_attackspeed = SimplySwordsConfigHelper.getFloat("warglaive_attackSpeed", "WeaponAttributes", ConfigDefaultValue.warglaive_attackSpeed);
+    static float cutlass_attackspeed = SimplySwordsConfigHelper.getFloat("cutlass_attackSpeed", "WeaponAttributes", ConfigDefaultValue.cutlass_attackSpeed);
+    static float claymore_attackspeed = SimplySwordsConfigHelper.getFloat("claymore_attackSpeed", "WeaponAttributes", ConfigDefaultValue.claymore_attackSpeed);
+    static float greataxe_attackspeed = SimplySwordsConfigHelper.getFloat("greataxe_attackSpeed", "WeaponAttributes", ConfigDefaultValue.greataxe_attackSpeed);
+    static float greathammer_attackspeed = SimplySwordsConfigHelper.getFloat("greathammer_attackSpeed", "WeaponAttributes", ConfigDefaultValue.greathammer_attackSpeed);
+    static float chakram_attackspeed = SimplySwordsConfigHelper.getFloat("chakram_attackSpeed", "WeaponAttributes", ConfigDefaultValue.chakram_attackSpeed);
+    static float scythe_attackspeed = SimplySwordsConfigHelper.getFloat("scythe_attackSpeed", "WeaponAttributes", ConfigDefaultValue.scythe_attackSpeed);
+    static float halberd_attackspeed = SimplySwordsConfigHelper.getFloat("halberd_attackSpeed", "WeaponAttributes", ConfigDefaultValue.halberd_attackSpeed);
 
 
-    public static final RegistryObject<Item> ANTHEKTITE_CHARKRAM = ITEMS.register("anthektite_chakram",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + chakram_positive_modifier - chakram_negative_modifier),
-                    chakram_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_CLAYMORE = ITEMS.register("anthektite_claymore",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + claymore_positive_modifier - claymore_negative_modifier),
-                    claymore_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_CUTLASS = ITEMS.register("anthektite_cutlass",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + cutlass_positive_modifier - cutlass_negative_modifier),
-                    cutlass_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_GLAIVE = ITEMS.register("anthektite_glaive",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + glaive_positive_modifier - glaive_negative_modifier),
-                    glaive_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_GREATAXE = ITEMS.register("anthektite_greataxe",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + greataxe_positive_modifier - greataxe_negative_modifier),
-                    greataxe_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_GREATHAMMER = ITEMS.register("anthektite_greathammer",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + greathammer_positive_modifier - greathammer_negative_modifier),
-                    greathammer_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_HALBERD = ITEMS.register("anthektite_halberd",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + halberd_positive_modifier - halberd_negative_modifier),
-                    halberd_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_KATANA = ITEMS.register("anthektite_katana",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + katana_positive_modifier - katana_negative_modifier),
-                    katana_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_LONGSWORD = ITEMS.register("anthektite_longsword",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + longsword_positive_modifier - longsword_negative_modifier),
-                    longsword_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_RAPIER = ITEMS.register("anthektite_rapier",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + rapier_positive_modifier - rapier_negative_modifier),
-                    rapier_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_SAI = ITEMS.register("anthektite_sai",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + sai_positive_modifier - sai_negative_modifier),
-                    sai_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_SCYTHE = ITEMS.register("anthektite_scythe",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + scythe_positive_modifier - scythe_negative_modifier),
-                    scythe_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_SPEAR = ITEMS.register("anthektite_spear",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + spear_positive_modifier - spear_negative_modifier),
-                    spear_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_TWINBLADE = ITEMS.register("anthektite_twinblade",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + twinblade_positive_modifier - twinblade_negative_modifier),
-                    twinblade_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_WARGLAIVE = ITEMS.register("anthektite_warglaive",
-            () -> new SimplySwordItem(ModTiers.ANTHEKTITE,
-                    (int) (anthektite_modifier + warglaive_positive_modifier - warglaive_negative_modifier),
-                    warglaive_attackspeed + anthektite_atkSpeedAdd - anthektite_atkSpeedNeg,
-                    new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> STEEL_LONGSWORD = registerSteel("longsword");
+    public static final RegistryObject<Item> STEEL_TWINBLADE = registerSteel("twinblade");
+    public static final RegistryObject<Item> STEEL_RAPIER = registerSteel("rapier");
+    public static final RegistryObject<Item> STEEL_SAI = registerSteel("sai");
+    public static final RegistryObject<Item> STEEL_SPEAR = registerSteel("spear");
+    public static final RegistryObject<Item> STEEL_KATANA = registerSteel("katana");
+    public static final RegistryObject<Item> STEEL_GLAIVE = registerSteel("glaive");
+    public static final RegistryObject<Item> STEEL_WARGLAIVE = registerSteel("warglaive");
+    public static final RegistryObject<Item> STEEL_CUTLASS = registerSteel("cutlass");
+    public static final RegistryObject<Item> STEEL_CLAYMORE = registerSteel("claymore");
+    public static final RegistryObject<Item> STEEL_GREATAXE = registerSteel("greataxe");
+    public static final RegistryObject<Item> STEEL_GREATHAMMER = registerSteel("greathammer");
+    public static final RegistryObject<Item> STEEL_CHAKRAM = registerSteel("chakram");
+    public static final RegistryObject<Item> STEEL_SCYTHE = registerSteel("scythe");
+    public static final RegistryObject<Item> STEEL_HALBERD = registerSteel("halberd");
+
+    public static final RegistryObject<Item> DIARKRITE_LONGSWORD = registerDiarkrite("longsword");
+    public static final RegistryObject<Item> DIARKRITE_TWINBLADE = registerDiarkrite("twinblade");
+    public static final RegistryObject<Item> DIARKRITE_RAPIER = registerDiarkrite("rapier");
+    public static final RegistryObject<Item> DIARKRITE_SAI = registerDiarkrite("sai");
+    public static final RegistryObject<Item> DIARKRITE_SPEAR = registerDiarkrite("spear");
+    public static final RegistryObject<Item> DIARKRITE_KATANA = registerDiarkrite("katana");
+    public static final RegistryObject<Item> DIARKRITE_GLAIVE = registerDiarkrite("glaive");
+    public static final RegistryObject<Item> DIARKRITE_WARGLAIVE = registerDiarkrite("warglaive");
+    public static final RegistryObject<Item> DIARKRITE_CUTLASS = registerDiarkrite("cutlass");
+    public static final RegistryObject<Item> DIARKRITE_CLAYMORE = registerDiarkrite("claymore");
+    public static final RegistryObject<Item> DIARKRITE_GREATAXE = registerDiarkrite("greataxe");
+    public static final RegistryObject<Item> DIARKRITE_GREATHAMMER = registerDiarkrite("greathammer");
+    public static final RegistryObject<Item> DIARKRITE_CHAKRAM = registerDiarkrite("chakram");
+    public static final RegistryObject<Item> DIARKRITE_SCYTHE = registerDiarkrite("scythe");
+    public static final RegistryObject<Item> DIARKRITE_HALBERD = registerDiarkrite("halberd");
+
+    public static final RegistryObject<Item> ANTHEKTITE_LONGSWORD = registerAnthektite("longsword");
+    public static final RegistryObject<Item> ANTHEKTITE_TWINBLADE = registerAnthektite("twinblade");
+    public static final RegistryObject<Item> ANTHEKTITE_RAPIER = registerAnthektite("rapier");
+    public static final RegistryObject<Item> ANTHEKTITE_SAI = registerAnthektite("sai");
+    public static final RegistryObject<Item> ANTHEKTITE_SPEAR = registerAnthektite("spear");
+    public static final RegistryObject<Item> ANTHEKTITE_KATANA = registerAnthektite("katana");
+    public static final RegistryObject<Item> ANTHEKTITE_GLAIVE = registerAnthektite("glaive");
+    public static final RegistryObject<Item> ANTHEKTITE_WARGLAIVE = registerAnthektite("warglaive");
+    public static final RegistryObject<Item> ANTHEKTITE_CUTLASS = registerAnthektite("cutlass");
+    public static final RegistryObject<Item> ANTHEKTITE_CLAYMORE = registerAnthektite("claymore");
+    public static final RegistryObject<Item> ANTHEKTITE_GREATAXE = registerAnthektite("greataxe");
+    public static final RegistryObject<Item> ANTHEKTITE_GREATHAMMER = registerAnthektite("greathammer");
+    public static final RegistryObject<Item> ANTHEKTITE_CHAKRAM = registerAnthektite("chakram");
+    public static final RegistryObject<Item> ANTHEKTITE_SCYTHE = registerAnthektite("scythe");
+    public static final RegistryObject<Item> ANTHEKTITE_HALBERD = registerAnthektite("halberd");
+
+
+    private static RegistryObject<Item> registerSteel(String id) {
+        return ITEMS.register(ModTiers.STEEL.toString().toLowerCase(Locale.ROOT) + "_" + id, ()->
+                new SimplySwordItem(ModTiers.STEEL, (int) (steel_modifier + getDamageMod(id)),
+                        getAttackSpeedMod(id), new Item.Properties()));
+    }
+
+    private static RegistryObject<Item> registerDiarkrite(String id) {
+        return ITEMS.register(ModTiers.DIARKRITE.toString().toLowerCase(Locale.ROOT) + "_" + id, ()->
+                new SimplySwordItem(ModTiers.DIARKRITE, (int) (diarkrite_modifier + getDamageMod(id)),
+                        getAttackSpeedMod(id) + (float) (diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg), new Item.Properties().fireResistant()));
+    }
+
+    private static RegistryObject<Item> registerAnthektite(String id) {
+        return ITEMS.register(ModTiers.ANTHEKTITE.toString().toLowerCase(Locale.ROOT) + "_" + id, ()->
+                new SimplySwordItem(ModTiers.ANTHEKTITE, (int) (anthektite_modifier + getDamageMod(id)),
+                        getAttackSpeedMod(id) + (float) (anthektite_atkSpeedAdd - anthektite_atkSpeedNeg), new Item.Properties().fireResistant()));
+    }
+
+
+    public static int getDamageMod(String weaponType) {
+        return ATK_DAMAGE.get(weaponType);
+    }
+
+    public static float getAttackSpeedMod(String weaponType) {
+        return ATK_SPEED.get(weaponType);
+    }
+
+    private static final HashMap<String, Integer> ATK_DAMAGE = new HashMap<>();
+    private static final HashMap<String, Float> ATK_SPEED = new HashMap<>();
+
+    static {
+        ATK_DAMAGE.put("chakram", (int) (chakram_positive_modifier - chakram_negative_modifier));
+        ATK_SPEED.put("chakram", chakram_attackspeed);
+
+        ATK_DAMAGE.put("claymore", (int) (claymore_positive_modifier - claymore_negative_modifier));
+        ATK_SPEED.put("claymore", claymore_attackspeed);
+
+        ATK_DAMAGE.put("cutlass", (int) (cutlass_positive_modifier - cutlass_negative_modifier));
+        ATK_SPEED.put("cutlass", cutlass_attackspeed);
+
+        ATK_DAMAGE.put("glaive", (int) (glaive_positive_modifier - glaive_negative_modifier));
+        ATK_SPEED.put("glaive", glaive_attackspeed);
+
+        ATK_DAMAGE.put("greataxe", (int) (greataxe_positive_modifier - greataxe_negative_modifier));
+        ATK_SPEED.put("greataxe", greataxe_attackspeed);
+
+        ATK_DAMAGE.put("greathammer", (int) (greathammer_positive_modifier - greathammer_negative_modifier));
+        ATK_SPEED.put("greathammer", greathammer_attackspeed);
+
+        ATK_DAMAGE.put("halberd", (int) (halberd_positive_modifier - halberd_negative_modifier));
+        ATK_SPEED.put("halberd", halberd_attackspeed);
+
+        ATK_DAMAGE.put("katana", (int) (katana_positive_modifier - katana_negative_modifier));
+        ATK_SPEED.put("katana", katana_attackspeed);
+
+        ATK_DAMAGE.put("longsword", (int) (longsword_positive_modifier - longsword_negative_modifier));
+        ATK_SPEED.put("longsword", longsword_attackspeed);
+
+        ATK_DAMAGE.put("rapier", (int) (rapier_positive_modifier - rapier_negative_modifier));
+        ATK_SPEED.put("rapier", rapier_attackspeed);
+
+        ATK_DAMAGE.put("sai", (int) (sai_positive_modifier - sai_negative_modifier));
+        ATK_SPEED.put("sai", twinblade_attackspeed);
+
+        ATK_DAMAGE.put("scythe", (int) (scythe_positive_modifier - scythe_negative_modifier));
+        ATK_SPEED.put("scythe", scythe_attackspeed);
+
+        ATK_DAMAGE.put("spear", (int) (spear_positive_modifier - spear_negative_modifier));
+        ATK_SPEED.put("spear", spear_attackspeed);
+
+        ATK_DAMAGE.put("twinblade", (int) (twinblade_positive_modifier - twinblade_negative_modifier));
+        ATK_SPEED.put("twinblade", twinblade_attackspeed);
+
+        ATK_DAMAGE.put("warglaive", (int) (warglaive_positive_modifier - warglaive_negative_modifier));
+        ATK_SPEED.put("warglaive", warglaive_attackspeed);
+    }
 
     public static void register(IEventBus eventBus) {ITEMS.register(eventBus);}
 }

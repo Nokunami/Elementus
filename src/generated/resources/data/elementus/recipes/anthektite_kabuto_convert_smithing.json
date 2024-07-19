@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:gold_nugget"
+  },
+  "base": {
+    "item": "elementus:anthektite_helmet"
+  },
+  "result": {
+    "item": "elementus:anthektite_kabuto"
+  },
+  "template": {
+    "item": "sniffsweapons:samurai_armor_trim_smithing_template"
+  }
+}

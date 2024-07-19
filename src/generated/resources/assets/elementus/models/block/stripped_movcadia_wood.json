@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "elementus:block/building/stripped_movcadia_log",
+    "side": "elementus:block/building/stripped_movcadia_log"
+  }
+}

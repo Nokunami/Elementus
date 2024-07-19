@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sniffsweapons:item/mask",
+    "layer1": "elementus:item/compat/sniffsweapons/armor/diarkrite_kabuto"
+  }
+}

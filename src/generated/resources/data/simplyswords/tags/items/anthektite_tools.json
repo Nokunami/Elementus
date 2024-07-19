@@ -1,0 +1,64 @@
+{
+  "values": [
+    {
+      "id": "elementus:anthektite_chakram",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_claymore",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_cutlass",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_glaive",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_greataxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_greatehammer",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_halberd",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_katana",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_longsword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_rapier",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_sai",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_scythe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_spear",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_twinblade",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_warglaive",
+      "required": false
+    }
+  ]
+}

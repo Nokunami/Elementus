@@ -1,0 +1,9 @@
+{
+	"parent": "twigs:block/template_table_inventory",
+	"textures": {
+		"side": "elementus:block/compat/twigs/movcadia_table",
+		"bottom": "elementus:block/compat/twigs/movcadia_table_bottom",
+		"top": "elementus:block/compat/twigs/movcadia_table_top",
+		"particle": "elementus:block/building/movcadia_planks"
+	}
+}

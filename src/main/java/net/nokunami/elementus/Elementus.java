@@ -1,6 +1,5 @@
 package net.nokunami.elementus;
 
-import com.mojang.logging.LogUtils;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
@@ -9,22 +8,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.resource.PathPackResources;
-import net.nokunami.elementus.client.ClientProxy;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.common.compat.farmersdelight.FDModBlocks;
+import net.nokunami.elementus.common.compat.twigs.TWModBlocks;
+import net.nokunami.elementus.common.compat.twigs.TWModItems;
+import net.nokunami.elementus.common.config.*;
+import net.nokunami.elementus.common.config.simplyswords.ElementusSimplySwords;
+import net.nokunami.elementus.common.config.simplyswords.GeneralWrapper;
+import net.nokunami.elementus.common.registry.ModBlockEntityType;
 import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
 import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
 import net.nokunami.elementus.common.compat.epicsamurai.ESModItems;
@@ -32,17 +31,18 @@ import net.nokunami.elementus.common.compat.farmersdelight.NDModItems;
 import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
 import net.nokunami.elementus.common.compat.piercingpaxels.PPModItems;
 import net.nokunami.elementus.common.compat.simplyswords.SSModItems;
-import net.nokunami.elementus.common.config.ConfigWrapper;
-import net.nokunami.elementus.common.config.ServerConfig;
-import net.nokunami.elementus.common.config.WeaponAttributesConfig;
 import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
 import net.nokunami.elementus.common.compat.theaether.AEItemsRegistry;
+import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
+import net.nokunami.elementus.datagen.loot.ANLootModifiers;
 import net.nokunami.elementus.common.registry.ModBlocks;
 import net.nokunami.elementus.common.compat.farmersdelight.FDModItems;
 import net.nokunami.elementus.common.CreativeTabProperties;
+import net.nokunami.elementus.common.registry.ModEntities;
 import net.nokunami.elementus.common.registry.ModItems;
-import net.nokunami.elementus.common.datagen.loot.ModLootModifiers;
-import org.slf4j.Logger;
+import net.nokunami.elementus.datagen.loot.ModLootModifiers;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -51,107 +51,68 @@ import java.nio.file.Path;
 @Mod.EventBusSubscriber(modid = "elementus")
 public class Elementus {
     public static final String MODID = "elementus";
-    public static final Logger LOGGER = LogUtils.getLogger();
-    public static WeaponAttributesConfig weaponAttributesConfig;
-    public static CommonProxy PROXY = DistExecutor.safeRunForDist(
-            () -> ClientProxy::new, () -> CommonProxy::new);
-
+    public static final Logger LOGGER = LogManager.getLogger();
+    public static final Path MATERIAL_STATS_CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_material_stats_config.toml");
+    public static final Path TOOLS_CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_tools_config.toml");
+    public static final Path ARMOR_CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_armor_config.toml");
+    public static final Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_config.toml");
+    public static final Path CONFIG_PATH_ADVANCED_NETHERITE = FMLPaths.CONFIGDIR.get().resolve("elementus_advanced_netherite_config.toml");
     public static ResourceLocation modLoc(String location) {
         return new ResourceLocation(Elementus.MODID, location);
     }
 
+    public static ElementusSimplySwords weaponAttributes;
+
     public Elementus() {
+
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        TierConfig.reload();
+        ToolsConfig.reload();
+        ArmorConfig.reload();
+        BaseConfig.reload();
+        ANConfig.reload();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, "elementus_armor_config.toml");
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-
+        ModBlockEntityType.register(modEventBus);
+        ModEntities.register(modEventBus);
         ModLootModifiers.register(modEventBus);
 
-        if (ModList.get().isLoaded("farmersdelight")) {
-            CreativeTabProperties.register(modEventBus);
-        }
-        else if (ModList.get().isLoaded("piercingpaxels")) {
-            CreativeTabProperties.register(modEventBus);
-        }
-        else if (ModList.get().isLoaded("nethersdelight")) {
-            CreativeTabProperties.register(modEventBus);
-        }
-        else if (ModList.get().isLoaded("irons_spellbooks")) {
-            CreativeTabProperties.register(modEventBus);
-        }
-        else if (ModList.get().isLoaded("aether")) {
-            CreativeTabProperties.register(modEventBus);
-        }
-        else if (ModList.get().isLoaded("simplyswords")) {
-            CreativeTabProperties.register(modEventBus);
-        }
-        else if (ModList.get().isLoaded("sniffsweapons")) {
-            CreativeTabProperties.register(modEventBus);
-        }
-        else if (ModList.get().isLoaded("advancednetherite")) {
-            CreativeTabProperties.register(modEventBus);
-        }
+        ModTrunkPlacer.register(modEventBus);
 
-        if (ModList.get().isLoaded("farmersdelight")) {
+        if (ModChecker.integrationTab()) { CreativeTabProperties.register(modEventBus); }
+
+        if (ModChecker.farmersdelight()) {
             FDModItems.register(modEventBus);
+            FDModBlocks.register(modEventBus);
         }
-        if (ModList.get().isLoaded("piercingpaxels")) {
-            PPModItems.register(modEventBus);
-        }
-        if (ModList.get().isLoaded("nethersdelight")) {
-            NDModItems.register(modEventBus);
-        }
-        if (ModList.get().isLoaded("irons_spellbooks")) {
-            ISSModItems.register(modEventBus);
-        }
-        if (ModList.get().isLoaded("aether")) {
-            AEItemsRegistry.register(modEventBus);
-        }
-        if (ModList.get().isLoaded("simplyswords")) {
+        if (ModChecker.piercingpaxels()) { PPModItems.register(modEventBus); }
+        if (ModChecker.nethersdelight()) { NDModItems.register(modEventBus); }
+        if (ModChecker.irons_spellbooks()) { ISSModItems.register(modEventBus); }
+        if (ModChecker.aether()) { AEItemsRegistry.register(modEventBus); }
+        if (ModChecker.simplyswords()) {
             SSModItems.register(modEventBus);
-            AutoConfig.register(ConfigWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
-            weaponAttributesConfig = AutoConfig
-                    .getConfigHolder(ConfigWrapper.class)
-                    .getConfig().weapon_attributes;
+            AutoConfig.register(GeneralWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
+            weaponAttributes = AutoConfig.getConfigHolder(GeneralWrapper.class).getConfig().weaponAttributes;
         }
-        if (ModList.get().isLoaded("sniffsweapons")) {
-            SWModItems.register(modEventBus);
-        }
-        if (ModList.get().isLoaded("advancednetherite")) {
+        if (ModChecker.sniffsweapons()) { SWModItems.register(modEventBus); }
+        if (ModChecker.advancednetherite()) {
             ANModItems.register(modEventBus);
             ANModBlocks.register(modEventBus);
+            ANLootModifiers.register(modEventBus);
         }
-        if (ModList.get().isLoaded("epicsamurai")) {
-            ESModItems.register(modEventBus);
-        }
+        if (ModChecker.epicsamurai()) { ESModItems.register(modEventBus); }
+        if (ModChecker.twigs()) { TWModItems.register(modEventBus); TWModBlocks.register(modEventBus); }
+//        if (ModChecker.refurbished_furniture()) {
+//            RFModItems.register(modEventBus);
+//            RFModBlocks.register(modEventBus);
+//        }
 
-        modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(CreativeTabProperties::addCreative);
         modEventBus.addListener(this::addPackFinders);
-        modEventBus.addListener(this::setupClient);
-        modEventBus.addListener(this::setupEntityModelLayers);
-
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-    }
-
-    private void setupClient(FMLClientSetupEvent event) {
-        PROXY.clientInit();
-    }
-
-    private void setupEntityModelLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        ModModelLayers.register(event);
     }
 
     public void addPackFinders(AddPackFindersEvent event) {
@@ -160,7 +121,7 @@ public class Elementus {
         try {
             if (event.getPackType() == PackType.CLIENT_RESOURCES) {
                 addBuiltinPack(event, "elementus_legacy_textures", Component.literal("Elementus Legacy Textures"));
-                if (ModList.get().isLoaded("simplyswords")) {
+                if (ModChecker.simplyswords()) {
                     addBuiltinPack(event, "simply_swords_default_style", Component.literal("Elementus Simply Swords Defualt Style"));
                 }
             }
@@ -173,9 +134,8 @@ public class Elementus {
         filename = "resourcepacks/" + filename;
         String id = "builtin/" + filename;
         Path resourcePath = ModList.get().getModFileById("elementus").getFile().findResource(new String[]{filename});
-        Pack pack = Pack.readMetaAndCreate(id, displayName, false, (path) -> {
-            return new PathPackResources(path, true, resourcePath);
-        }, PackType.CLIENT_RESOURCES, Pack.Position.TOP, PackSource.BUILT_IN);
+        Pack pack = Pack.readMetaAndCreate(id, displayName, false, (path) -> new PathPackResources(
+                path, true, resourcePath), PackType.CLIENT_RESOURCES, Pack.Position.TOP, PackSource.BUILT_IN);
         event.addRepositorySource((packConsumer) -> {
             packConsumer.accept(pack);
         });

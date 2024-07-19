@@ -1,0 +1,64 @@
+{
+  "values": [
+    {
+      "id": "elementus:steel_chakram",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_claymore",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_cutlass",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_glaive",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_greataxe",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_greatehammer",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_halberd",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_katana",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_longsword",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_rapier",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_sai",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_scythe",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_spear",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_twinblade",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_warglaive",
+      "required": false
+    }
+  ]
+}

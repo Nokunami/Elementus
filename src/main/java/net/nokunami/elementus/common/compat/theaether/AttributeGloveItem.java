@@ -1,7 +1,6 @@
 package net.nokunami.elementus.common.compat.theaether;
 
 import com.aetherteam.aether.item.accessories.gloves.GlovesItem;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.sounds.SoundEvent;
@@ -40,11 +39,5 @@ public class AttributeGloveItem extends GlovesItem {
         }
 
         return attributeBuilder.build();
-    }
-
-    private static Multimap<Attribute, AttributeModifier> createMultimap(Attribute attribute, AttributeModifier modifier) {
-        Multimap<Attribute, AttributeModifier> map = HashMultimap.create();
-        map.put(attribute, modifier);
-        return map;
     }
 }

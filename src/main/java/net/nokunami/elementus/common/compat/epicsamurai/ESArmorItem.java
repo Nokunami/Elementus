@@ -7,24 +7,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.item.ElementusArmorItem;
-import net.nokunami.elementus.common.registry.ModArmorMaterials;
+import net.nokunami.elementus.ModClientEvents;
+import net.nokunami.elementus.common.item.ElementusArmorItem1;
+import net.nokunami.elementus.common.registry.ModArmorMaterials1;
 
+import javax.annotation.Nullable;
 import java.util.Locale;
 
-public class ESArmorItem extends ElementusArmorItem {
-    public ESArmorItem(ModArmorMaterials material, Type type, Properties properties) {
+public class ESArmorItem extends ElementusArmorItem1 {
+    public ESArmorItem(ModArmorMaterials1 material, Type type, Properties properties) {
         super(material, type, new Properties());
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) Elementus.PROXY.getArmorRenderProperties());
+        consumer.accept((IClientItemExtensions) ModClientEvents.PROXY.getArmorRenderProperties());
     }
 
-    public @org.jetbrains.annotations.Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         ArmorItem item = (ArmorItem)stack.getItem();
         String texture = item.getMaterial().getName();
         String domain = "elementus";

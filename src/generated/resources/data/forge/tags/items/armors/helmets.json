@@ -1,0 +1,39 @@
+{
+  "values": [
+    "elementus:steel_helmet",
+    "elementus:diarkrite_helmet",
+    "elementus:anthektite_helmet",
+    {
+      "id": "elementus:diarkrite_iron_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_helmet",
+      "required": false
+    }
+  ]
+}
