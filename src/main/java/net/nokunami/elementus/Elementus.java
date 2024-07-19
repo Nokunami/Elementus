@@ -37,6 +37,7 @@ import net.nokunami.elementus.common.config.ServerConfig;
 import net.nokunami.elementus.common.config.WeaponAttributesConfig;
 import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
 import net.nokunami.elementus.common.compat.theaether.AEItemsRegistry;
+import net.nokunami.elementus.common.datagen.loot.ANLootModifiers;
 import net.nokunami.elementus.common.registry.ModBlocks;
 import net.nokunami.elementus.common.compat.farmersdelight.FDModItems;
 import net.nokunami.elementus.common.CreativeTabProperties;
@@ -124,6 +125,7 @@ public class Elementus {
         if (ModList.get().isLoaded("advancednetherite")) {
             ANModItems.register(modEventBus);
             ANModBlocks.register(modEventBus);
+            ANLootModifiers.register(modEventBus);
         }
         if (ModList.get().isLoaded("epicsamurai")) {
             ESModItems.register(modEventBus);
