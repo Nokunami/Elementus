@@ -253,7 +253,6 @@ public class ModBlockTagsData extends BlockTagsProvider {
 
         ////Twigs Tags
         this.tag(TwigsTags.TABLES_BLOCK)
-                .add(
-                        TWModBlocks.MOVCADIA_TABLE.get());
+                .addOptional(new ResourceLocation("elementus", "movcadia_table"));
     }
 }

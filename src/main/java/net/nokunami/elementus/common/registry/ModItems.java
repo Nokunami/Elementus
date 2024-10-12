@@ -7,7 +7,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.common.config.TierConfig;
 import net.nokunami.elementus.common.config.ToolsConfig;
-import net.nokunami.elementus.common.config.ToolsConfig;
 import net.nokunami.elementus.common.entity.ModBoatEntity;
 import net.nokunami.elementus.common.item.*;
 
@@ -16,9 +15,9 @@ import static net.nokunami.elementus.Elementus.MODID;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
-    public static float steelSpeed = 0.2F;
-    public static float diarkriteSpeed = 0.3F;
-    public static float anthektiteSpeed = 0.5F;
+    public static float steelSpeed = (float) TierConfig.steelWeaponSpeedModifier;
+    public static float diarkriteSpeed = (float) TierConfig.diarkriteWeaponSpeedModifier;
+    public static float anthektiteSpeed = (float) TierConfig.anthektiteWeaponSpeedModifier;
 
     public static final RegistryObject<Item> CRUDE_STEEL = ITEMS.register("crude_steel",
             () -> new Item(new Item.Properties()));
@@ -39,7 +38,7 @@ public class ModItems {
             ModSmithingTemplateItem::createAtelisUpgradeTemplate);
 
     public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword", () -> new SwordItem(ModTiers.STEEL,
-            ToolsConfig.steelSwordDamage, ToolsConfig.steelSwordAttackSpeed - (float) TierConfig.steelWeaponHeaviness + (float) TierConfig.steelWeaponSpeedBoost, new Item.Properties()));
+            ToolsConfig.steelSwordDamage, ToolsConfig.steelSwordAttackSpeed + steelSpeed, new Item.Properties()));
 
     public static final RegistryObject<Item> STEEL_SHOVEL = ITEMS.register("steel_shovel", () -> new ShovelItem(ModTiers.STEEL,
             ToolsConfig.steelShovelDamage, ToolsConfig.steelShovelAttackSpeed, new Item.Properties()));
@@ -48,14 +47,14 @@ public class ModItems {
             ToolsConfig.steelPickaxeDamage, ToolsConfig.steelPickaxeAttackSpeed, new Item.Properties()));
 
     public static final RegistryObject<Item> STEEL_AXE = ITEMS.register("steel_axe", () -> new AxeItem(ModTiers.STEEL,
-            ToolsConfig.steelAxeDamage, ToolsConfig.steelAxeAttackSpeed - (float) TierConfig.steelWeaponHeaviness + (float) TierConfig.steelWeaponSpeedBoost, new Item.Properties()));
+            ToolsConfig.steelAxeDamage, ToolsConfig.steelAxeAttackSpeed + steelSpeed, new Item.Properties()));
 
     public static final RegistryObject<Item> STEEL_HOE = ITEMS.register("steel_hoe", () -> new HoeItem(ModTiers.STEEL,
             ToolsConfig.steelHoeDamage, ToolsConfig.steelHoeAttackSpeed, new Item.Properties()));
 
 
     public static final RegistryObject<Item> DIARKRITE_SWORD = ITEMS.register("diarkrite_sword", () -> new SwordItem(ModTiers.DIARKRITE,
-             ToolsConfig.diarkriteSwordDamage, ToolsConfig.diarkriteSwordAttackSpeed - (float) TierConfig.diarkriteWeaponHeaviness + (float) TierConfig.diarkriteWeaponSpeedBoost, new Item.Properties().fireResistant()));
+             ToolsConfig.diarkriteSwordDamage, ToolsConfig.diarkriteSwordAttackSpeed + diarkriteSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> DIARKRITE_SHOVEL = ITEMS.register("diarkrite_shovel", () -> new ShovelItem(ModTiers.DIARKRITE,
             ToolsConfig.diarkriteShovelDamage, ToolsConfig.diarkriteShovelAttackSpeed, new Item.Properties().fireResistant()));
@@ -64,14 +63,14 @@ public class ModItems {
             ToolsConfig.diarkritePickaxeDamage, ToolsConfig.diarkritePickaxeAttackSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> DIARKRITE_AXE = ITEMS.register("diarkrite_axe", () -> new AxeItem(ModTiers.DIARKRITE,
-            ToolsConfig.diarkriteAxeDamage, ToolsConfig.diarkriteAxeAttackSpeed - (float) TierConfig.diarkriteWeaponHeaviness + (float) TierConfig.diarkriteWeaponSpeedBoost, new Item.Properties().fireResistant()));
+            ToolsConfig.diarkriteAxeDamage, ToolsConfig.diarkriteAxeAttackSpeed + diarkriteSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> DIARKRITE_HOE = ITEMS.register("diarkrite_hoe", () -> new HoeItem(ModTiers.DIARKRITE,
             ToolsConfig.diarkriteHoeDamage, ToolsConfig.diarkriteHoeAttackSpeed, new Item.Properties().fireResistant()));
 
 
     public static final RegistryObject<Item> ANTHEKTITE_SWORD = ITEMS.register("anthektite_sword", () -> new SwordItem(ModTiers.ANTHEKTITE,
-            ToolsConfig.anthektiteSwordDamage, ToolsConfig.anthektiteSwordAttackSpeed - (float) TierConfig.anthektiteWeaponHeaviness + (float) TierConfig.anthektiteWeaponSpeedBoost, new Item.Properties().fireResistant()));
+            ToolsConfig.anthektiteSwordDamage, ToolsConfig.anthektiteSwordAttackSpeed + anthektiteSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> ANTHEKTITE_SHOVEL = ITEMS.register("anthektite_shovel", () -> new ShovelItem(ModTiers.ANTHEKTITE,
             ToolsConfig.anthektiteShovelDamage, ToolsConfig.anthektiteShovelAttackSpeed, new Item.Properties().fireResistant()));
@@ -80,7 +79,7 @@ public class ModItems {
             ToolsConfig.anthektitePickaxeDamage, ToolsConfig.anthektitePickaxeAttackSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> ANTHEKTITE_AXE = ITEMS.register("anthektite_axe", () -> new AxeItem(ModTiers.ANTHEKTITE,
-            ToolsConfig.anthektiteAxeDamage, ToolsConfig.anthektiteAxeAttackSpeed - (float) TierConfig.anthektiteWeaponHeaviness + (float) TierConfig.anthektiteWeaponSpeedBoost, new Item.Properties().fireResistant()));
+            ToolsConfig.anthektiteAxeDamage, ToolsConfig.anthektiteAxeAttackSpeed + anthektiteSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> ANTHEKTITE_HOE = ITEMS.register("anthektite_hoe", () -> new HoeItem(ModTiers.ANTHEKTITE,
             ToolsConfig.anthektiteHoeDamage, ToolsConfig.anthektiteHoeAttackSpeed, new Item.Properties().fireResistant()));
@@ -101,31 +100,31 @@ public class ModItems {
             () -> new ShieldItem(new Item.Properties().defaultDurability(ToolsConfig.anthektiteShieldDurability).fireResistant()));
 
     public static final RegistryObject<Item> STEEL_HELMET = ITEMS.register("steel_helmet",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.STEEL, ArmorItem.Type.HELMET, new Item.Properties()));
+            () -> new ElementusArmorItem(ModArmorMaterials.STEEL, ArmorItem.Type.HELMET, new Item.Properties()));
     public static final RegistryObject<Item> STEEL_CHESTPLATE = ITEMS.register("steel_chestplate",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.STEEL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+            () -> new ElementusArmorItem(ModArmorMaterials.STEEL, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     public static final RegistryObject<Item> STEEL_LEGGINGS = ITEMS.register("steel_leggings",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.STEEL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+            () -> new ElementusArmorItem(ModArmorMaterials.STEEL, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> STEEL_BOOTS = ITEMS.register("steel_boots",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.STEEL, ArmorItem.Type.BOOTS, new Item.Properties()));
+            () -> new ElementusArmorItem(ModArmorMaterials.STEEL, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     public static final RegistryObject<Item> DIARKRITE_HELMET = ITEMS.register("diarkrite_helmet",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.DIARKRITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
+            () -> new ElementusArmorItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> DIARKRITE_CHESTPLATE = ITEMS.register("diarkrite_chestplate",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.DIARKRITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
+            () -> new ElementusArmorItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> DIARKRITE_LEGGINGS = ITEMS.register("diarkrite_leggings",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.DIARKRITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant()));
+            () -> new ElementusArmorItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> DIARKRITE_BOOTS = ITEMS.register("diarkrite_boots",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.DIARKRITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
+            () -> new ElementusArmorItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> ANTHEKTITE_HELMET = ITEMS.register("anthektite_helmet",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.ANTHEKTITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
+            () -> new ElementusArmorItem(ModArmorMaterials.ANTHEKTITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANTHEKTITE_CHESTPLATE = ITEMS.register("anthektite_chestplate",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.ANTHEKTITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
+            () -> new ElementusArmorItem(ModArmorMaterials.ANTHEKTITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANTHEKTITE_LEGGINGS = ITEMS.register("anthektite_leggings",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.ANTHEKTITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant()));
+            () -> new ElementusArmorItem(ModArmorMaterials.ANTHEKTITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANTHEKTITE_BOOTS = ITEMS.register("anthektite_boots",
-            () -> new ElementusArmorItem1(ModArmorMaterials1.ANTHEKTITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
+            () -> new ElementusArmorItem(ModArmorMaterials.ANTHEKTITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> MOVCADIA_BARK = ITEMS.register("movcadia_bark",
             () -> new Item(new Item.Properties().fireResistant()));

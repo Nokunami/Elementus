@@ -1,14 +1,10 @@
 package net.nokunami.elementus.common.compat.sniffsweapons;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.DyeableArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -41,14 +37,14 @@ public class StylishArmorItem extends DyeableArmorItem {
         return this.material;
     }
 
-    @Override
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
-        if (pEquipmentSlot == this.type.getSlot()) {
-            return this.material.getSlotToAttributeMap().get(pEquipmentSlot);
-        } else {
-            return ImmutableMultimap.of();
-        }
-    }
+//    @Override
+//    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
+//        if (pEquipmentSlot == this.type.getSlot()) {
+//            return this.material.getSlotToAttributeMap().get(pEquipmentSlot);
+//        } else {
+//            return ImmutableMultimap.of();
+//        }
+//    }
 
     public int getColor(ItemStack itemStack) {
         CompoundTag compoundTag = itemStack.getTagElement("display");

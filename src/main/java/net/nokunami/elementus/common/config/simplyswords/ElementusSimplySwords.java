@@ -11,13 +11,13 @@ public class ElementusSimplySwords implements ConfigData {
     public double diarkrite_damageModifier = 3.0;
     public double anthektite_damageModifier = 3.0;
 
-    @Comment("Speed multiplayer for Diarkrite")
-    public double darkrite_atkSpeedAdd = 0.0;
-    public double darkrite_atkSpeedNeg = 0.3;
-
-    @Comment("Speed multiplayer for Anthektite")
-    public double anthektite_atkSpeedAdd = 0.5;
-    public double anthektite_atkSpeedNeg = 0.0;
+//    @Comment("Speed multiplayer for Diarkrite")
+//    public double darkrite_atkSpeedAdd = 0.0;
+//    public double darkrite_atkSpeedNeg = 0.3;
+//
+//    @Comment("Speed multiplayer for Anthektite")
+//    public double anthektite_atkSpeedAdd = 0.5;
+//    public double anthektite_atkSpeedNeg = 0.0;
     
     @Comment("Positive Values for Weapons")
     public float longsword_positiveDamageModifier = 0.0F;

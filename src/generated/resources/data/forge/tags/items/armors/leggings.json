@@ -4,6 +4,14 @@
     "elementus:diarkrite_leggings",
     "elementus:anthektite_leggings",
     {
+      "id": "elementus:diarkrite_mage_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_mage_leggings",
+      "required": false
+    },
+    {
       "id": "elementus:diarkrite_iron_leggings",
       "required": false
     },

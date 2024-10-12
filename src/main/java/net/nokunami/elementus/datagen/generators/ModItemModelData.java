@@ -13,7 +13,7 @@ import net.nokunami.elementus.common.compat.farmersdelight.NDModItems;
 import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
 import net.nokunami.elementus.common.compat.piercingpaxels.PPModItems;
 import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
-import net.nokunami.elementus.common.compat.theaether.AEItemsRegistry;
+import net.nokunami.elementus.common.compat.theaether.TAModItems;
 import net.nokunami.elementus.datagen.providers.ModItemModelProvider;
 import net.nokunami.elementus.common.registry.ModBlocks;
 import net.nokunami.elementus.common.registry.ModItems;
@@ -134,9 +134,9 @@ public class ModItemModelData extends ModItemModelProvider {
         }
 
         if (ModChecker.aether()) {
-            glovesItem(AEItemsRegistry.STEEL_GLOVES.get(), "compat/aether/");
-            glovesItem(AEItemsRegistry.DIARKRITE_GLOVES.get(), "compat/aether/");
-            glovesItem(AEItemsRegistry.ANTHEKTITE_GLOVES.get(), "compat/aether/");
+            glovesItem(TAModItems.STEEL_GLOVES.get(), "compat/aether/");
+            glovesItem(TAModItems.DIARKRITE_GLOVES.get(), "compat/aether/");
+            glovesItem(TAModItems.ANTHEKTITE_GLOVES.get(), "compat/aether/");
         }
 
         if (ModChecker.sniffsweapons()) {

@@ -21,7 +21,7 @@ import net.nokunami.elementus.common.compat.piercingpaxels.PPModItems;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.compat.simplyswords.SSModItems;
 import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
-import net.nokunami.elementus.common.compat.theaether.AEItemsRegistry;
+import net.nokunami.elementus.common.compat.theaether.TAModItems;
 import net.nokunami.elementus.common.compat.twigs.TWModItems;
 import net.nokunami.elementus.common.registry.ModItems;
 import nl.sniffiandros.sniffsweapons.reg.ItemReg;
@@ -140,9 +140,9 @@ public class CreativeTabProperties {
             putAfter(entries, ModItems.ANTHEKTITE_LEGGINGS.get(), ModItems.ANTHEKTITE_BOOTS);
 
             if (ModChecker.aether()) {
-                putAfter(entries, ModItems.STEEL_BOOTS.get(), AEItemsRegistry.STEEL_GLOVES);
-                putAfter(entries, ModItems.DIARKRITE_BOOTS.get(), AEItemsRegistry.DIARKRITE_GLOVES);
-                putAfter(entries, ModItems.ANTHEKTITE_BOOTS.get(), AEItemsRegistry.ANTHEKTITE_GLOVES);
+                putAfter(entries, ModItems.STEEL_BOOTS.get(), TAModItems.STEEL_GLOVES);
+                putAfter(entries, ModItems.DIARKRITE_BOOTS.get(), TAModItems.DIARKRITE_GLOVES);
+                putAfter(entries, ModItems.ANTHEKTITE_BOOTS.get(), TAModItems.ANTHEKTITE_GLOVES);
             }
 
             if (ModChecker.sniffsweapons()) {
@@ -265,9 +265,9 @@ public class CreativeTabProperties {
                         }
 
                         if (ModChecker.aether()) {
-                            pOutput.accept(AEItemsRegistry.STEEL_GLOVES.get());
-                            pOutput.accept(AEItemsRegistry.DIARKRITE_GLOVES.get());
-                            pOutput.accept(AEItemsRegistry.ANTHEKTITE_GLOVES.get());
+                            pOutput.accept(TAModItems.STEEL_GLOVES.get());
+                            pOutput.accept(TAModItems.DIARKRITE_GLOVES.get());
+                            pOutput.accept(TAModItems.ANTHEKTITE_GLOVES.get());
                         }
 
                         if (ModChecker.simplyswords()) {
@@ -322,6 +322,7 @@ public class CreativeTabProperties {
 
                         if (ModChecker.sniffsweapons()) {
                             pOutput.accept(SWModItems.STEEL_GREAT_SWORD.get());
+                            pOutput.accept(SWModItems.STEEL_NAGINATA.get());
                             pOutput.accept(SWModItems.STEEL_GREAT_AXE.get());
                             pOutput.accept(SWModItems.STEEL_GREAT_PICKAXE.get());
                             pOutput.accept(SWModItems.STEEL_HELM.get());
@@ -332,6 +333,7 @@ public class CreativeTabProperties {
                             pOutput.accept(SWModItems.STEEL_DO.get());
 
                             pOutput.accept(SWModItems.DIARKRITE_GREAT_SWORD.get());
+                            pOutput.accept(SWModItems.DIARKRITE_NAGINATA.get());
                             pOutput.accept(SWModItems.DIARKRITE_GREAT_AXE.get());
                             pOutput.accept(SWModItems.DIARKRITE_GREAT_PICKAXE.get());
                             pOutput.accept(SWModItems.DIARKRITE_HELM.get());
@@ -342,6 +344,7 @@ public class CreativeTabProperties {
                             pOutput.accept(SWModItems.DIARKRITE_DO.get());
 
                             pOutput.accept(SWModItems.ANTHEKTITE_GREAT_SWORD.get());
+                            pOutput.accept(SWModItems.ANTHEKTITE_NAGINATA.get());
                             pOutput.accept(SWModItems.ANTHEKTITE_GREAT_AXE.get());
                             pOutput.accept(SWModItems.ANTHEKTITE_GREAT_PICKAXE.get());
                             pOutput.accept(SWModItems.ANTHEKTITE_HELM.get());

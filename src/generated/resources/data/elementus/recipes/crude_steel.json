@@ -12,10 +12,10 @@
       "tag": "forge:raw_materials/iron"
     },
     {
-      "tag": "forge:ores/coal"
+      "tag": "minecraft:coals"
     },
     {
-      "tag": "forge:ores/coal"
+      "tag": "minecraft:coals"
     }
   ],
   "result": {

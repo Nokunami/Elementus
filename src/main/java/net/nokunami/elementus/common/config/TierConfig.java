@@ -19,7 +19,7 @@ public class TierConfig {
     private static final Logger logger = Elementus.LOGGER;
     public static final TierConfig INSTANCE = new TierConfig();
     //    public static final String VERSION = "${mod_version}";
-    public static final ComparableVersion VERSION = new ComparableVersion("1.0");
+    public static final ComparableVersion VERSION = new ComparableVersion("1.1");
     // values exposed to other classes
     //Tiers
     public static int steelTierHarvestLevel;
@@ -27,24 +27,21 @@ public class TierConfig {
     public static float steelTierEfficiency;
     public static float steelTierDamage;
     public static int steelTierEnchantability;
-    public static double steelWeaponSpeedBoost;
-    public static double steelWeaponHeaviness;
+    public static double steelWeaponSpeedModifier;
 
     public static int diarkriteTierHarvestLevel;
     public static int diarkriteTierDurability;
     public static float diarkriteTierEfficiency;
     public static float diarkriteTierDamage;
     public static int diarkriteTierEnchantability;
-    public static double diarkriteWeaponSpeedBoost;
-    public static double diarkriteWeaponHeaviness;
+    public static double diarkriteWeaponSpeedModifier;
 
     public static int anthektiteTierHarvestLevel;
     public static int anthektiteTierDurability;
     public static float anthektiteTierEfficiency;
     public static float anthektiteTierDamage;
     public static int anthektiteTierEnchantability;
-    public static double anthektiteWeaponSpeedBoost;
-    public static double anthektiteWeaponHeaviness;
+    public static double anthektiteWeaponSpeedModifier;
 
     //AdvancedNetherite Tiers Diarkrite
     public static int diarkriteIronTierHarvestLevel;
@@ -109,24 +106,21 @@ public class TierConfig {
         steelTierEfficiency = 7.0F;
         steelTierDamage = 3.0F;
         steelTierEnchantability = 15;
-        steelWeaponSpeedBoost = 0.0;
-        steelWeaponHeaviness = 0.2;
+        steelWeaponSpeedModifier = -0.2;
 
         diarkriteTierHarvestLevel = 4;
         diarkriteTierDurability = 2546;
         diarkriteTierEfficiency = 9.0F;
         diarkriteTierDamage = 6.0F;
         diarkriteTierEnchantability = 15;
-        diarkriteWeaponSpeedBoost = 0.0;
-        diarkriteWeaponHeaviness = 0.3;
+        diarkriteWeaponSpeedModifier = -0.3;
 
         anthektiteTierHarvestLevel = 4;
         anthektiteTierDurability = 1946;
         anthektiteTierEfficiency = 12.0F;
         anthektiteTierDamage = 3.0F;
         anthektiteTierEnchantability = 15;
-        anthektiteWeaponSpeedBoost = 0.5;
-        anthektiteWeaponHeaviness = 0.0;
+        anthektiteWeaponSpeedModifier = 0.5;
 
         //AdvancedNetherite Tiers Diarkrite
         diarkriteIronTierHarvestLevel = 4;
@@ -229,24 +223,21 @@ public class TierConfig {
                         case "steelTier_Efficiency": steelTierEfficiency = (float) value; break;
                         case "steelTier_Damage": steelTierDamage = (float) value; break;
                         case "steelTier_Enchantability": steelTierEnchantability = (int) value; break;
-                        case "steelTier_WeaponSpeedBoost": steelWeaponSpeedBoost = (float) value; break;
-                        case "steelTier_WeaponHeaviness": steelWeaponHeaviness = (float) value; break;
+                        case "steelTier_WeaponSpeedModifier": steelWeaponSpeedModifier = (float) value; break;
 
                         case "diarkriteTier_HarvestLevel": diarkriteTierHarvestLevel = (int) value; break;
                         case "diarkriteTier_Durability": diarkriteTierDurability = (int) value; break;
                         case "diarkriteTier_Efficiency": diarkriteTierEfficiency = (float) value; break;
                         case "diarkriteTier_Damage": diarkriteTierDamage = (float) value; break;
                         case "diarkriteTier_Enchantability": diarkriteTierEnchantability = (int) value; break;
-                        case "diarkriteTier_WeaponSpeedBoost": diarkriteWeaponSpeedBoost = (float) value; break;
-                        case "diarkriteTier_WeaponHeaviness": diarkriteWeaponHeaviness = (float) value; break;
+                        case "diarkriteTier_WeaponSpeedModifier": diarkriteWeaponSpeedModifier = (float) value; break;
 
                         case "anthektiteTier_HarvestLevel": anthektiteTierHarvestLevel = (int) value; break;
                         case "anthektiteTier_Durability": anthektiteTierDurability = (int) value; break;
                         case "anthektiteTier_Efficiency": anthektiteTierEfficiency = (float) value; break;
                         case "anthektiteTier_Damage": anthektiteTierDamage = (float) value; break;
                         case "anthektiteTier_Enchantability": anthektiteTierEnchantability = (int) value; break;
-                        case "anthektiteTier_WeaponSpeedBoost": anthektiteWeaponSpeedBoost = (float) value; break;
-                        case "anthektiteTier_WeaponHeaviness": anthektiteWeaponHeaviness = (float) value; break;
+                        case "anthektiteTier_WeaponSpeedModifier": anthektiteWeaponSpeedModifier = (float) value; break;
 
 
                         case "diarkriteIronTier_HarvestLevel": diarkriteIronTierHarvestLevel = (int) value; break;
@@ -316,7 +307,7 @@ public class TierConfig {
     }
 
     private void save() {
-        try (BufferedWriter writer = Files.newBufferedWriter(Elementus.CONFIG_PATH)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Elementus.MATERIAL_STATS_CONFIG_PATH)) {
             writer.write("version = " + VERSION + "\n");
             writer.write("# Note: Restart minecraft to apply changes in config");
             writer.newLine();
@@ -324,7 +315,7 @@ public class TierConfig {
             writer.write("[ToolTiers]\n");
             writer.write("  [Stat_Examples]\n");
             writer.write("  # Format:\n");
-            writer.write("  # [Harvest Level, Durability, Damage, Efficiency, Enchantability, WeaponSpeedBoost, WeaponsHeaviness]\n");
+            writer.write("  # [Harvest Level, Durability, Damage, Efficiency, Enchantability, WeaponSpeedModifier]\n");
             writer.write("    # [Wood      :0,   59,  2, 0, 15]\n");
             writer.write("    # [Gold      :0,   32, 12, 0, 22]\n");
             writer.write("    # [Stone     :1,  131,  4, 1,  5]\n");
@@ -332,34 +323,31 @@ public class TierConfig {
             writer.write("    # [Diamond   :3, 1561,  8, 3, 10]\n");
             writer.write("    # [Netherite :4, 2031,  9, 4, 15]\n");
             writer.write("  [Steel]\n");
-            writer.write("    # Default Values: 3, 756, 3.0, 7.0, 15, 0.0, 0.2\n");
+            writer.write("    # Default Values: 3, 756, 3.0, 7.0, 15, -0.2\n");
             writer.write("    steelTier_Harvestlevel = " + steelTierHarvestLevel + "\n");
             writer.write("    steelTier_Durability = " + steelTierDurability + "\n");
             writer.write("    steelTier_Damage = " + steelTierDamage + "\n");
             writer.write("    steelTier_Efficiency = " + steelTierEfficiency + "\n");
             writer.write("    steelTier_Enchantability = " + steelTierEnchantability + "\n");
-            writer.write("    steelTier_WeaponSpeedBoost = " + steelWeaponSpeedBoost + "\n");
-            writer.write("    steelTier_WeaponHeaviness = " + steelWeaponHeaviness + "\n");
+            writer.write("    steelTier_WeaponSpeedModifier = " + steelWeaponSpeedModifier + "\n");
             writer.newLine();
             writer.write("  [Diarkrite]\n");
-            writer.write("    # Default Values: 4, 2546, 6.0, 9.0, 15, 0.0, 0.3\n");
+            writer.write("    # Default Values: 4, 2546, 6.0, 9.0, 15, -0.3\n");
             writer.write("    diarkriteTierHarvest_level = " + diarkriteTierHarvestLevel + "\n");
             writer.write("    diarkriteTierDurability = " + diarkriteTierDurability + "\n");
             writer.write("    diarkriteTierDamage = " + diarkriteTierDamage + "\n");
             writer.write("    diarkriteTierEfficiency = " + diarkriteTierEfficiency + "\n");
             writer.write("    diarkriteTierEnchantability = " + diarkriteTierEnchantability + "\n");
-            writer.write("    diarkriteTier_WeaponSpeedBoost = " + diarkriteWeaponSpeedBoost + "\n");
-            writer.write("    diarkriteTier_WeaponHeaviness = " + diarkriteWeaponHeaviness + "\n");
+            writer.write("    diarkriteTier_WeaponSpeedModifier = " + diarkriteWeaponSpeedModifier + "\n");
             writer.newLine();
             writer.write("  [Anthektite]\n");
-            writer.write("    # Default Values: 4, 1946, 3.0, 12.0, 15, 0.5, 0.0\n");
+            writer.write("    # Default Values: 4, 1946, 3.0, 12.0, 15, 0.5\n");
             writer.write("    anthektiteTierHarvest_level = " + anthektiteTierHarvestLevel + "\n");
             writer.write("    anthektiteTierDurability = " + anthektiteTierDurability + "\n");
             writer.write("    anthektiteTierDamage = " + anthektiteTierDamage + "\n");
             writer.write("    anthektiteTierEfficiency = " + anthektiteTierEfficiency + "\n");
             writer.write("    anthektiteTierEnchantability = " + anthektiteTierEnchantability + "\n");
-            writer.write("    anthektiteTier_WeaponSpeedBoost = " + anthektiteWeaponSpeedBoost + "\n");
-            writer.write("    anthektiteTier_WeaponHeaviness = " + anthektiteWeaponHeaviness + "\n");
+            writer.write("    anthektiteTier_WeaponSpeedModifier = " + anthektiteWeaponSpeedModifier + "\n");
             writer.newLine();
             writer.write("[AdvancedNetherite]\n");
             writer.write("  [ToolTiers]\n");

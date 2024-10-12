@@ -1,4 +1,4 @@
-// 1.20.1	2024-09-11T23:12:23.1703472	Tags for minecraft:block mod id elementus
+// 1.20.1	2024-10-12T12:42:20.3986416	Tags for minecraft:block mod id elementus
 5ce98cf97de33c4fb89bc61d56ce29888d17ca42 data/aether/tags/blocks/gravitite_ability_blacklist.json
 65116b695c5206b0607abf75eb3bf4002ceb8784 data/aether/tags/blocks/non_tunnel_replaceable.json
 f8fb98e6767dfc5b94980571e7ba1ed316269daa data/elementus/tags/blocks/movcadia_logs.json
@@ -48,4 +48,4 @@ c3734d10cfbdddfd72c73070c0586a45e414c754 data/minecraft/tags/blocks/wooden_doors
 113be7f85d70123f321b32db1fac7b88943a46cf data/minecraft/tags/blocks/wooden_slabs.json
 aa6e9c0a4cff9abc580246f5d0bb9cb41eadd356 data/minecraft/tags/blocks/wooden_stairs.json
 dfde8b78be574055b982ee449d101647f2db8e90 data/minecraft/tags/blocks/wooden_trapdoors.json
-e293c90083e923d018d37e1349e6c980bcb60368 data/twigs/tags/blocks/tables.json
+adf78f7a35130397a3a4f91ec4f22455b41df4ba data/twigs/tags/blocks/tables.json

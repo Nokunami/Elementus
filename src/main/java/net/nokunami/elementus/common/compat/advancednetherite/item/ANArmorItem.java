@@ -4,15 +4,11 @@ import com.autovw.advancednetherite.api.annotation.Internal;
 import com.autovw.advancednetherite.common.item.AdvancedArmorItem;
 import com.autovw.advancednetherite.config.ConfigHelper;
 import com.autovw.advancednetherite.core.util.ModTooltips;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -23,7 +19,6 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ModClientEvents;
 import net.nokunami.elementus.common.compat.advancednetherite.util.ANUtil;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -38,14 +33,14 @@ public class ANArmorItem extends AdvancedArmorItem {
         this.material = material;
     }
 
-    @Override
-    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
-        if (pEquipmentSlot == this.type.getSlot()) {
-            return this.material.getSlotToAttributeMap().get(pEquipmentSlot);
-        } else {
-            return ImmutableMultimap.of();
-        }
-    }
+//    @Override
+//    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
+//        if (pEquipmentSlot == this.type.getSlot()) {
+//            return this.material.getSlotToAttributeMap().get(pEquipmentSlot);
+//        } else {
+//            return ImmutableMultimap.of();
+//        }
+//    }
 
     public boolean pacifiesEndermen() {
         if (this.material == ModArmorMaterials.DIARKRITE_IRON) {

@@ -32,7 +32,7 @@ import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
 import net.nokunami.elementus.common.compat.piercingpaxels.PPModItems;
 import net.nokunami.elementus.common.compat.simplyswords.SSModItems;
 import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
-import net.nokunami.elementus.common.compat.theaether.AEItemsRegistry;
+import net.nokunami.elementus.common.compat.theaether.TAModItems;
 import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
 import net.nokunami.elementus.datagen.loot.ANLootModifiers;
 import net.nokunami.elementus.common.registry.ModBlocks;
@@ -55,8 +55,8 @@ public class Elementus {
     public static final Path MATERIAL_STATS_CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_material_stats_config.toml");
     public static final Path TOOLS_CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_tools_config.toml");
     public static final Path ARMOR_CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_armor_config.toml");
-    public static final Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_config.toml");
-    public static final Path CONFIG_PATH_ADVANCED_NETHERITE = FMLPaths.CONFIGDIR.get().resolve("elementus_advanced_netherite_config.toml");
+//    public static final Path CONFIG_PATH = FMLPaths.CONFIGDIR.get().resolve("elementus_config.toml");
+//    public static final Path CONFIG_PATH_ADVANCED_NETHERITE = FMLPaths.CONFIGDIR.get().resolve("elementus_advanced_netherite_config.toml");
     public static ResourceLocation modLoc(String location) {
         return new ResourceLocation(Elementus.MODID, location);
     }
@@ -71,9 +71,7 @@ public class Elementus {
         TierConfig.reload();
         ToolsConfig.reload();
         ArmorConfig.reload();
-        BaseConfig.reload();
-        ANConfig.reload();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, "elementus_armor_config.toml");
+//        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC, "elementus_armor_config.toml");
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
@@ -83,7 +81,9 @@ public class Elementus {
 
         ModTrunkPlacer.register(modEventBus);
 
-        if (ModChecker.integrationTab()) { CreativeTabProperties.register(modEventBus); }
+        if (ModChecker.integrationTab()) {
+            CreativeTabProperties.register(modEventBus);
+        }
 
         if (ModChecker.farmersdelight()) {
             FDModItems.register(modEventBus);
@@ -92,7 +92,7 @@ public class Elementus {
         if (ModChecker.piercingpaxels()) { PPModItems.register(modEventBus); }
         if (ModChecker.nethersdelight()) { NDModItems.register(modEventBus); }
         if (ModChecker.irons_spellbooks()) { ISSModItems.register(modEventBus); }
-        if (ModChecker.aether()) { AEItemsRegistry.register(modEventBus); }
+        if (ModChecker.aether()) { TAModItems.register(modEventBus); }
         if (ModChecker.simplyswords()) {
             SSModItems.register(modEventBus);
             AutoConfig.register(GeneralWrapper.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));

@@ -3,7 +3,6 @@ package net.nokunami.elementus.common.compat.advancednetherite.util;
 import com.autovw.advancednetherite.config.ConfigHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import net.nokunami.elementus.common.registry.ModTiers;
 
@@ -92,47 +91,47 @@ public class ANUtil {
         return newColor;
     }
 
-    public static float getDestroySpeed(float originalSpeed, ItemStack stack, BlockState state) {
-        float newSpeed = originalSpeed;
-        Item var5 = stack.getItem();
-        if (var5 instanceof DiggerItem diggerItem) {
-            Tier tier = diggerItem.getTier();
-            if (diggerItem.isCorrectToolForDrops(state)) {
-                if (tier == ModTiers.DIARKRITE_IRON) {
-                    newSpeed *= (float) ConfigHelper.get().getServer().getToolProperties().getIronBreakingSpeedMultiplier();
-                }
-
-                if (tier == ModTiers.DIARKRITE_GOLD) {
-                    newSpeed *= (float) ConfigHelper.get().getServer().getToolProperties().getGoldBreakingSpeedMultiplier();
-                }
-
-                if (tier == ModTiers.DIARKRITE_EMERALD) {
-                    newSpeed *= (float) ConfigHelper.get().getServer().getToolProperties().getEmeraldBreakingSpeedMultiplier();
-                }
-
-                if (tier == ModTiers.DIARKRITE_DIAMOND) {
-                    newSpeed *= (float) ConfigHelper.get().getServer().getToolProperties().getDiamondBreakingSpeedMultiplier();
-                }
-
-
-                if (tier == ModTiers.ANTHEKTITE_IRON) {
-                    newSpeed *= (float) (ConfigHelper.get().getServer().getToolProperties().getIronBreakingSpeedMultiplier() * 1.25);
-                }
-
-                if (tier == ModTiers.ANTHEKTITE_GOLD) {
-                    newSpeed *= (float) (ConfigHelper.get().getServer().getToolProperties().getGoldBreakingSpeedMultiplier() * 1.25);
-                }
-
-                if (tier == ModTiers.ANTHEKTITE_EMERALD) {
-                    newSpeed *= (float) (ConfigHelper.get().getServer().getToolProperties().getEmeraldBreakingSpeedMultiplier() * 1.25);
-                }
-
-                if (tier == ModTiers.ANTHEKTITE_DIAMOND) {
-                    newSpeed *= (float) (ConfigHelper.get().getServer().getToolProperties().getDiamondBreakingSpeedMultiplier() * 1.25);
-                }
-            }
-        }
-
-        return newSpeed;
-    }
+//    public static float getDestroySpeed(float originalSpeed, ItemStack stack, BlockState state) {
+//        float newSpeed = originalSpeed;
+//        Item var5 = stack.getItem();
+//        if (var5 instanceof DiggerItem diggerItem) {
+//            Tier tier = diggerItem.getTier();
+//            if (diggerItem.isCorrectToolForDrops(state)) {
+//                if (tier == ModTiers.DIARKRITE_IRON) {
+//                    newSpeed *= (float) ConfigHelper.get().getServer().getToolProperties().getIronBreakingSpeedMultiplier();
+//                }
+//
+//                if (tier == ModTiers.DIARKRITE_GOLD) {
+//                    newSpeed *= (float) ConfigHelper.get().getServer().getToolProperties().getGoldBreakingSpeedMultiplier();
+//                }
+//
+//                if (tier == ModTiers.DIARKRITE_EMERALD) {
+//                    newSpeed *= (float) ConfigHelper.get().getServer().getToolProperties().getEmeraldBreakingSpeedMultiplier();
+//                }
+//
+//                if (tier == ModTiers.DIARKRITE_DIAMOND) {
+//                    newSpeed *= (float) ConfigHelper.get().getServer().getToolProperties().getDiamondBreakingSpeedMultiplier();
+//                }
+//
+//
+//                if (tier == ModTiers.ANTHEKTITE_IRON) {
+//                    newSpeed *= (float) (ConfigHelper.get().getServer().getToolProperties().getIronBreakingSpeedMultiplier() * 1.25);
+//                }
+//
+//                if (tier == ModTiers.ANTHEKTITE_GOLD) {
+//                    newSpeed *= (float) (ConfigHelper.get().getServer().getToolProperties().getGoldBreakingSpeedMultiplier() * 1.25);
+//                }
+//
+//                if (tier == ModTiers.ANTHEKTITE_EMERALD) {
+//                    newSpeed *= (float) (ConfigHelper.get().getServer().getToolProperties().getEmeraldBreakingSpeedMultiplier() * 1.25);
+//                }
+//
+//                if (tier == ModTiers.ANTHEKTITE_DIAMOND) {
+//                    newSpeed *= (float) (ConfigHelper.get().getServer().getToolProperties().getDiamondBreakingSpeedMultiplier() * 1.25);
+//                }
+//            }
+//        }
+//
+//        return newSpeed;
+//    }
 }

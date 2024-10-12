@@ -1,9 +1,0 @@
-{
-  "values": {
-    "before": {
-      "#forge:ingots/steel": 1280,
-      "#forge:ores/atelis_scrap": 16128,
-      "#forge:raw_materials/steel": 1280
-    }
-  }
-}

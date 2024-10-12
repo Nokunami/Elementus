@@ -1,12 +1,36 @@
 {
   "values": [
-    "elementus:diarkrite_diamond_helmet",
-    "elementus:diarkrite_diamond_chestplate",
-    "elementus:diarkrite_diamond_leggings",
-    "elementus:diarkrite_diamond_boots",
-    "elementus:anthektite_diamond_helmet",
-    "elementus:anthektite_diamond_chestplate",
-    "elementus:anthektite_diamond_leggings",
-    "elementus:anthektite_diamond_boots"
+    {
+      "id": "elementus:diarkrite_diamond_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_boots",
+      "required": false
+    }
   ]
 }

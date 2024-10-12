@@ -19,7 +19,7 @@ public class ArmorConfig {
     private static final Logger logger = Elementus.LOGGER;
     public static final ArmorConfig INSTANCE = new ArmorConfig();
     //    public static final String VERSION = "${mod_version}";
-    public static final ComparableVersion VERSION = new ComparableVersion("1.0");
+    public static final ComparableVersion VERSION = new ComparableVersion("1.1");
     // values exposed to other classes
     //Armor
     public static int steelArmor_DurabilityForType;
@@ -324,6 +324,41 @@ public class ArmorConfig {
         anthektiteArmor_AttackSpeed = 0.1F;
         anthektiteArmor_MovementSpeed = 0F;
 
+        //Iron's Spells 'n Spellbooks Armor Diarkrite
+        diarkriteMageArmor_DurabilityForType = 38;
+        diarkriteMageArmor_Helmet = 3;
+        diarkriteMageArmor_Chestplate = 8;
+        diarkriteMageArmor_Leggings = 6;
+        diarkriteMageArmor_Boots = 3;
+        diarkriteMageArmor_Enchantability = 18;
+        diarkriteMageArmor_Toughness = 4F;
+        diarkriteMageArmor_KnockbackResistance = 0.2F;
+        diarkriteMageArmor_AttackSpeed = 0F;
+        diarkriteMageArmor_MovementSpeed = -0.04F;
+        diarkriteMageArmor_MaxMana = 135;
+        diarkriteMageArmor_ManaRegen = -0.08F;
+        diarkriteMageArmor_SpellPower = 0.05F;
+        diarkriteMageArmor_SpellResist = 0.0;
+        diarkriteMageArmor_CastTime = 0.0;
+        diarkriteMageArmor_Cooldown = 0.0;
+
+        anthektiteMageArmor_DurabilityForType = 35;
+        anthektiteMageArmor_Helmet = 3;
+        anthektiteMageArmor_Chestplate = 8;
+        anthektiteMageArmor_Leggings = 6;
+        anthektiteMageArmor_Boots = 3;
+        anthektiteMageArmor_Enchantability = 15;
+        anthektiteMageArmor_Toughness = 2F;
+        anthektiteMageArmor_KnockbackResistance = 0.05F;
+        anthektiteMageArmor_AttackSpeed = 0.1F;
+        anthektiteMageArmor_MovementSpeed = 0F;
+        anthektiteMageArmor_MaxMana = 100;
+        anthektiteMageArmor_ManaRegen = 0.08F;
+        anthektiteMageArmor_SpellPower = 0.0;
+        anthektiteMageArmor_SpellResist = 0.0;
+        anthektiteMageArmor_CastTime = 0.0;
+        anthektiteMageArmor_Cooldown = 0.0;
+
         //AdvancedNetherite Armor Diarkrite
         diarkriteIronArmor_DurabilityForType = 40;
         diarkriteIronArmor_Helmet = 4;
@@ -588,6 +623,41 @@ public class ArmorConfig {
                         case "anthektiteArmor_KnockbackResistance": anthektiteArmor_KnockbackResistance = (float) value; break;
                         case "anthektiteArmor_AttackSpeedBoost": anthektiteArmor_AttackSpeed = (float) value; break;
                         case "anthektiteArmor_MovementSpeed": anthektiteArmor_MovementSpeed = (float) value; break;
+
+
+                        case "diarkriteMageArmor_Durability": diarkriteMageArmor_DurabilityForType = (int) value; break;
+                        case "diarkriteMageArmor_Helmet": diarkriteMageArmor_Helmet = (int) value; break;
+                        case "diarkriteMageArmor_Chestplate": diarkriteMageArmor_Chestplate = (int) value; break;
+                        case "diarkriteMageArmor_Leggings": diarkriteMageArmor_Leggings = (int) value; break;
+                        case "diarkriteMageArmor_Boots": diarkriteMageArmor_Boots = (int) value; break;
+                        case "diarkriteMageArmor_Enchantability": diarkriteMageArmor_Enchantability = (int) value; break;
+                        case "diarkriteMageArmor_Toughness": diarkriteMageArmor_Toughness = (float) value; break;
+                        case "diarkriteMageArmor_KnockbackResistance": diarkriteMageArmor_KnockbackResistance = (float) value; break;
+                        case "diarkriteMageArmor_AttackSpeedBoost": diarkriteMageArmor_AttackSpeed = (float) value; break;
+                        case "diarkriteMageArmor_MovementSpeed": diarkriteMageArmor_MovementSpeed = (float) value; break;
+                        case "diarkriteMageArmor_MaxMana": diarkriteMageArmor_MaxMana = (int) value; break;
+                        case "diarkriteMageArmor_ManaRegen": diarkriteMageArmor_ManaRegen = value; break;
+                        case "diarkriteMageArmor_SpellPower": diarkriteMageArmor_SpellPower = value; break;
+                        case "diarkriteMageArmor_SpellResist": diarkriteMageArmor_SpellResist = value; break;
+                        case "diarkriteMageArmor_CastTime": diarkriteMageArmor_CastTime = value; break;
+                        case "diarkriteMageArmor_Cooldown": diarkriteMageArmor_Cooldown = value; break;
+
+                        case "anthektiteMageArmor_Durability": anthektiteMageArmor_DurabilityForType = (int) value; break;
+                        case "anthektiteMageArmor_Helmet": anthektiteMageArmor_Helmet = (int) value; break;
+                        case "anthektiteMageArmor_Chestplate": anthektiteMageArmor_Chestplate = (int) value; break;
+                        case "anthektiteMageArmor_Leggings": anthektiteMageArmor_Leggings = (int) value; break;
+                        case "anthektiteMageArmor_Boots": anthektiteMageArmor_Boots = (int) value; break;
+                        case "anthektiteMageArmor_Enchantability": anthektiteMageArmor_Enchantability = (int) value; break;
+                        case "anthektiteMageArmor_Toughness": anthektiteMageArmor_Toughness = (float) value; break;
+                        case "anthektiteMageArmor_KnockbackResistance": anthektiteMageArmor_KnockbackResistance = (float) value; break;
+                        case "anthektiteMageArmor_AttackSpeedBoost": anthektiteMageArmor_AttackSpeed = (float) value; break;
+                        case "anthektiteMageArmor_MovementSpeed": anthektiteMageArmor_MovementSpeed = (float) value; break;
+                        case "anthektiteMageArmor_MaxMana": anthektiteMageArmor_MaxMana = (int) value; break;
+                        case "anthektiteMageArmor_ManaRegen": anthektiteMageArmor_ManaRegen = value; break;
+                        case "anthektiteMageArmor_SpellPower": anthektiteMageArmor_SpellPower = value; break;
+                        case "anthektiteMageArmor_SpellResist": anthektiteMageArmor_SpellResist = value; break;
+                        case "anthektiteMageArmor_CastTime": anthektiteMageArmor_CastTime = value; break;
+                        case "anthektiteMageArmor_Cooldown": anthektiteMageArmor_Cooldown = value; break;
 
 
                         case "diarkriteIronArmor_Durability": diarkriteIronArmor_DurabilityForType = (int) value; break;
@@ -866,6 +936,58 @@ public class ArmorConfig {
             writer.write("    anthektiteArmor_KnockbackResistance = " + anthektiteArmor_KnockbackResistance + "\n");
             writer.write("    anthektiteArmor_AttackSpeedBoost = " + anthektiteArmor_AttackSpeed + "\n");
             writer.write("    anthektiteArmor_MovementSpeed = " + anthektiteArmor_MovementSpeed + "\n");
+            writer.newLine();
+            writer.newLine();
+            writer.write("[IronsSpellbooks]\n");
+            writer.write("  [Diarkrite]\n");
+            writer.write("    # Default: (Durability: 38), (Enchantability: 18)\n");
+            writer.write("    diarkriteMageArmor_Durability = " + diarkriteMageArmor_DurabilityForType + "\n");
+            writer.write("    diarkriteMageArmor_Enchantability = " + diarkriteMageArmor_Enchantability + "\n");
+            writer.newLine();
+            writer.write("    # Default: (Helmet: 3), (Chestplate: 8), (Leggings: 6), (Boots: 3)\n");
+            writer.write("    diarkriteMageArmor_Helmet = " + diarkriteMageArmor_Helmet + "\n");
+            writer.write("    diarkriteMageArmor_Chestplate = " + diarkriteMageArmor_Chestplate + "\n");
+            writer.write("    diarkriteMageArmor_Leggings = " + diarkriteMageArmor_Leggings + "\n");
+            writer.write("    diarkriteMageArmor_Boots = " + diarkriteMageArmor_Boots + "\n");
+            writer.newLine();
+            writer.write("    # Default: (Toughness: 4), (KnockbackResistance: 0.2), (AttackSpeedBoost: 0), (MovementSpeedBoost: -0.04)\n");
+            writer.write("    diarkriteMageArmor_Toughness = " + diarkriteMageArmor_Toughness + "\n");
+            writer.write("    diarkriteMageArmor_KnockbackResistance = " + diarkriteMageArmor_KnockbackResistance + "\n");
+            writer.write("    diarkriteMageArmor_AttackSpeedBoost = " + diarkriteMageArmor_AttackSpeed + "\n");
+            writer.write("    diarkriteMageArmor_MovementSpeed = " + diarkriteMageArmor_MovementSpeed + "\n");
+            writer.newLine();
+            writer.write("    # Default: (MaxMana: 135), (ManaRegen: -0.08), (SpellPower: 0.05), (SpellResist: 0.0), (CastTime: 0.0), (Cooldown: 0.0)\n");
+            writer.write("    diarkriteMageArmor_MaxMana = " + diarkriteMageArmor_MaxMana + "\n");
+            writer.write("    diarkriteMageArmor_ManaRegen = " + diarkriteMageArmor_ManaRegen + "\n");
+            writer.write("    diarkriteMageArmor_SpellPower = " + diarkriteMageArmor_SpellPower + "\n");
+            writer.write("    diarkriteMageArmor_SpellResist = " + diarkriteMageArmor_SpellResist + "\n");
+            writer.write("    diarkriteMageArmor_CastTime = " + diarkriteMageArmor_CastTime + "\n");
+            writer.write("    diarkriteMageArmor_Cooldown = " + diarkriteMageArmor_Cooldown + "\n");
+            writer.newLine();
+            writer.write("  [Anthektite]\n");
+            writer.write("    # Default: (Durability: 35), (Enchantability: 15)\n");
+            writer.write("    anthektiteMageArmor_Durability = " + anthektiteMageArmor_DurabilityForType + "\n");
+            writer.write("    anthektiteMageArmor_Enchantability = " + anthektiteMageArmor_Enchantability + "\n");
+            writer.newLine();
+            writer.write("    # Default: (Helmet: 3), (Chestplate: 8), (Leggings: 6), (Boots: 3)\n");
+            writer.write("    anthektiteMageArmor_Helmet = " + anthektiteMageArmor_Helmet + "\n");
+            writer.write("    anthektiteMageArmor_Chestplate = " + anthektiteMageArmor_Chestplate + "\n");
+            writer.write("    anthektiteMageArmor_Leggings = " + anthektiteMageArmor_Leggings + "\n");
+            writer.write("    anthektiteMageArmor_Boots = " + anthektiteMageArmor_Boots + "\n");
+            writer.newLine();
+            writer.write("    # Default: (Toughness: 2), (KnockbackResistance: 0.05), (AttackSpeedBoost: 0.1), (MovementSpeedBoost: 0)\n");
+            writer.write("    anthektiteMageArmor_Toughness = " + anthektiteMageArmor_Toughness + "\n");
+            writer.write("    anthektiteMageArmor_KnockbackResistance = " + anthektiteMageArmor_KnockbackResistance + "\n");
+            writer.write("    anthektiteMageArmor_AttackSpeedBoost = " + anthektiteMageArmor_AttackSpeed + "\n");
+            writer.write("    anthektiteMageArmor_MovementSpeed = " + anthektiteMageArmor_MovementSpeed + "\n");
+            writer.newLine();
+            writer.write("    # Default: (MaxMana: 100), (ManaRegen: 0.08), (SpellPower: 0.0), (SpellResist: 0.0), (CastTime: 0.0), (Cooldown: 0.0)\n");
+            writer.write("    anthektiteMageArmor_MaxMana = " + anthektiteMageArmor_MaxMana + "\n");
+            writer.write("    anthektiteMageArmor_ManaRegen = " + anthektiteMageArmor_ManaRegen + "\n");
+            writer.write("    anthektiteMageArmor_SpellPower = " + anthektiteMageArmor_SpellPower + "\n");
+            writer.write("    anthektiteMageArmor_SpellResist = " + anthektiteMageArmor_SpellResist + "\n");
+            writer.write("    anthektiteMageArmor_CastTime = " + anthektiteMageArmor_CastTime + "\n");
+            writer.write("    anthektiteMageArmor_Cooldown = " + anthektiteMageArmor_Cooldown + "\n");
             writer.newLine();
             writer.newLine();
             writer.write("[AdvancedNetherite]\n");

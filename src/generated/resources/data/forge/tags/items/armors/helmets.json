@@ -4,6 +4,14 @@
     "elementus:diarkrite_helmet",
     "elementus:anthektite_helmet",
     {
+      "id": "elementus:diarkrite_mage_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_mage_helmet",
+      "required": false
+    },
+    {
       "id": "elementus:diarkrite_iron_helmet",
       "required": false
     },

@@ -1,7 +1,16 @@
 {
   "values": [
-    "elementus:steel_spell_book",
-    "elementus:diarkrite_spell_book",
-    "elementus:anthektite_spell_book"
+    {
+      "id": "elementus:steel_spell_book",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_spell_book",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_spell_book",
+      "required": false
+    }
   ]
 }

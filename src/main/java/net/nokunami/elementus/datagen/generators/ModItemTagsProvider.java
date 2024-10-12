@@ -11,13 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
-import net.nokunami.elementus.common.compat.farmersdelight.FDModItems;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.compat.farmersdelight.NDModItems;
-import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
-import net.nokunami.elementus.common.compat.theaether.AEItemsRegistry;
-import net.nokunami.elementus.common.compat.twigs.TWModItems;
 import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 import umpaz.nethersdelight.common.tag.NDTags;
@@ -215,6 +209,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     private void forgeTags() {
 
         tag(Tags.Items.ARMORS_HELMETS).add(ModItems.STEEL_HELMET.get(),ModItems.DIARKRITE_HELMET.get(),ModItems.ANTHEKTITE_HELMET.get())
+                .addOptional(new ResourceLocation("elementus", "diarkrite_mage_helmet"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_mage_helmet"))
+
                 .addOptional(new ResourceLocation("elementus", "diarkrite_iron_helmet"))
                 .addOptional(new ResourceLocation("elementus", "diarkrite_gold_helmet"))
                 .addOptional(new ResourceLocation("elementus", "diarkrite_emerald_helmet"))
@@ -226,6 +223,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addOptional(new ResourceLocation("elementus", "anthektite_diamond_helmet"));
 
         tag(Tags.Items.ARMORS_CHESTPLATES).add(ModItems.STEEL_CHESTPLATE.get(),ModItems.DIARKRITE_CHESTPLATE.get(),ModItems.ANTHEKTITE_CHESTPLATE.get())
+                .addOptional(new ResourceLocation("elementus", "diarkrite_mage_chestplate"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_mage_chestplate"))
+
                 .addOptional(new ResourceLocation("elementus", "diarkrite_iron_chestplate"))
                 .addOptional(new ResourceLocation("elementus", "diarkrite_gold_chestplate"))
                 .addOptional(new ResourceLocation("elementus", "diarkrite_emerald_chestplate"))
@@ -237,6 +237,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addOptional(new ResourceLocation("elementus", "anthektite_diamond_chestplate"));
 
         tag(Tags.Items.ARMORS_LEGGINGS).add(ModItems.STEEL_LEGGINGS.get(),ModItems.DIARKRITE_LEGGINGS.get(),ModItems.ANTHEKTITE_LEGGINGS.get())
+                .addOptional(new ResourceLocation("elementus", "diarkrite_mage_leggings"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_mage_leggings"))
+
                 .addOptional(new ResourceLocation("elementus", "diarkrite_iron_leggings"))
                 .addOptional(new ResourceLocation("elementus", "diarkrite_gold_leggings"))
                 .addOptional(new ResourceLocation("elementus", "diarkrite_emerald_leggings"))
@@ -248,6 +251,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addOptional(new ResourceLocation("elementus", "anthektite_diamond_leggings"));
 
         tag(Tags.Items.ARMORS_BOOTS).add(ModItems.STEEL_BOOTS.get(),ModItems.DIARKRITE_BOOTS.get(),ModItems.ANTHEKTITE_BOOTS.get())
+                .addOptional(new ResourceLocation("elementus", "diarkrite_mage_boots"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_mage_boots"))
+
                 .addOptional(new ResourceLocation("elementus", "diarkrite_iron_boots"))
                 .addOptional(new ResourceLocation("elementus", "diarkrite_gold_boots"))
                 .addOptional(new ResourceLocation("elementus", "diarkrite_emerald_boots"))
@@ -330,26 +336,49 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         tag(Etags.Item.STORAGE_BLOCK_STEEL).add(ModItems.STEEL_BLOCK.get());
         tag(Etags.Item.STORAGE_BLOCK_DIARKRITE).add(ModItems.DIARKRITE_BLOCK.get());
         tag(Etags.Item.STORAGE_BLOCK_ANTHEKTITE).add(ModItems.ANTHEKTITE_BLOCK.get());
+
+        tag(Etags.Item.REPAIRS_STEEL_ARMOR).add(ModItems.STEEL_INGOT.get()).addTags(Etags.Item.INGOTS_STEEL);
+        tag(Etags.Item.REPAIRS_DIARKRITE_ARMOR).add(ModItems.DIARKRITE_INGOT.get()).addTags(Etags.Item.INGOTS_DIARKRITE);
+        tag(Etags.Item.REPAIRS_ANTHEKTITE_ARMOR).add(ModItems.ANTHEKTITE_INGOT.get()).addTags(Etags.Item.INGOTS_ANTHEKTITE);
+
+        tag(Etags.Item.REPAIRS_DIARKRITE_IRON_ARMOR).addOptional(new ResourceLocation("elementus", "diarkrite_iron_ingot"));
+        tag(Etags.Item.REPAIRS_DIARKRITE_GOLD_ARMOR).addOptional(new ResourceLocation("elementus", "diarkrite_gold_ingot"));
+        tag(Etags.Item.REPAIRS_DIARKRITE_EMERALD_ARMOR).addOptional(new ResourceLocation("elementus", "diarkrite_emerald_ingot"));
+        tag(Etags.Item.REPAIRS_DIARKRITE_DIAMOND_ARMOR).addOptional(new ResourceLocation("elementus", "diarkrite_diamond_ingot"));
+        tag(Etags.Item.REPAIRS_ANTHEKTITE_IRON_ARMOR).addOptional(new ResourceLocation("elementus", "anthektite_iron_ingot"));
+        tag(Etags.Item.REPAIRS_ANTHEKTITE_GOLD_ARMOR).addOptional(new ResourceLocation("elementus", "anthektite_gold_ingot"));
+        tag(Etags.Item.REPAIRS_ANTHEKTITE_EMERALD_ARMOR).addOptional(new ResourceLocation("elementus", "anthektite_emerald_ingot"));
+        tag(Etags.Item.REPAIRS_ANTHEKTITE_DIAMOND_ARMOR).addOptional(new ResourceLocation("elementus", "anthektite_diamond_ingot"));
     }
 
     private void modCompatibilityTags() {
         //Farmer's Delight
         tag(ModTags.KNIVES)
-                .add(FDModItems.STEEL_KNIFE.get()).add(FDModItems.ANTHEKTITE_KNIFE.get()).add(FDModItems.DIARKRITE_KNIFE.get());
+                .addOptional(new ResourceLocation("elementus", "steel_knife"))
+                .addOptional(new ResourceLocation("elementus", "diarkrite_knife"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_knife"));
         tag(Etags.Item.FD_KNIFE)
-                .add(FDModItems.STEEL_KNIFE.get()).add(FDModItems.ANTHEKTITE_KNIFE.get()).add(FDModItems.DIARKRITE_KNIFE.get());
+                .addOptional(new ResourceLocation("elementus", "steel_knife"))
+                .addOptional(new ResourceLocation("elementus", "diarkrite_knife"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_knife"));
 
         //Nether's Delight
         tag(NDTags.MACHETES)
-                .add(NDModItems.STEEL_MACHETE.get()).add(NDModItems.ANTHEKTITE_MACHETE.get()).add(NDModItems.DIARKRITE_MACHETE.get());
+                .addOptional(new ResourceLocation("elementus", "steel_machete"))
+                .addOptional(new ResourceLocation("elementus", "diarkrite_machete"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_machete"));
 
         //Iron's Spells 'n Spellbooks
         tag(Etags.Item.CURIOS_SPELLBOOK)
-                .add(ISSModItems.STEEL_SPELL_BOOK.get()).add(ISSModItems.DIARKRITE_SPELL_BOOK.get()).add(ISSModItems.ANTHEKTITE_SPELL_BOOK.get());
+                .addOptional(new ResourceLocation("elementus", "steel_spell_book"))
+                .addOptional(new ResourceLocation("elementus", "diarkrite_spell_book"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_spell_book"));
 
         //Aether
         tag(AetherTags.Items.ACCESSORIES_GLOVES)
-                .add(AEItemsRegistry.STEEL_GLOVES.get()).add(AEItemsRegistry.DIARKRITE_GLOVES.get()).add(AEItemsRegistry.ANTHEKTITE_GLOVES.get());
+                .addOptional(new ResourceLocation("elementus", "steel_gloves"))
+                .addOptional(new ResourceLocation("elementus", "diarkrite_gloves"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_gloves"));
 
         //Simply Swords
         tag(Etags.Item.SIMPLY_SWORDS_SWORDS)
@@ -454,40 +483,40 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
         //Advanced Netherite
         tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_TOOLS_NETHERITE_IRON)
-                .add(ANModItems.DIARKRITE_IRON_AXE.get()).add(ANModItems.DIARKRITE_IRON_HOE.get()).add(ANModItems.DIARKRITE_IRON_PICKAXE.get()).add(ANModItems.DIARKRITE_IRON_SHOVEL.get()).add(ANModItems.DIARKRITE_IRON_SWORD.get())
-                .add(ANModItems.ANTHEKTITE_IRON_AXE.get()).add(ANModItems.ANTHEKTITE_IRON_HOE.get()).add(ANModItems.ANTHEKTITE_IRON_PICKAXE.get()).add(ANModItems.ANTHEKTITE_IRON_SHOVEL.get()).add(ANModItems.ANTHEKTITE_IRON_SWORD.get());
+                .addOptional(new ResourceLocation("elementus", "diarkrite_iron_axe")).addOptional(new ResourceLocation("elementus", "diarkrite_iron_hoe")).addOptional(new ResourceLocation("elementus", "diarkrite_iron_pickaxe")).addOptional(new ResourceLocation("elementus", "diarkrite_iron_shovel")).addOptional(new ResourceLocation("elementus", "diarkrite_iron_sword"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_iron_axe")).addOptional(new ResourceLocation("elementus", "anthektite_iron_hoe")).addOptional(new ResourceLocation("elementus", "anthektite_iron_pickaxe")).addOptional(new ResourceLocation("elementus", "anthektite_iron_shovel")).addOptional(new ResourceLocation("elementus", "anthektite_iron_sword"));
 
         tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_TOOLS_NETHERITE_GOLD)
-                .add(ANModItems.DIARKRITE_GOLD_AXE.get()).add(ANModItems.DIARKRITE_GOLD_HOE.get()).add(ANModItems.DIARKRITE_GOLD_PICKAXE.get()).add(ANModItems.DIARKRITE_GOLD_SHOVEL.get()).add(ANModItems.DIARKRITE_GOLD_SWORD.get())
-                .add(ANModItems.ANTHEKTITE_GOLD_AXE.get()).add(ANModItems.ANTHEKTITE_GOLD_HOE.get()).add(ANModItems.ANTHEKTITE_GOLD_PICKAXE.get()).add(ANModItems.ANTHEKTITE_GOLD_SHOVEL.get()).add(ANModItems.ANTHEKTITE_GOLD_SWORD.get());
+                .addOptional(new ResourceLocation("elementus", "diarkrite_gold_axe")).addOptional(new ResourceLocation("elementus", "diarkrite_gold_hoe")).addOptional(new ResourceLocation("elementus", "diarkrite_gold_pickaxe")).addOptional(new ResourceLocation("elementus", "diarkrite_gold_shovel")).addOptional(new ResourceLocation("elementus", "diarkrite_gold_sword"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_gold_axe")).addOptional(new ResourceLocation("elementus", "anthektite_gold_hoe")).addOptional(new ResourceLocation("elementus", "anthektite_gold_pickaxe")).addOptional(new ResourceLocation("elementus", "anthektite_gold_shovel")).addOptional(new ResourceLocation("elementus", "anthektite_gold_sword"));
 
         tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_TOOLS_NETHERITE_EMERALD)
-                .add(ANModItems.DIARKRITE_EMERALD_AXE.get()).add(ANModItems.DIARKRITE_EMERALD_HOE.get()).add(ANModItems.DIARKRITE_EMERALD_PICKAXE.get()).add(ANModItems.DIARKRITE_EMERALD_SHOVEL.get()).add(ANModItems.DIARKRITE_EMERALD_SWORD.get())
-                .add(ANModItems.ANTHEKTITE_EMERALD_AXE.get()).add(ANModItems.ANTHEKTITE_EMERALD_HOE.get()).add(ANModItems.ANTHEKTITE_EMERALD_PICKAXE.get()).add(ANModItems.ANTHEKTITE_EMERALD_SHOVEL.get()).add(ANModItems.ANTHEKTITE_EMERALD_SWORD.get());
+                .addOptional(new ResourceLocation("elementus", "diarkrite_emerald_axe")).addOptional(new ResourceLocation("elementus", "diarkrite_emerald_hoe")).addOptional(new ResourceLocation("elementus", "diarkrite_emerald_pickaxe")).addOptional(new ResourceLocation("elementus", "diarkrite_emerald_shovel")).addOptional(new ResourceLocation("elementus", "diarkrite_emerald_sword"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_emerald_axe")).addOptional(new ResourceLocation("elementus", "anthektite_emerald_hoe")).addOptional(new ResourceLocation("elementus", "anthektite_emerald_pickaxe")).addOptional(new ResourceLocation("elementus", "anthektite_emerald_shovel")).addOptional(new ResourceLocation("elementus", "anthektite_emerald_sword"));
 
         tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_TOOLS_NETHERITE_DIAMOND)
-                .add(ANModItems.DIARKRITE_DIAMOND_AXE.get()).add(ANModItems.DIARKRITE_DIAMOND_HOE.get()).add(ANModItems.DIARKRITE_DIAMOND_PICKAXE.get()).add(ANModItems.DIARKRITE_DIAMOND_SHOVEL.get()).add(ANModItems.DIARKRITE_DIAMOND_SWORD.get())
-                .add(ANModItems.ANTHEKTITE_DIAMOND_AXE.get()).add(ANModItems.ANTHEKTITE_DIAMOND_HOE.get()).add(ANModItems.ANTHEKTITE_DIAMOND_PICKAXE.get()).add(ANModItems.ANTHEKTITE_DIAMOND_SHOVEL.get()).add(ANModItems.ANTHEKTITE_DIAMOND_SWORD.get());
+                .addOptional(new ResourceLocation("elementus", "diarkrite_diamond_axe")).addOptional(new ResourceLocation("elementus", "diarkrite_diamond_hoe")).addOptional(new ResourceLocation("elementus", "diarkrite_diamond_pickaxe")).addOptional(new ResourceLocation("elementus", "diarkrite_diamond_shovel")).addOptional(new ResourceLocation("elementus", "diarkrite_diamond_sword"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_diamond_axe")).addOptional(new ResourceLocation("elementus", "anthektite_diamond_hoe")).addOptional(new ResourceLocation("elementus", "anthektite_diamond_pickaxe")).addOptional(new ResourceLocation("elementus", "anthektite_diamond_shovel")).addOptional(new ResourceLocation("elementus", "anthektite_diamond_sword"));
 
 
         tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_ARMOR_NETHERITE_IRON)
-                .add(ANModItems.DIARKRITE_IRON_HELMET.get()).add(ANModItems.DIARKRITE_IRON_CHESTPLATE.get()).add(ANModItems.DIARKRITE_IRON_LEGGINGS.get()).add(ANModItems.DIARKRITE_IRON_BOOTS.get())
-                .add(ANModItems.ANTHEKTITE_IRON_HELMET.get()).add(ANModItems.ANTHEKTITE_IRON_CHESTPLATE.get()).add(ANModItems.ANTHEKTITE_IRON_LEGGINGS.get()).add(ANModItems.ANTHEKTITE_IRON_BOOTS.get());
+                .addOptional(new ResourceLocation("elementus", "diarkrite_iron_helmet")).addOptional(new ResourceLocation("elementus", "diarkrite_iron_chestplate")).addOptional(new ResourceLocation("elementus", "diarkrite_iron_leggings")).addOptional(new ResourceLocation("elementus", "diarkrite_iron_boots"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_iron_helmet")).addOptional(new ResourceLocation("elementus", "anthektite_iron_chestplate")).addOptional(new ResourceLocation("elementus", "anthektite_iron_leggings")).addOptional(new ResourceLocation("elementus", "anthektite_iron_boots"));
 
         tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_ARMOR_NETHERITE_GOLD)
-                .add(ANModItems.DIARKRITE_GOLD_HELMET.get()).add(ANModItems.DIARKRITE_GOLD_CHESTPLATE.get()).add(ANModItems.DIARKRITE_GOLD_LEGGINGS.get()).add(ANModItems.DIARKRITE_GOLD_BOOTS.get())
-                .add(ANModItems.ANTHEKTITE_GOLD_HELMET.get()).add(ANModItems.ANTHEKTITE_GOLD_CHESTPLATE.get()).add(ANModItems.ANTHEKTITE_GOLD_LEGGINGS.get()).add(ANModItems.ANTHEKTITE_GOLD_BOOTS.get());
+                .addOptional(new ResourceLocation("elementus", "diarkrite_gold_helmet")).addOptional(new ResourceLocation("elementus", "diarkrite_gold_chestplate")).addOptional(new ResourceLocation("elementus", "diarkrite_gold_leggings")).addOptional(new ResourceLocation("elementus", "diarkrite_gold_boots"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_gold_helmet")).addOptional(new ResourceLocation("elementus", "anthektite_gold_chestplate")).addOptional(new ResourceLocation("elementus", "anthektite_gold_leggings")).addOptional(new ResourceLocation("elementus", "anthektite_gold_boots"));
 
         tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_ARMOR_NETHERITE_EMERALD)
-                .add(ANModItems.DIARKRITE_EMERALD_HELMET.get()).add(ANModItems.DIARKRITE_EMERALD_CHESTPLATE.get()).add(ANModItems.DIARKRITE_EMERALD_LEGGINGS.get()).add(ANModItems.DIARKRITE_EMERALD_BOOTS.get())
-                .add(ANModItems.ANTHEKTITE_EMERALD_HELMET.get()).add(ANModItems.ANTHEKTITE_EMERALD_CHESTPLATE.get()).add(ANModItems.ANTHEKTITE_EMERALD_LEGGINGS.get()).add(ANModItems.ANTHEKTITE_EMERALD_BOOTS.get());
+                .addOptional(new ResourceLocation("elementus", "diarkrite_emerald_helmet")).addOptional(new ResourceLocation("elementus", "diarkrite_emerald_chestplate")).addOptional(new ResourceLocation("elementus", "diarkrite_emerald_leggings")).addOptional(new ResourceLocation("elementus", "diarkrite_emerald_boots"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_emerald_helmet")).addOptional(new ResourceLocation("elementus", "anthektite_emerald_chestplate")).addOptional(new ResourceLocation("elementus", "anthektite_emerald_leggings")).addOptional(new ResourceLocation("elementus", "anthektite_emerald_boots"));
 
         tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_ARMOR_NETHERITE_DIAMOND)
-                .add(ANModItems.DIARKRITE_DIAMOND_HELMET.get()).add(ANModItems.DIARKRITE_DIAMOND_CHESTPLATE.get()).add(ANModItems.DIARKRITE_DIAMOND_LEGGINGS.get()).add(ANModItems.DIARKRITE_DIAMOND_BOOTS.get())
-                .add(ANModItems.ANTHEKTITE_DIAMOND_HELMET.get()).add(ANModItems.ANTHEKTITE_DIAMOND_CHESTPLATE.get()).add(ANModItems.ANTHEKTITE_DIAMOND_LEGGINGS.get()).add(ANModItems.ANTHEKTITE_DIAMOND_BOOTS.get());
+                .addOptional(new ResourceLocation("elementus", "diarkrite_diamond_helmet")).addOptional(new ResourceLocation("elementus", "diarkrite_diamond_chestplate")).addOptional(new ResourceLocation("elementus", "diarkrite_diamond_leggings")).addOptional(new ResourceLocation("elementus", "diarkrite_diamond_boots"))
+                .addOptional(new ResourceLocation("elementus", "anthektite_diamond_helmet")).addOptional(new ResourceLocation("elementus", "anthektite_diamond_chestplate")).addOptional(new ResourceLocation("elementus", "anthektite_diamond_leggings")).addOptional(new ResourceLocation("elementus", "anthektite_diamond_boots"));
 
         //Twigs
-        tag(TwigsTags.TABLES_ITEM).add(TWModItems.MOVCADIA_TABLE.get());
+        tag(TwigsTags.TABLES_ITEM).addOptional(new ResourceLocation("elementus", "movcadia_table"));
 
 
         //Alex's Caves

@@ -1,14 +1,44 @@
 {
   "values": [
-    "elementus:diarkrite_emerald_axe",
-    "elementus:diarkrite_emerald_hoe",
-    "elementus:diarkrite_emerald_pickaxe",
-    "elementus:diarkrite_emerald_shovel",
-    "elementus:diarkrite_emerald_sword",
-    "elementus:anthektite_emerald_axe",
-    "elementus:anthektite_emerald_hoe",
-    "elementus:anthektite_emerald_pickaxe",
-    "elementus:anthektite_emerald_shovel",
-    "elementus:anthektite_emerald_sword"
+    {
+      "id": "elementus:diarkrite_emerald_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_sword",
+      "required": false
+    }
   ]
 }

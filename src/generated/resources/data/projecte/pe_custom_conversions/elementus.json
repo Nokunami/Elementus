@@ -1,0 +1,11 @@
+{
+  "values": {
+    "before": {
+      "#forge:ingots/steel": 1350,
+      "elementus:anthektite_ingot": 77906,
+      "elementus:atelis_scrap": 12288,
+      "elementus:atelis_upgrade_smithing_template": 18432,
+      "elementus:diarkrite_ingot": 77906
+    }
+  }
+}

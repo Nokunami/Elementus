@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
@@ -15,11 +16,15 @@ import java.util.Iterator;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class AttributeGloveItem extends GlovesItem {
+public class AttributeGlovesItem extends GlovesItem {
+    protected final ArmorMaterial material;
+    protected final double damage;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public AttributeGloveItem(ArmorMaterial material, double punchDamage, String glovesName, Supplier<? extends SoundEvent> glovesSound, Properties properties, Multimap<Attribute, AttributeModifier> defaultModifiers) {
+    public AttributeGlovesItem(ArmorMaterial material, double punchDamage, String glovesName, Supplier<? extends SoundEvent> glovesSound, Properties properties, Multimap<Attribute, AttributeModifier> defaultModifiers) {
         super(material, punchDamage, glovesName, glovesSound, properties);
+        this.material = material;
+        this.damage = punchDamage;
         this.defaultModifiers = defaultModifiers;
     }
 
@@ -35,6 +40,7 @@ public class AttributeGloveItem extends GlovesItem {
             while(var8.hasNext()) {
                 AttributeModifier attributeModifier = (AttributeModifier)var8.next();
                 attributeBuilder.put(attribute, new AttributeModifier(uuid, attributeModifier.getName(), attributeModifier.getAmount(), attributeModifier.getOperation()));
+                attributeBuilder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Gloves Damage Bonus", this.damage, AttributeModifier.Operation.ADDITION));
             }
         }
 

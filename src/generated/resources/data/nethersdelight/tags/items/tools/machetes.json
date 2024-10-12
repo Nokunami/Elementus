@@ -1,7 +1,16 @@
 {
   "values": [
-    "elementus:steel_machete",
-    "elementus:anthektite_machete",
-    "elementus:diarkrite_machete"
+    {
+      "id": "elementus:steel_machete",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_machete",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_machete",
+      "required": false
+    }
   ]
 }

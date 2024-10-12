@@ -6,10 +6,10 @@ public class ConfigDefaultValue {
     public static double SS_DIARKRITE = 3.0;
     public static double SS_ANTHEKTITE = 3.0;
 
-    public static double SS_DIARKRITE_ATK_SPD_ADD = 0.0;
-    public static double SS_DIARKRITE_ATK_SPD_NEG = 0.3;
-    public static double SS_ANTHEKTITE_ATK_SPD_ADD = 0.5;
-    public static double SS_ANTHEKTITE_ATK_SPD_NEG = 0.0;
+//    public static double SS_DIARKRITE_ATK_SPD_ADD = 0.0;
+//    public static double SS_DIARKRITE_ATK_SPD_NEG = 0.3;
+//    public static double SS_ANTHEKTITE_ATK_SPD_ADD = 0.5;
+//    public static double SS_ANTHEKTITE_ATK_SPD_NEG = 0.0;
 
 
     public static float longsword_positiveDamageModifier = 0.0F;

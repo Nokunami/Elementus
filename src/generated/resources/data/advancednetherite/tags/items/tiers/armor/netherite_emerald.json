@@ -1,12 +1,36 @@
 {
   "values": [
-    "elementus:diarkrite_emerald_helmet",
-    "elementus:diarkrite_emerald_chestplate",
-    "elementus:diarkrite_emerald_leggings",
-    "elementus:diarkrite_emerald_boots",
-    "elementus:anthektite_emerald_helmet",
-    "elementus:anthektite_emerald_chestplate",
-    "elementus:anthektite_emerald_leggings",
-    "elementus:anthektite_emerald_boots"
+    {
+      "id": "elementus:diarkrite_emerald_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_emerald_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_leggings",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_emerald_boots",
+      "required": false
+    }
   ]
 }

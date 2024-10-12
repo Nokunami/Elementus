@@ -1,14 +1,44 @@
 {
   "values": [
-    "elementus:diarkrite_gold_axe",
-    "elementus:diarkrite_gold_hoe",
-    "elementus:diarkrite_gold_pickaxe",
-    "elementus:diarkrite_gold_shovel",
-    "elementus:diarkrite_gold_sword",
-    "elementus:anthektite_gold_axe",
-    "elementus:anthektite_gold_hoe",
-    "elementus:anthektite_gold_pickaxe",
-    "elementus:anthektite_gold_shovel",
-    "elementus:anthektite_gold_sword"
+    {
+      "id": "elementus:diarkrite_gold_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gold_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gold_sword",
+      "required": false
+    }
   ]
 }

@@ -6,6 +6,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.nokunami.elementus.common.config.ToolsConfig;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModTiers;
@@ -16,47 +17,48 @@ import static net.nokunami.elementus.Elementus.MODID;
 public class SWModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
+    protected static float steelSpeed = ModItems.steelSpeed;
     protected static float diarkriteSpeed = ModItems.diarkriteSpeed;
     protected static float anthektiteSpeed = ModItems.anthektiteSpeed;
 
-    public static final RegistryObject<Item> STEEL_GREAT_SWORD = ITEMS.register("steel_great_sword",
-            () -> new GreatSwordItem(ModTiers.STEEL, 5, -2.9F,new Item.Properties()));
+    public static final RegistryObject<Item> STEEL_GREAT_SWORD = ITEMS.register("steel_great_sword", () -> new GreatSwordItem(ModTiers.STEEL,
+            ToolsConfig.steelGreatSwordDamage, ToolsConfig.steelGreatSwordAttackSpeed + steelSpeed,new Item.Properties()));
 
-    public static final RegistryObject<Item> DIARKRITE_GREAT_SWORD = ITEMS.register("diarkrite_great_sword",
-            () -> new GreatSwordItem(ModTiers.DIARKRITE, 5, -(2.9F + diarkriteSpeed),new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> DIARKRITE_GREAT_SWORD = ITEMS.register("diarkrite_great_sword", () -> new GreatSwordItem(ModTiers.DIARKRITE,
+            ToolsConfig.diarkriteGreatSwordDamage, ToolsConfig.diarkriteGreatSwordAttackSpeed + diarkriteSpeed,new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> ANTHEKTITE_GREAT_SWORD = ITEMS.register("anthektite_great_sword",
-            () -> new GreatSwordItem(ModTiers.ANTHEKTITE, 5, -(2.5F - anthektiteSpeed),new Item.Properties().fireResistant()));
-
-
-    public static final RegistryObject<Item> STEEL_GREAT_AXE = ITEMS.register("steel_great_axe",
-            () -> new GreatAxeItem(ModTiers.STEEL, 7, -3.2F,new Item.Properties()));
-
-    public static final RegistryObject<Item> DIARKRITE_GREAT_AXE = ITEMS.register("diarkrite_great_axe",
-            () -> new GreatAxeItem(ModTiers.DIARKRITE, 7, -(3.2F + diarkriteSpeed),new Item.Properties().fireResistant()));
-
-    public static final RegistryObject<Item> ANTHEKTITE_GREAT_AXE = ITEMS.register("anthektite_great_axe",
-            () -> new GreatAxeItem(ModTiers.ANTHEKTITE, 7, -(3.2F - anthektiteSpeed),new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ANTHEKTITE_GREAT_SWORD = ITEMS.register("anthektite_great_sword", () -> new GreatSwordItem(ModTiers.ANTHEKTITE,
+            ToolsConfig.anthektiteGreatSwordDamage, ToolsConfig.anthektiteGreatSwordAttackSpeed + anthektiteSpeed,new Item.Properties().fireResistant()));
 
 
-    public static final RegistryObject<Item> STEEL_GREAT_PICKAXE = ITEMS.register("steel_great_pickaxe",
-            () -> new GreatPickaxeItem(ModTiers.STEEL, 3, -3.05F,new Item.Properties()));
+    public static final RegistryObject<Item> STEEL_GREAT_AXE = ITEMS.register("steel_great_axe", () -> new GreatAxeItem(ModTiers.STEEL,
+            ToolsConfig.steelGreatAxeDamage, ToolsConfig.steelGreatAxeAttackSpeed + steelSpeed,new Item.Properties()));
 
-    public static final RegistryObject<Item> DIARKRITE_GREAT_PICKAXE = ITEMS.register("diarkrite_great_pickaxe",
-            () -> new GreatPickaxeItem(ModTiers.DIARKRITE, 3, -(3.05F + diarkriteSpeed),new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> DIARKRITE_GREAT_AXE = ITEMS.register("diarkrite_great_axe", () -> new GreatAxeItem(ModTiers.DIARKRITE,
+            ToolsConfig.diarkriteGreatAxeDamage, ToolsConfig.diarkriteGreatAxeAttackSpeed + diarkriteSpeed,new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> ANTHEKTITE_GREAT_PICKAXE = ITEMS.register("anthektite_great_pickaxe",
-            () -> new GreatPickaxeItem(ModTiers.ANTHEKTITE, 3, -(3.05F - anthektiteSpeed),new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ANTHEKTITE_GREAT_AXE = ITEMS.register("anthektite_great_axe", () -> new GreatAxeItem(ModTiers.ANTHEKTITE,
+            ToolsConfig.anthektiteGreatAxeDamage, ToolsConfig.anthektiteGreatAxeAttackSpeed + anthektiteSpeed,new Item.Properties().fireResistant()));
 
 
-    public static final RegistryObject<Item> STEEL_NAGINATA = ITEMS.register("steel_naginata",
-            () -> new NaginataItem(ModTiers.STEEL, 4, -3.0F,new Item.Properties()));
+    public static final RegistryObject<Item> STEEL_GREAT_PICKAXE = ITEMS.register("steel_great_pickaxe", () -> new GreatPickaxeItem(ModTiers.STEEL,
+            ToolsConfig.steelGreatPickaxeDamage, ToolsConfig.steelGreatPickaxeAttackSpeed + steelSpeed,new Item.Properties()));
 
-    public static final RegistryObject<Item> DIARKRITE_NAGINATA = ITEMS.register("diarkrite_naginata",
-            () -> new NaginataItem(ModTiers.DIARKRITE, 4, -(3.0F + diarkriteSpeed),new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> DIARKRITE_GREAT_PICKAXE = ITEMS.register("diarkrite_great_pickaxe", () -> new GreatPickaxeItem(ModTiers.DIARKRITE,
+            ToolsConfig.diarkriteGreatPickaxeDamage, ToolsConfig.diarkriteGreatPickaxeAttackSpeed + diarkriteSpeed,new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> ANTHEKTITE_NAGINATA = ITEMS.register("anthektite_naginata",
-            () -> new NaginataItem(ModTiers.ANTHEKTITE, 4, -(3.0F - anthektiteSpeed),new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ANTHEKTITE_GREAT_PICKAXE = ITEMS.register("anthektite_great_pickaxe", () -> new GreatPickaxeItem(ModTiers.ANTHEKTITE,
+            ToolsConfig.anthektiteGreatPickaxeDamage, ToolsConfig.anthektiteGreatPickaxeAttackSpeed + anthektiteSpeed,new Item.Properties().fireResistant()));
+
+
+    public static final RegistryObject<Item> STEEL_NAGINATA = ITEMS.register("steel_naginata", () -> new NaginataItem(ModTiers.STEEL,
+            ToolsConfig.steelNaginataDamage, ToolsConfig.steelNaginataAttackSpeed + steelSpeed,new Item.Properties()));
+
+    public static final RegistryObject<Item> DIARKRITE_NAGINATA = ITEMS.register("diarkrite_naginata", () -> new NaginataItem(ModTiers.DIARKRITE,
+            ToolsConfig.diarkriteNaginataDamage, ToolsConfig.diarkriteNaginataAttackSpeed + diarkriteSpeed,new Item.Properties().fireResistant()));
+
+    public static final RegistryObject<Item> ANTHEKTITE_NAGINATA = ITEMS.register("anthektite_naginata", () -> new NaginataItem(ModTiers.ANTHEKTITE,
+            ToolsConfig.anthektiteNaginataDamage, ToolsConfig.anthektiteNaginataAttackSpeed + anthektiteSpeed,new Item.Properties().fireResistant()));
 
 
     public static final RegistryObject<Item> STEEL_SURCOAT = ITEMS.register("steel_surcoat",

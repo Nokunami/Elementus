@@ -1,7 +1,16 @@
 {
   "values": [
-    "elementus:steel_knife",
-    "elementus:anthektite_knife",
-    "elementus:diarkrite_knife"
+    {
+      "id": "elementus:steel_knife",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_knife",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_knife",
+      "required": false
+    }
   ]
 }

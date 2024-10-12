@@ -1,7 +1,16 @@
 {
   "values": [
-    "elementus:steel_gloves",
-    "elementus:diarkrite_gloves",
-    "elementus:anthektite_gloves"
+    {
+      "id": "elementus:steel_gloves",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_gloves",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_gloves",
+      "required": false
+    }
   ]
 }

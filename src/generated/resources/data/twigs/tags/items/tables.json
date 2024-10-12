@@ -1,5 +1,8 @@
 {
   "values": [
-    "elementus:movcadia_table"
+    {
+      "id": "elementus:movcadia_table",
+      "required": false
+    }
   ]
 }

@@ -1,14 +1,44 @@
 {
   "values": [
-    "elementus:diarkrite_diamond_axe",
-    "elementus:diarkrite_diamond_hoe",
-    "elementus:diarkrite_diamond_pickaxe",
-    "elementus:diarkrite_diamond_shovel",
-    "elementus:diarkrite_diamond_sword",
-    "elementus:anthektite_diamond_axe",
-    "elementus:anthektite_diamond_hoe",
-    "elementus:anthektite_diamond_pickaxe",
-    "elementus:anthektite_diamond_shovel",
-    "elementus:anthektite_diamond_sword"
+    {
+      "id": "elementus:diarkrite_diamond_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_diamond_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_diamond_sword",
+      "required": false
+    }
   ]
 }

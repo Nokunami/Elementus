@@ -7,6 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.common.config.simplyswords.ConfigDefaultValue;
 import net.nokunami.elementus.common.config.simplyswords.SimplySwordsConfigHelper;
+import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModTiers;
 
 import java.util.HashMap;
@@ -17,13 +18,18 @@ import static net.nokunami.elementus.common.config.simplyswords.ConfigDefaultVal
 
 public class SSModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+
+    protected static float steelSpeed = ModItems.steelSpeed;
+    protected static float diarkriteSpeed = ModItems.diarkriteSpeed;
+    protected static float anthektiteSpeed = ModItems.anthektiteSpeed;
+
     static double steel_modifier =  SimplySwordsConfigHelper.getDouble("steel_damageModifier", "WeaponAttributes", ConfigDefaultValue.SS_STEEL);
     static double diarkrite_modifier = SimplySwordsConfigHelper.getDouble("diarkrite_damageModifier", "WeaponAttributes", ConfigDefaultValue.SS_DIARKRITE);
     static double anthektite_modifier = SimplySwordsConfigHelper.getDouble("anthektite_damageModifier", "WeaponAttributes", ConfigDefaultValue.SS_ANTHEKTITE);
-    static double diarkrite_atkSpeedAdd = SimplySwordsConfigHelper.getDouble("darkrite_atkSpeedAdd", "WeaponAttributes", ConfigDefaultValue.SS_DIARKRITE_ATK_SPD_ADD);
-    static double diarkrite_atkSpeedNeg = SimplySwordsConfigHelper.getDouble("darkrite_atkSpeedNeg", "WeaponAttributes", ConfigDefaultValue.SS_DIARKRITE_ATK_SPD_NEG);
-    static double anthektite_atkSpeedAdd = SimplySwordsConfigHelper.getDouble("anthektite_atkSpeedAdd", "WeaponAttributes", ConfigDefaultValue.SS_ANTHEKTITE_ATK_SPD_ADD);
-    static double anthektite_atkSpeedNeg = SimplySwordsConfigHelper.getDouble("anthektite_atkSpeedNeg", "WeaponAttributes", ConfigDefaultValue.SS_ANTHEKTITE_ATK_SPD_NEG);
+//    static double diarkrite_atkSpeedAdd = SimplySwordsConfigHelper.getDouble("darkrite_atkSpeedAdd", "WeaponAttributes", ConfigDefaultValue.SS_DIARKRITE_ATK_SPD_ADD);
+//    static double diarkrite_atkSpeedNeg = SimplySwordsConfigHelper.getDouble("darkrite_atkSpeedNeg", "WeaponAttributes", ConfigDefaultValue.SS_DIARKRITE_ATK_SPD_NEG);
+//    static double anthektite_atkSpeedAdd = SimplySwordsConfigHelper.getDouble("anthektite_atkSpeedAdd", "WeaponAttributes", ConfigDefaultValue.SS_ANTHEKTITE_ATK_SPD_ADD);
+//    static double anthektite_atkSpeedNeg = SimplySwordsConfigHelper.getDouble("anthektite_atkSpeedNeg", "WeaponAttributes", ConfigDefaultValue.SS_ANTHEKTITE_ATK_SPD_NEG);
 
 
     static float longsword_positive_modifier = SimplySwordsConfigHelper.getFloat("longsword_positiveDamageModifier", "WeaponAttributes", longsword_positiveDamageModifier);
@@ -127,19 +133,19 @@ public class SSModItems {
     private static RegistryObject<Item> registerSteel(String id) {
         return ITEMS.register(ModTiers.STEEL.toString().toLowerCase(Locale.ROOT) + "_" + id, ()->
                 new SimplySwordItem(ModTiers.STEEL, (int) (steel_modifier + getDamageMod(id)),
-                        getAttackSpeedMod(id), new Item.Properties()));
+                        getAttackSpeedMod(id) + steelSpeed, new Item.Properties()));
     }
 
     private static RegistryObject<Item> registerDiarkrite(String id) {
         return ITEMS.register(ModTiers.DIARKRITE.toString().toLowerCase(Locale.ROOT) + "_" + id, ()->
                 new SimplySwordItem(ModTiers.DIARKRITE, (int) (diarkrite_modifier + getDamageMod(id)),
-                        getAttackSpeedMod(id) + (float) (diarkrite_atkSpeedAdd - diarkrite_atkSpeedNeg), new Item.Properties().fireResistant()));
+                        getAttackSpeedMod(id) + diarkriteSpeed, new Item.Properties().fireResistant()));
     }
 
     private static RegistryObject<Item> registerAnthektite(String id) {
         return ITEMS.register(ModTiers.ANTHEKTITE.toString().toLowerCase(Locale.ROOT) + "_" + id, ()->
                 new SimplySwordItem(ModTiers.ANTHEKTITE, (int) (anthektite_modifier + getDamageMod(id)),
-                        getAttackSpeedMod(id) + (float) (anthektite_atkSpeedAdd - anthektite_atkSpeedNeg), new Item.Properties().fireResistant()));
+                        getAttackSpeedMod(id) + anthektiteSpeed, new Item.Properties().fireResistant()));
     }
 
 

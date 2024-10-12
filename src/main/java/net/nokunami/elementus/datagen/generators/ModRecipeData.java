@@ -18,7 +18,7 @@ import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
 import net.nokunami.elementus.common.compat.piercingpaxels.PPModItems;
 import net.nokunami.elementus.common.compat.simplyswords.SSModItems;
 import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
-import net.nokunami.elementus.common.compat.theaether.AEItemsRegistry;
+import net.nokunami.elementus.common.compat.theaether.TAModItems;
 import net.nokunami.elementus.common.compat.twigs.TWModItems;
 import net.nokunami.elementus.datagen.providers.ModRecipeProvider;
 import net.nokunami.elementus.common.registry.ModItems;
@@ -87,7 +87,7 @@ public class ModRecipeData extends ModRecipeProvider {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.CRUDE_STEEL.get())
                 .requires(Ingredient.of(Tags.Items.INGOTS_IRON), 2)
                 .requires(Ingredient.of(Tags.Items.RAW_MATERIALS_IRON), 1)
-                .requires(Ingredient.of(Tags.Items.ORES_COAL), 2)
+                .requires(Ingredient.of(ItemTags.COALS), 2)
                 .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
                 .save(writer);
 
@@ -141,7 +141,7 @@ public class ModRecipeData extends ModRecipeProvider {
         stairs(writer, ModItems.MOVCADIA_STAIRS, ModItems.MOVCADIA_PLANKS);
         slab(writer, RecipeCategory.BUILDING_BLOCKS, ModItems.MOVCADIA_SLAB.get(), ModItems.MOVCADIA_PLANKS.get());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.STEEL_BARS.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.STEEL_BARS.get(), 16)
                 .define('#', ModItems.STEEL_INGOT.get())
                 .pattern("###").pattern("###")
                 .unlockedBy(getHasName(ModItems.STEEL_INGOT.get()), has(ModItems.STEEL_INGOT.get()))
@@ -257,12 +257,12 @@ public class ModRecipeData extends ModRecipeProvider {
         }
 
         if (ModChecker.aether()) {
-            ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, AEItemsRegistry.STEEL_GLOVES.get())
+            ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, TAModItems.STEEL_GLOVES.get())
                     .pattern("# #").define('#', Etags.Item.INGOTS_STEEL)
                     .unlockedBy(getHasName(ModItems.STEEL_INGOT.get()), has(ModItems.STEEL_INGOT.get()))
                     .save(writer);
-            smithingCombatTransform(writer, ModItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, AEItemsRegistry.STEEL_GLOVES, Etags.Item.INGOTS_DIARKRITE, AEItemsRegistry.DIARKRITE_GLOVES);
-            smithingCombatTransform(writer, ModItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, AEItemsRegistry.STEEL_GLOVES, Etags.Item.INGOTS_ANTHEKTITE, AEItemsRegistry.ANTHEKTITE_GLOVES);
+            smithingCombatTransform(writer, ModItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, TAModItems.STEEL_GLOVES, Etags.Item.INGOTS_DIARKRITE, TAModItems.DIARKRITE_GLOVES);
+            smithingCombatTransform(writer, ModItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, TAModItems.STEEL_GLOVES, Etags.Item.INGOTS_ANTHEKTITE, TAModItems.ANTHEKTITE_GLOVES);
         }
 
         if (ModChecker.simplyswords()) {

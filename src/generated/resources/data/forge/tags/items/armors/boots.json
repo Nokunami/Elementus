@@ -4,6 +4,14 @@
     "elementus:diarkrite_boots",
     "elementus:anthektite_boots",
     {
+      "id": "elementus:diarkrite_mage_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_mage_boots",
+      "required": false
+    },
+    {
       "id": "elementus:diarkrite_iron_boots",
       "required": false
     },

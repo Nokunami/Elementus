@@ -1,14 +1,44 @@
 {
   "values": [
-    "elementus:diarkrite_iron_axe",
-    "elementus:diarkrite_iron_hoe",
-    "elementus:diarkrite_iron_pickaxe",
-    "elementus:diarkrite_iron_shovel",
-    "elementus:diarkrite_iron_sword",
-    "elementus:anthektite_iron_axe",
-    "elementus:anthektite_iron_hoe",
-    "elementus:anthektite_iron_pickaxe",
-    "elementus:anthektite_iron_shovel",
-    "elementus:anthektite_iron_sword"
+    {
+      "id": "elementus:diarkrite_iron_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_iron_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_iron_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_iron_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_iron_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_iron_sword",
+      "required": false
+    }
   ]
 }

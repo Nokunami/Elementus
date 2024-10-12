@@ -14,6 +14,19 @@ public class Etags {
         public static final TagKey<net.minecraft.world.item.Item> RAW_MATERIALS_STEEL = forgeTag("raw_materials/steel");
         public static final TagKey<net.minecraft.world.item.Item> ORES_ATELIS = forgeTag("ores/atelis_scrap");
 
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_STEEL_ARMOR = elementusTag("repairs_steel_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_DIARKRITE_ARMOR = elementusTag("repairs_diarkrite_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_ANTHEKTITE_ARMOR = elementusTag("repairs_anthektite_armor");
+
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_DIARKRITE_IRON_ARMOR = elementusTag("repairs_diarkrite_iron_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_DIARKRITE_GOLD_ARMOR = elementusTag("repairs_diarkrite_gold_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_DIARKRITE_EMERALD_ARMOR = elementusTag("repairs_diarkrite_emerald_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_DIARKRITE_DIAMOND_ARMOR = elementusTag("repairs_diarkrite_diamond_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_ANTHEKTITE_IRON_ARMOR = elementusTag("repairs_anthektite_iron_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_ANTHEKTITE_GOLD_ARMOR = elementusTag("repairs_anthektite_gold_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_ANTHEKTITE_EMERALD_ARMOR = elementusTag("repairs_anthektite_emerald_armor");
+        public static final TagKey<net.minecraft.world.item.Item> REPAIRS_ANTHEKTITE_DIAMOND_ARMOR = elementusTag("repairs_anthektite_diamond_armor");
+
         public static final TagKey<net.minecraft.world.item.Item> STORAGE_BLOCK_STEEL = forgeTag("storage_blocks/steel");
         public static final TagKey<net.minecraft.world.item.Item> STORAGE_BLOCK_DIARKRITE = forgeTag("storage_blocks/diarkrite");
         public static final TagKey<net.minecraft.world.item.Item> STORAGE_BLOCK_ANTHEKTITE = forgeTag("storage_blocks/anthektite");

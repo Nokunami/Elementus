@@ -8,14 +8,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ModClientEvents;
-import net.nokunami.elementus.common.item.ElementusArmorItem1;
-import net.nokunami.elementus.common.registry.ModArmorMaterials1;
+import net.nokunami.elementus.common.item.ElementusArmorItem;
+import net.nokunami.elementus.common.registry.ModArmorMaterials;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
 
-public class ESArmorItem extends ElementusArmorItem1 {
-    public ESArmorItem(ModArmorMaterials1 material, Type type, Properties properties) {
+public class ESArmorItem extends ElementusArmorItem {
+    public ESArmorItem(ModArmorMaterials material, Type type, Properties properties) {
         super(material, type, new Properties());
     }
 

@@ -30,7 +30,7 @@ import net.nokunami.elementus.client.render.ModBoatRenderer;
 import net.nokunami.elementus.client.render.ModChestRenderer;
 import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
 import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
-import net.nokunami.elementus.common.compat.theaether.AEItemsRegistry;
+import net.nokunami.elementus.common.compat.theaether.TAModItems;
 import net.nokunami.elementus.common.item.ElementusShield;
 import net.nokunami.elementus.common.registry.ModBlockEntityType;
 import net.nokunami.elementus.common.registry.ModBlockSetType;
@@ -65,9 +65,9 @@ public class ModClientEvents {
             });
         }
         if (ModChecker.aether()) {
-            CuriosRendererRegistry.register(AEItemsRegistry.STEEL_GLOVES.get(), GlovesRenderer::new);
-            CuriosRendererRegistry.register(AEItemsRegistry.ANTHEKTITE_GLOVES.get(), GlovesRenderer::new);
-            CuriosRendererRegistry.register(AEItemsRegistry.DIARKRITE_GLOVES.get(), GlovesRenderer::new);
+            CuriosRendererRegistry.register(TAModItems.STEEL_GLOVES.get(), GlovesRenderer::new);
+            CuriosRendererRegistry.register(TAModItems.ANTHEKTITE_GLOVES.get(), GlovesRenderer::new);
+            CuriosRendererRegistry.register(TAModItems.DIARKRITE_GLOVES.get(), GlovesRenderer::new);
         }
     }
 

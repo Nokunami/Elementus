@@ -4,6 +4,14 @@
     "elementus:diarkrite_chestplate",
     "elementus:anthektite_chestplate",
     {
+      "id": "elementus:diarkrite_mage_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_mage_chestplate",
+      "required": false
+    },
+    {
       "id": "elementus:diarkrite_iron_chestplate",
       "required": false
     },
