@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "elementus:item/compat/simplyswords/anthektite/anthektite_greataxe_gui"
+  }
+}

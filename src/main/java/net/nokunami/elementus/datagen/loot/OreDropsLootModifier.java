@@ -18,7 +18,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
-import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
+import net.nokunami.elementus.common.registry.ModItems.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -60,32 +60,32 @@ public class OreDropsLootModifier extends LootModifier
             }
 
             if ((block == Blocks.IRON_ORE || block == Blocks.DEEPSLATE_IRON_ORE)
-                    && (toolItem == ANModItems.DIARKRITE_IRON_PICKAXE.get() || toolItem == ANModItems.ANTHEKTITE_IRON_PICKAXE.get())
+                    && (toolItem == AdvancedNetheriteItems.DIARKRITE_IRON_PICKAXE.get() || toolItem == AdvancedNetheriteItems.ANTHEKTITE_IRON_PICKAXE.get())
                     && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalRawIronDropChance()) {
                 generatedLoot.add(new ItemStack(Items.RAW_IRON, random.nextIntBetweenInclusive(1, 2)));
             }
 
             if ((block == Blocks.GOLD_ORE || block == Blocks.DEEPSLATE_GOLD_ORE)
-                    && (toolItem == ANModItems.DIARKRITE_GOLD_PICKAXE.get() || toolItem == ANModItems.ANTHEKTITE_GOLD_PICKAXE.get())
+                    && (toolItem == AdvancedNetheriteItems.DIARKRITE_GOLD_PICKAXE.get() || toolItem == AdvancedNetheriteItems.ANTHEKTITE_GOLD_PICKAXE.get())
                     && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalRawGoldDropChance()) {
                 generatedLoot.add(new ItemStack(Items.RAW_GOLD, random.nextIntBetweenInclusive(1, 1)));
             }
 
             if ((block == Blocks.EMERALD_ORE || block == Blocks.DEEPSLATE_EMERALD_ORE)
-                    && (toolItem == ANModItems.DIARKRITE_EMERALD_PICKAXE.get() || toolItem == ANModItems.ANTHEKTITE_EMERALD_PICKAXE.get())
+                    && (toolItem == AdvancedNetheriteItems.DIARKRITE_EMERALD_PICKAXE.get() || toolItem == AdvancedNetheriteItems.ANTHEKTITE_EMERALD_PICKAXE.get())
                     && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalEmeraldDropChance()) {
                 generatedLoot.add(new ItemStack(Items.EMERALD, random.nextIntBetweenInclusive(1, 1)));
             }
 
             if ((block == Blocks.DIAMOND_ORE || block == Blocks.DEEPSLATE_DIAMOND_ORE)
-                    && (toolItem == ANModItems.DIARKRITE_DIAMOND_PICKAXE.get() || toolItem == ANModItems.ANTHEKTITE_DIAMOND_PICKAXE.get())
+                    && (toolItem == AdvancedNetheriteItems.DIARKRITE_DIAMOND_PICKAXE.get() || toolItem == AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_PICKAXE.get())
                     && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalDiamondDropChance())
             {
                 generatedLoot.add(new ItemStack(Items.DIAMOND, random.nextIntBetweenInclusive(1, 1)));
             }
 
             if (block == Blocks.NETHER_GOLD_ORE
-                    && (toolItem == ANModItems.DIARKRITE_GOLD_PICKAXE.get() || toolItem == ANModItems.ANTHEKTITE_GOLD_PICKAXE.get())
+                    && (toolItem == AdvancedNetheriteItems.DIARKRITE_GOLD_PICKAXE.get() || toolItem == AdvancedNetheriteItems.ANTHEKTITE_GOLD_PICKAXE.get())
                     && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalGoldNuggetDropChance()) {
                 generatedLoot.add(new ItemStack(Items.GOLD_NUGGET, random.nextIntBetweenInclusive(1, 3)));
             }

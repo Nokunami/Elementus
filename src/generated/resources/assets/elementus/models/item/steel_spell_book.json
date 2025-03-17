@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/generated",
+  "base": {
+    "parent": "elementus:item/steel_spell_book_model"
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "gui": {
+      "parent": "elementus:item/steel_spell_book_gui"
+    }
+  }
+}

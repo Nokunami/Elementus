@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/simplyswords/template_katana",
+  "textures": {
+    "layer0": "elementus:item/compat/simplyswords/steel/steel_katana_model"
+  }
+}

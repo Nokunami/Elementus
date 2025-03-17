@@ -12,8 +12,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.entity.ModBoatEntity;
-import net.nokunami.elementus.common.entity.ModChestBoatEntity;
+import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
+import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.stream.Stream;
@@ -49,7 +50,7 @@ public class ModBoatRenderer extends BoatRenderer {
         return new ModelLayerLocation(new ResourceLocation(Elementus.MODID, pPath), pModel);
     }
 
-    public Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(Boat boat) {
+    public @NotNull Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(@NotNull Boat boat) {
         if(boat instanceof ModBoatEntity modBoat) {
             return this.boatResources.get(modBoat.getModVariant());
         } else if(boat instanceof ModChestBoatEntity modChestBoatEntity) {

@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/sniffsweapons/great_axe_handheld",
+  "textures": {
+    "layer0": "elementus:item/compat/sniffsweapons/items/steel_great_axe_model"
+  }
+}

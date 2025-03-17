@@ -1,24 +1,30 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "key": {
-    "A": {
+  "ingredients": [
+    {
       "tag": "forge:ores/atelis_scrap"
     },
-    "E": {
+    {
+      "tag": "forge:ores/atelis_scrap"
+    },
+    {
+      "tag": "forge:ores/atelis_scrap"
+    },
+    {
+      "tag": "forge:ingots/steel"
+    },
+    {
+      "tag": "forge:ingots/steel"
+    },
+    {
       "item": "minecraft:echo_shard"
     },
-    "S": {
-      "tag": "forge:ingots/steel"
+    {
+      "item": "minecraft:echo_shard"
     }
-  },
-  "pattern": [
-    " E ",
-    "SSS",
-    "AAA"
   ],
   "result": {
     "item": "elementus:diarkrite_ingot"
-  },
-  "show_notification": true
+  }
 }

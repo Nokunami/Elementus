@@ -15,8 +15,9 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.nokunami.elementus.common.entity.ModBoatEntity;
-import net.nokunami.elementus.common.entity.ModChestBoatEntity;
+import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
+import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -32,7 +33,7 @@ public class ModBoatItem extends Item {
         this.type = pType;
     }
 
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         HitResult hitresult = getPlayerPOVHitResult(pLevel, pPlayer, ClipContext.Fluid.ANY);
         if (hitresult.getType() == HitResult.Type.MISS) {

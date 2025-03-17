@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "elementus:item/compat/irons_spellbooks/steel_spell_book_gui"
+  }
+}

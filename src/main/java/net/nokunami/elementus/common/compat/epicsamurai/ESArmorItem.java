@@ -10,6 +10,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ModClientEvents;
 import net.nokunami.elementus.common.item.ElementusArmorItem;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
@@ -21,7 +22,7 @@ public class ESArmorItem extends ElementusArmorItem {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
+    public void initializeClient(java.util.function.@NotNull Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) ModClientEvents.PROXY.getArmorRenderProperties());
     }
 

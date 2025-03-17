@@ -1,0 +1,11 @@
+{
+  "type": "witherstormmod:anvil",
+  "cost": 1,
+  "left": {
+    "item": "elementus:steel_hoe"
+  },
+  "result": "elementus:steel_command_block_hoe",
+  "right": {
+    "item": "witherstormmod:command_block_book"
+  }
+}

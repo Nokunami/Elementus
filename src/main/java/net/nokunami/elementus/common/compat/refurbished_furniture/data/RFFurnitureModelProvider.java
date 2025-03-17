@@ -1,36 +1,5 @@
 package net.nokunami.elementus.common.compat.refurbished_furniture.data;
 
-import com.mrcrayfish.framework.Registration;
-import com.mrcrayfish.furniture.refurbished.block.MetalType;
-import com.mrcrayfish.furniture.refurbished.data.CommonItemModelProvider;
-import com.mrcrayfish.furniture.refurbished.data.ExtraModelProvider;
-import com.mrcrayfish.furniture.refurbished.data.model.ModelTemplate;
-import com.mrcrayfish.furniture.refurbished.data.model.PreparedItem;
-import com.mrcrayfish.furniture.refurbished.data.model.PreparedVariantBlockState;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.models.model.ModelLocationUtils;
-import net.minecraft.data.models.model.TextureMapping;
-import net.minecraft.data.models.model.TextureSlot;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraftforge.client.model.generators.*;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.nokunami.elementus.Elementus;
-
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-
 //public class RFFurnitureModelProvider extends BlockStateProvider {
 //    public static final ExistingFileHelper.ResourceType TEXTURE = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".png", "textures");
 //    public static final ExistingFileHelper.ResourceType MODEL = new ExistingFileHelper.ResourceType(PackType.CLIENT_RESOURCES, ".json", "models");

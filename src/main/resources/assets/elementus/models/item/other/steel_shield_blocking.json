@@ -1,0 +1,6 @@
+{
+	"parent": "elementus:item/elementus_model_shield_blocking",
+	"textures": {
+		"layer0": "elementus:item/shield/steel_shield"
+	}
+}

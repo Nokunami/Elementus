@@ -11,8 +11,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.ArmorConfig;
-import net.nokunami.elementus.common.registry.ModItems;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ public enum MagicArmorMaterial implements ArmorMaterial {
     DIARKRITE_MAGE("diarkrite_mage",  ArmorConfig.diarkriteMageArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ArmorConfig.diarkriteMageArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ArmorConfig.diarkriteMageArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ArmorConfig.diarkriteMageArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ArmorConfig.diarkriteMageArmor_Helmet);
     }), ArmorConfig.diarkriteMageArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ArmorConfig.diarkriteMageArmor_Toughness, ArmorConfig.diarkriteMageArmor_KnockbackResistance, () -> Ingredient.of(ModItems.DIARKRITE_INGOT.get()), Map.of(
+            ArmorConfig.diarkriteMageArmor_Toughness, ArmorConfig.diarkriteMageArmor_KnockbackResistance, () -> Ingredient.of(Etags.Items.REPAIRS_DIARKRITE_MAGE_ARMOR), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ArmorConfig.diarkriteMageArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ArmorConfig.diarkriteMageArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             AttributeRegistry.MAX_MANA.get(), new AttributeModifier("Mage Max Mana Modifier", ArmorConfig.diarkriteMageArmor_MaxMana, AttributeModifier.Operation.ADDITION),
@@ -36,7 +37,7 @@ public enum MagicArmorMaterial implements ArmorMaterial {
     ANTHEKTITE_MAGE("anthektite_mage", ArmorConfig.anthektiteMageArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ArmorConfig.anthektiteMageArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ArmorConfig.anthektiteMageArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ArmorConfig.anthektiteMageArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ArmorConfig.anthektiteMageArmor_Helmet);
     }), ArmorConfig.anthektiteMageArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ArmorConfig.anthektiteMageArmor_Toughness, ArmorConfig.anthektiteMageArmor_KnockbackResistance, () -> Ingredient.of(ModItems.ANTHEKTITE_INGOT.get()), Map.of(
+            ArmorConfig.anthektiteMageArmor_Toughness, ArmorConfig.anthektiteMageArmor_KnockbackResistance, () -> Ingredient.of(Etags.Items.REPAIRS_ANTHEKTITE_MAGE_ARMOR), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ArmorConfig.anthektiteMageArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ArmorConfig.anthektiteMageArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             AttributeRegistry.MAX_MANA.get(), new AttributeModifier("Mage Max Mana Modifier", ArmorConfig.anthektiteMageArmor_MaxMana, AttributeModifier.Operation.ADDITION),
@@ -76,11 +77,11 @@ public enum MagicArmorMaterial implements ArmorMaterial {
         p_266653_.put(ArmorItem.Type.HELMET, 11);
     });
 
-    public int getDurabilityForType(ArmorItem.Type typeDurability) {
+    public int getDurabilityForType(ArmorItem.@NotNull Type typeDurability) {
         return HEALTH_FUNCTION_FOR_TYPE.get(typeDurability) * this.durabilityMultiplier;
     }
 
-    public int getDefenseForType(ArmorItem.Type typeDefense) {
+    public int getDefenseForType(ArmorItem.@NotNull Type typeDefense) {
         return this.armor.get(typeDefense);
     }
 
@@ -88,15 +89,15 @@ public enum MagicArmorMaterial implements ArmorMaterial {
         return this.enchantmentValue;
     }
 
-    public SoundEvent getEquipSound() {
+    public @NotNull SoundEvent getEquipSound() {
         return this.sound;
     }
 
-    public Ingredient getRepairIngredient() {
+    public @NotNull Ingredient getRepairIngredient() {
         return this.repairIngredient.get();
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return this.name;
     }
 

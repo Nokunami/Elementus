@@ -1,0 +1,51 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:mod_loaded",
+              "modid": "irons_spellbooks"
+            },
+            {
+              "type": "forge:not",
+              "value": {
+                "type": "forge:false"
+              }
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "equipment",
+        "key": {
+          "A": {
+            "item": "irons_spellbooks:arcane_essence"
+          },
+          "B": {
+            "item": "minecraft:book"
+          },
+          "I": {
+            "tag": "forge:ingots/steel"
+          },
+          "N": {
+            "tag": "forge:nuggets/steel"
+          }
+        },
+        "pattern": [
+          "NNA",
+          "IBA",
+          "NNA"
+        ],
+        "result": {
+          "item": "elementus:steel_spell_book"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

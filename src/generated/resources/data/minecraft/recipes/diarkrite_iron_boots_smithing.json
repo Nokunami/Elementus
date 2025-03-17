@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:mod_loaded",
+              "modid": "advancednetherite"
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smithing_transform",
+        "addition": {
+          "tag": "forge:ingots/diarkrite_iron"
+        },
+        "base": {
+          "item": "elementus:diarkrite_boots"
+        },
+        "result": {
+          "item": "elementus:diarkrite_iron_boots"
+        },
+        "template": {
+          "item": "elementus:atelis_upgrade_smithing_template"
+        }
+      }
+    }
+  ]
+}

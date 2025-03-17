@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:mod_loaded",
+              "modid": "vanilla_claws"
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smithing_transform",
+        "addition": {
+          "tag": "forge:ingots/diarkrite"
+        },
+        "base": {
+          "item": "elementus:steel_claws"
+        },
+        "result": {
+          "item": "elementus:diarkrite_claws"
+        },
+        "template": {
+          "item": "elementus:atelis_upgrade_smithing_template"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "silentgear:conversion",
+  "ingredients": [
+    {
+      "item": "elementus:diarkrite_helmet"
+    }
+  ],
+  "result": {
+    "item": "silentgear:helmet",
+    "materials": {
+      "coating": {
+        "material": "silentgear:diarkrite"
+      },
+      "main": {
+        "material": "silentgear:emerald"
+      }
+    }
+  }
+}

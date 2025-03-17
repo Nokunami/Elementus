@@ -1,16 +1,5 @@
 package net.nokunami.elementus.common.compat.refurbished_furniture;
 
-import com.mrcrayfish.furniture.refurbished.block.*;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.registry.ModBlockSetType;
-import net.nokunami.elementus.common.registry.ModBlocks;
-
 //public class RFModBlocks {
 //    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Elementus.MODID);
 //

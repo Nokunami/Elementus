@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#minecraft:needs_diamond_tool",
+    {
+      "id": "#forge:needs_netherite_tools",
+      "required": false
+    }
+  ]
+}

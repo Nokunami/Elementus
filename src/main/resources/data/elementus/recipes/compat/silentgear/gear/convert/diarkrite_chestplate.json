@@ -1,0 +1,19 @@
+{
+  "type": "silentgear:conversion",
+  "ingredients": [
+    {
+      "item": "elementus:diarkrite_chestplate"
+    }
+  ],
+  "result": {
+    "item": "silentgear:chestplate",
+    "materials": {
+      "coating": {
+        "material": "silentgear:diarkrite"
+      },
+      "main": {
+        "material": "silentgear:emerald"
+      }
+    }
+  }
+}

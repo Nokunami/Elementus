@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/sniffsweapons/great_sword_handheld",
+  "textures": {
+    "layer0": "elementus:item/compat/sniffsweapons/items/diarkrite_great_sword_model"
+  }
+}

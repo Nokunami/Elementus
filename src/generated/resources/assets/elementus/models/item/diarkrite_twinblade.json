@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "elementus:item/diarkrite_twinblade_model"
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "gui": {
+      "parent": "elementus:item/diarkrite_twinblade_gui"
+    }
+  }
+}

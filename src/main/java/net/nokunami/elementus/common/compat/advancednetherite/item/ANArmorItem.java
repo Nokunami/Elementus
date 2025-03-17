@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ModClientEvents;
-import net.nokunami.elementus.common.compat.advancednetherite.util.ANUtil;
+import net.nokunami.elementus.common.compat.advancednetherite.ANUtil;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.Nullable;
 
@@ -143,7 +143,7 @@ public class ANArmorItem extends AdvancedArmorItem {
         int originalColor = super.getBarColor(stack);
         return this.customDurabilityBarColor(stack)
                 != null && ConfigHelper.get().getClient().matchingDurabilityBars()
-                ? (Integer)Objects.requireNonNull(
+                ? Objects.requireNonNull(
                 this.customDurabilityBarColor(stack).getColor()) : ANUtil.getDurabilityBarColor(originalColor, stack);
     }
 
@@ -160,9 +160,8 @@ public class ANArmorItem extends AdvancedArmorItem {
         String texture = item.getMaterial().getName();
         String domain = "elementus";
         boolean helmet = slot == EquipmentSlot.HEAD;
-        boolean chestplate = slot == EquipmentSlot.CHEST;
         boolean leggings = slot == EquipmentSlot.LEGS;
 
-        return String.format(Locale.ROOT, "%s:textures/models/armor/advancednetherite/%s_layer_" + (helmet ? "1.png" : chestplate ? "2.png" : leggings ? "3.png" : "4.png"), domain, texture);
+        return String.format(Locale.ROOT, "%s:textures/models/armor/advancednetherite/%s_layer_" + (helmet | leggings ? "2.png" : "1.png"), domain, texture);
     }
 }

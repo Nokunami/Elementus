@@ -1,24 +1,30 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "key": {
-    "A": {
+  "ingredients": [
+    {
       "tag": "forge:ores/atelis_scrap"
     },
-    "E": {
-      "item": "minecraft:echo_shard"
+    {
+      "tag": "forge:ores/atelis_scrap"
     },
-    "S": {
+    {
+      "tag": "forge:ores/atelis_scrap"
+    },
+    {
       "tag": "forge:ingots/steel"
+    },
+    {
+      "tag": "forge:ingots/steel"
+    },
+    {
+      "item": "elementus:movcadia_essence"
+    },
+    {
+      "item": "elementus:movcadia_essence"
     }
-  },
-  "pattern": [
-    "SSS",
-    "AAA",
-    " E "
   ],
   "result": {
     "item": "elementus:anthektite_ingot"
-  },
-  "show_notification": true
+  }
 }

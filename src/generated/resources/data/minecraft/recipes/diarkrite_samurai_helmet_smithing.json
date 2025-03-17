@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:mod_loaded",
+              "modid": "samurai_dynasty"
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:smithing_transform",
+        "addition": {
+          "tag": "forge:ingots/diarkrite"
+        },
+        "base": {
+          "item": "elementus:steel_samurai_helmet"
+        },
+        "result": {
+          "item": "elementus:diarkrite_samurai_helmet"
+        },
+        "template": {
+          "item": "elementus:atelis_upgrade_smithing_template"
+        }
+      }
+    }
+  ]
+}

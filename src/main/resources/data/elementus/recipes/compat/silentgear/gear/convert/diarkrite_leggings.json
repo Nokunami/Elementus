@@ -1,0 +1,19 @@
+{
+  "type": "silentgear:conversion",
+  "ingredients": [
+    {
+      "item": "elementus:diarkrite_leggings"
+    }
+  ],
+  "result": {
+    "item": "silentgear:leggings",
+    "materials": {
+      "coating": {
+        "material": "silentgear:diarkrite"
+      },
+      "main": {
+        "material": "silentgear:emerald"
+      }
+    }
+  }
+}

@@ -12,6 +12,54 @@
       "required": false
     },
     {
+      "id": "elementus:steel_surcoat",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_surcoat",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_surcoat",
+      "required": false
+    },
+    {
+      "id": "elementus:plated_steel_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:plated_diarkrite_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:plated_anthektite_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_do",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_do",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_do",
+      "required": false
+    },
+    {
+      "id": "elementus:clothed_steel_cuirass",
+      "required": false
+    },
+    {
+      "id": "elementus:clothed_diarkrite_cuirass",
+      "required": false
+    },
+    {
+      "id": "elementus:clothed_anthektite_cuirass",
+      "required": false
+    },
+    {
       "id": "elementus:diarkrite_iron_chestplate",
       "required": false
     },
@@ -41,6 +89,42 @@
     },
     {
       "id": "elementus:anthektite_diamond_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_chestplate_light",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_chestplate_master",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_chestplate_light",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_chestplate_master",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_chestplate",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_chestplate_light",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_chestplate_master",
       "required": false
     }
   ]

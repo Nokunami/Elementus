@@ -4,10 +4,11 @@
   "package": "net.nokunami.elementus.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "LivingEntityMixin",
+    "MobEffectUtilMixin"
   ],
   "client": [
-    "client.HumanoidArmorLayerMixin",
-    "client.HumanoidArmorLayerAccessor",
+    "client.CapeLayerMixin",
     "client.HangingSignEditScreenMixin"
   ],
   "server": [

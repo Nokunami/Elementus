@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/simplyswords/big_handheld",
+  "textures": {
+    "layer0": "elementus:item/compat/simplyswords/anthektite/anthektite_greataxe_model"
+  }
+}

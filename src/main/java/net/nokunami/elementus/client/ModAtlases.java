@@ -1,12 +1,10 @@
 package net.nokunami.elementus.client;
 
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.registry.ModBlockSetType;
 
 import java.util.Map;
 import java.util.function.Function;

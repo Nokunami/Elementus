@@ -5,6 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.sweenus.simplyswords.util.HelperMethods;
+import org.jetbrains.annotations.NotNull;
 
 public class SimplySwordItem extends SwordItem {
     public SimplySwordItem(Tier pTier, int pAttackDamageModifier, float pAttackSpeedModifier, Properties pProperties) {
@@ -12,7 +13,7 @@ public class SimplySwordItem extends SwordItem {
     }
 
 
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public boolean hurtEnemy(@NotNull ItemStack stack, @NotNull LivingEntity target, LivingEntity attacker) {
         if (!attacker.level().isClientSide()) {
             HelperMethods.playHitSounds(attacker, target);
         }

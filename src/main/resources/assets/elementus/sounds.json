@@ -1,0 +1,31 @@
+{
+  "item.catalyst_armor.activate": {
+    "sounds": [
+      "elementus:item/catalyst_armor/activate1",
+      "elementus:item/catalyst_armor/activate2",
+      "elementus:item/catalyst_armor/activate3"
+    ],
+    "subtitle": "subtitles.elementus.item.catalyst_armor_activation"
+  },
+  "item.catalyst_armor.deactivate": {
+    "sounds": [
+      "elementus:item/catalyst_armor/deactivate1",
+      "elementus:item/catalyst_armor/deactivate2"
+    ],
+    "subtitle": "subtitles.elementus.item.catalyst_armor_deactivation"
+  },
+  "item.diarkrite_shield.block": {
+    "sounds": [
+      "elementus:item/diarkrite_shield/block1",
+      "elementus:item/diarkrite_shield/block2",
+      "elementus:item/diarkrite_shield/block3"
+    ],
+    "subtitle": "subtitles.elementus.item.diarkrite_shield.block"
+  },
+  "entity.steel_golem.down": {
+    "sounds": [
+      "elementus:mob/steel_golem/down"
+    ],
+    "subtitle": "subtitles.elementus.entity.steel_golem.down"
+  }
+}

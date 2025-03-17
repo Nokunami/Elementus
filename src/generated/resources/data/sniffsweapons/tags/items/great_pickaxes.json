@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "elementus:steel_great_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_great_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_great_pickaxe",
+      "required": false
+    }
+  ]
+}

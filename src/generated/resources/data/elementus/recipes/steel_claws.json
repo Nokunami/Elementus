@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/steel"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "###",
+    "LLL",
+    " L "
+  ],
+  "result": {
+    "item": "elementus:steel_claws"
+  },
+  "show_notification": true
+}

@@ -29,16 +29,12 @@ public class AttributeGlovesItem extends GlovesItem {
     }
 
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder();
-        Iterator var5 = this.defaultModifiers.keySet().iterator();
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = new ImmutableMultimap.Builder<>();
 
-        while(var5.hasNext()) {
-            Attribute attribute = (Attribute)var5.next();
+        for (Attribute attribute : this.defaultModifiers.keySet()) {
             Collection<AttributeModifier> modifiers = this.defaultModifiers.get(attribute);
-            Iterator var8 = modifiers.iterator();
 
-            while(var8.hasNext()) {
-                AttributeModifier attributeModifier = (AttributeModifier)var8.next();
+            for (AttributeModifier attributeModifier : modifiers) {
                 attributeBuilder.put(attribute, new AttributeModifier(uuid, attributeModifier.getName(), attributeModifier.getAmount(), attributeModifier.getOperation()));
                 attributeBuilder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(uuid, "Gloves Damage Bonus", this.damage, AttributeModifier.Operation.ADDITION));
             }

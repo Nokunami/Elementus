@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sniffsweapons:item/clothed_cuirass_layer",
+    "layer1": "elementus:item/compat/sniffsweapons/armor/clothed_diarkrite_cuirass"
+  }
+}

@@ -18,7 +18,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
-import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
+import net.nokunami.elementus.common.registry.ModItems.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -53,25 +53,25 @@ public class MobDropsLootModifier extends LootModifier
             ItemStack useItem = player.getMainHandItem(); // used to check if the player uses the correct weapon
             RandomSource random = context.getRandom(); // random generator
 
-            if ((useItem.is(ANModItems.DIARKRITE_IRON_SWORD.get()) || useItem.is(ANModItems.ANTHEKTITE_IRON_SWORD.get())) && victim.getType() == EntityType.PHANTOM
+            if ((useItem.is(AdvancedNetheriteItems.DIARKRITE_IRON_SWORD.get()) || useItem.is(AdvancedNetheriteItems.ANTHEKTITE_IRON_SWORD.get())) && victim.getType() == EntityType.PHANTOM
                     && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalPhantomDropChance()) {
                 generatedLoot.add(new ItemStack(Items.PHANTOM_MEMBRANE, random.nextIntBetweenInclusive(0, 2)));
             }
 
-            if ((useItem.is(ANModItems.DIARKRITE_GOLD_SWORD.get()) || useItem.is(ANModItems.DIARKRITE_DIAMOND_SWORD.get())
-                    || useItem.is(ANModItems.ANTHEKTITE_GOLD_SWORD.get()) || useItem.is(ANModItems.ANTHEKTITE_DIAMOND_SWORD.get()))
+            if ((useItem.is(AdvancedNetheriteItems.DIARKRITE_GOLD_SWORD.get()) || useItem.is(AdvancedNetheriteItems.DIARKRITE_DIAMOND_SWORD.get())
+                    || useItem.is(AdvancedNetheriteItems.ANTHEKTITE_GOLD_SWORD.get()) || useItem.is(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_SWORD.get()))
                     && victim.getType() == EntityType.ZOMBIFIED_PIGLIN && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalZombifiedPiglinDropChance()) {
                 generatedLoot.add(new ItemStack(Items.GOLD_NUGGET, random.nextIntBetweenInclusive(0, 3)));
             }
 
-            if ((useItem.is(ANModItems.DIARKRITE_GOLD_SWORD.get()) || useItem.is(ANModItems.DIARKRITE_DIAMOND_SWORD.get())
-                    || useItem.is(ANModItems.ANTHEKTITE_GOLD_SWORD.get()) || useItem.is(ANModItems.ANTHEKTITE_DIAMOND_SWORD.get()))
+            if ((useItem.is(AdvancedNetheriteItems.DIARKRITE_GOLD_SWORD.get()) || useItem.is(AdvancedNetheriteItems.DIARKRITE_DIAMOND_SWORD.get())
+                    || useItem.is(AdvancedNetheriteItems.ANTHEKTITE_GOLD_SWORD.get()) || useItem.is(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_SWORD.get()))
                     && victim.getType() == EntityType.PIGLIN && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalPiglinDropChance()) {
                 generatedLoot.add(new ItemStack(Items.GOLD_INGOT, random.nextIntBetweenInclusive(1, 1)));
             }
 
-            if ((useItem.is(ANModItems.DIARKRITE_EMERALD_SWORD.get()) || useItem.is(ANModItems.DIARKRITE_DIAMOND_SWORD.get())
-                    || useItem.is(ANModItems.ANTHEKTITE_EMERALD_SWORD.get()) || useItem.is(ANModItems.ANTHEKTITE_DIAMOND_SWORD.get()))
+            if ((useItem.is(AdvancedNetheriteItems.DIARKRITE_EMERALD_SWORD.get()) || useItem.is(AdvancedNetheriteItems.DIARKRITE_DIAMOND_SWORD.get())
+                    || useItem.is(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_SWORD.get()) || useItem.is(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_SWORD.get()))
                     && victim.getType() == EntityType.ENDERMAN && random.nextFloat() <= ConfigHelper.get().getServer().getAdditionalDropProperties().getAdditionalEndermanDropChance()) {
                 generatedLoot.add(new ItemStack(Items.ENDER_PEARL, random.nextIntBetweenInclusive(0, 1)));
             }

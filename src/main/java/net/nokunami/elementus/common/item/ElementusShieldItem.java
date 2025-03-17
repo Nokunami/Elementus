@@ -44,7 +44,7 @@ public class ElementusShieldItem extends ShieldItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltip, @NotNull TooltipFlag pFlag) {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
     }
 
@@ -54,17 +54,17 @@ public class ElementusShieldItem extends ShieldItem {
 
     public boolean isValidRepairItem(@NotNull ItemStack pToRepair, @NotNull ItemStack pRepair) {
         if (tier == ModTiers.STEEL) {
-            return pRepair.is(Etags.Item.INGOTS_STEEL);
+            return pRepair.is(Etags.Items.INGOTS_STEEL);
         } else if (tier == ModTiers.DIARKRITE) {
-            return pRepair.is(Etags.Item.INGOTS_DIARKRITE);
+            return pRepair.is(Etags.Items.INGOTS_DIARKRITE);
         } else if (tier == ModTiers.ANTHEKTITE) {
-            return pRepair.is(Etags.Item.INGOTS_ANTHEKTITE);
+            return pRepair.is(Etags.Items.INGOTS_ANTHEKTITE);
         }
         return this.tier.getRepairIngredient().test(pRepair) || super.isValidRepairItem(pToRepair, pRepair);
     }
 
     @Override
-    public SoundEvent getEquipSound() {
+    public @NotNull SoundEvent getEquipSound() {
         return SoundEvents.ARMOR_EQUIP_IRON;
     }
 }

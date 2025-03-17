@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "elementus:item/catalyst_chestplate_nether_star",
+      "predicate": {
+        "elementus:catalyst": 0.11
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_ignitium",
+      "predicate": {
+        "elementus:catalyst": 0.12
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_arcane",
+      "predicate": {
+        "elementus:catalyst": 0.13
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_heart_of_the_sea",
+      "predicate": {
+        "elementus:catalyst": 0.14
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_totem",
+      "predicate": {
+        "elementus:catalyst": 0.15
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_cursium",
+      "predicate": {
+        "elementus:catalyst": 0.16
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_withered_nether_star",
+      "predicate": {
+        "elementus:catalyst": 0.17
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "elementus:item/armor/catalyst_chestplate"
+  }
+}

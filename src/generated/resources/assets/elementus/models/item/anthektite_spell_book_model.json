@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/spellbook_model",
+  "textures": {
+    "layer0": "elementus:item/compat/irons_spellbooks/anthektite_spell_book_model"
+  }
+}

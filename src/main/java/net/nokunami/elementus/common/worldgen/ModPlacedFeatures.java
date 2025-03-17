@@ -14,7 +14,7 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.registry.ModBlocks;
+import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
 
 import java.util.List;
 
@@ -38,15 +38,15 @@ public class ModPlacedFeatures {
 
         register(context, MOVCADIA_TREE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.MOVCADIA_TREE),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(2, 0.1f, 2),
-                        ModBlocks.MOVCADIA_SAPLING.get()));
+                        ElementusBlocks.MOVCADIA_SAPLING.get()));
 
         register(context, MOVCADIA_TALL_TREE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.MOVCADIA_TALL_TREE),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(2, 0.1f, 2),
-                        ModBlocks.MOVCADIA_SAPLING.get()));
+                        ElementusBlocks.MOVCADIA_SAPLING.get()));
 
         register(context, MOVCADIA_MEGA_TREE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.MOVCADIA_MEGA_TREE),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(2, 0.1f, 2),
-                        ModBlocks.MOVCADIA_SAPLING.get()));
+                        ElementusBlocks.MOVCADIA_SAPLING.get()));
     }
 
     private static ResourceKey<PlacedFeature> registerKey(String name) {
@@ -56,5 +56,9 @@ public class ModPlacedFeatures {
     private static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration,
                                  List<PlacementModifier> modifiers) {
         context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
+    }
+
+    public static void register(BootstapContext<PlacedFeature> pContext, ResourceKey<PlacedFeature> pKey, Holder<ConfiguredFeature<?, ?>> pConfiguredFeatures, PlacementModifier... pPlacements) {
+        register(pContext, pKey, pConfiguredFeatures, List.of(pPlacements));
     }
 }

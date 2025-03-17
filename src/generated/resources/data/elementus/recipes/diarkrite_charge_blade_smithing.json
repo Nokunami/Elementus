@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:sculk_catalyst"
+  },
+  "base": {
+    "item": "elementus:diarkrite_sword"
+  },
+  "result": {
+    "item": "elementus:diarkrite_charge_blade"
+  },
+  "template": {
+    "item": "elementus:weapon_fragment"
+  }
+}

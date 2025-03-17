@@ -26,7 +26,7 @@ public class ISSArmorItem extends ArmorItem implements IPresetSpellContainer {
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
     public ISSArmorItem(MagicArmorMaterial material, Type type, Properties properties) {
-        super(material, type, new Properties());
+        super(material, type, properties);
         this.material = material;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
@@ -55,8 +55,7 @@ public class ISSArmorItem extends ArmorItem implements IPresetSpellContainer {
         boolean helmet = slot == EquipmentSlot.HEAD;
         boolean leggings = slot == EquipmentSlot.LEGS;
 
-        String s1 = String.format(Locale.ROOT, "%s:textures/models/armor/irons_spellbooks/%s_layer_" + (leggings | helmet ? "2.png" : "1.png"), domain, texture);
-        return s1;
+        return String.format(Locale.ROOT, "%s:textures/models/armor/irons_spellbooks/%s_layer_" + (leggings | helmet ? "2.png" : "1.png"), domain, texture);
     }
 
     @Override

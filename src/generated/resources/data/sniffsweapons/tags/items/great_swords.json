@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "elementus:steel_great_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_great_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_great_sword",
+      "required": false
+    }
+  ]
+}

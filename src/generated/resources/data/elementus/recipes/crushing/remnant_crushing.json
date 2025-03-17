@@ -1,0 +1,22 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "elementus:remnant"
+    }
+  ],
+  "processingTime": 300,
+  "results": [
+    {
+      "item": "elementus:crushed_remnant"
+    },
+    {
+      "chance": 0.25,
+      "item": "minecraft:cobbled_deepslate"
+    },
+    {
+      "chance": 0.05,
+      "item": "elementus:crushed_remnant"
+    }
+  ]
+}

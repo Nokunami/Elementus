@@ -3,26 +3,34 @@
 Elementus adds more materials to minecraft.
 
 ## Active Development: 1.20.1 Forge
-(last update to 1.20, then Neo 1.21)
+### current plans
+- last update to 1.20 (for real this time)
+- backport final 1.20 version to 1.19.2
+- port to NeoForge
 ### Bugfix: 1.20 1
 
 
-**Version 1.0.0 (1.20.1) differs from previous versions**
-
-**Version 0.5.0 (1.20.1) differs from previous versions**
-
 Current additions:
-- **Crude Steel** | Crafted with Coal, Iron and Raw Iron, smelt it to make Steel.
+- **Crude Steel**
+  - Crafted with Coal, Iron and Raw Iron, smelt it to make Steel.
 
-- **Steel** | An upgrade to Iron, essentially cheaper Diamond.
+- **Steel**
+  - An upgrade to Iron, essentially cheaper Diamond.
 
-- **Steel Scraps** | Left over material from smelting Steel equipment, can be combined with another Steel Scrap and an Iron Ingot to make a new piece of Steel.
+- **Steel Scraps**
+  - Obtained from smelting Steel equipment, can be combined with another Steel Scrap and an Iron Ingot to make a new piece of Steel.
 
-- **Remnant** | A metallic remnant from the past, found generating at diamond level (-30 to -60).
+- **Remnant**
+  - A metallic remnant from the past, found generating at diamond level (-30 to -60).
 
-- **Anthektite** | An upgrade to Steel, shares the same stats as Diamond but tools have faster attack speed, more durability and armor gives attack speed boost.
+- **Anthektite**
+  - An upgrade to Steel, shares the same stats as Diamond but tools have faster attack speed, more durability and armor gives attack speed boost.
 
-- **Diarkrite** | An upgrade to Steel, tougher than Netheirte but slowner attack and movement speed, has more durability than Netherite.
+- **Diarkrite**
+  - An upgrade to Steel, tougher than Netheirte but slowner attack and movement speed, has more durability than Netherite.
+
+- **Catalyst Chestplate**
+  - An ancient piece of armor found in the Ancient Cities.
 
 
 # Compatible with:
@@ -42,3 +50,10 @@ Current additions:
 [Sniff's weapons](https://modrinth.com/mod/QNyIisib) (✅1.20) (Weapons)\
 [Advanced Netherite](https://modrinth.com/mod/CFX9ftUJ) (✅1.20) (Armors, Tools and Materials)\
 [Epic Samurai's](https://modrinth.com/mod/lMWJDrbO) (✅1.20) (Armors)
+
+## Imcompatibilities
+(⚠️Visual / no impact on gameplay)\
+(❗Crashes)
+
+- [Mowzie's Mobs](https://www.curseforge.com/minecraft/mc-mods/mowzies-mobs) (⚠️)
+  - Armor Models might behave weirdly when using item abilities

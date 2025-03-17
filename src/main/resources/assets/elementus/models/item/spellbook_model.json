@@ -1,0 +1,88 @@
+{
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"name": "Outer",
+			"from": [6, 0, 3],
+			"to": [10, 8, 13],
+			"faces": {
+				"north": {"uv": [10, 0, 14, 8], "texture": "#layer0"},
+				"east": {"uv": [0, 4, 10, 12], "texture": "#layer0"},
+				"south": {"uv": [10, 0, 14, 8], "texture": "#layer0"},
+				"west": {"uv": [0, 4, 10, 12], "texture": "#layer0"},
+				"up": {"uv": [0, 0, 10, 4], "rotation": 90, "texture": "#layer0"},
+				"down": {"uv": [0, 12, 10, 16], "rotation": 90, "texture": "#layer0"}
+			}
+		},
+		{
+			"name": "Inner",
+			"from": [9.005, 0, 3],
+			"to": [6.995, 7, 13],
+			"faces": {
+				"east": {"uv": [0, 5, 10, 12], "texture": "#layer0"},
+				"west": {"uv": [0, 5, 10, 12], "texture": "#layer0"}
+			}
+		},
+		{
+			"name": "Paper",
+			"from": [7, 1, 3],
+			"to": [9, 1, 13],
+			"faces": {
+				"down": {"uv": [16, 0, 14, 10], "texture": "#layer0"}
+			}
+		},
+		{
+			"name": "BookMark",
+			"from": [7.99, 4.49, 0.99],
+			"to": [8.01, 6.51, 3.01],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, -10]},
+			"faces": {
+				"east": {"uv": [14, 14, 16, 16], "texture": "#layer0"},
+				"west": {"uv": [16, 14, 14, 16], "texture": "#layer0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [90, 180, 0],
+			"translation": [0.25, -2, 2],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [90, 180, 0],
+			"translation": [0.05, -2, 2],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"firstperson_righthand": {
+			"rotation": [-137, 10, 90],
+			"translation": [-4.25, 2, -3.75]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-137, 10, 90],
+			"translation": [-4.25, 2, -3.75]
+		},
+		"ground": {
+			"rotation": [-90, 0, 0],
+			"translation": [0, 1.25, -4],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"head": {
+			"rotation": [0, 0, -90],
+			"translation": [4, 8.5, 0]
+		}
+	},
+	"groups": [
+		{
+			"name": "BookCover",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1]
+		},
+		{
+			"name": "Inner",
+			"origin": [0, 0, -10],
+			"color": 0,
+			"children": [2, 3]
+		}
+	]
+}

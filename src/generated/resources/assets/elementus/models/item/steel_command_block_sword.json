@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "elementus:item/compat/witherstormmod/steel_command_block_sword"
+  }
+}

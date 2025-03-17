@@ -1,0 +1,22 @@
+{
+  "type": "silentgear:conversion",
+  "ingredients": [
+    {
+      "item": "elementus:diarkrite_shovel"
+    }
+  ],
+  "result": {
+    "item": "silentgear:shovel",
+    "materials": {
+      "coating": {
+        "material": "silentgear:diarkrite"
+      },
+      "main": {
+        "material": "silentgear:steel"
+      },
+      "rod": {
+        "material": "silentgear:wood"
+      }
+    }
+  }
+}

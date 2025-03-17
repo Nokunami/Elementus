@@ -7,7 +7,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -16,8 +15,10 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.nokunami.elementus.common.block.grower.MovcadiaTreeGrower;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class MovcadiaSapling extends SaplingBlock implements SimpleWaterloggedBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_4;
@@ -25,7 +26,7 @@ public class MovcadiaSapling extends SaplingBlock implements SimpleWaterloggedBl
 
     public MovcadiaSapling(Properties pProperties) {
         super(new MovcadiaTreeGrower(0.5F), pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, Integer.valueOf(0)).setValue(AGE, Integer.valueOf(0)).setValue(WATERLOGGED, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0).setValue(AGE, 0).setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
@@ -33,7 +34,7 @@ public class MovcadiaSapling extends SaplingBlock implements SimpleWaterloggedBl
     }
 
 
-    protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+    protected boolean mayPlaceOn(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
         return super.mayPlaceOn(pState, pLevel, pPos) || pState.is(BlockTags.BASE_STONE_OVERWORLD);
     }
 
@@ -41,10 +42,10 @@ public class MovcadiaSapling extends SaplingBlock implements SimpleWaterloggedBl
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         FluidState fluidstate = pContext.getLevel().getFluidState(pContext.getClickedPos());
         boolean flag = fluidstate.getType() == Fluids.WATER;
-        return super.getStateForPlacement(pContext).setValue(WATERLOGGED, Boolean.valueOf(flag)).setValue(AGE, Integer.valueOf(4));
+        return Objects.requireNonNull(super.getStateForPlacement(pContext)).setValue(WATERLOGGED, flag).setValue(AGE, 4);
     }
 
-    public FluidState getFluidState(BlockState pState) {
+    public @NotNull FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 }

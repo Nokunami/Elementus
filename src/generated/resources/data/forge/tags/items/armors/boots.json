@@ -42,6 +42,42 @@
     {
       "id": "elementus:anthektite_diamond_boots",
       "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_boots_light",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_boots_master",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_boots_light",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_boots_master",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_boots",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_boots_light",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_boots_master",
+      "required": false
     }
   ]
 }

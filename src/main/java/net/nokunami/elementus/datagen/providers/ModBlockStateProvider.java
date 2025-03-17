@@ -1,17 +1,8 @@
 package net.nokunami.elementus.datagen.providers;
 
-import com.mrcrayfish.furniture.refurbished.block.ChairBlock;
-import com.mrcrayfish.furniture.refurbished.block.TableBlock;
-import com.mrcrayfish.furniture.refurbished.data.model.ModelTemplate;
-import com.mrcrayfish.furniture.refurbished.data.model.PreparedVariantBlockState;
-import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.TextureMapping;
-import net.minecraft.data.models.model.TextureSlot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -19,7 +10,6 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.block.CabinetBlock;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ModBlockStateProvider extends BlockStateProvider {
@@ -86,12 +76,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.axisBlock(block.get(), this.texture(this.name(baseBlock.get()), location), this.texture(this.name(baseBlock.get()), location));
     }
 
-    public void stairs(Supplier<? extends StairBlock> block, Supplier<? extends Block> baseBlock, String location) {
-        this.stairsBlock(block.get(), this.texture(this.name(baseBlock.get()), location));
+    public void stairs(Supplier<? extends Block> block, Supplier<? extends Block> baseBlock, String location) {
+        this.stairsBlock((StairBlock) block.get(), this.texture(this.name(baseBlock.get()), location));
     }
 
-    public void slab(Supplier<? extends SlabBlock> block, Supplier<? extends Block> baseBlock, String location) {
-        this.slabBlock(block.get(), this.texture(this.name(baseBlock.get())), this.texture(this.name(baseBlock.get()), location));
+    public void slab(Supplier<? extends Block> block, Supplier<? extends Block> baseBlock, String location) {
+        this.slabBlock((SlabBlock) block.get(), this.texture(this.name(baseBlock.get())), this.texture(this.name(baseBlock.get()), location));
     }
 
     public void fence(Supplier<? extends FenceBlock> block, Supplier<? extends Block> baseBlock, String location) {

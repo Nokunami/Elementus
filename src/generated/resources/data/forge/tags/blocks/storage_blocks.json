@@ -1,5 +1,7 @@
 {
   "values": [
+    "elementus:steel_block",
+    "elementus:steel_block",
     "#forge:storage_blocks/steel",
     "#forge:storage_blocks/diarkrite",
     "#forge:storage_blocks/anthektite"

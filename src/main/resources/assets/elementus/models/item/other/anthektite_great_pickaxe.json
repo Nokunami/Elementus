@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "sniffsweapons:handheld/great_axe_handheld",
+    "textures": {
+      "layer0": "elementus:item/compat/sniffsweapons/items/anthektite_great_pickaxe_model"
+    }
+  },
+
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "elementus:item/compat/sniffsweapons/items/anthektite_great_pickaxe_gui"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "blocking": 1
+      },
+      "model": "elementus:item/anthektite_great_pickaxe_blocking"
+    }
+  ]
+}

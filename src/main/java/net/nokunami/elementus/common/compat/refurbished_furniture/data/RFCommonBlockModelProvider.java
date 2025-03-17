@@ -1,24 +1,5 @@
 package net.nokunami.elementus.common.compat.refurbished_furniture.data;
 
-import com.mrcrayfish.furniture.refurbished.block.*;
-import com.mrcrayfish.furniture.refurbished.block.LeafType;
-import com.mrcrayfish.furniture.refurbished.data.CommonBlockModelProvider;
-import com.mrcrayfish.furniture.refurbished.data.model.ExtraModel;
-import com.mrcrayfish.furniture.refurbished.data.model.ModelTemplate;
-import com.mrcrayfish.furniture.refurbished.data.model.PreparedMultiPartBlockState;
-import com.mrcrayfish.furniture.refurbished.data.model.PreparedVariantBlockState;
-import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.TextureMapping;
-import net.minecraft.data.models.model.TextureSlot;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.properties.DoorHingeSide;
-import net.minecraft.world.level.block.state.properties.WoodType;
-
-import java.util.function.Consumer;
-
 //public class RFCommonBlockModelProvider extends CommonBlockModelProvider {
 //    private final Consumer<PreparedVariantBlockState> variantStateConsumer;
 //    private final Consumer<PreparedMultiPartBlockState> multiPartStateConsumer;

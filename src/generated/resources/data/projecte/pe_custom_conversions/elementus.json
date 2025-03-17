@@ -2,10 +2,10 @@
   "values": {
     "before": {
       "#forge:ingots/steel": 1350,
-      "elementus:anthektite_ingot": 77906,
-      "elementus:atelis_scrap": 12288,
+      "elementus:anthektite_paxel_upgrade_kit": 384060,
       "elementus:atelis_upgrade_smithing_template": 18432,
-      "elementus:diarkrite_ingot": 77906
+      "elementus:diarkrite_paxel_upgrade_kit": 384060,
+      "elementus:movcadia_essence": 192
     }
   }
 }

@@ -1,0 +1,10 @@
+{
+	"parent": "elementus:item/elementus_model_shield",
+	"textures": {
+		"layer0": "elementus:item/shield/diarkrite_shield"
+	},
+
+	"overrides": [
+		{"predicate": {"blocking": 1}, "model": "elementus:item/diarkrite_shield_blocking"}
+	]
+}

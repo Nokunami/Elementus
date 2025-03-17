@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "elementus:steel_naginata",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_naginata",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_naginata",
+      "required": false
+    }
+  ]
+}

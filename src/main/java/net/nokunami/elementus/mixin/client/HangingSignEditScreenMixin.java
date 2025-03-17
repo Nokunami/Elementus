@@ -19,7 +19,7 @@ public class HangingSignEditScreenMixin {
     protected Minecraft minecraft;
 
     @Inject(at = @At(value = "HEAD"), method = "openTextEdit", cancellable = true)
-    private void openCanvasSignEditScreen(SignBlockEntity signBlockEntity, boolean isFront, CallbackInfo ci) {
+    private void elementus$openCanvasSignEditScreen(SignBlockEntity signBlockEntity, boolean isFront, CallbackInfo ci) {
         if (signBlockEntity instanceof ModHangingSignBlockEntity) {
             minecraft.setScreen(new ModHangingSignEditScreen(signBlockEntity, isFront, minecraft.isTextFilteringEnabled()));
             ci.cancel();

@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/simplyswords/template_reworked_greathammer",
+  "textures": {
+    "texture": "elementus:item/compat/simplyswords/steel/steel_greathammer_model"
+  }
+}

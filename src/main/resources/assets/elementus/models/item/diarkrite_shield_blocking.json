@@ -1,6 +1,0 @@
-{
-	"parent": "elementus:item/elementus_model_shield_blocking",
-	"textures": {
-		"1": "elementus:item/shield/diarkrite_shield"
-	}
-}

@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/simplyswords/template_warglaive",
+  "textures": {
+    "layer0": "elementus:item/compat/simplyswords/diarkrite/diarkrite_warglaive_model"
+  }
+}

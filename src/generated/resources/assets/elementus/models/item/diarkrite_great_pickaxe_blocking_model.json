@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/sniffsweapons/great_pickaxe_blocking_handheld",
+  "textures": {
+    "layer0": "elementus:item/compat/sniffsweapons/items/diarkrite_great_pickaxe_model"
+  }
+}

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_atelis_scrap": {
+    "has_remnant_ingot": {
       "conditions": {
         "items": [
           {
             "items": [
-              "elementus:atelis_scrap"
+              "elementus:movcadia_essence"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_atelis_scrap",
+      "has_remnant_ingot",
       "has_the_recipe"
     ]
   ],

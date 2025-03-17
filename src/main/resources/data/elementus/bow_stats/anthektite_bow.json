@@ -1,0 +1,24 @@
+{
+  "cooldown": 7,
+  "base_damage": 1.6,
+  "draw_time": 7,
+  "range": 3.5,
+  "player_speed": 1.15,
+  "break_resist": 0.75,
+  "break_chance": 0.1,
+  "on_fire_effects": [
+    {
+      "effect": "archeryexp:quickdraw",
+      "lvl": 2,
+      "length": 20,
+      "particles": false
+    },
+    {
+      "effect": "minecraft:weakness",
+      "lvl": 1,
+      "length": 40,
+      "particles": true
+    }
+  ],
+  "recoil": 0.1
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "elementus:item/steel_greathammer_model"
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "gui": {
+      "parent": "elementus:item/steel_greathammer_gui"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "elementus:steel_scrap"
+    },
+    {
+      "item": "elementus:steel_scrap"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "elementus:steel_ingot"
+    }
+  ]
+}

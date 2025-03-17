@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "elementus:item/anthektite_spear_model"
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "gui": {
+      "parent": "elementus:item/anthektite_spear_gui"
+    }
+  }
+}

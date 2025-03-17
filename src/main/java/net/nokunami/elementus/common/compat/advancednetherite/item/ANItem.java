@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +38,7 @@ public class ANItem extends Item {
     }
 
     @Internal
-    public void appendHoverText(ItemStack stack, Level world, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         if (ConfigHelper.get().getClient().showTooltips()) {
             this.addTooltips(stack, world, tooltip, flag);
         }
@@ -45,7 +46,7 @@ public class ANItem extends Item {
     }
 
     @Internal
-    public int getBarColor(ItemStack stack) {
+    public int getBarColor(@NotNull ItemStack stack) {
         return this.customDurabilityBarColor(stack) != null && ConfigHelper.get().getClient().matchingDurabilityBars() ? (Integer) Objects.requireNonNull(this.customDurabilityBarColor(stack).getColor()) : super.getBarColor(stack);
     }
 }

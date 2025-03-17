@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/simplyswords/template_twinblade",
+  "textures": {
+    "layer0": "elementus:item/compat/simplyswords/steel/steel_twinblade_model"
+  }
+}

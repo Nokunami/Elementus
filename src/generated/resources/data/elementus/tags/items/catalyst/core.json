@@ -1,0 +1,23 @@
+{
+  "values": [
+    "minecraft:nether_star",
+    "minecraft:heart_of_the_sea",
+    "minecraft:totem_of_undying",
+    {
+      "id": "cataclysm:ignitium_ingot",
+      "required": false
+    },
+    {
+      "id": "irons_spellbooks:arcane_ingot",
+      "required": false
+    },
+    {
+      "id": "cataclysm:cursium_ingot",
+      "required": false
+    },
+    {
+      "id": "witherstormmod:withered_nether_star",
+      "required": false
+    }
+  ]
+}

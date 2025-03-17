@@ -17,7 +17,8 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
-import net.nokunami.elementus.common.registry.ModBlocks;
+import net.nokunami.elementus.common.registry.ModBlocks.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -26,14 +27,14 @@ public class MegaMovcadiaTrunkPlacer extends TrunkPlacer {
     public static final Codec<MegaMovcadiaTrunkPlacer> CODEC = RecordCodecBuilder.create(megaMovcadiaTrunkPlacerInstance ->
             trunkPlacerParts(megaMovcadiaTrunkPlacerInstance).apply(megaMovcadiaTrunkPlacerInstance, MegaMovcadiaTrunkPlacer::new));
 
-    private static final BlockStateProvider rootProvider = BlockStateProvider.simple(ModBlocks.MOVCADIA_ROOTS.get());
+    private static final BlockStateProvider rootProvider = BlockStateProvider.simple(Blocks.ROOTED_DIRT);
 
     public MegaMovcadiaTrunkPlacer(int pBaseHeight, int pHeightRandA, int pHeightRandB) {
         super(pBaseHeight, pHeightRandA, pHeightRandB);
     }
 
     @Override
-    protected TrunkPlacerType<?> type() {
+    protected @NotNull TrunkPlacerType<?> type() {
         return ModTrunkPlacer.MEGA_MOVCADIA_TRUNK_PLACER.get();
     }
 
@@ -49,7 +50,7 @@ public class MegaMovcadiaTrunkPlacer extends TrunkPlacer {
     }
 
     @Override
-    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, TreeConfiguration pConfig) {
+    public @NotNull List<FoliagePlacer.FoliageAttachment> placeTrunk(@NotNull LevelSimulatedReader pLevel, @NotNull BiConsumer<BlockPos, BlockState> pBlockSetter, @NotNull RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, @NotNull TreeConfiguration pConfig) {
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
         BlockPos blockpos = pPos.below();
         setBlockAt(pLevel, pBlockSetter, pRandom, pPos.below(), pConfig);

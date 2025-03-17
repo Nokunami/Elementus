@@ -1,0 +1,6 @@
+{
+  "parent": "elementus:item/simplyswords/template_claymore",
+  "textures": {
+    "layer0": "elementus:item/compat/simplyswords/anthektite/anthektite_claymore_model"
+  }
+}

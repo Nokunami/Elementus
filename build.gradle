@@ -18,9 +18,6 @@ base {
 mixin {
     add sourceSets.main, 'mixins.elementus.refmap.json'
     config 'mixins.elementus.json'
-//    add sourceSets.main, "${mod_id}.refmap.json"
-
-//    config "${mod_id}.mixins.json"
 }
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
@@ -160,6 +157,14 @@ repositories {
         filter {
             includeGroup "maven.modrinth"
         }
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
     }
 
     maven {
@@ -171,8 +176,12 @@ repositories {
     maven { url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
     maven { url = "https://maven.theillusivec4.top" }
     maven { url = "https://maven.blamejared.com" }
-    maven { url = "https://cursemaven.com" }
+//    maven { url = "https://cursemaven.com" }
     maven { url = "https://maven.kosmx.dev/" }
+    maven {
+        name = "Xander Maven"
+        url = "https://maven.isxander.dev/releases"
+    }
 }
 
 dependencies {
@@ -198,97 +207,96 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    //Utility
     compileOnly fg.deobf("dev.emi:emi-forge:${emi_version}:api")
     runtimeOnly fg.deobf("dev.emi:emi-forge:${emi_version}")
-    implementation fg.deobf("maven.modrinth:embeddium:${embeddium_version}")
-
-    compileOnly fg.deobf("maven.modrinth:farmers-delight:${farmersdelight_version}")
-    runtimeOnly fg.deobf("maven.modrinth:farmers-delight:${farmersdelight_version}")
-
-    compileOnly fg.deobf("maven.modrinth:piercingpaxels:${piercingpaxels_version}")
-    runtimeOnly fg.deobf("maven.modrinth:piercingpaxels:${piercingpaxels_version}")
-
-    compileOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
-    runtimeOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
-
-    compileOnly fg.deobf("maven.modrinth:nethers-delight:${nethersdelight_version}")
-    runtimeOnly fg.deobf("maven.modrinth:nethers-delight:${nethersdelight_version}")
-
-    compileOnly fg.deobf("maven.modrinth:aether:${aether_version}")
-    runtimeOnly fg.deobf("maven.modrinth:aether:${aether_version}")
-
-    compileOnly fg.deobf("maven.modrinth:simply-swords:${simply_swords_version}")
-    runtimeOnly fg.deobf("maven.modrinth:simply-swords:${simply_swords_version}")
-
-    compileOnly fg.deobf("maven.modrinth:dixtas-armory:${dixtas_armory_version}")
-    runtimeOnly fg.deobf("maven.modrinth:dixtas-armory:${dixtas_armory_version}")
-
-    compileOnly fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}")
-    runtimeOnly fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}")
-
-    compileOnly fg.deobf("maven.modrinth:modernfix:${modernfix_version}")
-    runtimeOnly fg.deobf("maven.modrinth:modernfix:${modernfix_version}")
-
-    compileOnly fg.deobf("maven.modrinth:ferrite-core:${ferritecore_version}")
-    runtimeOnly fg.deobf("maven.modrinth:ferrite-core:${ferritecore_version}")
-
-    // IRONS SPELLS N SPELLBOOKS **********************************************************************************
-    compileOnly fg.deobf("io.redspace.ironsspellbooks:irons_spellbooks:${irons_spells_version}")
-    runtimeOnly fg.deobf("io.redspace.ironsspellbooks:irons_spellbooks:${irons_spells_version}")
-
-    // GECKOLIB ***************************************************************************************************
-    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${geckolib_version}")
-
-    // CAELUS *****************************************************************************************************
-    compileOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}:api")
-    runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
-
-    // PLAYER ANIMATOR ********************************************************************************************
-    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}")
-
-    // JEI ********************************************************************************************************
     compileOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}")
+    compileOnly fg.deobf("maven.modrinth:jade:${jade_version}")
+    runtimeOnly fg.deobf("maven.modrinth:jade:${jade_version}")
+    implementation fg.deobf("curse.maven:item-nbt-viewer-514135:4578522")
 
-    // CURIOS *****************************************************************************************************
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
-    //Uncomment the following line to run with Curios in dev
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    //Performance
+    implementation fg.deobf("maven.modrinth:embeddium:${embeddium_version}")
+    implementation fg.deobf("maven.modrinth:ferrite-core:${ferritecore_version}")
+    implementation fg.deobf("maven.modrinth:modernfix:${modernfix_version}")
+    compileOnly fg.deobf("maven.modrinth:elytra-physics:${elytra_physics_version}")
+    runtimeOnly fg.deobf("maven.modrinth:elytra-physics:${elytra_physics_version}")
 
-    // PATCHOULI **************************************************************************************************
+    //Library
+    compileOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
+    compileOnly fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}")
+    compileOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}:api")
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-
-    compileOnly fg.deobf("maven.modrinth:sniffs-weapons:${sniffs_weapons_version}")
-    runtimeOnly fg.deobf("maven.modrinth:sniffs-weapons:${sniffs_weapons_version}")
-
-    compileOnly fg.deobf("curse.maven:advancednetherite-495336:${advanced_netherite_version}")
-    runtimeOnly fg.deobf("curse.maven:advancednetherite-495336:${advanced_netherite_version}")
-
-    compileOnly fg.deobf("maven.modrinth:epic-samurais:${epic_samurais_version}")
-    runtimeOnly fg.deobf("maven.modrinth:epic-samurais:${epic_samurais_version}")
-
     compileOnly fg.deobf("maven.modrinth:azurelib:${azurelib_version}")
-    runtimeOnly fg.deobf("maven.modrinth:azurelib:${azurelib_version}")
-
-    compileOnly fg.deobf("maven.modrinth:ice-and-fire-dragons:${ice_and_fire_dragons_version}")
-//    runtimeOnly fg.deobf("maven.modrinth:ice-and-fire-dragons:${ice_and_fire_dragons_version}")
-
     compileOnly fg.deobf("maven.modrinth:citadel:${citadel_version}")
-//    runtimeOnly fg.deobf("maven.modrinth:citadel:${citadel_version}")
-
-    compileOnly fg.deobf("curse.maven:projecte-226410:${projecte_version}")
-    runtimeOnly fg.deobf("curse.maven:projecte-226410:${projecte_version}")
-
-    compileOnly fg.deobf("maven.modrinth:twigs:${twigs_version}")
-    runtimeOnly fg.deobf("maven.modrinth:twigs:${twigs_version}")
-
-    compileOnly fg.deobf("curse.maven:refurbished-furniture-897116:${refurbished_furniture_version}")
-//    runtimeOnly fg.deobf("curse.maven:refurbished-furniture-897116:${refurbished_furniture_version}")
-
     compileOnly fg.deobf("curse.maven:framework-549225:${framework_version}")
+    compileOnly fg.deobf("curse.maven:configured-457570:${configured_version}")
+    compileOnly fg.deobf("maven.modrinth:silent-lib:${silent_lib_version}")
+    compileOnly fg.deobf("maven.modrinth:lionfish-api:${lionfish_api_version}")
+
+    runtimeOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
+    runtimeOnly fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}")
+    runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    runtimeOnly fg.deobf("maven.modrinth:azurelib:${azurelib_version}")
+    runtimeOnly fg.deobf("maven.modrinth:citadel:${citadel_version}")
 //    runtimeOnly fg.deobf("curse.maven:framework-549225:${framework_version}")
+    runtimeOnly fg.deobf("curse.maven:configured-457570:${configured_version}")
+//    runtimeOnly fg.deobf("maven.modrinth:silent-lib:${silent_lib_version}")
+    runtimeOnly fg.deobf("maven.modrinth:lionfish-api:${lionfish_api_version}")
+
+    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${geckolib_version}")
+    implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}")
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+
+    //Compile (not required to run)
+    compileOnly fg.deobf("maven.modrinth:farmers-delight:${farmersdelight_version}")
+    compileOnly fg.deobf("maven.modrinth:piercingpaxels:${piercingpaxels_version}")
+    compileOnly fg.deobf("maven.modrinth:nethers-delight:${nethersdelight_version}")
+    compileOnly fg.deobf("maven.modrinth:aether:${aether_version}")
+    compileOnly fg.deobf("maven.modrinth:simply-swords:${simply_swords_version}")
+    compileOnly fg.deobf("maven.modrinth:dixtas-armory:${dixtas_armory_version}")
+    compileOnly fg.deobf("io.redspace.ironsspellbooks:irons_spellbooks:${irons_spells_version}")
+    compileOnly fg.deobf("maven.modrinth:sniffs-weapons:${sniffs_weapons_version}")
+    compileOnly fg.deobf("curse.maven:advancednetherite-495336:${advanced_netherite_version}")
+    compileOnly fg.deobf("maven.modrinth:epic-samurais:${epic_samurais_version}")
+    compileOnly fg.deobf("maven.modrinth:ice-and-fire-dragons:${ice_and_fire_dragons_version}")
+    compileOnly fg.deobf("curse.maven:projecte-226410:${projecte_version}")
+    compileOnly fg.deobf("maven.modrinth:twigs:${twigs_version}")
+    compileOnly fg.deobf("curse.maven:refurbished-furniture-897116:${refurbished_furniture_version}")
+    compileOnly fg.deobf("maven.modrinth:silent-gear:${silent_gear_version}")
+    compileOnly fg.deobf("maven.modrinth:l_enders-cataclysm:${l_enders_cataclysm_version}")
+    compileOnly fg.deobf("curse.maven:mowzies-mobs-250498:${mowzies_mobs_version}")
+    compileOnly fg.deobf("curse.maven:crackers-wither-storm-mod-621405:${crackers_wither_storm_mod_version}")
+    compileOnly fg.deobf("curse.maven:banilla-claws-neoforge-653966:${banilla_claws_version}")
+    compileOnly fg.deobf("curse.maven:archery-expansion-1164945:${archery_expansion_version}")
+    compileOnly fg.deobf("maven.modrinth:create:${create_version}")
+
+    //Runtime (required to run)
+    runtimeOnly fg.deobf("maven.modrinth:farmers-delight:${farmersdelight_version}")
+    runtimeOnly fg.deobf("maven.modrinth:piercingpaxels:${piercingpaxels_version}")
+    runtimeOnly fg.deobf("maven.modrinth:nethers-delight:${nethersdelight_version}")
+    runtimeOnly fg.deobf("maven.modrinth:aether:${aether_version}")
+    runtimeOnly fg.deobf("maven.modrinth:simply-swords:${simply_swords_version}")
+//    runtimeOnly fg.deobf("maven.modrinth:dixtas-armory:${dixtas_armory_version}")
+    runtimeOnly fg.deobf("io.redspace.ironsspellbooks:irons_spellbooks:${irons_spells_version}")
+    runtimeOnly fg.deobf("maven.modrinth:sniffs-weapons:${sniffs_weapons_version}")
+    runtimeOnly fg.deobf("curse.maven:advancednetherite-495336:${advanced_netherite_version}")
+    runtimeOnly fg.deobf("maven.modrinth:epic-samurais:${epic_samurais_version}")
+//    runtimeOnly fg.deobf("maven.modrinth:ice-and-fire-dragons:${ice_and_fire_dragons_version}")
+    runtimeOnly fg.deobf("curse.maven:projecte-226410:${projecte_version}")
+    runtimeOnly fg.deobf("maven.modrinth:twigs:${twigs_version}")
+//    runtimeOnly fg.deobf("curse.maven:refurbished-furniture-897116:${refurbished_furniture_version}")
+//    runtimeOnly fg.deobf("maven.modrinth:silent-gear:${silent_gear_version}")
+    runtimeOnly fg.deobf("maven.modrinth:l_enders-cataclysm:${l_enders_cataclysm_version}")
+    runtimeOnly fg.deobf("curse.maven:mowzies-mobs-250498:${mowzies_mobs_version}")
+    runtimeOnly fg.deobf("curse.maven:crackers-wither-storm-mod-621405:${crackers_wither_storm_mod_version}")
+    runtimeOnly fg.deobf("curse.maven:banilla-claws-neoforge-653966:${banilla_claws_version}")
+//    runtimeOnly fg.deobf("curse.maven:archery-expansion-1164945:${archery_expansion_version}")
+    runtimeOnly fg.deobf("maven.modrinth:create:${create_version}")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

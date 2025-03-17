@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 150,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "elementus:movcadia_berries"
+  },
+  "result": "elementus:movcadia_essence"
+}

@@ -12,6 +12,42 @@
       "required": false
     },
     {
+      "id": "elementus:steel_helm",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_helm",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_helm",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_horned_helm",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_horned_helm",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_horned_helm",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_kabuto",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_kabuto",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_kabuto",
+      "required": false
+    },
+    {
       "id": "elementus:diarkrite_iron_helmet",
       "required": false
     },
@@ -41,6 +77,42 @@
     },
     {
       "id": "elementus:anthektite_diamond_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_helmet_light",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_samurai_helmet_master",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_helmet_light",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_samurai_helmet_master",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_helmet",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_helmet_light",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_samurai_helmet_master",
       "required": false
     }
   ]

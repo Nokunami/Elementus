@@ -13,18 +13,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.nokunami.elementus.common.compat.advancednetherite.util.ANUtil;
+import net.nokunami.elementus.common.compat.advancednetherite.ANUtil;
 
 import java.util.List;
 import java.util.Objects;
 
 public class ANHoeItem extends AdvancedHoeItem {
-    private final Tier tier;
 
     public ANHoeItem(Tier tier, int attackDamage, float attackSpeed, Item.Properties properties) {
         super(tier, attackDamage, attackSpeed, properties);
-        this.tier = tier;
     }
 
     public boolean isFireResistant() {

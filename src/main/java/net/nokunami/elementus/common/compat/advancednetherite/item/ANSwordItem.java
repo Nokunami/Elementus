@@ -2,7 +2,6 @@ package net.nokunami.elementus.common.compat.advancednetherite.item;
 
 import com.autovw.advancednetherite.AdvancedNetherite;
 import com.autovw.advancednetherite.api.annotation.Internal;
-import com.autovw.advancednetherite.api.impl.IAdvancedHooks;
 import com.autovw.advancednetherite.common.item.AdvancedSwordItem;
 import com.autovw.advancednetherite.config.ConfigHelper;
 import com.autovw.advancednetherite.core.util.ModTooltips;
@@ -11,8 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.nokunami.elementus.common.compat.advancednetherite.util.ANUtil;
+import net.nokunami.elementus.common.compat.advancednetherite.ANUtil;
 import net.nokunami.elementus.common.registry.ModTiers;
 
 import java.util.List;

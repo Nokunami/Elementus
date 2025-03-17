@@ -1,0 +1,100 @@
+{
+  "type": "silentgear:standard",
+  "simple": true,
+  "harvest_tier": "minecraft:netherite",
+  "availability": {
+    "tier": 4,
+    "categories": [
+      "metal"
+    ],
+    "visible": true,
+    "gear_blacklist": [],
+    "can_salvage": true
+  },
+  "crafting_items": {
+    "main": {
+      "item": "elementus:diarkrite_ingot"
+    }
+  },
+  "name": {
+    "translate": "material.silentgear.diarkrite"
+  },
+  "name_prefix": {
+    "translate": "material.silentgear.diarkrite"
+  },
+  "stats": {
+    "coating": {
+      "durability": [
+        {
+          "mul2": 0.3
+        },
+        {
+          "add": 2.0
+        }
+      ],
+      "armor_durability": {
+        "mul2": 0.186
+      },
+      "harvest_speed": {
+        "mul2": 0.125
+      },
+      "melee_damage": {
+        "mul2": 0.4
+      },
+      "magic_damage": {
+        "mul2": 0.5
+      },
+      "ranged_damage": {
+        "mul2": 0.33333334
+      },
+      "armor_toughness": {
+        "add": 8.0
+      },
+      "knockback_resistance": {
+        "add": 2.0
+      },
+      "enchantment_value": {
+        "add": 5.0
+      }
+    }
+  },
+  "traits": {
+    "coating": [
+      {
+        "name": "silentgear:fireproof",
+        "level": 1
+      }
+    ]
+  },
+  "model": {
+    "coating/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#9A9B9E"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "coating/part": [
+      {
+        "texture": "silentgear:coating_material",
+        "color": "#9A9B9E"
+      },
+      {
+        "texture": "silentgear:coating_jar"
+      }
+    ],
+    "coating/armor": [
+      {
+        "texture": "elementus:diarkrite_basic"
+      }
+    ],
+    "main/fragment": [
+      {
+        "texture": "silentgear:dust",
+        "color": "#9A9B9E"
+      }
+    ]
+  }
+}

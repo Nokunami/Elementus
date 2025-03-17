@@ -3,11 +3,10 @@ package net.nokunami.elementus.datagen.generators;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.nokunami.elementus.ModChecker;
-import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
-import net.nokunami.elementus.common.compat.farmersdelight.FDModBlocks;
 import net.nokunami.elementus.datagen.providers.ModBlockStateProvider;
-import net.nokunami.elementus.common.registry.ModBlocks;
+import net.nokunami.elementus.common.registry.ModBlocks.*;
+
+import static net.nokunami.elementus.ModChecker.*;
 
 public class ModBlockStateData extends ModBlockStateProvider {
     public ModBlockStateData(PackOutput output, String modid, ExistingFileHelper exFileHelper) {
@@ -16,55 +15,57 @@ public class ModBlockStateData extends ModBlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        block(ModBlocks.STEEL_BLOCK, "building/");
-        block(ModBlocks.DIARKRITE_BLOCK, "building/");
-        block(ModBlocks.ANTHEKTITE_BLOCK, "building/");
-        columnBlock(ModBlocks.REMNANT, ModBlocks.REMNANT, "misc/");
+        block(ElementusBlocks.STEEL_BLOCK, "building/");
+        block(ElementusBlocks.DIARKRITE_BLOCK, "building/");
+        block(ElementusBlocks.ANTHEKTITE_BLOCK, "building/");
+        columnBlock(ElementusBlocks.REMNANT, ElementusBlocks.REMNANT, "misc/");
 
+        block(ElementusBlocks.STEEL_TILES, "building/");
+        stairs(ElementusBlocks.STEEL_TILE_STAIR, ElementusBlocks.STEEL_TILES, "building/");
+        slab(ElementusBlocks.STEEL_TILE_SLAB, ElementusBlocks.STEEL_TILES, "building/");
 
-        block(ModBlocks.MOVCADIA_ROOTS, "misc/");
+        log(ElementusBlocks.MOVCADIA_LOG, "natural/");
+        log(ElementusBlocks.STRIPPED_MOVCADIA_LOG, "building/");
+        wood(ElementusBlocks.MOVCADIA_WOOD, ElementusBlocks.MOVCADIA_LOG, "natural/");
+        wood(ElementusBlocks.STRIPPED_MOVCADIA_WOOD, ElementusBlocks.STRIPPED_MOVCADIA_LOG, "building/");
 
-        log(ModBlocks.MOVCADIA_LOG, "natural/");
-        log(ModBlocks.STRIPPED_MOVCADIA_LOG, "building/");
-        wood(ModBlocks.MOVCADIA_WOOD, ModBlocks.MOVCADIA_LOG, "natural/");
-        wood(ModBlocks.STRIPPED_MOVCADIA_WOOD, ModBlocks.STRIPPED_MOVCADIA_LOG, "building/");
+        transparentBlock(ElementusBlocks.MOVCADIA_LEAVES, "natural/");
+        transparentBlock(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES, "natural/");
 
-        transparentBlock(ModBlocks.MOVCADIA_LEAVES, "natural/");
+        block(ElementusBlocks.MOVCADIA_PLANKS, "building/");
+        stairs(ElementusBlocks.MOVCADIA_STAIRS, ElementusBlocks.MOVCADIA_PLANKS, "building/");
+        slab(ElementusBlocks.MOVCADIA_SLAB, ElementusBlocks.MOVCADIA_PLANKS, "building/");
 
-        block(ModBlocks.MOVCADIA_PLANKS, "building/");
-        stairs(ModBlocks.MOVCADIA_STAIRS, ModBlocks.MOVCADIA_PLANKS, "building/");
-        slab(ModBlocks.MOVCADIA_SLAB, ModBlocks.MOVCADIA_PLANKS, "building/");
+        fence(ElementusBlocks.MOVCADIA_FENCE, ElementusBlocks.MOVCADIA_PLANKS, "building/");
+        fenceGateBlock(ElementusBlocks.MOVCADIA_FENCE_GATE, ElementusBlocks.MOVCADIA_PLANKS, "building/");
 
-        fence(ModBlocks.MOVCADIA_FENCE, ModBlocks.MOVCADIA_PLANKS, "building/");
-        fenceGateBlock(ModBlocks.MOVCADIA_FENCE_GATE, ModBlocks.MOVCADIA_PLANKS, "building/");
+        doorBlock(ElementusBlocks.MOVCADIA_DOOR,
+                this.texture(this.name(ElementusBlocks.MOVCADIA_DOOR.get()), "building/", "_bottom"),
+                this.texture(this.name(ElementusBlocks.MOVCADIA_DOOR.get()), "building/", "_top"));
+        trapdoorBlock(ElementusBlocks.MOVCADIA_TRAPDOOR, this.texture(this.name(ElementusBlocks.MOVCADIA_TRAPDOOR.get()), "building/"), true);
 
-        doorBlock(ModBlocks.MOVCADIA_DOOR,
-                this.texture(this.name(ModBlocks.MOVCADIA_DOOR.get()), "building/", "_bottom"),
-                this.texture(this.name(ModBlocks.MOVCADIA_DOOR.get()), "building/", "_top"));
-        trapdoorBlock(ModBlocks.MOVCADIA_TRAPDOOR, this.texture(this.name(ModBlocks.MOVCADIA_TRAPDOOR.get()), "building/"), true);
+        pressurePlateBlock(ElementusBlocks.MOVCADIA_PRESSURE_PLATE,  this.texture(this.name(ElementusBlocks.MOVCADIA_PLANKS.get()), "building/"));
+        buttonBlock(ElementusBlocks.MOVCADIA_BUTTON, this.texture(this.name(ElementusBlocks.MOVCADIA_PLANKS.get()), "building/"));
 
-        pressurePlateBlock(ModBlocks.MOVCADIA_PRESSURE_PLATE,  this.texture(this.name(ModBlocks.MOVCADIA_PLANKS.get()), "building/"));
-        buttonBlock(ModBlocks.MOVCADIA_BUTTON, this.texture(this.name(ModBlocks.MOVCADIA_PLANKS.get()), "building/"));
+        signBlock((StandingSignBlock) ElementusBlocks.MOVCADIA_SIGN.get(), (WallSignBlock) ElementusBlocks.MOVCADIA_WALL_SIGN.get(), this.texture(this.name(ElementusBlocks.MOVCADIA_PLANKS.get()), "building/"));
+        hangingSignBlock((CeilingHangingSignBlock) ElementusBlocks.MOVCADIA_HANGING_SIGN.get(), (WallHangingSignBlock) ElementusBlocks.MOVCADIA_WALL_HANGING_SIGN.get(), this.texture(this.name(ElementusBlocks.STRIPPED_MOVCADIA_LOG.get()), "building/"));
+        signBlock((StandingSignBlock) ElementusBlocks.STURDY_MOVCADIA_SIGN.get(), (WallSignBlock) ElementusBlocks.STURDY_MOVCADIA_WALL_SIGN.get(), this.texture(this.name(ElementusBlocks.MOVCADIA_LOG.get()), "natural/"));
 
-        signBlock((StandingSignBlock) ModBlocks.MOVCADIA_SIGN.get(), (WallSignBlock) ModBlocks.MOVCADIA_WALL_SIGN.get(), this.texture(this.name(ModBlocks.MOVCADIA_PLANKS.get()), "building/"));
-        hangingSignBlock((CeilingHangingSignBlock) ModBlocks.MOVCADIA_HANGING_SIGN.get(), (WallHangingSignBlock) ModBlocks.MOVCADIA_WALL_HANGING_SIGN.get(), this.texture(this.name(ModBlocks.STRIPPED_MOVCADIA_LOG.get()), "building/"));
-        signBlock((StandingSignBlock) ModBlocks.STURDY_MOVCADIA_SIGN.get(), (WallSignBlock) ModBlocks.STURDY_MOVCADIA_WALL_SIGN.get(), this.texture(this.name(ModBlocks.MOVCADIA_LOG.get()), "natural/"));
+        saplingBlock(ElementusBlocks.MOVCADIA_SAPLING, "natural/");
 
-        saplingBlock(ModBlocks.MOVCADIA_SAPLING, "natural/");
-
-        if (ModChecker.farmersdelight()) {
-            cabinetBlock(FDModBlocks.MOVCADIA_CABINET.get(), "compat/farmersdelight/movcadia");
+        if (farmersDelight) {
+            cabinetBlock(FarmersDelightBlocks.MOVCADIA_CABINET.get(), "compat/farmersdelight/movcadia");
         }
-        if (ModChecker.advancednetherite()) {
-            block(ANModBlocks.DIARKRITE_IRON_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.DIARKRITE_GOLD_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.DIARKRITE_EMERALD_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.DIARKRITE_DIAMOND_BLOCK, "compat/advancednetherite/");
+        if (advancedNetherite) {
+            block(AdvancedNetheriteBlocks.DIARKRITE_IRON_BLOCK, "compat/advancednetherite/");
+            block(AdvancedNetheriteBlocks.DIARKRITE_GOLD_BLOCK, "compat/advancednetherite/");
+            block(AdvancedNetheriteBlocks.DIARKRITE_EMERALD_BLOCK, "compat/advancednetherite/");
+            block(AdvancedNetheriteBlocks.DIARKRITE_DIAMOND_BLOCK, "compat/advancednetherite/");
 
-            block(ANModBlocks.ANTHEKTITE_IRON_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.ANTHEKTITE_GOLD_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.ANTHEKTITE_EMERALD_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.ANTHEKTITE_DIAMOND_BLOCK, "compat/advancednetherite/");
+            block(AdvancedNetheriteBlocks.ANTHEKTITE_IRON_BLOCK, "compat/advancednetherite/");
+            block(AdvancedNetheriteBlocks.ANTHEKTITE_GOLD_BLOCK, "compat/advancednetherite/");
+            block(AdvancedNetheriteBlocks.ANTHEKTITE_EMERALD_BLOCK, "compat/advancednetherite/");
+            block(AdvancedNetheriteBlocks.ANTHEKTITE_DIAMOND_BLOCK, "compat/advancednetherite/");
         }
 
     }

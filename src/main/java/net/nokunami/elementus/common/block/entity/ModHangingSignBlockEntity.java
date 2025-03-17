@@ -5,6 +5,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.registry.ModBlockEntityType;
+import org.jetbrains.annotations.NotNull;
 
 public class ModHangingSignBlockEntity extends SignBlockEntity {
     private static final int MAX_TEXT_LINE_WIDTH = 60;
@@ -15,7 +16,7 @@ public class ModHangingSignBlockEntity extends SignBlockEntity {
     }
 
     @Override
-    public BlockEntityType<?> getType() {
+    public @NotNull BlockEntityType<?> getType() {
         return ModBlockEntityType.MOD_HANGING_SIGN.get();
     }
 

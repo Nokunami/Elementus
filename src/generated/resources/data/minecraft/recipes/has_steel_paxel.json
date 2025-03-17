@@ -1,0 +1,57 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:mod_loaded",
+              "modid": "piercingpaxels"
+            },
+            {
+              "type": "forge:not",
+              "value": {
+                "type": "forge:false"
+              }
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "equipment",
+        "key": {
+          "/": {
+            "tag": "forge:rods/wooden"
+          },
+          "1": {
+            "item": "elementus:steel_sword"
+          },
+          "2": {
+            "item": "elementus:steel_shovel"
+          },
+          "3": {
+            "item": "elementus:steel_pickaxe"
+          },
+          "4": {
+            "item": "elementus:steel_axe"
+          },
+          "5": {
+            "item": "elementus:steel_hoe"
+          }
+        },
+        "pattern": [
+          "342",
+          "1/5",
+          " / "
+        ],
+        "result": {
+          "item": "elementus:steel_paxel"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

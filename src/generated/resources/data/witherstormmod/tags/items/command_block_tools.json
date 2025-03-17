@@ -1,0 +1,64 @@
+{
+  "values": [
+    {
+      "id": "elementus:steel_command_block_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_command_block_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_command_block_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_command_block_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:steel_command_block_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_command_block_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_command_block_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_command_block_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_command_block_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:diarkrite_command_block_hoe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_command_block_sword",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_command_block_shovel",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_command_block_pickaxe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_command_block_axe",
+      "required": false
+    },
+    {
+      "id": "elementus:anthektite_command_block_hoe",
+      "required": false
+    }
+  ]
+}

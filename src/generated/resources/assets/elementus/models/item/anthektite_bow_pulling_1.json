@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/bow",
+  "textures": {
+    "layer0": "elementus:item/bows/anthektite_bow_pulling_1",
+    "layer1": "elementus:item/bows/arrow_pulling_1"
+  }
+}

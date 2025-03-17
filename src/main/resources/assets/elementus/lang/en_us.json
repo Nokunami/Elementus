@@ -10,47 +10,83 @@
   "item.elementus.diarkrite_ingot": "Diarkrite Ingot",
   "item.elementus.anthektite_ingot": "Anthektite Ingot",
 
+  "item.elementus.movcadia_berries": "Movcadia Berries",
+  "item.elementus.movcadia_essence": "Movcadia Essence",
+
+  "item.elementus.crushed_remnant": "Crushed Remnant",
+
+  "item.elementus.steel_golem_spawn_egg": "Steel Golem Spawn Egg",
 
   "item.elementus.steel_sword": "Steel Sword",
   "item.elementus.steel_shovel": "Steel Shovel",
   "item.elementus.steel_pickaxe": "Steel Pickaxe",
   "item.elementus.steel_axe": "Steel Axe",
   "item.elementus.steel_hoe": "Steel Hoe",
-
   "item.elementus.diarkrite_sword": "Diarkrite Sword",
   "item.elementus.diarkrite_shovel": "Diarkrite Shovel",
   "item.elementus.diarkrite_pickaxe": "Diarkrite Pickaxe",
   "item.elementus.diarkrite_axe": "Diarkrite Axe",
   "item.elementus.diarkrite_hoe": "Diarkrite Hoe",
-
   "item.elementus.anthektite_sword": "Anthektite Sword",
   "item.elementus.anthektite_shovel": "Anthektite Shovel",
   "item.elementus.anthektite_pickaxe": "Anthektite Pickaxe",
   "item.elementus.anthektite_axe": "Anthektite Axe",
   "item.elementus.anthektite_hoe": "Anthektite Hoe",
 
+  "item.elementus.diarkrite_charge_blade": "Diarkrite Charge Blade",
+  "item.elementus.diarkrite_charge_blade.charge_desc": "Current Charge: %s",
+  "item.elementus.diarkrite_charge_blade.cursed_charge_desc": "Takes 25% of Max Health to fire",
+  "item.elementus.diarkrite_charge_blade.damage_ratio_desc": "Damage: ",
+  "item.elementus.diarkrite_charge_blade.damage_ratio_shift_desc": "Current Sonic Damage: ",
+  "item.elementus.diarkrite_charge_blade.friendly_fire_desc": "Friendly Fire: %s",
 
   "item.elementus.steel_shield": "Steel Shield",
   "item.elementus.anthektite_shield": "Anthektite Shield",
   "item.elementus.diarkrite_shield": "Diarkrite Shield",
 
+  "item.elementus.steel_bow": "Steel-Reinforced Bow",
+  "item.elementus.anthektite_bow": "Anthektite-Reinforced Bow",
+  "item.elementus.diarkrite_bow": "Diarkrite-Reinforced Bow",
 
   "item.elementus.steel_helmet": "Steel Helmet",
   "item.elementus.steel_chestplate": "Steel Chestplate",
   "item.elementus.steel_leggings": "Steel Leggings",
   "item.elementus.steel_boots": "Steel Boots",
-
   "item.elementus.diarkrite_helmet": "Diarkrite Helmet",
   "item.elementus.diarkrite_chestplate": "Diarkrite Chestplate",
   "item.elementus.diarkrite_leggings": "Diarkrite Leggings",
   "item.elementus.diarkrite_boots": "Diarkrite Boots",
-
   "item.elementus.anthektite_helmet": "Anthektite Helmet",
   "item.elementus.anthektite_chestplate": "Anthektite Chestplate",
   "item.elementus.anthektite_leggings": "Anthektite Leggings",
   "item.elementus.anthektite_boots": "Anthektite Boots",
+  "item.elementus.catalyst_chestplate": "Catalyst Chestplate",
 
-  "item.elementus.movcadia_bark": "Movcadia Bark",
+  "item.elementus.diarkrite_pickaxe.desc": "Mines hard blocks faster",
+  "item.elementus.anthektite_pickaxe.desc": "Speed %s",
+
+  "item.elementus.catalyst_nether_star_1.desc": "Nether Star",
+  "item.elementus.catalyst_nether_star_2.desc": "Gain the power of a Beacon, when health drops below half effects become stronger.",
+  "item.elementus.catalyst_iginitum_1.desc": "Flame Reflex",
+  "item.elementus.catalyst_iginitum_2.desc": "Randomly sets attackers on fire and apply Blazing Brand, Immunity to Blazing Brand.",
+  "item.elementus.cataclysm_not_installed.desc": "The core of this Catalyst seems to be missing a fundamental power. (Install L_Ender's Cataclysm)",
+  "item.elementus.catalyst_iss.desc": "Arcane Imbuement",
+  "item.elementus.catalyst_iss_max_mana.desc": "+%s Mana",
+  "item.elementus.catalyst_iss_mana_regen.desc": "+%s Mana Regeneration",
+  "item.elementus.catalyst_iss_spell_power.desc": "+%s Spell Power",
+  "item.elementus.catalyst_iss_spell_resist.desc": "+%s Spell Resistance",
+  "item.elementus.iss_not_installed.desc": "The core of this Catalyst seems to be missing a fundamental power. (Install Iron's Spells 'n Spellbooks)",
+  "item.elementus.catalyst_heart_of_the_sea_1.desc" : "Heart of the Sea",
+  "item.elementus.catalyst_heart_of_the_sea_2.desc" : "Gives Conduit Power while in water or rain.",
+  "item.elementus.catalyst_totem_1.desc" : "Totem of Undying",
+  "item.elementus.catalyst_totem_2.desc" : "A second chance after death.",
+  "item.elementus.catalyst_cursium_1.desc" : "Cursed",
+  "item.elementus.catalyst_cursium_2.desc" : "Undead Revive and Ghost Dodge.",
+  "item.elementus.catalyst_withered_nether_star_1.desc": "Withered Nether Star",
+  "item.elementus.catalyst_withered_nether_star_2.desc": "A fraction of a power of the Wither Storm. (W.I.P).",
+  "item.elementus.witherstormod_not_installed.desc": "The core of this Catalyst seems to be missing a fundamental power. (Cracker's Witherstorm Mod).",
+
+  "item.elementus.catalyst_elytra_equiped": "Elytra Equiped! alt + click to remove.",
 
   "item.elementus.movcadia_boat": "Movcadia Boat",
   "item.elementus.movcadia_chest_boat": "Movcadia Chest Boat",
@@ -63,6 +99,10 @@
 
   "block.elementus.steel_bars": "Steel Bars",
 
+  "block.elementus.steel_tiles": "Steel Tiles",
+  "block.elementus.steel_tile_stair": "Steel Tile Stair",
+  "block.elementus.steel_tile_slab": "Steel Tile Slab",
+
   "block.elementus.movcadia_sapling": "Movcadia Sapling",
   "block.elementus.movcadia_roots": "Movcadia Roots",
 
@@ -72,6 +112,7 @@
   "block.elementus.stripped_movcadia_wood": "Stripped Movcadia Wood",
 
   "block.elementus.movcadia_leaves": "Movcadia Leaves",
+  "block.elementus.flowering_movcadia_leaves": "Flowering Movcadia Leaves",
 
   "block.elementus.movcadia_planks": "Movcadia Planks",
   "block.elementus.movcadia_stairs": "Movcadia Stairs",
@@ -92,11 +133,25 @@
 
   "block.elementus.movcadia_chest": "Movcadia Chest",
 
-  "upgrade.minecraft.atelis_upgrade": "Anthektite / Diarkrite Upgrade",
-  "item.minecraft.smithing_template.atelis_upgrade.applies_to": "Steel Equipment",
-  "item.minecraft.smithing_template.atelis_upgrade.ingredients": "Anthektite / Diarkrite Ingot",
+  "item.elementus.atelis_upgrade_smithing_template": "Smithing Template",
+  "upgrade.elementus.atelis_upgrade": "Anthektite / Diarkrite Upgrade",
+  "item.elementus.smithing_template.atelis_upgrade.applies_to": "Steel Equipment",
+  "item.elementus.smithing_template.atelis_upgrade.ingredients": "Anthektite / Diarkrite Ingot",
+  "item.elementus.weapon_fragment": "Weapon Fragment",
+  "upgrade.elementus.weapon_fragment": "Weapon Upgrade",
+  "item.elementus.smithing_template.weapon_fragment.applies_to": "Weapon",
+  "item.elementus.smithing_template.weapon_fragment.ingredients": "Material",
 
   "creativetab.elementus_mod_integration": "Elementus Mod Integration",
+
+  "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",
+  "enchantment.elementus.arcane_sharpness.desc": "Bonus damage based on item's enchantability",
+  "enchantment.elementus.sacrifice_curse": "Sacrifice",
+  "enchantment.elementus.sacrifice_curse.desc": "Takes health instead of charges to fire and boosts damage up to 125%",
+  "enchantment.elementus.resonance": "Resonance",
+  "enchantment.elementus.resonance.desc": "Recharges itself if there's more than 3 charges and whilst being held",
+  "enchantment.elementus.condensed_burst": "Condensed Burst",
+  "enchantment.elementus.condensed_burst.desc": "Concentrates the burst into a beam",
 
   "advancements.story.smelt_steel.title": "But Steel's heavier than feathers!",
   "advancements.story.smelt_steel.description": "Smelt an Steel Ingot",
@@ -111,11 +166,32 @@
   "trim_material.elementus.diarkrite": "Diarkrite Material",
   "trim_material.elementus.anthektite": "Anthektite Material",
 
+  "effect.elementus.additional_iss_mana": "Arcane Imbuement",
+  "effect.elementus.totem_cooldown": "Catalyst Totem Exhaustion",
+  "effect.elementus.beacon_power": "Beacon Power",
+  "effect.elementus.withered_beacon_power": "Withered Beacon Power",
 
   "entity.elementus.mod_chest_boat": "Boat with Chest",
+  "entity.elementus.steel_golem": "Steel Golem",
 
   "tag.item.elementus.steel_recyclable": "Steel Recyclable",
   "tag.item.elementus.movcadia_logs": "Movcadia Logs",
+  "tag.item.elementus.catalyst_items": "Catalyst Items",
+
+  "subtitles.elementus.item.catalyst_armor_activation": "Catalyst armor activates",
+  "subtitles.elementus.item.catalyst_armor_deactivation": "Catalyst armor deactivates",
+  "subtitles.elementus.item.diarkrite_shield.block": "Heavy shield blocks",
+  "subtitles.elementus.entity.steel_golem.down": "Steel Golem Breaks",
+
+  "config.elementus.lava_renderer": "Replace Lava Renderer?",
+  "config.elementus.diarkriteEfficiency.desc": "Diarkrite Pickaxe Efficiency",
+  "config.elementus.catalystArmorDurability.desc": "Catalyst Armor Durability",
+  "config.elementus.catalystTotemAbility.desc": "Catalyst Armor Totem Ability",
+  "config.elementus.arcaneSharpnessTreasure.desc": "Arcane Sharpness Treasure?",
+  "config.elementus.arcaneSharpnessPercent.desc": "Arcane Sharpness Damage Percent",
+  "config.elementus.arcaneSharpnessPercent": "Item's enchantability * this",
+  "config.elementus.arcaneSharpnessIncompatibility.desc": "Arcane Sharpness Enchantment Compatibility",
+  "config.elementus.arcaneSharpnessIncompatibility":  "",
 
 
   "item.elementus.steel_knife": "Steel Knife",
@@ -344,6 +420,11 @@
   "item.elementus.sniffs_weapons/anthektite_do": "Anthektite Dō",
 
 
+  "item.elementus.clothed_steel_cuirass": "Clothed Steel Cuirass",
+  "item.elementus.clothed_diarkrite_cuirass": "Clothed Diarkrite Cuirass",
+  "item.elementus.clothed_anthektite_cuirass": "Clothed Anthektite Cuirass",
+
+
 
   "item.elementus.diarkrite_iron_ingot": "Diarkrite-Iron Ingot",
   "item.elementus.diarkrite_gold_ingot": "Diarkrite-Gold Ingot",
@@ -518,6 +599,29 @@
 
 
 
-  "enchantment.elementus.arcane_sharpness": "Arcane Sharpness",
-  "enchantment.elementus.arcane_sharpness.desc": "Bonus damage based on item's enchantability"
+  "material.silentgear.diarkrite": "Diarkrite",
+  "material.silentgear.anthektite": "Anthektite",
+
+  "item.elementus.steel_command_block_sword": "Steel Command Block Sword",
+  "item.elementus.steel_command_block_shovel": "Steel Command Block Shovel",
+  "item.elementus.steel_command_block_pickaxe": "Steel Command Block Pickaxe",
+  "item.elementus.steel_command_block_axe": "Steel Command Block Axe",
+  "item.elementus.steel_command_block_hoe": "Steel Command Block Hoe",
+
+  "item.elementus.diarkrite_command_block_sword": "Diarkrite Command Block Sword",
+  "item.elementus.diarkrite_command_block_shovel": "Diarkrite Command Block Shovel",
+  "item.elementus.diarkrite_command_block_pickaxe": "Diarkrite Command Block Pickaxe",
+  "item.elementus.diarkrite_command_block_axe": "Diarkrite Command Block Axe",
+  "item.elementus.diarkrite_command_block_hoe": "Diarkrite Command Block Hoe",
+
+  "item.elementus.anthektite_command_block_sword": "Anthektite Command Block Sword",
+  "item.elementus.anthektite_command_block_shovel": "Anthektite Command Block Shovel",
+  "item.elementus.anthektite_command_block_pickaxe": "Anthektite Command Block Pickaxe",
+  "item.elementus.anthektite_command_block_axe": "Anthektite Command Block Axe",
+  "item.elementus.anthektite_command_block_hoe": "Anthektite Command Block Hoe",
+
+
+  "item.elementus.steel_claws": "Steel Claws",
+  "item.elementus.diarkrite_claws": "Diarkrite Claws",
+  "item.elementus.anthektite_claws": "Anthektite Claws"
 }

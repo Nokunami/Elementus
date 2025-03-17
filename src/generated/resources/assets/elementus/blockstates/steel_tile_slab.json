@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "elementus:block/steel_tile_slab"
+    },
+    "type=double": {
+      "model": "elementus:block/steel_tiles"
+    },
+    "type=top": {
+      "model": "elementus:block/steel_tile_slab_top"
+    }
+  }
+}

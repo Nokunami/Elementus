@@ -1,11 +1,11 @@
 package net.nokunami.elementus.common.block.grower;
 
-import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractMegaTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.nokunami.elementus.common.worldgen.ModConfiguredFeatures;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MovcadiaTreeGrower extends AbstractMegaTreeGrower {
@@ -23,7 +23,7 @@ public class MovcadiaTreeGrower extends AbstractMegaTreeGrower {
 
     @Nullable
     @Override
-    protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredMegaFeature(RandomSource pRandom) {
+    protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredMegaFeature(@NotNull RandomSource pRandom) {
         return ModConfiguredFeatures.MOVCADIA_MEGA_TREE;
     }
 }

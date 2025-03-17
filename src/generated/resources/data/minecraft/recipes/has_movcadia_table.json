@@ -1,0 +1,45 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:and",
+          "values": [
+            {
+              "type": "forge:mod_loaded",
+              "modid": "twigs"
+            },
+            {
+              "type": "forge:not",
+              "value": {
+                "type": "forge:false"
+              }
+            }
+          ]
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "#": {
+            "item": "elementus:movcadia_slab"
+          },
+          "1": {
+            "item": "elementus:movcadia_fence"
+          }
+        },
+        "pattern": [
+          "###",
+          "1 1",
+          "1 1"
+        ],
+        "result": {
+          "item": "elementus:movcadia_table"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

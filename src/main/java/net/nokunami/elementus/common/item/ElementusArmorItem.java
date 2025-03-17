@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ModClientEvents;
+import net.nokunami.elementus.common.config.ModConfig;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 
 public class ElementusArmorItem extends ArmorItem {
@@ -27,7 +29,7 @@ public class ElementusArmorItem extends ArmorItem {
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
     public ElementusArmorItem(ModArmorMaterials material, Type type, Properties properties) {
-        super(material, type, new Properties());
+        super(material, type, properties);
         this.material = material;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
@@ -54,26 +56,9 @@ public class ElementusArmorItem extends ArmorItem {
         return pEquipmentSlot == this.type.getSlot() ? this.defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
     }
 
-//    private int repairPlayerItems(Player pPlayer, int pRepairAmount) {
-//        Map.Entry<EquipmentSlot, ItemStack> entry = EnchantmentHelper.getRandomItemWith(Enchantments.MENDING, pPlayer, ItemStack::isDamaged);
-//        if (entry != null) {
-//            ItemStack itemstack = entry.getValue();
-//            int i = Math.min((int) (this.value * itemstack.getXpRepairRatio()), itemstack.getDamageValue());
-//            itemstack.setDamageValue(itemstack.getDamageValue() - i);
-//            int j = pRepairAmount - this.durabilityToXp(i);
-//            return j > 0 ? this.repairPlayerItems(pPlayer, j) : 0;
-//        } else {
-//            return pRepairAmount;
-//        }
-//    }
-//
-//    private int durabilityToXp(int pDurability) {
-//        return pDurability / 2;
-//    }
-
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
+    public void initializeClient(@NotNull Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) ModClientEvents.PROXY.getArmorRenderProperties());
     }
 
@@ -82,9 +67,8 @@ public class ElementusArmorItem extends ArmorItem {
         String texture = item.getMaterial().getName();
         String domain = "elementus";
         boolean helmet = slot == EquipmentSlot.HEAD;
-        boolean chestplate = slot == EquipmentSlot.CHEST;
         boolean leggings = slot == EquipmentSlot.LEGS;
 
-        return String.format(Locale.ROOT, "%s:textures/models/armor/%s_layer_" + (helmet ? "1.png" : chestplate ? "2.png" : leggings ? "3.png" : "4.png"), domain, texture);
+        return String.format(Locale.ROOT, "%s:textures/models/armor/%s_layer_" + (helmet | leggings ? "2.png" : "1.png"), domain, texture);
     }
 }
