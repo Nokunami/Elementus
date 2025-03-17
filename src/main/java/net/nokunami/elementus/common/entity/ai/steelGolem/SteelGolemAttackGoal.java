@@ -26,11 +26,6 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     }
 
     @Override
-    public void start() {
-        super.start();
-    }
-
-    @Override
     protected void checkAndPerformAttack(@NotNull LivingEntity pEnemy, double pDistToEnemySqr) {
         if (isEnemyWithinAttackDistance(pEnemy, pDistToEnemySqr)) {
             shouldCountTillNextAttack = true;
@@ -41,11 +36,7 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
 
             if(isTimeToAttack()) {
                 this.mob.getLookControl().setLookAt(pEnemy.getX(), pEnemy.getEyeY(), pEnemy.getZ());
-//                if (this.entity.getAttackAnimType() != 3) {
                     performAttack(pEnemy);
-//                } else if (this.entity.getAttackAnimType() == 3) {
-//                    groundAttack();
-//                }
             }
         } else {
             resetAttackCooldown();

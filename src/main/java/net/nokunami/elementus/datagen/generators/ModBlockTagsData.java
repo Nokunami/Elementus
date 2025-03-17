@@ -3,7 +3,6 @@ package net.nokunami.elementus.datagen.generators;
 import com.aetherteam.aether.AetherTags;
 import com.ninni.twigs.TwigsTags;
 import io.redspace.ironsspellbooks.util.ModTags;
-import moze_intel.projecte.api.ProjectEAPI;
 import moze_intel.projecte.gameObjs.PETags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;

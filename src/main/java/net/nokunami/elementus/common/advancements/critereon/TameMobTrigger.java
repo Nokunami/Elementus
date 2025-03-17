@@ -22,9 +22,7 @@ public class TameMobTrigger extends SimpleCriterionTrigger<TameMobTrigger.Trigge
 
     public void trigger(ServerPlayer pPlayer, Mob pEntity) {
         LootContext lootcontext = EntityPredicate.createContext(pPlayer, pEntity);
-        this.trigger(pPlayer, (p_68838_) -> {
-            return p_68838_.matches(lootcontext);
-        });
+        this.trigger(pPlayer, (p_68838_) -> p_68838_.matches(lootcontext));
     }
 
     public static class TriggerInstance extends AbstractCriterionTriggerInstance {

@@ -6,25 +6,16 @@ import net.minecraft.client.model.geom.builders.*;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 
 public class SteelGolemExtraLayer1<T extends SteelGolem> extends SteelGolemModel<T> {
-    private final ModelPart root;
-    private final ModelPart bone;
-    private final ModelPart body;
-    private final ModelPart head;
-    private final ModelPart left_arm;
-    private final ModelPart right_arm;
-    private final ModelPart left_leg;
-    private final ModelPart right_leg;
 
     public SteelGolemExtraLayer1(ModelPart pRoot) {
         super(pRoot);
-        this.root = pRoot;
-        this.bone = root.getChild("bone");
-        this.body = this.bone.getChild("body");
-        this.head = this.body.getChild("head");
-        this.left_arm = this.body.getChild("left_arm");
-        this.right_arm = this.body.getChild("right_arm");
-        this.left_leg = this.bone.getChild("left_leg");
-        this.right_leg = this.bone.getChild("right_leg");
+        ModelPart bone = pRoot.getChild("bone");
+        ModelPart body = bone.getChild("body");
+        ModelPart head = body.getChild("head");
+        ModelPart left_arm = body.getChild("left_arm");
+        ModelPart right_arm = body.getChild("right_arm");
+        ModelPart left_leg = bone.getChild("left_leg");
+        ModelPart right_leg = bone.getChild("right_leg");
     }
 
     public static LayerDefinition createBodyLayer(CubeDeformation deformation) {

@@ -10,7 +10,6 @@ import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.armor.*;
 import net.nokunami.elementus.client.model.armor.ironsSpellbooks.AnthektiteMageArmorModel;
 import net.nokunami.elementus.client.model.armor.ironsSpellbooks.DiarkriteMageArmorModel;
-import net.nokunami.elementus.client.model.armor.samuraiDynasty.OldSDSamuraiArmorModel;
 import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiArmorModel;
 import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiLightArmorModel;
 import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiMasterArmorModel;
@@ -27,7 +26,7 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
     private static boolean init;
     public static ExtendedArmorModel EXTENDED_ARMOR_MODEL;
     public static ExtendedArmorModel EXTENDED_ARMOR_MODEL_LEGS;
-    public static CatalystBaseModel CATALYST_ARMOR_MODEL;
+    public static CatalystBaseModel<LivingEntity> CATALYST_ARMOR_MODEL;
     public static DiarkriteMageArmorModel DIARKRITE_MAGE_ARMOR_MODEL;
     public static DiarkriteMageArmorModel DIARKRITE_MAGE_ARMOR_MODEL_LEGS;
     public static AnthektiteMageArmorModel ANTHEKTITE_MAGE_ARMOR_MODEL;
@@ -47,7 +46,7 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
         init = true;
         EXTENDED_ARMOR_MODEL = new ExtendedArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.EXTENDED_ARMOR_MODEL));
         EXTENDED_ARMOR_MODEL_LEGS = new ExtendedArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.EXTENDED_ARMOR_MODEL_LEGS));
-        CATALYST_ARMOR_MODEL = new CatalystBaseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CATALYST_ARMOR_MODEL));
+        CATALYST_ARMOR_MODEL = new CatalystBaseModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.CATALYST_ARMOR_MODEL));
         DIARKRITE_MAGE_ARMOR_MODEL = new DiarkriteMageArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.DIARKRITE_MAGE_ARMOR_MODEL));
         DIARKRITE_MAGE_ARMOR_MODEL_LEGS = new DiarkriteMageArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.DIARKRITE_MAGE_ARMOR_MODEL_LEGS));
         ANTHEKTITE_MAGE_ARMOR_MODEL = new AnthektiteMageArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModModelLayers.ANTHEKTITE_MAGE_ARMOR_MODEL));

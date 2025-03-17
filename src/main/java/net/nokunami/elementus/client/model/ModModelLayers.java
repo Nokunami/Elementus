@@ -12,7 +12,6 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.client.model.armor.*;
 import net.nokunami.elementus.client.model.armor.ironsSpellbooks.AnthektiteMageArmorModel;
 import net.nokunami.elementus.client.model.armor.ironsSpellbooks.DiarkriteMageArmorModel;
-import net.nokunami.elementus.client.model.armor.samuraiDynasty.OldSDSamuraiArmorModel;
 import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiArmorModel;
 import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiLightArmorModel;
 import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiMasterArmorModel;

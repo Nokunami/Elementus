@@ -7,7 +7,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.entity.projectile.Burst;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
 import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
 import net.nokunami.elementus.common.entity.living.SteelGolem;

@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.UUID;
 import java.util.function.Supplier;
 

@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> {
     private final ModelPart root;
-    private final ModelPart bone;
     private final ModelPart body;
     private final ModelPart head;
     private final ModelPart left_arm;
@@ -21,13 +20,13 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
 
     public SteelGolemModel(ModelPart pRoot) {
         this.root = pRoot;
-        this.bone = root.getChild("bone");
-        this.body = this.bone.getChild("body");
+        ModelPart bone = root.getChild("bone");
+        this.body = bone.getChild("body");
         this.head = this.body.getChild("head");
         this.left_arm = this.body.getChild("left_arm");
         this.right_arm = this.body.getChild("right_arm");
-        this.left_leg = this.bone.getChild("left_leg");
-        this.right_leg = this.bone.getChild("right_leg");
+        this.left_leg = bone.getChild("left_leg");
+        this.right_leg = bone.getChild("right_leg");
     }
 
     public static LayerDefinition createBodyLayer() {

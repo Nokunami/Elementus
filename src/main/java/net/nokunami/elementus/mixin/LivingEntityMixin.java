@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
 
-import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
+import static net.nokunami.elementus.common.item.CatalystItemUtil.totem;
 
 @SuppressWarnings("ConstantConditions")
 @Mixin(LivingEntity.class)
@@ -57,17 +57,17 @@ public abstract class LivingEntityMixin extends Entity {
     public void catalystTotem(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         Entity entity = this;
         if (!damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-//            Elementus.LOGGER.debug("passed check for damage");
             if ((Object) this instanceof LivingEntity livingEntity) {
                 ItemStack chestplateItem = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
-//                Elementus.LOGGER.debug("passed check for livingEntity");
                 if (chestplateItem.is(ModItems.ElementusItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.catalystActivator(chestplateItem).equals(totem) &&
                         !livingEntity.hasEffect(ElementusEffects.TOTEM_COOLDOWN.get()))  {
-//                    Elementus.LOGGER.debug("passed check for chestplate");
                     if (entity instanceof ServerPlayer serverplayer) {
                         serverplayer.awardStat(Stats.ITEM_USED.get(Items.TOTEM_OF_UNDYING), 1);
                         CriteriaTriggers.USED_TOTEM.trigger(serverplayer, chestplateItem);
                     }
+//                    if (entity instanceof Player player) {
+//                        player.getCooldowns().addCooldown(chestplateItem.getItem(), 200);
+//                    }
 
                     this.setHealth(1.0F);
                     this.removeAllEffects();

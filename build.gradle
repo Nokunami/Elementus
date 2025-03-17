@@ -157,6 +157,9 @@ repositories {
         filter {
             includeGroup "maven.modrinth"
         }
+    }
+
+    exclusiveContent {
         forRepository {
             maven {
                 url "https://cursemaven.com"
@@ -176,7 +179,6 @@ repositories {
     maven { url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
     maven { url = "https://maven.theillusivec4.top" }
     maven { url = "https://maven.blamejared.com" }
-//    maven { url = "https://cursemaven.com" }
     maven { url = "https://maven.kosmx.dev/" }
     maven {
         name = "Xander Maven"
