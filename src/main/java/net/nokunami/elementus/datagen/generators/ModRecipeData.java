@@ -16,6 +16,7 @@ import net.nokunami.elementus.common.registry.ModBlocks.*;
 import net.nokunami.elementus.common.registry.ModItems.*;
 import net.veroxuniverse.samurai_dynasty.registry.ItemsRegistry;
 import nl.sniffiandros.sniffsweapons.reg.ItemReg;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -28,7 +29,7 @@ public class ModRecipeData extends ModRecipeProvider {
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> writer) {
+    protected void buildRecipes(@NotNull Consumer<FinishedRecipe> writer) {
         Elementus(writer);
         if (farmersDelight) FarmersDelight(writer);
         if (piercingPaxels) PiercingPaxels(writer);
@@ -127,18 +128,6 @@ public class ModRecipeData extends ModRecipeProvider {
                 .requires(Ingredient.of(ItemTags.COALS), 2)
                 .unlockedBy("has_iron_ingot", has(net.minecraft.world.item.Items.IRON_INGOT))
                 .save(writer);
-
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ElementusItems.DIARKRITE_INGOT.get())
-//                .define('A', Etags.Items.ORES_ATELIS).define('E', net.minecraft.world.item.Items.ECHO_SHARD).define('S', Etags.Items.INGOTS_STEEL)
-//                .pattern(" E ").pattern("SSS").pattern("AAA")
-//                .unlockedBy(getHasName(ElementusItems.ATELIS_SCRAP.get()), has(ElementusItems.ATELIS_SCRAP.get()))
-//                .save(writer);
-//
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ElementusItems.ANTHEKTITE_INGOT.get())
-//                .define('A', Etags.Items.ORES_ATELIS).define('E', net.minecraft.world.item.Items.ECHO_SHARD).define('S', Etags.Items.INGOTS_STEEL)
-//                .pattern("SSS").pattern("AAA").pattern(" E ")
-//                .unlockedBy(getHasName(ElementusItems.ATELIS_SCRAP.get()), has(ElementusItems.ATELIS_SCRAP.get()))
-//                .save(writer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ElementusItems.DIARKRITE_INGOT.get())
                 .requires(Ingredient.of(Etags.Items.ORES_ATELIS), 3)
@@ -256,7 +245,7 @@ public class ModRecipeData extends ModRecipeProvider {
         chestBoat(writer, ElementusItems.MOVCADIA_CHEST_BOAT.get(), ElementusItems.MOVCADIA_BOAT.get());
     }
     private void FarmersDelight(Consumer<FinishedRecipe> writer) {
-        ConditionalRecipe.builder().addCondition(and(modLoaded(piercingPaxelsID), not(FALSE()))).addRecipe(
+        ConditionalRecipe.builder().addCondition(and(modLoaded(farmersDelightID), not(FALSE()))).addRecipe(
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, FarmersDelightItems.STEEL_KNIFE.get())
                 .pattern("#").pattern("/").define('#', ElementusItems.STEEL_INGOT.get()).define('/', Tags.Items.RODS_WOODEN)
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(ElementusItems.STEEL_INGOT.get()))::save)
@@ -266,7 +255,7 @@ public class ModRecipeData extends ModRecipeProvider {
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, FarmersDelightItems.STEEL_KNIFE, Etags.Items.INGOTS_DIARKRITE, FarmersDelightItems.DIARKRITE_KNIFE, CriterionName.DIARKRITE.name, farmersDelightID);
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, FarmersDelightItems.STEEL_KNIFE, Etags.Items.INGOTS_ANTHEKTITE, FarmersDelightItems.ANTHEKTITE_KNIFE, CriterionName.ANTHEKTITE.name, farmersDelightID);
 
-        ConditionalRecipe.builder().addCondition(and(modLoaded(piercingPaxelsID), not(FALSE()))).addRecipe(
+        ConditionalRecipe.builder().addCondition(and(modLoaded(farmersDelightID), not(FALSE()))).addRecipe(
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, FarmersDelightItems.MOVCADIA_CABINET.get())
                 .pattern("###").pattern("1 1").pattern("###").define('#', ElementusItems.MOVCADIA_SLAB.get()).define('1', ElementusItems.MOVCADIA_TRAPDOOR.get())
                 .unlockedBy(getHasName(ElementusItems.MOVCADIA_PLANKS.get()), has(ElementusItems.MOVCADIA_PLANKS.get()))::save)
@@ -286,11 +275,13 @@ public class ModRecipeData extends ModRecipeProvider {
         makePaxelUpgradeKit(writer, PiercingPaxelsItems.ANTHEKTITE_UPGRADE_KIT, ElementusItems.ANTHEKTITE_INGOT);
     }
     private void NethersDelight(Consumer<FinishedRecipe> writer) {
+        ConditionalRecipe.builder().addCondition(and(modLoaded(farmersDelightID), not(FALSE()))).addRecipe(
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, NethersDelightItems.STEEL_MACHETE.get())
                 .pattern("  #").pattern(" # ").pattern("/  ")
                 .define('#', ElementusItems.STEEL_INGOT.get()).define('/', Tags.Items.RODS_WOODEN)
-                .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(ElementusItems.STEEL_INGOT.get()))
-                .save(writer);
+                .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(ElementusItems.STEEL_INGOT.get()))::save)
+                .generateAdvancement()
+                .build(writer, new ResourceLocation(getHasName(NethersDelightItems.STEEL_MACHETE.get())));
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, NethersDelightItems.STEEL_MACHETE, Etags.Items.INGOTS_DIARKRITE, NethersDelightItems.DIARKRITE_MACHETE, CriterionName.DIARKRITE.name, nethersDelightID);
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, NethersDelightItems.STEEL_MACHETE, Etags.Items.INGOTS_ANTHEKTITE, NethersDelightItems.ANTHEKTITE_MACHETE, CriterionName.ANTHEKTITE.name, nethersDelightID);
     }
@@ -518,7 +509,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_HELMET, AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_CHESTPLATE, AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_LEGGINGS, AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_BOOTS);
     }
     private void EpicSamurai(Consumer<FinishedRecipe> writer) {
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_HELMET.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('J', ItemsRegistry.JADE.get()).define('I', Tags.Items.INGOTS_IRON)
                 .pattern(" # ")
@@ -526,7 +517,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("# #")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("# #")
@@ -534,7 +525,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("#I#")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("###")
@@ -542,7 +533,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("# #")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_BOOTS.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("#I#")
@@ -550,7 +541,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
 
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_HELMET_LIGHT.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern(" I ")
@@ -558,7 +549,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("# #")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE_LIGHT.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("# #")
@@ -566,7 +557,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("#I#")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS_LIGHT.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("#I#")
@@ -574,7 +565,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("# #")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_BOOTS_LIGHT.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("I#I")
@@ -582,7 +573,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
 
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_HELMET_MASTER.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern(" # ")
@@ -590,7 +581,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("# #")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE_MASTER.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("# #")
@@ -598,7 +589,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("III")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS_MASTER.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("#I#")
@@ -606,7 +597,7 @@ public class ModRecipeData extends ModRecipeProvider {
                 .pattern("# #")
                 .unlockedBy(getHasName(ElementusItems.STEEL_INGOT.get()), has(Etags.Items.INGOTS_STEEL))
                 .save(writer));
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(samuraiDynastyID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, EpicSamuraiItems.STEEL_SAMURAI_BOOTS_MASTER.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('I', Tags.Items.INGOTS_IRON)
                 .pattern("III")
@@ -672,7 +663,7 @@ public class ModRecipeData extends ModRecipeProvider {
         cmdTool(w, ElementusItems.ANTHEKTITE_HOE, RecipeCategory.TOOLS, WitherstormModItems.ANTHEKTITE_CMD_HOE);
     }
     private void BanillaClaws(Consumer<FinishedRecipe> w) {
-        ConditionalRecipe.builder().addCondition(and(modLoaded(advancedNetheriteID))).addRecipe(c ->
+        ConditionalRecipe.builder().addCondition(and(modLoaded(vanillaClawsID))).addRecipe(c ->
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, BanillaClawsItems.STEEL_CLAWS.get())
                 .define('#', Etags.Items.INGOTS_STEEL).define('L', net.minecraft.world.item.Items.LEATHER)
                 .pattern("###")

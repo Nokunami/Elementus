@@ -31,11 +31,12 @@
           }
         },
         "pattern": [
-          "#",
-          "/"
+          "  #",
+          " # ",
+          "/  "
         ],
         "result": {
-          "item": "elementus:steel_knife"
+          "item": "elementus:steel_machete"
         },
         "show_notification": true
       }

@@ -4,12 +4,12 @@
       "advancement": {
         "parent": "minecraft:recipes/root",
         "criteria": {
-          "has_movcadia_planks": {
+          "has_steel_ingot": {
             "conditions": {
               "items": [
                 {
                   "items": [
-                    "elementus:movcadia_planks"
+                    "elementus:steel_ingot"
                   ]
                 }
               ]
@@ -18,20 +18,20 @@
           },
           "has_the_recipe": {
             "conditions": {
-              "recipe": "elementus:movcadia_cabinet"
+              "recipe": "elementus:steel_machete"
             },
             "trigger": "minecraft:recipe_unlocked"
           }
         },
         "requirements": [
           [
-            "has_movcadia_planks",
+            "has_steel_ingot",
             "has_the_recipe"
           ]
         ],
         "rewards": {
           "recipes": [
-            "elementus:movcadia_cabinet"
+            "elementus:steel_machete"
           ]
         },
         "sends_telemetry_event": false
