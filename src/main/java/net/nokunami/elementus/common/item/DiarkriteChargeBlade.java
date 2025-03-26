@@ -228,6 +228,11 @@ public class DiarkriteChargeBlade extends SwordItem {
     }
 
     @Override
+    public boolean isEnchantable(@NotNull ItemStack stack) {
+        return this.getMaxStackSize(stack) == 1;
+    }
+
+    @Override
     public boolean isDamageable(ItemStack stack) {
         return false;
     }
