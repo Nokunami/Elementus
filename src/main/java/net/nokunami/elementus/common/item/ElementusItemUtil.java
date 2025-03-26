@@ -17,9 +17,6 @@ public class ElementusItemUtil {
         if (diarkriteTier(tier)) {
             tooltip.add(Component.translatable("item.elementus.diarkrite_pickaxe.desc").withStyle(ChatFormatting.DARK_AQUA));
         }
-        if (anthektiteTier(tier)) {
-            tooltip.add(Component.translatable("item.elementus.anthektite_pickaxe.desc", String.valueOf(Math.round(getDurablityBasedSpeed(stack)))).withStyle(ChatFormatting.AQUA));
-        }
     }
 
     public static float pickaxeMiningSpeed(float originalSpeed, ItemStack stack, BlockState state) {
@@ -33,9 +30,9 @@ public class ElementusItemUtil {
                         newSpeed *= TierConfig.diarkriteAdditionalEfficiency;
                     }
                 }
-                if (anthektiteTier(tier) || stack.is(Etags.Items.EFFICIENT_PICKAXE)) {
-                    newSpeed *= getDurablityBasedSpeed(stack);
-                }
+//                if (anthektiteTier(tier) || stack.is(Etags.Items.EFFICIENT_PICKAXE)) {
+//                    newSpeed *= getDurablityBasedSpeed(stack);
+//                }
             }
         }
         return newSpeed;

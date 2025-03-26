@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ import static net.nokunami.elementus.Elementus.CONFIG_VERSION;
 public class EntityConfig {
     private static final Logger logger = Elementus.LOGGER;
     public static final EntityConfig INSTANCE = new EntityConfig();
-    //    public static final String VERSION = "${mod_version}";
+    private static final Path CONFIG_PATH = Elementus.ENTITY_CONFIG;
     public static final ComparableVersion VERSION = new ComparableVersion(CONFIG_VERSION);
     // values exposed to other classes
     //Armor
@@ -52,7 +53,7 @@ public class EntityConfig {
     private void load() {
 //        String version = "0";
         ComparableVersion version = new ComparableVersion("0");
-        try (BufferedReader reader = Files.newBufferedReader(Elementus.ENTITY_CONFIG)) {
+        try (BufferedReader reader = Files.newBufferedReader(CONFIG_PATH)) {
             String line;
             int lineNumber = 0;
             while ((line = reader.readLine()) != null) {
@@ -67,7 +68,7 @@ public class EntityConfig {
                 line.trim();
                 if (line.isEmpty()) continue;
 
-                String errorPrefix = Elementus.ENTITY_CONFIG + ": line " + lineNumber + ": ";
+                String errorPrefix = CONFIG_PATH + ": line " + lineNumber + ": ";
                 try (Scanner s = new Scanner(line)) {
                     s.useLocale(Locale.US);
                     s.useDelimiter("\\s*=\\s*");
@@ -116,15 +117,15 @@ public class EntityConfig {
         }
         // may save twice, but not big deal
         if (version.compareTo(VERSION) < 0) {
-            logger.info("Config version outdated, Updating config \"elementus_armor_config\"!");
+            logger.info("Config version outdated, Updating config \"elementus_entity_config\"!");
             save();
         }
     }
 
     private void save() {
-        try (BufferedWriter writer = Files.newBufferedWriter(Elementus.ENTITY_CONFIG)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_PATH)) {
             writer.write("version = " + VERSION + "\n");
-            writer.write("# Note: Restart minecraft to apply changes in config");
+            writer.write("# Note: Restart minecraft to apply changes in config\n");
             writer.write("# Entity Config\n");
             writer.write("\n");
             writer.write("[SteelGolem]\n");
@@ -140,7 +141,7 @@ public class EntityConfig {
             writer.write("  Steel.Armor = " + Armor + "\n");
             writer.write("# Default: " + Toughness + "\n");
             writer.write("  Steel.Toughness = " + Toughness + "\n");
-            writer.write("# Default: " + RepairAmount + " (How many ingots does it take to fully repair)\n");
+            writer.write("# Default: " + RepairAmount + " (How many ingots does it take to fully heal)\n");
             writer.write("  Steel.RepairAmount = " + RepairAmount + "\n");
             writer.write("\n");
         } catch (IOException e) {

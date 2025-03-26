@@ -1,7 +1,7 @@
-// 1.20.1	2025-03-16T18:06:28.6087873	Global Loot Modifiers : elementus
+// 1.20.1	2025-03-21T18:57:11.0700187	Global Loot Modifiers : elementus
 805894c27b8404f279ba66f2907b356ae714705f data/elementus/loot_modifiers/ancient_city_addition_atelis_scrap.json
 1511fb9708e68259c38b6d3480cc4a01df056eb0 data/elementus/loot_modifiers/ancient_city_addition_atelis_template.json
-220c5deee8a9f5ee99831cff45f133d3279c1385 data/elementus/loot_modifiers/ancient_city_addition_weapon_fragment.json
+3a3efcd42f29e320a71a9bff1ef86ac0113856df data/elementus/loot_modifiers/ancient_city_addition_weapon_fragment.json
 d771d8b43a89b12f4245827d83d5f9ee9578be0f data/elementus/loot_modifiers/ancient_city_catalyst_armor.json
 8b8fdbff3cfb76ee754ae5ec1324aaeac0afa1f2 data/elementus/loot_modifiers/bastion_treasure_addition_atelis_upgrade.json
 65126487ca71ec631798f4918b1e65d5c937cc5b data/elementus/loot_modifiers/buried_treasure_addition_steel_ingot.json

@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-13T21:21:10.5561426	Block States: elementus
+// 1.20.1	2025-03-24T20:22:55.1893962	Block States: elementus
 d3d87e58048c992ee25590499c1faa196c186aae assets/elementus/blockstates/anthektite_block.json
 3d7c7d01ef8d2c698097bc060c50a2ca96b5aeee assets/elementus/blockstates/anthektite_diamond_block.json
 290bff33ab7a5ddaa18293972772aa2c08907ceb assets/elementus/blockstates/anthektite_emerald_block.json
@@ -20,6 +20,9 @@ fd9721a9add2279539d746d8df21ee92abba1555 assets/elementus/blockstates/movcadia_f
 4336979919222299fd7254348422b5dbd597d5ee assets/elementus/blockstates/movcadia_log.json
 e33892aa46a25bda0ffe24d12f413ae1c3811a1a assets/elementus/blockstates/movcadia_planks.json
 86c0e96a96a5232f89fe25f61d70520abbb19669 assets/elementus/blockstates/movcadia_pressure_plate.json
+108f7c088fa0af6e8104a593d876dc327a05882b assets/elementus/blockstates/movcadia_rooted_deepslate.json
+16168169933a3d10688bf2ba2472125ef9792e7f assets/elementus/blockstates/movcadia_rooted_dirt.json
+6145f6796d1f313c9d6743f59078f0584a649637 assets/elementus/blockstates/movcadia_rooted_stone.json
 9493e336cd0334eb56cf971c7ff0a7daed373b24 assets/elementus/blockstates/movcadia_sapling.json
 b7680b1ecfe32a417e6e01814a0e08cf155233c2 assets/elementus/blockstates/movcadia_sign.json
 c5aa5bd04304bc6cee5807531d3341752ff339f0 assets/elementus/blockstates/movcadia_slab.json
@@ -73,6 +76,9 @@ fb5ea9b8150e92d6446a2bbcd198a6f8b1e00529 assets/elementus/models/block/movcadia_
 3d67c9847e5f64920fe026d2843a546905c36ada assets/elementus/models/block/movcadia_planks.json
 c5d80a31e8aba6fd1eac298f9522095e012bbbc1 assets/elementus/models/block/movcadia_pressure_plate.json
 ea166f024ea83aef1c475777e83cc54f95d81982 assets/elementus/models/block/movcadia_pressure_plate_down.json
+f4ca6116575197c3d054ca31a3b32046d6b02157 assets/elementus/models/block/movcadia_rooted_deepslate.json
+c88e086e4ae493bcfe269589260a56ad0c9426d3 assets/elementus/models/block/movcadia_rooted_dirt.json
+53f62c0b509aadc7c914ad9bbe987ee18ceae2dd assets/elementus/models/block/movcadia_rooted_stone.json
 6a3a33d9920abdd24a31f806fe239a93f5952318 assets/elementus/models/block/movcadia_sapling.json
 822661bc816608e0ba648f4c09f23450ef8d0de7 assets/elementus/models/block/movcadia_sign.json
 42aaee2aa32d8a774b58a8cae2843cddce7beda8 assets/elementus/models/block/movcadia_slab.json

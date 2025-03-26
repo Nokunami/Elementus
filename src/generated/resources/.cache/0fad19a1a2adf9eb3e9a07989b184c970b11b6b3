@@ -1,8 +1,12 @@
-// 1.20.1	2025-02-13T23:15:07.3890655	Tags for minecraft:block mod id elementus
+// 1.20.1	2025-03-24T23:01:38.7107765	Tags for minecraft:block mod id elementus
 5ce98cf97de33c4fb89bc61d56ce29888d17ca42 data/aether/tags/blocks/gravitite_ability_blacklist.json
 65116b695c5206b0607abf75eb3bf4002ceb8784 data/aether/tags/blocks/non_tunnel_replaceable.json
 71d46d8d9077c91285e2d64d6c47396ff8f26913 data/elementus/tags/blocks/diarkrite_efficient.json
+a5ccd42e6d1ff8f83ab7b319a0f170e3c7e33447 data/elementus/tags/blocks/movcadia_grows_on.json
 f8fb98e6767dfc5b94980571e7ba1ed316269daa data/elementus/tags/blocks/movcadia_logs.json
+965b6a5353209b6388e04a00dcbd69ab309d1ab9 data/elementus/tags/blocks/movcadia_rooted_deepslate.json
+aadb1e35a329c2f48ea4060dc8b3f6962e71b1b8 data/elementus/tags/blocks/movcadia_rooted_dirt.json
+f92c41ce4c3dd51d875dafefe81e048bf6b8f9ed data/elementus/tags/blocks/movcadia_rooted_stone.json
 65116b695c5206b0607abf75eb3bf4002ceb8784 data/forge/tags/blocks/chests.json
 65116b695c5206b0607abf75eb3bf4002ceb8784 data/forge/tags/blocks/chests/wooden.json
 9be4ee16fa7f38c79febd2498951f860bced0207 data/forge/tags/blocks/fence_gates/wooden.json

@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:has_structure/ancient_city",
+  "features": "elementus:movcadia_mega_tree_placed",
+  "step": "raw_generation"
+}

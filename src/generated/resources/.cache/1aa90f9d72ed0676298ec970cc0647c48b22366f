@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-15T00:35:51.6635938	Tags for minecraft:item mod id elementus
+// 1.20.1	2025-03-21T18:57:11.0650239	Tags for minecraft:item mod id elementus
 cac5872e21530608e5d2e90870aa2bd2dd81e79f data/advancednetherite/tags/items/tiers/armor/netherite_diamond.json
 cf5521e0ff2ae8fff77c03f8d113b19f98ca46f3 data/advancednetherite/tags/items/tiers/armor/netherite_emerald.json
 43169b0f71f687059baab4dbc1de3c31fccd80e6 data/advancednetherite/tags/items/tiers/armor/netherite_gold.json
@@ -25,6 +25,10 @@ b5ea726e87a698a4fbcf838d2f3ec8ed07e4b1a4 data/elementus/tags/items/repairs_diark
 269807026c2d33b0ab02619321a7fed1f7527f39 data/elementus/tags/items/repairs_diarkrite_gold_armor.json
 d2f5d7ff1f33c4b7c9f1430a3bfa519d8765a7f5 data/elementus/tags/items/repairs_diarkrite_iron_armor.json
 f3be2b2ac86715e20a4b1ddb9bba764b4020e3b1 data/elementus/tags/items/repairs_steel_equipment.json
+54f5f4eb011e81e346809ba3e900a37e3adb87f8 data/elementus/tags/items/steel_golem_carpet.json
+a4e8097fff07f9a74259d6b5dd583f3437ff28a2 data/elementus/tags/items/steel_golem_leaves_decoration.json
+efe6d58e86177a50d0cd62cbaa1b811e7f7c0715 data/elementus/tags/items/steel_golem_moss.json
+f3be2b2ac86715e20a4b1ddb9bba764b4020e3b1 data/elementus/tags/items/steel_golem_repair.json
 7acd3050c0b032697265e2ab6beea7b4719a6ac2 data/elementus/tags/items/steel_recyclable.json
 d49176221da4c3950998a77b8e8b448819b4e7f2 data/farmersdelight/tags/items/flat_on_cutting_board.json
 f3776d4b1eeee5975beb739561a10a4965d0cf5a data/farmersdelight/tags/items/tools/knives.json
@@ -52,9 +56,6 @@ f3be2b2ac86715e20a4b1ddb9bba764b4020e3b1 data/forge/tags/items/ingots/steel.json
 1fef669a6180188cb7544a43d31a8eee0ee8c7cd data/forge/tags/items/ores/atelis_scrap.json
 00a1dfa8ffea9578b5216c516db045dc0c4b0170 data/forge/tags/items/raw_materials.json
 64ae542c90d408d112b5edbb6446656cfa7c391e data/forge/tags/items/raw_materials/steel.json
-5974f598b7b0ce56128b28ed79b1afcb954a5550 data/forge/tags/items/steel_golem_carpet.json
-a4e8097fff07f9a74259d6b5dd583f3437ff28a2 data/forge/tags/items/steel_golem_leaves_decoration.json
-f3be2b2ac86715e20a4b1ddb9bba764b4020e3b1 data/forge/tags/items/steel_golem_repair.json
 98c56cd293c5c33a3da6c63a84dd9bbcf9730991 data/forge/tags/items/storage_blocks.json
 0ead1c564f93285fae66c97ae726271d04951332 data/forge/tags/items/storage_blocks/anthektite.json
 0d3dd4dd42391a8ad32d06be49210205eef850e0 data/forge/tags/items/storage_blocks/diarkrite.json

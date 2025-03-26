@@ -7,6 +7,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.common.entity.projectile.AnthektiteSlash;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
 import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
@@ -21,6 +22,9 @@ public class ModEntityType {
 
     public static final RegistryObject<EntityType<SteelGolem>> STEEL_GOLEM = ENTITY_TYPES.register("steel_golem",
             () -> EntityType.Builder.of(SteelGolem::new, MobCategory.CREATURE).sized(1.0F, 2.9F).build("steel_golem"));
+
+    public static final RegistryObject<EntityType<AnthektiteSlash>> ANTHEKTITE_SLASH = ENTITY_TYPES.register("anthektite_slash",
+            () -> EntityType.Builder.<AnthektiteSlash>of(AnthektiteSlash::new, MobCategory.MISC).sized(0.75F, 0.5F).build("anthektite_slash"));
 
 //    public static final RegistryObject<EntityType<Burst>> BURST = ENTITY_TYPES.register("test_burst",
 //            () -> EntityType.Builder.<Burst>of(Burst::new, MobCategory.MISC).sized(3.0F, 3.0F).build("test_burst"));

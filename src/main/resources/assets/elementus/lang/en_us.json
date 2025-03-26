@@ -89,7 +89,7 @@
   "item.elementus.catalyst_elytra_equiped": "Elytra Equiped! alt + click to remove.",
 
   "item.elementus.movcadia_boat": "Movcadia Boat",
-  "item.elementus.movcadia_chest_boat": "Movcadia Chest Boat",
+  "item.elementus.movcadia_chest_boat": "Movcadia Boat with Chest",
 
 
   "block.elementus.steel_block": "Block of Steel",
@@ -104,7 +104,10 @@
   "block.elementus.steel_tile_slab": "Steel Tile Slab",
 
   "block.elementus.movcadia_sapling": "Movcadia Sapling",
-  "block.elementus.movcadia_roots": "Movcadia Roots",
+
+  "block.elementus.movcadia_rooted_dirt": "Movcadia Rooted Dirt",
+  "block.elementus.movcadia_rooted_stone": "Movcadia Rooted Stone",
+  "block.elementus.movcadia_rooted_deepslate": "Movcadia Rooted Deepslate",
 
   "block.elementus.movcadia_log": "Movcadia Log",
   "block.elementus.stripped_movcadia_log": "Stripped Movcadia Log",
@@ -151,7 +154,7 @@
   "enchantment.elementus.resonance": "Resonance",
   "enchantment.elementus.resonance.desc": "Recharges itself if there's more than 3 charges and whilst being held",
   "enchantment.elementus.condensed_burst": "Condensed Burst",
-  "enchantment.elementus.condensed_burst.desc": "Concentrates the burst into a beam",
+  "enchantment.elementus.condensed_burst.desc": "Concentrates Sonic Burst into a beam",
 
   "advancements.story.smelt_steel.title": "But Steel's heavier than feathers!",
   "advancements.story.smelt_steel.description": "Smelt an Steel Ingot",
@@ -173,6 +176,8 @@
 
   "entity.elementus.mod_chest_boat": "Boat with Chest",
   "entity.elementus.steel_golem": "Steel Golem",
+  "entity.elementus.steel_golem_down": "Steel Golem powered down, Current Chassis Health: %s",
+
 
   "tag.item.elementus.steel_recyclable": "Steel Recyclable",
   "tag.item.elementus.movcadia_logs": "Movcadia Logs",

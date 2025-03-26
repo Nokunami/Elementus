@@ -8,6 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -179,6 +180,13 @@ public class ModBlockTagsData extends BlockTagsProvider {
 
         tag(Etags.Blocks.DIARKRITE_EFFICIENT).addTag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .addOptionalTag(new ResourceLocation("forge", "needs_netherite_tools"));
+
+        tag(Etags.Blocks.MOVCADIA_GROWS_ON).add(Blocks.DIRT, Blocks.SAND, Blocks.TERRACOTTA, Blocks.SNOW_BLOCK, Blocks.POWDER_SNOW)
+                .addTag(BlockTags.BASE_STONE_OVERWORLD).addTag(BlockTags.DIRT).addTag(Tags.Blocks.STONE);
+
+        tag(Etags.Blocks.MOVCADIA_ROOTED_DIRT).add(Blocks.DIRT, Blocks.ROOTED_DIRT, Blocks.GRASS_BLOCK, Blocks.MYCELIUM, Blocks.PODZOL);
+        tag(Etags.Blocks.MOVCADIA_ROOTED_STONE).add(Blocks.STONE);
+        tag(Etags.Blocks.MOVCADIA_ROOTED_DEEPSLATE).add(Blocks.DEEPSLATE);
     }
 
     private void modCompatibilityTags() {

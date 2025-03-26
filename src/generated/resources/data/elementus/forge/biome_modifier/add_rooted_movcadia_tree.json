@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:has_structure/ancient_city",
+  "features": "elementus:rooted_movcadia_tree_placed",
+  "step": "vegetal_decoration"
+}

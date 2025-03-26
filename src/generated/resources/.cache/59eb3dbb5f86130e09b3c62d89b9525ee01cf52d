@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-13T23:03:13.7373926	Loot Tables
+// 1.20.1	2025-03-24T20:22:55.185351	Loot Tables
 0173b74a59dcce36b8af3623f5c9eccc71362085 data/elementus/loot_tables/blocks/anthektite_block.json
 c0d3c70c54889915a0618a3c250d16afe2cf8770 data/elementus/loot_tables/blocks/anthektite_diamond_block.json
 185f9028c4460731ff625797cf84fa1480d28d6a data/elementus/loot_tables/blocks/anthektite_emerald_block.json
@@ -21,6 +21,9 @@ a785e1a6f8abed4d7a6e26f4769cd1bd22271eac data/elementus/loot_tables/blocks/movca
 09196f484c326856d6cdcba461204ce74ce91e1f data/elementus/loot_tables/blocks/movcadia_log.json
 4311e00d804efa8621bb7d609d196e4e550b4fad data/elementus/loot_tables/blocks/movcadia_planks.json
 5b3211b72857bcb8ec529f0f679cc6c1955c7f07 data/elementus/loot_tables/blocks/movcadia_pressure_plate.json
+c68785c578eac42e37efdd2bc8dc15576aa8e240 data/elementus/loot_tables/blocks/movcadia_rooted_deepslate.json
+3aef5fb4ec7dfe0d47dc59028b979bd4bd312b69 data/elementus/loot_tables/blocks/movcadia_rooted_dirt.json
+80cba8d7b8a5bdacdfa3b6906ea256850f1d8445 data/elementus/loot_tables/blocks/movcadia_rooted_stone.json
 a401054ba07406846bb77ea4abe195498bec244b data/elementus/loot_tables/blocks/movcadia_sapling.json
 14b617335fb6e4144c59477b44624b15d586f8ed data/elementus/loot_tables/blocks/movcadia_sign.json
 070689463b9fe2432937de0e078a60d8a2bef6c3 data/elementus/loot_tables/blocks/movcadia_slab.json

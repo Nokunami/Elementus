@@ -98,7 +98,6 @@ public class ModItemModelData extends ModItemModelProvider {
         blockItem(ElementusBlocks.DIARKRITE_BLOCK);
         blockItem(ElementusBlocks.REMNANT);
 
-//        generatedItem(ElementusItems.STEEL_BARS, "building");
         itemBlockGenerated(ElementusItems.STEEL_BARS, "building");
 
         blockItem(ElementusBlocks.STEEL_TILES);
@@ -106,7 +105,9 @@ public class ModItemModelData extends ModItemModelProvider {
         blockItem(ElementusBlocks.STEEL_TILE_SLAB);
 
         itemBlockGenerated(ElementusItems.MOVCADIA_SAPLING, "natural");
-//        blockItem(ElementusBlocks.MOVCADIA_ROOTS);
+        blockItem(ElementusBlocks.MOVCADIA_ROOTED_DIRT);
+        blockItem(ElementusBlocks.MOVCADIA_ROOTED_STONE);
+        blockItem(ElementusBlocks.MOVCADIA_ROOTED_DEEPSLATE);
 
         blockItem(ElementusBlocks.MOVCADIA_LOG);
         blockItem(ElementusBlocks.STRIPPED_MOVCADIA_LOG);

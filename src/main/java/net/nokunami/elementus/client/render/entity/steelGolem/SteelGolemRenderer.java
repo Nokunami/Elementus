@@ -1,4 +1,4 @@
-package net.nokunami.elementus.client.render;
+package net.nokunami.elementus.client.render.entity.steelGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -18,11 +18,12 @@ public class SteelGolemRenderer extends MobRenderer<SteelGolem, SteelGolemModel<
     public SteelGolemRenderer(EntityRendererProvider.Context context) {
         super(context, new SteelGolemModel<>(context.bakeLayer(ModModelLayers.STEEL_GOLEM)), 0.7F);
         this.addLayer(new SteelGolemEyesLayer(this));
-        this.addLayer(new SteelGolemChassisCrackinessLayer(this));
         this.addLayer(new SteelGolemCrackinessLayer(this));
+        this.addLayer(new SteelGolemChassisCrackinessLayer(this));
         this.addLayer(new SteelGolemSaddleLayer(this, context.getModelSet()));
         this.addLayer(new SteelGolemLeavesLayer(this, context.getModelSet()));
         this.addLayer(new SteelGolemCarpetLayer(this, context.getModelSet()));
+        this.addLayer(new SteelGolemMossLayer(this, context.getModelSet()));
     }
 
     public @NotNull ResourceLocation getTextureLocation(@NotNull SteelGolem pEntity) {

@@ -1,4 +1,4 @@
-package net.nokunami.elementus.client.render;
+package net.nokunami.elementus.client.render.entity.steelGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;

@@ -29,6 +29,10 @@ public class ModBlockStateData extends ModBlockStateProvider {
         wood(ElementusBlocks.MOVCADIA_WOOD, ElementusBlocks.MOVCADIA_LOG, "natural/");
         wood(ElementusBlocks.STRIPPED_MOVCADIA_WOOD, ElementusBlocks.STRIPPED_MOVCADIA_LOG, "building/");
 
+        block(ElementusBlocks.MOVCADIA_ROOTED_DIRT, "natural/");
+        block(ElementusBlocks.MOVCADIA_ROOTED_STONE, "natural/");
+        block(ElementusBlocks.MOVCADIA_ROOTED_DEEPSLATE, "natural/");
+
         transparentBlock(ElementusBlocks.MOVCADIA_LEAVES, "natural/");
         transparentBlock(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES, "natural/");
 

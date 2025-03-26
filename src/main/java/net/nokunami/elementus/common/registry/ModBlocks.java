@@ -47,8 +47,12 @@ public class ModBlocks {
         public static final RegistryObject<Block> STEEL_TILE_SLAB = BLOCKS.register("steel_tile_slab",
                 () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
-//        public static final RegistryObject<Block> MOVCADIA_ROOTS = BLOCKS.register("movcadia_roots",
-//                () -> new RootedDirtBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE)));
+        public static final RegistryObject<Block> MOVCADIA_ROOTED_DIRT = BLOCKS.register("movcadia_rooted_dirt",
+                () -> new RootedDirtBlock(BlockBehaviour.Properties.copy(Blocks.ROOTED_DIRT)));
+        public static final RegistryObject<Block> MOVCADIA_ROOTED_STONE = BLOCKS.register("movcadia_rooted_stone",
+                () -> new RootedDirtBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+        public static final RegistryObject<Block> MOVCADIA_ROOTED_DEEPSLATE = BLOCKS.register("movcadia_rooted_deepslate",
+                () -> new RootedDirtBlock(BlockBehaviour.Properties.copy(Blocks.DEEPSLATE)));
 
         public static final RegistryObject<RotatedPillarBlock> MOVCADIA_LOG = BLOCKS.register("movcadia_log",
                 () -> log(MapColor.TERRACOTTA_PURPLE, MapColor.TERRACOTTA_BLUE, 12F, 32F, SoundType.CHERRY_WOOD));

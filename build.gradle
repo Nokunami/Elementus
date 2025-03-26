@@ -157,9 +157,6 @@ repositories {
         filter {
             includeGroup "maven.modrinth"
         }
-    }
-
-    exclusiveContent {
         forRepository {
             maven {
                 url "https://cursemaven.com"

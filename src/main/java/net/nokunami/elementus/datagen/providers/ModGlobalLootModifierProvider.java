@@ -5,15 +5,19 @@ import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.storage.loot.predicates.*;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 import net.minecraftforge.fml.ModList;
 import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.common.registry.ModItems.AdvancedNetheriteItems;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import net.nokunami.elementus.datagen.loot.MobDropsLootModifier;
-import net.nokunami.elementus.datagen.loot.OreDropsLootModifier;
-import net.nokunami.elementus.common.registry.ModItems.*;
 import net.nokunami.elementus.datagen.loot.ModLootModifier;
+import net.nokunami.elementus.datagen.loot.OreDropsLootModifier;
 
 import java.util.List;
 

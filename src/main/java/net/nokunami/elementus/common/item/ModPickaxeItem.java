@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static net.nokunami.elementus.common.item.ElementusItemUtil.*;
+import static net.nokunami.elementus.common.item.ElementusItemUtil.cmdTier;
 
 public class ModPickaxeItem extends PickaxeItem {
 

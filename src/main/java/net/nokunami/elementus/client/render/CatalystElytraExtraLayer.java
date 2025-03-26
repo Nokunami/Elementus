@@ -1,4 +1,4 @@
-package net.nokunami.elementus.client.render.item;
+package net.nokunami.elementus.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -40,6 +40,7 @@ public class CatalystElytraExtraLayer<T extends LivingEntity, M extends EntityMo
 
             VertexConsumer vertexconsumer1 = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.armorCutoutNoCull(resourcelocation1), false, itemstack.hasFoil());
             poseStack.pushPose();
+            poseStack.translate(0.0F, 0.0F, 0.125F);
             this.getParentModel().copyPropertiesTo(this.catalystBaseModel);
             this.catalystBaseModel.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             this.catalystBaseModel.renderElytra(poseStack, vertexconsumer1, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

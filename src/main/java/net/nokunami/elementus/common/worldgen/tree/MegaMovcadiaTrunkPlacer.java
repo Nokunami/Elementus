@@ -8,15 +8,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LevelSimulatedReader;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+import net.nokunami.elementus.common.Etags;
+import net.nokunami.elementus.common.registry.ModBlocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -26,7 +26,9 @@ public class MegaMovcadiaTrunkPlacer extends TrunkPlacer {
     public static final Codec<MegaMovcadiaTrunkPlacer> CODEC = RecordCodecBuilder.create(megaMovcadiaTrunkPlacerInstance ->
             trunkPlacerParts(megaMovcadiaTrunkPlacerInstance).apply(megaMovcadiaTrunkPlacerInstance, MegaMovcadiaTrunkPlacer::new));
 
-    private static final BlockStateProvider rootProvider = BlockStateProvider.simple(Blocks.ROOTED_DIRT);
+    private static final BlockStateProvider rootedDirt = BlockStateProvider.simple(ModBlocks.ElementusBlocks.MOVCADIA_ROOTED_DIRT.get());
+    private static final BlockStateProvider rootedStone = BlockStateProvider.simple(ModBlocks.ElementusBlocks.MOVCADIA_ROOTED_STONE.get());
+    private static final BlockStateProvider rootedDeepslate = BlockStateProvider.simple(ModBlocks.ElementusBlocks.MOVCADIA_ROOTED_DEEPSLATE.get());
 
     public MegaMovcadiaTrunkPlacer(int pBaseHeight, int pHeightRandA, int pHeightRandB) {
         super(pBaseHeight, pHeightRandA, pHeightRandB);
@@ -38,13 +40,37 @@ public class MegaMovcadiaTrunkPlacer extends TrunkPlacer {
     }
 
     private static boolean isDirt(LevelSimulatedReader pLevel, BlockPos pPos) {
-        return pLevel.isStateAtPosition(pPos, (blockState) -> Feature
-                .isDirt(blockState) && !blockState.is(Blocks.GRASS_BLOCK) && !blockState.is(Blocks.MYCELIUM));
+//        return pLevel.isStateAtPosition(pPos, (blockState) -> Feature
+//                .isDirt(blockState) && !blockState.is(Blocks.GRASS_BLOCK) && !blockState.is(Blocks.MYCELIUM));
+        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(Etags.Blocks.MOVCADIA_ROOTED_DIRT));
     }
 
-    protected static void setBlockAt(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, RandomSource pRandom, BlockPos pPos, TreeConfiguration pConfig) {
-        if (!(((LevelReader) pLevel).getBlockState(pPos).onTreeGrow((LevelReader) pLevel, pBlockSetter, pRandom, pPos, pConfig)) && (pConfig.forceDirt || !isDirt(pLevel, pPos))) {
-            pBlockSetter.accept(pPos, rootProvider.getState(pRandom, pPos));
+    private static boolean isStone(LevelSimulatedReader pLevel, BlockPos pPos) {
+        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(Etags.Blocks.MOVCADIA_ROOTED_STONE));
+    }
+
+    private static boolean isDeepslate(LevelSimulatedReader pLevel, BlockPos pPos) {
+        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(Etags.Blocks.MOVCADIA_ROOTED_DEEPSLATE));
+    }
+
+    protected static void setBlock(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random, BlockPos pos, TreeConfiguration config) {
+        if ((((LevelReader)level).getBlockState(pos).onTreeGrow((LevelReader)level, blockSetter, random, pos, config))) {
+//            if (!isDirt(level, pos) && isStone(level, pos) && isDeepslate(level, pos)) {
+//                blockSetter.accept(pos, rootedDirt.getState(random, pos));
+//            }
+//            if (!isStone(level, pos) && isDirt(level, pos) && isDeepslate(level, pos)) {
+//                blockSetter.accept(pos, rootedStone.getState(random, pos));
+//            }
+//            if (!isDeepslate(level, pos) && isStone(level, pos) && isDirt(level, pos)) {
+//                blockSetter.accept(pos, rootedDeepslate.getState(random, pos));
+//            }
+            if (isDirt(level, pos)) {
+                blockSetter.accept(pos, rootedDirt.getState(random, pos));
+            } else if (isStone(level, pos)) {
+                blockSetter.accept(pos, rootedStone.getState(random, pos));
+            } else if (isDeepslate(level, pos)) {
+                blockSetter.accept(pos, rootedDeepslate.getState(random, pos));
+            }
         }
     }
 
@@ -52,10 +78,10 @@ public class MegaMovcadiaTrunkPlacer extends TrunkPlacer {
     public @NotNull List<FoliagePlacer.FoliageAttachment> placeTrunk(@NotNull LevelSimulatedReader pLevel, @NotNull BiConsumer<BlockPos, BlockState> pBlockSetter, @NotNull RandomSource pRandom, int pFreeTreeHeight, BlockPos pPos, @NotNull TreeConfiguration pConfig) {
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
         BlockPos blockpos = pPos.below();
-        setBlockAt(pLevel, pBlockSetter, pRandom, pPos.below(), pConfig);
-        setBlockAt(pLevel, pBlockSetter, pRandom, pPos.below().east(), pConfig);
-        setBlockAt(pLevel, pBlockSetter, pRandom, pPos.below().south(), pConfig);
-        setBlockAt(pLevel, pBlockSetter, pRandom, pPos.below().south().east(), pConfig);
+        setDirtAt(pLevel, pBlockSetter, pRandom, pPos.below(), pConfig);
+        setDirtAt(pLevel, pBlockSetter, pRandom, pPos.below().east(), pConfig);
+        setDirtAt(pLevel, pBlockSetter, pRandom, pPos.below().south(), pConfig);
+        setDirtAt(pLevel, pBlockSetter, pRandom, pPos.below().south().east(), pConfig);
         Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(pRandom);
         int i = pFreeTreeHeight - pRandom.nextInt(4);
         int j = 2 - pRandom.nextInt(3);

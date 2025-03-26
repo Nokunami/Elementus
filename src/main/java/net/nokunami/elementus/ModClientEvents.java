@@ -38,15 +38,17 @@ import net.nokunami.elementus.client.particle.SonicBurstParticle;
 import net.nokunami.elementus.client.render.CatalystElytraLayer;
 import net.nokunami.elementus.client.render.ModBoatRenderer;
 import net.nokunami.elementus.client.render.ModChestRenderer;
-import net.nokunami.elementus.client.render.SteelGolemRenderer;
-import net.nokunami.elementus.client.render.item.CatalystElytraExtraLayer;
+import net.nokunami.elementus.client.render.entity.steelGolem.SteelGolemRenderer;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
+import net.nokunami.elementus.client.render.entity.projectile.AnthektiteSlashRenderer;
 import net.nokunami.elementus.common.config.ModConfig;
 import net.nokunami.elementus.common.item.ItemPredicateRegister;
 import net.nokunami.elementus.common.registry.ModBlockEntityType;
 import net.nokunami.elementus.common.registry.ModBlockSetType;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.nokunami.elementus.common.registry.ModItems.AetherItems;
+import net.nokunami.elementus.common.registry.ModItems.IronsSpellbooksItems;
+import net.nokunami.elementus.common.registry.ModItems.SniffsWeaponsItems;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
@@ -70,6 +72,7 @@ public class ModClientEvents {
         EntityRenderers.register(ModEntityType.MOD_BOAT.get(), pContext -> new ModBoatRenderer(pContext, false));
         EntityRenderers.register(ModEntityType.MOD_CHEST_BOAT.get(), pContext -> new ModBoatRenderer(pContext, true));
         EntityRenderers.register(ModEntityType.STEEL_GOLEM.get(), SteelGolemRenderer::new);
+        EntityRenderers.register(ModEntityType.ANTHEKTITE_SLASH.get(), AnthektiteSlashRenderer::new);
 
 
         if (ModConfig.CLIENT.lavaRendererType.get()) {
@@ -113,13 +116,13 @@ public class ModClientEvents {
                 LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> livingEntityRenderer = addLayersEvent.getSkin(s);
                 if(livingEntityRenderer instanceof PlayerRenderer playerRenderer){
                     playerRenderer.addLayer(new CatalystElytraLayer<>(playerRenderer, entityModels));
-                    playerRenderer.addLayer(new CatalystElytraExtraLayer<>(playerRenderer, entityModels));
+//                    playerRenderer.addLayer(new CatalystElytraExtraLayer<>(playerRenderer, entityModels));
                 }
             });
             LivingEntityRenderer<ArmorStand, ? extends EntityModel<ArmorStand>> livingEntityRenderer = addLayersEvent.getRenderer(EntityType.ARMOR_STAND);
             if(livingEntityRenderer instanceof ArmorStandRenderer armorStandRenderer){
                 armorStandRenderer.addLayer(new CatalystElytraLayer<>(armorStandRenderer, entityModels));
-                armorStandRenderer.addLayer(new CatalystElytraExtraLayer<>(armorStandRenderer,entityModels));
+//                armorStandRenderer.addLayer(new CatalystElytraExtraLayer<>(armorStandRenderer,entityModels));
             }
         }
     }

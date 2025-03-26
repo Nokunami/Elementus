@@ -89,16 +89,14 @@ public class CatalystBaseModel<T extends LivingEntity> extends HumanoidModel<T> 
         leftArmEmissive.addOrReplaceChild("LeftBigSpike", CubeListBuilder.create().texOffs(48, 48).mirror().addBox(-1.95F, -6.25F, 0.0F, 4.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(3.0F, -1.75F, 0.0F, 0.0F, -0.1745F, 0.5236F));
         leftArmEmissive.addOrReplaceChild("LeftSmallSpike", CubeListBuilder.create().texOffs(48, 55).addBox(-3.0F, -5.0F, 0.0F, 3.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.5F, 1.0F, 0.0F, 0.0F, 0.0F, 1.3963F));
 
-        partdefinition.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(0, 64).addBox(-10.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, deformation), PartPose.offsetAndRotation(5.0F, 0.0F, 0.2F, 0.2617994F, 0.0F, -0.2617994F));
-        partdefinition.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(24, 64).mirror().addBox(0.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, deformation), PartPose.offsetAndRotation(-5.0F, 0.0F, 0.2F, 0.2617994F, 0.0F, 0.2617994F));
+        partdefinition.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(0, 64).addBox(-10.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, deformation), PartPose.offsetAndRotation(5.0F, 0.0F, 0.0F, 0.2617994F, 0.0F, -0.2617994F));
+        partdefinition.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(24, 64).mirror().addBox(0.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, deformation), PartPose.offsetAndRotation(-5.0F, 0.0F, 0.0F, 0.2617994F, 0.0F, 0.2617994F));
+
+        partdefinition.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(0, 64).addBox(-10.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, deformation), PartPose.offsetAndRotation(5.0F, 0.0F, 0.0F, 0.2617994F, 0.0F, -0.2617994F));
+        partdefinition.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(24, 64).mirror().addBox(0.0F, 0.0F, 0.0F, 10.0F, 20.0F, 2.0F, deformation), PartPose.offsetAndRotation(-5.0F, 0.0F, 0.0F, 0.2617994F, 0.0F, 0.2617994F));
 
         return LayerDefinition.create(meshdefinition, 64, 96);
     }
-
-//    public CatalystBaseModel<T> animate(ItemStack stack, T entity) {
-////        setElytraVisible(CatalystArmorItem.getElytraEquiped(stack).findAny().isPresent());
-//        return this;
-//    }
 
     @Override
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
@@ -128,8 +126,6 @@ public class CatalystBaseModel<T extends LivingEntity> extends HumanoidModel<T> 
         this.rightTassetEmissive.render(poseStack, buffer, fullBright, packedOverlay, red, green, blue, 1.0F);
         this.leftTassetEmissive.copyFrom(leftLeg);
         this.leftTassetEmissive.render(poseStack, buffer, fullBright, packedOverlay, red, green, blue, 1.0F);
-//        this.rightWing.render(poseStack, buffer, packedLight, packedOverlay);
-//        this.leftWing.render(poseStack, buffer, packedLight, packedOverlay);
 
         poseStack.popPose();
     }
@@ -142,7 +138,7 @@ public class CatalystBaseModel<T extends LivingEntity> extends HumanoidModel<T> 
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = 0.2617994F;
         float f1 = -0.2617994F;
-        float f2 = -0.2F;
+        float f2 = 0.0F;
         float f3 = 0.0F;
         if (entity.isFallFlying()) {
             float f4 = 1.0F;
@@ -157,7 +153,7 @@ public class CatalystBaseModel<T extends LivingEntity> extends HumanoidModel<T> 
         } else if (entity.isCrouching()) {
             f = 0.6981317F;
             f1 = (-(float)Math.PI / 4F);
-            f2 = 2.8F;
+            f2 = 3.0F;
             f3 = 0.08726646F;
         }
 

@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-15T14:28:12.7247914	Item Models: elementus
+// 1.20.1	2025-03-24T20:22:55.1678169	Item Models: elementus
 1750916832f41cf9f87511296e3aa8d75d813884 assets/elementus/models/item/anthektite_axe.json
 1344df550c4bc0f7e94f2d1cf1f83bc6e514c84f assets/elementus/models/item/anthektite_block.json
 16012a3759abb6d390955761b9b47b27d0a5a186 assets/elementus/models/item/anthektite_boots.json
@@ -896,6 +896,9 @@ b34c595f0717c60b0d5a363e7b13c1ced7f40fa2 assets/elementus/models/item/movcadia_f
 b40a5aa646ffdce5b2b2c50baf28c87440a1a8b1 assets/elementus/models/item/movcadia_log.json
 bafda00dd439e06f7055b72928d121febde60090 assets/elementus/models/item/movcadia_planks.json
 685ac3fc664c90f43c4c4b96c5aac90a1b26edb6 assets/elementus/models/item/movcadia_pressure_plate.json
+1fa8e980545354fda10afdabaa9d0f3c1e129a91 assets/elementus/models/item/movcadia_rooted_deepslate.json
+d82b0a3d072736b115d28e13390ba1900dd157ce assets/elementus/models/item/movcadia_rooted_dirt.json
+5cb4e61913452801da4324c94f2c623c37103e50 assets/elementus/models/item/movcadia_rooted_stone.json
 103882a5ef23bb3300228bb3102eaf001fddbc40 assets/elementus/models/item/movcadia_sapling.json
 5a89359894d06bc72ba0274e9568599b1dda1ff8 assets/elementus/models/item/movcadia_sign.json
 3515b56f083e23b07cf1c971cf2f340335523550 assets/elementus/models/item/movcadia_slab.json

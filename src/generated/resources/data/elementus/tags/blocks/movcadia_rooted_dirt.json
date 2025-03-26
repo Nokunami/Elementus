@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:dirt",
+    "minecraft:rooted_dirt",
+    "minecraft:grass_block",
+    "minecraft:mycelium",
+    "minecraft:podzol"
+  ]
+}

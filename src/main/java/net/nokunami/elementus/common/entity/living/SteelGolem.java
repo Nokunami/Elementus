@@ -4,10 +4,13 @@ import com.google.common.collect.ImmutableList;
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -27,14 +30,18 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.entity.PartEntity;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.Etags;
@@ -49,15 +56,18 @@ import net.nokunami.elementus.common.registry.ModSoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import static net.nokunami.elementus.Elementus.modLoc;
 import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
 
-public class SteelGolem extends TamableGolem implements NeutralMob {
+@SuppressWarnings("deprecation")
+public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, IForgeShearable {
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
     @javax.annotation.Nullable
@@ -70,7 +80,9 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
     private static final EntityDataAccessor<Boolean> DATA_AGGRO_ID = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> DATA_CHASSIS_ID = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_ATTACK_TYPE = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<ItemStack> DATA_LEAVES_DECO_ID = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<Integer> DATA_MOSS_TIMER = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_MOSS_STAGE = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<ItemStack> DATA_LEAVES_ID = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<ItemStack> DATA_SADDLE_ID = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<ItemStack> DATA_CARPET_ID = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.ITEM_STACK);
     public final AnimationState attackStartAnimState = new AnimationState();
@@ -136,8 +148,17 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
         }
 
         if (this.isInSittingPose()) {
+            if (this.getMossStage() < 3) this.setMossTimer(getMossTimer() + 1);
             this.setPose(Pose.CROUCHING);
-        } else this.setPose(Pose.STANDING);
+        } else {
+            this.setPose(Pose.STANDING);
+            this.setMossTimer(0);
+        }
+
+        if (this.getMossTimer() > 144000) {
+            this.setMossStage(this.getMossStage() + 1);
+            this.setMossTimer(0);
+        }
     }
 
     private void setupAnim() {
@@ -191,12 +212,14 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
         this.entityData.define(DATA_FLAGS_ID, (byte)0);
         this.entityData.define(DATA_ATTACKING_ID, false);
         this.entityData.define(DATA_CHASSIS_ID, 5);
-        this.getEntityData().define(DATA_LEAVES_DECO_ID, ItemStack.EMPTY);
+        this.getEntityData().define(DATA_LEAVES_ID, ItemStack.EMPTY);
         this.getEntityData().define(DATA_SADDLE_ID, ItemStack.EMPTY);
         this.getEntityData().define(DATA_CARPET_ID, ItemStack.EMPTY);
         this.entityData.define(DATA_CHASSIS_STATUS_ID, false);
         this.entityData.define(DATA_AGGRO_ID, true);
         this.entityData.define(DATA_ATTACK_TYPE, 0);
+        this.entityData.define(DATA_MOSS_TIMER, 0);
+        this.entityData.define(DATA_MOSS_STAGE, 0);
     }
 
     //Unused for now
@@ -232,6 +255,8 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
         this.setChassisState(tag.getBoolean("ChassisState"));
         this.setAggroState(tag.getBoolean("AggroState"));
         this.setAttackAnimType(tag.getInt("AttackType"));
+        this.setMossTimer(tag.getInt("MossTimer"));
+        this.setMossStage(tag.getInt("MossStage"));
     }
 
     //Saving to file
@@ -239,8 +264,8 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("PlayerCreated", this.isPlayerCreated());
         this.addPersistentAngerSaveData(tag);
-        if (!this.getLeavesDecoration().isEmpty()) {
-            tag.put("LeavesDecoration", this.getLeavesDecoration().save(new CompoundTag()));
+        if (!this.getLeaves().isEmpty()) {
+            tag.put("LeavesDecoration", this.getLeaves().save(new CompoundTag()));
         }
         if (!this.getSaddle().isEmpty()) {
             tag.put("Saddle", this.getSaddle().save(new CompoundTag()));
@@ -252,6 +277,8 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
         tag.putBoolean("ChassisState", this.getChassisState());
         tag.putBoolean("AggroState", this.getAggroState());
         tag.putInt("AttackType", this.getAttackAnimType());
+        tag.putInt("MossTimer", this.getMossTimer());
+        tag.putInt("MossStage", this.getMossStage());
     }
 
     @Override
@@ -344,35 +371,34 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
     }
 
     public boolean isChassisCompromised() {
-        if (!this.isPlayerCreated() && this.getHealth() <= 0) {
-            return true;
-        } else if (this.getChassisHealth() >= 1 && this.getHealth() <= 0) {
-            this.setChassisState(true);
-            this.setChassisHealth(this.getChassisHealth() - 1);
-            this.setHealth(1);
-            this.stopBeingAngry();
-            this.ejectPassengers();
-            this.playSound(ModSoundEvents.STEEL_GOLEM_DOWN.get(), 1, 1);
-            return false;
-        } else return this.getChassisHealth() <= 0;
+        if (this.getHealth() <= 0) {
+            if (this.isPlayerCreated()) {
+                if (this.getChassisHealth() > 1) {
+                    this.setChassisState(true);
+                    this.setChassisHealth(this.getChassisHealth() - 1);
+                    this.setHealth(1);
+                    return false;
+                } else return true;
+            } else return true;
+        } else return false;
     }
 
-    public ItemStack getLeavesDecoration() {
-        return this.getEntityData().get(DATA_LEAVES_DECO_ID);
+    public ItemStack getLeaves() {
+        return this.getEntityData().get(DATA_LEAVES_ID);
     }
 
     public void setLeavesDeco(ItemStack itemStack) {
         if (!itemStack.isEmpty()) itemStack = itemStack.copyWithCount(1); this.playSound(SoundEvents.AZALEA_LEAVES_PLACE, 1, 1);
-        this.getEntityData().set(DATA_LEAVES_DECO_ID, itemStack);
+        this.getEntityData().set(DATA_LEAVES_ID, itemStack);
     }
 
-    private void dropLeavesDeco(ItemStack itemStack, Player player) {
+    private void dropLeaves(ItemStack itemStack, Player player) {
         this.playSound(SoundEvents.AZALEA_BREAK);
         if (!player.getAbilities().instabuild) this.spawnAtLocation(itemStack);
     }
 
     public String getLeavesName() {
-        return this.getLeavesDecoration().getItem().toString();
+        return this.getLeaves().getItem().toString();
     }
 
     public void setAggroState(boolean state) {
@@ -411,7 +437,7 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
     public void setCarpet(ItemStack itemStack) {
         if (!itemStack.isEmpty()) {
             itemStack = itemStack.copyWithCount(1);
-            this.playSound(SoundEvents.ITEM_FRAME_PLACE);
+            this.playSound(SoundEvents.WOOL_PLACE);
         }
         this.getEntityData().set(DATA_CARPET_ID, itemStack);
     }
@@ -429,11 +455,27 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
         return this.getCarpet().getItem().toString();
     }
 
+    public int getMossTimer() {
+        return this.entityData.get(DATA_MOSS_TIMER);
+    }
+
+    public void setMossTimer(int ticks) {
+        this.entityData.set(DATA_MOSS_TIMER, ticks);
+    }
+
+    public int getMossStage() {
+        return this.entityData.get(DATA_MOSS_STAGE);
+    }
+
+    public void setMossStage(int stage) {
+        this.entityData.set(DATA_MOSS_STAGE, stage);
+    }
+
     @Override
     public boolean isInvulnerableTo(DamageSource pSource) {
         if (pSource.is(Etags.DamageTypes.STEEL_GOLEM_IMMUNE) && !pSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return true;
-        } else if (getChassisState()) {
+        } else if (getChassisState() && this.getChassisHealth() != 0) {
             return true;
         }
         return super.isInvulnerableTo(pSource);
@@ -557,23 +599,21 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
     }
 
     @Override
-    public boolean isDeadOrDying() {
-//        return this.isChassisCompromised();
-        return super.isDeadOrDying();
-    }
-
-    @Override
     public void die(@NotNull DamageSource pCause) {
         if (!this.isChassisCompromised()) {
             this.dead = false;
+            if (!this.level().isClientSide && this.level().getGameRules().getBoolean(GameRules.RULE_SHOWDEATHMESSAGES) && this.getOwner() instanceof ServerPlayer) {
+                this.getOwner().sendSystemMessage(Component.translatable("entity.elementus.steel_golem_down", this.getChassisHealth()));
+            }
         } else super.die(pCause);
+        this.stopBeingAngry();
+        this.ejectPassengers();
     }
 
     @Override
     public boolean isAffectedByPotions() {
         return !this.getChassisState() && super.isAffectedByPotions();
     }
-
 
     @Override
     public boolean attackable() {
@@ -620,7 +660,8 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
                         healGolem(player, hand);
                         return InteractionResult.SUCCESS;
                     }
-                }if (flag && aggroItem) {
+                }
+                if (flag && aggroItem) {
                     this.navigation.stop();
                     this.setAggroState(!this.getAggroState());
                     this.setTarget(null);
@@ -636,13 +677,19 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
                 this.getNavigation().stop();
                 return InteractionResult.SUCCESS;
             }
-            if (this.getLeavesDecoration().isEmpty() && leaves) {
+            if (this.getMossStage() > 0 && this.readyForShearing()) {
+                this.shear(SoundSource.PLAYERS);
+                this.gameEvent(GameEvent.SHEAR, player);
+                itemStack.hurtAndBreak(1, player, (item) -> item.broadcastBreakEvent(hand));
+                return InteractionResult.SUCCESS;
+            }
+            if (this.getLeaves().isEmpty() && leaves) {
                 this.setLeavesDeco(itemStack);
                 if (!instaBuild) itemStack.shrink(1);
                 this.navigation.stop();
                 return InteractionResult.SUCCESS;
-            } else if (!this.getLeavesDecoration().isEmpty() && shearsItem) {
-                this.dropLeavesDeco(this.getLeavesDecoration(), player);
+            } else if (!this.getLeaves().isEmpty() && shearsItem) {
+                this.dropLeaves(this.getLeaves(), player);
                 this.setLeavesDeco(ItemStack.EMPTY);
                 this.navigation.stop();
                 return InteractionResult.SUCCESS;
@@ -678,6 +725,7 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
         } else
         return super.mobInteract(player, hand);
     }
+
     public void sitOrder() {
         this.setOrderedToSit(!this.isOrderedToSit());
         this.setPose(Pose.CROUCHING);
@@ -713,6 +761,20 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
     }
 
     @Override
+    protected @NotNull ResourceLocation getDefaultLootTable() {
+        if (this.getMossStage() == 0) {
+            return this.getType().getDefaultLootTable();
+        } else {
+            return switch (this.getMossStage()) {
+                case 1 -> modLoc("entities/steel_golem/moss_1");
+                case 2 -> modLoc("entities/steel_golem/moss_2");
+                case 3 -> modLoc("entities/steel_golem/moss_3");
+                default -> throw new IncompatibleClassChangeError();
+            };
+        }
+    }
+
+    @Override
     public boolean skipAttackInteraction(@NotNull Entity pEntity) {
         return this.isVehicle();
     }
@@ -738,7 +800,7 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
     @Override
     protected void dropCustomDeathLoot(@NotNull DamageSource pSource, int pLooting, boolean pRecentlyHit) {
         super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
-        ItemStack leaves = this.getLeavesDecoration();
+        ItemStack leaves = this.getLeaves();
         ItemStack saddle = this.getSaddle();
         ItemStack carpet = this.getCarpet();
         if (leaves != null) this.spawnAtLocation(leaves);
@@ -776,6 +838,46 @@ public class SteelGolem extends TamableGolem implements NeutralMob {
     @Override
     public boolean isSaddled() {
         return !this.getSaddle().isEmpty();
+    }
+
+    @Override
+    public boolean isShearable(@NotNull ItemStack item, Level level, BlockPos pos) {
+        return this.getMossStage() > 0 && !this.isChassisCompromised();
+    }
+
+    @Override
+    public @NotNull List<ItemStack> onSheared(@Nullable Player player, @NotNull ItemStack item, Level level, BlockPos pos, int fortune) {
+        level.playSound(null, this, SoundEvents.MOSS_BREAK, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
+        this.gameEvent(GameEvent.SHEAR, player);
+        if (!level.isClientSide) {
+            int i = 1 + this.random.nextInt(3);
+
+            List<ItemStack> items = new ArrayList<>();
+            for (int j = 0; j < i; ++j) {
+                items.add(new ItemStack(Items.MOSS_BLOCK));
+            }
+            return items;
+        }
+        return java.util.Collections.emptyList();
+    }
+
+    @Override
+    public void shear(@NotNull SoundSource pSource) {
+        this.level().playSound(null, this, SoundEvents.SHEEP_SHEAR, pSource, 1.0F, 1.0F);
+        this.setMossStage(this.getMossStage() - 1);
+        int i = 1 + this.random.nextInt(3);
+
+        for(int j = 0; j < i; ++j) {
+            ItemEntity itementity = this.spawnAtLocation(new ItemStack(Items.MOSS_BLOCK));
+            if (itementity != null) {
+                itementity.setDeltaMovement(itementity.getDeltaMovement().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
+            }
+        }
+    }
+
+    @Override
+    public boolean readyForShearing() {
+        return this.getMossStage() > 0 && !this.isChassisCompromised();
     }
 
     //Golem Details

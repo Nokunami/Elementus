@@ -1,4 +1,4 @@
-package net.nokunami.elementus.client.render;
+package net.nokunami.elementus.client.render.entity.steelGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -37,7 +37,7 @@ public class SteelGolemLeavesLayer extends RenderLayer<SteelGolem, SteelGolemMod
     public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, SteelGolem pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         int fullBright = 15728880;
         if (!pLivingEntity.isInvisible()) {
-            if (!pLivingEntity.getLeavesDecoration().isEmpty()) {
+            if (!pLivingEntity.getLeaves().isEmpty()) {
                 ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/leaves/steel_golem_" + pLivingEntity.getLeavesName() + ".png");
                 VertexConsumer vertexconsumer = pBuffer.getBuffer(RenderType.entityCutoutNoCull(resourcelocation));
                 this.getParentModel().copyPropertiesTo(this.model1);

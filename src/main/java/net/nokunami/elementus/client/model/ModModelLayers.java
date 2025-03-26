@@ -20,6 +20,7 @@ import net.nokunami.elementus.client.model.armor.sniffsWeapons.HornedArmorModel;
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.SamuraiArmorModel;
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.StylishArmorModel;
 import net.nokunami.elementus.client.model.mob.*;
+import net.nokunami.elementus.client.model.projectile.AnthektiteSlashModel;
 
 @OnlyIn(Dist.CLIENT)
 public class ModModelLayers {
@@ -60,6 +61,8 @@ public class ModModelLayers {
 
     public static final ModelLayerLocation STEEL_GOLEM = new ModelLayerLocation(
             new ResourceLocation(Elementus.MODID, "steel_golem"), "main");
+    public static final ModelLayerLocation STEEL_GOLEM_CARPET = new ModelLayerLocation(
+            new ResourceLocation(Elementus.MODID, "steel_golem_carpet"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_EXTRA_1 = new ModelLayerLocation(
             new ResourceLocation(Elementus.MODID, "steel_golem_extra_1"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_EXTRA_1S = new ModelLayerLocation(
@@ -74,6 +77,9 @@ public class ModModelLayers {
             new ResourceLocation(Elementus.MODID, "steel_golem_extra_3s"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_SADDLE = new ModelLayerLocation(
             new ResourceLocation(Elementus.MODID, "steel_golem_saddle"), "main");
+
+    public static final ModelLayerLocation ANTHEKTITE_SLASH = new ModelLayerLocation(
+            new ResourceLocation(Elementus.MODID, "anthektite_slash"), "main");
 
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -102,6 +108,7 @@ public class ModModelLayers {
         event.registerLayerDefinition(MOVCADIA_CHEST_BOAT_LAYER, ChestBoatModel::createBodyModel);
 
         event.registerLayerDefinition(STEEL_GOLEM, SteelGolemModel::createBodyLayer);
+        event.registerLayerDefinition(STEEL_GOLEM_CARPET, SteelGolemModel::createBodyCarpetLayer);
         event.registerLayerDefinition(STEEL_GOLEM_EXTRA_1, () -> SteelGolemExtraLayer1.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(STEEL_GOLEM_EXTRA_1S, () -> SteelGolemExtraLayer1.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(STEEL_GOLEM_EXTRA_2, () -> SteelGolemExtraLayer2.createBodyLayer(new CubeDeformation(0.0F)));
@@ -109,6 +116,8 @@ public class ModModelLayers {
         event.registerLayerDefinition(STEEL_GOLEM_EXTRA_3, () -> SteelGolemExtraLayer3.createBodyLayer(new CubeDeformation(0.0F)));
         event.registerLayerDefinition(STEEL_GOLEM_EXTRA_3S, () -> SteelGolemExtraLayer3.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(STEEL_GOLEM_SADDLE, SteelGolemSaddleModel::createSaddleLayer);
+
+        event.registerLayerDefinition(ANTHEKTITE_SLASH, AnthektiteSlashModel::createLayer);
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {

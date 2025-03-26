@@ -44,13 +44,14 @@ import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.registry.ModBlocks;
 import net.nokunami.elementus.common.registry.ModEnchantments;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import static net.nokunami.elementus.ModChecker.*;
-import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
+import static net.nokunami.elementus.ModChecker.cataclysm;
+import static net.nokunami.elementus.common.item.CatalystItemUtil.cursium;
+import static net.nokunami.elementus.common.item.CatalystItemUtil.ignitium;
 import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
 
 @Mod.EventBusSubscriber(modid = Elementus.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -237,24 +238,4 @@ public class ModServerEvents {
             }
         }
     }
-
-//    @SubscribeEvent
-//    public void test(LivingHurtEvent event) {
-////        Entity attacker = event.getSource().getEntity().ite;
-////        DamageSource source = event.getSource();
-////        Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(stack);
-////        boolean enchantment = map.containsKey(ModEnchantments.ARCANE_SHARPNESS.get());
-////        float damage = (float) (stack.getEnchantmentValue()* ModConfig.COMMON.arcaneSharpnessPercent.get());
-////        if (enchantment/* && source.is(DamageTypes.MAGIC)*/) {
-////            Elementus.LOGGER.debug("ye");
-////            float normalDamage = event.getAmount();
-////            event.setAmount(normalDamage + damage);
-////        }
-////        DamageSource source = event.getSource();
-////        ItemStack itemStack = event.getEntity().getMainHandItem();
-////        int i = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.ARCANE_SHARPNESS.get(), itemStack);
-////        if (i > 0) {
-////            Elementus.LOGGER.debug("ye");
-////        }
-//    }
 }

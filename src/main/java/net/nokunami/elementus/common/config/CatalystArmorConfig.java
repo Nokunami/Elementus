@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -20,17 +21,17 @@ import static net.nokunami.elementus.Elementus.CONFIG_VERSION;
 public class CatalystArmorConfig {
     private static final Logger logger = Elementus.LOGGER;
     public static final CatalystArmorConfig INSTANCE = new CatalystArmorConfig();
-    //    public static final String VERSION = "${mod_version}";
+    private static final Path CONFIG_PATH = Elementus.CATALYST_CONFIG_PATH;
     public static final ComparableVersion VERSION = new ComparableVersion(CONFIG_VERSION);
     // values exposed to other classes
     //Armor
     public static int Durability;
     public static int Enchantability;
     public static int Armor;
-    public static float Toughness;
-    public static float KnockbackResist;
-    public static float AttackSpeed;
-    public static float MovementSpeed;
+    public static double Toughness;
+    public static double KnockbackResist;
+    public static double AttackSpeed;
+    public static double MovementSpeed;
 
 
     public static int NSCooldown;
@@ -65,8 +66,8 @@ public class CatalystArmorConfig {
 
     public static int cursium_GhostFormDuration;
     public static int cursium_FireResistDuration;
-    public static float cursium_DodgeChance;
-    public static float cursium_ProjectileDodgeChance;
+    public static double cursium_DodgeChance;
+    public static double cursium_ProjectileDodgeChance;
 
     public static int WNSBaseAmp;
     public static int WNSBoostedAmp;
@@ -89,10 +90,10 @@ public class CatalystArmorConfig {
         Durability = 40;
         Enchantability = 20;
         Armor = 8;
-        Toughness = 4F;
-        KnockbackResist = 0.1F;
-        AttackSpeed = 0.0F;
-        MovementSpeed = 0.0F;
+        Toughness = 4;
+        KnockbackResist = 0.1;
+        AttackSpeed = 0.0;
+        MovementSpeed = 0.0;
 
         NSCooldown = 350;
         NSDuration = 160;
@@ -126,8 +127,8 @@ public class CatalystArmorConfig {
 
         cursium_GhostFormDuration = 100;
         cursium_FireResistDuration = 200;
-        cursium_DodgeChance = 0.08F;
-        cursium_ProjectileDodgeChance = 0.15F;
+        cursium_DodgeChance = 0.08;
+        cursium_ProjectileDodgeChance = 0.15;
 
         WNSBaseAmp = 0;
         WNSBoostedAmp = 1;
@@ -143,7 +144,7 @@ public class CatalystArmorConfig {
     private void load() {
 //        String version = "0";
         ComparableVersion version = new ComparableVersion("0");
-        try (BufferedReader reader = Files.newBufferedReader(Elementus.CATALYST_CONFIG_PATH)) {
+        try (BufferedReader reader = Files.newBufferedReader(CONFIG_PATH)) {
             String line;
             int lineNumber = 0;
             while ((line = reader.readLine()) != null) {
@@ -158,7 +159,7 @@ public class CatalystArmorConfig {
                 line.trim();
                 if (line.isEmpty()) continue;
 
-                String errorPrefix = Elementus.CATALYST_CONFIG_PATH + ": line " + lineNumber + ": ";
+                String errorPrefix = CONFIG_PATH + ": line " + lineNumber + ": ";
                 try (Scanner s = new Scanner(line)) {
                     s.useLocale(Locale.US);
                     s.useDelimiter("\\s*=\\s*");
@@ -188,10 +189,10 @@ public class CatalystArmorConfig {
                         case "Durability": Durability = (int) value; break;
                         case "ArmorProtection": Armor = (int) value; break;
                         case "Enchantability": Enchantability = (int) value; break;
-                        case "ArmorToughness": Toughness = (float) value; break;
-                        case "KnockbackResistance": KnockbackResist = (float) value; break;
-                        case "AttackSpeedBoost": AttackSpeed = (float) value; break;
-                        case "MovementSpeed": MovementSpeed = (float) value; break;
+                        case "ArmorToughness": Toughness = value; break;
+                        case "KnockbackResistance": KnockbackResist = value; break;
+                        case "AttackSpeedBoost": AttackSpeed = value; break;
+                        case "MovementSpeed": MovementSpeed = value; break;
 
                         case "NS.Cooldown": NSCooldown = (int) value; break;
                         case "NS.BoostedDuration": NSDuration = (int) value; break;
@@ -199,8 +200,8 @@ public class CatalystArmorConfig {
                         case "NS.BoostedAmp": NSBoostedAmp = (int) value; break;
                         case "NS.Speed": NSSpeed = (int) value; break;
                         case "NS.Haste": NSHaste = (int) value; break;
-                        case "NS.Resistance": NSResistance = (float) value; break;
-                        case "NS.ResistancePerLv": NSResistAmountPerLevel = (float) value; break;
+                        case "NS.Resistance": NSResistance = value; break;
+                        case "NS.ResistancePerLv": NSResistAmountPerLevel = value; break;
                         case "NS.JumpBoost": NSJumpBoost = (int) value; break;
                         case "NS.Base_Strength": NSAttack = value; break;
 
@@ -225,15 +226,15 @@ public class CatalystArmorConfig {
 
                         case "cursium.GhostFormDuration": cursium_GhostFormDuration = (int) value; break;
                         case "cursium.FireResistDuration": cursium_FireResistDuration = (int) value; break;
-                        case "cursium.DodgeChance": cursium_DodgeChance = (float) value; break;
-                        case "cursium.ProjectileDodgeChance": cursium_ProjectileDodgeChance = (float) value; break;
+                        case "cursium.DodgeChance": cursium_DodgeChance = value; break;
+                        case "cursium.ProjectileDodgeChance": cursium_ProjectileDodgeChance = value; break;
 
                         case "WNS.Amp": WNSBaseAmp = (int) value; break;
                         case "WNS.BoostedAmp": WNSBoostedAmp = (int) value; break;
                         case "WNS.Speed": WNSSpeed = (int) value; break;
                         case "WNS.Haste": WNSHaste = (int) value; break;
-                        case "WNS.Resistance": WNSResistance = (float) value; break;
-                        case "WNS.ResistancePerLv": WNSResistAmountPerLevel = (float) value; break;
+                        case "WNS.Resistance": WNSResistance = value; break;
+                        case "WNS.ResistancePerLv": WNSResistAmountPerLevel = value; break;
                         case "WNS.JumpBoost": WNSJumpBoost = (int) value; break;
                         case "WNS.Base_Strength": WNSAttack = value; break;
 
@@ -251,15 +252,15 @@ public class CatalystArmorConfig {
         }
         // may save twice, but not big deal
         if (version.compareTo(VERSION) < 0) {
-            logger.info("Config version outdated, Updating config \"elementus_armor_config\"!");
+            logger.info("Config version outdated, Updating config \"catalyst_armor_config\"!");
             save();
         }
     }
 
     private void save() {
-        try (BufferedWriter writer = Files.newBufferedWriter(Elementus.CATALYST_CONFIG_PATH)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_PATH)) {
             writer.write("version = " + VERSION + "\n");
-            writer.write("# Note: Restart minecraft to apply changes in config");
+            writer.write("# Note: Restart minecraft to apply changes in config\n");
             writer.write("# Armor Config\n");
             writer.write("# Vanilla Stats for comparison\n");
             writer.write("# Format:\n");
@@ -286,8 +287,9 @@ public class CatalystArmorConfig {
             writer.write("  AttackSpeedBoost = " + AttackSpeed + "\n");
             writer.write("# Default: " + MovementSpeed + "\n");
             writer.write("  MovementSpeed = " + MovementSpeed + "\n");
+            writer.write("\n");
             writer.write("[NetherStar]\n");
-            writer.write("# Default: Cooldown: 350 (20 = 1 second)\n");
+            writer.write("# Cooldown: 350 (20 = 1 second)\n");
             writer.write("# Default: " + NSCooldown + "\n");
             writer.write("  NS.Cooldown = " + NSCooldown + "\n");
             writer.write("# Default: " + NSDuration + "\n");
@@ -308,7 +310,8 @@ public class CatalystArmorConfig {
             writer.write("  NS.JumpBoost = " + NSJumpBoost + "\n");
             writer.write("# Default: " + NSAttack + "\n");
             writer.write("  NS.Strength = " + NSAttack + "\n");
-            writer.write("[Ignitium]\n");
+            writer.write("\n");
+            writer.write("[Cataclysm.Ignitium]\n");
             writer.write("# Default: " + ignitium_HasteAmp + "\n");
             writer.write("  ignitium.HasteAmp = " + ignitium_HasteAmp + "\n");
             writer.write("# Default: " + ignitium_HasteDuration + "\n");
@@ -317,6 +320,7 @@ public class CatalystArmorConfig {
             writer.write("  ignitium.StrengthAmp = " + ignitium_StrengthAmp + "\n");
             writer.write("# Default: " + ignitium_StrengthDuration + "\n");
             writer.write("  ignitium.StrengthDuration = " + ignitium_StrengthDuration + "\n");
+            writer.write("\n");
             writer.write("[Totem]\n");
             writer.write("# Default: " + totem_Cooldown + "(20 = 1 second)\n");
             writer.write("  totem.Cooldown = " + totem_Cooldown + "\n");
@@ -334,7 +338,8 @@ public class CatalystArmorConfig {
             writer.write("  totem.FireResAmp = " + totem_FireResAmp + "\n");
             writer.write("# Default: " + totem_FireResDuration + "\n");
             writer.write("  totem.FireResDuration = " + totem_FireResDuration + "\n");
-            writer.write("[Arcane_Irons_Spells_n_Spellbooks]\n");
+            writer.write("\n");
+            writer.write("[IronsSpellbooks.Arcane]\n");
             writer.write("# Default: " + ISS_MaxMana + "\n");
             writer.write("  ISS.MaxMana = " + ISS_MaxMana + "\n");
             writer.write("# Default: " + ISS_ManaRegen + "\n");
@@ -343,7 +348,8 @@ public class CatalystArmorConfig {
             writer.write("  ISS.SpellPower = " + ISS_SpellPower + "\n");
             writer.write("# Default: " + ISS_SpellResist + "\n");
             writer.write("  ISS.SpellResist = " + ISS_SpellResist + "\n");
-            writer.write("[Cursium]\n");
+            writer.write("\n");
+            writer.write("[Cataclysm.Cursium]\n");
             writer.write("# Default: " + cursium_GhostFormDuration + "\n");
             writer.write("  cursium.GhostFormDuration = " + cursium_GhostFormDuration + "\n");
             writer.write("# Default: " + cursium_FireResistDuration + "\n");
@@ -352,7 +358,8 @@ public class CatalystArmorConfig {
             writer.write("  cursium.DodgeChance = " + cursium_DodgeChance + "\n");
             writer.write("# Default: " + cursium_ProjectileDodgeChance + "\n");
             writer.write("  cursium.ProjectileDodgeChance = " + cursium_ProjectileDodgeChance + "\n");
-            writer.write("[WitheredNetherStar]\n");
+            writer.write("\n");
+            writer.write("[WitherStorm.WitheredNetherStar]\n");
             writer.write("# Cooldown for Nether Star's ability\n");
             writer.write("# Default: " + WNSBaseAmp + "\n");
             writer.write("  WNS.Amp = " + WNSBaseAmp + "\n");

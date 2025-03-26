@@ -11,7 +11,7 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.item.enchantment.ArcaneSharpnessEnchantment;
 import net.nokunami.elementus.common.item.enchantment.ResonanceEnchantment;
 import net.nokunami.elementus.common.item.enchantment.SacrificeCurseEnchantment;
-import net.nokunami.elementus.common.item.enchantment.TestEnchantment;
+import net.nokunami.elementus.common.item.enchantment.CondensedBurstEnchantment;
 
 public class ModEnchantments {
     public static final DeferredRegister<Enchantment> ENCHANTMENT = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Elementus.MODID);
@@ -26,7 +26,7 @@ public class ModEnchantments {
             () -> new ResonanceEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static final RegistryObject<Enchantment> CONDENSED_BURST = ENCHANTMENT.register("condensed_burst",
-            () -> new TestEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+            () -> new CondensedBurstEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static void register(IEventBus eventBus) {
         ENCHANTMENT.register(eventBus);

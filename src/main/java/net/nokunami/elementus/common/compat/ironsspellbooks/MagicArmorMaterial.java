@@ -12,7 +12,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.config.ArmorConfig;
+import net.nokunami.elementus.common.config.ISSConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
@@ -21,31 +21,31 @@ import java.util.function.Supplier;
 
 public enum MagicArmorMaterial implements ArmorMaterial {
 
-    DIARKRITE_MAGE("diarkrite_mage",  ArmorConfig.diarkriteMageArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
-        c.put(ArmorItem.Type.BOOTS, ArmorConfig.diarkriteMageArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ArmorConfig.diarkriteMageArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ArmorConfig.diarkriteMageArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ArmorConfig.diarkriteMageArmor_Helmet);
-    }), ArmorConfig.diarkriteMageArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ArmorConfig.diarkriteMageArmor_Toughness, ArmorConfig.diarkriteMageArmor_KnockbackResistance, () -> Ingredient.of(Etags.Items.REPAIRS_DIARKRITE_MAGE_ARMOR), Map.of(
-            Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ArmorConfig.diarkriteMageArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
-            Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ArmorConfig.diarkriteMageArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.MAX_MANA.get(), new AttributeModifier("Mage Max Mana Modifier", ArmorConfig.diarkriteMageArmor_MaxMana, AttributeModifier.Operation.ADDITION),
-            AttributeRegistry.MANA_REGEN.get(), new AttributeModifier("Mage Mana Regen Modifier", ArmorConfig.diarkriteMageArmor_ManaRegen, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.SPELL_POWER.get(), new AttributeModifier("Mage Spell Power Modifier", ArmorConfig.diarkriteMageArmor_SpellPower, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.SPELL_RESIST.get(), new AttributeModifier("Mage Spell Resist Modifier", ArmorConfig.diarkriteMageArmor_SpellResist, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.COOLDOWN_REDUCTION.get(), new AttributeModifier("Mage Cooldown Reduction Modifier", ArmorConfig.diarkriteMageArmor_Cooldown, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.CAST_TIME_REDUCTION.get(), new AttributeModifier("Mage Cast Time Reduction Modifier", ArmorConfig.diarkriteMageArmor_CastTime, AttributeModifier.Operation.MULTIPLY_BASE))),
+    DIARKRITE_MAGE("diarkrite_mage",  ISSConfig.diarkriteMageArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
+        c.put(ArmorItem.Type.BOOTS, ISSConfig.diarkriteMageArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ISSConfig.diarkriteMageArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ISSConfig.diarkriteMageArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ISSConfig.diarkriteMageArmor_Helmet);
+    }), ISSConfig.diarkriteMageArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
+            (float) ISSConfig.diarkriteMageArmor_Toughness, (float) ISSConfig.diarkriteMageArmor_KnockbackResistance, () -> Ingredient.of(Etags.Items.REPAIRS_DIARKRITE_MAGE_ARMOR), Map.of(
+            Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ISSConfig.diarkriteMageArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
+            Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ISSConfig.diarkriteMageArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.MAX_MANA.get(), new AttributeModifier("Mage Max Mana Modifier", ISSConfig.diarkriteMageArmor_MaxMana, AttributeModifier.Operation.ADDITION),
+            AttributeRegistry.MANA_REGEN.get(), new AttributeModifier("Mage Mana Regen Modifier", ISSConfig.diarkriteMageArmor_ManaRegen, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.SPELL_POWER.get(), new AttributeModifier("Mage Spell Power Modifier", ISSConfig.diarkriteMageArmor_SpellPower, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.SPELL_RESIST.get(), new AttributeModifier("Mage Spell Resist Modifier", ISSConfig.diarkriteMageArmor_SpellResist, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.COOLDOWN_REDUCTION.get(), new AttributeModifier("Mage Cooldown Reduction Modifier", ISSConfig.diarkriteMageArmor_Cooldown, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.CAST_TIME_REDUCTION.get(), new AttributeModifier("Mage Cast Time Reduction Modifier", ISSConfig.diarkriteMageArmor_CastTime, AttributeModifier.Operation.MULTIPLY_BASE))),
 
-    ANTHEKTITE_MAGE("anthektite_mage", ArmorConfig.anthektiteMageArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
-        c.put(ArmorItem.Type.BOOTS, ArmorConfig.anthektiteMageArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ArmorConfig.anthektiteMageArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ArmorConfig.anthektiteMageArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ArmorConfig.anthektiteMageArmor_Helmet);
-    }), ArmorConfig.anthektiteMageArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ArmorConfig.anthektiteMageArmor_Toughness, ArmorConfig.anthektiteMageArmor_KnockbackResistance, () -> Ingredient.of(Etags.Items.REPAIRS_ANTHEKTITE_MAGE_ARMOR), Map.of(
-            Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ArmorConfig.anthektiteMageArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
-            Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ArmorConfig.anthektiteMageArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.MAX_MANA.get(), new AttributeModifier("Mage Max Mana Modifier", ArmorConfig.anthektiteMageArmor_MaxMana, AttributeModifier.Operation.ADDITION),
-            AttributeRegistry.MANA_REGEN.get(), new AttributeModifier("Mage Mana Regen Modifier", ArmorConfig.anthektiteMageArmor_ManaRegen, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.SPELL_POWER.get(), new AttributeModifier("Mage Spell Power Modifier", ArmorConfig.anthektiteMageArmor_SpellPower, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.SPELL_RESIST.get(), new AttributeModifier("Mage Spell Resist Modifier", ArmorConfig.anthektiteMageArmor_SpellResist, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.COOLDOWN_REDUCTION.get(), new AttributeModifier("Mage Cooldown Reduction Modifier", ArmorConfig.anthektiteMageArmor_Cooldown, AttributeModifier.Operation.MULTIPLY_BASE),
-            AttributeRegistry.CAST_TIME_REDUCTION.get(), new AttributeModifier("Mage Cast Time Reduction Modifier", ArmorConfig.anthektiteMageArmor_CastTime, AttributeModifier.Operation.MULTIPLY_BASE)));
+    ANTHEKTITE_MAGE("anthektite_mage", ISSConfig.anthektiteMageArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
+        c.put(ArmorItem.Type.BOOTS, ISSConfig.anthektiteMageArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ISSConfig.anthektiteMageArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ISSConfig.anthektiteMageArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ISSConfig.anthektiteMageArmor_Helmet);
+    }), ISSConfig.anthektiteMageArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
+            (float) ISSConfig.anthektiteMageArmor_Toughness, (float) ISSConfig.anthektiteMageArmor_KnockbackResistance, () -> Ingredient.of(Etags.Items.REPAIRS_ANTHEKTITE_MAGE_ARMOR), Map.of(
+            Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ISSConfig.anthektiteMageArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
+            Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ISSConfig.anthektiteMageArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.MAX_MANA.get(), new AttributeModifier("Mage Max Mana Modifier", ISSConfig.anthektiteMageArmor_MaxMana, AttributeModifier.Operation.ADDITION),
+            AttributeRegistry.MANA_REGEN.get(), new AttributeModifier("Mage Mana Regen Modifier", ISSConfig.anthektiteMageArmor_ManaRegen, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.SPELL_POWER.get(), new AttributeModifier("Mage Spell Power Modifier", ISSConfig.anthektiteMageArmor_SpellPower, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.SPELL_RESIST.get(), new AttributeModifier("Mage Spell Resist Modifier", ISSConfig.anthektiteMageArmor_SpellResist, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.COOLDOWN_REDUCTION.get(), new AttributeModifier("Mage Cooldown Reduction Modifier", ISSConfig.anthektiteMageArmor_Cooldown, AttributeModifier.Operation.MULTIPLY_BASE),
+            AttributeRegistry.CAST_TIME_REDUCTION.get(), new AttributeModifier("Mage Cast Time Reduction Modifier", ISSConfig.anthektiteMageArmor_CastTime, AttributeModifier.Operation.MULTIPLY_BASE)));
 
 
     private final String name;

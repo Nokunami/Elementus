@@ -1,7 +1,6 @@
 package net.nokunami.elementus.common.block;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -35,7 +34,7 @@ public class MovcadiaSapling extends SaplingBlock implements SimpleWaterloggedBl
 
 
     protected boolean mayPlaceOn(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
-        return super.mayPlaceOn(pState, pLevel, pPos) || pState.is(BlockTags.BASE_STONE_OVERWORLD);
+        return super.mayPlaceOn(pState, pLevel, pPos)/* || pState.is(Etags.Blocks.MOVCADIA_GROWS_ON)*/;
     }
 
     @Nullable

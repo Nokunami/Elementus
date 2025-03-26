@@ -16,12 +16,13 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.resource.PathPackResources;
 import net.nokunami.elementus.client.ClientProxy;
+import net.nokunami.elementus.common.CreativeTabProperties;
 import net.nokunami.elementus.common.config.*;
-import net.nokunami.elementus.event.ModServerEvents;
+import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.*;
 import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
-import net.nokunami.elementus.common.CreativeTabProperties;
 import net.nokunami.elementus.datagen.loot.ModLootModifiers;
+import net.nokunami.elementus.event.ModServerEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,12 +37,23 @@ public class Elementus {
     public static final String MODID = "elementus";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String CONFIG_VERSION = "1.3";
-    public static final Path TIER_CONFIG_PATH = FMLPaths.getOrCreateGameRelativePath(Path.of("config/elementus")).resolve("tier_config.toml");
-    public static final Path ITEM_CONFIG_PATH = FMLPaths.getOrCreateGameRelativePath(Path.of("config/elementus")).resolve("item_config.toml");
-    public static final Path ARMOR_CONFIG_PATH = FMLPaths.getOrCreateGameRelativePath(Path.of("config/elementus")).resolve("armor_config.toml");
-    public static final Path CATALYST_CONFIG_PATH = FMLPaths.getOrCreateGameRelativePath(Path.of("config/elementus")).resolve("catalyst_armor_config.toml");
-    public static final Path ENTITY_CONFIG = FMLPaths.getOrCreateGameRelativePath(Path.of("config/elementus")).resolve("entity_config.toml");
+    public static final Path TIER_CONFIG_PATH = configPath("config/elementus", "tier_config.toml");
+    public static final Path ITEM_CONFIG_PATH = configPath("config/elementus", "item_config.toml");
+    public static final Path ARMOR_CONFIG_PATH = configPath("config/elementus", "armor_config.toml");
+    public static final Path CATALYST_CONFIG_PATH = configPath("config/elementus", "catalyst_armor_config.toml");
+    public static final Path ENTITY_CONFIG = configPath("config/elementus", "entity_config.toml");
+    public static final Path ISS_CONFIG_PATH = configPath("config/elementus/compat", "irons_spellbook_config.toml");
+    public static final Path AE_CONFIG_PATH = configPath("config/elementus/compat", "aether_config.toml");
+    public static final Path SS_CONFIG_PATH = configPath("config/elementus/compat", "simply_sword_config.toml");
+    public static final Path SW_CONFIG_PATH = configPath("config/elementus/compat", "sniff_weapon_config.toml");
+    public static final Path AN_CONFIG_PATH = configPath("config/elementus/compat", "advanced_netherite_config.toml");
+    public static final Path SD_CONFIG_PATH = configPath("config/elementus/compat", "samurai_dynasty_config.toml");
+    public static final Path WS_CONFIG_PATH = configPath("config/elementus/compat", "witherstorm_config.toml");
     public static CommonProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+
+    static Path configPath(String path, String configPath) {
+        return FMLPaths.getOrCreateGameRelativePath(Path.of(path)).resolve(configPath);
+    }
 
     public static ResourceLocation modLoc(String location) {
         return new ResourceLocation(Elementus.MODID, location);
@@ -55,6 +67,13 @@ public class Elementus {
         ArmorConfig.reload();
         CatalystArmorConfig.reload();
         EntityConfig.reload();
+        if (ironsSpellbooks) ISSConfig.reload();
+        if (aether) AEConfig.reload();
+        if (simplySwords) SSConfig.reload();
+        if (sniffsWeapons) SWConfig.reload();
+        if (advancedNetherite) ANConfig.reload();
+        if (samuraiDynasty) SDConfig.reload();
+        if (witherStormMod) WSConfig.reload();
         ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, ModConfig.CLIENT_SPEC, "elementus/client.toml");
         ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, ModConfig.COMMON_SPEC, "elementus/common.toml");
 
@@ -71,12 +90,11 @@ public class Elementus {
 
         MinecraftForge.EVENT_BUS.register(new ModServerEvents());
 
-        if (ModChecker.integrationTab()) {
-            CreativeTabProperties.register(modEventBus);
-        }
+        if (ModChecker.integrationTab()) CreativeTabProperties.register(modEventBus);
 
         modEventBus.addListener(CreativeTabProperties::addCreative);
         modEventBus.addListener(this::addPackFinders);
+        ModNetwork.setup();
     }
 
     public void addPackFinders(AddPackFindersEvent event) {

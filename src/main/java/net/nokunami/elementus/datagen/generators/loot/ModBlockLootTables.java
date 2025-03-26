@@ -54,6 +54,10 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ElementusBlocks.MOVCADIA_WOOD.get());
         this.dropSelf(ElementusBlocks.STRIPPED_MOVCADIA_WOOD.get());
 
+        this.dropSelf(ElementusBlocks.MOVCADIA_ROOTED_DIRT.get());
+        this.dropSelf(ElementusBlocks.MOVCADIA_ROOTED_STONE.get());
+        this.dropSelf(ElementusBlocks.MOVCADIA_ROOTED_DEEPSLATE.get());
+
         this.add(ElementusBlocks.MOVCADIA_LEAVES.get(), block ->
                 createLeavesDrops(block, ElementusBlocks.MOVCADIA_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
         this.add(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get(), block ->

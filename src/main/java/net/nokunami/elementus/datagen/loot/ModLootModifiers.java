@@ -41,8 +41,6 @@ public class ModLootModifiers {
 
     public static void register(IEventBus eventBus) {
         ElementusLootModifiers.register(eventBus);
-        if (advancedNetherite) {
-            ANLootModifiers.register(eventBus);
-        }
+        if (advancedNetherite) ANLootModifiers.register(eventBus);
     }
 }

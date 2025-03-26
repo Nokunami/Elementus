@@ -17,6 +17,10 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_REMNANT_ORE_BURIED = registerKey("add_remnant_ore_buried");
 
     public static final ResourceKey<BiomeModifier> ADD_MOVCADIA_TREE = registerKey("add_movcadia_tree");
+    public static final ResourceKey<BiomeModifier> ADD_MOVCADIA_TALL_TREE = registerKey("add_movcadia_tall_tree");
+    public static final ResourceKey<BiomeModifier> ADD_MOVCADIA_MEGA_TREE = registerKey("add_movcadia_mega_tree");
+
+    public static final ResourceKey<BiomeModifier> ADD_ROOTED_MOVCADIA_TREE = registerKey("add_rooted_movcadia_tree");
 
 
     public static void bootstrap(BootstapContext<BiomeModifier> context) {
@@ -32,13 +36,22 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.REMNANT_ORE_BURIED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
-//        context.register(ADD_MOVCADIA_TREE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-//                biomes.getOrThrow(Tags.Biomes.IS_WASTELAND),
-//                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PINE_PLACED_KEY)),
-//                GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(ADD_MOVCADIA_TREE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.HAS_ANCIENT_CITY),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.MOVCADIA_TREE_KEY)),
+                GenerationStep.Decoration.SURFACE_STRUCTURES));
+        context.register(ADD_MOVCADIA_TALL_TREE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.HAS_ANCIENT_CITY),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.MOVCADIA_TALL_TREE_KEY)),
+                GenerationStep.Decoration.TOP_LAYER_MODIFICATION));
+        context.register(ADD_MOVCADIA_MEGA_TREE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.HAS_ANCIENT_CITY),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.MOVCADIA_MEGA_TREE_KEY)),
+                GenerationStep.Decoration.RAW_GENERATION));
+
+        context.register(ADD_ROOTED_MOVCADIA_TREE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.HAS_ANCIENT_CITY),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ROOTED_MOVCADIA_TREE_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
     }
 

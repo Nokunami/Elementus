@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "elementus:block/natural/movcadia_rooted_deepslate"
+  }
+}

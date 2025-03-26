@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -25,12 +24,10 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -64,41 +61,15 @@ public class DiarkriteChargeBlade extends SwordItem {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
-        if (!betterCombat) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(ATTACK_REACH_UUID, "Weapon modifier", ItemConfig.diarkriteChargeBladeAttackReach, AttributeModifier.Operation.ADDITION));
+        if (!betterCombat) {
+            if (ItemConfig.diarkriteChargeBladeAttackReach != 0) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(ATTACK_REACH_UUID, "Weapon modifier", ItemConfig.diarkriteChargeBladeAttackReach, AttributeModifier.Operation.ADDITION));
+        }
         this.defaultModifiers = builder.build();
     }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
-    }
-
-    @Override
-    public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
-        int i = getLoadingTicks(stack);
-        handleTicking(stack, entity.level());
-        if (i != getLoadingTicks(stack)) {
-            ItemStack cloneStack = stack.copy();
-            entity.setItem(cloneStack);
-        }
-        return super.onEntityItemUpdate(stack, entity);
-    }
-
-    protected static void handleTicking(ItemStack itemStack, Level level) {
-        if (!level.isClientSide) {
-            int i = getLoadingTicks(itemStack);
-            ++i;
-            setLoadingTicks(itemStack, i);
-        }
-    }
-
-    public static int getLoadingTicks(ItemStack pCrossbowStack) {
-        CompoundTag compoundtag = pCrossbowStack.getTag();
-        return compoundtag != null ? compoundtag.getInt("LoadingTimestamp") : 0;
-    }
-
-    public static void setLoadingTicks(ItemStack pCrossbowStack, int timestamp) {
-        pCrossbowStack.getOrCreateTag().putInt("LoadingTimestamp", timestamp);
     }
 
     @Override
@@ -191,27 +162,17 @@ public class DiarkriteChargeBlade extends SwordItem {
             if (enchanted(stack, 1)) tooltip.add(Component.translatable(" -40% ").append(Component.translatable("enchantment.elementus.condensed_burst")).withStyle(ChatFormatting.AQUA));
         }
         tooltip.add(Component.translatable("item.elementus.diarkrite_charge_blade.friendly_fire_desc",
-                String.valueOf(getFriendlyFire(stack)).toUpperCase(Locale.ROOT)).withStyle(ChatFormatting.GRAY));
+                String.valueOf(getFriendlyFire(stack))).withStyle(ChatFormatting.GRAY));
         if (stack.isEnchanted()) tooltip.add(CommonComponents.EMPTY);
-    }
-
-    @Override
-    public boolean isEnchantable(@NotNull ItemStack pStack) {
-        return super.isEnchantable(pStack);
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment) && enchantment.category.canEnchant(Items.NETHERITE_SWORD);
     }
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack stack, LivingEntity target, @NotNull LivingEntity attacker) {
         if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !enchanted(stack, 0)) {
             setCharge(stack, getCharge(stack) < getMaxCharge(stack) ? getCharge(stack) + 1 : getCharge(stack));
-            if (getChargedState(stack)) {
-                player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP);
-                attacker.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP);
+            ServerLevel level = (ServerLevel)attacker.level();
+            if (!attacker.level().isClientSide && getChargedState(stack)) {
+                level.playSound(null, target, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 0);
             }
         }
         return super.hurtEnemy(stack, target, attacker);
@@ -260,6 +221,7 @@ public class DiarkriteChargeBlade extends SwordItem {
     public boolean overrideOtherStackedOnMe(@NotNull ItemStack stack, ItemStack otherStack, @NotNull Slot slot, @NotNull ClickAction action, @NotNull Player player, @NotNull SlotAccess access) {
         if (otherStack.isEmpty() && Screen.hasAltDown()) {
             setFriendlyFire(stack, !getFriendlyFire(stack));
+            player.playSound(SoundEvents.ENDER_EYE_DEATH);
             return true;
         }
         return super.overrideOtherStackedOnMe(stack, otherStack, slot, action, player, access);

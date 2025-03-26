@@ -225,6 +225,7 @@ public class CreativeTabProperties {
             putAfter(entries, Items.FLOWERING_AZALEA_LEAVES, ElementusItems.MOVCADIA_LEAVES);
             putAfter(entries, ElementusItems.MOVCADIA_LEAVES, ElementusItems.FLOWERING_MOVCADIA_LEAVES);
             putAfter(entries, Items.FLOWERING_AZALEA, ElementusItems.MOVCADIA_SAPLING);
+            putAfter(entries, Items.ROOTED_DIRT, ElementusItems.MOVCADIA_ROOTED_DIRT);
         }
         if (tab == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
             putAfter(entries, Items.CHEST, ElementusItems.MOVCADIA_CHEST);
