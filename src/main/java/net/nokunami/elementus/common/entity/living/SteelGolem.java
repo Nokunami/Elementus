@@ -677,7 +677,7 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
                 this.getNavigation().stop();
                 return InteractionResult.SUCCESS;
             }
-            if (this.getMossStage() > 0 && this.readyForShearing()) {
+            if (this.getMossStage() > 0 && this.readyForShearing() && shearsItem) {
                 this.shear(SoundSource.PLAYERS);
                 this.gameEvent(GameEvent.SHEAR, player);
                 itemStack.hurtAndBreak(1, player, (item) -> item.broadcastBreakEvent(hand));

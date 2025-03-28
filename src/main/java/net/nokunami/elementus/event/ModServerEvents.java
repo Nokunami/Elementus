@@ -238,4 +238,22 @@ public class ModServerEvents {
             }
         }
     }
+
+//    @SubscribeEvent
+//    public void LivingTick(LivingEvent.LivingTickEvent event) {
+//        LivingEntity entity = event.getEntity();
+//        Level world = entity.getCommandSenderWorld();
+//        for (EquipmentSlot slot : EquipmentSlot.values()) {
+//            ItemStack stack = entity.getItemBySlot(slot);
+//            boolean emptyItem = stack.isEmpty();
+//            int currentCharge = stack.getOrCreateTag().getInt("Charge");
+//            boolean chargedState = currentCharge < getMaxCharge(stack);
+//            boolean startResonance = currentCharge > 2;
+//            int level = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.RESONANCE.get(), stack);
+//            if (!emptyItem && stack.getItem() instanceof DiarkriteChargeBlade && level > 0 && entity instanceof Player player
+//                    && chargedState && startResonance && !player.isUsingItem() && world.getGameTime() % 100 == 0) {
+//                setCharge(stack, getCharge(stack) + 1);
+//            }
+//        }
+//    }
 }

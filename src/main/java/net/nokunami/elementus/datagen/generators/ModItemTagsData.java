@@ -147,6 +147,8 @@ public class ModItemTagsData extends ItemTagsProvider {
 
         tag(ItemTags.TRIM_MATERIALS).add(ElementusItems.STEEL_INGOT.get(), ElementusItems.DIARKRITE_INGOT.get(), ElementusItems.ANTHEKTITE_INGOT.get());
 
+        tag(ItemTags.LOGS).addTag(Etags.Items.MOVCADIA_LOGS);
+
         tag(ItemTags.PLANKS).add(ElementusItems.MOVCADIA_PLANKS.get());
 
         tag(ItemTags.STAIRS).add(ElementusItems.MOVCADIA_STAIRS.get());

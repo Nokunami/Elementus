@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -189,7 +190,8 @@ public class DiarkriteChargeBlade extends SwordItem {
     }
 
     public static int getCharge(ItemStack stack) {
-        return stack.getOrCreateTag().getInt(CHARGE_TAG);
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getInt(CHARGE_TAG) : 0;
     }
 
     public boolean getChargedState(ItemStack stack) {
@@ -197,8 +199,9 @@ public class DiarkriteChargeBlade extends SwordItem {
     }
 
     public static int getMaxCharge(ItemStack itemStack) {
-        int i = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.BLOCK_FORTUNE, itemStack);
-        return i > 0 ? 8 : 7;
+//        int i = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.BLOCK_FORTUNE, itemStack);
+//        return i > 0 ? 8 : 7;
+        return 7;
     }
 
     public static float getChargeAmount(ItemStack stack) {

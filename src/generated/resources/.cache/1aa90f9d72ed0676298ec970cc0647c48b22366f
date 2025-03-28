@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-21T18:57:11.0650239	Tags for minecraft:item mod id elementus
+// 1.20.1	2025-03-29T00:53:07.3860309	Tags for minecraft:item mod id elementus
 cac5872e21530608e5d2e90870aa2bd2dd81e79f data/advancednetherite/tags/items/tiers/armor/netherite_diamond.json
 cf5521e0ff2ae8fff77c03f8d113b19f98ca46f3 data/advancednetherite/tags/items/tiers/armor/netherite_emerald.json
 43169b0f71f687059baab4dbc1de3c31fccd80e6 data/advancednetherite/tags/items/tiers/armor/netherite_gold.json
@@ -70,6 +70,7 @@ ef389d143415ffcdcafe5729d545412f49281456 data/minecraft/tags/items/fox_food.json
 c62bdec374c982caa72eafa4bdecc7135c61c981 data/minecraft/tags/items/hanging_signs.json
 15ad02843e7678bcb58214b6c016ccf842773e47 data/minecraft/tags/items/hoes.json
 c09439b4ce7b00470ecb0d9d0f03103c4c9a604a data/minecraft/tags/items/leaves.json
+15c4717e8b9fc91fa5b27c5f4e33f7283d265f6a data/minecraft/tags/items/logs.json
 2280b9fd95a3c44efe7ee179d0f1786cce915792 data/minecraft/tags/items/non_flammable_wood.json
 f04d87b7c28da0b9d5ba5c7cba7fe2ce9205ddc5 data/minecraft/tags/items/pickaxes.json
 d5c159baadc7d8a1fcaa32824cb3efb59fc3f474 data/minecraft/tags/items/planks.json
