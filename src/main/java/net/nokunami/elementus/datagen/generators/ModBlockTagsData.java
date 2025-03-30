@@ -3,7 +3,6 @@ package net.nokunami.elementus.datagen.generators;
 import com.aetherteam.aether.AetherTags;
 import com.ninni.twigs.TwigsTags;
 import io.redspace.ironsspellbooks.util.ModTags;
-import moze_intel.projecte.gameObjs.PETags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +13,8 @@ import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.registry.ModBlocks.*;
+import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
+import net.nokunami.elementus.common.registry.ModBlocks.TwigsBlocks;
 import nonamecrackers2.witherstormmod.common.tags.WitherStormModBlockTags;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,7 +52,7 @@ public class ModBlockTagsData extends BlockTagsProvider {
                 .addOptional(modLoc("movcadia_cabinet")).addOptional(modLoc("movcadia_table"));
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ElementusBlocks.STEEL_BLOCK.get(), ElementusBlocks.ANTHEKTITE_BLOCK.get(), ElementusBlocks.DIARKRITE_BLOCK.get(), ElementusBlocks.REMNANT.get(),
-                        ElementusBlocks.STEEL_TILES.get(), ElementusBlocks.STEEL_TILE_STAIR.get(), ElementusBlocks.STEEL_TILE_SLAB.get())
+                        ElementusBlocks.STEEL_BARS.get(), ElementusBlocks.STEEL_TILES.get(), ElementusBlocks.STEEL_TILE_STAIR.get(), ElementusBlocks.STEEL_TILE_SLAB.get())
                 .addOptional(modLoc("diarkrite_iron_block")).addOptional(modLoc("diarkrite_gold_block"))
                 .addOptional(modLoc("diarkrite_emerald_block")).addOptional(modLoc("diarkrite_diamond_block"))
 
@@ -79,8 +79,8 @@ public class ModBlockTagsData extends BlockTagsProvider {
 
         tag(BlockTags.OVERWORLD_NATURAL_LOGS).add(ElementusBlocks.MOVCADIA_LOG.get());
 
-        tag(Etags.Blocks.MOVCADIA_LOGS).add(ElementusBlocks.MOVCADIA_LOG.get(), ElementusBlocks.STRIPPED_MOVCADIA_LOG.get())
-                .add(ElementusBlocks.MOVCADIA_WOOD.get(), ElementusBlocks.STRIPPED_MOVCADIA_WOOD.get());
+        //Leaves
+        tag(BlockTags.LEAVES).add(ElementusBlocks.MOVCADIA_LEAVES.get(), ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get());
 
         //Planks
         tag(BlockTags.PLANKS).add(ElementusBlocks.MOVCADIA_PLANKS.get());
@@ -175,8 +175,8 @@ public class ModBlockTagsData extends BlockTagsProvider {
     }
 
     private void elementusTags() {
-        tag(Etags.Blocks.MOVCADIA_LOGS).add(ElementusBlocks.MOVCADIA_LOG.get()).add(ElementusBlocks.STRIPPED_MOVCADIA_LOG.get())
-                .add(ElementusBlocks.MOVCADIA_WOOD.get()).add(ElementusBlocks.STRIPPED_MOVCADIA_WOOD.get());
+        tag(Etags.Blocks.MOVCADIA_LOGS).add(ElementusBlocks.MOVCADIA_LOG.get(), ElementusBlocks.STRIPPED_MOVCADIA_LOG.get())
+                .add(ElementusBlocks.MOVCADIA_WOOD.get(), ElementusBlocks.STRIPPED_MOVCADIA_WOOD.get());
 
         tag(Etags.Blocks.DIARKRITE_EFFICIENT).addTag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .addOptionalTag(new ResourceLocation("forge", "needs_netherite_tools"));
@@ -191,21 +191,16 @@ public class ModBlockTagsData extends BlockTagsProvider {
 
     private void modCompatibilityTags() {
         if (aether) {
-            tag(AetherTags.Blocks.GRAVITITE_ABILITY_BLACKLIST).add(ElementusBlocks.MOVCADIA_FENCE_GATE.get(),
-                    ElementusBlocks.MOVCADIA_TRAPDOOR.get(), ElementusBlocks.MOVCADIA_PRESSURE_PLATE.get(),
-                    ElementusBlocks.MOVCADIA_BUTTON.get());
-            tag(AetherTags.Blocks.NON_BRONZE_DUNGEON_REPLACEABLE).add(ElementusBlocks.MOVCADIA_CHEST.get());
+            tag(AetherTags.Blocks.GRAVITITE_ABILITY_BLACKLIST).addOptional(ElementusBlocks.MOVCADIA_FENCE_GATE.getId())
+                    .addOptional(ElementusBlocks.MOVCADIA_TRAPDOOR.getId())
+                    .addOptional(ElementusBlocks.MOVCADIA_PRESSURE_PLATE.getId())
+                    .addOptional(ElementusBlocks.MOVCADIA_BUTTON.getId());
+            tag(AetherTags.Blocks.NON_BRONZE_DUNGEON_REPLACEABLE).addOptional(ElementusBlocks.MOVCADIA_CHEST.getId());
         }
-        if (ironsSpellbooks) tag(ModTags.GUARDED_BY_WIZARDS).add(ElementusBlocks.MOVCADIA_CHEST.get());
-        if (projectE) {
-            tag(PETags.Blocks.MINEABLE_WITH_HAMMER).add(ElementusBlocks.STEEL_TILES.get(), ElementusBlocks.STEEL_TILE_STAIR.get(), ElementusBlocks.STEEL_TILE_SLAB.get());
-            tag(PETags.Blocks.MINEABLE_WITH_KATAR).add(ElementusBlocks.MOVCADIA_LEAVES.get(), ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get());
-            tag(PETags.Blocks.MINEABLE_WITH_MORNING_STAR).add(ElementusBlocks.STEEL_TILES.get(), ElementusBlocks.STEEL_TILE_STAIR.get(), ElementusBlocks.STEEL_TILE_SLAB.get());
-        }
-        if (twigs) tag(TwigsTags.TABLES_BLOCK).addOptional(modLoc("movcadia_table"));
+        if (ironsSpellbooks) tag(ModTags.GUARDED_BY_WIZARDS).addOptional(ElementusBlocks.MOVCADIA_CHEST.getId());
+        if (twigs) tag(TwigsTags.TABLES_BLOCK).addOptional(TwigsBlocks.MOVCADIA_TABLE.getId());
         if (witherStormMod) {
-            tag(WitherStormModBlockTags.NATURE_CLUSTER_WHITELIST).add(ElementusBlocks.MOVCADIA_LEAVES.get(), ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get());
-            tag(WitherStormModBlockTags.SMALL_CLUSTER_BLACKLIST).add(ElementusBlocks.MOVCADIA_LEAVES.get(), ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get());
+            tag(WitherStormModBlockTags.NATURE_CLUSTER_WHITELIST).addOptional(ElementusBlocks.STEEL_BARS.getId()).addOptional(ElementusBlocks.MOVCADIA_LEAVES.getId()).addOptional(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.getId());
         }
     }
 }

@@ -1,5 +1,8 @@
 {
   "values": [
-    "elementus:movcadia_chest"
+    {
+      "id": "elementus:movcadia_chest",
+      "required": false
+    }
   ]
 }

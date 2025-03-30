@@ -1,8 +1,20 @@
 {
   "values": [
-    "elementus:movcadia_fence_gate",
-    "elementus:movcadia_trapdoor",
-    "elementus:movcadia_pressure_plate",
-    "elementus:movcadia_button"
+    {
+      "id": "elementus:movcadia_fence_gate",
+      "required": false
+    },
+    {
+      "id": "elementus:movcadia_trapdoor",
+      "required": false
+    },
+    {
+      "id": "elementus:movcadia_pressure_plate",
+      "required": false
+    },
+    {
+      "id": "elementus:movcadia_button",
+      "required": false
+    }
   ]
 }

@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.resource.PathPackResources;
@@ -94,7 +96,15 @@ public class Elementus {
 
         modEventBus.addListener(CreativeTabProperties::addCreative);
         modEventBus.addListener(this::addPackFinders);
+        modEventBus.addListener(this::commonSetup);
         ModNetwork.setup();
+    }
+
+    public void commonSetup(FMLCommonSetupEvent event) {
+        ComposterBlock.COMPOSTABLES.put(ModItems.ElementusItems.MOVCADIA_BERRIES.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.ElementusItems.MOVCADIA_SAPLING.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.ElementusItems.MOVCADIA_LEAVES.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.ElementusItems.FLOWERING_MOVCADIA_LEAVES.get(), 0.3F);
     }
 
     public void addPackFinders(AddPackFindersEvent event) {

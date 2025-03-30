@@ -1,15 +1,15 @@
 {
   "values": [
     {
-      "id": "elementus:steel_bars",
+      "id": "elementus:steel_bow",
       "required": false
     },
     {
-      "id": "elementus:movcadia_leaves",
+      "id": "elementus:diarkrite_bow",
       "required": false
     },
     {
-      "id": "elementus:flowering_movcadia_leaves",
+      "id": "elementus:anthektite_bow",
       "required": false
     }
   ]

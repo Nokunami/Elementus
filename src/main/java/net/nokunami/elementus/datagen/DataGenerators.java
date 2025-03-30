@@ -38,6 +38,7 @@ public class DataGenerators {
             ModBlockTagsData blockTagGenerator = generator.addProvider(event.includeServer(), new ModBlockTagsData(packOutput, lookupProvider, existingFileHelper));
             generator.addProvider(event.includeServer(), new ModItemTagsData(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
 
+
             if (advancedNetherite) generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(packOutput));
             //generator.addProvider(event.includeServer(), new PoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
 

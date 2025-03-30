@@ -174,7 +174,8 @@
   "effect.elementus.beacon_power": "Beacon Power",
   "effect.elementus.withered_beacon_power": "Withered Beacon Power",
 
-  "entity.elementus.mod_chest_boat": "Boat with Chest",
+  "entity.elementus.movcadia_boat": "Movcadia Boat",
+  "entity.elementus.movcadia_chest_boat": "Movcadia Boat with Chest",
   "entity.elementus.steel_golem": "Steel Golem",
   "entity.elementus.steel_golem_down": "Steel Golem powered down, Current Chassis Health: %s",
 

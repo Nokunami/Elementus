@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-29T00:53:07.3860309	Tags for minecraft:item mod id elementus
+// 1.20.1	2025-03-30T13:04:41.5978921	Tags for minecraft:item mod id elementus
 cac5872e21530608e5d2e90870aa2bd2dd81e79f data/advancednetherite/tags/items/tiers/armor/netherite_diamond.json
 cf5521e0ff2ae8fff77c03f8d113b19f98ca46f3 data/advancednetherite/tags/items/tiers/armor/netherite_emerald.json
 43169b0f71f687059baab4dbc1de3c31fccd80e6 data/advancednetherite/tags/items/tiers/armor/netherite_gold.json
@@ -9,6 +9,8 @@ d3a8654fa3cbc101eec3de07c47d4179b43911b9 data/advancednetherite/tags/items/tiers
 a58f26e0b2f63b6abd7d2853aac8d3f7b74dfa2e data/advancednetherite/tags/items/tiers/tools/netherite_iron.json
 957cc29fa627d528d916721016a2662017f9b968 data/aether/tags/items/accessories_gloves.json
 4837e06bc9c1178a8913cf322a7a1b75aedb135c data/alexscaves/tags/items/ferromagnetic_items.json
+fb6f1b456d2977ffb52f11877debaf7b2dcaabc1 data/archeryexp/tags/items/anti_power_bow.json
+fba9fc2c932835972f16568f291df712b14d24f4 data/create/tags/items/modded_stripped_logs.json
 52048f416d64b3cc62a7e4b692dc39971690e282 data/curios/tags/items/spellbook.json
 1abe9ba869d518ac1307ae79ee14340b16807560 data/elementus/tags/items/catalyst/core.json
 e6a557e0f0c7023bf91eaaf1ba66fadae53fd806 data/elementus/tags/items/catalyst/elytra.json

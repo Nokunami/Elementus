@@ -86,6 +86,8 @@ public class Etags {
 
         public static final TagKey<Item> ANTI_POWER_BOW = modTag(archeryExpID, "anti_power_bow");
 
+        public static final TagKey<Item> CREATE_MOODED_STRIPPED_LOGS = modTag(createID, "modded_stripped_logs");
+
         private static TagKey<Item> forgeTag(String name) {
             return ItemTags.create(new ResourceLocation("forge", name));
         }

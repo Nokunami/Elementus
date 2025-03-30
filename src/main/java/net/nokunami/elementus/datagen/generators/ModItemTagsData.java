@@ -614,7 +614,8 @@ public class ModItemTagsData extends ItemTagsProvider {
 
 
         //Alex's Caves
-        tag(Etags.Items.AC_FERROMAGNETIC)
+        {
+            tag(Etags.Items.AC_FERROMAGNETIC)
                 .addTag(Etags.Items.INGOTS_STEEL).addTag(Etags.Items.INGOTS_DIARKRITE).addTag(Etags.Items.INGOTS_ANTHEKTITE)
                 .addTag(Etags.Items.NUGGETS_STEEL).addTag(Etags.Items.RAW_MATERIALS_STEEL).addTag(Etags.Items.ORES_ATELIS)
                 .addTag(Etags.Items.STORAGE_BLOCK_STEEL).addTag(Etags.Items.STORAGE_BLOCK_DIARKRITE).addTag(Etags.Items.STORAGE_BLOCK_ANTHEKTITE)
@@ -956,27 +957,41 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("steel_claws"))
                 .addOptional(modLoc("diarkrite_claws"))
                 .addOptional(modLoc("anthektite_claws"));
+        }
 
         //Cracker's Witherstorm Mod
-        if (witherStormMod) tag(Etags.Items.COMMAND_BLOCK_TOOLS)
-                .addOptional(modLoc("steel_command_block_sword"))
-                .addOptional(modLoc("steel_command_block_shovel"))
-                .addOptional(modLoc("steel_command_block_pickaxe"))
-                .addOptional(modLoc("steel_command_block_axe"))
-                .addOptional(modLoc("steel_command_block_hoe"))
-                .addOptional(modLoc("diarkrite_command_block_sword"))
-                .addOptional(modLoc("diarkrite_command_block_shovel"))
-                .addOptional(modLoc("diarkrite_command_block_pickaxe"))
-                .addOptional(modLoc("diarkrite_command_block_axe"))
-                .addOptional(modLoc("diarkrite_command_block_hoe"))
-                .addOptional(modLoc("anthektite_command_block_sword"))
-                .addOptional(modLoc("anthektite_command_block_shovel"))
-                .addOptional(modLoc("anthektite_command_block_pickaxe"))
-                .addOptional(modLoc("anthektite_command_block_axe"))
-                .addOptional(modLoc("anthektite_command_block_hoe"));
+        {
+            tag(Etags.Items.COMMAND_BLOCK_TOOLS)
+                    .addOptional(modLoc("steel_command_block_sword"))
+                    .addOptional(modLoc("steel_command_block_shovel"))
+                    .addOptional(modLoc("steel_command_block_pickaxe"))
+                    .addOptional(modLoc("steel_command_block_axe"))
+                    .addOptional(modLoc("steel_command_block_hoe"))
+                    .addOptional(modLoc("diarkrite_command_block_sword"))
+                    .addOptional(modLoc("diarkrite_command_block_shovel"))
+                    .addOptional(modLoc("diarkrite_command_block_pickaxe"))
+                    .addOptional(modLoc("diarkrite_command_block_axe"))
+                    .addOptional(modLoc("diarkrite_command_block_hoe"))
+                    .addOptional(modLoc("anthektite_command_block_sword"))
+                    .addOptional(modLoc("anthektite_command_block_shovel"))
+                    .addOptional(modLoc("anthektite_command_block_pickaxe"))
+                    .addOptional(modLoc("anthektite_command_block_axe"))
+                    .addOptional(modLoc("anthektite_command_block_hoe"));
+        }
 
         //Archery Expansion
-        if (archeryExp) tag(Etags.Items.ANTI_POWER_BOW)
-                .add(ElementusItems.STEEL_BOW.get(), ElementusItems.DIARKRITE_BOW.get(), ElementusItems.ANTHEKTITE_BOW.get());
+        {
+            tag(Etags.Items.ANTI_POWER_BOW)
+                    .addOptional(ElementusItems.STEEL_BOW.getId())
+                    .addOptional(ElementusItems.DIARKRITE_BOW.getId())
+                    .addOptional(ElementusItems.ANTHEKTITE_BOW.getId());
+        }
+
+        //Create
+        {
+            tag(Etags.Items.CREATE_MOODED_STRIPPED_LOGS)
+                    .addOptional(ElementusItems.STRIPPED_MOVCADIA_LOG.getId())
+                    .addOptional(ElementusItems.STRIPPED_MOVCADIA_WOOD.getId());
+        }
     }
 }
