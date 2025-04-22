@@ -10,6 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
+import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,8 +27,8 @@ public class SteelGolemCarpetLayer extends RenderLayer<SteelGolem, SteelGolemMod
 
     public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, SteelGolem pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         if (!pLivingEntity.isInvisible()) {
-            if (!pLivingEntity.getCarpet().isEmpty()) {
-                ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/carpet/steel_golem_" + pLivingEntity.getCarpetName() + ".png");
+            if (pLivingEntity.getDripCarpet().is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION)) {
+                ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/carpet/steel_golem_" + pLivingEntity.getDripCarpet().getItem() + ".png");
 //                this.getParentModel().copyPropertiesTo(this.model);
 //                this.model.prepareMobModel(pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTicks);
 //                this.model.setupAnim(pLivingEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);

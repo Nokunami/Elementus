@@ -23,7 +23,7 @@ public class SteelGolemEyesLayer extends RenderLayer<SteelGolem, SteelGolemModel
     public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, SteelGolem pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         int fullBright = 15728880;
         if (!pLivingEntity.isInvisible()) {
-            if (!pLivingEntity.getChassisState()) {
+            if (!pLivingEntity.isChassisBroken()) {
                 String location = "neutral";
                 if (pLivingEntity.getAggroState()) {
                     location = "aggressive";

@@ -406,7 +406,9 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(new ResourceLocation("witherstormmod", "withered_nether_star"));
         tag(Etags.Items.CATALYST_ELYTRA)
                 .add(net.minecraft.world.item.Items.ELYTRA);
-        tag(Etags.Items.STEEL_GOLEM_REPAIR).add(ElementusItems.STEEL_INGOT.get());
+        tag(Etags.Items.STEEL_GOLEM_HEAL).add(ElementusItems.STEEL_INGOT.get());
+        tag(Etags.Items.STEEL_GOLEM_REPAIR_HALF).add(ElementusItems.STEEL_SCRAP.get());
+        tag(Etags.Items.STEEL_GOLEM_REPAIR_FULL).add(ElementusItems.STEEL_BLOCK.get());
         tag(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION).addTag(ItemTags.LEAVES);
         tag(Etags.Items.STEEL_GOLEM_CARPET_DECORATION).addTag(ItemTags.WOOL_CARPETS);
         tag(Etags.Items.STEEL_GOLEM_MOSS).add(Items.MOSS_BLOCK, Items.MOSS_CARPET);

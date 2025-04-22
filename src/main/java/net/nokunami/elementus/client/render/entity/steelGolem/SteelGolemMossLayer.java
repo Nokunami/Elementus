@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.ModModelLayers;
-import net.nokunami.elementus.client.model.mob.SteelGolemExtraLayer1;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
@@ -21,11 +20,11 @@ import static net.nokunami.elementus.Elementus.modLoc;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemMossLayer extends RenderLayer<SteelGolem, SteelGolemModel<SteelGolem>> {
-    private final SteelGolemExtraLayer1<SteelGolem> model;
+    private final SteelGolemModel<SteelGolem> model;
 
     public SteelGolemMossLayer(RenderLayerParent<SteelGolem, SteelGolemModel<SteelGolem>> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
-        this.model = new SteelGolemExtraLayer1<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_EXTRA_1));
+        this.model = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_EXTRA_1));
     }
 
     public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, SteelGolem pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {

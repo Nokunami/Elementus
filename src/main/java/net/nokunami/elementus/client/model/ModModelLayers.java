@@ -22,64 +22,70 @@ import net.nokunami.elementus.client.model.armor.sniffsWeapons.StylishArmorModel
 import net.nokunami.elementus.client.model.mob.*;
 import net.nokunami.elementus.client.model.projectile.AnthektiteSlashModel;
 
+import static net.nokunami.elementus.Elementus.MODID;
+
 @OnlyIn(Dist.CLIENT)
 public class ModModelLayers {
 
-    public static final ModelLayerLocation EXTENDED_ARMOR_MODEL = createLocation("extended_armor_model", "main");
-    public static final ModelLayerLocation EXTENDED_ARMOR_MODEL_LEGS = createLocation("extended_armor_model_leg", "main");
+    public static final ModelLayerLocation EXTENDED_ARMOR_MODEL = createLocation("extended_armor_model");
+    public static final ModelLayerLocation EXTENDED_ARMOR_MODEL_LEGS = createLocation("extended_armor_model_leg");
 
-    public static final ModelLayerLocation CATALYST_ARMOR_MODEL = createLocation("catalyst_armor_model", "main");
-    public static final ModelLayerLocation CATALYST_BASE_ELYTRA_MODEL = createLocation("catalyst_base_elytra_model", "main");
-    public static final ModelLayerLocation CATALYST_ELYTRA_MODEL = createLocation("catalyst_elytra_model", "main");
-    public static final ModelLayerLocation CATALYST_ELYTRA_OVERLAY_MODEL = createLocation("catalyst_elytra_overlay_model", "main");
+    public static final ModelLayerLocation CATALYST_ARMOR_MODEL = createLocation("catalyst_armor_model");
+    public static final ModelLayerLocation CATALYST_BASE_ELYTRA_MODEL = createLocation("catalyst_base_elytra_model");
+    public static final ModelLayerLocation CATALYST_ELYTRA_MODEL = createLocation("catalyst_elytra_model");
+    public static final ModelLayerLocation CATALYST_ELYTRA_OVERLAY_MODEL = createLocation("catalyst_elytra_overlay_model");
 
-    public static final ModelLayerLocation DIARKRITE_MAGE_ARMOR_MODEL = createLocation("diarkrite_mage_armor_model", "main");
-    public static final ModelLayerLocation DIARKRITE_MAGE_ARMOR_MODEL_LEGS = createLocation("diarkrite_mage_armor_model_leg", "main");
+    public static final ModelLayerLocation DIARKRITE_MAGE_ARMOR_MODEL = createLocation("diarkrite_mage_armor_model");
+    public static final ModelLayerLocation DIARKRITE_MAGE_ARMOR_MODEL_LEGS = createLocation("diarkrite_mage_armor_model_leg");
 
-    public static final ModelLayerLocation ANTHEKTITE_MAGE_ARMOR_MODEL = createLocation("anthektite_mage_armor_model", "main");
-    public static final ModelLayerLocation ANTHEKTITE_MAGE_ARMOR_MODEL_LEGS = createLocation("anthektite_mage_armor_model_leg", "main");
+    public static final ModelLayerLocation ANTHEKTITE_MAGE_ARMOR_MODEL = createLocation("anthektite_mage_armor_model");
+    public static final ModelLayerLocation ANTHEKTITE_MAGE_ARMOR_MODEL_LEGS = createLocation("anthektite_mage_armor_model_leg");
 
-    public static final ModelLayerLocation STYLISH_ARMOR_MODEL = createLocation("sniffs_weapons_stylish_amor_model", "main");
-    public static final ModelLayerLocation HORNED_ARMOR_MODEL = createLocation("sniffs_weapons_horned_amor_model", "main");
-    public static final ModelLayerLocation SAMURAI_ARMOR_MODEL = createLocation("sniffs_weapons_samurai_amor_model", "main");
-    public static final ModelLayerLocation CLOTHED_CUIRASS_MODEL = createLocation("sniffs_weapons_clothed_cuirass_model", "main");
+    public static final ModelLayerLocation STYLISH_ARMOR_MODEL = createLocation("sniffs_weapons_stylish_amor_model");
+    public static final ModelLayerLocation HORNED_ARMOR_MODEL = createLocation("sniffs_weapons_horned_amor_model");
+    public static final ModelLayerLocation SAMURAI_ARMOR_MODEL = createLocation("sniffs_weapons_samurai_amor_model");
+    public static final ModelLayerLocation CLOTHED_CUIRASS_MODEL = createLocation("sniffs_weapons_clothed_cuirass_model");
 
-    public static final ModelLayerLocation SD_SAMURAI_ARMOR_MODEL = createLocation("samurai_armor_model", "main");
-    public static final ModelLayerLocation SD_SAMURAI_ARMOR_MODEL_LEGS = createLocation("samurai_armor_model_leg", "main");
+    public static final ModelLayerLocation SD_SAMURAI_ARMOR_MODEL = createLocation("samurai_armor_model");
+    public static final ModelLayerLocation SD_SAMURAI_ARMOR_MODEL_LEGS = createLocation("samurai_armor_model_leg");
 
-    public static final ModelLayerLocation SD_SAMURAI_LIGHT_ARMOR_MODEL = createLocation("samurai_light_armor_model", "main");
-    public static final ModelLayerLocation SD_SAMURAI_LIGHT_ARMOR_MODEL_LEGS = createLocation("samurai_light_armor_model_leg", "main");
+    public static final ModelLayerLocation SD_SAMURAI_LIGHT_ARMOR_MODEL = createLocation("samurai_light_armor_model");
+    public static final ModelLayerLocation SD_SAMURAI_LIGHT_ARMOR_MODEL_LEGS = createLocation("samurai_light_armor_model_leg");
 
-    public static final ModelLayerLocation SD_SAMURAI_MASTER_ARMOR_MODEL = createLocation("samurai_master_armor_model", "main");
-    public static final ModelLayerLocation SD_SAMURAI_MASTER_ARMOR_MODEL_LEGS = createLocation("samurai_master_armor_model_leg", "main");
+    public static final ModelLayerLocation SD_SAMURAI_MASTER_ARMOR_MODEL = createLocation("samurai_master_armor_model");
+    public static final ModelLayerLocation SD_SAMURAI_MASTER_ARMOR_MODEL_LEGS = createLocation("samurai_master_armor_model_leg");
 
 
     public static final ModelLayerLocation MOVCADIA_BOAT_LAYER = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "boat/movcadia"), "main");
+            new ResourceLocation(MODID, "boat/movcadia"), "main");
     public static final ModelLayerLocation MOVCADIA_CHEST_BOAT_LAYER = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "chest_boat/movcadia"), "main");
+            new ResourceLocation(MODID, "chest_boat/movcadia"), "main");
 
     public static final ModelLayerLocation STEEL_GOLEM = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem"), "main");
+            new ResourceLocation(MODID, "steel_golem"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_CARPET = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem_carpet"), "main");
+            new ResourceLocation(MODID, "steel_golem_carpet"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_EXTRA_1 = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem_extra_1"), "main");
+            new ResourceLocation(MODID, "steel_golem_extra_1"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_EXTRA_1S = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem_extra_1s"), "main");
+            new ResourceLocation(MODID, "steel_golem_extra_1s"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_EXTRA_2 = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem_extra_2"), "main");
+            new ResourceLocation(MODID, "steel_golem_extra_2"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_EXTRA_2S = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem_extra_2s"), "main");
+            new ResourceLocation(MODID, "steel_golem_extra_2s"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_EXTRA_3 = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem_extra_3"), "main");
+            new ResourceLocation(MODID, "steel_golem_extra_3"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_EXTRA_3S = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem_extra_3s"), "main");
+            new ResourceLocation(MODID, "steel_golem_extra_3s"), "main");
     public static final ModelLayerLocation STEEL_GOLEM_SADDLE = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "steel_golem_saddle"), "main");
+            new ResourceLocation(MODID, "steel_golem_saddle"), "main");
+    public static final ModelLayerLocation STEEL_GOLEM_ARMOR = new ModelLayerLocation(
+            new ResourceLocation(MODID, "steel_golem_armor"), "main");
+    public static final ModelLayerLocation STEEL_GOLEM_CHEST = new ModelLayerLocation(
+            new ResourceLocation(MODID, "steel_golem_chest"), "main");
 
     public static final ModelLayerLocation ANTHEKTITE_SLASH = new ModelLayerLocation(
-            new ResourceLocation(Elementus.MODID, "anthektite_slash"), "main");
+            new ResourceLocation(MODID, "anthektite_slash"), "main");
 
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -109,18 +115,20 @@ public class ModModelLayers {
 
         event.registerLayerDefinition(STEEL_GOLEM, SteelGolemModel::createBodyLayer);
         event.registerLayerDefinition(STEEL_GOLEM_CARPET, SteelGolemModel::createBodyCarpetLayer);
-        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_1, () -> SteelGolemExtraLayer1.createBodyLayer(new CubeDeformation(0)));
-        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_1S, () -> SteelGolemExtraLayer1.createBodyLayer(new CubeDeformation(0.25F)));
-        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_2, () -> SteelGolemExtraLayer2.createBodyLayer(new CubeDeformation(0.0F)));
-        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_2S, () -> SteelGolemExtraLayer2.createBodyLayer(new CubeDeformation(0.25F)));
-        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_3, () -> SteelGolemExtraLayer3.createBodyLayer(new CubeDeformation(0.0F)));
-        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_3S, () -> SteelGolemExtraLayer3.createBodyLayer(new CubeDeformation(0.25F)));
+        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_1, () -> SteelGolemModel.createExtraLayer1(new CubeDeformation(0)));
+        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_1S, () -> SteelGolemModel.createExtraLayer1(new CubeDeformation(0.25F)));
+        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_2, () -> SteelGolemModel.createExtraLayer2(new CubeDeformation(0.0F)));
+        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_2S, () -> SteelGolemModel.createExtraLayer2(new CubeDeformation(0.25F)));
+        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_3, () -> SteelGolemModel.createExtraLayer3(new CubeDeformation(0.0F)));
+        event.registerLayerDefinition(STEEL_GOLEM_EXTRA_3S, () -> SteelGolemModel.createExtraLayer3(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(STEEL_GOLEM_SADDLE, SteelGolemSaddleModel::createSaddleLayer);
+        event.registerLayerDefinition(STEEL_GOLEM_ARMOR, SteelGolemArmorModel::createBodyLayer);
+        event.registerLayerDefinition(STEEL_GOLEM_CHEST, SteelGolemChestModel::createChestLayer);
 
         event.registerLayerDefinition(ANTHEKTITE_SLASH, AnthektiteSlashModel::createLayer);
     }
 
-    private static ModelLayerLocation createLocation(String model, String layer) {
-        return new ModelLayerLocation(new ResourceLocation("elementus", model), layer);
+    private static ModelLayerLocation createLocation(String model) {
+        return new ModelLayerLocation(new ResourceLocation(MODID, model), "main");
     }
 }

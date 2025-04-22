@@ -2,15 +2,14 @@ package net.nokunami.elementus.common.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,14 +22,17 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ModClientEvents;
+import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.CatalystArmorConfig;
 import net.nokunami.elementus.common.config.ModConfig;
@@ -42,16 +44,20 @@ import nonamecrackers2.witherstormmod.common.init.WitherStormModSoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static net.nokunami.elementus.ModChecker.*;
+import static net.nokunami.elementus.common.config.CatalystArmorConfig.ISS_MaxMana;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
 
 public class CatalystArmorItem extends ArmorItem {
-    protected final ModArmorMaterials material;
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    public final ModArmorMaterials material;
+    public static Multimap<Attribute, AttributeModifier> defaultModifiers;
 
 
     public CatalystArmorItem(ModArmorMaterials material, Type type, Properties properties) {
@@ -70,7 +76,7 @@ public class CatalystArmorItem extends ArmorItem {
             builder.put(modifierEntry.getKey(), atr);
         }
 
-        this.defaultModifiers = builder.build();
+        defaultModifiers = builder.build();
     }
 
     @Override
@@ -79,7 +85,7 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
-        return pEquipmentSlot == this.type.getSlot() ? this.defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
+        return pEquipmentSlot == this.type.getSlot() ? defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
     }
 
     @Override
@@ -186,12 +192,12 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     @Override
-    public boolean canBeHurtBy(DamageSource pDamageSource) {
-        return pDamageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
+    public boolean canBeHurtBy(@NotNull DamageSource source) {
+        return false;
     }
 
     @Override
-    public int getEntityLifespan(ItemStack itemStack, Level level) {
+    public int getEntityLifespan(ItemStack stack, Level level) {
         return Integer.MAX_VALUE;
     }
 
@@ -205,8 +211,8 @@ public class CatalystArmorItem extends ArmorItem {
         return ModConfig.COMMON.catalystArmorDurability.get();
     }
 
-    public static boolean isFlyEnabled(ItemStack pElytraStack) {
-        return getElytraEquiped(pElytraStack).findAny().isPresent();
+    public static boolean isFlyEnabled(ItemStack stack) {
+        return getElytraEquiped(stack).findAny().isPresent();
     }
 
     @Override
@@ -221,10 +227,10 @@ public class CatalystArmorItem extends ArmorItem {
             if (nextFlightTick % 10 == 0) {
                 if (nextFlightTick % 20 == 0) {
                     if (!ModConfig.COMMON.catalystArmorDurability.get()) {
-                        stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(net.minecraft.world.entity.EquipmentSlot.CHEST));
+                        stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(EquipmentSlot.CHEST));
                     }
                 }
-                entity.gameEvent(net.minecraft.world.level.gameevent.GameEvent.ELYTRA_GLIDE);
+                entity.gameEvent(GameEvent.ELYTRA_GLIDE);
             }
         }
         return true;
@@ -244,22 +250,24 @@ public class CatalystArmorItem extends ArmorItem {
         } else {
             ItemStack itemstack = slot.getItem();
             if (itemstack.isEmpty()) {
-                if (getContentWeight(stack) > 0) {
+                if (checkElytraEquiped(stack) > 0) {
+                    playElytraEquipSound(player);
+                    removeEquipedElytra(stack).ifPresent((item) -> equipElytra(stack, slot.safeInsert(item)));
+                } else if (getContentWeight(stack) > 0) {
                     playRemoveSound(player);
                     removeOne(stack).ifPresent((item) -> add(stack, slot.safeInsert(item)));
-                } else if (checkElytraEquiped(stack) > 0) {
-                    playElytraEquipSound(player);
-                    removeEquipedElytra(stack).ifPresent((item) -> equipeElytra(stack, slot.safeInsert(item)));
                 }
             } else if (itemstack.is(Etags.Items.CATALYST_ITEMS)) {
                 int i = (1 - getContentWeight(stack) / getWeight());
                 int j = add(stack, slot.safeTake(itemstack.getCount(), i, player));
                 if (j > 0) {
                     playInsertSound(player, stack);
+                    if (ISS_MaxMana != 0)
+                        stack.addAttributeModifier(AttributeRegistry.MAX_MANA.get(), new AttributeModifier(maxManaUUID, "maxMana", ISS_MaxMana, AttributeModifier.Operation.ADDITION), EquipmentSlot.CHEST);
                 }
             } else if (itemstack.is(Etags.Items.CATALYST_ELYTRA)) {
                 int e = (1 - checkElytraEquiped(stack) / getElytaEquiped());
-                int g = equipeElytra(stack, slot.safeTake(itemstack.getCount(), e, player));
+                int g = equipElytra(stack, slot.safeTake(itemstack.getCount(), e, player));
                 if (g > 0) {
                     playElytraEquipSound(player);
                 }
@@ -272,14 +280,9 @@ public class CatalystArmorItem extends ArmorItem {
         if (coreStack.getCount() != 1) return false;
         if (action == ClickAction.SECONDARY && slot.allowModification(player)) {
             if (mouseStack.isEmpty()) {
-                if (getContentWeight(coreStack) > 0  && checkElytraEquiped(coreStack) > 0 && Screen.hasAltDown()) {
+                if (checkElytraEquiped(coreStack) > 0) {
                     removeEquipedElytra(coreStack).ifPresent((item) -> {
                         playElytraEquipSound(player);
-                        access.set(item);
-                    });
-                } else if (checkElytraEquiped(coreStack) > 0 && getContentWeight(coreStack) > 0) {
-                    removeOne(coreStack).ifPresent((item) -> {
-                        playRemoveSound(player);
                         access.set(item);
                     });
                 } else if (getContentWeight(coreStack) > 0) {
@@ -287,15 +290,10 @@ public class CatalystArmorItem extends ArmorItem {
                         playRemoveSound(player);
                         access.set(item);
                     });
-                } else {
-                    removeEquipedElytra(coreStack).ifPresent((item) -> {
-                        playElytraEquipSound(player);
-                        access.set(item);
-                    });
                 }
             } else {
                 int i = add(coreStack, mouseStack);
-                int e = equipeElytra(coreStack, mouseStack);
+                int e = equipElytra(coreStack, mouseStack);
                 if (i > 0) {
                     playInsertSound(player, coreStack);
                     mouseStack.shrink(i);
@@ -349,9 +347,9 @@ public class CatalystArmorItem extends ArmorItem {
         return 0;
     }
 
-    private static int equipeElytra(ItemStack coreItemStack, ItemStack insertedStack) {
+    private static int equipElytra(ItemStack coreItemStack, ItemStack insertedStack) {
         if (!insertedStack.isEmpty() && insertedStack.getItem().canFitInsideContainerItems()) {
-            if (insertedStack.is(net.minecraft.world.item.Items.ELYTRA)) {
+            if (insertedStack.is(Etags.Items.CATALYST_ELYTRA)) {
                 CompoundTag compoundtag = coreItemStack.getOrCreateTag();
                 if (!compoundtag.contains("ElytraEquiped")) {
                     compoundtag.put("ElytraEquiped", new ListTag());
@@ -409,71 +407,67 @@ public class CatalystArmorItem extends ArmorItem {
         return getElytraEquiped(pStack).mapToInt((itemStack) -> getElytaEquiped() * itemStack.getCount()).sum();
     }
 
-    private static Optional<ItemStack> removeOne(ItemStack pStack) {
-        CompoundTag compoundtag = pStack.getOrCreateTag();
-        if (!compoundtag.contains("Items")) {
+    private static Optional<ItemStack> removeOne(ItemStack stack) {
+        ListTag items = stack.getOrCreateTag().getList("Items", 10);
+        ItemStack itemstack = ItemStack.of(items.getCompound(0));
+
+        if (!stack.getOrCreateTag().contains("Items")) {
             return Optional.empty();
         } else {
-            ListTag items = compoundtag.getList("Items", 10);
             if (items.isEmpty()) {
                 return Optional.empty();
             } else {
-                CompoundTag compoundtag1 = items.getCompound(0);
-                ItemStack itemstack = ItemStack.of(compoundtag1);
                 items.remove(0);
                 if (items.isEmpty()) {
-                    pStack.removeTagKey("Items");
+                    stack.removeTagKey("Items");
                 }
                 return Optional.of(itemstack);
             }
         }
     }
 
-    private static Optional<ItemStack> removeEquipedElytra(ItemStack pStack) {
-        CompoundTag compoundtag = pStack.getOrCreateTag();
-        if (!compoundtag.contains("ElytraEquiped")) {
+    private static Optional<ItemStack> removeEquipedElytra(ItemStack stack) {
+        ListTag items = stack.getOrCreateTag().getList("ElytraEquiped", 10);
+        ItemStack itemstack = ItemStack.of(items.getCompound(0));
+
+        if (!stack.getOrCreateTag().contains("ElytraEquiped")) {
             return Optional.empty();
         } else {
-            ListTag items = compoundtag.getList("ElytraEquiped", 10);
             if (items.isEmpty()) {
                 return Optional.empty();
             } else {
-                CompoundTag compoundtag1 = items.getCompound(0);
-                ItemStack itemstack = ItemStack.of(compoundtag1);
                 items.remove(0);
                 if (items.isEmpty()) {
-                    pStack.removeTagKey("ElytraEquiped");
+                    stack.removeTagKey("ElytraEquiped");
                 }
                 return Optional.of(itemstack);
             }
         }
     }
 
-    private static Stream<ItemStack> getContents(ItemStack pStack) {
-        CompoundTag compoundtag = pStack.getTag();
-        if (compoundtag == null) {
+    private static Stream<ItemStack> getContents(ItemStack stack) {
+        if (stack.getTag() == null) {
             return Stream.empty();
         } else {
-            ListTag listtag = compoundtag.getList("Items", 10);
-            return listtag.stream().map(CompoundTag.class::cast).map(ItemStack::of);
+            return stack.getTag().getList("Items", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
         }
     }
 
-    public static Stream<ItemStack> getElytraEquiped(ItemStack pStack) {
-        CompoundTag compoundtag = pStack.getTag();
-        if (compoundtag == null) {
+    public static Stream<ItemStack> getElytraEquiped(ItemStack stack) {
+        if (stack.getTag() == null) {
             return Stream.empty();
         } else {
-            ListTag listtag = compoundtag.getList("ElytraEquiped", 10);
-            return listtag.stream().map(CompoundTag.class::cast).map(ItemStack::of);
+            return stack.getTag().getList("ElytraEquiped", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
         }
     }
 
-//    public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack pStack) {
-//        NonNullList<ItemStack> nonnulllist = NonNullList.create();
-//        getContents(pStack).forEach(nonnulllist::add);
-//        return Optional.of(new BundleTooltip(nonnulllist, 0));
-//    }
+    public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack stack) {
+        NonNullList<ItemStack> core = NonNullList.create();
+        NonNullList<ItemStack> elytra = NonNullList.create();
+        getContents(stack).forEach(core::add);
+        getElytraEquiped(stack).forEach(elytra::add);
+        return Optional.of(new CatalystTooltip(core, elytra));
+    }
 
     @Override
     public void onDestroyed(ItemEntity itemEntity, DamageSource damageSource) {
@@ -481,17 +475,17 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     private void playRemoveSound(Player entity) {
-        entity.level().playSound(entity, entity.getX(), entity.getY(), entity.getZ(), ModSoundEvents.CATALYST_ARMOR_DEACTIVATE.get(), SoundSource.PLAYERS, 1F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
+        entity.playSound(ModSoundEvents.CATALYST_ARMOR_DEACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 
     private void playInsertSound(Player entity, ItemStack stack) {
-        entity.level().playSound(entity, entity.getX(), entity.getY(), entity.getZ(), ModSoundEvents.CATALYST_ARMOR_ACTIVATE.get(), SoundSource.PLAYERS, 1F, 0.5F + entity.level().getRandom().nextFloat() * 0.4F);
+        entity.playSound(ModSoundEvents.CATALYST_ARMOR_ACTIVATE.get(), 0.75F, 0.5F + entity.level().getRandom().nextFloat() * 0.4F);
         if (catalystActivator(stack).equals(witheredNetherStar) && witherStormMod) {
-            entity.level().playSound(entity, entity.getX(), entity.getY(), entity.getZ(), WitherStormModSoundEvents.WITHER_STORM_REACTIVATES.get(), SoundSource.PLAYERS, 1F, 1F);
+            entity.playSound(WitherStormModSoundEvents.WITHER_STORM_REACTIVATES.get(), 0.8F, 1F);
         }
     }
 
     private void playElytraEquipSound(Player entity) {
-        entity.level().playSound(entity, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ARMOR_EQUIP_ELYTRA, SoundSource.PLAYERS, 1F, 1.0F);
+        entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
     }
 }

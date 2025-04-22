@@ -38,7 +38,7 @@ import static net.nokunami.elementus.ModChecker.*;
 public class Elementus {
     public static final String MODID = "elementus";
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final String CONFIG_VERSION = "1.3";
+    public static final String CONFIG_VERSION = "1.4";
     public static final Path TIER_CONFIG_PATH = configPath("config/elementus", "tier_config.toml");
     public static final Path ITEM_CONFIG_PATH = configPath("config/elementus", "item_config.toml");
     public static final Path ARMOR_CONFIG_PATH = configPath("config/elementus", "armor_config.toml");

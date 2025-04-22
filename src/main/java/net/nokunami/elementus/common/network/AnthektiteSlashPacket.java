@@ -8,6 +8,7 @@ import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
 import java.util.function.Supplier;
 
 public class AnthektiteSlashPacket {
+
     public static void encode(AnthektiteSlashPacket packet, FriendlyByteBuf buffer) {
     }
 
@@ -17,10 +18,10 @@ public class AnthektiteSlashPacket {
 
     public static void consume(AnthektiteSlashPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            ServerPlayer playerEntity = ctx.get().getSender();
+            ServerPlayer player = ctx.get().getSender();
 
-            if (playerEntity != null) {
-                AnthektiteChargeBlade.spawnSlash(playerEntity);
+            if (player != null) {
+                AnthektiteChargeBlade.spawnSlash(player);
             }
         });
         ctx.get().setPacketHandled(true);

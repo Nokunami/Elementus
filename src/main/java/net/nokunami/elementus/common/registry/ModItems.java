@@ -78,11 +78,18 @@ public class ModItems {
 
         public static final RegistryObject<Item> MOVCADIA_BERRIES = ITEMS.register("movcadia_berries",
                 () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
-                        .nutrition(4).saturationMod(0.4F)
-                        .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 600), 1)
-                        .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600), 1)
-                        .fast()
-                        .build())));
+                        .nutrition(4).saturationMod(0.2F)
+                        .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 300), 1)
+                        .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 300), 1)
+                        .fast().build())));
+
+        public static final RegistryObject<Item> GLISTERING_MOVCADIA_BERRIES = ITEMS.register("glistering_movcadia_berries",
+                () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
+                        .alwaysEat().nutrition(4).saturationMod(0.6F)
+                        .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 500, 1), 1)
+                        .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 500, 1), 1)
+                        .fast().build())));
+
         public static final RegistryObject<Item> MOVCADIA_ESSENCE = ITEMS.register("movcadia_essence",
                 () -> new Item(new Item.Properties().fireResistant()));
 
@@ -185,6 +192,12 @@ public class ModItems {
 
         public static final RegistryObject<Item> CATALYST_CHESTPLATE = ITEMS.register("catalyst_chestplate",
                 () -> new CatalystArmorItem(ModArmorMaterials.CATALYST, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
+
+        public static final RegistryObject<Item> REINFORCED_PLATING_GOLEM_UPGRADE = ITEMS.register("reinforced_plating_golem_upgrade",
+                () -> new SteelGolemUpgradeItem(10, 8, "reinforced_plating", new Item.Properties()));
+
+        public static final RegistryObject<Item> DAMAGE_GOLEM_UPGRADE = ITEMS.register("damage_golem_upgrade",
+                () -> new SteelGolemUpgradeItem(8, 0, "damage", new Item.Properties()));
 
         public static final RegistryObject<Item> MOVCADIA_SAPLING = ITEMS.register("movcadia_sapling",
                 () -> new BlockItem(ElementusBlocks.MOVCADIA_SAPLING.get(), new Item.Properties().fireResistant()));

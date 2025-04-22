@@ -22,10 +22,57 @@
     ],
     "subtitle": "subtitles.elementus.item.diarkrite_shield.block"
   },
+  "entity.steel_golem.repair": {
+    "sounds": [
+      "mob/irongolem/repair"
+    ],
+    "subtitle": "subtitles.elementus.entity.steel_golem.repair"
+  },
   "entity.steel_golem.down": {
     "sounds": [
       "elementus:mob/steel_golem/down"
     ],
     "subtitle": "subtitles.elementus.entity.steel_golem.down"
+  },
+  "entity.steel_golem.revive": {
+    "sounds": [
+      "mob/irongolem/repair"
+    ],
+    "subtitle": "subtitles.elementus.entity.steel_golem.revive"
+  },
+  "entity.steel_golem.saddled": {
+    "sounds": [
+      "mob/horse/leather"
+    ],
+    "subtitle": "subtitles.elementus.entity.steel_golem.saddled"
+  },
+  "entity.steel_golem.chested": {
+    "sounds": [
+      "mob/chicken/plop"
+    ],
+    "subtitle": "subtitles.elementus.entity.steel_golem.chested"
+  },
+  "entity.steel_golem.armored": {
+    "sounds": [
+      "mob/horse/armor"
+    ],
+    "subtitle": "subtitles.elementus.entity.steel_golem.armored"
+  },
+  "entity.steel_golem.leaves_swag": {
+    "sounds": [
+      "block/azalea/break1",
+      "block/azalea/break2",
+      "block/azalea/break3",
+      "block/azalea/break4",
+      "block/azalea/break5",
+      "block/azalea/break6"
+    ],
+    "subtitle": "subtitles.elementus.entity.steel_golem.leaves_swag"
+  },
+  "entity.steel_golem.carpet_swag": {
+    "sounds": [
+      "mob/llama/swag"
+    ],
+    "subtitle": "subtitles.elementus.entity.steel_golem.carpet_swag"
   }
 }

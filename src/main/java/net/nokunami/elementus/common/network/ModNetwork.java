@@ -12,17 +12,20 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
+// Code from Goety mod
 public class ModNetwork {
     public static SimpleChannel INSTANCE;
     private static int id = 0;
 
-    public static int nextID() {
+    public static int id() {
         return id++;
     }
 
     public static void setup() {
         INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, "channel"), () -> "1.0", s -> true, s -> true);
-        INSTANCE.registerMessage(nextID(), AnthektiteSlashPacket.class, AnthektiteSlashPacket::encode, AnthektiteSlashPacket::decode, AnthektiteSlashPacket::consume);
+        INSTANCE.registerMessage(id(), AnthektiteSlashPacket.class, AnthektiteSlashPacket::encode, AnthektiteSlashPacket::decode, AnthektiteSlashPacket::consume);
+        INSTANCE.registerMessage(id(), SonicBurstPacket.class, SonicBurstPacket::encode, SonicBurstPacket::decode, SonicBurstPacket::consume);
+        INSTANCE.registerMessage(id(), SteelGolemInventoryPacket.class, SteelGolemInventoryPacket::encode, SteelGolemInventoryPacket::decode, SteelGolemInventoryPacket::consume);
     }
 
     public static <MSG> void sendTo(Player player, MSG msg) {

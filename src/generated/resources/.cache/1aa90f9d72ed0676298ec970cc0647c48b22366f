@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-30T13:04:41.5978921	Tags for minecraft:item mod id elementus
+// 1.20.1	2025-03-31T22:03:04.6057639	Tags for minecraft:item mod id elementus
 cac5872e21530608e5d2e90870aa2bd2dd81e79f data/advancednetherite/tags/items/tiers/armor/netherite_diamond.json
 cf5521e0ff2ae8fff77c03f8d113b19f98ca46f3 data/advancednetherite/tags/items/tiers/armor/netherite_emerald.json
 43169b0f71f687059baab4dbc1de3c31fccd80e6 data/advancednetherite/tags/items/tiers/armor/netherite_gold.json
@@ -28,9 +28,11 @@ b5ea726e87a698a4fbcf838d2f3ec8ed07e4b1a4 data/elementus/tags/items/repairs_diark
 d2f5d7ff1f33c4b7c9f1430a3bfa519d8765a7f5 data/elementus/tags/items/repairs_diarkrite_iron_armor.json
 f3be2b2ac86715e20a4b1ddb9bba764b4020e3b1 data/elementus/tags/items/repairs_steel_equipment.json
 54f5f4eb011e81e346809ba3e900a37e3adb87f8 data/elementus/tags/items/steel_golem_carpet.json
+f3be2b2ac86715e20a4b1ddb9bba764b4020e3b1 data/elementus/tags/items/steel_golem_heal.json
 a4e8097fff07f9a74259d6b5dd583f3437ff28a2 data/elementus/tags/items/steel_golem_leaves_decoration.json
 efe6d58e86177a50d0cd62cbaa1b811e7f7c0715 data/elementus/tags/items/steel_golem_moss.json
-f3be2b2ac86715e20a4b1ddb9bba764b4020e3b1 data/elementus/tags/items/steel_golem_repair.json
+05f2a0186ba2e1c5f623c7e18ff14b32e23449bf data/elementus/tags/items/steel_golem_repair_full.json
+d90cfdb7840054d7ae5ad457998f56931b842edd data/elementus/tags/items/steel_golem_repair_half.json
 7acd3050c0b032697265e2ab6beea7b4719a6ac2 data/elementus/tags/items/steel_recyclable.json
 d49176221da4c3950998a77b8e8b448819b4e7f2 data/farmersdelight/tags/items/flat_on_cutting_board.json
 f3776d4b1eeee5975beb739561a10a4965d0cf5a data/farmersdelight/tags/items/tools/knives.json

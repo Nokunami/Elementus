@@ -250,7 +250,7 @@ public class AnthektiteChargeBlade extends SwordItem {
     }
 
     /// Credits: Goety Mod Death Scythe
-    public static void spawnSlash(Player player){
+    public static void spawnSlash(Player player) {
         Level level = player.level();
         if (player.getAttackStrengthScale(0.5F) > 0.9F) {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.NEUTRAL, 2.0F, 0.4F / (level.random.nextFloat() * 0.4F + 0.8F));

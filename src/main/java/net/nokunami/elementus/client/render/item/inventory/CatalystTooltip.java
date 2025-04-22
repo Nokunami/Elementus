@@ -5,19 +5,19 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 
 public class CatalystTooltip implements TooltipComponent {
-    private final NonNullList<ItemStack> items;
-    private final int weight;
+    private final NonNullList<ItemStack> coreitem;
+    private final NonNullList<ItemStack> elytraItem;
 
-    public CatalystTooltip(NonNullList<ItemStack> pItems, int pWeight) {
-        this.items = pItems;
-        this.weight = pWeight;
+    public CatalystTooltip(NonNullList<ItemStack> coreItem, NonNullList<ItemStack> elytraItem) {
+        this.coreitem = coreItem;
+        this.elytraItem = elytraItem;
     }
 
-    public NonNullList<ItemStack> getItems() {
-        return this.items;
+    public NonNullList<ItemStack> getCoreItem() {
+        return this.coreitem;
     }
 
-    public int getWeight() {
-        return this.weight;
+    public NonNullList<ItemStack> getElytraItem() {
+        return this.elytraItem;
     }
 }

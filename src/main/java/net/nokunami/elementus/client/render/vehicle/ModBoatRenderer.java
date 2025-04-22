@@ -1,4 +1,4 @@
-package net.nokunami.elementus.client.render;
+package net.nokunami.elementus.client.render.vehicle;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
@@ -39,15 +39,15 @@ public class ModBoatRenderer extends BoatRenderer {
     }
 
     public static ModelLayerLocation createBoatModelName(ModBoatEntity.Type pType) {
-        return createLocation("boat/" + pType.getName(), "main");
+        return createLocation("boat/" + pType.getName());
     }
 
     public static ModelLayerLocation createChestBoatModelName(ModBoatEntity.Type pType) {
-        return createLocation("chest_boat/" + pType.getName(), "main");
+        return createLocation("chest_boat/" + pType.getName());
     }
 
-    private static ModelLayerLocation createLocation(String pPath, String pModel) {
-        return new ModelLayerLocation(new ResourceLocation(Elementus.MODID, pPath), pModel);
+    private static ModelLayerLocation createLocation(String pPath) {
+        return new ModelLayerLocation(new ResourceLocation(Elementus.MODID, pPath), "main");
     }
 
     public @NotNull Pair<ResourceLocation, ListModel<Boat>> getModelWithLocation(@NotNull Boat boat) {
@@ -56,7 +56,7 @@ public class ModBoatRenderer extends BoatRenderer {
         } else if(boat instanceof ModChestBoatEntity modChestBoatEntity) {
             return this.boatResources.get(modChestBoatEntity.getModVariant());
         } else {
-            return null;
+            return super.getModelWithLocation(boat);
         }
     }
 }

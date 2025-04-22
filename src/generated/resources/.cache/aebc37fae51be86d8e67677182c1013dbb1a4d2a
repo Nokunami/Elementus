@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-24T20:22:55.1678169	Item Models: elementus
+// 1.20.1	2025-04-19T00:47:41.1326319	Item Models: elementus
 1750916832f41cf9f87511296e3aa8d75d813884 assets/elementus/models/item/anthektite_axe.json
 1344df550c4bc0f7e94f2d1cf1f83bc6e514c84f assets/elementus/models/item/anthektite_block.json
 16012a3759abb6d390955761b9b47b27d0a5a186 assets/elementus/models/item/anthektite_boots.json
@@ -881,6 +881,7 @@ f6655711061c000fb6b2abe06f96a6799330a1a6 assets/elementus/models/item/diarkrite_
 e61c7e8801497de5e1a502b759e24bcbda2a694b assets/elementus/models/item/diarkrite_warglaive_gui.json
 a5e326bc45b94b66c6e078aaf86a0fcf6fecc4ea assets/elementus/models/item/diarkrite_warglaive_model.json
 4e2ef2d940e575686da60d6edbaae70e1d65db4a assets/elementus/models/item/flowering_movcadia_leaves.json
+7496ed1a04ce350cf580e1e28abe64c7d5902d03 assets/elementus/models/item/glistering_movcadia_berries.json
 c30bd893cda3a0d72b5b60b3f79ad23116e24c02 assets/elementus/models/item/movcadia_berries.json
 6c3f09961306e61b3591b76069c49536e2b045a2 assets/elementus/models/item/movcadia_boat.json
 4f66e8dd316a93d91c1bafd123cfa5d1a57a05bc assets/elementus/models/item/movcadia_button.json
@@ -909,6 +910,7 @@ dd8d478eff37d43aa7987837a5c49229afdbf357 assets/elementus/models/item/movcadia_t
 3d27a85a089c4240422e569ca46d20c723b01e37 assets/elementus/models/item/plated_anthektite_chestplate.json
 ce568456f940b583025474f9cc70950ab8137494 assets/elementus/models/item/plated_diarkrite_chestplate.json
 19a29202a919602cd65699311910de9efc736b04 assets/elementus/models/item/plated_steel_chestplate.json
+934ed1d53c8a917962086e739b7b9c8829be437d assets/elementus/models/item/reinforced_plating_golem_upgrade.json
 1178816ddf9d169fc4b56efe52bf96972d50f6fc assets/elementus/models/item/remnant.json
 fb20ac0a01e93b05b3c57e241adf91b066534c28 assets/elementus/models/item/steel_axe.json
 5ee4ab9839ca3dbbc35b6a2d4eebd12f067a790a assets/elementus/models/item/steel_bars.json

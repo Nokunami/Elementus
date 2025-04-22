@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "elementus:item/miscellaneous/reinforced_plating_golem_upgrade"
+  }
+}

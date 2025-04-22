@@ -3,9 +3,11 @@ package net.nokunami.elementus.common;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -45,7 +47,9 @@ public class Etags {
         public static final TagKey<Item> FD_KNIFE = forgeTag("tools/knifes");
         public static final TagKey<Item> BERRIES = forgeTag("berries");
 
-        public static final TagKey<Item> STEEL_GOLEM_REPAIR = elementusTag("steel_golem_repair");
+        public static final TagKey<Item> STEEL_GOLEM_HEAL = elementusTag("steel_golem_heal");
+        public static final TagKey<Item> STEEL_GOLEM_REPAIR_HALF = elementusTag("steel_golem_repair_half");
+        public static final TagKey<Item> STEEL_GOLEM_REPAIR_FULL = elementusTag("steel_golem_repair_full");
         public static final TagKey<Item> STEEL_GOLEM_LEAVES_DECORATION = elementusTag("steel_golem_leaves_decoration");
         public static final TagKey<Item> STEEL_GOLEM_CARPET_DECORATION = elementusTag("steel_golem_carpet");
         public static final TagKey<Item> STEEL_GOLEM_MOSS = elementusTag("steel_golem_moss");
@@ -131,6 +135,24 @@ public class Etags {
 
         private static TagKey<DamageType> elementusTag(String name) {
             return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(MODID, name));
+        }
+    }
+    public static class Entity {
+        public static final TagKey<EntityType<?>> STEEL_GOLEM_PRIORITY_TARGETS = elementusTag("steel_golem_priority_targets");
+        public static final TagKey<EntityType<?>> STEEL_GOLEM_AVOID = elementusTag("steel_golem_avoid_targets");
+        public static final TagKey<EntityType<?>> FAW_ATTACKABLE_BUT_NOT_ASSIMILABLE = modTag("fromanotherworld", "attackable_but_not_assimilable");
+        public static final TagKey<EntityType<?>> FAW_NOT_AFRAID_OF_THINGS = modTag("fromanotherworld", "not_afraid_of_things");
+
+        private static TagKey<EntityType<?>> forgeTag(String name) {
+            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("forge", name));
+        }
+
+        private static TagKey<EntityType<?>> elementusTag(String name) {
+            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(MODID, name));
+        }
+
+        private static TagKey<EntityType<?>> modTag(String modId, String name) {
+            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(modId, name));
         }
     }
 }

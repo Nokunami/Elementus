@@ -11,6 +11,7 @@
   "item.elementus.anthektite_ingot": "Anthektite Ingot",
 
   "item.elementus.movcadia_berries": "Movcadia Berries",
+  "item.elementus.glistering_movcadia_berries": "Glistering Movcadia Berries",
   "item.elementus.movcadia_essence": "Movcadia Essence",
 
   "item.elementus.crushed_remnant": "Crushed Remnant",
@@ -86,10 +87,17 @@
   "item.elementus.catalyst_withered_nether_star_2.desc": "A fraction of a power of the Wither Storm. (W.I.P).",
   "item.elementus.witherstormod_not_installed.desc": "The core of this Catalyst seems to be missing a fundamental power. (Cracker's Witherstorm Mod).",
 
-  "item.elementus.catalyst_elytra_equiped": "Elytra Equiped! alt + click to remove.",
+  "item.elementus.catalyst_elytra_equiped": "Elytra Equiped!",
 
   "item.elementus.movcadia_boat": "Movcadia Boat",
   "item.elementus.movcadia_chest_boat": "Movcadia Boat with Chest",
+
+  "item.elementus.golem_upgrade": "Golem Upgrade",
+  "item.elementus.reinforced_plating_golem_upgrade": "Golem Upgrade",
+  "item.elementus.damage_golem_upgrade": "Test Damage golem uppies",
+  "item.elementus.golem_upgrade.reinforced_plating": "Reinforced Plating",
+  "item.elementus.golem_upgrade_armor": "Armor",
+  "item.elementus.golem_upgrade_toughness": "Toughness",
 
 
   "block.elementus.steel_block": "Block of Steel",
@@ -133,6 +141,10 @@
   "block.elementus.movcadia_sign": "Movcadia Sign",
   "block.elementus.movcadia_hanging_sign": "Movcadia Hanging Sign",
   "block.elementus.sturdy_movcadia_sign": "Sturdy Movcadia Sign",
+
+  "container.steel_golem.missing_upgrade_tooltip": "Add golem upgrade",
+  "container.steel_golem.missing_leaves_tooltip": "Add decorative leaves",
+  "container.steel_golem.missing_carpet_tooltip": "Add decorative carpet",
 
   "block.elementus.movcadia_chest": "Movcadia Chest",
 
@@ -187,7 +199,17 @@
   "subtitles.elementus.item.catalyst_armor_activation": "Catalyst armor activates",
   "subtitles.elementus.item.catalyst_armor_deactivation": "Catalyst armor deactivates",
   "subtitles.elementus.item.diarkrite_shield.block": "Heavy shield blocks",
-  "subtitles.elementus.entity.steel_golem.down": "Steel Golem Breaks",
+  "subtitles.elementus.entity.steel_golem.repair": "Steel Golem repaired",
+  "subtitles.elementus.entity.steel_golem.down": "Steel Golem breaks",
+  "subtitles.elementus.entity.steel_golem.revive": "Steel Golem rises",
+  "subtitles.elementus.entity.steel_golem.saddled": "Steel Golem saddled",
+  "subtitles.elementus.entity.steel_golem.chested": "Steel Golem equipped chest",
+  "subtitles.elementus.entity.steel_golem.armored": "Steel Golem armored",
+  "subtitles.elementus.entity.steel_golem.leaves_swag": "Steel Golem camouflaged",
+  "subtitles.elementus.entity.steel_golem.carpet_swag": "Steel Golem dripped out",
+
+  "death.attack.elementus.sacrificial": "%1$s sacrificed too much",
+  "death.attack.elementus.sacrificial.player": "%1$s was sacrificed while trying to escape %2$s",
 
   "config.elementus.lava_renderer": "Replace Lava Renderer?",
   "config.elementus.diarkriteEfficiency.desc": "Diarkrite Pickaxe Efficiency",

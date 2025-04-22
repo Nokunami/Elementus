@@ -1,4 +1,4 @@
-package net.nokunami.elementus.common.entity.ai.steelGolem;
+package net.nokunami.elementus.common.entity.ai.goal.steelGolem;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -8,12 +8,12 @@ import net.nokunami.elementus.common.entity.living.TamableGolem;
 
 import java.util.EnumSet;
 
-public class SteelGolemOwnerHurtTargetGoal extends TargetGoal {
+public class SteelGolemOwnerHurtByTargetGoal extends TargetGoal {
     private final TamableGolem tameAnimal;
-    private LivingEntity ownerLastHurt;
+    private LivingEntity ownerLastHurtBy;
     private int timestamp;
 
-    public SteelGolemOwnerHurtTargetGoal(TamableGolem pTameAnimal) {
+    public SteelGolemOwnerHurtByTargetGoal(TamableGolem pTameAnimal) {
         super(pTameAnimal, false);
         this.tameAnimal = pTameAnimal;
         this.setFlags(EnumSet.of(Goal.Flag.TARGET));
@@ -29,9 +29,9 @@ public class SteelGolemOwnerHurtTargetGoal extends TargetGoal {
             if (livingentity == null) {
                 return false;
             } else {
-                this.ownerLastHurt = livingentity.getLastHurtMob();
-                int i = livingentity.getLastHurtMobTimestamp();
-                return i != this.timestamp && this.canAttack(this.ownerLastHurt, TargetingConditions.DEFAULT) && this.tameAnimal.wantsToAttack(this.ownerLastHurt, livingentity);
+                this.ownerLastHurtBy = livingentity.getLastHurtByMob();
+                int i = livingentity.getLastHurtByMobTimestamp();
+                return i != this.timestamp && this.canAttack(this.ownerLastHurtBy, TargetingConditions.DEFAULT) && this.tameAnimal.wantsToAttack(this.ownerLastHurtBy, livingentity);
             }
         } else {
             return false;
@@ -42,10 +42,10 @@ public class SteelGolemOwnerHurtTargetGoal extends TargetGoal {
      * Execute a one shot task or start executing a continuous task
      */
     public void start() {
-        this.mob.setTarget(this.ownerLastHurt);
+        this.mob.setTarget(this.ownerLastHurtBy);
         LivingEntity livingentity = this.tameAnimal.getOwner();
         if (livingentity != null) {
-            this.timestamp = livingentity.getLastHurtMobTimestamp();
+            this.timestamp = livingentity.getLastHurtByMobTimestamp();
         }
 
         super.start();

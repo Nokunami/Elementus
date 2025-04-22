@@ -42,6 +42,7 @@ public class ModItemModelData extends ModItemModelProvider {
         generatedItem(ElementusItems.WEAPON_FRAGMENT, "ingredients");
 
         generatedItem(ElementusItems.MOVCADIA_BERRIES, "food");
+        generatedItem(ElementusItems.GLISTERING_MOVCADIA_BERRIES, "food");
         generatedItem(ElementusItems.MOVCADIA_ESSENCE, "ingredients");
 
         generatedItem(ElementusItems.CRUSHED_REMNANT, "compat/create");
@@ -92,6 +93,8 @@ public class ModItemModelData extends ModItemModelProvider {
         armorItem(ElementusItems.DIARKRITE_BOOTS, "armor");
 
         catalystArmor(ElementusItems.CATALYST_CHESTPLATE);
+
+        generatedItem(ElementusItems.REINFORCED_PLATING_GOLEM_UPGRADE, "miscellaneous");
 
         blockItem(ElementusBlocks.STEEL_BLOCK);
         blockItem(ElementusBlocks.ANTHEKTITE_BLOCK);

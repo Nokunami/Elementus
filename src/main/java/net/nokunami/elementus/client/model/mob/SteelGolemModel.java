@@ -4,12 +4,15 @@ import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemAnimation;
+import net.nokunami.elementus.client.animation.definitions.SteelGolemAttackAnimation;
+import net.nokunami.elementus.client.animation.definitions.SteelGolemChestAnimation;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> {
+    public final float walkMaxAnimSpeed = 4.45F;
+    public final float walkAnimScaleFactor = 500;
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart head;
@@ -38,10 +41,10 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
                 .texOffs(64, 0).addBox(-6.0F, -6.0F, -5.0F, 12.0F, 6.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 5.5F, 0.0F));
         PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(64, 16).addBox(-5.0F, -9.0F, -5.0F, 10.0F, 9.0F, 10.0F, new CubeDeformation(0.0F))
                 /*.texOffs(64, 35).addBox(-5.0F, -5.0F, -5.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.249F))*/, PartPose.offset(0.0F, -20.0F, -3.5F));
-        PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(30, 28).addBox(0.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(9.0F, -13.0F, 0.0F));
-        PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(0, 28).addBox(-7.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-9.0F, -13.0F, 0.0F));
-        PartDefinition left_leg = bone.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(30, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(4.5F, 5.5F, 0.0F));
-        PartDefinition right_leg = bone.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.5F, 5.5F, 0.0F));
+        body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(30, 28).addBox(0.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(9.0F, -13.0F, 0.0F));
+        body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(0, 28).addBox(-7.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-9.0F, -13.0F, 0.0F));
+        bone.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(30, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(4.5F, 5.5F, 0.0F));
+        bone.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.5F, 5.5F, 0.0F));
 
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
@@ -63,39 +66,86 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
+    public static LayerDefinition createExtraLayer1(CubeDeformation deformation) {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition bone = partdefinition.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(0.0F, 0.5F, 0.0F));
+        PartDefinition body = bone.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-9.0F, -20.0F, -7.0F, 18.0F, 14.0F, 14.0F, deformation)
+                .texOffs(0, 98).addBox(-6.0F, -6.0F, -5.0F, 12.0F, 6.0F, 10.0F, deformation), PartPose.offset(0.0F, 5.5F, 0.0F));
+        PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(84, 98).addBox(-5.0F, -9.0F, -5.0F, 10.0F, 9.0F, 10.0F, deformation)
+                /*.texOffs(44, 102).addBox(-5.0F, -5.0F, -5.0F, 10.0F, 2.0F, 10.0F, deformation.extend(0.25F))*/, PartPose.offset(0.0F, -20.0F, -3.5F));
+        PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(90, 28).addBox(0.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, deformation), PartPose.offset(9.0F, -13.0F, 0.0F));
+        PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(0, 28).addBox(-7.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, deformation), PartPose.offset(-9.0F, -13.0F, 0.0F));
+        PartDefinition left_leg = bone.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(90, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, deformation), PartPose.offset(4.5F, 5.5F, 0.0F));
+        PartDefinition right_leg = bone.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, deformation), PartPose.offset(-4.5F, 5.5F, 0.0F));
+
+        return LayerDefinition.create(meshdefinition, 192, 192);
+    }
+
+    public static LayerDefinition createExtraLayer2(CubeDeformation deformation) {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition bone = partdefinition.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(0.0F, 0.5F, 0.0F));
+        PartDefinition body = bone.addOrReplaceChild("body", CubeListBuilder.create().texOffs(64, 0).addBox(-9.0F, -20.0F, -7.0F, 18.0F, 14.0F, 14.0F, deformation)
+                .texOffs(0, 114).addBox(-6.0F, -6.0F, -5.0F, 12.0F, 6.0F, 10.0F, deformation), PartPose.offset(0.0F, 5.5F, 0.0F));
+        PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(84, 117).addBox(-5.0F, -9.0F, -5.0F, 10.0F, 9.0F, 10.0F, deformation)
+                /*.texOffs(44, 121).addBox(-5.0F, -5.0F, -5.0F, 10.0F, 2.0F, 10.0F, deformation.extend(0.25F))*/, PartPose.offset(0.0F, -20.0F, -3.5F));
+        PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(120, 28).addBox(0.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, deformation), PartPose.offset(9.0F, -13.0F, 0.0F));
+        PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(30, 28).addBox(-7.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, deformation), PartPose.offset(-9.0F, -13.0F, 0.0F));
+        PartDefinition left_leg = bone.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(120, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, deformation), PartPose.offset(4.5F, 5.5F, 0.0F));
+        PartDefinition right_leg = bone.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(30, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, deformation), PartPose.offset(-4.5F, 5.5F, 0.0F));
+
+        return LayerDefinition.create(meshdefinition, 192, 192);
+    }
+
+    public static LayerDefinition createExtraLayer3(CubeDeformation deformation) {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        PartDefinition bone = partdefinition.addOrReplaceChild("bone", CubeListBuilder.create(), PartPose.offset(0.0F, 0.5F, 0.0F));
+        PartDefinition body = bone.addOrReplaceChild("body", CubeListBuilder.create().texOffs(128, 0).addBox(-9.0F, -20.0F, -7.0F, 18.0F, 14.0F, 14.0F, deformation)
+                .texOffs(0, 130).addBox(-6.0F, -6.0F, -5.0F, 12.0F, 6.0F, 10.0F, deformation), PartPose.offset(0.0F, 5.5F, 0.0F));
+        PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(84, 136).addBox(-5.0F, -9.0F, -5.0F, 10.0F, 9.0F, 10.0F, deformation)
+                /*.texOffs(44, 140).addBox(-5.0F, -5.0F, -5.0F, 10.0F, 2.0F, 10.0F, deformation.extend(0.25F))*/, PartPose.offset(0.0F, -20.0F, -3.5F));
+        PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(150, 28).addBox(0.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, deformation), PartPose.offset(9.0F, -13.0F, 0.0F));
+        PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(60, 28).addBox(-7.0F, -6.0F, -4.0F, 7.0F, 36.0F, 8.0F, deformation), PartPose.offset(-9.0F, -13.0F, 0.0F));
+        PartDefinition left_leg = bone.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(150, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, deformation), PartPose.offset(4.5F, 5.5F, 0.0F));
+        PartDefinition right_leg = bone.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(60, 72).addBox(-3.5F, 0.0F, -4.0F, 7.0F, 18.0F, 8.0F, deformation), PartPose.offset(-4.5F, 5.5F, 0.0F));
+
+        return LayerDefinition.create(meshdefinition, 192, 192);
+    }
+
     public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         resetBodyPos();
+        resetHeadPos();
         resetArmPos();
         resetLegPos();
 
         this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
         this.head.xRot = headPitch * ((float)Math.PI / 180F);
 
-        this.right_arm.xRot = (-0.2F + 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-        this.left_arm.xRot = (-0.2F - 1.5F * Mth.triangleWave(limbSwing, 13.0F)) * limbSwingAmount;
-
-        this.right_leg.xRot = -1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-        this.left_leg.xRot = 1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-
-        this.animate(entity.leftAttackAnimationState, SteelGolemAnimation.leftArmAttackLoop, ageInTicks);
-        this.animate(entity.rightAttackAnimationState, SteelGolemAnimation.rightArmAttackLoop, ageInTicks);
-        this.animate(entity.attackStartAnimState, SteelGolemAnimation.attackStart, ageInTicks);
-        this.animate(entity.upswingAttackAnimationState, SteelGolemAnimation.upswingAttackLoop, ageInTicks);
-        this.animate(entity.leftAttackEndAnimState, SteelGolemAnimation.leftArmAttackEnd, ageInTicks);
-        this.animate(entity.rightAttackEndAnimState, SteelGolemAnimation.rightArmAttackEnd, ageInTicks);
-        this.animate(entity.upswingAttackEndAnimationState, SteelGolemAnimation.upswingAttackEnd, ageInTicks);
-        this.animate(entity.sitAnimState, SteelGolemAnimation.sitAnim, ageInTicks);
-        this.animate(entity.standFromSitAnimState, SteelGolemAnimation.standFromSitAnim, ageInTicks);
+        this.animate(entity.leftAttackAnimationState, SteelGolemAttackAnimation.leftArmAttackLoop, ageInTicks);
+        this.animate(entity.leftAttackEndAnimState, SteelGolemAttackAnimation.leftArmAttackEnd, ageInTicks);
+        this.animate(entity.rightAttackAnimationState, SteelGolemAttackAnimation.rightAttackLoop, ageInTicks);
+        this.animate(entity.rightAttackEndAnimState, SteelGolemAttackAnimation.rightAttackEnd, ageInTicks);
+        this.animate(entity.upswingAttackAnimState, SteelGolemAttackAnimation.upswingAttackLoop, ageInTicks);
+        this.animate(entity.upswingAttackEndAnimState, SteelGolemAttackAnimation.upswingAttackEnd, ageInTicks);
+        this.animate(entity.sitFromStandAnimState, SteelGolemAnimation.sitFromStand, ageInTicks);
+        this.animate(entity.standFromSitAnimState, SteelGolemAnimation.standFromSit, ageInTicks);
+        this.animate(entity.brokenAnim, SteelGolemAnimation.brokenDown, ageInTicks);
+        this.animate(entity.repairedAnim, SteelGolemAnimation.repairUp, ageInTicks);
+        this.animate(entity.ridden, SteelGolemAnimation.ridden, ageInTicks);
+        this.animate(entity.unRide, SteelGolemAnimation.unRide, ageInTicks);
+        if (entity.isSprinting()) {
+            this.animateWalk(SteelGolemAnimation.runCycle, limbSwing, limbSwingAmount, walkMaxAnimSpeed, walkAnimScaleFactor);
+        } else {
+            this.animateWalk(SteelGolemAnimation.walkCycle, limbSwing, limbSwingAmount, walkMaxAnimSpeed, walkAnimScaleFactor);
+        }
+        this.animate(entity.chestOpened, SteelGolemChestAnimation.chestOpen, ageInTicks);
+        this.animate(entity.chestClosed, SteelGolemChestAnimation.chestClosed, ageInTicks);
     }
-
-//    private void resetBonePos() {
-//        this.body.x = 0.0F;
-//        this.body.y = 5.0F;
-//        this.body.z = 0.0F;
-//        this.body.xRot = 0.0F;
-//        this.body.yRot = 0.0F;
-//        this.body.zRot = 0.0F;
-//    }
 
     private void resetBodyPos() {
         this.body.x = 0.0F;
@@ -104,6 +154,14 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
         this.body.xRot = 0.0F;
         this.body.yRot = 0.0F;
         this.body.zRot = 0.0F;
+    }
+    private void resetHeadPos() {
+        this.head.x = 0.0F;
+        this.head.y = -20.0F;
+        this.head.z = -3.5F;
+        this.head.xRot = 0.0F;
+        this.head.yRot = 0.0F;
+        this.head.zRot = 0.0F;
     }
     private void resetArmPos() {
         this.left_arm.x = 9.0F;

@@ -47,6 +47,7 @@ public class CreativeTabProperties {
         // Food
         if (tab == CreativeModeTabs.FOOD_AND_DRINKS) {
             putAfter(entries, Items.GLOW_BERRIES, ElementusItems.MOVCADIA_BERRIES);
+            putAfter(entries, ElementusItems.MOVCADIA_BERRIES, ElementusItems.GLISTERING_MOVCADIA_BERRIES);
         }
         // Ingredients
         if (tab == CreativeModeTabs.INGREDIENTS) {
@@ -193,6 +194,8 @@ public class CreativeTabProperties {
                 putAfter(entries, SniffsWeaponsItems.PLATED_ANTHEKTITE_CHESTPLATE, SniffsWeaponsItems.ANTHEKTITE_DO);
                 putAfter(entries, SniffsWeaponsItems.ANTHEKTITE_DO, SniffsWeaponsItems.CLOTHED_ANTHEKTITE_CUIRASS);
             }
+
+            putAfter(entries, Items.DIAMOND_HORSE_ARMOR, ElementusItems.REINFORCED_PLATING_GOLEM_UPGRADE);
         }
         // Blocks
         if (tab == CreativeModeTabs.BUILDING_BLOCKS) {

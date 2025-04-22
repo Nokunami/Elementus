@@ -12,11 +12,9 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -42,18 +40,22 @@ import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import static net.nokunami.elementus.ModChecker.betterCombat;
 
 public class DiarkriteChargeBlade extends SwordItem {
     private static final int BURST_RANGE = 1;
     private static final int BOOM_RANGE = 16;
+    private static final int RUSH_RANGE = 8;
     public static final String CHARGE_TAG = "Charge";
     private boolean startSoundPlayed = false;
     private boolean midLoadSoundPlayed = false;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    protected static final UUID ATTACK_REACH_UUID = UUID.fromString("fe181be2-3fd8-4a90-ba64-a4a06cef6d27");
+    protected static final UUID BASE_ATTACK_REACH_UUID = UUID.fromString("fe181be2-3fd8-4a90-ba64-a4a06cef6d27");
 
     public DiarkriteChargeBlade() {
         super(ModTiers.DIARKRITE, 0, 0, new Properties().fireResistant().rarity(Rarity.EPIC));
@@ -63,8 +65,10 @@ public class DiarkriteChargeBlade extends SwordItem {
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
         if (!betterCombat) {
-            if (ItemConfig.diarkriteChargeBladeAttackReach != 0) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(ATTACK_REACH_UUID, "Weapon modifier", ItemConfig.diarkriteChargeBladeAttackReach, AttributeModifier.Operation.ADDITION));
+            if (ItemConfig.diarkriteChargeBladeAttackReach != 0) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_REACH_UUID, "Weapon modifier", ItemConfig.diarkriteChargeBladeAttackReach, AttributeModifier.Operation.ADDITION));
         }
+//        if (getChargedState(this.getDefaultInstance()))
+//        defaultModifiers = Lazy.of(() -> createDefaultAttributeModifiers(attackDamageModifier, attackSpeedModifier, attackRangeModifier).build());
         this.defaultModifiers = builder.build();
     }
 
@@ -73,70 +77,82 @@ public class DiarkriteChargeBlade extends SwordItem {
         return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
     }
 
-    @Override
-    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity, int timeCharged) {
-        if (livingEntity instanceof Player) {
-            int i = this.getUseDuration(stack) - timeCharged;
-            if (i < 0) return;
-            float f = getPowerForTime(i);
-            if (!((double)f < 1D)) {
-                if (!level.isClientSide) {
-                    boolean c = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), stack) > 0;
-                    createBoom(level, livingEntity, stack);
-                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 1.0F, 1.0F);
-                    if (c) level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 1.0F, 1.0F);
-                }
-                if (enchanted(stack, 0)) livingEntity.hurt(level.damageSources().sonicBoom(livingEntity), livingEntity.getMaxHealth()*0.25F);
-            }
-        }
+    protected ImmutableMultimap.Builder<Attribute, AttributeModifier> createDefaultAttributeModifiers(float attackDamageModifier, float attackSpeedModifier, float attackRangeModifier) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamageModifier, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
+        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_REACH_UUID, "Weapon modifier", attackRangeModifier, AttributeModifier.Operation.ADDITION));
+        return builder;
     }
 
-    public static float getPowerForTime(int pCharge) {
-        float f = (float)pCharge / 20.0F;
-        f = (f * f + f * 2.0F) / 3.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        return f;
-    }
+//    @Override
+//    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity, int timeCharged) {
+//        if (livingEntity instanceof Player) {
+//            int i = this.getUseDuration(stack) - timeCharged;
+//            if (i < 0) return;
+//            float f = getPowerForTime(i);
+//            if (!((double)f < 1D)) {
+//                if (!level.isClientSide) {
+//                    boolean c = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), stack) > 0;
+//                    createBoom(level, livingEntity, stack);
+//                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 1.0F, 1.0F);
+//                    if (c) level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 1.0F, 1.0F);
+//                }
+//                if (enchanted(stack, 0)) livingEntity.hurt(level.damageSources().sonicBoom(livingEntity), livingEntity.getMaxHealth()*0.25F);
+//            }
+//        }
+//    }
+//
+//    public static float getPowerForTime(int pCharge) {
+//        float f = (float)pCharge / 20.0F;
+//        f = (f * f + f * 2.0F) / 3.0F;
+//        if (f > 1.0F) {
+//            f = 1.0F;
+//        }
+//        return f;
+//    }
 
     public int getUseDuration(@NotNull ItemStack pStack) {
         return 72000;
     }
 
     public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
-        return UseAnim.BOW;
+        return UseAnim.BLOCK;
     }
 
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (getCharge(itemStack) > 2 || enchanted(itemStack, 0) || player.isCreative()) {
+        if (!player.getCooldowns().isOnCooldown(itemStack.getItem())) {
             player.startUsingItem(hand);
             return InteractionResultHolder.consume(itemStack);
-        } else return super.use(level, player, hand);
+        } else {
+            player.stopUsingItem();
+            return InteractionResultHolder.pass(itemStack);
+        }
+//        return super.use(level, player, hand);
     }
 
-    @Override
-    public void onUseTick(Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-        if (!pLevel.isClientSide) {
-            int i = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.QUICK_CHARGE, pStack);
-            SoundEvent soundevent = SoundEvents.WARDEN_SONIC_CHARGE;
-            SoundEvent soundevent1 = i == 0 ? SoundEvents.VEX_CHARGE : null;
-            float f = (float)(pStack.getUseDuration() - pRemainingUseDuration) / (float)getChargeDuration(pStack);
-            if (f < 0.2F) {
-                this.startSoundPlayed = false;
-                this.midLoadSoundPlayed = false;
-            }
-            if (f >= 0.2F && !this.startSoundPlayed) {
-                this.startSoundPlayed = true;
-                pLevel.playSound(null, pLivingEntity.getX(), pLivingEntity.getY(), pLivingEntity.getZ(), soundevent, SoundSource.PLAYERS, 0.5F, 1.0F);
-            }
-            if (f >= 0.5F && soundevent1 != null && !this.midLoadSoundPlayed) {
-                this.midLoadSoundPlayed = true;
-                pLevel.playSound(null, pLivingEntity.getX(), pLivingEntity.getY(), pLivingEntity.getZ(), soundevent1, SoundSource.PLAYERS, 0.5F, 1.0F);
-            }
-        }
-    }
+//    @Override
+//    public void onUseTick(Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
+//        if (!pLevel.isClientSide) {
+//            int i = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.QUICK_CHARGE, pStack);
+//            SoundEvent soundevent = SoundEvents.WARDEN_SONIC_CHARGE;
+//            SoundEvent soundevent1 = i == 0 ? SoundEvents.VEX_CHARGE : null;
+//            float f = (float)(pStack.getUseDuration() - pRemainingUseDuration) / (float)getChargeDuration(pStack);
+//            if (f < 0.2F) {
+//                this.startSoundPlayed = false;
+//                this.midLoadSoundPlayed = false;
+//            }
+//            if (f >= 0.2F && !this.startSoundPlayed) {
+//                this.startSoundPlayed = true;
+//                pLevel.playSound(null, pLivingEntity.getX(), pLivingEntity.getY(), pLivingEntity.getZ(), soundevent, SoundSource.PLAYERS, 0.5F, 1.0F);
+//            }
+//            if (f >= 0.5F && soundevent1 != null && !this.midLoadSoundPlayed) {
+//                this.midLoadSoundPlayed = true;
+//                pLevel.playSound(null, pLivingEntity.getX(), pLivingEntity.getY(), pLivingEntity.getZ(), soundevent1, SoundSource.PLAYERS, 0.5F, 1.0F);
+//            }
+//        }
+//    }
 
     public static int getChargeDuration(ItemStack pCrossbowStack) {
         int i = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.QUICK_CHARGE, pCrossbowStack);
@@ -181,8 +197,9 @@ public class DiarkriteChargeBlade extends SwordItem {
 
     public static boolean enchanted(ItemStack itemStack, int type) {
         int curse = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.SACRIFICE_CURSE.get(), itemStack);
-        int resonance = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), itemStack);
-        return type == 0 ? curse > 0 : type == 1 && resonance > 0;
+        int condensed_burst = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), itemStack);
+        int rush = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.RUSH.get(), itemStack);
+        return type == 0 ? curse > 0 : type == 1 ? condensed_burst > 0 : type == 2 && rush > 0;
     }
 
     public static void setCharge(ItemStack stack, int amount) {
@@ -194,35 +211,40 @@ public class DiarkriteChargeBlade extends SwordItem {
         return tag != null ? tag.getInt(CHARGE_TAG) : 0;
     }
 
-    public boolean getChargedState(ItemStack stack) {
+    public static void addCharge(ItemStack stack, int amount) {
+        if (getCharge(stack) < getMaxCharge(stack)) {
+            stack.getOrCreateTag().putInt(CHARGE_TAG, getCharge(stack) + amount);
+        }
+    }
+
+    public static boolean getChargedState(ItemStack stack) {
         return getCharge(stack) == getMaxCharge(stack);
     }
 
     public static int getMaxCharge(ItemStack itemStack) {
-//        int i = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.BLOCK_FORTUNE, itemStack);
-//        return i > 0 ? 8 : 7;
-        return 7;
+        int i = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), itemStack);
+        return i > 0 ? 14 : 7;
     }
 
     public static float getChargeAmount(ItemStack stack) {
         int i0 = getCharge(stack);
         int i1 = getMaxCharge(stack);
         float base = (float) i0 / i1;
-        if (enchanted(stack, 0)) base = 1.25F;
-        return base * (enchanted(stack, 1) ? 0.6F : 1);
+        if (enchanted(stack, 0)) base += 1.25F;
+        return base;
     }
 
     public static boolean getFriendlyFire(ItemStack stack) {
         return stack.getOrCreateTag().getBoolean("FriendlyFire");
     }
 
-    public void setFriendlyFire(ItemStack stack, boolean b) {
+    public static void setFriendlyFire(ItemStack stack, boolean b) {
         stack.getOrCreateTag().putBoolean("FriendlyFire", b);
     }
 
     @Override
-    public boolean overrideOtherStackedOnMe(@NotNull ItemStack stack, ItemStack otherStack, @NotNull Slot slot, @NotNull ClickAction action, @NotNull Player player, @NotNull SlotAccess access) {
-        if (otherStack.isEmpty() && Screen.hasAltDown()) {
+    public boolean overrideOtherStackedOnMe(@NotNull ItemStack stack, @NotNull ItemStack otherStack, @NotNull Slot slot, @NotNull ClickAction action, @NotNull Player player, @NotNull SlotAccess access) {
+        if (otherStack.isEmpty() && action == ClickAction.SECONDARY) {
             setFriendlyFire(stack, !getFriendlyFire(stack));
             player.playSound(SoundEvents.ENDER_EYE_DEATH);
             return true;
@@ -246,8 +268,8 @@ public class DiarkriteChargeBlade extends SwordItem {
     }
 
     @Override
-    public boolean canBeHurtBy(DamageSource pDamageSource) {
-        return pDamageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
+    public boolean canBeHurtBy(@NotNull DamageSource pDamageSource) {
+        return false;
     }
 
     @Override
@@ -257,7 +279,7 @@ public class DiarkriteChargeBlade extends SwordItem {
 
     @Override
     public int getBarColor(@NotNull ItemStack pStack) {
-        return 7924965;
+        return enchanted(pStack, 0) ? 16733525 : 7924965;
     }
 
     @Override
@@ -265,12 +287,13 @@ public class DiarkriteChargeBlade extends SwordItem {
         return getCharge(pStack) > 0;
     }
 
+
     /// Crossbow Expansion code
-    private static void createBoom(Level level, LivingEntity livingEntity, ItemStack stack) {
+    public static void createBoom(Level level, LivingEntity livingEntity, ItemStack stack) {
         int i = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), stack);
-        float range = i > 0 ? BOOM_RANGE : BURST_RANGE;
+        float range = enchanted(stack, 1) ? BOOM_RANGE : enchanted(stack, 2) ? RUSH_RANGE : BURST_RANGE;
         float radius = i > 0 ? 0.5F : 2F;
-        float creativeModeCharge = enchanted(stack, 1) ? 0.6F : 1F;
+        float creativeModeCharge = 1;
         float chargeAmount = ((Player)livingEntity).isCreative() && !enchanted(stack, 0) ? creativeModeCharge : getChargeAmount(stack);
         SimpleParticleType particleTypes = i > 0 ? ParticleTypes.SONIC_BOOM : ModParticleTypes.SONIC_BURST_EMITTER.get();
         Vec3 target = livingEntity.getEyePosition().add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(range));
@@ -289,14 +312,27 @@ public class DiarkriteChargeBlade extends SwordItem {
             ((ServerLevel)level).sendParticles(particleTypes, particlePos.x, particlePos.y, particlePos.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
             hitSet.addAll(level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos((int)particlePos.x(), (int)particlePos.y(), (int)particlePos.z()))).inflate(radius),
                     (e) -> !(e instanceof OwnableEntity) && (e.isAlliedTo(livingEntity) && getFriendlyFire(stack) || !e.isAlliedTo(livingEntity)) ||
-                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() != null && getFriendlyFire(stack))) ||
-                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() == null)) ||
-                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() != null)
-                                    && (((OwnableEntity)e).getOwner().isAlliedTo(livingEntity) && getFriendlyFire(stack)))
+                            (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&
+                                    (ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)) && getFriendlyFire(stack)) ||
+                                    ownable.getOwner() == null))
+
+//                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() != null && getFriendlyFire(stack))) ||
+//                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() == null)) ||
+//                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() != null) && (((OwnableEntity)e).getOwner().isAlliedTo(livingEntity) && getFriendlyFire(stack)))
+
+//                    (e) -> !(e instanceof OwnableEntity /*&& (ownable.getOwner() != null && (ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)))*/ && !e.isAlliedTo(livingEntity))
+//                    (e) -> !(e instanceof OwnableEntity && !e.isAlliedTo(livingEntity))
+
+//                    (e) -> !(e instanceof OwnableEntity) && !e.isAlliedTo(livingEntity) ||
+//                            ((e instanceof OwnableEntity ownable && ownable.getOwner() != null) && !(ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)))
+
+//                    (e) -> ((!(e instanceof OwnableEntity) && (!e.isAlliedTo(livingEntity)) && getFriendlyFire(stack)) ||
+//                            ((e instanceof OwnableEntity ownable && ownable.getOwner() != null) && !(ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity))))
             ));
         }
-        applyRecoil(livingEntity, chargeAmount);
         hitSet.remove(livingEntity);
+        if (!livingEntity.onGround() || enchanted(stack, 2))
+            applyRecoil(livingEntity, livingEntity, chargeAmount * (enchanted(stack, 2) ? 2 : 1), enchanted(stack, 2) ? 1 : 0);
 
         for(Entity hitTarget : hitSet) {
             if (hitTarget instanceof LivingEntity living) {
@@ -304,7 +340,7 @@ public class DiarkriteChargeBlade extends SwordItem {
                     living.setLastHurtByPlayer(player);
                 }
                 living.hurt(livingEntity.damageSources().sonicBoom(livingEntity), (float) ItemConfig.diarkriteChargeBladeSonicDamage * chargeAmount);
-                living.knockback(chargeAmount, Mth.sin(livingEntity.getYRot() * ((float)Math.PI / 180F)), -Mth.cos(livingEntity.getYRot() * ((float)Math.PI / 180F)));
+                applyRecoil(living, livingEntity, chargeAmount, 1);
             }
         }
 
@@ -315,15 +351,19 @@ public class DiarkriteChargeBlade extends SwordItem {
     }
 
     /// ArcheryExpansion code: BowItemMixin
-    private static void applyRecoil(LivingEntity user, double amount) {
-        Vec3 lookDirection = user.getViewVector(1.0f);
-        Vec3 knockback = lookDirection.multiply(-amount, -amount, -amount);
+    private static void applyRecoil(LivingEntity target,LivingEntity source, double amount, int type) {
+        Vec3 lookDirection = source.getViewVector(1.0f);
+        double factor;
+        if (type == 1) {
+            factor = amount;
+        } else factor = -amount;
+        Vec3 knockback = lookDirection.multiply(factor, factor, factor);
 
-        user.setDeltaMovement(
-                user.getDeltaMovement().x + knockback.x,
-                user.getDeltaMovement().y + knockback.y,
-                user.getDeltaMovement().z + knockback.z
+        target.setDeltaMovement(
+                source.getDeltaMovement().x + knockback.x,
+                source.getDeltaMovement().y + knockback.y,
+                source.getDeltaMovement().z + knockback.z
         );
-        user.hurtMarked = true;
+        target.hurtMarked = true;
     }
 }

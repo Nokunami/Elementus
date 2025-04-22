@@ -1,7 +1,6 @@
 package net.nokunami.elementus.client.render.entity.steelGolem;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +23,8 @@ public class SteelGolemRenderer extends MobRenderer<SteelGolem, SteelGolemModel<
         this.addLayer(new SteelGolemLeavesLayer(this, context.getModelSet()));
         this.addLayer(new SteelGolemCarpetLayer(this, context.getModelSet()));
         this.addLayer(new SteelGolemMossLayer(this, context.getModelSet()));
+        this.addLayer(new SteelGolemArmorLayer(this, context.getModelSet()));
+        this.addLayer(new SteelGolemChestLayer(this, context.getModelSet()));
     }
 
     public @NotNull ResourceLocation getTextureLocation(@NotNull SteelGolem pEntity) {
@@ -32,11 +33,11 @@ public class SteelGolemRenderer extends MobRenderer<SteelGolem, SteelGolemModel<
 
     protected void setupRotations(@NotNull SteelGolem pEntityLiving, @NotNull PoseStack pPoseStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
         super.setupRotations(pEntityLiving, pPoseStack, pAgeInTicks, pRotationYaw, pPartialTicks);
-        if (!((double)pEntityLiving.walkAnimation.speed() < 0.01D)) {
-            float f = 13.0F;
-            float f1 = pEntityLiving.walkAnimation.position(pPartialTicks) + 6.0F;
-            float f2 = (Math.abs(f1 % 13.0F - 6.5F) - 3.25F) / 3.25F;
-            pPoseStack.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
-        }
+//        if (!((double)pEntityLiving.walkAnimation.speed() < 0.01D)) {
+//            float f = 13.0F;
+//            float f1 = pEntityLiving.walkAnimation.position(pPartialTicks) + 6.0F;
+//            float f2 = (Math.abs(f1 % 13.0F - 6.5F) - 3.25F) / 3.25F;
+//            pPoseStack.mulPose(Axis.ZP.rotationDegrees(6.5F * f2));
+//        }
     }
 }

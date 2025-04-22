@@ -1,4 +1,4 @@
-package net.nokunami.elementus.common.entity.ai.steelGolem;
+package net.nokunami.elementus.common.entity.ai.goal.steelGolem;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,7 +17,7 @@ import net.nokunami.elementus.common.entity.living.TamableGolem;
 import java.util.EnumSet;
 
 public class GolemFollowOwnerGoal extends Goal {
-    public static final int TELEPORT_WHEN_DISTANCE_IS = 12;
+    public static final int TP_DISTANCE_SQD = 16;
     private static final int MinHorizontalDistanceFromPlayerWhenTeleporting = 2;
     private static final int MAX_HORIZONTAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 5;
     private static final int MAX_VERTICAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 3;
@@ -81,7 +81,7 @@ public class GolemFollowOwnerGoal extends Goal {
 
     private boolean unableToMove() {
         if (tamable instanceof SteelGolem golem) {
-            return golem.getChassisState();
+            return golem.isChassisBroken();
         }
         return this.tamable.isOrderedToSit() || this.tamable.isPassenger() || this.tamable.isLeashed();
     }
@@ -95,23 +95,17 @@ public class GolemFollowOwnerGoal extends Goal {
         this.tamable.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
-    /**
-     * Reset the task's internal state. Called when this task is interrupted by another one
-     */
     public void stop() {
         this.owner = null;
         this.navigation.stop();
         this.tamable.setPathfindingMalus(BlockPathTypes.WATER, this.oldWaterCost);
     }
 
-    /**
-     * Keep ticking a continuous task that has already been started
-     */
     public void tick() {
         this.tamable.getLookControl().setLookAt(this.owner, 10.0F, (float)this.tamable.getMaxHeadXRot());
         if (--this.timeToRecalcPath <= 0) {
             this.timeToRecalcPath = this.adjustedTickDelay(10);
-            if (this.tamable.distanceToSqr(this.owner) >= 144.0D) {
+            if (this.tamable.distanceToSqr(this.owner) >= TP_DISTANCE_SQD * TP_DISTANCE_SQD) {
                 this.teleportToOwner();
             } else {
                 this.navigation.moveTo(this.owner, this.speedModifier);

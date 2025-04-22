@@ -27,6 +27,7 @@ public class EntityConfig {
     //Armor
     public static double MaxHealth;
     public static double MovementSpeed;
+    public static double AngryMovementSpeed;
     public static double KnockbackResist;
     public static double AttackDamage;
     public static double Armor;
@@ -43,6 +44,7 @@ public class EntityConfig {
     private void setDefaults() {
         MaxHealth = 150;
         MovementSpeed = 0.25;
+        AngryMovementSpeed = 0.3;
         KnockbackResist = 1;
         AttackDamage = 15;
         Armor = 10;
@@ -97,6 +99,7 @@ public class EntityConfig {
                     switch (key) {
                         case "Steel.MaxHealth": MaxHealth = value; break;
                         case "Steel.MovementSpeed": MovementSpeed = value; break;
+                        case "Steel.AngryMovementSpeed": AngryMovementSpeed = value; break;
                         case "Steel.KnockbackResist": KnockbackResist = value; break;
                         case "Steel.AttackDamage": AttackDamage = value; break;
                         case "Steel.Armor": Armor = value; break;
@@ -133,6 +136,8 @@ public class EntityConfig {
             writer.write("  Steel.MaxHealth = " + MaxHealth + "\n");
             writer.write("# Default: " + MovementSpeed + "\n");
             writer.write("  Steel.MovementSpeed = " + MovementSpeed + "\n");
+            writer.write("# Default: " + AngryMovementSpeed + "\n");
+            writer.write("  Steel.AngryMovementSpeed = " + AngryMovementSpeed + "\n");
             writer.write("# Default: " + KnockbackResist + "\n");
             writer.write("  Steel.KnockbackResist = " + KnockbackResist + "\n");
             writer.write("# Default: " + AttackDamage + "\n");

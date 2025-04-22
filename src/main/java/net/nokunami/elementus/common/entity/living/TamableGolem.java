@@ -3,113 +3,59 @@ package net.nokunami.elementus.common.entity.living;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.network.NetworkHooks;
+import net.nokunami.elementus.common.registry.ModSoundEvents;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
+import java.util.function.Predicate;
 
-public abstract class TamableGolem extends TamableAnimal implements /*ContainerListener, HasCustomInventoryScreen,*/ PlayerRideableJumping, Saddleable, RiderShieldingMount {
+public abstract class TamableGolem extends TamableAnimal implements ContainerListener, HasCustomInventoryScreen, MenuProvider, PlayerRideableJumping, Saddleable, RiderShieldingMount {
+    private static final EntityDataAccessor<Byte> DATA_SADDLED_ID = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Boolean> DATA_ID_CHEST = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     public static final int EQUIPMENT_SLOT_OFFSET = 400;
     public static final int CHEST_SLOT_OFFSET = 499;
     public static final int INVENTORY_SLOT_OFFSET = 500;
-//    private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BYTE);
-//    protected static final EntityDataAccessor<Optional<UUID>> DATA_OWNERUUID_ID = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.OPTIONAL_UUID);
-//    private static final int FLAG_SADDLE = 4;
+    public static final int SADDLE_FLAG_ID = 1;
     public static final int INV_SLOT_SADDLE = 0;
     public static final int INV_SLOT_ARMOR = 1;
     public static final int INV_BASE_COUNT = 2;
     public int sprintCounter;
     protected boolean isJumping;
-    protected SimpleContainer inventory;
+    public SimpleContainer inventory;
 
     protected TamableGolem(EntityType<? extends TamableGolem> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-//        this.createInventory();
-        this.reassessTameGoals();
+        this.createInventory();
     }
 
-    // Ai Related
-
-    // Entity Data
-    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
-        super.addAdditionalSaveData(pCompound);
-
-//        if (!this.inventory.getItem(0).isEmpty()) {
-//            pCompound.put("SaddleItem", this.inventory.getItem(0).save(new CompoundTag()));
-//        }
-    }
-
-    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
-//        if (pCompound.contains("SaddleItem", 10)) {
-//            ItemStack itemstack = ItemStack.of(pCompound.getCompound("SaddleItem"));
-//            if (itemstack.is(Items.SADDLE)) {
-//                this.inventory.setItem(0, itemstack);
-//            }
-//        }
-
-//        this.updateContainerEquipment();
-    }
-
-
-//    public void handleEntityEvent(byte pId) {
-//        if (pId == 7) {
-//            this.spawnTamingParticles(true);
-//        } else if (pId == 6) {
-//            this.spawnTamingParticles(false);
-//        } else {
-//            super.handleEntityEvent(pId);
-//        }
-//    }
-
-//    protected boolean getFlag(int pFlagId) {
-//        return (this.entityData.get(DATA_FLAGS_ID) & pFlagId) != 0;
-//    }
-//
-//    protected void setFlag(int pFlagId, boolean pValue) {
-//        byte b0 = this.entityData.get(DATA_FLAGS_ID);
-//        if (pValue) {
-//            this.entityData.set(DATA_FLAGS_ID, (byte)(b0 | pFlagId));
-//        } else {
-//            this.entityData.set(DATA_FLAGS_ID, (byte)(b0 & ~pFlagId));
-//        }
-//    }
-
-    // Tame Related Stuff
-    @Nullable
-    public UUID getOwnerUUID() {
-        return this.entityData.get(DATA_OWNERUUID_ID).orElse(null);
-    }
-
-    // Movement Related
-    public boolean isJumping() {
-        return this.isJumping;
-    }
-
-    public void setIsJumping(boolean pJumping) {
-        this.isJumping = pJumping;
-    }
-
-    // Combat Related
-    /**
-     * Returns whether this Entity is on the same team as the given Entity.
-     */
     public boolean isAlliedTo(@NotNull Entity pEntity) {
         if (this.isTame()) {
             LivingEntity livingentity = this.getOwner();
@@ -127,24 +73,79 @@ public abstract class TamableGolem extends TamableAnimal implements /*ContainerL
 
     // Ridable Stuff
     @Override
-    protected void positionRider(@NotNull Entity pPassenger, @NotNull MoveFunction pCallback) {
-        super.positionRider(pPassenger, pCallback);
-        float f = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F));
-        float f1 = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F));
-        float f2 = 0.5F /** this.standAnimO*/;
-        float f3 = 0.15F /** this.standAnimO*/;
-        pCallback.accept(pPassenger,
-                this.getX() + (double)(f2 * f),
-                this.getY() + this.getPassengersRidingOffset() + pPassenger.getMyRidingOffset()/* + (double)f3*/,
-                this.getZ() - (double)(f2 * f1));
-        if (pPassenger instanceof LivingEntity) {
-            ((LivingEntity)pPassenger).yBodyRot = this.yBodyRot;
-        }
+    public boolean dismountsUnderwater() {
+        return false;
     }
 
     @Override
-    public boolean dismountsUnderwater() {
-        return false;
+    public double getRiderShieldingHeight() {
+        return 1.25D;
+    }
+
+    @Override
+    public @NotNull SoundEvent getSaddleSoundEvent() {
+        return ModSoundEvents.STEEL_GOLEM_SADDLED.get();
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.getEntityData().define(DATA_SADDLED_ID, (byte) 0);
+        this.entityData.define(DATA_ID_CHEST, false);
+    }
+
+    protected boolean getSaddleFlag() {
+        return (this.entityData.get(DATA_SADDLED_ID) & SADDLE_FLAG_ID) != 0;
+    }
+
+    protected void setSaddleFlag(boolean pValue) {
+        byte b0 = this.entityData.get(DATA_SADDLED_ID);
+        if (pValue) {
+            this.entityData.set(DATA_SADDLED_ID, (byte)(b0 | SADDLE_FLAG_ID));
+        } else {
+            this.entityData.set(DATA_SADDLED_ID, (byte)(b0 & ~SADDLE_FLAG_ID));
+        }
+    }
+
+    public boolean hasChest() {
+        return this.entityData.get(DATA_ID_CHEST);
+    }
+
+    public void setChest(boolean pChested) {
+        this.entityData.set(DATA_ID_CHEST, pChested);
+    }
+
+    public boolean isJumping() {
+        return this.isJumping;
+    }
+
+    public void setIsJumping(boolean pJumping) {
+        this.isJumping = pJumping;
+    }
+
+    public boolean isSaddleable() {
+        return this.isAlive() && this.isTame();
+    }
+
+    public void equipSaddle(@Nullable SoundSource pSource) {
+        this.inventory.setItem(INV_SLOT_SADDLE, new ItemStack(Items.SADDLE));
+    }
+
+    public void equipArmor(@NotNull Player pPlayer, @NotNull ItemStack pArmor) {
+        if (this.isArmor(pArmor)) {
+            this.inventory.setItem(1, pArmor.copyWithCount(1));
+            if (!pPlayer.getAbilities().instabuild) {
+                pArmor.shrink(1);
+            }
+        }
+    }
+
+    public boolean isSaddled() {
+        return this.getSaddleFlag();
+    }
+
+    public boolean isPushable() {
+        return !this.isVehicle();
     }
 
     @Override
@@ -152,9 +153,117 @@ public abstract class TamableGolem extends TamableAnimal implements /*ContainerL
         return false;
     }
 
+    protected int getInventorySize() {
+        return INV_BASE_COUNT;
+    }
+
+    protected void createInventory() {
+        SimpleContainer simplecontainer = this.inventory;
+        this.inventory = new SimpleContainer(this.getInventorySize());
+        if (simplecontainer != null) {
+            simplecontainer.removeListener(this);
+            int i = Math.min(simplecontainer.getContainerSize(), this.inventory.getContainerSize());
+
+            for(int j = 0; j < i; ++j) {
+                ItemStack itemstack = simplecontainer.getItem(j);
+                if (!itemstack.isEmpty()) {
+                    this.inventory.setItem(j, itemstack.copy());
+                }
+            }
+        }
+
+        this.inventory.addListener(this);
+        this.updateContainerEquipment();
+        this.itemHandler = LazyOptional.of(() -> new InvWrapper(this.inventory));
+    }
+
+    protected void updateContainerEquipment() {
+        if (!this.level().isClientSide) {
+            this.setSaddleFlag(!this.inventory.getItem(0).isEmpty());
+        }
+    }
+
     @Override
-    public double getRiderShieldingHeight() {
-        return 1.25D;
+    public void containerChanged(@NotNull Container pContainer) {
+        boolean flag = this.isSaddled();
+        this.updateContainerEquipment();
+        if (this.tickCount > 20 && !flag && this.isSaddled()) {
+            this.playSound(this.getSaddleSoundEvent(), 0.5F, 1.0F);
+        }
+    }
+
+    public void openCustomInventoryScreen(@NotNull Player pPlayer) {
+//        if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(pPlayer)) && this.isTame()) {
+//        }
+    }
+
+    protected InteractionResult doPlayerRide(Player pPlayer) {
+        this.setOrderedToSit(false);
+        this.setInSittingPose(false);
+        if (!this.level().isClientSide) {
+            pPlayer.setYRot(this.getYRot());
+            pPlayer.setXRot(this.getXRot());
+            pPlayer.startRiding(this);
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    protected void dropEquipment() {
+        super.dropEquipment();
+        if (this.inventory != null) {
+            for(int i = 0; i < this.inventory.getContainerSize(); ++i) {
+                ItemStack itemstack = this.inventory.getItem(i);
+                if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack)) {
+                    this.spawnAtLocation(itemstack);
+                }
+            }
+
+        }
+    }
+
+    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+//        if (!this.isVehicle() && !this.isBaby()) {
+//            if (this.isTame() && player.isSecondaryUseActive()) {
+//                this.openCustomInventoryScreen(player);
+//                return InteractionResult.sidedSuccess(this.level().isClientSide);
+//            } else {
+//                ItemStack itemstack = player.getItemInHand(hand);
+//                if (!itemstack.isEmpty()) {
+//                    InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
+//                    if (interactionresult.consumesAction()) {
+//                        return interactionresult;
+//                    }
+//                    if (this.canWearArmor() && this.isArmor(itemstack) && !this.isWearingArmor()) {
+//                        this.equipArmor(player, itemstack);
+//                        return InteractionResult.sidedSuccess(this.level().isClientSide);
+//                    }
+//                }
+//                this.doPlayerRide(player);
+//                return InteractionResult.sidedSuccess(this.level().isClientSide);
+//            }
+//        } else {
+//            return super.mobInteract(player, hand);
+//        }
+        if (this.isTame()) {
+            if (!this.level().isClientSide && player.isCrouching() && player instanceof ServerPlayer serverPlayer) {
+                NetworkHooks.openScreen(serverPlayer, this);
+                openCustomInventoryScreen(player);
+                if (hasChest()) this.level().playSound(null, this.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+            ItemStack itemStack = player.getItemInHand(hand);
+            if (!itemStack.isEmpty()) {
+                InteractionResult interactionresult = itemStack.interactLivingEntity(player, this, hand);
+                if (interactionresult.consumesAction()) {
+                    return interactionresult;
+                }
+                if (this.canWearArmor() && this.isArmor(itemStack) && !this.isWearingArmor()) {
+                    this.equipArmor(player, itemStack);
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+            }
+        }
+        return super.mobInteract(player, hand);
     }
 
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
@@ -175,7 +284,7 @@ public abstract class TamableGolem extends TamableAnimal implements /*ContainerL
     }
 
     protected Vec2 getRiddenRotation(LivingEntity pEntity) {
-        return new Vec2(pEntity.getXRot() * 0.5F, pEntity.getYRot());
+        return new Vec2(pEntity.getXRot() * 0.25F, pEntity.getYRot());
     }
 
     protected @NotNull Vec3 getRiddenInput(Player pPlayer, @NotNull Vec3 pTravelVector) {
@@ -184,7 +293,6 @@ public abstract class TamableGolem extends TamableAnimal implements /*ContainerL
         if (f1 <= 0.0F) {
             f1 *= 0.25F;
         }
-
         return new Vec3(f, 0.0D, f1);
     }
 
@@ -204,20 +312,106 @@ public abstract class TamableGolem extends TamableAnimal implements /*ContainerL
         if (pTravelVector.z > 0.0D) {
             float f = Mth.sin(this.getYRot() * ((float)Math.PI / 180F));
             float f1 = Mth.cos(this.getYRot() * ((float)Math.PI / 180F));
-            this.setDeltaMovement(this.getDeltaMovement().add((double)(-0.4F * f * pPlayerJumpPendingScale), 0.0D, (double)(0.4F * f1 * pPlayerJumpPendingScale)));
+            this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * pPlayerJumpPendingScale, 0.0D, 0.4F * f1 * pPlayerJumpPendingScale));
         }
-
     }
 
-    protected void doPlayerRide(Player pPlayer) {
-//        Elementus.LOGGER.debug("test ride");
-        this.setOrderedToSit(false);
-        this.setInSittingPose(false);
-        if (!this.level().isClientSide) {
-            pPlayer.setYRot(this.getYRot());
-            pPlayer.setXRot(this.getXRot());
-            pPlayer.startRiding(this);
+    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (!this.inventory.getItem(0).isEmpty()) {
+            tag.put("SaddleItem", this.inventory.getItem(0).save(new CompoundTag()));
         }
+    }
+
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.contains("SaddleItem", 10)) {
+            ItemStack itemstack = ItemStack.of(tag.getCompound("SaddleItem"));
+            if (itemstack.is(Items.SADDLE)) {
+                this.inventory.setItem(0, itemstack);
+            }
+        }
+        this.updateContainerEquipment();
+    }
+
+    @Override
+    public void onPlayerJump(int pJumpPower) {
+    }
+
+    @Override
+    public boolean canJump() {
+        return false;
+    }
+
+    @Override
+    public void handleStartJump(int pJumpPower) {
+    }
+
+    @Override
+    public void handleStopJump() {
+    }
+
+    @Override
+    protected void positionRider(@NotNull Entity passenger, @NotNull MoveFunction moveFunction) {
+        super.positionRider(passenger, moveFunction);
+        float f = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F));
+        float f1 = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F));
+        float f2 = 0.15F;
+        float f3 = 0.3F;
+        moveFunction.accept(passenger,
+                this.getX() - (double)(f2 * f),
+                this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset()/* + (double)f3*/,
+                this.getZ() - (double)(f * f1));
+        if (passenger instanceof LivingEntity) {
+            ((LivingEntity)passenger).yBodyRot = this.yBodyRot;
+        }
+    }
+
+    public boolean canWearArmor() {
+        return false;
+    }
+
+    public boolean isWearingArmor() {
+        return !this.getItemBySlot(EquipmentSlot.CHEST).isEmpty();
+    }
+
+    public boolean isArmor(@NotNull ItemStack pStack) {
+        return false;
+    }
+
+    protected SlotAccess createEquipmentSlotAccess(final int pSlot, final Predicate<ItemStack> pStackFilter) {
+        return new SlotAccess() {
+            public @NotNull ItemStack get() {
+                return TamableGolem.this.inventory.getItem(pSlot);
+            }
+
+            public boolean set(@NotNull ItemStack stack) {
+                if (!pStackFilter.test(stack)) {
+                    return false;
+                } else {
+                    TamableGolem.this.inventory.setItem(pSlot, stack);
+                    TamableGolem.this.updateContainerEquipment();
+                    return true;
+                }
+            }
+        };
+    }
+
+    public @NotNull SlotAccess getSlot(int pSlot) {
+        int i = pSlot - EQUIPMENT_SLOT_OFFSET;
+        if (i >= INV_SLOT_SADDLE && i < INV_BASE_COUNT && i < this.inventory.getContainerSize()) {
+            if (i == INV_SLOT_SADDLE) {
+                return this.createEquipmentSlotAccess(i, (stack) -> stack.isEmpty() || stack.is(Items.SADDLE));
+            }
+            if (i == INV_SLOT_ARMOR) {
+                if (!this.canWearArmor()) {
+                    return SlotAccess.NULL;
+                }
+                return this.createEquipmentSlotAccess(i, (p_149516_) -> p_149516_.isEmpty() || this.isArmor(p_149516_));
+            }
+        }
+        int j = pSlot - INVENTORY_SLOT_OFFSET + 2;
+        return j >= 2 && j < this.inventory.getContainerSize() ? SlotAccess.forContainer(this.inventory, j) : super.getSlot(pSlot);
     }
 
     @Nullable
@@ -274,174 +468,52 @@ public abstract class TamableGolem extends TamableAnimal implements /*ContainerL
     }
 
     public @NotNull Vec3 getDismountLocationForPassenger(LivingEntity pLivingEntity) {
-        Vec3 vec3 = getCollisionHorizontalEscapeVector((double)this.getBbWidth(), (double)pLivingEntity.getBbWidth(), this.getYRot() + (pLivingEntity.getMainArm() == HumanoidArm.RIGHT ? 90.0F : -90.0F));
+        Vec3 vec3 = getCollisionHorizontalEscapeVector(this.getBbWidth(), pLivingEntity.getBbWidth(), this.getYRot() + (pLivingEntity.getMainArm() == HumanoidArm.RIGHT ? 90.0F : -90.0F));
         Vec3 vec31 = this.getDismountLocationInDirection(vec3, pLivingEntity);
         if (vec31 != null) {
             return vec31;
         } else {
-            Vec3 vec32 = getCollisionHorizontalEscapeVector((double)this.getBbWidth(), (double)pLivingEntity.getBbWidth(), this.getYRot() + (pLivingEntity.getMainArm() == HumanoidArm.LEFT ? 90.0F : -90.0F));
+            Vec3 vec32 = getCollisionHorizontalEscapeVector(this.getBbWidth(), pLivingEntity.getBbWidth(), this.getYRot() + (pLivingEntity.getMainArm() == HumanoidArm.LEFT ? 90.0F : -90.0F));
             Vec3 vec33 = this.getDismountLocationInDirection(vec32, pLivingEntity);
             return vec33 != null ? vec33 : this.position();
         }
     }
 
-    public boolean isSaddleable() {
-        return this.isAlive() && this.isTame();
-    }
-
-    public void equipSaddle(@javax.annotation.Nullable SoundSource pSource) {
-        this.inventory.setItem(0, new ItemStack(Items.SADDLE));
-    }
-
-//    public boolean isSaddled() {
-//        return this.getFlag(FLAG_SADDLE);
-//    }
+    protected LazyOptional<?> itemHandler = null;
 
     @Override
-    public void onPlayerJump(int pJumpPower) {
+    public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
+        if (this.isAlive() && capability == ForgeCapabilities.ITEM_HANDLER && itemHandler != null)
+            return itemHandler.cast();
+        return super.getCapability(capability, facing);
     }
 
-    public void equipArmor(@NotNull Player pPlayer, @NotNull ItemStack pArmor) {
-        if (this.isArmor(pArmor)) {
-            this.inventory.setItem(1, pArmor.copyWithCount(1));
-            if (!pPlayer.getAbilities().instabuild) {
-                pArmor.shrink(1);
-            }
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        if (itemHandler != null) {
+            LazyOptional<?> oldHandler = itemHandler;
+            itemHandler = null;
+            oldHandler.invalidate();
         }
-    }
-
-    public boolean isPushable() {
-        return !this.isVehicle();
-    }
-
-    // Inventory
-//    protected int getInventorySize() {
-//        return INV_BASE_COUNT;
-//    }
-//
-//    protected void createInventory() {
-//        SimpleContainer simplecontainer = this.inventory;
-//        this.inventory = new SimpleContainer(this.getInventorySize());
-//        if (simplecontainer != null) {
-//            simplecontainer.removeListener(this);
-//            int i = Math.min(simplecontainer.getContainerSize(), this.inventory.getContainerSize());
-//
-//            for(int j = 0; j < i; ++j) {
-//                ItemStack itemstack = simplecontainer.getItem(j);
-//                if (!itemstack.isEmpty()) {
-//                    this.inventory.setItem(j, itemstack.copy());
-//                }
-//            }
-//        }
-//
-//        this.inventory.addListener(this);
-//        this.updateContainerEquipment();
-//        this.itemHandler = net.minecraftforge.common.util.LazyOptional.of(() -> new net.minecraftforge.items.wrapper.InvWrapper(this.inventory));
-//    }
-//
-//    protected void updateContainerEquipment() {
-//        if (!this.level().isClientSide) {
-//            this.setFlag(4, !this.inventory.getItem(0).isEmpty());
-//        }
-//    }
-//
-//    @Override
-//    public void containerChanged(@NotNull Container pContainer) {
-//        boolean flag = this.isSaddled();
-//        this.updateContainerEquipment();
-//        if (this.tickCount > 20 && !flag && this.isSaddled()) {
-//            this.playSound(this.getSaddleSoundEvent(), 0.5F, 1.0F);
-//        }
-//    }
-
-//    public void openInventory(Player player) {
-//        if (!this.level().isClientSide)
-//            NetworkHooks.openScreen((ServerPlayer) player, getMenuProvider());
-//        Elementus.PROXY.setReferencedMob(this);
-//    }
-
-//    public MenuProvider getMenuProvider() {
-//        return new SimpleMenuProvider((containerId, playerInventory, player) ->
-//                new GolemInventoryMenu(containerId, playerInventory, this.inventory, this), this.getDisplayName());
-//    }
-
-//    public void openCustomInventoryScreen(@NotNull Player player) {
-//        if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
-//            openInventory(player);
-//        }
-//    }
-
-
-    @Override
-    public @NotNull SoundEvent getSaddleSoundEvent() {
-        return SoundEvents.HORSE_SADDLE;
-    }
-
-    public boolean isWearingArmor() {
-        return !this.getItemBySlot(EquipmentSlot.CHEST).isEmpty();
-    }
-
-    public boolean canWearArmor() {
-        return false;
-    }
-
-    public boolean isArmor(@NotNull ItemStack pStack) {
-        return false;
     }
 
     public boolean hasInventoryChanged(@NotNull Container pInventory) {
         return this.inventory != pInventory;
     }
 
-    private final net.minecraftforge.common.util.LazyOptional<?> itemHandler = null;
-
+    /// No
     @Override
-    public <T> net.minecraftforge.common.util.@NotNull LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.@NotNull Capability<T> capability, @Nullable net.minecraft.core.Direction facing) {
-        if (this.isAlive() && capability == net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER && itemHandler != null)
-            return itemHandler.cast();
-        return super.getCapability(capability, facing);
+    public @Nullable AgeableMob getBreedOffspring(@NotNull ServerLevel pLevel, @NotNull AgeableMob pOtherParent) {
+        return null;
     }
 
-//    public InteractionResult mobInteract(Player pPlayer, InteractionHand pHand) {
-//        if (!this.isVehicle() && !this.isBaby()) {
-//            if (this.isTame() && pPlayer.isSecondaryUseActive()) {
-//                this.openCustomInventoryScreen(pPlayer);
-//                return InteractionResult.sidedSuccess(this.level().isClientSide);
-//            } else {
-//                ItemStack itemstack = pPlayer.getItemInHand(pHand);
-//                if (!itemstack.isEmpty()) {
-//                    InteractionResult interactionresult = itemstack.interactLivingEntity(pPlayer, this, pHand);
-//                    if (interactionresult.consumesAction()) {
-//                        return interactionresult;
-//                    }
-//
-//                    if (this.canWearArmor() && this.isArmor(itemstack) && !this.isWearingArmor()) {
-//                        this.equipArmor(pPlayer, itemstack);
-//                        return InteractionResult.sidedSuccess(this.level().isClientSide);
-//                    }
-//                }
-//
-//                this.doPlayerRide(pPlayer);
-//                return InteractionResult.sidedSuccess(this.level().isClientSide);
-//            }
-//        } else {
-//            return super.mobInteract(pPlayer, pHand);
-//        }
-//    }
-
-    @Override
-    public boolean canJump() {
-        return false;
+    protected int decreaseAirSupply(int pAir) {
+        return pAir;
     }
 
     @Override
-    public void handleStartJump(int pJumpPower) {
-
+    public @Nullable AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
+        return null;
     }
-
-    @Override
-    public void handleStopJump() {
-
-    }
-
 }

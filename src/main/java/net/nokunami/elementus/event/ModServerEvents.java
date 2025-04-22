@@ -8,15 +8,19 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -225,35 +229,61 @@ public class ModServerEvents {
     @SubscribeEvent
     public void LivingTick(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
-        Level world = entity.getCommandSenderWorld();
+        Level level = entity.getCommandSenderWorld();
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = entity.getItemBySlot(slot);
             boolean emptyItem = stack.isEmpty();
             boolean currentCharge = getCharge(stack) < getMaxCharge(stack);
             boolean startResonance = getCharge(stack) > 2;
-            int level = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.RESONANCE.get(), stack);
-            if (!emptyItem && stack.getItem() instanceof DiarkriteChargeBlade && level > 0 && entity instanceof Player player
-                    && currentCharge && startResonance && !player.isUsingItem() && world.getGameTime() % 100 == 0) {
-                setCharge(stack, getCharge(stack) + 1);
+            int resonanceLevel = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.RESONANCE.get(), stack);
+            if (!emptyItem && stack.getItem() instanceof DiarkriteChargeBlade && resonanceLevel > 0 && entity instanceof Player player
+                    && currentCharge && startResonance && !player.isUsingItem() && level.getGameTime() % 100 == 0) {
+                addCharge(stack, 1);
             }
         }
     }
 
-//    @SubscribeEvent
-//    public void LivingTick(LivingEvent.LivingTickEvent event) {
-//        LivingEntity entity = event.getEntity();
-//        Level world = entity.getCommandSenderWorld();
-//        for (EquipmentSlot slot : EquipmentSlot.values()) {
-//            ItemStack stack = entity.getItemBySlot(slot);
-//            boolean emptyItem = stack.isEmpty();
-//            int currentCharge = stack.getOrCreateTag().getInt("Charge");
-//            boolean chargedState = currentCharge < getMaxCharge(stack);
-//            boolean startResonance = currentCharge > 2;
-//            int level = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.RESONANCE.get(), stack);
-//            if (!emptyItem && stack.getItem() instanceof DiarkriteChargeBlade && level > 0 && entity instanceof Player player
-//                    && chargedState && startResonance && !player.isUsingItem() && world.getGameTime() % 100 == 0) {
-//                setCharge(stack, getCharge(stack) + 1);
-//            }
-//        }
-//    }
+    @SubscribeEvent
+    public void Elementus$Shielding(LivingDamageEvent event) {
+        DamageSource damageSource = event.getSource();
+        Vec3 position = event.getEntity().position();
+        Vec3 viewVec = event.getEntity().getViewVector(1);
+        Entity directEntity = damageSource.getDirectEntity();
+        boolean usingItem = event.getEntity().isUsingItem();
+        LivingEntity entity = event.getEntity();
+        boolean flag = false;
+
+        if (directEntity instanceof AbstractArrow abstractarrow) {
+            if (abstractarrow.getPierceLevel() > 0) {
+                flag = true;
+            }
+        }
+
+        Vec3 vec32 = damageSource.getSourcePosition();
+        if (vec32 != null) {
+            Vec3 vec31 = vec32.vectorTo(position).normalize();
+            vec31 = new Vec3(vec31.x, 0.0D, vec31.z);
+            if (vec31.dot(viewVec) < 0.0D) {
+
+                for (EquipmentSlot slot : EquipmentSlot.values()) {
+                    ItemStack stack = entity.getItemBySlot(slot);
+                    if (!stack.isEmpty() && stack.getItem() instanceof DiarkriteChargeBlade) {
+                        Level level = entity.level();
+                        if (!damageSource.is(DamageTypeTags.BYPASSES_SHIELD) && usingItem && !flag) {
+                            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.PLAYERS, 1.5F, 1.5F);
+                            event.setAmount(event.getAmount() / 2);
+                            addCharge(stack, 1);
+                        } else if (damageSource.is(DamageTypes.SONIC_BOOM)) {
+                            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.PLAYERS, 1.5F, 1.5F);
+                            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.5F, 0F);
+                            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BELL_BLOCK, SoundSource.PLAYERS, 1.5F, 0F);
+                            event.setAmount(event.getAmount() * 0.8F);
+                            addCharge(stack, (int) event.getAmount() / 2);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package net.nokunami.elementus.client.render;
+package net.nokunami.elementus.client.render.vehicle;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

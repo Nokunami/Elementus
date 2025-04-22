@@ -8,10 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.item.enchantment.ArcaneSharpnessEnchantment;
-import net.nokunami.elementus.common.item.enchantment.ResonanceEnchantment;
-import net.nokunami.elementus.common.item.enchantment.SacrificeCurseEnchantment;
-import net.nokunami.elementus.common.item.enchantment.CondensedBurstEnchantment;
+import net.nokunami.elementus.common.item.enchantment.*;
 
 public class ModEnchantments {
     public static final DeferredRegister<Enchantment> ENCHANTMENT = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Elementus.MODID);
@@ -27,6 +24,12 @@ public class ModEnchantments {
 
     public static final RegistryObject<Enchantment> CONDENSED_BURST = ENCHANTMENT.register("condensed_burst",
             () -> new CondensedBurstEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+
+    public static final RegistryObject<Enchantment> RUSH = ENCHANTMENT.register("rush",
+            () -> new RushEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+
+    public static final RegistryObject<Enchantment> MULTI_CHARGE = ENCHANTMENT.register("multi_charge",
+            () -> new RushEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static void register(IEventBus eventBus) {
         ENCHANTMENT.register(eventBus);

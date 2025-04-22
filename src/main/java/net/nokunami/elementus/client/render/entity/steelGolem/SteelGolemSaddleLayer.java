@@ -27,16 +27,14 @@ public class SteelGolemSaddleLayer extends RenderLayer<SteelGolem, SteelGolemMod
         this.model1 = new SteelGolemSaddleModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_SADDLE));
     }
 
-    public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, SteelGolem pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        if (!pLivingEntity.isInvisible()) {
-            if (pLivingEntity.isSaddled()) {
-                ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_" + pLivingEntity.getSaddle().getItem() + ".png");
-                VertexConsumer vertexconsumer = pBuffer.getBuffer(RenderType.entityCutoutNoCull(resourcelocation));
-                this.getParentModel().copyPropertiesTo(this.model1);
-                this.model1.prepareMobModel(pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTicks);
-                this.model1.setupAnim(pLivingEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
-                this.model1.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            }
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, SteelGolem golem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (golem.isSaddled()) {
+            ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_saddle.png");
+            VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(resourcelocation));
+            this.getParentModel().copyPropertiesTo(this.model1);
+            this.model1.prepareMobModel(golem, limbSwing, limbSwingAmount, partialTicks);
+            this.model1.setupAnim(golem, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+            this.model1.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

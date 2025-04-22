@@ -10,6 +10,7 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.worldgen.ModBiomeModifiers;
 import net.nokunami.elementus.common.worldgen.ModConfiguredFeatures;
 import net.nokunami.elementus.common.worldgen.ModPlacedFeatures;
+import net.nokunami.elementus.datagen.generators.ModDamageTypesTag;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +20,8 @@ public class DatapackEntriesBuilder extends DatapackBuiltinEntriesProvider {
             .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
-            .add(Registries.TRIM_MATERIAL, ModTrimMaterials::bootstrap);
+            .add(Registries.TRIM_MATERIAL, ModTrimMaterials::bootstrap)
+            .add(Registries.DAMAGE_TYPE, ModDamageTypesTag::bootstrap);
 
     public DatapackEntriesBuilder(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(Elementus.MODID));
