@@ -46,7 +46,7 @@ public class DiarkriteEmissiveLayer<T extends LivingEntity, M extends EntityMode
     }
 
     public boolean shouldRender(@NotNull ItemStack stack, LivingEntity entity) {
-        return entity.getItemBySlot(EquipmentSlot.CHEST).is(CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquiped(stack).findAny().isPresent();
+        return entity.getItemBySlot(EquipmentSlot.CHEST).is(CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(stack).findAny().isPresent();
     }
 
     public @NotNull ResourceLocation getElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {

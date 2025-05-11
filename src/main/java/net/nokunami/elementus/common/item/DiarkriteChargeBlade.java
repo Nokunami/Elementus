@@ -1,13 +1,11 @@
 package net.nokunami.elementus.common.item;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -16,25 +14,17 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickAction;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeMod;
-import net.nokunami.elementus.common.config.ItemConfig;
-import net.nokunami.elementus.common.registry.ModEnchantments;
+import net.nokunami.elementus.common.config.UniqueItemConfig;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
@@ -42,152 +32,68 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
-import java.util.UUID;
 
-import static net.nokunami.elementus.ModChecker.betterCombat;
+import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
+import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 
-public class DiarkriteChargeBlade extends SwordItem {
+public class DiarkriteChargeBlade extends ChargeSwordItem {
     private static final int BURST_RANGE = 1;
     private static final int BOOM_RANGE = 16;
     private static final int RUSH_RANGE = 8;
-    public static final String CHARGE_TAG = "Charge";
-    private boolean startSoundPlayed = false;
-    private boolean midLoadSoundPlayed = false;
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    protected static final UUID BASE_ATTACK_REACH_UUID = UUID.fromString("fe181be2-3fd8-4a90-ba64-a4a06cef6d27");
 
     public DiarkriteChargeBlade() {
-        super(ModTiers.DIARKRITE, 0, 0, new Properties().fireResistant().rarity(Rarity.EPIC));
-        float attackDamage = (float) ItemConfig.diarkriteChargeBladeDamage + this.getTier().getAttackDamageBonus();
-        float attackSpeed = (float) ItemConfig.diarkriteChargeBladeAttackSpeed;
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
-        if (!betterCombat) {
-            if (ItemConfig.diarkriteChargeBladeAttackReach != 0) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_REACH_UUID, "Weapon modifier", ItemConfig.diarkriteChargeBladeAttackReach, AttributeModifier.Operation.ADDITION));
-        }
-//        if (getChargedState(this.getDefaultInstance()))
-//        defaultModifiers = Lazy.of(() -> createDefaultAttributeModifiers(attackDamageModifier, attackSpeedModifier, attackRangeModifier).build());
-        this.defaultModifiers = builder.build();
-    }
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
-    }
-
-    protected ImmutableMultimap.Builder<Attribute, AttributeModifier> createDefaultAttributeModifiers(float attackDamageModifier, float attackSpeedModifier, float attackRangeModifier) {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamageModifier, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_REACH_UUID, "Weapon modifier", attackRangeModifier, AttributeModifier.Operation.ADDITION));
-        return builder;
-    }
-
-//    @Override
-//    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity, int timeCharged) {
-//        if (livingEntity instanceof Player) {
-//            int i = this.getUseDuration(stack) - timeCharged;
-//            if (i < 0) return;
-//            float f = getPowerForTime(i);
-//            if (!((double)f < 1D)) {
-//                if (!level.isClientSide) {
-//                    boolean c = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), stack) > 0;
-//                    createBoom(level, livingEntity, stack);
-//                    level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 1.0F, 1.0F);
-//                    if (c) level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 1.0F, 1.0F);
-//                }
-//                if (enchanted(stack, 0)) livingEntity.hurt(level.damageSources().sonicBoom(livingEntity), livingEntity.getMaxHealth()*0.25F);
-//            }
-//        }
-//    }
-//
-//    public static float getPowerForTime(int pCharge) {
-//        float f = (float)pCharge / 20.0F;
-//        f = (f * f + f * 2.0F) / 3.0F;
-//        if (f > 1.0F) {
-//            f = 1.0F;
-//        }
-//        return f;
-//    }
-
-    public int getUseDuration(@NotNull ItemStack pStack) {
-        return 72000;
-    }
-
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
-        return UseAnim.BLOCK;
-    }
-
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
-        ItemStack itemStack = player.getItemInHand(hand);
-        if (!player.getCooldowns().isOnCooldown(itemStack.getItem())) {
-            player.startUsingItem(hand);
-            return InteractionResultHolder.consume(itemStack);
-        } else {
-            player.stopUsingItem();
-            return InteractionResultHolder.pass(itemStack);
-        }
-//        return super.use(level, player, hand);
-    }
-
-//    @Override
-//    public void onUseTick(Level pLevel, @NotNull LivingEntity pLivingEntity, @NotNull ItemStack pStack, int pRemainingUseDuration) {
-//        if (!pLevel.isClientSide) {
-//            int i = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.QUICK_CHARGE, pStack);
-//            SoundEvent soundevent = SoundEvents.WARDEN_SONIC_CHARGE;
-//            SoundEvent soundevent1 = i == 0 ? SoundEvents.VEX_CHARGE : null;
-//            float f = (float)(pStack.getUseDuration() - pRemainingUseDuration) / (float)getChargeDuration(pStack);
-//            if (f < 0.2F) {
-//                this.startSoundPlayed = false;
-//                this.midLoadSoundPlayed = false;
-//            }
-//            if (f >= 0.2F && !this.startSoundPlayed) {
-//                this.startSoundPlayed = true;
-//                pLevel.playSound(null, pLivingEntity.getX(), pLivingEntity.getY(), pLivingEntity.getZ(), soundevent, SoundSource.PLAYERS, 0.5F, 1.0F);
-//            }
-//            if (f >= 0.5F && soundevent1 != null && !this.midLoadSoundPlayed) {
-//                this.midLoadSoundPlayed = true;
-//                pLevel.playSound(null, pLivingEntity.getX(), pLivingEntity.getY(), pLivingEntity.getZ(), soundevent1, SoundSource.PLAYERS, 0.5F, 1.0F);
-//            }
-//        }
-//    }
-
-    public static int getChargeDuration(ItemStack pCrossbowStack) {
-        int i = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.QUICK_CHARGE, pCrossbowStack);
-        return i == 0 ? 25 : 25 - 5 * i;
+        super(ModTiers.DIARKRITE, diarkriteChargeBladeDamage, (float) diarkriteChargeBladeAttackSpeed, (float) diarkriteChargeBladeAttackReach, new Properties().fireResistant().rarity(Rarity.EPIC));
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        String chargeText = enchanted(stack, 0) ? "item.elementus.diarkrite_charge_blade.cursed_charge_desc" : "item.elementus.diarkrite_charge_blade.charge_desc";
-        ChatFormatting chargeTextColor = enchanted(stack, 0) ? ChatFormatting.DARK_RED : ChatFormatting.GRAY;
-        ChatFormatting underlineText = enchanted(stack, 0) ? ChatFormatting.UNDERLINE : ChatFormatting.GRAY;
-        String damageModifierText = enchanted(stack, 0) && enchanted(stack, 1) ? " (+25%) (-40%)" : enchanted(stack, 0) ? " (+25%)" : enchanted(stack, 1) ? " (-40%)" : "";
-        ChatFormatting damageModifierColor = enchanted(stack, 0) || enchanted(stack, 1) ? ChatFormatting.GOLD : ChatFormatting.DARK_AQUA;
+        Minecraft mc = Minecraft.getInstance();
+        assert mc.player != null;
+        boolean creative = mc.player.isCreative();
+        String damageModifierText = isEnchantedWith(stack, SACRIFICE_CURSE) ? " (+125%)" : "";
+        ChatFormatting damageModifierColor = isEnchantedWith(stack, SACRIFICE_CURSE) || isEnchantedWith(stack, CONDENSED_BURST) ? ChatFormatting.GOLD : ChatFormatting.DARK_AQUA;
+        String friendlyFireStr = String.valueOf(getFriendlyFire(stack));
+        double damage = getChargeAmount(stack, false) * diarkriteChargeBladeSonicDamage;
+        double damageR = getChargeAmount(stack, creative) * diarkriteChargeBladeSonicDamage;
+        double damageNumber = Math.round(damage * 10.0) / 10.0;
+        double damageNumberR = Math.round(damageR * 10.0) / 10.0;
+        Component damageText = Component.translatable(String.valueOf(damageNumber)).withStyle(ChatFormatting.DARK_AQUA).append(creative ? " (" + damageNumberR + ")" : "");
 
-        tooltip.add(Component.translatable(chargeText, String.valueOf(getCharge(stack))).withStyle(underlineText).withStyle(chargeTextColor));
-        if (!Screen.hasShiftDown()) {
-            tooltip.add(Component.translatable("item.elementus.diarkrite_charge_blade.damage_ratio_desc").withStyle(ChatFormatting.GRAY)
-                    .append(Component.translatable(Math.round(getChargeAmount(stack) * 100) + "%").withStyle(ChatFormatting.DARK_AQUA)
-                            .append(Component.translatable(damageModifierText).withStyle((damageModifierColor)))));
-        } else {
-            tooltip.add(Component.translatable("item.elementus.diarkrite_charge_blade.damage_ratio_shift_desc").withStyle(ChatFormatting.GRAY)
-                    .append(Component.translatable(Math.round(getChargeAmount(stack) * 100) + "%").withStyle(ChatFormatting.DARK_AQUA)));
-            if (enchanted(stack, 0)) tooltip.add(Component.translatable(" +25% ").append(Component.translatable("enchantment.elementus.sacrifice_curse")).withStyle(ChatFormatting.RED));
-            if (enchanted(stack, 1)) tooltip.add(Component.translatable(" -40% ").append(Component.translatable("enchantment.elementus.condensed_burst")).withStyle(ChatFormatting.AQUA));
+        super.appendHoverText(stack, level, tooltip, flag);
+        if (getResonanceCharge(stack) > 0) tooltip.add(Component.translatable(getDescriptionId() + ".resonance_charge_desc", getResonanceCharge(stack)).withStyle(ChatFormatting.DARK_GRAY));
+        tooltip.add(Component.translatable(getDescriptionId() + ".damage_desc").withStyle(ChatFormatting.GRAY)
+                .append(damageText).append(Component.translatable(damageModifierText).withStyle((damageModifierColor))));
+        if (Screen.hasShiftDown()) {
+            if (isEnchantedWith(stack, SACRIFICE_CURSE)) {
+                if (!(diarkriteChargeBladeSacrificeDamageBonus <= 0))
+                    tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY).append(CommonComponents.space()
+                            .append(Component.translatable(getDescriptionId() + ".damage_bonus_sacrifice", Math.round((diarkriteChargeBladeSacrificeDamageBonus + 1) * 100))
+                                    .append(Component.translatable("enchantment.elementus.sacrifice_curse")).withStyle(ChatFormatting.YELLOW))));
+                if (!(diarkriteChargeBladeSelfSacrificeDamage <= 0))
+                    tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY).append(CommonComponents.space()
+                            .append(Component.translatable(getDescriptionId() + ".self_sacrifice_damage", Math.round(diarkriteChargeBladeSelfSacrificeDamage * 100))
+                                    .append(Component.translatable("enchantment.elementus.sacrifice_curse")).withStyle(ChatFormatting.RED))));
+            }
+            if (isEnchantedWith(stack, CONDENSED_BURST)) tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY).append(CommonComponents.space()
+                    .append(Component.translatable(getDescriptionId() + ".charge_penalty_condensed_burst", Math.round((((float) diarkriteChargeBladeChargePenalty / diarkriteChargeBladeBaseCharge) - 1) * 100))
+                            .append(Component.translatable("enchantment.elementus.condensed_burst")).withStyle(ChatFormatting.RED))));
+            if (isEnchantedWith(stack, MULTI_CHARGE)) tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY).append(CommonComponents.space()
+                    .append(Component.translatable(getDescriptionId() + ".multi_charge", Math.round(((float) (getMaxCharge(stack) /getChargeStack(stack)) - 1)) * 100)
+                            .append(Component.translatable("enchantment.elementus.multi_charge")).withStyle(ChatFormatting.GREEN))));
         }
-        tooltip.add(Component.translatable("item.elementus.diarkrite_charge_blade.friendly_fire_desc",
-                String.valueOf(getFriendlyFire(stack))).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable(getDescriptionId() + ".friendly_fire_desc",
+                friendlyFireStr.substring(0, 1).toUpperCase(Locale.ROOT) + friendlyFireStr.substring(1)).withStyle(ChatFormatting.GRAY));
         if (stack.isEnchanted()) tooltip.add(CommonComponents.EMPTY);
     }
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack stack, LivingEntity target, @NotNull LivingEntity attacker) {
-        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !enchanted(stack, 0)) {
-            setCharge(stack, getCharge(stack) < getMaxCharge(stack) ? getCharge(stack) + 1 : getCharge(stack));
+        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !isEnchantedWith(stack, SACRIFICE_CURSE)) {
+            setCharge(stack, 1);
             ServerLevel level = (ServerLevel)attacker.level();
+            if (isEnchantedWith(stack, RESONANCE) && !getChargedState(stack)) setResonanceCharge(stack, 1);
             if (!attacker.level().isClientSide && getChargedState(stack)) {
                 level.playSound(null, target, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 0);
             }
@@ -195,108 +101,24 @@ public class DiarkriteChargeBlade extends SwordItem {
         return super.hurtEnemy(stack, target, attacker);
     }
 
-    public static boolean enchanted(ItemStack itemStack, int type) {
-        int curse = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.SACRIFICE_CURSE.get(), itemStack);
-        int condensed_burst = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), itemStack);
-        int rush = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.RUSH.get(), itemStack);
-        return type == 0 ? curse > 0 : type == 1 ? condensed_burst > 0 : type == 2 && rush > 0;
-    }
-
-    public static void setCharge(ItemStack stack, int amount) {
-        stack.getOrCreateTag().putInt(CHARGE_TAG, amount);
-    }
-
-    public static int getCharge(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
-        return tag != null ? tag.getInt(CHARGE_TAG) : 0;
-    }
-
-    public static void addCharge(ItemStack stack, int amount) {
-        if (getCharge(stack) < getMaxCharge(stack)) {
-            stack.getOrCreateTag().putInt(CHARGE_TAG, getCharge(stack) + amount);
-        }
-    }
-
-    public static boolean getChargedState(ItemStack stack) {
-        return getCharge(stack) == getMaxCharge(stack);
-    }
-
-    public static int getMaxCharge(ItemStack itemStack) {
-        int i = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), itemStack);
-        return i > 0 ? 14 : 7;
-    }
-
-    public static float getChargeAmount(ItemStack stack) {
-        int i0 = getCharge(stack);
-        int i1 = getMaxCharge(stack);
-        float base = (float) i0 / i1;
-        if (enchanted(stack, 0)) base += 1.25F;
-        return base;
-    }
-
-    public static boolean getFriendlyFire(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("FriendlyFire");
-    }
-
-    public static void setFriendlyFire(ItemStack stack, boolean b) {
-        stack.getOrCreateTag().putBoolean("FriendlyFire", b);
-    }
-
     @Override
-    public boolean overrideOtherStackedOnMe(@NotNull ItemStack stack, @NotNull ItemStack otherStack, @NotNull Slot slot, @NotNull ClickAction action, @NotNull Player player, @NotNull SlotAccess access) {
-        if (otherStack.isEmpty() && action == ClickAction.SECONDARY) {
-            setFriendlyFire(stack, !getFriendlyFire(stack));
-            player.playSound(SoundEvents.ENDER_EYE_DEATH);
-            return true;
-        }
-        return super.overrideOtherStackedOnMe(stack, otherStack, slot, action, player, access);
+    public int getBarColor(@NotNull ItemStack stack) {
+        return isEnchantedWith(stack, SACRIFICE_CURSE) ? 16733525 : 7924965;
     }
 
-    @Override
-    public boolean isEnchantable(@NotNull ItemStack stack) {
-        return this.getMaxStackSize(stack) == 1;
+    public static float boomRadius(ItemStack stack) {
+        return isEnchantedWith(stack, RUSH) ? 1F : isEnchantedWith(stack, CONDENSED_BURST) ? 0.75F : 2F;
     }
 
-    @Override
-    public boolean isDamageable(ItemStack stack) {
-        return false;
+    public static float boomRange(ItemStack stack) {
+        return isEnchantedWith(stack, CONDENSED_BURST) ? BOOM_RANGE :  isEnchantedWith(stack, RUSH) ? RUSH_RANGE : BURST_RANGE;
     }
-
-    @Override
-    public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
-        return true;
-    }
-
-    @Override
-    public boolean canBeHurtBy(@NotNull DamageSource pDamageSource) {
-        return false;
-    }
-
-    @Override
-    public int getBarWidth(@NotNull ItemStack pStack) {
-        return Math.round(13.0F - (float) (getMaxCharge(pStack) - getCharge(pStack)) * 13.0F / (float) getMaxCharge(pStack));
-    }
-
-    @Override
-    public int getBarColor(@NotNull ItemStack pStack) {
-        return enchanted(pStack, 0) ? 16733525 : 7924965;
-    }
-
-    @Override
-    public boolean isBarVisible(@NotNull ItemStack pStack) {
-        return getCharge(pStack) > 0;
-    }
-
 
     /// Crossbow Expansion code
     public static void createBoom(Level level, LivingEntity livingEntity, ItemStack stack) {
-        int i = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CONDENSED_BURST.get(), stack);
-        float range = enchanted(stack, 1) ? BOOM_RANGE : enchanted(stack, 2) ? RUSH_RANGE : BURST_RANGE;
-        float radius = i > 0 ? 0.5F : 2F;
-        float creativeModeCharge = 1;
-        float chargeAmount = ((Player)livingEntity).isCreative() && !enchanted(stack, 0) ? creativeModeCharge : getChargeAmount(stack);
-        SimpleParticleType particleTypes = i > 0 ? ParticleTypes.SONIC_BOOM : ModParticleTypes.SONIC_BURST_EMITTER.get();
-        Vec3 target = livingEntity.getEyePosition().add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(range));
+        float chargeAmount = getChargeAmount(stack, ((Player)livingEntity).isCreative());
+        SimpleParticleType particleTypes = isEnchantedWith(stack, SACRIFICE_CURSE) ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : isEnchantedWith(stack, CONDENSED_BURST) ? ParticleTypes.SONIC_BOOM : ModParticleTypes.SONIC_BURST_EMITTER.get();
+        Vec3 target = livingEntity.getEyePosition().add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(boomRange(stack)));
         Vec3 source = livingEntity.getEyePosition();
         Vec3 offsetToTarget = target.subtract(source);
         Vec3 normalized = offsetToTarget.normalize();
@@ -304,42 +126,30 @@ public class DiarkriteChargeBlade extends SwordItem {
         Set<Entity> hitSet = new HashSet<>();
 
         for(int particleIndex = 1; particleIndex < Mth.floor(offsetToTarget.length()) + 2; ++particleIndex) {
-            Vec3 particlePos = source.add(normalized.scale(particleIndex));
-            if (firstTick) {
-                ((ServerLevel)level).sendParticles(ParticleTypes.SONIC_BOOM, particlePos.x, particlePos.y, particlePos.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
+            Vec3 particle = source.add(normalized.scale(particleIndex));
+            if (firstTick && !isEnchantedWith(stack, SACRIFICE_CURSE)) {
+                ((ServerLevel)level).sendParticles(ParticleTypes.SONIC_BOOM, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
                 firstTick = false;
             }
-            ((ServerLevel)level).sendParticles(particleTypes, particlePos.x, particlePos.y, particlePos.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
-            hitSet.addAll(level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos((int)particlePos.x(), (int)particlePos.y(), (int)particlePos.z()))).inflate(radius),
+            ((ServerLevel)level).sendParticles(particleTypes, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
+            hitSet.addAll(level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos((int) particle.x(), (int) particle.y(), (int) particle.z()))).inflate(boomRadius(stack)),
                     (e) -> !(e instanceof OwnableEntity) && (e.isAlliedTo(livingEntity) && getFriendlyFire(stack) || !e.isAlliedTo(livingEntity)) ||
                             (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&
                                     (ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)) && getFriendlyFire(stack)) ||
                                     ownable.getOwner() == null))
-
-//                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() != null && getFriendlyFire(stack))) ||
-//                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() == null)) ||
-//                            (e instanceof OwnableEntity && (((OwnableEntity)e).getOwner() != null) && (((OwnableEntity)e).getOwner().isAlliedTo(livingEntity) && getFriendlyFire(stack)))
-
-//                    (e) -> !(e instanceof OwnableEntity /*&& (ownable.getOwner() != null && (ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)))*/ && !e.isAlliedTo(livingEntity))
-//                    (e) -> !(e instanceof OwnableEntity && !e.isAlliedTo(livingEntity))
-
-//                    (e) -> !(e instanceof OwnableEntity) && !e.isAlliedTo(livingEntity) ||
-//                            ((e instanceof OwnableEntity ownable && ownable.getOwner() != null) && !(ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)))
-
-//                    (e) -> ((!(e instanceof OwnableEntity) && (!e.isAlliedTo(livingEntity)) && getFriendlyFire(stack)) ||
-//                            ((e instanceof OwnableEntity ownable && ownable.getOwner() != null) && !(ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity))))
             ));
         }
+
         hitSet.remove(livingEntity);
-        if (!livingEntity.onGround() || enchanted(stack, 2))
-            applyRecoil(livingEntity, livingEntity, chargeAmount * (enchanted(stack, 2) ? 2 : 1), enchanted(stack, 2) ? 1 : 0);
+        if (!livingEntity.onGround() || isEnchantedWith(stack, RUSH))
+            applyRecoil(livingEntity, livingEntity, chargeAmount * (isEnchantedWith(stack, RUSH) ? 2 : 1), isEnchantedWith(stack, RUSH) ? 1 : 0);
 
         for(Entity hitTarget : hitSet) {
             if (hitTarget instanceof LivingEntity living) {
                 if (livingEntity instanceof Player player) {
                     living.setLastHurtByPlayer(player);
                 }
-                living.hurt(livingEntity.damageSources().sonicBoom(livingEntity), (float) ItemConfig.diarkriteChargeBladeSonicDamage * chargeAmount);
+                living.hurt(livingEntity.damageSources().sonicBoom(livingEntity), (float) UniqueItemConfig.diarkriteChargeBladeSonicDamage * chargeAmount);
                 applyRecoil(living, livingEntity, chargeAmount, 1);
             }
         }
@@ -347,11 +157,13 @@ public class DiarkriteChargeBlade extends SwordItem {
         if (livingEntity instanceof ServerPlayer serverPlayer) {
             serverPlayer.awardStat(Stats.ITEM_USED.get(stack.getItem()));
         }
-        setCharge(stack, getCharge(stack) - getCharge(stack));
+        setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
+        level.playSound(null, livingEntity, SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 1.0F, 1.0F);
+        if (isEnchantedWith(stack, CONDENSED_BURST)) level.playSound(null, livingEntity, SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 
     /// ArcheryExpansion code: BowItemMixin
-    private static void applyRecoil(LivingEntity target,LivingEntity source, double amount, int type) {
+    public static void applyRecoil(Entity target,Entity source, double amount, int type) {
         Vec3 lookDirection = source.getViewVector(1.0f);
         double factor;
         if (type == 1) {

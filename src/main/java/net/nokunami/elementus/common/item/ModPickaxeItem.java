@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static net.nokunami.elementus.common.item.ElementusItemUtil.cmdTier;
+import static net.nokunami.elementus.common.item.EItemUtil.cmdTier;
 
 public class ModPickaxeItem extends PickaxeItem {
 
@@ -44,14 +44,14 @@ public class ModPickaxeItem extends PickaxeItem {
     }
 
     public void appendHoverText(@NotNull ItemStack stack, @javax.annotation.Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
-        ElementusItemUtil.pickaxeTooltip(stack, tooltip, getTier());
+        EItemUtil.pickaxeTooltip(stack, tooltip, getTier());
     }
 
     @Override
     public float getDestroySpeed(@NotNull ItemStack stack, @NotNull BlockState state) {
         if (ModConfig.COMMON.diarkriteEfficiency.get()) {
             float originalSpeed = super.getDestroySpeed(stack, state);
-            return ElementusItemUtil.pickaxeMiningSpeed(originalSpeed, stack, state);
+            return EItemUtil.pickaxeMiningSpeed(originalSpeed, stack, state);
         }
         return super.getDestroySpeed(stack, state);
     }

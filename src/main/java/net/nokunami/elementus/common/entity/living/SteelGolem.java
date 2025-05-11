@@ -2,7 +2,7 @@ package net.nokunami.elementus.common.entity.living;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -33,6 +33,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
@@ -43,6 +44,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.MinecraftForge;
@@ -67,14 +69,13 @@ import net.nokunami.elementus.common.registry.ModSoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static net.nokunami.elementus.Elementus.modLoc;
+import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnParticlesOnEntity;
+import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnWideParticlesOnEntity;
 
 @SuppressWarnings("deprecation")
 public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shearable, IForgeShearable {
@@ -96,7 +97,6 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     private static final EntityDataAccessor<Integer> BROKEN_TICK = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SIT_TICK = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> CHEST_OPEN = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> ANGER_TICK = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     public final AnimationState leftAttackAnimationState = new AnimationState();
     public final AnimationState leftAttackEndAnimState = new AnimationState();
     public final AnimationState rightAttackAnimationState = new AnimationState();
@@ -114,10 +114,10 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     private static final EntityDimensions SITTING_DIMENSIONS = EntityDimensions.scalable(ModEntityType.STEEL_GOLEM.get().getWidth(), ModEntityType.STEEL_GOLEM.get().getHeight() - 0.5F);
     private static final EntityDimensions CROUCHING_DIMENSIONS = EntityDimensions.scalable(ModEntityType.STEEL_GOLEM.get().getWidth(), ModEntityType.STEEL_GOLEM.get().getHeight() - 1F);
     public int attackAnimTimeout = 0;
-    public int aoeAnimTimeout = 0;
+    public int aoeAttackAnimTimeout = 0;
+    public int aoeAnimTimeout = 160;
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("556E1665-8B10-40C8-8F9D-CF9B1667F295");
     private static final UUID TOUGHNESS_MODIFIER_UUID = UUID.fromString("0e936964-c9bb-4eb7-a718-ed69de8a4e8f");
-    private static final UUID MOVEMENT_SPEED_MODIFIER_UUID = UUID.fromString("8b64cbb4-e27e-43fa-9ff1-7f610890af57");
 
     public SteelGolem(EntityType<? extends TamableChestedGolem> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -140,7 +140,6 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         this.entityData.define(AOE_TIMER, 100);
         this.entityData.define(IS_AOE_ATTACKING, false);
         this.entityData.define(CHEST_OPEN, false);
-        this.entityData.define(ANGER_TICK, 0);
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
@@ -158,7 +157,6 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         if (!this.inventory.getItem(1).isEmpty()) {
             tag.put("ArmorItem", this.inventory.getItem(1).save(new CompoundTag()));
         }
-//        tag.putBoolean("LeavesDecoration", this.inventory.getItem(2).isEmpty());
         if (!this.inventory.getItem(2).isEmpty()) {
             tag.put("LeavesDecoration", this.inventory.getItem(2).save(new CompoundTag()));
         }
@@ -168,7 +166,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         tag.putInt("BrokenTick", this.getBrokenTick());
         tag.putInt("SitTick", this.getSitTick());
         tag.putInt("SitTick", this.getSitTick());
-        tag.putInt("AoeTimer", this.getAoeAttackTick());
+        tag.putInt("AoeTimer", this.getAoeTimer());
         tag.putBoolean("ChestOpened", this.chestOpened());
     }
 
@@ -236,7 +234,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         this.updateContainerEquipment();
         this.setBrokenTick(tag.getInt("BrokenTick"));
         this.setSitTick(tag.getInt("SitTick"));
-        this.setAoeAttackTick(tag.getInt("AoeTimer"));
+        this.setAoeTimer(tag.getInt("AoeTimer"));
         this.isChestOpened(tag.getBoolean("ChestOpened"));
     }
 
@@ -328,6 +326,9 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
                 if (this.isSaddled() && saddleHeight) {
                     if (!player.isCrouching()) {
                         return this.doPlayerRide(player);
+                    } else if (!this.getPassengers().isEmpty()) {
+                        this.ejectPassengers();
+                        return InteractionResult.SUCCESS;
                     }
                 }
                 this.mobInteract(player, hand);
@@ -342,6 +343,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         boolean shearsItem = itemStack.is(Items.SHEARS);
         boolean leaves = itemStack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION);
         boolean carpet = itemStack.is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION);
+        boolean wax = itemStack.is(Items.HONEYCOMB);
         boolean chassisCondition = this.getChassisHealth() < 5;
         boolean healItem = itemStack.is(Etags.Items.STEEL_GOLEM_HEAL);
         boolean repairHalf = itemStack.is(Etags.Items.STEEL_GOLEM_REPAIR_HALF);
@@ -349,6 +351,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         boolean heal = (healItem || repairFull) && !repairHalf;
         boolean repair = (repairHalf || repairFull) && !healItem;
         InteractionResult superMobInteract = super.mobInteract(player, hand);
+        boolean combat = (itemStack.is(ItemTags.SWORDS) || itemStack.is(ItemTags.AXES));
 
         if (this.getHealth() < this.getMaxHealth() && ((isChassisBroken() && repair) || (!isChassisBroken() && chassisCondition && heal) || (!isChassisBroken() && healItem))) {
             healGolem(player, itemStack);
@@ -356,7 +359,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         }
         if (this.isTame()) {
             if (!this.isChassisBroken()) {
-                if (player.isSecondaryUseActive() && (itemStack.is(ItemTags.SWORDS) || itemStack.is(ItemTags.AXES))) {
+                if (player.isSecondaryUseActive() && combat) {
                     this.navigation.stop();
                     this.setAggroState(!this.getAggroState());
                     this.setTarget(null);
@@ -368,24 +371,13 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
                     itemStack.hurtAndBreak(1, player, (item) -> item.broadcastBreakEvent(hand));
                     return InteractionResult.SUCCESS;
                 }
-                if ((this.isCamouflaged().isEmpty() && leaves) || (this.getDripCarpet().isEmpty() && carpet)) {
-                    this.setGolemWearable(player, itemStack);
+                if ((this.isCamouflaged().isEmpty() && leaves) || (this.getDripCarpet().isEmpty() && carpet) || (!this.isWaxed() && wax) || (this.isWaxed() && itemStack.is(ItemTags.AXES))) {
+                    this.setGolemInteration(player, itemStack);
                     return InteractionResult.SUCCESS;
                 }
                 if (!superMobInteract.consumesAction() && this.isOwnedBy(player)) {
                     return sitOrder();
                 } else return superMobInteract;
-//                if (!this.isSaddled() && itemStack.is(Items.SADDLE)) {
-//                    equipSaddle(null);
-//                    if (!player.isCreative()) itemStack.shrink(1);
-//                    this.getNavigation().stop();
-//                    return InteractionResult.SUCCESS;
-//                }
-//                if ((ironsSpellbooks && itemStack.is(ItemRegistry.SCROLL.get()))) {
-//                    return super.mobInteract(player, hand);
-//                } else if (!itemStack.is(Items.NAME_TAG) || !itemStack.is(Items.LEAD) || !itemStack.is(Tags.Items.CHESTS)) {
-//                    return sitOrder();
-//                }
             } else return superMobInteract;
         } else if (this.isPlayerCreated() || (!this.isPlayerCreated() && player.isCreative())) {
             if (!this.isPlayerCreated()) this.setPlayerCreated(true);
@@ -393,7 +385,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
             this.navigation.stop();
             this.setTarget(null);
             return InteractionResult.SUCCESS;
-        } else return super.mobInteract(player, hand);
+        } else return superMobInteract;
     }
 
     public InteractionResult sitOrder() {
@@ -411,7 +403,6 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         boolean healItem = stack.is(Etags.Items.STEEL_GOLEM_HEAL);
         boolean repairHalf = stack.is(Etags.Items.STEEL_GOLEM_REPAIR_HALF);
         boolean repairFull = stack.is(Etags.Items.STEEL_GOLEM_REPAIR_FULL);
-        boolean heal = (healItem || repairFull) && !repairHalf;
         boolean repair = (repairHalf || repairFull) && !healItem;
         float randomFloat = 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
 
@@ -419,10 +410,39 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         if (repair) healAmount = 0.5F;
 
         this.setChassisState(false);
-        if (chassisCondition && repair) setChassisHealth(getChassisHealth() + 1);
+        if (chassisCondition && repairFull) setChassisHealth(getChassisHealth() + 1);
         this.heal((int) (EntityConfig.MaxHealth / EntityConfig.RepairAmount) * healAmount);
         this.playSound(isChassisBroken() ? ModSoundEvents.STEEL_GOLEM_REVIVE.get() : ModSoundEvents.STEEL_GOLEM_REPAIR.get(), 1.0F, randomFloat);
         if (!player.isCreative()) stack.shrink(1);
+    }
+
+    @Override
+    protected void positionRider(@NotNull Entity passenger, @NotNull MoveFunction moveFunction) {
+        if (this.hasPassenger(passenger)) {
+            float dro = 0.75F;
+            double ridingOffset = isInSittingPose() ? (this.getPassengersRidingOffset() + (double) ((getSitTick() + 10) / 10)) : (this.getPassengersRidingOffset() - (double) ((getSitTick() + 10) / 10));
+            Vec3 offset = (switch (this.getPassengers().stream().toList().indexOf(passenger)) {
+                case 0 -> new Vec3(0, ridingOffset + passenger.getMyRidingOffset(), 0);
+                case 1 -> new Vec3(0, ridingOffset + passenger.getMyRidingOffset(), -dro);
+                case 2 -> new Vec3(0, ridingOffset + passenger.getMyRidingOffset(), dro);
+                default -> Vec3.ZERO;
+            }).yRot((float) (-Math.toRadians(this.getYRot()) - Math.PI / 2));
+            moveFunction.accept(passenger, this.getX() + offset.x, this.getY() + offset.y, this.getZ() + offset.z);
+        }
+    }
+
+    @Override
+    protected boolean canAddPassenger(@NotNull Entity pPassenger) {
+        return this.getPassengers().size() < this.getMaxPassengers();
+    }
+
+    @Override
+    protected int getMaxPassengers() {
+        return 3;
+    }
+
+    public boolean hasEnoughSpaceFor(Entity pEntity) {
+        return pEntity.getBbWidth() < this.getBbWidth() || pEntity.getBbHeight() < this.getBbHeight();
     }
 
     @Override
@@ -442,9 +462,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
                 .add(Attributes.KNOCKBACK_RESISTANCE, EntityConfig.KnockbackResist)
                 .add(Attributes.ATTACK_DAMAGE, EntityConfig.AttackDamage)
                 .add(Attributes.ARMOR, EntityConfig.Armor)
-                .add(Attributes.ARMOR_TOUGHNESS, EntityConfig.Toughness)
-//                .add(Attributes.FOLLOW_RANGE)
-                ;
+                .add(Attributes.ARMOR_TOUGHNESS, EntityConfig.Toughness);
     }
 
     @Override
@@ -457,8 +475,12 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         if (!this.level().isClientSide) {
             this.updatePersistentAnger((ServerLevel)this.level(), true);
 
-            if (this.isChassisBroken()) {
-                this.navigation.stop();
+            if (getAoeTimer() > 0 && this.getTarget() != null)
+                setAoeTimer(getAoeTimer() - 1);
+
+            if(isAoeAttacking() && aoeAttackAnimTimeout <= 0 && getAoeTimer() <= 0) {
+                spawnWideParticlesOnEntity(this.level(), this.position(), ParticleTypes.SMOKE, this, UniformInt.of(8, 10));
+                spawnWideParticlesOnEntity(this.level(), this.position(), ParticleTypes.LARGE_SMOKE, this, UniformInt.of(4, 6));
             }
 
             if (this.isInSittingPose() || this.isChassisBroken()) {
@@ -472,6 +494,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
 
             if (this.isChassisBroken()) {
                 this.setBrokenTick(20);
+                this.navigation.stop();
             } else {
                 if (this.getBrokenTick() > 0) this.setBrokenTick(getBrokenTick() - 1);
             }
@@ -485,42 +508,40 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
                 armorItem.onArmorTick(this.getArmor(), this.level(), this);
             }
 
-            if (getTarget() != null) {
-                setAngerTick(getAngerTick() + 1);
-            } else {
-                setAngerTick(0);
-            }
-
-            setSprinting(getAngerTick() > 200);
+            setSprinting(this.isSprinting());
         }
 
-        //Code from ClouddyMC's cave_dweller fork
-        if (this.level() instanceof ServerLevel && !this.isChassisBroken()) {
-
-            boolean isTwoAboveSolid = level().getBlockState(blockPosition().above(2)).isSolid();
-            boolean isThreeAboveSolid = level().getBlockState(blockPosition().above(3)).isSolid();
-
-            Vec3i offset = getDirectionVector();
-            boolean isFacingSolid = level().getBlockState(blockPosition().relative(getDirection())).isSolid();
-
-            if (isFacingSolid) {
-                offset = offset.offset(0, 1, 0);
-            }
-
-            boolean isOffsetFacingSolid = level().getBlockState(blockPosition().offset(offset)).isSolid();
-            boolean isOffsetFacingAboveSolid = level().getBlockState(blockPosition().offset(offset).above()).isSolid();
-            boolean isOffsetFacingTwoAboveSolid = level().getBlockState(blockPosition().offset(offset).above(2)).isSolid();
-
-            boolean shouldCrouch = isTwoAboveSolid || (!isOffsetFacingSolid && !isOffsetFacingAboveSolid && (isOffsetFacingTwoAboveSolid || isFacingSolid && isThreeAboveSolid));
-
-            setPose(shouldCrouch || isInWall() ? Pose.CROUCHING : this.getPose());
-        }
-
+        setPose(isInWall() ? Pose.CROUCHING : this.getPose());
         refreshDimensions();
+
+        List<Entity> list = this.level().getEntities(this, this.getBoundingBox().inflate(0.2F, -0.01F, 0.2F), EntitySelector.pushableBy(this));
+        if (!list.isEmpty() && this.isInSittingPose()) {
+            boolean flag = !this.level().isClientSide && !(this.getControllingPassenger() instanceof Player);
+
+            for (Entity entity : list) {
+                if (this.isSaddled() && flag && this.getPassengers().size() < this.getMaxPassengers() && this.hasEnoughSpaceFor(entity) && !(entity instanceof Enemy)) {
+                    if (!entity.isPassenger() && entity instanceof LivingEntity && !(entity instanceof WaterAnimal) && !(entity instanceof Player)) {
+                        entity.startRiding(this);
+                    }
+                } else {
+                    this.push(entity);
+                }
+            }
+        }
+
+        Set<Entity> hitSet = new HashSet<>(level().getEntitiesOfClass(LivingEntity.class,
+                (new AABB(new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ()))).inflate(2),
+                entity -> entity instanceof Enemy || entity == this.getTarget()
+        ));
+
+        if ((long) hitSet.size() > 3 && getAoeTimer() > 40) {
+            setAoeTimer(40);
+        }
     }
 
-    private Vec3i getDirectionVector() {
-        return new Vec3i(getDirection().getStepX(), getDirection().getStepY(), getDirection().getStepZ());
+    @Override
+    public boolean dampensVibrations() {
+        return this.isCrouching();
     }
 
     @Override
@@ -530,11 +551,11 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
 
     @Override
     public int getMaxFallDistance() {
-        return 3 + (int)(this.getHealth() - 1.0F);
+        return this.getTarget() != null ? 3 + (int)(this.getHealth() - 1.0F) : 3;
     }
 
     private void setupAnim() {
-        if(isAttacking() && attackAnimTimeout <= 0 && getAoeAttackTick() <= 20) {
+        if(isAttacking() && attackAnimTimeout <= 0 && getAoeTimer() > 30) {
             if (getAttackType() == 1) {
                 setAttackType(0);
             } else setAttackType(1);
@@ -545,17 +566,15 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
             --this.attackAnimTimeout;
         }
 
-        if(isAoeAttacking() && aoeAnimTimeout <= 0 && getAoeAttackTick() <= 20) {
+        if(isAoeAttacking() && aoeAttackAnimTimeout <= 0 && getAoeTimer() <= 0) {
             setAttackType(2);
-            aoeAnimTimeout = 20; // Length in ticks of your animation
+            aoeAttackAnimTimeout = 20; // Length in ticks of your animation
             attackAnimationState(getAttackType(), 0).start(this.tickCount);
         } else {
             setAttackType(getAttackType());
-            --this.attackAnimTimeout;
+            --this.aoeAttackAnimTimeout;
         }
 
-        this.navigation.isInProgress();
-        this.navigation.isDone();
         if (this.getBrokenTick() > 0) {
             sitFromStandAnimState.stop();
         } else {
@@ -578,7 +597,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
             case 0 -> switch (attackType) {
                 case 0 -> rightAttackAnimationState;
                 case 1 -> leftAttackAnimationState;
-                case 2 -> upswingAttackEndAnimState;
+                case 2 -> upswingAttackAnimState;
                 default -> new AnimationState();
             };
             case 1 -> switch (attackType) {
@@ -603,7 +622,6 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new GolemSitGoal(this));
-//        this.goalSelector.addGoal(0, new SteelGolemAoeAttackGoal(this));
         this.goalSelector.addGoal(1, new SteelGolemAttackGoal(this, 1.2D, true));
         this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.9D, 32.0F));
         this.goalSelector.addGoal(2, new GolemFollowOwnerGoal(this, 1.0D, 8.0F, 2.0F, false));
@@ -624,6 +642,10 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     @Override
     public void handleEntityEvent(byte pId) {
         if (pId == 4) {
+            if (getAoeTimer() <= 10) {
+                setAttackType(2);
+                this.aoeAttackAnimTimeout = 10;
+            }
             stopAllAttackAnimation();
             attackAnimationState(getAttackType(), 1).start(this.tickCount);
             this.attackAnimTimeout = 10;
@@ -631,11 +653,21 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         } else {
             super.handleEntityEvent(pId);
         }
-
     }
 
+    @Override
+    public @Nullable LivingEntity getTarget() {
+        return super.getTarget();
+    }
+
+    @Override
     public int getMaxHeadXRot() {
-        return isInSittingPose() ? 0 : super.getMaxHeadXRot();
+        return isInSittingPose() || isVehicle() ? 0 : super.getMaxHeadXRot();
+    }
+
+    @Override
+    public boolean canBeSeenAsEnemy() {
+        return !this.isChassisBroken() && super.canBeSeenAsEnemy();
     }
 
     @Override
@@ -703,14 +735,27 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         return this.inventory.getItem(0);
     }
 
-    public void setGolemWearable(Player player, @NotNull ItemStack stack) {
+    public void setGolemInteration(Player player, @NotNull ItemStack stack) {
         boolean leaves = stack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION);
         boolean carpet = stack.is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION);
-        int slot = 3;
-        if (leaves) slot = 2;
-        if (!player.isCreative()) stack.shrink(1);
-        if (!stack.isEmpty()) stack = stack.copyWithCount(1);
-        this.inventory.setItem(slot, stack);
+        boolean wax = stack.is(Items.HONEYCOMB);
+        if (wax) {
+            this.setWaxed(true);
+            if (!player.isCreative()) stack.shrink(1);
+            playSound(SoundEvents.HONEYCOMB_WAX_ON);
+            spawnParticlesOnEntity(level(), position(), ParticleTypes.WAX_ON, this, UniformInt.of(3, 5));
+        } else if (stack.is(ItemTags.AXES)) {
+            this.setWaxed(false);
+            if (!player.isCreative()) stack.hurtAndBreak(1, player, (e) -> e.broadcastBreakEvent(player.getUsedItemHand()));
+            playSound(SoundEvents.AXE_WAX_OFF);
+            spawnParticlesOnEntity(level(), position(), ParticleTypes.WAX_OFF, this, UniformInt.of(3, 5));
+        } else {
+            int slot = 3;
+            if (leaves) slot = 2;
+            if (!player.isCreative()) stack.shrink(1);
+            if (!stack.isEmpty()) stack = stack.copyWithCount(1);
+            this.inventory.setItem(slot, stack);
+        }
         this.navigation.stop();
     }
 
@@ -770,11 +815,11 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         this.entityData.set(SIT_TICK, i);
     }
 
-    public int getAoeAttackTick() {
+    public int getAoeTimer() {
         return this.entityData.get(AOE_TIMER);
     }
 
-    public void setAoeAttackTick(int i) {
+    public void setAoeTimer(int i) {
         this.entityData.set(AOE_TIMER, i);
     }
 
@@ -784,14 +829,6 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
 
     public boolean isAoeAttacking() {
         return this.entityData.get(IS_AOE_ATTACKING);
-    }
-
-    public void setAngerTick(int tick) {
-        this.entityData.set(ANGER_TICK, tick);
-    }
-
-    public int getAngerTick() {
-        return this.entityData.get(ANGER_TICK);
     }
 
     @Override
@@ -893,7 +930,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     public boolean doHurtTarget(Entity entity) {
         this.level().broadcastEntityEvent(this, (byte)4);
         float f = this.getAttackDamage();
-        float f1 = (int)f > 0 ? f / 2.0F + (float)this.random.nextInt((int)f) : f;
+        float f1 = (int)f > 0 ? f / 1.5F + (float)this.random.nextInt((int)f) : f;
         boolean flag = entity.hurt(this.damageSources().mobAttack(this), f1);
         if (flag) {
             double d2;
@@ -986,7 +1023,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
 
     @Override
     public boolean skipAttackInteraction(@NotNull Entity pEntity) {
-        return this.isVehicle();
+        return pEntity.isPassenger();
     }
 
     @Override

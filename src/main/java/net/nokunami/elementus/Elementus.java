@@ -41,6 +41,7 @@ public class Elementus {
     public static final String CONFIG_VERSION = "1.4";
     public static final Path TIER_CONFIG_PATH = configPath("config/elementus", "tier_config.toml");
     public static final Path ITEM_CONFIG_PATH = configPath("config/elementus", "item_config.toml");
+    public static final Path UNIQUE_ITEM_CONFIG_PATH = configPath("config/elementus", "unique_item_config.toml");
     public static final Path ARMOR_CONFIG_PATH = configPath("config/elementus", "armor_config.toml");
     public static final Path CATALYST_CONFIG_PATH = configPath("config/elementus", "catalyst_armor_config.toml");
     public static final Path ENTITY_CONFIG = configPath("config/elementus", "entity_config.toml");
@@ -66,6 +67,7 @@ public class Elementus {
 
         TierConfig.reload();
         ItemConfig.reload();
+        UniqueItemConfig.reload();
         ArmorConfig.reload();
         CatalystArmorConfig.reload();
         EntityConfig.reload();

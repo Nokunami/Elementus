@@ -1,40 +1,274 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "elementus:item/claymore_item",
   "base": {
-    "parent": "elementus:item/diarkrite_charge_blade_handheld"
+    "parent": "elementus:item/diarkrite_charge_blade_base"
   },
   "loader": "forge:separate_transforms",
   "overrides": [
     {
+      "model": "elementus:item/diarkrite_charge_blade_blocking",
+      "predicate": {
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_base",
+      "predicate": {
+        "elementus:enchanted": 0.1
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_blocking",
+      "predicate": {
+        "elementus:enchanted": 0.1,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_base",
+      "predicate": {
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_blocking",
+      "predicate": {
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
       "model": "elementus:item/diarkrite_charge_blade_charge_0",
       "predicate": {
-        "minecraft:pulling": 1.0
+        "elementus:charge": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_0_blocking",
+      "predicate": {
+        "elementus:charge": 0.2,
+        "minecraft:blocking": 1.0
       }
     },
     {
       "model": "elementus:item/diarkrite_charge_blade_charge_1",
       "predicate": {
-        "minecraft:pull": 0.65,
-        "minecraft:pulling": 1.0
+        "elementus:charge": 0.4
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_1_blocking",
+      "predicate": {
+        "elementus:charge": 0.4,
+        "minecraft:blocking": 1.0
       }
     },
     {
       "model": "elementus:item/diarkrite_charge_blade_charge_2",
       "predicate": {
-        "minecraft:pull": 0.9,
-        "minecraft:pulling": 1.0
+        "elementus:charge": 0.6
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_2_blocking",
+      "predicate": {
+        "elementus:charge": 0.6,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_3",
+      "predicate": {
+        "elementus:charge": 0.8
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_3_blocking",
+      "predicate": {
+        "elementus:charge": 0.8,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_0",
+      "predicate": {
+        "elementus:charge": 0.2,
+        "elementus:enchanted": 0.1
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_0_blocking",
+      "predicate": {
+        "elementus:charge": 0.2,
+        "elementus:enchanted": 0.1,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_1",
+      "predicate": {
+        "elementus:charge": 0.4,
+        "elementus:enchanted": 0.1
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_1_blocking",
+      "predicate": {
+        "elementus:charge": 0.4,
+        "elementus:enchanted": 0.1,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_2",
+      "predicate": {
+        "elementus:charge": 0.6,
+        "elementus:enchanted": 0.1
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_2_blocking",
+      "predicate": {
+        "elementus:charge": 0.6,
+        "elementus:enchanted": 0.1,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_3",
+      "predicate": {
+        "elementus:charge": 0.8,
+        "elementus:enchanted": 0.1
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_3_blocking",
+      "predicate": {
+        "elementus:charge": 0.8,
+        "elementus:enchanted": 0.1,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_0",
+      "predicate": {
+        "elementus:charge": 0.11,
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_0_blocking",
+      "predicate": {
+        "elementus:charge": 0.11,
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_1",
+      "predicate": {
+        "elementus:charge": 0.22,
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_1_blocking",
+      "predicate": {
+        "elementus:charge": 0.22,
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_2",
+      "predicate": {
+        "elementus:charge": 0.33,
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_2_blocking",
+      "predicate": {
+        "elementus:charge": 0.33,
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_3",
+      "predicate": {
+        "elementus:charge": 0.44,
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_3_blocking",
+      "predicate": {
+        "elementus:charge": 0.44,
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_4",
+      "predicate": {
+        "elementus:charge": 0.55,
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_4_blocking",
+      "predicate": {
+        "elementus:charge": 0.55,
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_5",
+      "predicate": {
+        "elementus:charge": 0.66,
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_5_blocking",
+      "predicate": {
+        "elementus:charge": 0.66,
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_6",
+      "predicate": {
+        "elementus:charge": 0.77,
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_6_blocking",
+      "predicate": {
+        "elementus:charge": 0.77,
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_7",
+      "predicate": {
+        "elementus:charge": 0.88,
+        "elementus:enchanted": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_multi_charge_7_blocking",
+      "predicate": {
+        "elementus:charge": 0.88,
+        "elementus:enchanted": 0.2,
+        "minecraft:blocking": 1.0
       }
     }
   ],
-  "perspectives": {
-    "fixed": {
-      "parent": "elementus:item/diarkrite_charge_blade_gui"
-    },
-    "ground": {
-      "parent": "elementus:item/diarkrite_charge_blade_gui"
-    },
-    "gui": {
-      "parent": "elementus:item/diarkrite_charge_blade_gui"
-    }
-  }
+  "perspectives": {}
 }

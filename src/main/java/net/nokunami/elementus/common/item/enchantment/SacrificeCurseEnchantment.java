@@ -18,6 +18,11 @@ public class SacrificeCurseEnchantment extends Enchantment {
     }
 
     @Override
+    protected boolean checkCompatibility(@NotNull Enchantment ench) {
+        return !(ench instanceof MultiChargeEnchantment) && super.checkCompatibility(ench);
+    }
+
+    @Override
     public boolean canEnchant(@NotNull ItemStack pStack) {
         return pStack.is(ModItems.ElementusItems.DIARKRITE_CHARGE_BLADE.get());
     }

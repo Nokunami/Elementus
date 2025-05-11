@@ -152,9 +152,9 @@ public class ModItems {
         public static final RegistryObject<Item> STEEL_SHIELD = ITEMS.register("steel_shield",
                 () -> new ShieldItem(new Item.Properties().defaultDurability(ItemConfig.steelShieldDurability)));
         public static final RegistryObject<Item> DIARKRITE_SHIELD = ITEMS.register("diarkrite_shield",
-                () -> new ShieldItem(new Item.Properties().defaultDurability(ItemConfig.diarkriteShieldDurability).fireResistant()));
+                () -> new ElementusShieldItem(new Item.Properties().defaultDurability(ItemConfig.diarkriteShieldDurability).fireResistant(), ModTiers.DIARKRITE));
         public static final RegistryObject<Item> ANTHEKTITE_SHIELD = ITEMS.register("anthektite_shield",
-                () -> new ShieldItem(new Item.Properties().defaultDurability(ItemConfig.anthektiteShieldDurability).fireResistant()));
+                () -> new ElementusShieldItem(new Item.Properties().defaultDurability(ItemConfig.anthektiteShieldDurability).fireResistant(), ModTiers.ANTHEKTITE));
 
         public static final RegistryObject<Item> STEEL_BOW = ITEMS.register("steel_bow",
                 () -> new ModBowItem(new Item.Properties().defaultDurability(ItemConfig.steelBowDurability), STEEL_INGOT.get()));

@@ -36,45 +36,32 @@ import java.util.UUID;
 
 import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.ModChecker.betterCombat;
+import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class AnthektiteChargeBlade extends SwordItem {
+public class AnthektiteChargeBlade extends ChargeSwordItem {
     private static final int BURST_RANGE = 1;
     private static final int BOOM_RANGE = 16;
     public static final String CHARGE_TAG = "Charge";
     private boolean startSoundPlayed = false;
     private boolean midLoadSoundPlayed = false;
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+//    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
     protected static final UUID ATTACK_REACH_UUID = UUID.fromString("fe181be2-3fd8-4a90-ba64-a4a06cef6d27");
 
     public AnthektiteChargeBlade() {
-        super(ModTiers.ANTHEKTITE, 0, 0, new Properties().fireResistant().rarity(Rarity.EPIC));
-        float attackDamage = (float) ItemConfig.diarkriteChargeBladeDamage/* + this.getTier().getAttackDamageBonus()*/;
-        float attackSpeed = (float) ItemConfig.diarkriteChargeBladeAttackSpeed;
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
-        if (!betterCombat) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(ATTACK_REACH_UUID, "Weapon modifier", ItemConfig.diarkriteChargeBladeAttackReach, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
-    }
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
+        super(ModTiers.ANTHEKTITE, anthektiteChargeBladeDamage, (float) anthektiteChargeBladeAttackSpeed, (float) anthektiteChargeBladeAttackReach, new Properties().fireResistant().rarity(Rarity.EPIC));
+//        float attackDamage = (float) diarkriteChargeBladeDamage/* + this.getTier().getAttackDamageBonus()*/;
+//        float attackSpeed = (float) diarkriteChargeBladeAttackSpeed;
+//        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+//        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
+//        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
+//        if (!betterCombat) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(ATTACK_REACH_UUID, "Weapon modifier", diarkriteChargeBladeAttackReach, AttributeModifier.Operation.ADDITION));
+//        this.defaultModifiers = builder.build();
     }
 
 //    @Override
-//    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity, int timeCharged) {
-//        if (livingEntity instanceof Player) {
-//            int i = this.getUseDuration(stack) - timeCharged;
-//            if (i < 0) return;
-//            float f = getPowerForTime(i);
-//            if (!((double)f < 1D)) {
-//                if (!level.isClientSide) {
-//                }
-//                if (enchanted(stack, 0)) livingEntity.hurt(level.damageSources().sonicBoom(livingEntity), livingEntity.getMaxHealth()*0.25F);
-//            }
-//        }
+//    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+//        return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
 //    }
 
     public static float getPowerForTime(int pCharge) {
@@ -84,10 +71,6 @@ public class AnthektiteChargeBlade extends SwordItem {
             f = 1.0F;
         }
         return f;
-    }
-
-    public int getUseDuration(@NotNull ItemStack pStack) {
-        return 72000;
     }
 
     public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
@@ -214,13 +197,8 @@ public class AnthektiteChargeBlade extends SwordItem {
 //    }
 
     @Override
-    public boolean isDamageable(ItemStack stack) {
-        return false;
-    }
-
-    @Override
     public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
-        return true;
+        return false;
     }
 
     @Override
@@ -228,20 +206,10 @@ public class AnthektiteChargeBlade extends SwordItem {
         return pDamageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
     }
 
-//    @Override
-//    public int getBarWidth(@NotNull ItemStack pStack) {
-//        return Math.round(13.0F - (float) (getMaxCharge(pStack) - getCharge(pStack)) * 13.0F / (float) getMaxCharge(pStack));
-//    }
-
     @Override
     public int getBarColor(@NotNull ItemStack pStack) {
         return 7924965;
     }
-
-//    @Override
-//    public boolean isBarVisible(@NotNull ItemStack pStack) {
-//        return getCharge(pStack) > 0;
-//    }
 
     public static void emptyClick(ItemStack stack) {
         if (!stack.isEmpty() && stack.getItem() instanceof AnthektiteChargeBlade){

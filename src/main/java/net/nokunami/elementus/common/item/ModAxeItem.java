@@ -5,7 +5,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.*;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.common.item.ElementusItemUtil.cmdTier;
+import static net.nokunami.elementus.common.item.EItemUtil.cmdTier;
 
 public class ModAxeItem extends AxeItem {
     public ModAxeItem(Tier tier, float attackDamage, float attackSpeed, Properties properties) {

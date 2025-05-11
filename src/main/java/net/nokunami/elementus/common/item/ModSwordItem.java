@@ -8,7 +8,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.common.item.ElementusItemUtil.*;
+import static net.nokunami.elementus.common.item.EItemUtil.*;
 
 public class ModSwordItem extends SwordItem {
     public ModSwordItem(Tier tier, int attackDamage, float attackSpeed, Properties properties) {

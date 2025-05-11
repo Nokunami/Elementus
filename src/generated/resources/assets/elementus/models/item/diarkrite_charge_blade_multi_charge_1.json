@@ -1,0 +1,18 @@
+{
+  "parent": "elementus:item/claymore_item",
+  "base": {
+    "parent": "elementus:item/diarkrite_charge_blade_multi_handheld_charge_1"
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "fixed": {
+      "parent": "elementus:item/diarkrite_charge_blade_multi_gui_charge_1"
+    },
+    "ground": {
+      "parent": "elementus:item/diarkrite_charge_blade_multi_gui_charge_1"
+    },
+    "gui": {
+      "parent": "elementus:item/diarkrite_charge_blade_multi_gui_charge_1"
+    }
+  }
+}

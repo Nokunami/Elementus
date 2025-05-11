@@ -183,11 +183,11 @@ public class ModItemTagsData extends ItemTagsProvider {
 
         tag(ItemTags.LEAVES).add(ElementusItems.MOVCADIA_LEAVES.get(), ElementusItems.FLOWERING_MOVCADIA_LEAVES.get());
 
-        tag(ItemTags.SIGNS)
-                .add(ElementusItems.MOVCADIA_SIGN.get(), ElementusItems.STURDY_MOVCADIA_SIGN.get());
+        tag(ItemTags.SIGNS).add(ElementusItems.MOVCADIA_SIGN.get(), ElementusItems.STURDY_MOVCADIA_SIGN.get());
 
-        tag(ItemTags.HANGING_SIGNS)
-                .add(ElementusItems.MOVCADIA_HANGING_SIGN.get());
+        tag(ItemTags.HANGING_SIGNS).add(ElementusItems.MOVCADIA_HANGING_SIGN.get());
+
+        tag(ItemTags.SAPLINGS).add(ElementusItems.MOVCADIA_SAPLING.get());
 
         tag(ItemTags.FOX_FOOD).add(ElementusItems.MOVCADIA_BERRIES.get());
     }
@@ -320,6 +320,7 @@ public class ModItemTagsData extends ItemTagsProvider {
         tag(Tags.Items.STORAGE_BLOCKS).addTag(Etags.Items.STORAGE_BLOCK_STEEL).addTag(Etags.Items.STORAGE_BLOCK_DIARKRITE).addTag(Etags.Items.STORAGE_BLOCK_ANTHEKTITE);
         tag(Etags.Items.BERRIES).add(ElementusItems.MOVCADIA_BERRIES.get());
 
+        tag(Tags.Items.CHESTS_WOODEN).add(ElementusItems.MOVCADIA_CHEST.get());
     }
     private void elementusTags() {
         tag(Etags.Items.STEEL_RECYCLABLE)
@@ -425,8 +426,6 @@ public class ModItemTagsData extends ItemTagsProvider {
                     .addOptional(modLoc("steel_knife"))
                     .addOptional(modLoc("diarkrite_knife"))
                     .addOptional(modLoc("anthektite_knife"));
-            tag(ModTags.FLAT_ON_CUTTING_BOARD)
-                    .addOptional(modLoc("diarkrite_charge_blade"));
         }
 
         //Nether's Delight

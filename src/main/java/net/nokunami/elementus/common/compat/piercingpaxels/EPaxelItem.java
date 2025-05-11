@@ -5,7 +5,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.config.ModConfig;
-import net.nokunami.elementus.common.item.ElementusItemUtil;
+import net.nokunami.elementus.common.item.EItemUtil;
 import org.jetbrains.annotations.Nullable;
 import xyz.amymialee.piercingpaxels.items.PaxelItem;
 import xyz.amymialee.piercingpaxels.util.PaxelSlot;
@@ -19,7 +19,7 @@ public class EPaxelItem extends PaxelItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
-        ElementusItemUtil.pickaxeTooltip(stack, tooltip, getTier());
+        EItemUtil.pickaxeTooltip(stack, tooltip, getTier());
         boolean empty = true;
 
         for(PaxelSlot slot : PaxelSlot.values()) {
@@ -41,7 +41,7 @@ public class EPaxelItem extends PaxelItem {
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         if (ModConfig.COMMON.diarkriteEfficiency.get()) {
             float originalSpeed = super.getDestroySpeed(stack, state);
-            return ElementusItemUtil.pickaxeMiningSpeed(originalSpeed, stack, state);
+            return EItemUtil.pickaxeMiningSpeed(originalSpeed, stack, state);
         }
         return super.getDestroySpeed(stack, state);
     }

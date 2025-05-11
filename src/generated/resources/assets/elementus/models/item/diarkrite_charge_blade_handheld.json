@@ -1,6 +1,38 @@
 {
   "parent": "elementus:item/claymore_item",
   "textures": {
-    "layer0": "elementus:item/tools/diarkrite_charge_blade_handheld"
-  }
+    "layer0": "elementus:item/tools/diarkrite_charge_blade/diarkrite_charge_blade_handheld"
+  },
+  "overrides": [
+    {
+      "model": "elementus:item/diarkrite_charge_blade_sacrifice",
+      "predicate": {
+        "elementus:enchanted": 0.1
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_0",
+      "predicate": {
+        "elementus:charge": 0.11
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_1",
+      "predicate": {
+        "elementus:charge": 0.12
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_2",
+      "predicate": {
+        "elementus:charge": 0.13
+      }
+    },
+    {
+      "model": "elementus:item/diarkrite_charge_blade_charge_3",
+      "predicate": {
+        "elementus:charge": 0.14
+      }
+    }
+  ]
 }

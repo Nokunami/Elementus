@@ -101,7 +101,7 @@ public class SteelGolemUpgradeItem extends Item {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, components, flag);
         components.add(Component.translatable("item.elementus.golem_upgrade." + identifier).withStyle(ChatFormatting.GRAY));
-        if (this.protection != 0) components.add(Component.translatable("item.elementus.golem_upgrade_armor").append(CommonComponents.SPACE).append(String.valueOf(this.protection)).withStyle(ChatFormatting.BLUE));
+        if (this.protection != 0) components.add(Component.translatable("item.elementus.golem_upgrade_armor", protection).withStyle(ChatFormatting.BLUE));
         if (this.toughness != 0) components.add(Component.translatable("item.elementus.golem_upgrade_toughness").append(CommonComponents.SPACE).append(String.valueOf(this.toughness)).withStyle(ChatFormatting.BLUE));
     }
 

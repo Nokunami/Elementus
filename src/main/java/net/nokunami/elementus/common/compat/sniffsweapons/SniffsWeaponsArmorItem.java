@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.nokunami.elementus.ModClientEvents;
+import net.nokunami.elementus.ElementusClient;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,7 +35,7 @@ public class SniffsWeaponsArmorItem extends DyeableArmorItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) ModClientEvents.PROXY.getArmorRenderProperties());
+        consumer.accept((IClientItemExtensions) ElementusClient.PROXY.getArmorRenderProperties());
     }
 
     public int getColor(ItemStack itemStack) {

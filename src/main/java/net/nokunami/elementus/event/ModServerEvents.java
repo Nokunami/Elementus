@@ -8,7 +8,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -19,10 +19,14 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -32,10 +36,10 @@ import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -46,9 +50,9 @@ import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.item.CatalystArmorItem;
 import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.registry.ModBlocks;
-import net.nokunami.elementus.common.registry.ModEnchantments;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModSoundEvents;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -57,9 +61,11 @@ import static net.nokunami.elementus.ModChecker.cataclysm;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.cursium;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.ignitium;
 import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
+import static net.nokunami.elementus.common.registry.ModEnchantments.RESONANCE;
 
 @Mod.EventBusSubscriber(modid = Elementus.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModServerEvents {
+    private static final int parryWindow = 6;
 
     @SubscribeEvent
     public void CatalystIgnitiumEffect(LivingDamageEvent event) {
@@ -234,23 +240,36 @@ public class ModServerEvents {
             ItemStack stack = entity.getItemBySlot(slot);
             boolean emptyItem = stack.isEmpty();
             boolean currentCharge = getCharge(stack) < getMaxCharge(stack);
-            boolean startResonance = getCharge(stack) > 2;
-            int resonanceLevel = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.RESONANCE.get(), stack);
-            if (!emptyItem && stack.getItem() instanceof DiarkriteChargeBlade && resonanceLevel > 0 && entity instanceof Player player
+            boolean startResonance = getResonanceCharge(stack) > 0;
+            if (!emptyItem && stack.getItem() instanceof DiarkriteChargeBlade && isEnchantedWith(stack, RESONANCE) && entity instanceof Player player
                     && currentCharge && startResonance && !player.isUsingItem() && level.getGameTime() % 100 == 0) {
-                addCharge(stack, 1);
+                setCharge(stack, 1);
+                setResonanceCharge(stack, -1);
+                setResonanceTick(stack, 2);
             }
         }
     }
 
+    private float damageAbsorption(ItemStack stack) {
+        float i0 = Math.min(getCharge(stack), getMaxCharge(stack));
+        float i1 = getMaxCharge(stack);
+        return 1 - ((i0 / i1) * 0.5F);
+    }
+
     @SubscribeEvent
-    public void Elementus$Shielding(LivingDamageEvent event) {
+    public void ShieldingParrying(LivingHurtEvent event) {
         DamageSource damageSource = event.getSource();
-        Vec3 position = event.getEntity().position();
-        Vec3 viewVec = event.getEntity().getViewVector(1);
-        Entity directEntity = damageSource.getDirectEntity();
-        boolean usingItem = event.getEntity().isUsingItem();
         LivingEntity entity = event.getEntity();
+        Vec3 position = entity.position();
+        Vec3 viewVec = entity.getViewVector(1);
+        Vec3 vec32 = damageSource.getSourcePosition();
+        Entity directEntity = damageSource.getDirectEntity();
+        Entity attacker = damageSource.getEntity();
+        boolean usingItem = entity.isUsingItem();
+        Level level = entity.level();
+        float damage = event.getAmount();
+        float randomFloat = 0.5F + (entity.getRandom().nextFloat() - entity.getRandom().nextFloat()) * 0.5F;
+
         boolean flag = false;
 
         if (directEntity instanceof AbstractArrow abstractarrow) {
@@ -259,7 +278,6 @@ public class ModServerEvents {
             }
         }
 
-        Vec3 vec32 = damageSource.getSourcePosition();
         if (vec32 != null) {
             Vec3 vec31 = vec32.vectorTo(position).normalize();
             vec31 = new Vec3(vec31.x, 0.0D, vec31.z);
@@ -267,23 +285,79 @@ public class ModServerEvents {
 
                 for (EquipmentSlot slot : EquipmentSlot.values()) {
                     ItemStack stack = entity.getItemBySlot(slot);
-                    if (!stack.isEmpty() && stack.getItem() instanceof DiarkriteChargeBlade) {
-                        Level level = entity.level();
-                        if (!damageSource.is(DamageTypeTags.BYPASSES_SHIELD) && usingItem && !flag) {
-                            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.PLAYERS, 1.5F, 1.5F);
-                            event.setAmount(event.getAmount() / 2);
-                            addCharge(stack, 1);
+
+                    if (!stack.isEmpty() && stack.getItem() instanceof DiarkriteChargeBlade && usingItem) {
+                        float soundVol = 1;
+                        SoundEvent soundEvent = isEnchantedWith(stack, RESONANCE) ? ModSoundEvents.DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE.get() : ModSoundEvents.DIARKRITE_CHARGE_BLADE_BLOCK.get();
+                        float damageAttacker = 0;
+                        float knockback = 0;
+                        if (entity.getTicksUsingItem() <= parryWindow) {
+                            event.setCanceled(true);
+                            setCharge(stack, 1);
+                            soundVol = 1.5F;
+                            soundEvent = isEnchantedWith(stack, RESONANCE) ? ModSoundEvents.DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE.get() : ModSoundEvents.DIARKRITE_CHARGE_BLADE_PARRY.get();
+                            damageAttacker = event.getAmount();
+                            knockback = 2;
+                            if (directEntity instanceof Projectile projectile) {
+                                // this is horrible
+                                if (projectile instanceof AbstractArrow ) {
+                                    entity.setArrowCount(entity.getArrowCount() - 1);
+                                }
+                            }
+                            if (directEntity instanceof Bee) entity.setStingerCount(entity.getStingerCount() - 1);
+                        } else if (!damageSource.is(DamageTypeTags.BYPASSES_SHIELD) && !flag) {
+                            event.setAmount(damage - (damage * damageAbsorption(stack)));
+                            if (isEnchantedWith(stack, RESONANCE)) damageAttacker = event.getAmount() * 0.25F;
+                            knockback = 1;
                         } else if (damageSource.is(DamageTypes.SONIC_BOOM)) {
-                            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, SoundSource.PLAYERS, 1.5F, 1.5F);
-                            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1.5F, 0F);
-                            level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BELL_BLOCK, SoundSource.PLAYERS, 1.5F, 0F);
+                            soundEvent = ModSoundEvents.DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE.get();
                             event.setAmount(event.getAmount() * 0.8F);
-                            addCharge(stack, (int) event.getAmount() / 2);
+                            setCharge(stack, (int) event.getAmount() / 2);
+                        }
+                        level.playSound(null, entity, soundEvent, SoundSource.PLAYERS, soundVol, randomFloat);
+                        setCharge(stack, 1);
+                        setResonanceCharge(stack, 1);
+                        applyRecoil(directEntity, entity, knockback, 1);
+                        if (isEnchantedWith(stack, RESONANCE) || entity.getTicksUsingItem() <= parryWindow) {
+                            if (attacker != null) {
+                                attacker.hurt(damageSource, damageAttacker);
+                            }
+                            if (directEntity != null) {
+                                directEntity.hurt(damageSource, damageAttacker);
+                            }
                         }
                     }
-
                 }
             }
         }
     }
+
+//    @SubscribeEvent
+//    public void DeflectProjectile(ProjectileImpactEvent event) {
+//        Projectile projectile = event.getProjectile();
+//        Vec3 projectileDelta = event.getProjectile().getDeltaMovement();
+//        Entity owner = projectile.getOwner();
+//
+//        if (event.getRayTraceResult() instanceof EntityHitResult result) {
+//            Elementus.LOGGER.debug("testHit1");
+//            if (result.getEntity() instanceof LivingEntity entity) {
+//                ItemStack stack = entity.getUseItem();
+//                Vec3 position = entity.position();
+//                Vec3 viewVec = entity.getViewVector(1);
+//                Vec3 vec32 = projectile.position();
+//
+//                Vec3 vec31 = vec32.vectorTo(position).normalize();
+//                vec31 = new Vec3(vec31.x, 0.0D, vec31.z);
+//
+//                if (vec31.dot(viewVec) < 0.0D) {
+//                    if (entity.getUseItem().getItem() instanceof DiarkriteChargeBlade && entity.isUsingItem() && entity.getTicksUsingItem() <= parryWindow) {
+//                        Elementus.LOGGER.debug("testHit2 this deflects \"i hope\"");
+//                        event.setCanceled(true);
+//                        projectile.setDeltaMovement(-projectileDelta.x/2, -projectileDelta.y/2, -projectileDelta.z/2);
+//                        if (isEnchantedWith(stack, RESONANCE) && owner != null) owner.hurt(entity.damageSources().playerAttack((Player) entity), projectile.);
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

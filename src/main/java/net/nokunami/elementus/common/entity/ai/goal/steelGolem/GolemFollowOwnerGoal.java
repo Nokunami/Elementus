@@ -17,7 +17,7 @@ import net.nokunami.elementus.common.entity.living.TamableGolem;
 import java.util.EnumSet;
 
 public class GolemFollowOwnerGoal extends Goal {
-    public static final int TP_DISTANCE_SQD = 16;
+    public static final int TP_DISTANCE_SQD = 12;
     private static final int MinHorizontalDistanceFromPlayerWhenTeleporting = 2;
     private static final int MAX_HORIZONTAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 5;
     private static final int MAX_VERTICAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 3;

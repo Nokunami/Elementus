@@ -75,7 +75,7 @@ public class ModRecipeData extends ModRecipeProvider {
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, ElementusItems.STEEL_LEGGINGS, Etags.Items.INGOTS_DIARKRITE, ElementusItems.DIARKRITE_LEGGINGS);
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, ElementusItems.STEEL_BOOTS, Etags.Items.INGOTS_DIARKRITE, ElementusItems.DIARKRITE_BOOTS);
 
-        smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, ElementusItems.STEEL_HELMET, Etags.Items.INGOTS_DIARKRITE, ElementusItems.ANTHEKTITE_HELMET);
+        smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, ElementusItems.STEEL_HELMET, Etags.Items.INGOTS_ANTHEKTITE, ElementusItems.ANTHEKTITE_HELMET);
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, ElementusItems.STEEL_CHESTPLATE, Etags.Items.INGOTS_ANTHEKTITE, ElementusItems.ANTHEKTITE_CHESTPLATE);
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, ElementusItems.STEEL_LEGGINGS, Etags.Items.INGOTS_ANTHEKTITE, ElementusItems.ANTHEKTITE_LEGGINGS);
         smithingCombatTransform(writer, ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, ElementusItems.STEEL_BOOTS, Etags.Items.INGOTS_ANTHEKTITE, ElementusItems.ANTHEKTITE_BOOTS);
@@ -243,6 +243,21 @@ public class ModRecipeData extends ModRecipeProvider {
 
         woodenBoat(writer, ElementusItems.MOVCADIA_BOAT.get(), ElementusItems.MOVCADIA_PLANKS.get());
         chestBoat(writer, ElementusItems.MOVCADIA_CHEST_BOAT.get(), ElementusItems.MOVCADIA_BOAT.get());
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ElementusItems.GLISTERING_MOVCADIA_BERRIES.get())
+                .define('#', ElementusItems.MOVCADIA_BERRIES.get())
+                .define('/', Items.GOLD_NUGGET)
+                .pattern("///").pattern("/#/").pattern("///")
+                .unlockedBy(getHasName(ElementusItems.MOVCADIA_BERRIES.get()), has(Items.GOLD_INGOT))
+                .save(writer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ElementusItems.REINFORCED_PLATING_GOLEM_UPGRADE.get())
+                .define('#', ElementusItems.STEEL_BLOCK.get())
+                .define('/', ElementusItems.STEEL_INGOT.get())
+                .define('@', ElementusItems.STEEL_CHESTPLATE.get())
+                .pattern("#/#").pattern("/#/").pattern("/@/")
+                .unlockedBy(getHasName(ElementusItems.STEEL_BLOCK.get()), has(ElementusItems.STEEL_CHESTPLATE.get()))
+                .save(writer);
     }
     private void FarmersDelight(Consumer<FinishedRecipe> writer) {
         ConditionalRecipe.builder().addCondition(and(modLoaded(farmersDelightID), not(FALSE()))).addRecipe(

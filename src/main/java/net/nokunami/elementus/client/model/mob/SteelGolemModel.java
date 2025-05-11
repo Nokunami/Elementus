@@ -130,14 +130,14 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
         this.animate(entity.leftAttackEndAnimState, SteelGolemAttackAnimation.leftArmAttackEnd, ageInTicks);
         this.animate(entity.rightAttackAnimationState, SteelGolemAttackAnimation.rightAttackLoop, ageInTicks);
         this.animate(entity.rightAttackEndAnimState, SteelGolemAttackAnimation.rightAttackEnd, ageInTicks);
-        this.animate(entity.upswingAttackAnimState, SteelGolemAttackAnimation.upswingAttackLoop, ageInTicks);
-        this.animate(entity.upswingAttackEndAnimState, SteelGolemAttackAnimation.upswingAttackEnd, ageInTicks);
         this.animate(entity.sitFromStandAnimState, SteelGolemAnimation.sitFromStand, ageInTicks);
         this.animate(entity.standFromSitAnimState, SteelGolemAnimation.standFromSit, ageInTicks);
         this.animate(entity.brokenAnim, SteelGolemAnimation.brokenDown, ageInTicks);
         this.animate(entity.repairedAnim, SteelGolemAnimation.repairUp, ageInTicks);
         this.animate(entity.ridden, SteelGolemAnimation.ridden, ageInTicks);
         this.animate(entity.unRide, SteelGolemAnimation.unRide, ageInTicks);
+        this.animate(entity.upswingAttackAnimState, SteelGolemAttackAnimation.upswingAttackLoop, ageInTicks);
+        this.animate(entity.upswingAttackEndAnimState, SteelGolemAttackAnimation.upswingAttackEnd, ageInTicks);
         if (entity.isSprinting()) {
             this.animateWalk(SteelGolemAnimation.runCycle, limbSwing, limbSwingAmount, walkMaxAnimSpeed, walkAnimScaleFactor);
         } else {

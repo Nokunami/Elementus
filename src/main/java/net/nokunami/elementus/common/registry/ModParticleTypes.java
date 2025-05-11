@@ -13,6 +13,7 @@ public class ModParticleTypes {
 
     public static final RegistryObject<SimpleParticleType> SONIC_BURST = PARTICLE.register("sonic_burst", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SONIC_BURST_EMITTER = PARTICLE.register("sonic_burst_emitter", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> SACRIFICE_SONIC_BOOM = PARTICLE.register("sacrifice_sonic_boom", () -> new SimpleParticleType(true));
 
     public static void register(IEventBus eventBus) {
         PARTICLE.register(eventBus);
