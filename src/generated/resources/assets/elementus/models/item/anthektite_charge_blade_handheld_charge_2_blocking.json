@@ -1,0 +1,17 @@
+{
+  "parent": "elementus:item/claymore_item_blocking",
+  "forge_data": {
+    "layers": {
+      "1": {
+        "block_light": 15,
+        "sky_light": 15
+      }
+    }
+  },
+  "loader": "forge:item_layers",
+  "render_types": {},
+  "textures": {
+    "layer0": "elementus:item/tools/anthektite_longsword/anthektite_charge_blade_handheld_charge_2",
+    "layer1": "elementus:item/tools/anthektite_longsword/anthektite_charge_blade_handheld_charge_2_e"
+  }
+}

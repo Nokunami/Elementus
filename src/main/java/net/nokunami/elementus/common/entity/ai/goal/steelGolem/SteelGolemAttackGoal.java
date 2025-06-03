@@ -1,8 +1,6 @@
 package net.nokunami.elementus.common.entity.ai.goal.steelGolem;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,29 +8,32 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
+import java.util.function.Predicate;
 
-import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnWideParticlesOnEntity;
+import static net.nokunami.elementus.common.entity.MobUtil.alliedAttacked;
 
 public class SteelGolemAttackGoal extends MeleeAttackGoal {
-    private final SteelGolem steelGolem;
-    protected final int attackDelay = 10;
+    private SteelGolem steelGolem;
+    protected int attackDelay = 10;
     protected int ticksTilNextAttack = 20;
-    protected final int aoeAttackDelay = 10;
+    protected int fastAttackDelay = 10;
+    protected int ticksTilNextFastAttack = 10;
+    protected int aoeAttackDelay = 10;
     protected int ticksTilNextAoeAttack = 20;
     protected boolean shouldCountTillNextAttack = false;
-    protected boolean brokenChassis;
+    protected LivingEntity golemOwner;
+    private final Predicate<Entity> aoeFilter = (e -> (alliedAttacked(steelGolem, e) || (golemOwner != null && alliedAttacked(golemOwner, e))));
 
-    public SteelGolemAttackGoal(SteelGolem pMob, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
-        super(pMob, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
+    public SteelGolemAttackGoal(SteelGolem golem, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
+        super(golem, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
-        this.steelGolem = pMob;
-        this.brokenChassis = pMob.isChassisBroken();
+        this.steelGolem = golem;
+        this.golemOwner = golem.getOwner() != null ? golem.getOwner() : null;
     }
 
     @Override
@@ -71,19 +72,27 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     }
 
     protected void resetAttackCooldown() {
-        this.ticksTilNextAttack = this.adjustedTickDelay(attackDelay * 2);
+        if (steelGolem.getFastAttack()) {
+            this.ticksTilNextFastAttack = this.adjustedTickDelay(fastAttackDelay * 2);
+        } else this.ticksTilNextAttack = this.adjustedTickDelay(attackDelay * 2);
     }
 
     protected boolean isTimeToStartAttackAnimation() {
-        return this.ticksTilNextAttack <= attackDelay;
+        if (steelGolem.getFastAttack()) {
+            return this.ticksTilNextFastAttack <= fastAttackDelay;
+        } else return this.ticksTilNextAttack <= attackDelay;
     }
 
     protected boolean isTimeToAttack() {
-        return this.ticksTilNextAttack <= 0;
+        if (steelGolem.getFastAttack()) {
+            return this.ticksTilNextFastAttack <= 0;
+        } else return this.ticksTilNextAttack <= 0;
     }
 
     protected int getTicksUntilNextAttack() {
-        return this.ticksTilNextAttack;
+        if (steelGolem.getFastAttack()) {
+            return this.ticksTilNextFastAttack;
+        } else return this.ticksTilNextAttack;
     }
 
     protected void performAttack(LivingEntity enemy) {
@@ -116,12 +125,16 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     @Override
     public void tick() {
         super.tick();
-        if(shouldCountTillNextAttack && steelGolem.getAoeTimer() > 30) {
-            this.ticksTilNextAttack = Math.max(this.ticksTilNextAttack - 1, 0);
-        }
-        if (steelGolem.getAoeTimer() <= 0) {
-            this.ticksTilNextAoeAttack = Math.max(this.ticksTilNextAoeAttack - 1,0);
-            resetAttackCooldown();
+        if (!steelGolem.isChassisCompromised()) {
+            if(shouldCountTillNextAttack && steelGolem.getAoeTimer() > 30 && !steelGolem.getFastAttack()) {
+                this.ticksTilNextAttack = Math.max(this.ticksTilNextAttack - 1, 0);
+            } else {
+                this.ticksTilNextFastAttack = Math.max(this.ticksTilNextFastAttack - 1, 0);
+            }
+            if (steelGolem.getAoeTimer() <= 0) {
+                this.ticksTilNextAoeAttack = Math.max(this.ticksTilNextAoeAttack - 1,0);
+                resetAttackCooldown();
+            }
         }
     }
 
@@ -134,16 +147,15 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
 
     @Override
     public boolean canUse() {
-        return !brokenChassis && super.canUse();
+        return !steelGolem.isChassisCompromised() && super.canUse();
     }
 
     private void groundAttack(LivingEntity livingEntity) {
         if (this.steelGolem.onGround()) {
             this.steelGolem.playSound(SoundEvents.GENERIC_EXPLODE, 1.4F, 1.4F);
             this.steelGolem.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-            for (Entity entity : this.steelGolem.level().getEntitiesOfClass(LivingEntity.class, this.steelGolem.getBoundingBox().inflate(6.0D))) {
-//                if (!(entity instanceof Creeper) && (entity instanceof Enemy || (livingEntity != null && livingEntity == entity)) || !(steelGolem.getOwner() != null && entity.isAlliedTo(steelGolem.getOwner()))) {
-                if (entity instanceof Enemy || entity == steelGolem.getTarget() || (livingEntity instanceof Mob target && (target.getTarget() == this.mob))/* || !(steelGolem.getOwner() != null && entity.isAlliedTo(steelGolem.getOwner())) || entity != this.steelGolem*/) {
+            for (Entity entity : this.steelGolem.level().getEntitiesOfClass(LivingEntity.class, this.steelGolem.getBoundingBox().inflate(6.0D), aoeFilter)) {
+                if (entity instanceof Enemy || entity == steelGolem.getTarget() || (livingEntity instanceof Mob target && (target.getTarget() == this.mob))) {
                     if (entity.onGround()) {
                         boolean flag = entity.hurt(this.steelGolem.damageSources().mobAttack(this.steelGolem),
                                 (float) this.steelGolem.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.75F);
@@ -161,6 +173,6 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
         double d0 = entity.getX() - this.steelGolem.getX();
         double d1 = entity.getZ() - this.steelGolem.getZ();
         double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-        entity.push(d0 / d2 * 2.0D, 0.2D, d1 / d2 * 2.0D);
+        entity.push(d0 / d2 * 1.25D, 0.2D, d1 / d2 * 1.25D);
     }
 }

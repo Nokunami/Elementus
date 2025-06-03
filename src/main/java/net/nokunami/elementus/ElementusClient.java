@@ -33,10 +33,9 @@ import net.nokunami.elementus.client.ClientProxy;
 import net.nokunami.elementus.client.ModAtlases;
 import net.nokunami.elementus.client.gui.screens.inventory.tooltip.ClientCatalystTooltip;
 import net.nokunami.elementus.client.model.ModModelLayers;
-import net.nokunami.elementus.client.particle.SacrificeSonicBoomParticle;
-import net.nokunami.elementus.client.particle.SonicBurstEmitterParticle;
-import net.nokunami.elementus.client.particle.SonicBurstParticle;
+import net.nokunami.elementus.client.particle.*;
 import net.nokunami.elementus.client.render.CatalystElytraLayer;
+import net.nokunami.elementus.client.render.DiarkriteEmissiveLayer;
 import net.nokunami.elementus.client.render.entity.projectile.SonicRushParticleEntityRenderer;
 import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
 import net.nokunami.elementus.client.render.vehicle.ModChestRenderer;
@@ -119,12 +118,14 @@ public class ElementusClient {
                 LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> livingEntityRenderer = addLayersEvent.getSkin(s);
                 if(livingEntityRenderer instanceof PlayerRenderer playerRenderer){
                     playerRenderer.addLayer(new CatalystElytraLayer<>(playerRenderer, entityModels));
+                    playerRenderer.addLayer(new DiarkriteEmissiveLayer<>(playerRenderer, entityModels));
 //                    playerRenderer.addLayer(new CatalystElytraExtraLayer<>(playerRenderer, entityModels));
                 }
             });
             LivingEntityRenderer<ArmorStand, ? extends EntityModel<ArmorStand>> livingEntityRenderer = addLayersEvent.getRenderer(EntityType.ARMOR_STAND);
             if(livingEntityRenderer instanceof ArmorStandRenderer armorStandRenderer){
                 armorStandRenderer.addLayer(new CatalystElytraLayer<>(armorStandRenderer, entityModels));
+                armorStandRenderer.addLayer(new DiarkriteEmissiveLayer<>(armorStandRenderer, entityModels));
 //                armorStandRenderer.addLayer(new CatalystElytraExtraLayer<>(armorStandRenderer,entityModels));
             }
         }
@@ -163,5 +164,8 @@ public class ElementusClient {
         event.registerSpriteSet(ModParticleTypes.SONIC_BURST.get(), SonicBurstParticle.Provider::new);
         event.registerSpecial(ModParticleTypes.SONIC_BURST_EMITTER.get(), new SonicBurstEmitterParticle.Provider());
         event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), SacrificeSonicBoomParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.PARRY.get(), ParryParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.PARRY_RESONANCE.get(), ParryParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.SONIC_BOOM_BURST_START.get(), SonicBoomBurstStartParticle.Provider::new);
     }
 }

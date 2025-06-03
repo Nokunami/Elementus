@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.CommonComponents;
@@ -21,10 +22,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.common.config.UniqueItemConfig;
+import net.nokunami.elementus.common.registry.ModEnchantments;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +42,7 @@ import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
 import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 
 public class DiarkriteChargeBlade extends ChargeSwordItem {
-    private static final int BURST_RANGE = 1;
+    private static final int BURST_RANGE = 2;
     private static final int BOOM_RANGE = 16;
     private static final int RUSH_RANGE = 8;
 
@@ -83,7 +86,7 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
                     .append(Component.translatable(getDescriptionId() + ".multi_charge", Math.round(((float) (getMaxCharge(stack) /getChargeStack(stack)) - 1)) * 100)
                             .append(Component.translatable("enchantment.elementus.multi_charge")).withStyle(ChatFormatting.GREEN))));
         }
-        tooltip.add(Component.translatable(getDescriptionId() + ".friendly_fire_desc",
+        tooltip.add(Component.translatable("item.elementus.charge_item.friendly_fire_desc",
                 friendlyFireStr.substring(0, 1).toUpperCase(Locale.ROOT) + friendlyFireStr.substring(1)).withStyle(ChatFormatting.GRAY));
         if (stack.isEnchanted()) tooltip.add(CommonComponents.EMPTY);
     }
@@ -101,13 +104,30 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
         return super.hurtEnemy(stack, target, attacker);
     }
 
+
+
     @Override
     public int getBarColor(@NotNull ItemStack stack) {
         return isEnchantedWith(stack, SACRIFICE_CURSE) ? 16733525 : 7924965;
     }
 
+    @Override
+    public boolean isBarVisible(@NotNull ItemStack pStack) {
+        return !isEnchantedWith(pStack, MULTI_CHARGE) && super.isBarVisible(pStack);
+    }
+
+    public boolean isMultiBarVisible(@NotNull ItemStack pStack) {
+        return isEnchantedWith(pStack, MULTI_CHARGE);
+    }
+
+    @Override
+    public int getBarWidth(@NotNull ItemStack stack) {
+        int level = EnchantmentHelper.getTagEnchantmentLevel(MULTI_CHARGE.get(), stack);
+        return Math.round(13.0F - (float) (getMaxCharge(stack) - getCharge(stack)) * 13.0F / (float) getMaxCharge(stack));
+    }
+
     public static float boomRadius(ItemStack stack) {
-        return isEnchantedWith(stack, RUSH) ? 1F : isEnchantedWith(stack, CONDENSED_BURST) ? 0.75F : 2F;
+        return isEnchantedWith(stack, RUSH) || isEnchantedWith(stack, CONDENSED_BURST) ? 1.25F : 2.5F;
     }
 
     public static float boomRange(ItemStack stack) {
@@ -118,6 +138,7 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
     public static void createBoom(Level level, LivingEntity livingEntity, ItemStack stack) {
         float chargeAmount = getChargeAmount(stack, ((Player)livingEntity).isCreative());
         SimpleParticleType particleTypes = isEnchantedWith(stack, SACRIFICE_CURSE) ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : isEnchantedWith(stack, CONDENSED_BURST) ? ParticleTypes.SONIC_BOOM : ModParticleTypes.SONIC_BURST_EMITTER.get();
+        SimpleParticleType startParticle = isEnchantedWith(stack, SACRIFICE_CURSE) ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : ModParticleTypes.SONIC_BOOM_BURST_START.get();
         Vec3 target = livingEntity.getEyePosition().add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(boomRange(stack)));
         Vec3 source = livingEntity.getEyePosition();
         Vec3 offsetToTarget = target.subtract(source);
@@ -127,11 +148,11 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
 
         for(int particleIndex = 1; particleIndex < Mth.floor(offsetToTarget.length()) + 2; ++particleIndex) {
             Vec3 particle = source.add(normalized.scale(particleIndex));
-            if (firstTick && !isEnchantedWith(stack, SACRIFICE_CURSE)) {
-                ((ServerLevel)level).sendParticles(ParticleTypes.SONIC_BOOM, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
+            if (firstTick) {
+                ((ServerLevel)level).sendParticles(startParticle, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
                 firstTick = false;
             }
-            ((ServerLevel)level).sendParticles(particleTypes, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
+            if (particleIndex > 1) ((ServerLevel)level).sendParticles(particleTypes, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
             hitSet.addAll(level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos((int) particle.x(), (int) particle.y(), (int) particle.z()))).inflate(boomRadius(stack)),
                     (e) -> !(e instanceof OwnableEntity) && (e.isAlliedTo(livingEntity) && getFriendlyFire(stack) || !e.isAlliedTo(livingEntity)) ||
                             (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&
@@ -162,6 +183,15 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
         if (isEnchantedWith(stack, CONDENSED_BURST)) level.playSound(null, livingEntity, SoundEvents.TRIDENT_THUNDER, SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 
+    public static void parryParticle(Level level, LivingEntity livingEntity, ParticleOptions particleOptions) {
+        Vec3 eyePos = livingEntity.getEyePosition();
+        Vec3 target = eyePos.add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(1));
+        Vec3 offsetToTarget = target.subtract(eyePos);
+
+        Vec3 particle = eyePos.add(offsetToTarget.normalize().scale(1));
+        ((ServerLevel)level).sendParticles(particleOptions, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
+    }
+
     /// ArcheryExpansion code: BowItemMixin
     public static void applyRecoil(Entity target,Entity source, double amount, int type) {
         Vec3 lookDirection = source.getViewVector(1.0f);
@@ -177,5 +207,10 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
                 source.getDeltaMovement().z + knockback.z
         );
         target.hurtMarked = true;
+    }
+
+    public static void parry(Level level, Player imTheOneWhoParries, LivingEntity waltuhPutTheSwordDownWaltuh, float damageAmount) {
+        waltuhPutTheSwordDownWaltuh.hurt(level.damageSources().playerAttack(imTheOneWhoParries), damageAmount);
+        waltuhPutTheSwordDownWaltuh.setLastHurtByPlayer(imTheOneWhoParries);
     }
 }

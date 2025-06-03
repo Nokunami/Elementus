@@ -21,16 +21,6 @@ public class SteelGolemEyesLayer extends RenderLayer<SteelGolem, SteelGolemModel
     }
 
     public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, SteelGolem pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-        int fullBright = 15728880;
-        if (!pLivingEntity.isInvisible()) {
-            if (!pLivingEntity.isChassisBroken()) {
-                String location = "neutral";
-                if (pLivingEntity.getAggroState()) {
-                    location = "aggressive";
-                }
-                ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_" + location + ".png");
-                renderColoredCutoutModel(this.getParentModel(), resourcelocation, pPoseStack, pBuffer, fullBright, pLivingEntity, 1.0F, 1.0F, 1.0F);
-            }
-        }
+
     }
 }

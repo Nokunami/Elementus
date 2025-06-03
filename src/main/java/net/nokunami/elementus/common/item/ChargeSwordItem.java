@@ -74,14 +74,6 @@ public class ChargeSwordItem extends SwordItem {
     }
 
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
-//        ItemStack itemStack = player.getItemInHand(hand);
-//        if (!player.getCooldowns().isOnCooldown(itemStack.getItem())) {
-//            player.startUsingItem(hand);
-//            return InteractionResultHolder.consume(itemStack);
-//        } else {
-//            player.stopUsingItem();
-//            return InteractionResultHolder.pass(itemStack);
-//        }
         ItemStack itemstack = player.getItemInHand(hand);
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(itemstack);
@@ -211,9 +203,4 @@ public class ChargeSwordItem extends SwordItem {
     public boolean isBarVisible(@NotNull ItemStack pStack) {
         return getCharge(pStack) > 0;
     }
-
-//    @Override
-//    public boolean canPerformAction(@NotNull ItemStack stack, @NotNull ToolAction toolAction) {
-//        return ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction) || ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
-//    }
 }

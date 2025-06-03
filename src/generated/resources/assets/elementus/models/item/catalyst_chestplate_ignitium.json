@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "elementus:item/armor/catalyst_chestplate",
-    "layer1": "elementus:item/armor/catalyst_ignitium"
-  }
-}

@@ -4,9 +4,8 @@ Elementus adds more materials to minecraft.
 
 ## Active Development: 1.20.1 Forge
 ### current plans
-- last update to 1.20 (for real this time)
-- backport final 1.20 version to 1.19.2
-- port to NeoForge
+- finish 1.20 and backport to version 1.19.2
+- port to NeoForge 1.21.1 (maybe to 1.21.4+ who knows)
 ### Bugfix: 1.20 1
 
 

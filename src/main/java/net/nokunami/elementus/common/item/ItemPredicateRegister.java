@@ -41,6 +41,7 @@ public class ItemPredicateRegister {
          }
 
          chargeBlade(ElementusItems.DIARKRITE_CHARGE_BLADE.get());
+         chargeBlade(ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
      }
 
     private static void shieldBlocking(Item item) {
@@ -88,10 +89,8 @@ public class ItemPredicateRegister {
         ItemProperties.register(item, new ResourceLocation("blocking"), (itemStack, clientLevel, livingEntity, i)
                 -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
 
-        ItemProperties.register(item, modLoc("enchanted"), (itemStack, clientLevel, livingEntity, i) -> {
-            int level = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.MULTI_CHARGE.get(), itemStack);
-            return isEnchantedWith(itemStack, SACRIFICE_CURSE) ? 0.1F : isEnchantedWith(itemStack, MULTI_CHARGE) ? 0.2F : 0F;
-        });
+        ItemProperties.register(item, modLoc("enchanted"), (itemStack, clientLevel, livingEntity, i)
+                -> isEnchantedWith(itemStack, SACRIFICE_CURSE) ? 0.1F : isEnchantedWith(itemStack, MULTI_CHARGE) ? 0.2F : 0F);
 
         ItemProperties.register(item, modLoc("charge"), (itemStack, clientLevel, livingEntity, i) -> {
             float i0 = Math.min(getCharge(itemStack), getMaxCharge(itemStack));

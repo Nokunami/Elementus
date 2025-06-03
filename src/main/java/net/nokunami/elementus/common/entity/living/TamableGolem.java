@@ -1,5 +1,6 @@
 package net.nokunami.elementus.common.entity.living;
 
+import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -32,10 +33,13 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.network.NetworkHooks;
+import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Predicate;
 
 public abstract class TamableGolem extends TamableAnimal implements ContainerListener, HasCustomInventoryScreen, MenuProvider, PlayerRideableJumping, Saddleable, RiderShieldingMount {
@@ -44,7 +48,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public static final int EQUIPMENT_SLOT_OFFSET = 400;
     public static final int CHEST_SLOT_OFFSET = 499;
     public static final int INVENTORY_SLOT_OFFSET = 500;
-    public static final int SADDLE_FLAG_ID = 1;
+    public static final int SADDLE_FLAG_ID = 4;
     public static final int INV_SLOT_SADDLE = 0;
     public static final int INV_SLOT_ARMOR = 1;
     public static final int INV_BASE_COUNT = 2;
@@ -196,6 +200,15 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public void openCustomInventoryScreen(@NotNull Player pPlayer) {
     }
 
+    public InteractionResult openInventory(Player player) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            NetworkHooks.openScreen(serverPlayer, this);
+        }
+        openCustomInventoryScreen(player);
+        if (hasChest()) this.level().playSound(null, this.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
+        return InteractionResult.sidedSuccess(this.level().isClientSide);
+    }
+
     protected InteractionResult doPlayerRide(Player pPlayer) {
         this.setOrderedToSit(false);
         this.setInSittingPose(false);
@@ -220,52 +233,36 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         }
     }
 
-    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
-//        if (!this.isVehicle() && !this.isBaby()) {
-//            if (this.isTame() && player.isSecondaryUseActive()) {
-//                this.openCustomInventoryScreen(player);
-//                return InteractionResult.sidedSuccess(this.level().isClientSide);
-//            } else {
-//                ItemStack itemstack = player.getItemInHand(hand);
-//                if (!itemstack.isEmpty()) {
-//                    InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
-//                    if (interactionresult.consumesAction()) {
-//                        return interactionresult;
-//                    }
-//                    if (this.canWearArmor() && this.isArmor(itemstack) && !this.isWearingArmor()) {
-//                        this.equipArmor(player, itemstack);
-//                        return InteractionResult.sidedSuccess(this.level().isClientSide);
-//                    }
-//                }
-//                this.doPlayerRide(player);
-//                return InteractionResult.sidedSuccess(this.level().isClientSide);
-//            }
-//        } else {
-//            return super.mobInteract(player, hand);
-//        }
-        ItemStack itemStack = player.getItemInHand(hand);
-        boolean combat = (itemStack.is(ItemTags.SWORDS) || itemStack.is(ItemTags.AXES));
-
-        if (this.isTame()) {
-            if (!this.level().isClientSide && player.isCrouching() && player instanceof ServerPlayer serverPlayer && !combat) {
-                NetworkHooks.openScreen(serverPlayer, this);
-                openCustomInventoryScreen(player);
-                if (hasChest()) this.level().playSound(null, this.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
-                return InteractionResult.sidedSuccess(this.level().isClientSide);
-            }
-            if (!itemStack.isEmpty()) {
-                InteractionResult interactionresult = itemStack.interactLivingEntity(player, this, hand);
-                if (interactionresult.consumesAction()) {
-                    return interactionresult;
-                }
-                if (this.canWearArmor() && this.isArmor(itemStack) && !this.isWearingArmor()) {
-                    this.equipArmor(player, itemStack);
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
-                }
-            }
-        }
-        return super.mobInteract(player, hand);
-    }
+//    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+//        ItemStack itemStack = player.getItemInHand(hand);
+//        InteractionResult itemInteract = itemStack.interactLivingEntity(player, this, hand);
+//
+////        if (!isVehicle()) {
+////            if (isTame() && player.isSecondaryUseActive() && (!itemStack.isEmpty() && !itemInteract.consumesAction())) {
+////                Elementus.LOGGER.debug("tamableGolemOpenInv");
+////                return openInventory(player);
+////            } else {
+////                if (!itemStack.isEmpty()) {
+////                    if (itemInteract.consumesAction()) {
+////                        Elementus.LOGGER.debug("tamableGolemItem");
+////                        return itemInteract;
+////                    }
+////                    if (this.canWearArmor() && isArmor(itemStack) && !isWearingArmor()) {
+////                        this.equipArmor(player, itemStack);
+////                        Elementus.LOGGER.debug("tamableGolemArmor");
+////                        return InteractionResult.sidedSuccess(this.level().isClientSide);
+////                    }
+////                }
+////                Elementus.LOGGER.debug("tamableGolemEmptyStack");
+////                return InteractionResult.sidedSuccess(this.level().isClientSide);
+////            }
+////        } else {
+////            Elementus.LOGGER.debug("tamableGolemSuperMobInt");
+////            return super.mobInteract(player, hand);
+////        }
+//        Elementus.LOGGER.debug("tamableGolemSuperMobInt");
+//        return super.mobInteract(player, hand);
+//    }
 
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
@@ -282,6 +279,11 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 //                this.playerJumpPendingScale = 0.0F;
 //            }
 //        }
+    }
+
+    @Override
+    public boolean canBeLeashed(Player pPlayer) {
+        return super.canBeLeashed(pPlayer);
     }
 
     protected Vec2 getRiddenRotation(LivingEntity pEntity) {
@@ -319,7 +321,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        if (!this.inventory.getItem(0).isEmpty()) {
+        if (!this.inventory.getItem(2).isEmpty()) {
             tag.put("SaddleItem", this.inventory.getItem(0).save(new CompoundTag()));
         }
     }
@@ -351,22 +353,6 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     @Override
     public void handleStopJump() {
     }
-
-//    @Override
-//    protected void positionRider(@NotNull Entity passenger, @NotNull MoveFunction moveFunction) {
-//        super.positionRider(passenger, moveFunction);
-//        float f = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F));
-//        float f1 = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F));
-//        float f2 = 0.15F;
-//        float f3 = 0.3F;
-//        moveFunction.accept(passenger,
-//                this.getX() - (double)(f2 * f),
-//                this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset()/* + (double)f3*/,
-//                this.getZ() - (double)(f * f1));
-//        if (passenger instanceof LivingEntity) {
-//            ((LivingEntity)passenger).yBodyRot = this.yBodyRot;
-//        }
-//    }
 
     protected int getMaxPassengers() {
         return 1;
@@ -435,13 +421,13 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     @Nullable
-    private Vec3 getDismountLocationInDirection(Vec3 pDirection, LivingEntity pPassenger) {
+    private Vec3 getDismountLocationInDirection(Vec3 pDirection, LivingEntity passenger) {
         double d0 = this.getX() + pDirection.x;
         double d1 = this.getBoundingBox().minY;
         double d2 = this.getZ() + pDirection.z;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-        for(Pose pose : pPassenger.getDismountPoses()) {
+        for(Pose pose : passenger.getDismountPoses()) {
             blockpos$mutableblockpos.set(d0, d1, d2);
             double d3 = this.getBoundingBox().maxY + 0.75D;
 
@@ -452,10 +438,10 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
                 }
 
                 if (DismountHelper.isBlockFloorValid(d4)) {
-                    AABB aabb = pPassenger.getLocalBoundsForPose(pose);
+                    AABB aabb = passenger.getLocalBoundsForPose(pose);
                     Vec3 vec3 = new Vec3(d0, (double)blockpos$mutableblockpos.getY() + d4, d2);
-                    if (DismountHelper.canDismountTo(this.level(), pPassenger, aabb.move(vec3))) {
-                        pPassenger.setPose(pose);
+                    if (DismountHelper.canDismountTo(this.level(), passenger, aabb.move(vec3))) {
+                        passenger.setPose(pose);
                         return vec3;
                     }
                 }

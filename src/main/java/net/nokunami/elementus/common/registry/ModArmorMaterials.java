@@ -177,8 +177,6 @@ public enum ModArmorMaterials implements ArmorMaterial {
     private final SoundEvent sound;
     private final float toughness;
     private final float knockbackResistance;
-//    private final float attackSpeed;
-//    private final float movementSpeed;
     private final Supplier<Ingredient> repairIngredient;
     private final Map<Attribute, AttributeModifier> additionalAttributes;
 
@@ -190,62 +188,9 @@ public enum ModArmorMaterials implements ArmorMaterial {
         this.sound = soundEvent;
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
-//        this.attackSpeed = attackSpeed;
-//        this.movementSpeed = movementSpeed;
         this.repairIngredient = Suppliers.memoize(repairIngredient::get);
-//        slotToAttributeMap = null;
         this.additionalAttributes = additionalAttributes;
     }
-
-//    private EnumMap<EquipmentSlot, Multimap<Attribute, AttributeModifier>> slotToAttributeMap;
-
-//    public EnumMap<EquipmentSlot, Multimap<Attribute, AttributeModifier>> getSlotToAttributeMap() {
-//        if (slotToAttributeMap == null) {
-//            slotToAttributeMap = makeSlotToAttributeMap();
-//        }
-//        return slotToAttributeMap;
-//    }
-
-//    private EnumMap<EquipmentSlot, Multimap<Attribute, AttributeModifier>> makeSlotToAttributeMap() {
-//        return Util.make(new EnumMap<>(EquipmentSlot.class), (map) -> {
-//            map.put(EquipmentSlot.FEET, makeAttributeMap(EquipmentSlot.FEET));
-//            map.put(EquipmentSlot.LEGS, makeAttributeMap(EquipmentSlot.LEGS));
-//            map.put(EquipmentSlot.CHEST, makeAttributeMap(EquipmentSlot.CHEST));
-//            map.put(EquipmentSlot.HEAD, makeAttributeMap(EquipmentSlot.HEAD));
-//        });
-//    }
-
-//    private static final UUID[] ARMOR_MODIFIER_UUID_PER_SLOT = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
-
-//    public void reload() {
-//        this.slotToAttributeMap = null;
-//    }
-
-//    private Multimap<Attribute, AttributeModifier> makeAttributeMap(EquipmentSlot slot) {
-//        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-//        UUID uuid = ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()];
-//        double defense = this.config.getDefenseFor(slot);
-//        double toughness = this.config.toughness().get();
-//        double knockbackResistance = this.config.knockbackResistance().get();
-//        float speedBoost = this.config.speedBoost().get();
-//        float atkSpeedBoost = this.config.atkSpeedBoost().get();
-//        if (defense != 0) {
-//            builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", defense, AttributeModifier.Operation.ADDITION));
-//        }
-//        if (toughness != 0) {
-//            builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", toughness, AttributeModifier.Operation.ADDITION));
-//        }
-//        if (knockbackResistance != 0) {
-//            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Armor  knockback resistance", knockbackResistance, AttributeModifier.Operation.ADDITION));
-//        }
-//        if (speedBoost != 0) {
-//            builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Armor Movement Speed", speedBoost, AttributeModifier.Operation.MULTIPLY_BASE));
-//        }
-//        if (atkSpeedBoost != 0) {
-//            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(uuid, "Armor Attack Speed Bonus", atkSpeedBoost, AttributeModifier.Operation.MULTIPLY_BASE));
-//        }
-//        return builder.build();
-//    }
 
     private static final EnumMap<ArmorItem.Type, Integer> HEALTH_FUNCTION_FOR_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), (p_266653_) -> {
         p_266653_.put(ArmorItem.Type.BOOTS, 13);
@@ -285,14 +230,6 @@ public enum ModArmorMaterials implements ArmorMaterial {
     public float getKnockbackResistance() {
         return this.knockbackResistance;
     }
-
-//    public float getAttackSpeed() {
-//        return this.attackSpeed;
-//    }
-//
-//    public float getMovementSpeed() {
-//        return this.movementSpeed;
-//    }
 
     public Map<Attribute, AttributeModifier> getAdditionalAttributes() {
         return additionalAttributes;

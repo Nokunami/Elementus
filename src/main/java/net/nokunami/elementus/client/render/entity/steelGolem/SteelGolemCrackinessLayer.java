@@ -18,13 +18,10 @@ import static net.nokunami.elementus.Elementus.MODID;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemCrackinessLayer extends RenderLayer<SteelGolem, SteelGolemModel<SteelGolem>> {
-    private static final Map<SteelGolem.Crackiness, ResourceLocation> resourceLocations = ImmutableMap.of(
+    private static final Map<SteelGolem.Crackiness, ResourceLocation> GOLEM_CRACKS = ImmutableMap.of(
             SteelGolem.Crackiness.LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_low.png"),
             SteelGolem.Crackiness.MEDIUM, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_medium.png"),
             SteelGolem.Crackiness.HIGH, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_high.png")
-//            SteelGolem.Crackiness.LOW, new ResourceLocation("textures/entity/iron_golem/iron_golem_crackiness_low.png"),
-//            SteelGolem.Crackiness.MEDIUM, new ResourceLocation("textures/entity/iron_golem/iron_golem_crackiness_medium.png"),
-//            SteelGolem.Crackiness.HIGH, new ResourceLocation("textures/entity/iron_golem/iron_golem_crackiness_high.png")
     );
 
     public SteelGolemCrackinessLayer(RenderLayerParent<SteelGolem, SteelGolemModel<SteelGolem>> pRenderer) {
@@ -35,7 +32,7 @@ public class SteelGolemCrackinessLayer extends RenderLayer<SteelGolem, SteelGole
         if (!pLivingEntity.isInvisible()) {
             SteelGolem.Crackiness steelgolem$crackiness = pLivingEntity.getCrackiness();
             if (steelgolem$crackiness != SteelGolem.Crackiness.NONE) {
-                ResourceLocation resourcelocation = resourceLocations.get(steelgolem$crackiness);
+                ResourceLocation resourcelocation = GOLEM_CRACKS.get(steelgolem$crackiness);
                 renderColoredCutoutModel(this.getParentModel(), resourcelocation, pPoseStack, pBuffer, pPackedLight, pLivingEntity, 1.0F, 1.0F, 1.0F);
             }
         }

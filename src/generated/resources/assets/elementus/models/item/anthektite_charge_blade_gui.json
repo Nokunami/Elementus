@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "elementus:item/tools/anthektite_longsword/anthektite_charge_blade"
+  }
+}

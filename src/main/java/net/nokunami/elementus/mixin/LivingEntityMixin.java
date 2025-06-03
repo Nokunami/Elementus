@@ -19,9 +19,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.nokunami.elementus.common.config.CatalystArmorConfig;
 import net.nokunami.elementus.common.item.CatalystArmorItem;
+import net.nokunami.elementus.common.item.DiarkriteBootsItem;
 import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,6 +44,8 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow @Nullable public abstract MobEffectInstance getEffect(MobEffect pEffect);
 
+    @Shadow public abstract boolean hasEffect(MobEffect pEffect);
+
     @Shadow public abstract ItemStack getUseItem();
 
     @Shadow public abstract void setHealth(float pHealth);
@@ -50,7 +54,9 @@ public abstract class LivingEntityMixin extends Entity {
 
     @Shadow public abstract boolean addEffect(MobEffectInstance pEffectInstance);
 
-    @Inject(method = "checkTotemDeathProtection", at = @At(value = "RETURN"), cancellable = true)
+    @Shadow public abstract @NotNull Iterable<ItemStack> getArmorSlots();
+
+    @Inject(method = "checkTotemDeathProtection", at = @At("RETURN"), cancellable = true)
     public void Elementus$catalystTotem(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         Entity entity = this;
         if (!damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
@@ -81,20 +87,31 @@ public abstract class LivingEntityMixin extends Entity {
         }
     }
 
-    @Inject(method = "calculateFallDamage", at = @At(value = "RETURN"), cancellable = true)
-    private void Elementus$beaconPowerFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
+    @Inject(method = "calculateFallDamage", at = @At("RETURN"), cancellable = true)
+    private void Elementus$calculateFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
         MobEffectInstance beaconPower = this.getEffect(ElementusEffects.BEACON_POWER.get());
         MobEffectInstance witheredBeaconPower = this.getEffect(ElementusEffects.WITHERED_BEACON_POWER.get());
         float f0 = beaconPower != null ? beaconPower.getAmplifier() + 1 : 0;
         float f1 = witheredBeaconPower != null ? witheredBeaconPower.getAmplifier() + 1 : 0;
+
+        float t2 = 0;
+
+        if (beaconPower != null) {
+            t2 = beaconPower.getAmplifier() + 1;
+        }
 
         if (beaconPower != null || witheredBeaconPower != null) {
             cir.setReturnValue((int) (Mth.ceil(fallDistance - 3.0F - Math.max(f0, f1)) * damageMultiplier));
         }
     }
 
-    @Inject(method = "getJumpBoostPower", at = @At(value = "RETURN"), cancellable = true)
-    private void Elementus$beaconPowerHaste(CallbackInfoReturnable<Float> cir) {
+    @Inject(method = "getJumpBoostPower", at = @At("RETURN"), cancellable = true)
+    private void Elementus$getJumpBoostPower(CallbackInfoReturnable<Float> cir) {
+        if ((Object) this instanceof LivingEntity livingEntity) {
+            if (DiarkriteBootsItem.SculkWalkerActivation(livingEntity)) {
+                cir.setReturnValue(-1F);
+            }
+        }
         float ori = cir.getReturnValue();
         MobEffectInstance beaconPower = this.getEffect(ElementusEffects.BEACON_POWER.get());
         MobEffectInstance witheredBeaconPower = this.getEffect(ElementusEffects.WITHERED_BEACON_POWER.get());
@@ -118,6 +135,15 @@ public abstract class LivingEntityMixin extends Entity {
             LivingEntity livingEntity = LivingEntity.class.cast(this);
             livingEntity.level().playSound(null, livingEntity.blockPosition(), ModSoundEvents.ANTHEKTITE_SHIELD_BLOCK.get(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
             cir.cancel();
+        }
+    }
+
+    @Inject(method = "isPushable", at = @At("RETURN"), cancellable = true)
+    private void Elementus$isPushable(CallbackInfoReturnable<Boolean> cir) {
+        if ((Object) this instanceof LivingEntity livingEntity) {
+            if (DiarkriteBootsItem.SculkWalkerActivation(livingEntity)) {
+                cir.setReturnValue(false);
+            }
         }
     }
 }

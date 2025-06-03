@@ -4,6 +4,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.common.Etags;
@@ -21,6 +22,7 @@ public class ModEntityTypeTags extends EntityTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider pProvider) {
+
         this.tag(Etags.Entity.STEEL_GOLEM_PRIORITY_TARGETS)
                 .add(EntityType.EVOKER)
                 .addOptional(new ResourceLocation("goety", "obsidian_monolith"))

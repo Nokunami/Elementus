@@ -62,11 +62,12 @@
   "item.elementus.movcadia_chest_boat": "Movcadia Boat with Chest",
 
   "item.elementus.golem_upgrade": "Golem Upgrade",
-  "item.elementus.reinforced_plating_golem_upgrade": "Golem Upgrade",
-  "item.elementus.damage_golem_upgrade": "Test Damage golem uppies",
   "item.elementus.golem_upgrade.reinforced_plating": "Reinforced Plating",
-  "item.elementus.golem_upgrade_armor": "%s Armor",
-  "item.elementus.golem_upgrade_toughness": "%s Toughness",
+  "item.elementus.damage_golem_upgrade": "Test Damage golem uppies",
+  "item.elementus.golem_upgrade.modifier_equip": "When on Golem:",
+  "item.elementus.golem_upgrade.upgrades": "Upgrades:",
+  "item.elementus.golem_upgrade.pushable": "Solid Feet",
+  "item.elementus.golem_upgrade.fast_attack": "Overclocked Arms",
 
 
   "block.elementus.steel_block": "Block of Steel",
@@ -226,6 +227,7 @@
   "item.elementus.catalyst_chestplate.elytra_equipped_legacy": "Elytra NBT tag has change, please remove elytra!",
 
   "item.elementus.charge_item.charge_desc": "Charge: %s\/%s",
+  "item.elementus.charge_item.friendly_fire_desc": "Friendly Fire: %s",
   "item.elementus.diarkrite_charge_blade.resonance_charge_desc": "Resonance Charge: %s",
   "item.elementus.diarkrite_charge_blade.cursed_charge_desc": "Current Charge: %s + 25% of Max Health",
   "item.elementus.diarkrite_charge_blade.damage_desc": "Damage: ",
@@ -234,7 +236,6 @@
   "item.elementus.diarkrite_charge_blade.self_sacrifice_damage": "-%s%% Health from ",
   "item.elementus.diarkrite_charge_blade.charge_penalty_condensed_burst": "+%s%% Charge Penalty from ",
   "item.elementus.diarkrite_charge_blade.multi_charge": "+%s%% Bonus Charge from ",
-  "item.elementus.diarkrite_charge_blade.friendly_fire_desc": "Friendly Fire: %s",
 
 
   "item.elementus.steel_knife": "Steel Knife",

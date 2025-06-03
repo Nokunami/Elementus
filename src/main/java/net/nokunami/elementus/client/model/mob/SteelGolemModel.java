@@ -4,12 +4,15 @@ import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemAnimation;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemAttackAnimation;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemChestAnimation;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
+@OnlyIn(Dist.CLIENT)
 public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> {
     public final float walkMaxAnimSpeed = 4.45F;
     public final float walkAnimScaleFactor = 500;
@@ -126,22 +129,32 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
         this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
         this.head.xRot = headPitch * ((float)Math.PI / 180F);
 
-        this.animate(entity.leftAttackAnimationState, SteelGolemAttackAnimation.leftArmAttackLoop, ageInTicks);
-        this.animate(entity.leftAttackEndAnimState, SteelGolemAttackAnimation.leftArmAttackEnd, ageInTicks);
-        this.animate(entity.rightAttackAnimationState, SteelGolemAttackAnimation.rightAttackLoop, ageInTicks);
-        this.animate(entity.rightAttackEndAnimState, SteelGolemAttackAnimation.rightAttackEnd, ageInTicks);
+        if (entity.getAttackType() == 0) {
+            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.leftAttackLoop, ageInTicks);
+            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.leftAttackEnd, ageInTicks);
+        } else if (entity.getAttackType() == 1) {
+            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.rightAttackLoop, ageInTicks);
+            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.rightAttackEnd, ageInTicks);
+        } else if (entity.getAttackType() == 2) {
+            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.upswingAttackLoop, ageInTicks);
+            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.upswingAttackEnd, ageInTicks);
+        }
+        if (entity.isCrouching()) {
+            this.applyStatic(SteelGolemAnimation.crouch);
+        }
+
         this.animate(entity.sitFromStandAnimState, SteelGolemAnimation.sitFromStand, ageInTicks);
         this.animate(entity.standFromSitAnimState, SteelGolemAnimation.standFromSit, ageInTicks);
         this.animate(entity.brokenAnim, SteelGolemAnimation.brokenDown, ageInTicks);
         this.animate(entity.repairedAnim, SteelGolemAnimation.repairUp, ageInTicks);
         this.animate(entity.ridden, SteelGolemAnimation.ridden, ageInTicks);
         this.animate(entity.unRide, SteelGolemAnimation.unRide, ageInTicks);
-        this.animate(entity.upswingAttackAnimState, SteelGolemAttackAnimation.upswingAttackLoop, ageInTicks);
-        this.animate(entity.upswingAttackEndAnimState, SteelGolemAttackAnimation.upswingAttackEnd, ageInTicks);
-        if (entity.isSprinting()) {
-            this.animateWalk(SteelGolemAnimation.runCycle, limbSwing, limbSwingAmount, walkMaxAnimSpeed, walkAnimScaleFactor);
-        } else {
-            this.animateWalk(SteelGolemAnimation.walkCycle, limbSwing, limbSwingAmount, walkMaxAnimSpeed, walkAnimScaleFactor);
+        if (!entity.isChassisBroken()) {
+            if (entity.isVehicle() || entity.isSprinting()) {
+                this.animateWalk(SteelGolemAnimation.walkCycleWhileRidden, limbSwing, limbSwingAmount, walkMaxAnimSpeed, walkAnimScaleFactor);
+            } else {
+                this.animateWalk(SteelGolemAnimation.walkCycle, limbSwing, limbSwingAmount, walkMaxAnimSpeed, walkAnimScaleFactor);
+            }
         }
         this.animate(entity.chestOpened, SteelGolemChestAnimation.chestOpen, ageInTicks);
         this.animate(entity.chestClosed, SteelGolemChestAnimation.chestClosed, ageInTicks);

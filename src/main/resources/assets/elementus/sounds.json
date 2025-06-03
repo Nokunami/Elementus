@@ -56,9 +56,8 @@
   },
   "item.diarkrite_charge_blade.parry_resonance": {
     "sounds": [
-      "elementus:item/diarkrite_charge_blade/sword_resonance_block0",
-      "elementus:item/diarkrite_charge_blade/sword_resonance_block1",
-      "elementus:item/diarkrite_charge_blade/sword_resonance_block2"
+      "elementus:item/diarkrite_charge_blade/sword_resonance_parry0",
+      "elementus:item/diarkrite_charge_blade/sword_resonance_parry1"
     ],
     "subtitle": "subtitles.item.diarkrite_charge_blade.parry"
   },

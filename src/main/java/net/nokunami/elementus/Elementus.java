@@ -24,6 +24,7 @@ import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.*;
 import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
 import net.nokunami.elementus.datagen.loot.ModLootModifiers;
+import net.nokunami.elementus.event.ModClientEvents;
 import net.nokunami.elementus.event.ModServerEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -100,6 +101,7 @@ public class Elementus {
         modEventBus.addListener(this::addPackFinders);
         modEventBus.addListener(this::commonSetup);
         ModNetwork.setup();
+        modEventBus.addListener(ModClientEvents::itemDecorations);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {

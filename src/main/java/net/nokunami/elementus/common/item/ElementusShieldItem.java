@@ -58,11 +58,11 @@ public class ElementusShieldItem extends ShieldItem {
 
     public boolean isValidRepairItem(@NotNull ItemStack pToRepair, @NotNull ItemStack pRepair) {
         if (tier == ModTiers.STEEL) {
-            return pRepair.is(Etags.Items.INGOTS_STEEL);
+            return pRepair.is(ElementusItems.STEEL_INGOT.get());
         } else if (tier == ModTiers.DIARKRITE) {
-            return pRepair.is(Etags.Items.INGOTS_DIARKRITE);
+            return pRepair.is(ElementusItems.DIARKRITE_INGOT.get());
         } else if (tier == ModTiers.ANTHEKTITE) {
-            return pRepair.is(Etags.Items.INGOTS_ANTHEKTITE);
+            return pRepair.is(ElementusItems.ANTHEKTITE_INGOT.get());
         }
         return this.tier.getRepairIngredient().test(pRepair) || super.isValidRepairItem(pToRepair, pRepair);
     }
@@ -70,21 +70,5 @@ public class ElementusShieldItem extends ShieldItem {
     @Override
     public @NotNull SoundEvent getEquipSound() {
         return SoundEvents.ARMOR_EQUIP_IRON;
-    }
-
-    public static void setDiarkriteShieldCooldown(Player playerEntity, LivingEntity livingEntity){
-        float disableChance = 0.25F + (float) EnchantmentHelper.getBlockEfficiency(livingEntity) * 0.05F;
-        if (livingEntity.getRandom().nextFloat() < disableChance) {
-            playerEntity.getCooldowns().addCooldown(ElementusItems.DIARKRITE_SHIELD.get(), 150);
-            livingEntity.level().broadcastEntityEvent(playerEntity, (byte)30);
-        }
-    }
-
-    public static void setAnthektiteShieldCooldown(Player playerEntity, LivingEntity livingEntity){
-        float disableChance = 0.25F + (float) EnchantmentHelper.getBlockEfficiency(livingEntity) * 0.05F;
-        if (livingEntity.getRandom().nextFloat() < disableChance) {
-            playerEntity.getCooldowns().addCooldown(ElementusItems.ANTHEKTITE_SHIELD.get(), 50);
-            livingEntity.level().broadcastEntityEvent(playerEntity, (byte)30);
-        }
     }
 }

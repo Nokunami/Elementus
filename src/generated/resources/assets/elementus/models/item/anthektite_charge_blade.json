@@ -1,0 +1,68 @@
+{
+  "parent": "elementus:item/claymore_item",
+  "base": {
+    "parent": "elementus:item/anthektite_charge_blade_base"
+  },
+  "loader": "forge:separate_transforms",
+  "overrides": [
+    {
+      "model": "elementus:item/anthektite_charge_blade_blocking",
+      "predicate": {
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/anthektite_charge_blade_charge_0",
+      "predicate": {
+        "elementus:charge": 0.2
+      }
+    },
+    {
+      "model": "elementus:item/anthektite_charge_blade_charge_0_blocking",
+      "predicate": {
+        "elementus:charge": 0.2,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/anthektite_charge_blade_charge_1",
+      "predicate": {
+        "elementus:charge": 0.4
+      }
+    },
+    {
+      "model": "elementus:item/anthektite_charge_blade_charge_1_blocking",
+      "predicate": {
+        "elementus:charge": 0.4,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/anthektite_charge_blade_charge_2",
+      "predicate": {
+        "elementus:charge": 0.6
+      }
+    },
+    {
+      "model": "elementus:item/anthektite_charge_blade_charge_2_blocking",
+      "predicate": {
+        "elementus:charge": 0.6,
+        "minecraft:blocking": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/anthektite_charge_blade_charge_3",
+      "predicate": {
+        "elementus:charge": 0.8
+      }
+    },
+    {
+      "model": "elementus:item/anthektite_charge_blade_charge_3_blocking",
+      "predicate": {
+        "elementus:charge": 0.8,
+        "minecraft:blocking": 1.0
+      }
+    }
+  ],
+  "perspectives": {}
+}

@@ -30,7 +30,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.common.MinecraftForge;
 import net.nokunami.elementus.ElementusClient;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.common.Etags;
@@ -101,6 +103,16 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
+        if (getContents(stack).findAny().isPresent()) {
+            tooltip.add(Component.translatable(getDescriptionId() + "." + catalystActivator(stack) + "_title_desc").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable(getDescriptionId() + "." + catalystActivator(stack) + "_desc").withStyle(ChatFormatting.GRAY));
+        }
+        if (getElytraEquipped(stack).findAny().isPresent()) {
+            tooltip.add(Component.translatable(getDescriptionId() + ".elytra_equipped").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.UNDERLINE));
+        }
+        if (getElytraEquiped(stack).findAny().isPresent()) {
+            tooltip.add(Component.translatable(getDescriptionId() + ".elytra_equipped_legacy").withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.UNDERLINE));
+        }
         if (catalystActivator(stack).equals(netherStar)) {
             tooltip.add(Component.translatable(getDescriptionId() + ".nether_star_title_desc").withStyle(ChatFormatting.LIGHT_PURPLE));
             tooltip.add(Component.translatable(getDescriptionId() + ".nether_star_desc").withStyle(ChatFormatting.GRAY));
@@ -140,12 +152,6 @@ public class CatalystArmorItem extends ArmorItem {
                 tooltip.add(Component.translatable(getDescriptionId() + ".withered_nether_star_desc").withStyle(ChatFormatting.GRAY));
             } else tooltip.add(Component.translatable("item.elementus.witherstormod_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
         }
-        if (getElytraEquipped(stack).findAny().isPresent()) {
-            tooltip.add(Component.translatable(getDescriptionId() + ".elytra_equipped").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.UNDERLINE));
-        }
-        if (getElytraEquiped(stack).findAny().isPresent()) {
-            tooltip.add(Component.translatable(getDescriptionId() + ".elytra_equipped_legacy").withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.UNDERLINE));
-        }
     }
 
     @Override
@@ -160,12 +166,10 @@ public class CatalystArmorItem extends ArmorItem {
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         if (!level.isClientSide && entity instanceof Player player) {
-            int type = switch (catalystActivator(stack)) {
-                case netherStar -> 1;
-                case heartSea -> 2;
-                case witheredNetherStar -> 3;
-                default -> 0;
-            };
+            int type = 0;
+            if (catalystActivator(stack).equals(Items.NETHER_STAR.toString())) type = 1;
+            if (catalystActivator(stack).equals(Items.HEART_OF_THE_SEA.toString())) type = 2;
+            if (catalystActivator(stack).equals(WitherStormModItems.WITHERED_NETHER_STAR.get().toString())) type = 3;
             effectRadius(player, stack, level, type);
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
@@ -176,25 +180,26 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     public static String catalystActivator(ItemStack stack) {
-        if (getContents(stack).anyMatch((c -> c.getItem() == Items.NETHER_STAR)))
-            return netherStar;
-        if (cataclysm) {
-            if (getContents(stack).anyMatch((c -> c.getItem() == ModItems.IGNITIUM_INGOT.get())))
-                return ignitium;
-            if (getContents(stack).anyMatch((c -> c.getItem() == ModItems.CURSIUM_INGOT.get())))
-                return cursium;
-        }
-        if (ironsSpellbooks)
-            if (getContents(stack).anyMatch((c -> c.getItem() == ItemRegistry.ARCANE_INGOT.get())))
-                return arcane;
-        if (getContents(stack).anyMatch((c -> c.getItem() == Items.HEART_OF_THE_SEA)))
-            return heartSea;
-        if (getContents(stack).anyMatch((c -> c.getItem() == Items.TOTEM_OF_UNDYING)))
-            return totem;
-        if (witherStormMod)
-            if (getContents(stack).anyMatch((c -> c.getItem() == WitherStormModItems.WITHERED_NETHER_STAR.get())))
-                return witheredNetherStar;
-        return "false";
+//        if (getContents(stack).anyMatch((c -> c.getItem() == Items.NETHER_STAR)))
+//            return netherStar;
+//        if (cataclysm) {
+//            if (getContents(stack).anyMatch((c -> c.getItem() == ModItems.IGNITIUM_INGOT.get())))
+//                return ignitium;
+//            if (getContents(stack).anyMatch((c -> c.getItem() == ModItems.CURSIUM_INGOT.get())))
+//                return cursium;
+//        }
+//        if (ironsSpellbooks)
+//            if (getContents(stack).anyMatch((c -> c.getItem() == ItemRegistry.ARCANE_INGOT.get())))
+//                return arcane;
+//        if (getContents(stack).anyMatch((c -> c.getItem() == Items.HEART_OF_THE_SEA)))
+//            return heartSea;
+//        if (getContents(stack).anyMatch((c -> c.getItem() == Items.TOTEM_OF_UNDYING)))
+//            return totem;
+//        if (witherStormMod)
+//            if (getContents(stack).anyMatch((c -> c.getItem() == WitherStormModItems.WITHERED_NETHER_STAR.get())))
+//                return witheredNetherStar;
+//        return "false";
+        return getContents(stack).findAny().isPresent() ? getContents(stack).findAny().get().getItem().toString() : "false";
     }
 
     @Override
@@ -245,6 +250,11 @@ public class CatalystArmorItem extends ArmorItem {
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return !ModConfig.COMMON.catalystArmorDurability.get() ? super.canApplyAtEnchantingTable(stack, enchantment) : enchantment != Enchantments.MENDING && super.canApplyAtEnchantingTable(stack, enchantment);
+    }
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack pStack) {
+        return this.getMaxStackSize(pStack) == 1;
     }
 
     // Insert Code
@@ -334,7 +344,6 @@ public class CatalystArmorItem extends ArmorItem {
                 CompoundTag newTag = new CompoundTag();
                 insertStack.copyWithCount(k).save(newTag);
                 tag.getList(core, 10).add(0, newTag);
-//                addCUstomAttribute(ModArmorMaterials.CATALYST, Type.CHESTPLATE, coreStack);
                 return k;
             }
         } else {
@@ -410,7 +419,6 @@ public class CatalystArmorItem extends ArmorItem {
                 if (items.isEmpty()) {
                     stack.removeTagKey(core);
                 }
-//                addCUstomAttribute(ModArmorMaterials.CATALYST, Type.CHESTPLATE, stack);
                 return Optional.of(itemstack);
             }
         }
@@ -454,7 +462,7 @@ public class CatalystArmorItem extends ArmorItem {
         }
     }
 
-    private static Stream<ItemStack> getContents(ItemStack stack) {
+    public static Stream<ItemStack> getContents(ItemStack stack) {
         return stack.getTag() == null ? Stream.empty() : stack.getTag().getList(core, 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
     }
 

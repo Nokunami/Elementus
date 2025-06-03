@@ -5,15 +5,22 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.RootSystemConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
@@ -54,7 +61,7 @@ public class ModPlacedFeatures {
         register(context, ROOTED_MOVCADIA_TREE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.ROOTED_MOVCADIA),
                 CountPlacement.of(UniformInt.of(1, 2)),
                 InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(256)),
-                EnvironmentScanPlacement.scanningFor(Direction.UP, BlockPredicate.alwaysTrue(), BlockPredicate.alwaysTrue(), 32),
+                EnvironmentScanPlacement.scanningFor(Direction.UP, BlockPredicate.solid(), BlockPredicate.ONLY_IN_AIR_PREDICATE, 32),
                 RandomOffsetPlacement.vertical(ConstantInt.of(-1)), BiomeFilter.biome());
     }
 

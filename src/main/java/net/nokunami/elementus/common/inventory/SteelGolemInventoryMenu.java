@@ -26,31 +26,21 @@ public class SteelGolemInventoryMenu extends AbstractContainerMenu {
         this.golem = steelGolem;
         int i = 3;
         container.startOpen(inventory.player);
-        int j = -18;
+        golem.isChestOpened(true);
+        if (hasChest(golem)) this.golem.level().playSound(null, this.golem.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
         this.addSlot(new Slot(container, 0, 8, 18) {
-            /// Check if stack is allowed in slot
             public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.is(Items.SADDLE) && !this.hasItem() && golem.isSaddleable();
             }
-
-            /// Render slot when needed
-            public boolean isActive() {
-                return golem.isSaddleable();
+            public int getMaxStackSize() {
+                return 1;
             }
         });
 
         this.addSlot(new Slot(container, 1, 8, 36) {
-            /// Check if stack is allowed in slot
             public boolean mayPlace(@NotNull ItemStack stack) {
                 return golem.isArmor(stack);
             }
-
-            /// Render slot when needed
-            public boolean isActive() {
-                return golem.canWearArmor();
-            }
-
-            /// Returns the max stack size for slot
             public int getMaxStackSize() {
                 return 1;
             }
@@ -60,7 +50,6 @@ public class SteelGolemInventoryMenu extends AbstractContainerMenu {
             public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION);
             }
-
             public int getMaxStackSize() {
                 return 1;
             }
@@ -70,13 +59,13 @@ public class SteelGolemInventoryMenu extends AbstractContainerMenu {
             public boolean mayPlace(@NotNull ItemStack stack) {
                 return stack.is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION);
             }
-
             public int getMaxStackSize() {
                 return 1;
             }
         });
 
-        //Damn its hard-coded to only have 24 slots
+        //Damn its hard-coded to only have 24 slots (on clientside)
+        //Will return to this concept when i have time.
 //        this.addSlot(new Slot(container, 4, 62, 72) {
 //            public boolean mayPlace(@NotNull ItemStack stack) {
 //                return stack.is(Tags.Items.DYES);
@@ -116,7 +105,7 @@ public class SteelGolemInventoryMenu extends AbstractContainerMenu {
     }
 
     private boolean hasChest(TamableGolem golem) {
-        return golem instanceof TamableChestedGolem && ((TamableChestedGolem)golem).hasChest();
+        return golem instanceof TamableChestedGolem && golem.hasChest();
     }
 
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {

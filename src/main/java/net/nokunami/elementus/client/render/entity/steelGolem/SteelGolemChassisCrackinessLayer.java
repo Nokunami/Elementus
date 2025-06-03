@@ -18,7 +18,7 @@ import static net.nokunami.elementus.Elementus.MODID;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemChassisCrackinessLayer extends RenderLayer<SteelGolem, SteelGolemModel<SteelGolem>> {
-    private static final Map<SteelGolem.ChassisCrackiness, ResourceLocation> resourceLocations = ImmutableMap.of(
+    private static final Map<SteelGolem.ChassisCrackiness, ResourceLocation> CHASSIS_CRACKS = ImmutableMap.of(
             SteelGolem.ChassisCrackiness.VERYLOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_very_low.png"),
             SteelGolem.ChassisCrackiness.LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_low.png"),
             SteelGolem.ChassisCrackiness.MEDIUM, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_medium.png"),
@@ -33,7 +33,7 @@ public class SteelGolemChassisCrackinessLayer extends RenderLayer<SteelGolem, St
         if (!pLivingEntity.isInvisible()) {
             SteelGolem.ChassisCrackiness steelgolem$chassis = pLivingEntity.getChassisCrackiness();
             if (steelgolem$chassis != SteelGolem.ChassisCrackiness.NONE) {
-                ResourceLocation resourcelocation = resourceLocations.get(steelgolem$chassis);
+                ResourceLocation resourcelocation = CHASSIS_CRACKS.get(steelgolem$chassis);
                 renderColoredCutoutModel(this.getParentModel(), resourcelocation, pPoseStack, pBuffer, pPackedLight, pLivingEntity, 1.0F, 1.0F, 1.0F);
             }
         }

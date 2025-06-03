@@ -1,7 +1,6 @@
 package net.nokunami.elementus.common.item;
 
 import com.github.L_Ender.cataclysm.init.ModEffect;
-import com.google.common.collect.ImmutableMultimap;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -10,7 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,7 +23,6 @@ import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -37,11 +34,11 @@ import static net.nokunami.elementus.common.item.CatalystArmorItem.*;
 
 public class CatalystItemUtil {
     public static final String netherStar = "nether_star";
-    public static final String ignitium = "ignitium";
-    public static final String arcane = "arcane";
+    public static final String ignitium = "ignitium_ingot";
+    public static final String arcane = "arcane_ingot";
     public static final String heartSea = "heart_of_the_sea";
-    public static final String totem = "totem";
-    public static final String cursium = "cursium";
+    public static final String totem = "totem_of_undying";
+    public static final String cursium = "cursium_ingot";
     public static final String witheredNetherStar = "withered_nether_star";
 
     public static final UUID maxManaUUID = UUID.fromString("58868843-e045-405d-bd63-05eefabb7383");
@@ -77,8 +74,9 @@ public class CatalystItemUtil {
                 }
             }
             if (healthActivation) {
-                mobEffect(p, mobEffectType.HASTE, CatalystArmorConfig.ignitium_HasteDuration, CatalystArmorConfig.ignitium_HasteAmp, false, false, true);
-                mobEffect(p, mobEffectType.STRENGTH, CatalystArmorConfig.ignitium_StrengthDuration, CatalystArmorConfig.ignitium_StrengthAmp, false, false, true);
+                mobEffect(p, mobEffectType.HASTE, ignitium_HasteDuration, ignitium_HasteAmp, false, false, true);
+                mobEffect(p, mobEffectType.STRENGTH, ignitium_StrengthDuration, ignitium_StrengthAmp, false, false, true);
+                mobEffect(p, mobEffectType.RESIST, ignitium_ResistanceDuration, ignitium_ResistanceAmp, false, false, true);
             }
         }
     }

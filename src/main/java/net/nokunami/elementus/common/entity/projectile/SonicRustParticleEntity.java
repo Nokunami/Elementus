@@ -1,6 +1,5 @@
 package net.nokunami.elementus.common.entity.projectile;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -16,25 +15,22 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.server.ServerLifecycleHooks;
-import net.nokunami.elementus.common.config.ItemConfig;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.*;
-
-import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeSonicDamage;
-import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
-import static net.nokunami.elementus.common.item.EItemUtil.getFriendlyFire;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 public class SonicRustParticleEntity extends Projectile {
     protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(SonicRustParticleEntity.class, EntityDataSerializers.OPTIONAL_UUID);
@@ -174,8 +170,8 @@ public class SonicRustParticleEntity extends Projectile {
         return this.entityData.get(OWNER_UNIQUE_ID).orElse(null);
     }
 
-    public void setOwnerId(@Nullable UUID p_184754_1_) {
-        this.entityData.set(OWNER_UNIQUE_ID, Optional.ofNullable(p_184754_1_));
+    public void setOwnerId(@Nullable UUID uuid) {
+        this.entityData.set(OWNER_UNIQUE_ID, Optional.ofNullable(uuid));
     }
 
     public void tick() {
@@ -201,35 +197,12 @@ public class SonicRustParticleEntity extends Projectile {
             }
         }
 
+
         if (this.getTrueOwner() != null) {
-            this.setPos(getTrueOwner().getPosition(tickCount));
-            getTrueOwner().push(1, 1, 1);
-        }
-    }
-
-    @Override
-    protected void onHit(@NotNull HitResult result) {
-    }
-
-    @Override
-    protected void onHitEntity(@NotNull EntityHitResult result) {
-        LivingEntity livingEntity = (LivingEntity) result.getEntity();
-        float chargeAmount = getChargeAmount(weapon, false);
-
-        hitSet.addAll(level().getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ()))).inflate(boomRadius(weapon)),
-                (e) -> !(e instanceof OwnableEntity) && (e.isAlliedTo(getTrueOwner()) && getFriendlyFire(weapon) || !e.isAlliedTo(getTrueOwner())) ||
-                        (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&
-                                (ownable.getOwner().is(getTrueOwner()) || ownable.getOwner().isAlliedTo(getTrueOwner())) && getFriendlyFire(weapon)) ||
-                                ownable.getOwner() == null)))
-        );
-
-        for(Entity hitTarget : hitSet) {
-            if (hitTarget instanceof LivingEntity living) {
-                if (livingEntity instanceof Player player) {
-                    living.setLastHurtByPlayer(player);
-                }
-                living.hurt(livingEntity.damageSources().sonicBoom(livingEntity), (float) diarkriteChargeBladeSonicDamage * chargeAmount);
-                applyRecoil(living, livingEntity, chargeAmount, 1);
+//            this.setPos(getTrueOwner().getPosition(tickCount));
+//            getTrueOwner().push(1, 1, 1);
+            if (this.distanceToSqr(this.getTrueOwner()) > 4) {
+                this.discard();
             }
         }
     }

@@ -38,6 +38,11 @@ public class UniqueItemConfig {
     public static double anthektiteChargeBladeAttackSpeed;
     public static double anthektiteChargeBladeAttackReach;
 
+    public static double diarkriteBootsToughness;
+    public static double diarkriteBootsKnockbackResistance;
+    public static double diarkriteBootsMovementSpeed;
+    public static double diarkriteBootsStepHeight;
+
     public static void reload() {
         INSTANCE.setDefaults();
         INSTANCE.load();
@@ -47,17 +52,22 @@ public class UniqueItemConfig {
 
     private void setDefaults() {
         diarkriteChargeBladeDamage = 3;
-        diarkriteChargeBladeAttackSpeed = -2.9;
+        diarkriteChargeBladeAttackSpeed = -2.7;
         diarkriteChargeBladeAttackReach = 1;
-        diarkriteChargeBladeSonicDamage = 15;
+        diarkriteChargeBladeSonicDamage = 12;
         diarkriteChargeBladeBaseCharge = 7;
         diarkriteChargeBladeSacrificeDamageBonus = 0.25;
         diarkriteChargeBladeSelfSacrificeDamage = 0.25;
-        diarkriteChargeBladeChargePenalty = 14;
+        diarkriteChargeBladeChargePenalty = 10;
 
         anthektiteChargeBladeDamage = 3;
-        anthektiteChargeBladeAttackSpeed = -2.9;
+        anthektiteChargeBladeAttackSpeed = -1.9;
         anthektiteChargeBladeAttackReach = 1;
+
+        diarkriteBootsToughness = 8.0;
+        diarkriteBootsKnockbackResistance = 0.5;
+        diarkriteBootsMovementSpeed = -0.5;
+        diarkriteBootsStepHeight = 1;
     }
 
     private void load() {

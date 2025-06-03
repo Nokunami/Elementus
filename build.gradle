@@ -235,6 +235,7 @@ dependencies {
     compileOnly fg.deobf("maven.modrinth:silent-lib:${silent_lib_version}")
     compileOnly fg.deobf("maven.modrinth:lionfish-api:${lionfish_api_version}")
     compileOnly fg.deobf("maven.modrinth:balm:${balm_version}")
+    compileOnly fg.deobf("maven.modrinth:zeta:${zeta_version}")
 
     runtimeOnly fg.deobf("maven.modrinth:architectury-api:${architectury_version}")
     runtimeOnly fg.deobf("maven.modrinth:cloth-config:${cloth_config_version}")
@@ -248,6 +249,7 @@ dependencies {
 //    runtimeOnly fg.deobf("maven.modrinth:silent-lib:${silent_lib_version}")
     runtimeOnly fg.deobf("maven.modrinth:lionfish-api:${lionfish_api_version}")
 //    runtimeOnly fg.deobf("maven.modrinth:balm:${balm_version}")
+    runtimeOnly fg.deobf("maven.modrinth:zeta:${zeta_version}")
 
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${geckolib_version}")
     implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}")
@@ -276,6 +278,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:archery-expansion-1164945:${archery_expansion_version}")
     compileOnly fg.deobf("maven.modrinth:create:${create_version}")
     compileOnly fg.deobf("maven.modrinth:hardcore-revival:${hardcore_revival_version}")
+    compileOnly fg.deobf("maven.modrinth:quark:${quark_version}")
 
     //Runtime (required to run)
     runtimeOnly fg.deobf("maven.modrinth:farmers-delight:${farmersdelight_version}")
@@ -300,6 +303,7 @@ dependencies {
 //    runtimeOnly fg.deobf("curse.maven:archery-expansion-1164945:${archery_expansion_version}")
     runtimeOnly fg.deobf("maven.modrinth:create:${create_version}")
 //    runtimeOnly fg.deobf("maven.modrinth:hardcore-revival:${hardcore_revival_version}")
+    runtimeOnly fg.deobf("maven.modrinth:quark:${quark_version}")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
