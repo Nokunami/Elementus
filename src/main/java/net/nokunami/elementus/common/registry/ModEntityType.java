@@ -21,7 +21,7 @@ public class ModEntityType {
             () -> EntityType.Builder.<ModChestBoatEntity>of(ModChestBoatEntity::new, MobCategory.MISC).sized(1.375f, 0.5625f).build("movcadia_chest_boat"));
 
     public static final RegistryObject<EntityType<SteelGolem>> STEEL_GOLEM = ENTITY_TYPES.register("steel_golem",
-            () -> EntityType.Builder.of(SteelGolem::new, MobCategory.CREATURE).sized(0.9F, 2.9F).build("steel_golem"));
+            () -> EntityType.Builder.of(SteelGolem::new, MobCategory.CREATURE).sized(SteelGolem.rawBbWidth, SteelGolem.rawBbHeight).build("steel_golem"));
 
     public static final RegistryObject<EntityType<AnthektiteSlash>> ANTHEKTITE_SLASH = ENTITY_TYPES.register("anthektite_slash",
             () -> EntityType.Builder.<AnthektiteSlash>of(AnthektiteSlash::new, MobCategory.MISC).sized(0.75F, 0.5F).build("anthektite_slash"));

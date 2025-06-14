@@ -51,6 +51,11 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
     }
 
     @Override
+    public boolean isFoil(ItemStack pStack) {
+        return super.isFoil(pStack);
+    }
+
+    @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         Minecraft mc = Minecraft.getInstance();
         assert mc.player != null;
@@ -137,8 +142,10 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
     /// Crossbow Expansion code
     public static void createBoom(Level level, LivingEntity livingEntity, ItemStack stack) {
         float chargeAmount = getChargeAmount(stack, ((Player)livingEntity).isCreative());
-        SimpleParticleType particleTypes = isEnchantedWith(stack, SACRIFICE_CURSE) ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : isEnchantedWith(stack, CONDENSED_BURST) ? ParticleTypes.SONIC_BOOM : ModParticleTypes.SONIC_BURST_EMITTER.get();
-        SimpleParticleType startParticle = isEnchantedWith(stack, SACRIFICE_CURSE) ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : ModParticleTypes.SONIC_BOOM_BURST_START.get();
+        boolean isCursed = isEnchantedWith(stack, SACRIFICE_CURSE);
+        boolean isCondensed = isEnchantedWith(stack, CONDENSED_BURST);
+        SimpleParticleType particleTypes = isCursed && !isCondensed ? ModParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get() : isCursed ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : isCondensed ? ParticleTypes.SONIC_BOOM : ModParticleTypes.SONIC_BURST_EMITTER.get();
+        SimpleParticleType startParticle = isCursed ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : ModParticleTypes.SONIC_BOOM_BURST_START.get();
         Vec3 target = livingEntity.getEyePosition().add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(boomRange(stack)));
         Vec3 source = livingEntity.getEyePosition();
         Vec3 offsetToTarget = target.subtract(source);
@@ -160,7 +167,6 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
                                     ownable.getOwner() == null))
             ));
         }
-
         hitSet.remove(livingEntity);
         if (!livingEntity.onGround() || isEnchantedWith(stack, RUSH))
             applyRecoil(livingEntity, livingEntity, chargeAmount * (isEnchantedWith(stack, RUSH) ? 2 : 1), isEnchantedWith(stack, RUSH) ? 1 : 0);

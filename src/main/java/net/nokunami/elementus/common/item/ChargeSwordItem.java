@@ -29,12 +29,14 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.common.util.Lazy;
 import net.nokunami.elementus.common.config.ItemConfig;
 import net.nokunami.elementus.common.registry.ModEnchantments;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -46,23 +48,35 @@ public class ChargeSwordItem extends SwordItem {
     public static final String CHARGE_TAG = "Charge";
     public static final String RESONANCE_CHARGE_TAG = "ResonanceCharge";
     public static final String RESONANCE_TICK_TAG = "ResonanceTick";
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+//    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    protected final Lazy<Multimap<Attribute, AttributeModifier>> defaultModifiers;
     protected static final UUID BASE_ATTACK_REACH_UUID = UUID.fromString("fe181be2-3fd8-4a90-ba64-a4a06cef6d27");
 
     public ChargeSwordItem(Tier pTier, int attackDamage, float attackSpeed, float attackReach, Item.Properties properties) {
         super(pTier, attackDamage, attackSpeed, properties);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage + pTier.getAttackDamageBonus(), AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
-        if (!betterCombat) {
-            if (attackDamage != 0) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_REACH_UUID, "Weapon modifier", attackReach, AttributeModifier.Operation.ADDITION));
-        }
-        this.defaultModifiers = builder.build();
+//        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+//        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage + pTier.getAttackDamageBonus(), AttributeModifier.Operation.ADDITION));
+//        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
+//        if (!betterCombat) {
+//            if (attackDamage != 0) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_REACH_UUID, "Weapon modifier", attackReach, AttributeModifier.Operation.ADDITION));
+//        }
+//        this.defaultModifiers = builder.build();
+        defaultModifiers = Lazy.of(() -> createDefaultAttributeModifiers(attackDamage, attackSpeed, attackReach).build());
     }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
+        return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers.get() : super.getAttributeModifiers(slot, stack);
+    }
+
+    protected ImmutableMultimap.Builder<Attribute, AttributeModifier> createDefaultAttributeModifiers(int attackDamage, float attackSpeed, float attackReach) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage + this.getTier().getAttackDamageBonus(), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
+        if (!betterCombat) {
+            if (attackDamage != 0) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_REACH_UUID, "Weapon modifier", attackReach, AttributeModifier.Operation.ADDITION));
+        }
+        return builder;
     }
 
     public int getUseDuration(@NotNull ItemStack pStack) {

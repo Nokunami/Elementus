@@ -2,13 +2,13 @@
     "parent": "item/generated",
     "display": {
         "thirdperson_righthand": {
-            "rotation": [ 20, -40, 60 ],
-            "translation": [ -1.5, 4.5, 2.6 ],
+            "rotation": [ 0, -60, 55 ],
+            "translation": [ -1.0, 5.185, 0.55 ],
             "scale": [ 1.70, 1.70, 0.85 ]
         },
         "thirdperson_lefthand": {
-            "rotation": [ 20, 140, -60 ],
-            "translation": [ -1.5, 4.5, 2.6 ],
+            "rotation": [ 0, 110, -55 ],
+            "translation": [ -1.0, 5.185, 0.55 ],
             "scale": [ 1.70, 1.70, 0.85 ]
         },
         "firstperson_righthand": {

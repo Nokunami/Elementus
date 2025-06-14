@@ -169,7 +169,8 @@ public class CatalystArmorItem extends ArmorItem {
             int type = 0;
             if (catalystActivator(stack).equals(Items.NETHER_STAR.toString())) type = 1;
             if (catalystActivator(stack).equals(Items.HEART_OF_THE_SEA.toString())) type = 2;
-            if (catalystActivator(stack).equals(WitherStormModItems.WITHERED_NETHER_STAR.get().toString())) type = 3;
+            if (witherStormMod)
+                if (catalystActivator(stack).equals(WitherStormModItems.WITHERED_NETHER_STAR.get().toString())) type = 3;
             effectRadius(player, stack, level, type);
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);

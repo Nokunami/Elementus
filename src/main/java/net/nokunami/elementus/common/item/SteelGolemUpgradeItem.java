@@ -88,6 +88,11 @@ public class SteelGolemUpgradeItem extends Item {
     }
 
     @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 1;
+    }
+
+    @Override
     public @NotNull String getDescriptionId() {
         return "item." + MODID + ".golem_upgrade";
     }

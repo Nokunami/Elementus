@@ -51,6 +51,7 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
 
             if(isTimeToStartAoeAttackAnimation()) {
                 steelGolem.setAoeAttacking(true);
+                steelGolem.setAttackType(2);
             }
             if(isTimeToAoeAttack()) {
                 this.mob.getLookControl().setLookAt(enemy.getX(), enemy.getEyeY(), enemy.getZ());
@@ -117,6 +118,7 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     protected void performAoeAttack(LivingEntity enemy) {
         this.groundAttack(enemy);
         this.resetAoeAttackCooldown();
+        this.steelGolem.setAttackType(2);
         this.mob.swing(InteractionHand.MAIN_HAND);
         this.mob.getNavigation().stop();
         this.mob.doHurtTarget(enemy);
@@ -126,15 +128,26 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     public void tick() {
         super.tick();
         if (!steelGolem.isChassisCompromised()) {
-            if(shouldCountTillNextAttack && steelGolem.getAoeTimer() > 30 && !steelGolem.getFastAttack()) {
-                this.ticksTilNextAttack = Math.max(this.ticksTilNextAttack - 1, 0);
+            if (steelGolem.getAoeTimer() > 20) {
+                if (shouldCountTillNextAttack) {
+                    if (steelGolem.getFastAttack()) {
+                        this.ticksTilNextFastAttack = Math.max(this.ticksTilNextFastAttack - 1, 0);
+                    } else {
+                        this.ticksTilNextAttack = Math.max(this.ticksTilNextAttack - 1, 0);
+                    }
+                }
             } else {
-                this.ticksTilNextFastAttack = Math.max(this.ticksTilNextFastAttack - 1, 0);
-            }
-            if (steelGolem.getAoeTimer() <= 0) {
                 this.ticksTilNextAoeAttack = Math.max(this.ticksTilNextAoeAttack - 1,0);
-                resetAttackCooldown();
             }
+//                if(shouldCountTillNextAttack && steelGolem.getAoeTimer() > 30 && !steelGolem.getFastAttack()) {
+//                    this.ticksTilNextAttack = Math.max(this.ticksTilNextAttack - 1, 0);
+//                } else if (shouldCountTillNextAttack && steelGolem.getAoeTimer() > 30) {
+//                    this.ticksTilNextFastAttack = Math.max(this.ticksTilNextFastAttack - 1, 0);
+//                }
+//            if (steelGolem.getAoeTimer() <= 0) {
+//                this.ticksTilNextAoeAttack = Math.max(this.ticksTilNextAoeAttack - 1,0);
+//                resetAttackCooldown();
+//            }
         }
     }
 

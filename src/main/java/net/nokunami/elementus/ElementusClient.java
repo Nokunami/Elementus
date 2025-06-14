@@ -163,6 +163,7 @@ public class ElementusClient {
     public static void registerParticles(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticleTypes.SONIC_BURST.get(), SonicBurstParticle.Provider::new);
         event.registerSpecial(ModParticleTypes.SONIC_BURST_EMITTER.get(), new SonicBurstEmitterParticle.Provider());
+        event.registerSpecial(ModParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get(), new SacrificeSonicBoomEmitterParticle.Provider());
         event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), SacrificeSonicBoomParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.PARRY.get(), ParryParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.PARRY_RESONANCE.get(), ParryParticle.Provider::new);

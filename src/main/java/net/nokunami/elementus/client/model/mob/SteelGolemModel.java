@@ -1,9 +1,11 @@
 package net.nokunami.elementus.client.model.mob;
 
+import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemAnimation;
@@ -129,16 +131,21 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
         this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
         this.head.xRot = headPitch * ((float)Math.PI / 180F);
 
-        if (entity.getAttackType() == 0) {
-            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.leftAttackLoop, ageInTicks);
-            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.leftAttackEnd, ageInTicks);
-        } else if (entity.getAttackType() == 1) {
-            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.rightAttackLoop, ageInTicks);
-            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.rightAttackEnd, ageInTicks);
-        } else if (entity.getAttackType() == 2) {
-            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.upswingAttackLoop, ageInTicks);
-            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.upswingAttackEnd, ageInTicks);
-        }
+        AnimationDefinition loopAttackAnim = entity.getAttackType() == 0 ? SteelGolemAttackAnimation.leftAttackLoop : entity.getAttackType() == 1 ? SteelGolemAttackAnimation.rightAttackLoop : SteelGolemAttackAnimation.upswingAttackLoop;
+        AnimationDefinition endAttackAnim = entity.getAttackType() == 0 ? SteelGolemAttackAnimation.leftAttackEnd : entity.getAttackType() == 1 ? SteelGolemAttackAnimation.rightAttackEnd : SteelGolemAttackAnimation.upswingAttackEnd;
+
+        this.animate(entity.attackLoopAnimationState, loopAttackAnim, ageInTicks);
+        this.animate(entity.attackEndAnimationState, endAttackAnim, ageInTicks);
+//        if (entity.getAttackType() == 0) {
+//            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.leftAttackLoop, ageInTicks);
+//            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.leftAttackEnd, ageInTicks);
+//        } else if (entity.getAttackType() == 1) {
+//            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.rightAttackLoop, ageInTicks);
+//            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.rightAttackEnd, ageInTicks);
+//        } else if (entity.getAttackType() == 2) {
+//            this.animate(entity.attackLoopAnimationState, SteelGolemAttackAnimation.upswingAttackLoop, ageInTicks);
+//            this.animate(entity.attackEndAnimationState, SteelGolemAttackAnimation.upswingAttackEnd, ageInTicks);
+//        }
         if (entity.isCrouching()) {
             this.applyStatic(SteelGolemAnimation.crouch);
         }

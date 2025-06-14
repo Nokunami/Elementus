@@ -1,24 +1,16 @@
 package net.nokunami.elementus.event;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.nokunami.elementus.client.gui.ChargeSwordItemDecoration;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.network.ModNetwork;
-import net.nokunami.elementus.common.network.SonicBurstPacket;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.network.DiarkriteChargeBladeAbilityPacket;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
@@ -57,7 +49,7 @@ public class ModClientInputEvents {
                 return;
 
             player.swing(shieldHand, true);
-            ModNetwork.sendToServer(new SonicBurstPacket(shieldHand));
+            ModNetwork.sendToServer(new DiarkriteChargeBladeAbilityPacket(shieldHand));
         }
     }
 }

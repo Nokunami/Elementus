@@ -15,7 +15,7 @@ public class SacrificeSonicBoomParticle extends HugeExplosionParticle {
 
     public SacrificeSonicBoomParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
         super(pLevel, pX, pY, pZ, pQuadSizeMultiplier, pSprites);
-        this.lifetime = 13;
+        this.lifetime = 20;
         this.quadSize = 1.5F;
         this.setSpriteFromAge(pSprites);
     }

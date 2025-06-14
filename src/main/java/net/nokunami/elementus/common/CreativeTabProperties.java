@@ -96,6 +96,7 @@ public class CreativeTabProperties {
             putAfter(entries, ElementusItems.DIARKRITE_BOW, ElementusItems.ANTHEKTITE_BOW);
             // Special Weapon
             putAfter(entries, Items.TRIDENT, ElementusItems.DIARKRITE_CHARGE_BLADE);
+            putAfter(entries, ElementusItems.DIARKRITE_CHARGE_BLADE, ElementusItems.ANTHEKTITE_CHARGE_BLADE);
 
             if (sniffsWeapons) {
                 putAfter(entries, ItemReg.NETHERITE_GREAT_SWORD, SniffsWeaponsItems.STEEL_GREAT_SWORD);

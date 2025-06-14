@@ -1,6 +1,5 @@
 package net.nokunami.elementus.common.entity.living;
 
-import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -12,7 +11,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,13 +31,10 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.network.NetworkHooks;
-import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.function.Predicate;
 
 public abstract class TamableGolem extends TamableAnimal implements ContainerListener, HasCustomInventoryScreen, MenuProvider, PlayerRideableJumping, Saddleable, RiderShieldingMount {
@@ -48,7 +43,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public static final int EQUIPMENT_SLOT_OFFSET = 400;
     public static final int CHEST_SLOT_OFFSET = 499;
     public static final int INVENTORY_SLOT_OFFSET = 500;
-    public static final int SADDLE_FLAG_ID = 4;
+    public static final int SADDLE_FLAG_ID = 1;
     public static final int INV_SLOT_SADDLE = 0;
     public static final int INV_SLOT_ARMOR = 1;
     public static final int INV_BASE_COUNT = 2;
@@ -146,7 +141,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     public boolean isSaddled() {
-        return this.getSaddleFlag();
+//        return this.getSaddleFlag();
+        return !this.getItemBySlot(EquipmentSlot.HEAD).isEmpty();
     }
 
     public boolean isPushable() {
@@ -184,7 +180,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     protected void updateContainerEquipment() {
         if (!this.level().isClientSide) {
-            this.setSaddleFlag(!this.inventory.getItem(0).isEmpty());
+            this.setSaddle(this.inventory.getItem(0));
+//            this.setSaddleFlag(!this.inventory.getItem(0).isEmpty());
         }
     }
 
@@ -195,6 +192,11 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         if (this.tickCount > 20 && !flag && this.isSaddled()) {
             this.playSound(this.getSaddleSoundEvent(), 0.5F, 1.0F);
         }
+    }
+
+    private void setSaddle(ItemStack stack) {
+        this.setItemSlot(EquipmentSlot.HEAD, stack);
+        this.setDropChance(EquipmentSlot.HEAD, 0.0F);
     }
 
     public void openCustomInventoryScreen(@NotNull Player pPlayer) {
@@ -321,7 +323,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        if (!this.inventory.getItem(2).isEmpty()) {
+        if (!this.inventory.getItem(0).isEmpty()) {
             tag.put("SaddleItem", this.inventory.getItem(0).save(new CompoundTag()));
         }
     }
@@ -329,9 +331,9 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains("SaddleItem", 10)) {
-            ItemStack itemstack = ItemStack.of(tag.getCompound("SaddleItem"));
-            if (itemstack.is(Items.SADDLE)) {
-                this.inventory.setItem(0, itemstack);
+            ItemStack itemStack = ItemStack.of(tag.getCompound("SaddleItem"));
+            if (itemStack.is(Items.SADDLE)) {
+                this.inventory.setItem(0, itemStack);
             }
         }
         this.updateContainerEquipment();

@@ -21,8 +21,9 @@ public class SonicBoomBurstStartParticle extends HugeExplosionParticle {
         this.lifetime = 24;
         this.quadSize = 3F;
         this.setSpriteFromAge(pSprites);
-        this.rotSpeed = ((float)Math.random() - 0.5F) * 0.1F;
-        this.roll = (float)Math.random() * ((float)Math.PI * 2F);
+//        this.rotSpeed = ((float)Math.random() - 0.5F) * 0.1F;
+        this.rotSpeed = 0.05F + ((float) Math.min(0.05F, Math.random() * 0.05F));
+        this.roll = (float)Math.random() * ((float)Math.PI * 0.5F);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class SonicBoomBurstStartParticle extends HugeExplosionParticle {
         super.tick();
         this.setSpriteFromAge(this.sprites);
         this.oRoll = this.roll;
-        this.roll += (float)Math.PI * this.rotSpeed * 8.0F;
+        this.roll += (float)Math.PI * this.rotSpeed * 2.0F;
     }
 
     @OnlyIn(Dist.CLIENT)

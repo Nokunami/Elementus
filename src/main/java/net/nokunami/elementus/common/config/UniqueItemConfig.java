@@ -37,6 +37,9 @@ public class UniqueItemConfig {
     public static int anthektiteChargeBladeDamage;
     public static double anthektiteChargeBladeAttackSpeed;
     public static double anthektiteChargeBladeAttackReach;
+    public static int anthektiteChargeBladeAmpDamage;
+    public static double anthektiteChargeBladeAmpAttackSpeed;
+    public static double anthektiteChargeBladeAmpAttackReach;
 
     public static double diarkriteBootsToughness;
     public static double diarkriteBootsKnockbackResistance;
@@ -63,6 +66,9 @@ public class UniqueItemConfig {
         anthektiteChargeBladeDamage = 3;
         anthektiteChargeBladeAttackSpeed = -1.9;
         anthektiteChargeBladeAttackReach = 1;
+        anthektiteChargeBladeAmpDamage = 3;
+        anthektiteChargeBladeAmpAttackSpeed = -1.3;
+        anthektiteChargeBladeAmpAttackReach = 1;
 
         diarkriteBootsToughness = 8.0;
         diarkriteBootsKnockbackResistance = 0.5;
@@ -127,6 +133,10 @@ public class UniqueItemConfig {
                         case "anthektiteChargeBlade.Damage": anthektiteChargeBladeDamage = (int) value; break;
                         case "anthektiteChargeBlade.AttackSpeed": anthektiteChargeBladeAttackSpeed = value; break;
                         case "anthektiteChargeBlade.AttackReach": anthektiteChargeBladeAttackReach = value; break;
+
+                        case "anthektiteChargeBlade.AmpDamage": anthektiteChargeBladeAmpDamage = (int) value; break;
+                        case "anthektiteChargeBlade.AmpAttackSpeed": anthektiteChargeBladeAmpAttackSpeed = value; break;
+                        case "anthektiteChargeBlade.AmpAttackReach": anthektiteChargeBladeAmpAttackReach = value; break;
                         default:
                             logger.warn(errorPrefix + "unrecognized parameter name: " + key);
                     }
@@ -178,6 +188,12 @@ public class UniqueItemConfig {
             writer.write("  anthektiteChargeBlade.AttackSpeed = " + anthektiteChargeBladeAttackSpeed + "\n");
             writer.write("# Default: " + anthektiteChargeBladeAttackReach + "\n");
             writer.write("  anthektiteChargeBlade.AttackReach = " + anthektiteChargeBladeAttackReach + "\n");
+            writer.write("# Default: " + anthektiteChargeBladeAmpDamage + "\n");
+            writer.write("  anthektiteChargeBlade.Damage = " + anthektiteChargeBladeAmpDamage + "\n");
+            writer.write("# Default: " + anthektiteChargeBladeAmpAttackSpeed + "\n");
+            writer.write("  anthektiteChargeBlade.AttackSpeed = " + anthektiteChargeBladeAttackSpeed + "\n");
+            writer.write("# Default: " + anthektiteChargeBladeAmpAttackReach + "\n");
+            writer.write("  anthektiteChargeBlade.AttackReach = " + anthektiteChargeBladeAmpAttackReach + "\n");
             writer.write("\n");
         } catch (IOException e) {
             logger.warn("Could not save configuration file: ", e);
