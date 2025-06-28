@@ -22,22 +22,24 @@ public class SacrificeSonicBoomEmitterParticle extends NoRenderParticle {
     }
 
     public void tick() {
-        int lifeTime = 6;
-//        if (particleTimer < 1) {
-//            ++particleTimer;
-//        } else particleTimer = 0;
-//        if (particleTimer == 1) {
-//            double d0 = this.x + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-//            double d1 = this.y + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-//            double d2 = this.z + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-//            this.level.addParticle(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
-//
-//            --particleType;
-//        }
-        double d0 = this.x + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-        double d1 = this.y + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-        double d2 = this.z + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-        this.level.addParticle(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
+        int lifeTime = 10;
+
+        if (particleTimer < 1) {
+            ++particleTimer;
+        } else particleTimer = 0;
+        if (particleTimer == 1) {
+            double d0 = this.x + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
+            double d1 = this.y + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
+            double d2 = this.z + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
+            if (particleType < 1) {
+                this.level.addParticle(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
+                ++particleType;
+            } else {
+                this.level.addParticle(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
+                --particleType;
+            }
+        }
+
 
         ++this.life;
         if (this.life == lifeTime) {

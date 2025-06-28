@@ -6,10 +6,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.effect.AdditionalIssManaEffect;
-import net.nokunami.elementus.common.effect.CatalystTotemExhuastEffect;
-import net.nokunami.elementus.common.effect.NetherStarEffect;
-import net.nokunami.elementus.common.effect.WitheredBeaconPower;
+import net.nokunami.elementus.common.effect.*;
 
 import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
 
@@ -21,6 +18,7 @@ public class ModMobEffects {
         public static final RegistryObject<MobEffect> TOTEM_COOLDOWN = EFFECTS.register("totem_cooldown", CatalystTotemExhuastEffect::new);
         public static final RegistryObject<MobEffect> BEACON_POWER = EFFECTS.register("beacon_power", NetherStarEffect::new);
         public static final RegistryObject<MobEffect> WITHERED_BEACON_POWER = EFFECTS.register("withered_beacon_power", WitheredBeaconPower::new);
+        public static final RegistryObject<MobEffect> ANTHEKTITE_SWORD_DANCE = EFFECTS.register("sword_dance", SwordDanceEffect::new);
 
         public static void register(IEventBus eventBus) {
             EFFECTS.register(eventBus);

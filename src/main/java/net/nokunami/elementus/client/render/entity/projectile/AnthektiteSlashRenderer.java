@@ -43,6 +43,7 @@ public class AnthektiteSlashRenderer extends EntityRenderer<AnthektiteSlash> {
 
     @Override
     public void render(@NotNull AnthektiteSlash entity, float entityYaw, float partialTick, PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
+//        if (entity.pTimer > 10) {
         if (entity.tickCount >= 2 || !(this.entityRenderDispatcher.camera.getEntity().distanceToSqr(entity) < 12.25D)) {
             poseStack.pushPose();
             Vec3 motion = entity.getDeltaMovement();

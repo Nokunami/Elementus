@@ -217,4 +217,8 @@ public class ChargeSwordItem extends SwordItem {
     public boolean isBarVisible(@NotNull ItemStack pStack) {
         return getCharge(pStack) > 0;
     }
+
+    public boolean canParry() {
+        return false;
+    }
 }

@@ -27,7 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.common.config.UniqueItemConfig;
-import net.nokunami.elementus.common.registry.ModEnchantments;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +41,7 @@ import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
 import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 
 public class DiarkriteChargeBlade extends ChargeSwordItem {
-    private static final int BURST_RANGE = 2;
+    private static final int BURST_RANGE = 3;
     private static final int BOOM_RANGE = 16;
     private static final int RUSH_RANGE = 8;
 
@@ -51,8 +50,9 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
     }
 
     @Override
-    public boolean isFoil(ItemStack pStack) {
-        return super.isFoil(pStack);
+    public boolean isFoil(@NotNull ItemStack pStack) {
+        boolean i = EnchantmentHelper.getTagEnchantmentLevel(SACRIFICE_CURSE.get(), pStack) > 0;
+        return super.isFoil(pStack) || !i && pStack.isEnchanted();
     }
 
     @Override
@@ -131,6 +131,11 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
         return Math.round(13.0F - (float) (getMaxCharge(stack) - getCharge(stack)) * 13.0F / (float) getMaxCharge(stack));
     }
 
+    @Override
+    public boolean canParry() {
+        return true;
+    }
+
     public static float boomRadius(ItemStack stack) {
         return isEnchantedWith(stack, RUSH) || isEnchantedWith(stack, CONDENSED_BURST) ? 1.25F : 2.5F;
     }
@@ -145,7 +150,7 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
         boolean isCursed = isEnchantedWith(stack, SACRIFICE_CURSE);
         boolean isCondensed = isEnchantedWith(stack, CONDENSED_BURST);
         SimpleParticleType particleTypes = isCursed && !isCondensed ? ModParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get() : isCursed ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : isCondensed ? ParticleTypes.SONIC_BOOM : ModParticleTypes.SONIC_BURST_EMITTER.get();
-        SimpleParticleType startParticle = isCursed ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : ModParticleTypes.SONIC_BOOM_BURST_START.get();
+        SimpleParticleType startParticle = isCursed ? ModParticleTypes.SACRIFICE_SONIC_BOOM_START.get() : ModParticleTypes.SONIC_BOOM_START.get();
         Vec3 target = livingEntity.getEyePosition().add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(boomRange(stack)));
         Vec3 source = livingEntity.getEyePosition();
         Vec3 offsetToTarget = target.subtract(source);
@@ -153,13 +158,13 @@ public class DiarkriteChargeBlade extends ChargeSwordItem {
         boolean firstTick = true;
         Set<Entity> hitSet = new HashSet<>();
 
-        for(int particleIndex = 1; particleIndex < Mth.floor(offsetToTarget.length()) + 2; ++particleIndex) {
+        for(int particleIndex = 2; particleIndex < Mth.floor(offsetToTarget.length()) + 2; ++particleIndex) {
             Vec3 particle = source.add(normalized.scale(particleIndex));
             if (firstTick) {
                 ((ServerLevel)level).sendParticles(startParticle, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
                 firstTick = false;
             }
-            if (particleIndex > 1) ((ServerLevel)level).sendParticles(particleTypes, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
+            if (particleIndex > 2) ((ServerLevel)level).sendParticles(particleTypes, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
             hitSet.addAll(level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos((int) particle.x(), (int) particle.y(), (int) particle.z()))).inflate(boomRadius(stack)),
                     (e) -> !(e instanceof OwnableEntity) && (e.isAlliedTo(livingEntity) && getFriendlyFire(stack) || !e.isAlliedTo(livingEntity)) ||
                             (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&

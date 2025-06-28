@@ -23,15 +23,15 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     protected int ticksTilNextAttack = 20;
     protected int fastAttackDelay = 10;
     protected int ticksTilNextFastAttack = 10;
-    protected int aoeAttackDelay = 10;
-    protected int ticksTilNextAoeAttack = 20;
+    protected int aoeAttackDelay = 20;
+    protected int ticksTilNextAoeAttack = 15;
     protected boolean shouldCountTillNextAttack = false;
     protected LivingEntity golemOwner;
     private final Predicate<Entity> aoeFilter = (e -> (alliedAttacked(steelGolem, e) || (golemOwner != null && alliedAttacked(golemOwner, e))));
 
     public SteelGolemAttackGoal(SteelGolem golem, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
         super(golem, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+//        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
         this.steelGolem = golem;
         this.golemOwner = golem.getOwner() != null ? golem.getOwner() : null;
     }
@@ -43,6 +43,7 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
 
             if(isTimeToStartAttackAnimation()) {
                 steelGolem.setAttacking(true);
+                this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
             }
             if(isTimeToAttack()) {
                 this.mob.getLookControl().setLookAt(enemy.getX(), enemy.getEyeY(), enemy.getZ());
@@ -79,9 +80,13 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     }
 
     protected boolean isTimeToStartAttackAnimation() {
-        if (steelGolem.getFastAttack()) {
-            return this.ticksTilNextFastAttack <= fastAttackDelay;
-        } else return this.ticksTilNextAttack <= attackDelay;
+        if (steelGolem.getAoeTimer() <= 0) {
+            return false;
+        } else {
+            if (steelGolem.getFastAttack()) {
+                return this.ticksTilNextFastAttack <= fastAttackDelay;
+            } else return this.ticksTilNextAttack <= attackDelay;
+        }
     }
 
     protected boolean isTimeToAttack() {
@@ -139,15 +144,6 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
             } else {
                 this.ticksTilNextAoeAttack = Math.max(this.ticksTilNextAoeAttack - 1,0);
             }
-//                if(shouldCountTillNextAttack && steelGolem.getAoeTimer() > 30 && !steelGolem.getFastAttack()) {
-//                    this.ticksTilNextAttack = Math.max(this.ticksTilNextAttack - 1, 0);
-//                } else if (shouldCountTillNextAttack && steelGolem.getAoeTimer() > 30) {
-//                    this.ticksTilNextFastAttack = Math.max(this.ticksTilNextFastAttack - 1, 0);
-//                }
-//            if (steelGolem.getAoeTimer() <= 0) {
-//                this.ticksTilNextAoeAttack = Math.max(this.ticksTilNextAoeAttack - 1,0);
-//                resetAttackCooldown();
-//            }
         }
     }
 

@@ -8,9 +8,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.nokunami.elementus.common.item.ChargeSwordItem;
 import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.network.ModNetwork;
-import net.nokunami.elementus.common.network.DiarkriteChargeBladeAbilityPacket;
+import net.nokunami.elementus.common.network.ChargeBladeAbilityPacket;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
@@ -38,7 +39,7 @@ public class ModClientInputEvents {
             InteractionHand shieldHand;
             ItemStack usedItem = player.getUseItem();
             // NOTE: To prevent erroneous hand swinging, the attack keybind needs to be 'consumed' so it isn't used after this
-            if(usedItem.getItem() instanceof DiarkriteChargeBlade && mc.options.keyAttack.consumeClick()) {
+            if(usedItem.getItem() instanceof ChargeSwordItem && mc.options.keyAttack.consumeClick()) {
                 shieldStack = player.getUseItem();
                 shieldHand = player.getUsedItemHand();
             }
@@ -49,7 +50,7 @@ public class ModClientInputEvents {
                 return;
 
             player.swing(shieldHand, true);
-            ModNetwork.sendToServer(new DiarkriteChargeBladeAbilityPacket(shieldHand));
+            ModNetwork.sendToServer(new ChargeBladeAbilityPacket(shieldHand));
         }
     }
 }

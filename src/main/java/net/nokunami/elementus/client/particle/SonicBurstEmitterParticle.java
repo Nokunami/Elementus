@@ -21,12 +21,7 @@ public class SonicBurstEmitterParticle extends NoRenderParticle {
 
     public void tick() {
         int lifeTime = 10;
-//        for(int i = 0; i < 2; ++i) {
-//            double d0 = this.x + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-//            double d1 = this.y + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-//            double d2 = this.z + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
-//            this.level.addParticle(ModParticleTypes.SONIC_BURST.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
-//        }
+
         if (particleTimer < 1) {
             ++particleTimer;
         } else particleTimer = 0;

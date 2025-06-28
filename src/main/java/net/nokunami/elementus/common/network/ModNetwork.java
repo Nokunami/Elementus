@@ -24,7 +24,7 @@ public class ModNetwork {
     public static void setup() {
         INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(MODID, "channel"), () -> "1.0", s -> true, s -> true);
         INSTANCE.registerMessage(id(), AnthektiteChargeBladeSlashPacket.class, AnthektiteChargeBladeSlashPacket::encode, AnthektiteChargeBladeSlashPacket::decode, AnthektiteChargeBladeSlashPacket::consume);
-        INSTANCE.registerMessage(id(), DiarkriteChargeBladeAbilityPacket.class, DiarkriteChargeBladeAbilityPacket::encode, DiarkriteChargeBladeAbilityPacket::decode, DiarkriteChargeBladeAbilityPacket::consume);
+        INSTANCE.registerMessage(id(), ChargeBladeAbilityPacket.class, ChargeBladeAbilityPacket::encode, ChargeBladeAbilityPacket::decode, ChargeBladeAbilityPacket::consume);
         INSTANCE.registerMessage(id(), SteelGolemInventoryPacket.class, SteelGolemInventoryPacket::encode, SteelGolemInventoryPacket::decode, SteelGolemInventoryPacket::consume);
     }
 

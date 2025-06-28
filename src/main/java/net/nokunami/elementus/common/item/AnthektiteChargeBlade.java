@@ -2,8 +2,10 @@ package net.nokunami.elementus.common.item;
 
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,6 +30,7 @@ import net.minecraftforge.network.PacketDistributor;
 import net.nokunami.elementus.common.entity.projectile.AnthektiteSlash;
 import net.nokunami.elementus.common.network.AnthektiteChargeBladeSlashPacket;
 import net.nokunami.elementus.common.network.ModNetwork;
+import net.nokunami.elementus.common.registry.ModMobEffects;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,11 +52,7 @@ public class AnthektiteChargeBlade extends ChargeSwordItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        if (getState(stack)) {
-            return swordDanceAttribute.get();
-        } else {
-            return defaultModifiers.get();
-        }
+        return slot.equals(EquipmentSlot.MAINHAND) ? getState(stack) ? this.swordDanceAttribute.get() : this.defaultModifiers.get() : super.getAttributeModifiers(slot, stack);
     }
 
     @Override
@@ -82,16 +82,25 @@ public class AnthektiteChargeBlade extends ChargeSwordItem {
     }
 
     public static boolean getState(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("SculkSilencer");
+        return stack.getOrCreateTag().getBoolean("SwordDance");
     }
 
     public static void setState(ItemStack stack, boolean b) {
-        stack.getOrCreateTag().putBoolean("SculkSilencer", b);
+        stack.getOrCreateTag().putBoolean("SwordDance", b);
     }
 
     @Override
     public int getBarColor(@NotNull ItemStack pStack) {
-        return 7924965;
+        return 12054986;
+    }
+
+    public static void parryParticle(Level level, LivingEntity livingEntity, ParticleOptions particleOptions) {
+        Vec3 eyePos = livingEntity.getEyePosition();
+        Vec3 target = eyePos.add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(1));
+        Vec3 offsetToTarget = target.subtract(eyePos);
+
+        Vec3 particle = eyePos.add(offsetToTarget.normalize().scale(2));
+        ((ServerLevel)level).sendParticles(particleOptions, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
     }
 
     public static void emptyClick(ItemStack stack, InteractionHand hand) {
@@ -111,10 +120,9 @@ public class AnthektiteChargeBlade extends ChargeSwordItem {
                 slash.setBlockPos(player.blockPosition());
                 slash.setDamage(5);
                 slash.setDiscardDistance(16);
-//                slash.setMaxDiscardDistance(32);
-//                slash.setChargeable(true);
+                slash.setChargeable(!player.hasEffect(ModMobEffects.ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()));
                 slash.setItemStack(player.getItemInHand(hand));
-                slash.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.75F, 1.0F);
+                slash.launchSlash(player, player.getXRot(), player.getYRot(), 0.0F, 0.25F, 1.0F);
                 level.addFreshEntity(slash);
             }
         }

@@ -55,6 +55,7 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.config.CatalystArmorConfig;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.item.CatalystArmorItem;
+import net.nokunami.elementus.common.item.ChargeSwordItem;
 import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.registry.ModBlocks;
 import net.nokunami.elementus.common.registry.ModEntityType;
@@ -301,32 +302,33 @@ public class ModServerEvents {
                     ItemStack stack = eventEntity.getItemBySlot(slot);
                     boolean parry = eventEntity.getTicksUsingItem() <= parryWindow;
 
-                    if (!stack.isEmpty() && stack.getItem() instanceof DiarkriteChargeBlade && usingItem) {
+                    if (!stack.isEmpty() && stack.getItem() instanceof ChargeSwordItem && usingItem) {
                         float soundVol = 1;
                         SoundEvent soundEvent = isEnchantedWith(stack, RESONANCE) ? ModSoundEvents.DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE.get() : ModSoundEvents.DIARKRITE_CHARGE_BLADE_BLOCK.get();
                         float damageAmount = 0;
                         float knockback = 0;
-                        if (parry) {
+                        if (((ChargeSwordItem)stack.getItem()).canParry() && parry) {
+                            soundEvent = isEnchantedWith(stack, RESONANCE) ? ModSoundEvents.DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE.get() : ModSoundEvents.DIARKRITE_CHARGE_BLADE_PARRY.get();
                             ParticleOptions parryParticle = isEnchantedWith(stack, RESONANCE) ? ModParticleTypes.PARRY_RESONANCE.get() : ModParticleTypes.PARRY.get();
                             parryParticle(level, eventEntity, parryParticle);
-                            event.setCanceled(true);
                             setCharge(stack, 1);
                             soundVol = 1.5F;
-                            soundEvent = isEnchantedWith(stack, RESONANCE) ? ModSoundEvents.DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE.get() : ModSoundEvents.DIARKRITE_CHARGE_BLADE_PARRY.get();
                             damageAmount = event.getAmount();
                             knockback = 2;
-                            if (directEntity instanceof Projectile projectile) {
-                                // this is horrible
-                                if (projectile instanceof AbstractArrow ) {
-                                    eventEntity.setArrowCount(eventEntity.getArrowCount() - 1);
-                                }
-                            }
-                            if (directEntity instanceof Bee) eventEntity.setStingerCount(eventEntity.getStingerCount() - 1);
+//                            if (directEntity instanceof Projectile projectile) {
+//                                // this is horrible
+//                                if (projectile instanceof AbstractArrow ) {
+//                                    eventEntity.setArrowCount(eventEntity.getArrowCount() - 1);
+//                                }
+//                            }
+//                            if (directEntity instanceof Bee) eventEntity.setStingerCount(eventEntity.getStingerCount() - 1);
+                            removeStuckEntities(event);
+                            event.setCanceled(true);
                         } else if (!damageSource.is(DamageTypeTags.BYPASSES_SHIELD) && !flag) {
                             event.setAmount(damage - (damage * damageAbsorption(stack)));
                             if (isEnchantedWith(stack, RESONANCE)) damageAmount = event.getAmount() * 0.25F;
                             knockback = 1;
-                        } else if (damageSource.is(DamageTypes.SONIC_BOOM)) {
+                        } else if (stack.getItem() instanceof DiarkriteChargeBlade && damageSource.is(DamageTypes.SONIC_BOOM)) {
                             soundEvent = ModSoundEvents.DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE.get();
                             event.setAmount(event.getAmount() * 0.8F);
                             setCharge(stack, (int) event.getAmount() / 2);
@@ -347,37 +349,19 @@ public class ModServerEvents {
         }
     }
 
-//    @SubscribeEvent
-//    public void DeflectProjectile(ProjectileImpactEvent event) {
-//        Projectile projectile = event.getProjectile();
-//        Vec3 projectileDelta = event.getProjectile().getDeltaMovement();
-//        Entity owner = projectile.getOwner();
-//
-//        if (event.getRayTraceResult() instanceof EntityHitResult result) {
-//            Elementus.LOGGER.debug("testHit1");
-//            if (result.getEntity() instanceof LivingEntity entity) {
-//                ItemStack stack = entity.getUseItem();
-//                Vec3 position = entity.position();
-//                Vec3 viewVec = entity.getViewVector(1);
-//                Vec3 vec32 = projectile.position();
-//
-//                Vec3 vec31 = vec32.vectorTo(position).normalize();
-//                vec31 = new Vec3(vec31.x, 0.0D, vec31.z);
-//
-//                if (vec31.dot(viewVec) < 0.0D) {
-//                    if (stack.getItem() instanceof DiarkriteChargeBlade && entity.isUsingItem() && entity.getTicksUsingItem() <= parryWindow) {
-//                        Elementus.LOGGER.debug("testHit2 this deflects \"i hope\"");
-//                        event.setCanceled(true);
-//                        if (projectile instanceof AbstractArrow) {
-//                            projectile.setDeltaMovement(projectileDelta.scale(-1));
-//                            if (isEnchantedWith(stack, RESONANCE) && owner != null) owner.hurt(entity.damageSources().playerAttack((Player) entity), (float) ((AbstractArrow) projectile).getBaseDamage());
-//                        }
-////                        if (isEnchantedWith(stack, RESONANCE) && owner != null) owner.hurt(entity.damageSources().playerAttack((Player) entity), projectile.);
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private void removeStuckEntities(LivingHurtEvent event) {
+        DamageSource damageSource = event.getSource();
+        LivingEntity eventEntity = event.getEntity();
+        Entity directEntity = damageSource.getDirectEntity();
+
+        if (directEntity instanceof Projectile projectile) {
+            // this is horrible
+            if (projectile instanceof AbstractArrow ) {
+                eventEntity.setArrowCount(eventEntity.getArrowCount() - 1);
+            }
+        }
+        if (directEntity instanceof Bee) eventEntity.setStingerCount(eventEntity.getStingerCount() - 1);
+    }
 
 //    public void catalystEffects(LivingEvent event) {
 //        ItemStack chestplate = event.getEntity().getItemBySlot(EquipmentSlot.CHEST);

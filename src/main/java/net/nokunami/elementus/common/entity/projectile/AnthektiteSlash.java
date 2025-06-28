@@ -54,6 +54,7 @@ public class AnthektiteSlash extends Projectile {
     private float damage;
     private int delay;
     private final int totalDelay;
+    public int pTimer;
     public Predicate<LivingEntity> REMOVE_PREDICATE = (e) ->
         !(e instanceof OwnableEntity) && (e.isAlliedTo(this.getTrueOwner()) && getFriendlyFire() || !e.isAlliedTo(this.getTrueOwner())) ||
         (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null && (ownable.getOwner().is(this.getTrueOwner()) ||
@@ -79,6 +80,15 @@ public class AnthektiteSlash extends Projectile {
     public AnthektiteSlash(Level pLevel, LivingEntity pShooter) {
         this(ModEntityType.ANTHEKTITE_SLASH.get(), pShooter, pLevel);
         this.weapon = pShooter.getMainHandItem();
+    }
+
+    public void launchSlash(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
+        float f = -Mth.sin(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
+        float f1 = -Mth.sin((pX + pZ) * ((float)Math.PI / 180F));
+        float f2 = Mth.cos(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
+        this.shoot(f, f1, f2, pVelocity, pInaccuracy);
+        Vec3 vec3 = pShooter.getDeltaMovement();
+        this.setDeltaMovement(this.getDeltaMovement().add(vec3.x, 0.0D, vec3.z));
     }
 
     public float getDamage() {
@@ -226,21 +236,18 @@ public class AnthektiteSlash extends Projectile {
         if (this.getTrueOwner() != null && getBlockPos() != null) {
             double blockPos = this.distanceToSqr(this.getBlockPos().getCenter());
             if (blockPos >= discardDistance) {
+                this.setDiscardTime(this.getDiscardTime() + 1);
                 if (this.getDiscardTime() < 0) {
                     this.getTrueOwner().sendSystemMessage(Component.literal("out of range"));
-                    this.setDiscardTime(this.getDiscardTime() + 1);
-                } else if (this.getDiscardTime() > 2) {
-                    this.discard();
                 }
             }
 
-            if (this.getDiscardTime() > 2) {
+            if (this.getDiscardTime() == 1) {
+                this.level().addParticle(ModParticleTypes.SONIC_BOOM_START.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+            } else if (this.getDiscardTime() > 1) {
                 this.discard();
             }
 
-            if (this.getDiscardTime() == 1) {
-                this.level().addParticle(ModParticleTypes.SONIC_BOOM_BURST_START.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
-            }
 
             for (Entity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5F), REMOVE_PREDICATE)) {
                 if (this.getTrueOwner() != null) {
@@ -248,13 +255,11 @@ public class AnthektiteSlash extends Projectile {
 //                this.getTrueOwner().sendSystemMessage(Component.literal(String.valueOf(entity.getType())));
                 }
             }
-        }
 
-//        if (timeToDiscard == 2) {
-//            this.level().addParticle(ModParticleTypes.SONIC_BOOM_BURST_START.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
-//        } else if (timeToDiscard > 2) {
-//            this.discard();
-//        }
+            if (this.distanceToSqr(this.getBlockPos().getCenter()) < Mth.square(2)) {
+                if (pTimer < 0) ++pTimer;
+            }
+        }
 
         Vec3 vec3 = this.getDeltaMovement();
         double d0 = this.getX() + vec3.x;
@@ -268,11 +273,14 @@ public class AnthektiteSlash extends Projectile {
 //                delay = 0;
 //            }
 //        }
-        if (this.delay < totalDelay){
-            delay += 1;
-        } else {
-            this.level().addParticle(ParticleTypes.SWEEP_ATTACK, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-            delay = 0;
+        if (pTimer > 2) {
+            if (this.delay < totalDelay){
+                delay += 1;
+            } else {
+                if (this.level().isClientSide())
+                    this.level().addParticle(ParticleTypes.SWEEP_ATTACK, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+                delay = 0;
+            }
         }
 
 
@@ -288,17 +296,6 @@ public class AnthektiteSlash extends Projectile {
                     if (entity instanceof LivingEntity living && entity != this.getTrueOwner() /*&& !areAllies(entity, this.getTrueOwner())*/) {
                         damage1 += EnchantmentHelper.getDamageBonus(this.weapon, (living).getMobType());
                         hurtMob(entity, entity.damageSources().playerAttack((Player) getTrueOwner()), damage1);
-//                    if (entity instanceof LivingEntity) {
-//                        damage1 += EnchantmentHelper.getDamageBonus(this.weapon, ((LivingEntity) entity).getMobType());
-//                    }
-//                    if (this.getTrueOwner() instanceof Player player) {
-//                        hurtMob(entity, entity.damageSources().playerAttack(player), damage1);
-//                        if (entity instanceof EnderDragon enderDragonEntity){
-//                            hurtMob(enderDragonEntity, entity.damageSources().playerAttack(player), damage1);
-//                        }
-//                    } else {
-//                        hurtMob(entity, entity.damageSources().mobAttack(this.getTrueOwner()), damage1);
-//                    }
                     }
                 }
             }
@@ -333,24 +330,18 @@ public class AnthektiteSlash extends Projectile {
         float yRot = -((float) (Mth.atan2(motion.z, motion.x) * (double) (180F / (float) Math.PI)) + 90.0F);
         this.setXRot(Mth.wrapDegrees(xRot));
         this.setYRot(Mth.wrapDegrees(yRot));
-        if (!this.isNoGravity()) {
-            Vec3 vec34 = this.getDeltaMovement();
-            this.setDeltaMovement(vec34.x, vec34.y - 0.05D, vec34.z);
-        }
+        Vec3 vec34 = this.getDeltaMovement();
+//        this.setDeltaMovement(vec34.x + 0.05D, vec34.y + 0.05D, vec34.z + 0.05D);
+        this.setDeltaMovement(vec34.x + (vec34.x * 0.125), vec34.y + (vec34.y * 0.125), vec34.z + (vec34.z * 0.125));
     }
 
     private void hurtMob(Entity entity, DamageSource source, float damage) {
-        if (this.getChargeable() && entity.isAlliedTo(this.getTrueOwner())) {
+        if (this.getChargeable()/* && entity.isAlliedTo(this.getTrueOwner())*/) {
             AnthektiteChargeBlade.setCharge(this.weapon, 1);
             this.setChargeable(false);
         }
-//        this.getTrueOwner().sendSystemMessage(Component.literal( "chargeable: " + this.getChargeable()));
+        this.getTrueOwner().sendSystemMessage(Component.literal( "chargeable: " + this.getChargeable()));
         entity.hurt(source, damage);
-    }
-
-    private void discarded() {
-        this.discard();
-        this.level().addParticle(ModParticleTypes.SONIC_BOOM_BURST_START.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
     }
 
     @Override

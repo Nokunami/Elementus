@@ -160,17 +160,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldGuiModel(item, "_charge_", mcLoc("item/handheld"), "_handheld_charge_", "_gui_charge_", 5);
         handheldGuiBlockingModel(item, "_charge_", modLoc("item/claymore_item_blocking"), "_handheld_charge_", "_gui_charge_", 5);
 
-        chargedWeaponModel(item, "_sacrifice_gui_charge_", mcLoc("item/handheld"), location, "_sacrifice_charge_", 4);
-        chargedWeaponModel(item, "_sacrifice_handheld_charge_", modLoc("item/claymore_item"), location, "_sacrifice_handheld_charge_", 4);
-        chargedWeaponBlockingModel(item, "_sacrifice_handheld_charge_", modLoc("item/claymore_item_blocking"), location, "_sacrifice_handheld_charge_", 4);
-        handheldGuiModel(item, "_sacrifice_charge_", modLoc("item/claymore_item"), "_sacrifice_handheld_charge_", "_sacrifice_gui_charge_", 4);
-        handheldGuiBlockingModel(item, "_sacrifice_charge_", modLoc("item/claymore_item_blocking"), "_sacrifice_handheld_charge_", "_sacrifice_gui_charge_", 4);
-
-//        chargedWeaponModel(item, "_multi_gui_charge_", mcLoc("item/handheld"), location, "_multi_charge_", 8);
-//        chargedWeaponModel(item, "_multi_handheld_charge_", modLoc("item/claymore_item"), location, "_multi_handheld_charge_", 8);
-//        chargedWeaponBlockingModel(item, "_multi_handheld_charge_", modLoc("item/claymore_item_blocking"), location, "_multi_handheld_charge_", 8);
-//        handheldGuiModel(item, "_multi_charge_", modLoc("item/claymore_item"), "_multi_handheld_charge_", "_multi_gui_charge_", 8);
-//        handheldGuiBlockingModel(item, "_multi_charge_", modLoc("item/claymore_item_blocking"), "_multi_handheld_charge_", "_multi_gui_charge_", 8);
+        chargedWeaponModel(item, "_sacrifice_gui_charge_", mcLoc("item/handheld"), location, "_sacrifice_charge_", 5);
+        chargedWeaponModel(item, "_sacrifice_handheld_charge_", modLoc("item/claymore_item"), location, "_sacrifice_handheld_charge_", 5);
+        chargedWeaponBlockingModel(item, "_sacrifice_handheld_charge_", modLoc("item/claymore_item_blocking"), location, "_sacrifice_handheld_charge_", 5);
+        handheldGuiModel(item, "_sacrifice_charge_", modLoc("item/claymore_item"), "_sacrifice_handheld_charge_", "_sacrifice_gui_charge_", 5);
+        handheldGuiBlockingModel(item, "_sacrifice_charge_", modLoc("item/claymore_item_blocking"), "_sacrifice_handheld_charge_", "_sacrifice_gui_charge_", 5);
 
         baseModels(item, "_gui", "_handheld", modLoc("item/claymore_item"), "_handheld_blocking", modLoc("item/claymore_item_blocking"), location);
         baseModels(item, "sacrifice", "_sacrifice_gui", "_sacrifice_handheld", modLoc("item/claymore_item"), "_sacrifice_handheld_blocking", modLoc("item/claymore_item_blocking"), location);
@@ -182,8 +176,6 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .override().predicate(mcLoc("blocking"), 1).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_blocking"))).end()
                 .override().predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_base"))).end()
                 .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_blocking"))).end()
-//                .override().predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_base"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_blocking"))).end()
 
                 .override().predicate(modLoc("charge"), 0.16F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_charge_0"))).end()
                 .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.16F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_charge_0_blocking"))).end()
@@ -197,30 +189,15 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.8F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_charge_4_blocking"))).end()
 
                 .override().predicate(modLoc("charge"), 0.2F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_0"))).end()
-                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.2F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_0_blocking"))).end()
+                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.16F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_0_blocking"))).end()
                 .override().predicate(modLoc("charge"), 0.4F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_1"))).end()
-                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.4F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_1_blocking"))).end()
+                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.32F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_1_blocking"))).end()
                 .override().predicate(modLoc("charge"), 0.6F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_2"))).end()
-                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.6F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_2_blocking"))).end()
+                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.48F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_2_blocking"))).end()
                 .override().predicate(modLoc("charge"), 0.8F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_3"))).end()
-                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.8F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_3_blocking"))).end()
-
-//                .override().predicate(modLoc("charge"), 0.11F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_0"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.11F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_0_blocking"))).end()
-//                .override().predicate(modLoc("charge"), 0.22F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_1"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.22F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_1_blocking"))).end()
-//                .override().predicate(modLoc("charge"), 0.33F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_2"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.33F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_2_blocking"))).end()
-//                .override().predicate(modLoc("charge"), 0.44F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_3"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.44F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_3_blocking"))).end()
-//                .override().predicate(modLoc("charge"), 0.55F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_4"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.55F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_4_blocking"))).end()
-//                .override().predicate(modLoc("charge"), 0.66F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_5"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.66F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_5_blocking"))).end()
-//                .override().predicate(modLoc("charge"), 0.77F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_6"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.77F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_6_blocking"))).end()
-//                .override().predicate(modLoc("charge"), 0.88F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_7"))).end()
-//                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.88F).predicate(modLoc("enchanted"), 0.2F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_multi_charge_7_blocking"))).end()
+                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.64F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_3_blocking"))).end()
+                .override().predicate(modLoc("charge"), 0.8F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_4"))).end()
+                .override().predicate(mcLoc("blocking"), 1).predicate(modLoc("charge"), 0.8F).predicate(modLoc("enchanted"), 0.1F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_sacrifice_charge_4_blocking"))).end()
         ;
     }
     public void anthektiteLongsword(Supplier<? extends Item> item, String location) {
