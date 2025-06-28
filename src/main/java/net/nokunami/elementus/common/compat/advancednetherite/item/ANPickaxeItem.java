@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.compat.advancednetherite.ANUtil;
 import net.nokunami.elementus.common.config.ModConfig;
-import net.nokunami.elementus.common.item.ElementusItemUtil;
+import net.nokunami.elementus.common.item.EItemUtil;
 import net.nokunami.elementus.common.item.ModPickaxeItem;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ public class ANPickaxeItem extends ModPickaxeItem {
     @Internal
     @Override
     public void appendHoverText(@NotNull ItemStack stack, Level world, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        ElementusItemUtil.pickaxeTooltip(stack, tooltip, getTier());
+        EItemUtil.pickaxeTooltip(stack, tooltip, getTier());
         if (ConfigHelper.get().getClient().showTooltips()) {
             if (AdvancedNetherite.getRegistryHelper().getItemById(stack.getItem()).getNamespace().equals("elementus") && ConfigHelper.get().getCommon().getAdditionalDrops().enableAdditionalOreDrops()) {
                 if (Screen.hasShiftDown()) {
@@ -93,7 +93,7 @@ public class ANPickaxeItem extends ModPickaxeItem {
     public float getDestroySpeed(@NotNull ItemStack stack, @NotNull BlockState state) {
         if (ModConfig.COMMON.diarkriteEfficiency.get()) {
             float originalSpeed = super.getDestroySpeed(stack, state);
-            return ElementusItemUtil.pickaxeMiningSpeed(originalSpeed, stack, state);
+            return EItemUtil.pickaxeMiningSpeed(originalSpeed, stack, state);
         }
         return super.getDestroySpeed(stack, state);
     }

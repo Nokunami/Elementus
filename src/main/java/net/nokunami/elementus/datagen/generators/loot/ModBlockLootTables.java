@@ -130,7 +130,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                                 .when(BonusLevelTableCondition.bonusLevelFlatChance(Enchantments.BLOCK_FORTUNE, NORMAL_LEAVES_STICK_CHANCES)))
                         .add(this.applyExplosionDecay(pLeavesBlock,
                                 LootItem.lootTableItem(item)
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)))
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F)))
                                         .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE)))));
     }
 

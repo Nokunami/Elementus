@@ -8,7 +8,9 @@ import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -20,10 +22,12 @@ import net.minecraftforge.resource.PathPackResources;
 import net.nokunami.elementus.client.ClientProxy;
 import net.nokunami.elementus.common.CreativeTabProperties;
 import net.nokunami.elementus.common.config.*;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.*;
 import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
 import net.nokunami.elementus.datagen.loot.ModLootModifiers;
+import net.nokunami.elementus.event.ModClientEvents;
 import net.nokunami.elementus.event.ModServerEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,6 +45,7 @@ public class Elementus {
     public static final String CONFIG_VERSION = "1.4";
     public static final Path TIER_CONFIG_PATH = configPath("config/elementus", "tier_config.toml");
     public static final Path ITEM_CONFIG_PATH = configPath("config/elementus", "item_config.toml");
+    public static final Path UNIQUE_ITEM_CONFIG_PATH = configPath("config/elementus", "unique_item_config.toml");
     public static final Path ARMOR_CONFIG_PATH = configPath("config/elementus", "armor_config.toml");
     public static final Path CATALYST_CONFIG_PATH = configPath("config/elementus", "catalyst_armor_config.toml");
     public static final Path ENTITY_CONFIG = configPath("config/elementus", "entity_config.toml");
@@ -66,6 +71,7 @@ public class Elementus {
 
         TierConfig.reload();
         ItemConfig.reload();
+        UniqueItemConfig.reload();
         ArmorConfig.reload();
         CatalystArmorConfig.reload();
         EntityConfig.reload();
@@ -98,6 +104,7 @@ public class Elementus {
         modEventBus.addListener(this::addPackFinders);
         modEventBus.addListener(this::commonSetup);
         ModNetwork.setup();
+        modEventBus.addListener(ModClientEvents::itemDecorations);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {

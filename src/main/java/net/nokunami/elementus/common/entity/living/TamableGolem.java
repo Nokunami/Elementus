@@ -141,7 +141,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     public boolean isSaddled() {
-        return this.getSaddleFlag();
+//        return this.getSaddleFlag();
+        return !this.getItemBySlot(EquipmentSlot.HEAD).isEmpty();
     }
 
     public boolean isPushable() {
@@ -179,7 +180,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     protected void updateContainerEquipment() {
         if (!this.level().isClientSide) {
-            this.setSaddleFlag(!this.inventory.getItem(0).isEmpty());
+            this.setSaddle(this.inventory.getItem(0));
+//            this.setSaddleFlag(!this.inventory.getItem(0).isEmpty());
         }
     }
 
@@ -192,9 +194,21 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         }
     }
 
+    private void setSaddle(ItemStack stack) {
+        this.setItemSlot(EquipmentSlot.HEAD, stack);
+        this.setDropChance(EquipmentSlot.HEAD, 0.0F);
+    }
+
     public void openCustomInventoryScreen(@NotNull Player pPlayer) {
-//        if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(pPlayer)) && this.isTame()) {
-//        }
+    }
+
+    public InteractionResult openInventory(Player player) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            NetworkHooks.openScreen(serverPlayer, this);
+        }
+        openCustomInventoryScreen(player);
+        if (hasChest()) this.level().playSound(null, this.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
+        return InteractionResult.sidedSuccess(this.level().isClientSide);
     }
 
     protected InteractionResult doPlayerRide(Player pPlayer) {
@@ -221,50 +235,36 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         }
     }
 
-    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
-//        if (!this.isVehicle() && !this.isBaby()) {
-//            if (this.isTame() && player.isSecondaryUseActive()) {
-//                this.openCustomInventoryScreen(player);
-//                return InteractionResult.sidedSuccess(this.level().isClientSide);
-//            } else {
-//                ItemStack itemstack = player.getItemInHand(hand);
-//                if (!itemstack.isEmpty()) {
-//                    InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
-//                    if (interactionresult.consumesAction()) {
-//                        return interactionresult;
-//                    }
-//                    if (this.canWearArmor() && this.isArmor(itemstack) && !this.isWearingArmor()) {
-//                        this.equipArmor(player, itemstack);
-//                        return InteractionResult.sidedSuccess(this.level().isClientSide);
-//                    }
-//                }
-//                this.doPlayerRide(player);
-//                return InteractionResult.sidedSuccess(this.level().isClientSide);
-//            }
-//        } else {
-//            return super.mobInteract(player, hand);
-//        }
-        if (this.isTame()) {
-            if (!this.level().isClientSide && player.isCrouching() && player instanceof ServerPlayer serverPlayer) {
-                NetworkHooks.openScreen(serverPlayer, this);
-                openCustomInventoryScreen(player);
-                if (hasChest()) this.level().playSound(null, this.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
-                return InteractionResult.sidedSuccess(this.level().isClientSide);
-            }
-            ItemStack itemStack = player.getItemInHand(hand);
-            if (!itemStack.isEmpty()) {
-                InteractionResult interactionresult = itemStack.interactLivingEntity(player, this, hand);
-                if (interactionresult.consumesAction()) {
-                    return interactionresult;
-                }
-                if (this.canWearArmor() && this.isArmor(itemStack) && !this.isWearingArmor()) {
-                    this.equipArmor(player, itemStack);
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
-                }
-            }
-        }
-        return super.mobInteract(player, hand);
-    }
+//    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+//        ItemStack itemStack = player.getItemInHand(hand);
+//        InteractionResult itemInteract = itemStack.interactLivingEntity(player, this, hand);
+//
+////        if (!isVehicle()) {
+////            if (isTame() && player.isSecondaryUseActive() && (!itemStack.isEmpty() && !itemInteract.consumesAction())) {
+////                Elementus.LOGGER.debug("tamableGolemOpenInv");
+////                return openInventory(player);
+////            } else {
+////                if (!itemStack.isEmpty()) {
+////                    if (itemInteract.consumesAction()) {
+////                        Elementus.LOGGER.debug("tamableGolemItem");
+////                        return itemInteract;
+////                    }
+////                    if (this.canWearArmor() && isArmor(itemStack) && !isWearingArmor()) {
+////                        this.equipArmor(player, itemStack);
+////                        Elementus.LOGGER.debug("tamableGolemArmor");
+////                        return InteractionResult.sidedSuccess(this.level().isClientSide);
+////                    }
+////                }
+////                Elementus.LOGGER.debug("tamableGolemEmptyStack");
+////                return InteractionResult.sidedSuccess(this.level().isClientSide);
+////            }
+////        } else {
+////            Elementus.LOGGER.debug("tamableGolemSuperMobInt");
+////            return super.mobInteract(player, hand);
+////        }
+//        Elementus.LOGGER.debug("tamableGolemSuperMobInt");
+//        return super.mobInteract(player, hand);
+//    }
 
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
@@ -281,6 +281,11 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 //                this.playerJumpPendingScale = 0.0F;
 //            }
 //        }
+    }
+
+    @Override
+    public boolean canBeLeashed(Player pPlayer) {
+        return super.canBeLeashed(pPlayer);
     }
 
     protected Vec2 getRiddenRotation(LivingEntity pEntity) {
@@ -326,9 +331,9 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains("SaddleItem", 10)) {
-            ItemStack itemstack = ItemStack.of(tag.getCompound("SaddleItem"));
-            if (itemstack.is(Items.SADDLE)) {
-                this.inventory.setItem(0, itemstack);
+            ItemStack itemStack = ItemStack.of(tag.getCompound("SaddleItem"));
+            if (itemStack.is(Items.SADDLE)) {
+                this.inventory.setItem(0, itemStack);
             }
         }
         this.updateContainerEquipment();
@@ -351,20 +356,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public void handleStopJump() {
     }
 
-    @Override
-    protected void positionRider(@NotNull Entity passenger, @NotNull MoveFunction moveFunction) {
-        super.positionRider(passenger, moveFunction);
-        float f = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F));
-        float f1 = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F));
-        float f2 = 0.15F;
-        float f3 = 0.3F;
-        moveFunction.accept(passenger,
-                this.getX() - (double)(f2 * f),
-                this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset()/* + (double)f3*/,
-                this.getZ() - (double)(f * f1));
-        if (passenger instanceof LivingEntity) {
-            ((LivingEntity)passenger).yBodyRot = this.yBodyRot;
-        }
+    protected int getMaxPassengers() {
+        return 1;
     }
 
     public boolean canWearArmor() {
@@ -417,9 +410,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     @Nullable
     public LivingEntity getControllingPassenger() {
         Entity entity = this.getFirstPassenger();
-        if (entity instanceof Mob) {
-            return (Mob)entity;
-        } else {
+        if (!(entity instanceof Mob)) {
             if (this.isSaddled()) {
                 entity = this.getFirstPassenger();
                 if (entity instanceof Player player && this.isOwnedBy(player)) {
@@ -427,18 +418,18 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
                 }
             }
 
-            return null;
         }
+        return null;
     }
 
     @Nullable
-    private Vec3 getDismountLocationInDirection(Vec3 pDirection, LivingEntity pPassenger) {
+    private Vec3 getDismountLocationInDirection(Vec3 pDirection, LivingEntity passenger) {
         double d0 = this.getX() + pDirection.x;
         double d1 = this.getBoundingBox().minY;
         double d2 = this.getZ() + pDirection.z;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-        for(Pose pose : pPassenger.getDismountPoses()) {
+        for(Pose pose : passenger.getDismountPoses()) {
             blockpos$mutableblockpos.set(d0, d1, d2);
             double d3 = this.getBoundingBox().maxY + 0.75D;
 
@@ -449,10 +440,10 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
                 }
 
                 if (DismountHelper.isBlockFloorValid(d4)) {
-                    AABB aabb = pPassenger.getLocalBoundsForPose(pose);
+                    AABB aabb = passenger.getLocalBoundsForPose(pose);
                     Vec3 vec3 = new Vec3(d0, (double)blockpos$mutableblockpos.getY() + d4, d2);
-                    if (DismountHelper.canDismountTo(this.level(), pPassenger, aabb.move(vec3))) {
-                        pPassenger.setPose(pose);
+                    if (DismountHelper.canDismountTo(this.level(), passenger, aabb.move(vec3))) {
+                        passenger.setPose(pose);
                         return vec3;
                     }
                 }

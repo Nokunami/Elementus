@@ -5,6 +5,7 @@ import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -91,12 +92,12 @@ public class ModConfiguredFeatures {
 
         FeatureUtils.register(context, MOVCADIA_MEGA_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
                         BlockStateProvider.simple(ElementusBlocks.MOVCADIA_LOG.get()),
-                new MegaMovcadiaTrunkPlacer(14, 2, 1),
+                new MegaMovcadiaTrunkPlacer(12, 3, 2),
 
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                        .add(ElementusBlocks.MOVCADIA_LEAVES.get().defaultBlockState(), 5)
+                        .add(ElementusBlocks.MOVCADIA_LEAVES.get().defaultBlockState(), 7)
                         .add(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get().defaultBlockState(), 1)),
-                new RandomSpreadFoliagePlacer(ConstantInt.of(8), ConstantInt.of(0), ConstantInt.of(5), 225),
+                new RandomSpreadFoliagePlacer(ConstantInt.of(7), ConstantInt.of(0), ConstantInt.of(4), 256),
 
                 new TwoLayersFeatureSize(1, 0, 2)).build());
 
@@ -104,9 +105,8 @@ public class ModConfiguredFeatures {
                 PlacementUtils.inlinePlaced(treeHoldergetter.getOrThrow(MOVCADIA_MEGA_TREE)), 3, 3, Etags.Blocks.MOVCADIA_GROWS_ON,
                 BlockStateProvider.simple(Blocks.ROOTED_DIRT), 20, 200, 3, 2,
                 BlockStateProvider.simple(Blocks.HANGING_ROOTS), 20, 2,
-                BlockPredicate.allOf(BlockPredicate.anyOf(BlockPredicate.matchesBlocks(
-                        List.of(Blocks.AIR, Blocks.CAVE_AIR, Blocks.VOID_AIR)), BlockPredicate.matchesTag(Etags.Blocks.MOVCADIA_GROWS_ON)),
-                        BlockPredicate.matchesTag(Direction.DOWN.getNormal(), Etags.Blocks.MOVCADIA_GROWS_ON))));
+                BlockPredicate.allOf(BlockPredicate.anyOf(BlockPredicate.matchesBlocks(List.of(Blocks.AIR, Blocks.CAVE_AIR, Blocks.VOID_AIR)),
+                BlockPredicate.matchesTag(Etags.Blocks.MOVCADIA_GROWS_ON)), BlockPredicate.matchesTag(Direction.DOWN.getNormal(), Etags.Blocks.MOVCADIA_GROWS_ON))));
 
 //        FeatureUtils.register(context, TALL_MANGROVE, Feature.TREE, (new TreeConfiguration.TreeConfigurationBuilder(
 //                BlockStateProvider.simple(Blocks.MANGROVE_LOG),

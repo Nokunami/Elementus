@@ -32,6 +32,6 @@ public abstract class CapeLayerMixin extends RenderLayer<AbstractClientPlayer, P
     )
     private void elementus$disableCape(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
         ItemStack itemStack = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
-        if (itemStack.is(ModItems.ElementusItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquiped(itemStack).findAny().isPresent()) ci.cancel();
+        if (itemStack.is(ModItems.ElementusItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(itemStack).findAny().isPresent()) ci.cancel();
     }
 }

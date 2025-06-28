@@ -14,7 +14,7 @@ public class ModEnchantments {
     public static final DeferredRegister<Enchantment> ENCHANTMENT = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, Elementus.MODID);
 
     public static final RegistryObject<Enchantment> ARCANE_SHARPNESS = ENCHANTMENT.register("arcane_sharpness",
-            () -> new ArcaneSharpnessEnchantment(Enchantment.Rarity.RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+            () -> new ArcaneSharpnessEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static final RegistryObject<Enchantment> SACRIFICE_CURSE = ENCHANTMENT.register("sacrifice_curse",
             () -> new SacrificeCurseEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
@@ -23,13 +23,13 @@ public class ModEnchantments {
             () -> new ResonanceEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static final RegistryObject<Enchantment> CONDENSED_BURST = ENCHANTMENT.register("condensed_burst",
-            () -> new CondensedBurstEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+            () -> new CondensedBurstEnchantment(Enchantment.Rarity.RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static final RegistryObject<Enchantment> RUSH = ENCHANTMENT.register("rush",
-            () -> new RushEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+            () -> new RushEnchantment(Enchantment.Rarity.RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static final RegistryObject<Enchantment> MULTI_CHARGE = ENCHANTMENT.register("multi_charge",
-            () -> new RushEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+            () -> new MultiChargeEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static void register(IEventBus eventBus) {
         ENCHANTMENT.register(eventBus);

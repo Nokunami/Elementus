@@ -49,9 +49,10 @@ public class CatalystArmorConfig {
     public static int ignitium_HasteDuration;
     public static int ignitium_StrengthAmp;
     public static int ignitium_StrengthDuration;
+    public static int ignitium_ResistanceAmp;
+    public static int ignitium_ResistanceDuration;
 
     public static int totem_Cooldown;
-    public static double totem_SetHealth;
     public static int totem_RegenAmp;
     public static int totem_RegenDuration;
     public static int totem_AbsorbAmp;
@@ -106,13 +107,14 @@ public class CatalystArmorConfig {
         NSJumpBoost = 1;
         NSAttack = 3;
 
-        ignitium_HasteAmp = 0;
+        ignitium_HasteAmp = 1;
         ignitium_HasteDuration = 1;
-        ignitium_StrengthAmp = 0;
+        ignitium_StrengthAmp = 1;
         ignitium_StrengthDuration = 1;
+        ignitium_ResistanceAmp = 1;
+        ignitium_ResistanceDuration = 1;
 
         totem_Cooldown = 2400;
-        totem_SetHealth = 1;
         totem_RegenAmp = 1;
         totem_RegenDuration = 900;
         totem_AbsorbAmp = 1;
@@ -209,9 +211,10 @@ public class CatalystArmorConfig {
                         case "ignitium.HasteDuration": ignitium_HasteDuration = (int) value; break;
                         case "ignitium.StrengthAmp": ignitium_StrengthAmp = (int) value; break;
                         case "ignitium.StrengthDuration": ignitium_StrengthDuration = (int) value; break;
+                        case "ignitium.ResistanceAmp": ignitium_ResistanceAmp = (int) value; break;
+                        case "ignitium.ResistanceDuration": ignitium_ResistanceDuration = (int) value; break;
 
                         case "totem.Cooldown": totem_Cooldown = (int) value; break;
-                        case "totem.SetHealth": totem_SetHealth = value; break;
                         case "totem.RegenAmp": totem_RegenAmp = (int) value; break;
                         case "totem.RegenDuration": totem_RegenDuration = (int) value; break;
                         case "totem.AbsorbAmp": totem_AbsorbAmp = (int) value; break;
@@ -320,12 +323,14 @@ public class CatalystArmorConfig {
             writer.write("  ignitium.StrengthAmp = " + ignitium_StrengthAmp + "\n");
             writer.write("# Default: " + ignitium_StrengthDuration + "\n");
             writer.write("  ignitium.StrengthDuration = " + ignitium_StrengthDuration + "\n");
+            writer.write("# Default: " + ignitium_ResistanceAmp + "\n");
+            writer.write("  ignitium.ResistanceAmp = " + ignitium_StrengthAmp + "\n");
+            writer.write("# Default: " + ignitium_ResistanceDuration + "\n");
+            writer.write("  ignitium.ResistanceDuration = " + ignitium_ResistanceDuration + "\n");
             writer.write("\n");
             writer.write("[Totem]\n");
             writer.write("# Default: " + totem_Cooldown + "(20 = 1 second)\n");
             writer.write("  totem.Cooldown = " + totem_Cooldown + "\n");
-            writer.write("# Default: " + totem_SetHealth + "\n");
-            writer.write("  totem.Cooldown = " + totem_SetHealth + "\n");
             writer.write("# Default: " + totem_RegenAmp + "\n");
             writer.write("  totem.RegenAmp = " + totem_RegenAmp + "\n");
             writer.write("# Default: " + totem_RegenDuration + "\n");

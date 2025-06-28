@@ -3,12 +3,18 @@ package net.nokunami.elementus.common.item;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.nokunami.elementus.common.registry.ModEnchantments;
 import net.nokunami.elementus.common.registry.ModItems.*;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
 
+import static net.nokunami.elementus.Elementus.modLoc;
 import static net.nokunami.elementus.ModChecker.*;
+import static net.nokunami.elementus.common.item.CatalystArmorItem.catalystActivator;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
+import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
+import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 
 public class ItemPredicateRegister {
 
@@ -34,7 +40,8 @@ public class ItemPredicateRegister {
              bowPull(ElementusItems.ANTHEKTITE_BOW.get());
          }
 
-         bowPull(ElementusItems.DIARKRITE_CHARGE_BLADE.get());
+         chargeBlade(ElementusItems.DIARKRITE_CHARGE_BLADE.get());
+         chargeBlade(ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
      }
 
     private static void shieldBlocking(Item item) {
@@ -43,40 +50,16 @@ public class ItemPredicateRegister {
     }
 
     private static void catalystArmor(Item item) {
-         ItemProperties.register(item, new ResourceLocation("elementus", "catalyst"), (itemStack, clientLevel, livingEntity, i) -> {
-             if (CatalystArmorItem.catalystActivator(itemStack).equals(netherStar)) return 0.11F;
-             if (CatalystArmorItem.catalystActivator(itemStack).equals(ignitium)) return 0.12F;
-             if (CatalystArmorItem.catalystActivator(itemStack).equals(arcane)) return 0.13F;
-             if (CatalystArmorItem.catalystActivator(itemStack).equals(heartSea)) return 0.14F;
-             if (CatalystArmorItem.catalystActivator(itemStack).equals(totem)) return 0.15F;
-             if (CatalystArmorItem.catalystActivator(itemStack).equals(cursium)) return 0.16F;
-             if (CatalystArmorItem.catalystActivator(itemStack).equals(witheredNetherStar)) return 0.17F;
-             return 0;
+         ItemProperties.register(item, new ResourceLocation("elementus", "catalyst"), (itemStack, clientLevel, livingEntity, i) -> switch (catalystActivator(itemStack)) {
+             case netherStar -> 0.11F;
+             case ignitium -> 0.12F;
+             case arcane -> 0.13F;
+             case heartSea -> 0.14F;
+             case totem -> 0.15F;
+             case cursium -> 0.16F;
+             case witheredNetherStar -> 0.17F;
+             default -> 0;
          });
-//         ItemProperties.register(item, new ResourceLocation("elementus", ignitium), (itemStack, clientLevel, livingEntity, i) -> {
-//             if (CatalystArmorItem.catalystActivator(itemStack).equals(ignitium)) {
-//                 return 1;
-//             }
-//             return 0;
-//         });
-//         ItemProperties.register(item, new ResourceLocation("elementus", arcane), (itemStack, clientLevel, livingEntity, i) -> {
-//             if (CatalystArmorItem.catalystActivator(itemStack).equals(arcane)) {
-//                 return 1;
-//             }
-//             return 0;
-//         });
-//         ItemProperties.register(item, new ResourceLocation("elementus", heartSea), (itemStack, clientLevel, livingEntity, i) -> {
-//             if (CatalystArmorItem.catalystActivator(itemStack).equals(heartSea)) {
-//                 return 1;
-//             }
-//             return 0;
-//         });
-//         ItemProperties.register(item, new ResourceLocation("elementus", totem), (itemStack, clientLevel, livingEntity, i) -> {
-//             if (CatalystArmorItem.catalystActivator(itemStack).equals(totem)) {
-//                 return 1;
-//             }
-//             return 0;
-//         });
     }
 
     private static void bowPull(Item item) {
@@ -99,6 +82,20 @@ public class ItemPredicateRegister {
                     } else {
                         return 0.0F;
                     }
+        });
+    }
+
+    private static void chargeBlade(Item item) {
+        ItemProperties.register(item, new ResourceLocation("blocking"), (itemStack, clientLevel, livingEntity, i)
+                -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
+
+        ItemProperties.register(item, modLoc("enchanted"), (itemStack, clientLevel, livingEntity, i)
+                -> isEnchantedWith(itemStack, SACRIFICE_CURSE) ? 0.1F : isEnchantedWith(itemStack, MULTI_CHARGE) ? 0.2F : 0F);
+
+        ItemProperties.register(item, modLoc("charge"), (itemStack, clientLevel, livingEntity, i) -> {
+            float i0 = Math.min(getCharge(itemStack), getMaxCharge(itemStack));
+            float i1 = getMaxCharge(itemStack);
+            return i0 / i1;
         });
     }
 }

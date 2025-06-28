@@ -17,7 +17,6 @@ import net.nokunami.elementus.common.entity.living.TamableGolem;
 import java.util.EnumSet;
 
 public class GolemFollowOwnerGoal extends Goal {
-    public static final int TP_DISTANCE_SQD = 16;
     private static final int MinHorizontalDistanceFromPlayerWhenTeleporting = 2;
     private static final int MAX_HORIZONTAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 5;
     private static final int MAX_VERTICAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 3;
@@ -31,8 +30,9 @@ public class GolemFollowOwnerGoal extends Goal {
     private final float startDistance;
     private float oldWaterCost;
     private final boolean canFly;
+    private final float teleportDistance;
 
-    public GolemFollowOwnerGoal(TamableGolem pTamable, double pSpeedModifier, float pStartDistance, float pStopDistance, boolean pCanFly) {
+    public GolemFollowOwnerGoal(TamableGolem pTamable, double pSpeedModifier, float pStartDistance, float pStopDistance, boolean pCanFly, int teleportDistance) {
         this.tamable = pTamable;
         this.level = pTamable.level();
         this.speedModifier = pSpeedModifier;
@@ -40,6 +40,7 @@ public class GolemFollowOwnerGoal extends Goal {
         this.startDistance = pStartDistance;
         this.stopDistance = pStopDistance;
         this.canFly = pCanFly;
+        this.teleportDistance = teleportDistance;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
         if (!(pTamable.getNavigation() instanceof GroundPathNavigation) && !(pTamable.getNavigation() instanceof FlyingPathNavigation)) {
             throw new IllegalArgumentException("Unsupported mob type for FollowOwnerGoal");
@@ -103,12 +104,14 @@ public class GolemFollowOwnerGoal extends Goal {
 
     public void tick() {
         this.tamable.getLookControl().setLookAt(this.owner, 10.0F, (float)this.tamable.getMaxHeadXRot());
-        if (--this.timeToRecalcPath <= 0) {
-            this.timeToRecalcPath = this.adjustedTickDelay(10);
-            if (this.tamable.distanceToSqr(this.owner) >= TP_DISTANCE_SQD * TP_DISTANCE_SQD) {
-                this.teleportToOwner();
-            } else {
-                this.navigation.moveTo(this.owner, this.speedModifier);
+        if (tamable.getTarget() == null) {
+            if (--this.timeToRecalcPath <= 0) {
+                this.timeToRecalcPath = this.adjustedTickDelay(10);
+                if (this.tamable.distanceToSqr(this.owner) >= teleportDistance * teleportDistance) {
+                    this.teleportToOwner();
+                } else {
+                    this.navigation.moveTo(this.owner, this.speedModifier);
+                }
             }
         }
     }

@@ -5,6 +5,12 @@
   },
   "loader": "forge:separate_transforms",
   "perspectives": {
+    "fixed": {
+      "parent": "elementus:item/diarkrite_charge_blade_gui_charge_1"
+    },
+    "ground": {
+      "parent": "elementus:item/diarkrite_charge_blade_gui_charge_1"
+    },
     "gui": {
       "parent": "elementus:item/diarkrite_charge_blade_gui_charge_1"
     }

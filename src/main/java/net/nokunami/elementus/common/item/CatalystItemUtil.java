@@ -1,7 +1,7 @@
 package net.nokunami.elementus.common.item;
 
 import com.github.L_Ender.cataclysm.init.ModEffect;
-import com.google.common.collect.ImmutableMultimap;
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -9,8 +9,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -18,28 +18,33 @@ import net.minecraft.world.level.Level;
 import net.nokunami.elementus.common.config.CatalystArmorConfig;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModMobEffects;
 import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
 import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.ModChecker.cataclysm;
+import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
+import static net.nokunami.elementus.common.config.CatalystArmorConfig.*;
 import static net.nokunami.elementus.common.item.CatalystArmorItem.*;
 
 public class CatalystItemUtil {
-    public static String netherStar = "nether_star";
-    public static String ignitium = "ignitium";
-    public static String arcane = "arcane";
-    public static String heartSea = "heart_of_the_sea";
-    public static String totem = "totem";
-    public static String cursium = "cursium";
-    public static String witheredNetherStar = "withered_nether_star";
+    public static final String netherStar = "nether_star";
+    public static final String ignitium = "ignitium_ingot";
+    public static final String arcane = "arcane_ingot";
+    public static final String heartSea = "heart_of_the_sea";
+    public static final String totem = "totem_of_undying";
+    public static final String cursium = "cursium_ingot";
+    public static final String witheredNetherStar = "withered_nether_star";
 
     public static final UUID maxManaUUID = UUID.fromString("58868843-e045-405d-bd63-05eefabb7383");
+    public static final UUID manaRegenUUID = UUID.fromString("6f40fd38-64eb-469f-8fe6-854c9ca5e73a");
+    public static final UUID spellPowerUUID = UUID.fromString("80d938ca-e805-4cf5-8239-e019a687acf6");
+    public static final UUID spellResistUUID = UUID.fromString("ab2b408a-cc76-447a-829b-1161e4313726");
 
     public static void netherStar(ItemStack s, Player p) {
         boolean healthActivation = p.getMaxHealth() / 2.0F >= p.getHealth();
@@ -69,24 +74,15 @@ public class CatalystItemUtil {
                 }
             }
             if (healthActivation) {
-                mobEffect(p, mobEffectType.HASTE, CatalystArmorConfig.ignitium_HasteDuration, CatalystArmorConfig.ignitium_HasteAmp, false, false, true);
-                mobEffect(p, mobEffectType.STRENGTH, CatalystArmorConfig.ignitium_StrengthDuration, CatalystArmorConfig.ignitium_StrengthAmp, false, false, true);
+                mobEffect(p, mobEffectType.HASTE, ignitium_HasteDuration, ignitium_HasteAmp, false, false, true);
+                mobEffect(p, mobEffectType.STRENGTH, ignitium_StrengthDuration, ignitium_StrengthAmp, false, false, true);
+                mobEffect(p, mobEffectType.RESIST, ignitium_ResistanceDuration, ignitium_ResistanceAmp, false, false, true);
             }
         }
     }
     public static void arcane(ItemStack s, Player p) {
         if (catalystActivator(s).equals(CatalystItemUtil.arcane)) {
-//            p.addEffect(new MobEffectInstance(ISSEffects.ADD_ISS_MANA.get(), 2, 0, false, false, false));
-//            s.getAttributeModifiers(EquipmentSlot.CHEST);
-//
-//            if (ISS_MaxMana != 0)
-//                s.addAttributeModifier(AttributeRegistry.MAX_MANA.get(), new AttributeModifier(maxManaUUID, "maxMana", ISS_MaxMana, Operation.ADDITION), EquipmentSlot.CHEST);
-//            if (ISS_ManaRegen != 0)
-//                s.addAttributeModifier(AttributeRegistry.MANA_REGEN.get(), new AttributeModifier(maxManaUUID, "manaRegen", ISS_ManaRegen, Operation.MULTIPLY_TOTAL), EquipmentSlot.CHEST);
-//            if (ISS_SpellPower != 0)
-//                s.addAttributeModifier(AttributeRegistry.SPELL_POWER.get(), new AttributeModifier(maxManaUUID, "spellPower", ISS_SpellPower, Operation.MULTIPLY_TOTAL), EquipmentSlot.CHEST);
-//            if (ISS_SpellResist != 0)
-//                s.addAttributeModifier(AttributeRegistry.SPELL_RESIST.get(), new AttributeModifier(maxManaUUID, "spellResist", ISS_SpellResist, Operation.MULTIPLY_TOTAL), EquipmentSlot.CHEST);
+            p.addEffect(new MobEffectInstance(ModMobEffects.ISSEffects.ADD_ISS_MANA.get(), 0, 0, false, false, true));
         }
     }
     public static void heartSea(ItemStack s, Player p) {
@@ -110,21 +106,29 @@ public class CatalystItemUtil {
         }
     }
 
-    public static void addCUstomAttribute(ModArmorMaterials m, Type t) {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(t);
-        builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", m.getDefenseForType(t), AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", m.getToughness(), AttributeModifier.Operation.ADDITION));
+    public static void addCUstomAttribute(ModArmorMaterials m, Type t, ItemStack s) {
+        UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(Type.CHESTPLATE);
+        s.addAttributeModifier(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", m.getDefenseForType(t), AttributeModifier.Operation.ADDITION), t.getSlot());
+        s.addAttributeModifier(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", m.getToughness(), AttributeModifier.Operation.ADDITION), t.getSlot());
         if (m.getKnockbackResistance() > 0) {
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Knockback resistance", m.getKnockbackResistance(), AttributeModifier.Operation.ADDITION));
+            s.addAttributeModifier(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Knockback resistance", m.getKnockbackResistance(), Operation.ADDITION), t.getSlot());
         }
-        for (Map.Entry<Attribute, AttributeModifier> modifierEntry : m.getAdditionalAttributes().entrySet()) {
-            AttributeModifier atr = modifierEntry.getValue();
-            atr = new AttributeModifier(uuid, atr.getName(), atr.getAmount(), atr.getOperation());
-            builder.put(modifierEntry.getKey(), atr);
+        if (ironsSpellbooks && catalystActivator(s).equals(arcane)) {
+            if (ISS_MaxMana != 0) {
+                s.addAttributeModifier(AttributeRegistry.MAX_MANA.get(), new AttributeModifier(maxManaUUID, "maxMana", ISS_MaxMana, Operation.ADDITION), t.getSlot());
+            }
+            if (ISS_ManaRegen != 0) {
+                s.addAttributeModifier(AttributeRegistry.MANA_REGEN.get(), new AttributeModifier(manaRegenUUID, "manaRegen", ISS_ManaRegen, Operation.MULTIPLY_TOTAL), EquipmentSlot.CHEST);
+            }
+            if (ISS_SpellPower != 0) {
+                s.addAttributeModifier(AttributeRegistry.SPELL_POWER.get(), new AttributeModifier(spellPowerUUID, "spellPower", ISS_SpellPower, Operation.MULTIPLY_TOTAL), EquipmentSlot.CHEST);
+            }
+            if (ISS_SpellResist != 0) {
+                s.addAttributeModifier(AttributeRegistry.SPELL_RESIST.get(), new AttributeModifier(spellResistUUID, "spellResist", ISS_SpellResist, Operation.MULTIPLY_TOTAL), EquipmentSlot.CHEST);
+            }
+        } else {
+            s.removeTagKey("AttributeModifiers");
         }
-
-        CatalystArmorItem.defaultModifiers = builder.build();
     }
 
     public static void alliedMobEffects(Entity entity, int type) {
@@ -133,34 +137,28 @@ public class CatalystItemUtil {
         int duration = 400;
 
         if (entity instanceof LivingEntity livingEntity) {
-            if (type == 0) {
+            if (type == 1) {
                 mobEffect(livingEntity, mobEffectType.HASTE, duration, amp1, true, true, true);
                 mobEffect(livingEntity, mobEffectType.REGEN, duration, amp1, true, true, true);
                 mobEffect(livingEntity, mobEffectType.SPEED, duration, amp1, true, true, true);
                 mobEffect(livingEntity, mobEffectType.RESIST, duration, amp1, true, true, true);
             }
-            if (type == 1) {
+            if (type == 2) {
+                mobEffect(livingEntity, mobEffectType.SEA, duration, amp1, false, true, true);
+            }
+            if (type == 3) {
                 mobEffect(livingEntity, mobEffectType.JUMP, duration, amp2, true, true, true);
                 mobEffect(livingEntity, mobEffectType.HASTE, duration, amp2, true, true, true);
                 mobEffect(livingEntity, mobEffectType.REGEN, duration, amp2, true, true, true);
                 mobEffect(livingEntity, mobEffectType.SPEED, duration, amp2, true, true, true);
                 mobEffect(livingEntity, mobEffectType.RESIST, duration, amp2, true, true, true);
             }
-            if (type == 2) {
-                mobEffect(livingEntity, mobEffectType.SEA, duration, amp1, false, true, true);
-            }
         }
     }
 
-    public static void effectRadius(Player p, ItemStack stack, Level w) {
+    public static void effectRadius(Player p, ItemStack stack, Level w, int type) {
         Level level = p.level();
         String catalyst = catalystActivator(stack);
-        int type = 0;
-        if (catalyst.equals(witheredNetherStar)) {
-            type = 1;
-        } else if (catalyst.equals(heartSea)) {
-            type = 2;
-        }
         ItemStack chestplateItem = p.getItemBySlot(EquipmentSlot.CHEST);
         int range = 16;
         if (!level.isClientSide) {
@@ -248,7 +246,7 @@ public class CatalystItemUtil {
 
 
     //Textures
-    public static String armorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+    public static String armorTexture(ItemStack stack, Entity entity) {
         return baseTextures(stack, entity);
     }
 
@@ -258,13 +256,17 @@ public class CatalystItemUtil {
         String armor = String.format(Locale.ROOT, format, MODID, catalystActivator(stack));
         if (getContentWeight(stack) > 0) {
             if (catalystActivator(stack).equals(ignitium)) {
-                if (entity instanceof LivingEntity livingEntity) {
-                    boolean half = livingEntity.getMaxHealth() / 2.0F >= livingEntity.getHealth();
-                    if (half) {
-                        return String.format(Locale.ROOT, format, MODID, ignitium + "_soul");
-                    }
-                    return String.format(Locale.ROOT, format, MODID, ignitium);
+//                if (entity instanceof LivingEntity livingEntity) {
+//                    boolean half = livingEntity.getMaxHealth() / 2.0F >= livingEntity.getHealth();
+//                    if (half) {
+//                        return String.format(Locale.ROOT, format, MODID, ignitium + "_soul");
+//                    }
+//                    return String.format(Locale.ROOT, format, MODID, ignitium);
+//                }
+                if (entity instanceof LivingEntity livingEntity && livingEntity.getMaxHealth() / 2.0F >= livingEntity.getHealth()) {
+                    return String.format(Locale.ROOT, format, MODID, ignitium + "_soul");
                 }
+                return String.format(Locale.ROOT, format, MODID, ignitium);
             }
             return armor;
         }
@@ -272,13 +274,13 @@ public class CatalystItemUtil {
     }
 
     private static String elytraTexture(ItemStack stack) {
-        if (getElytraEquiped(stack).findAny().isPresent()) {
-            getElytraEquiped(stack).findAny().get().getItem();
+        if (getElytraEquipped(stack).findAny().isPresent()) {
+            getElytraEquipped(stack).findAny().get().getItem();
         }
         return "elytra";
     }
 
     public static String getElytraTexture(ItemStack stack) {
-        return String.format(Locale.ROOT, /*MODID +*/ "textures/models/armor/catalyst/elytra/catalyst_%s.png", elytraTexture(stack));
+        return String.format(Locale.ROOT, "textures/models/armor/catalyst/elytra/catalyst_%s.png", elytraTexture(stack));
     }
 }

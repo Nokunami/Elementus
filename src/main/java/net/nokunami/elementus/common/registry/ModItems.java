@@ -78,16 +78,16 @@ public class ModItems {
 
         public static final RegistryObject<Item> MOVCADIA_BERRIES = ITEMS.register("movcadia_berries",
                 () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
-                        .nutrition(4).saturationMod(0.2F)
-                        .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 300), 1)
-                        .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 300), 1)
+                        .nutrition(4).saturationMod(0.3F)
+                        .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 300), 1)
+                        .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 300), 1)
                         .fast().build())));
 
         public static final RegistryObject<Item> GLISTERING_MOVCADIA_BERRIES = ITEMS.register("glistering_movcadia_berries",
                 () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
-                        .alwaysEat().nutrition(4).saturationMod(0.6F)
-                        .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 500, 1), 1)
-                        .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 500, 1), 1)
+                        .alwaysEat().nutrition(4).saturationMod(0.8F)
+                        .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 500, 1), 1)
+                        .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 500, 1), 1)
                         .fast().build())));
 
         public static final RegistryObject<Item> MOVCADIA_ESSENCE = ITEMS.register("movcadia_essence",
@@ -150,11 +150,11 @@ public class ModItems {
         public static final RegistryObject<Item> ANTHEKTITE_CHARGE_BLADE = ITEMS.register("anthektite_charge_blade", AnthektiteChargeBlade::new);
 
         public static final RegistryObject<Item> STEEL_SHIELD = ITEMS.register("steel_shield",
-                () -> new ShieldItem(new Item.Properties().defaultDurability(ItemConfig.steelShieldDurability)));
+                () -> new ElementusShieldItem(new Item.Properties().defaultDurability(ItemConfig.steelShieldDurability), ModTiers.STEEL));
         public static final RegistryObject<Item> DIARKRITE_SHIELD = ITEMS.register("diarkrite_shield",
-                () -> new ShieldItem(new Item.Properties().defaultDurability(ItemConfig.diarkriteShieldDurability).fireResistant()));
+                () -> new ElementusShieldItem(new Item.Properties().defaultDurability(ItemConfig.diarkriteShieldDurability).fireResistant(), ModTiers.DIARKRITE));
         public static final RegistryObject<Item> ANTHEKTITE_SHIELD = ITEMS.register("anthektite_shield",
-                () -> new ShieldItem(new Item.Properties().defaultDurability(ItemConfig.anthektiteShieldDurability).fireResistant()));
+                () -> new ElementusShieldItem(new Item.Properties().defaultDurability(ItemConfig.anthektiteShieldDurability).fireResistant(), ModTiers.ANTHEKTITE));
 
         public static final RegistryObject<Item> STEEL_BOW = ITEMS.register("steel_bow",
                 () -> new ModBowItem(new Item.Properties().defaultDurability(ItemConfig.steelBowDurability), STEEL_INGOT.get()));
@@ -191,13 +191,20 @@ public class ModItems {
                 () -> new ElementusArmorItem(ModArmorMaterials.ANTHEKTITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
 
         public static final RegistryObject<Item> CATALYST_CHESTPLATE = ITEMS.register("catalyst_chestplate",
-                () -> new CatalystArmorItem(ModArmorMaterials.CATALYST, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
+                () -> new CatalystArmorItem(ModArmorMaterials.CATALYST, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+//        public static final RegistryObject<Item> DIARKRITE_BOOTS_SCULK = ITEMS.register("diarkrite_boots_sculk",
+//                () -> new DiarkriteBootsItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
         public static final RegistryObject<Item> REINFORCED_PLATING_GOLEM_UPGRADE = ITEMS.register("reinforced_plating_golem_upgrade",
-                () -> new SteelGolemUpgradeItem(10, 8, "reinforced_plating", new Item.Properties()));
+                () -> new SteelGolemUpgradeItem("reinforced_plating", new Item.Properties(), new GolemUpgradeProperties.Builder()
+                        .armor(10).toughness(8).isNotPushable()
+                        .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 0, 1)).build()));
 
         public static final RegistryObject<Item> DAMAGE_GOLEM_UPGRADE = ITEMS.register("damage_golem_upgrade",
-                () -> new SteelGolemUpgradeItem(8, 0, "damage", new Item.Properties()));
+                () -> new SteelGolemUpgradeItem("reinforced_plating", new Item.Properties(), new GolemUpgradeProperties.Builder()
+                        .armor(4).isFastAttack()
+                        .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 0, 0)).build()));
 
         public static final RegistryObject<Item> MOVCADIA_SAPLING = ITEMS.register("movcadia_sapling",
                 () -> new BlockItem(ElementusBlocks.MOVCADIA_SAPLING.get(), new Item.Properties().fireResistant()));

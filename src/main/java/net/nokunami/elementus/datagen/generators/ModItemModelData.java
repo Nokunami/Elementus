@@ -67,7 +67,9 @@ public class ModItemModelData extends ModItemModelProvider {
         handheldItem(ElementusItems.DIARKRITE_AXE, "tools");
         handheldItem(ElementusItems.DIARKRITE_HOE, "tools");
 
-        chargerItem(ElementusItems.DIARKRITE_CHARGE_BLADE, "tools");
+//        chargerItem(ElementusItems.DIARKRITE_CHARGE_BLADE, "tools/diarkrite_charge_blade");
+        diarkriteChargeBlade(ElementusItems.DIARKRITE_CHARGE_BLADE, "tools/diarkrite_charge_blade");
+        anthektiteLongsword(ElementusItems.ANTHEKTITE_CHARGE_BLADE, "tools/anthektite_longsword");
 
         shieldItem(ElementusItems.STEEL_SHIELD, "shield");
         shieldItem(ElementusItems.DIARKRITE_SHIELD, "shield");

@@ -1,0 +1,18 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "elementus:item/anthektite_charge_blade_handheld_charge_0"
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "fixed": {
+      "parent": "elementus:item/anthektite_charge_blade_gui_charge_0"
+    },
+    "ground": {
+      "parent": "elementus:item/anthektite_charge_blade_gui_charge_0"
+    },
+    "gui": {
+      "parent": "elementus:item/anthektite_charge_blade_gui_charge_0"
+    }
+  }
+}

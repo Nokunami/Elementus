@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "elementus:movcadia_berries"
+    },
+    "/": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "pattern": [
+    "///",
+    "/#/",
+    "///"
+  ],
+  "result": {
+    "item": "elementus:glistering_movcadia_berries"
+  },
+  "show_notification": true
+}

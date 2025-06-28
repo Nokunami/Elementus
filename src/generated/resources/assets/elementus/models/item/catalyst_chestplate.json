@@ -8,13 +8,13 @@
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_ignitium",
+      "model": "elementus:item/catalyst_chestplate_ignitium_ingot",
       "predicate": {
         "elementus:catalyst": 0.12
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_arcane",
+      "model": "elementus:item/catalyst_chestplate_arcane_ingot",
       "predicate": {
         "elementus:catalyst": 0.13
       }
@@ -26,13 +26,13 @@
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_totem",
+      "model": "elementus:item/catalyst_chestplate_totem_of_undying",
       "predicate": {
         "elementus:catalyst": 0.15
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_cursium",
+      "model": "elementus:item/catalyst_chestplate_cursium_ingot",
       "predicate": {
         "elementus:catalyst": 0.16
       }

@@ -10,10 +10,10 @@
     },
     "foliage_placer": {
       "type": "minecraft:random_spread_foliage_placer",
-      "foliage_height": 5,
-      "leaf_placement_attempts": 225,
+      "foliage_height": 4,
+      "leaf_placement_attempts": 256,
       "offset": 0,
-      "radius": 8
+      "radius": 7
     },
     "foliage_provider": {
       "type": "minecraft:weighted_state_provider",
@@ -27,7 +27,7 @@
               "waterlogged": "false"
             }
           },
-          "weight": 5
+          "weight": 7
         },
         {
           "data": {
@@ -52,9 +52,9 @@
     },
     "trunk_placer": {
       "type": "elementus:mega_movcadia_trunk_placer",
-      "base_height": 14,
-      "height_rand_a": 2,
-      "height_rand_b": 1
+      "base_height": 12,
+      "height_rand_a": 3,
+      "height_rand_b": 2
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",

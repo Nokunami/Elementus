@@ -1,0 +1,18 @@
+{
+  "parent": "elementus:item/claymore_item",
+  "base": {
+    "parent": "elementus:item/anthektite_charge_blade_handheld"
+  },
+  "loader": "forge:separate_transforms",
+  "perspectives": {
+    "fixed": {
+      "parent": "elementus:item/anthektite_charge_blade_gui"
+    },
+    "ground": {
+      "parent": "elementus:item/anthektite_charge_blade_gui"
+    },
+    "gui": {
+      "parent": "elementus:item/anthektite_charge_blade_gui"
+    }
+  }
+}

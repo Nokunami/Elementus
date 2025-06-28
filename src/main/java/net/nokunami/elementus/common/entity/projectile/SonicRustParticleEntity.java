@@ -1,6 +1,5 @@
 package net.nokunami.elementus.common.entity.projectile;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -16,18 +15,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.common.registry.ModEntityType;
@@ -35,35 +27,42 @@ import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
-public class SonicRustParticleEntity extends AbstractHurtingProjectile {
+public class SonicRustParticleEntity extends Projectile {
     protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(SonicRustParticleEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-    private ItemStack weapon = new ItemStack(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
+    private ItemStack weapon = new ItemStack(ModItems.ElementusItems.DIARKRITE_CHARGE_BLADE.get());
     private float damage;
     private int lifespan;
-    private int totallife;
+    private int totalLifespan;
+    private int delay;
+    private int totalDelay;
+    public static Set<Entity> hitSet = new HashSet<>();
 
-    public SonicRustParticleEntity(EntityType<? extends AbstractHurtingProjectile> entityType, Level level) {
+    public SonicRustParticleEntity(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
         this.damage = 7.5F;
         this.lifespan = 0;
-        this.totallife = 120;
+        this.totalLifespan = 120;
+        this.delay = 0;
+        this.totalDelay = 5;
     }
 
-    protected SonicRustParticleEntity(EntityType<? extends AbstractHurtingProjectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
+    protected SonicRustParticleEntity(EntityType<? extends Projectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
         this(pEntityType, pLevel);
         this.setPos(pX, pY, pZ);
     }
 
-    protected SonicRustParticleEntity(EntityType<? extends AbstractHurtingProjectile> pEntityType, LivingEntity pShooter, Level pLevel) {
+    protected SonicRustParticleEntity(EntityType<? extends Projectile> pEntityType, LivingEntity pShooter, Level pLevel) {
         this(pEntityType, pShooter.getX(), pShooter.getEyeY() - (double)0.1F, pShooter.getZ(), pLevel);
         this.setOwner(pShooter);
     }
 
     public SonicRustParticleEntity(Level pLevel, LivingEntity pShooter) {
-        this(ModEntityType.ANTHEKTITE_SLASH.get(), pShooter, pLevel);
+        this(ModEntityType.SONIC_RUSH.get(), pShooter, pLevel);
         this.weapon = pShooter.getMainHandItem();
     }
 
@@ -75,12 +74,12 @@ public class SonicRustParticleEntity extends AbstractHurtingProjectile {
         this.damage = damage;
     }
 
-    public int getTotallife() {
-        return totallife;
+    public int getTotalLifespan() {
+        return totalLifespan;
     }
 
-    public void setTotallife(int totallife) {
-        this.totallife = totallife;
+    public void setTotalLifespan(int totalLifespan) {
+        this.totalLifespan = totalLifespan;
     }
 
     public int getLifespan() {
@@ -89,6 +88,22 @@ public class SonicRustParticleEntity extends AbstractHurtingProjectile {
 
     public void setLifespan(int lifespan) {
         this.lifespan = lifespan;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int delay) {
+        this.delay = totalDelay;
+    }
+
+    public int getTotalDelay() {
+        return totalDelay;
+    }
+
+    public void setTotalDelay(int totalDelay) {
+        this.totalDelay = totalDelay;
     }
 
     protected void defineSynchedData() {
@@ -119,9 +134,14 @@ public class SonicRustParticleEntity extends AbstractHurtingProjectile {
             this.setLifespan(compound.getInt("Lifespan"));
         }
         if (compound.contains("TotalLife")) {
-            this.setTotallife(compound.getInt("TotalLife"));
+            this.setTotalLifespan(compound.getInt("TotalLife"));
         }
-
+        if (compound.contains("Delay")) {
+            this.setDelay(compound.getInt("Delay"));
+        }
+        if (compound.contains("TotalDelay")) {
+            this.setTotalDelay(compound.getInt("TotalDelay"));
+        }
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
@@ -131,7 +151,9 @@ public class SonicRustParticleEntity extends AbstractHurtingProjectile {
         }
         compound.putFloat("Damage", this.getDamage());
         compound.putInt("Lifespan", this.getLifespan());
-        compound.putInt("TotalLife", this.getTotallife());
+        compound.putInt("TotalLife", this.getTotalLifespan());
+        compound.putInt("Delay", this.getDelay());
+        compound.putInt("TotalDelay", this.getTotalDelay());
     }
 
     public LivingEntity getTrueOwner() {
@@ -148,22 +170,41 @@ public class SonicRustParticleEntity extends AbstractHurtingProjectile {
         return this.entityData.get(OWNER_UNIQUE_ID).orElse(null);
     }
 
-    public void setOwnerId(@Nullable UUID p_184754_1_) {
-        this.entityData.set(OWNER_UNIQUE_ID, Optional.ofNullable(p_184754_1_));
+    public void setOwnerId(@Nullable UUID uuid) {
+        this.entityData.set(OWNER_UNIQUE_ID, Optional.ofNullable(uuid));
     }
 
     public void tick() {
         super.tick();
+        Entity entity = this.getOwner();
+        Vec3 vec3 = this.getDeltaMovement();
+        double d0 = this.getX() + vec3.x;
+        double d1 = this.getY() + vec3.y;
+        double d2 = this.getZ() + vec3.z;
 
-        this.setPos(getTrueOwner().getPosition(tickCount));
-    }
+        if (this.lifespan < getTotalLifespan()){
+            ++this.lifespan;
+        } else {
+            this.discard();
+        }
 
-    @Override
-    protected void onHit(@NotNull HitResult result) {
-    }
+        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
+            if (this.delay < getTotalDelay()){
+                ++this.delay;
+            } else {
+                this.level().addParticle(this.getTrailParticleEffect(), d0, d1 + 0.5D, d2, 0.0D, 0.0D, 0.0D);
+                this.setDelay(0);
+            }
+        }
 
-    @Override
-    protected void onHitEntity(@NotNull EntityHitResult result) {
+
+        if (this.getTrueOwner() != null) {
+//            this.setPos(getTrueOwner().getPosition(tickCount));
+//            getTrueOwner().push(1, 1, 1);
+            if (this.distanceToSqr(this.getTrueOwner()) > 4) {
+                this.discard();
+            }
+        }
     }
 
     @Override
@@ -178,11 +219,16 @@ public class SonicRustParticleEntity extends AbstractHurtingProjectile {
         return false;
     }
 
+    @Override
+    protected boolean canHitEntity(@NotNull Entity entity) {
+        return entity != getTrueOwner();
+    }
+
     public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
         return false;
     }
 
-    protected @NotNull ParticleOptions getTrailParticle() {
+    protected @NotNull ParticleOptions getTrailParticleEffect() {
         return ParticleTypes.SONIC_BOOM;
     }
 
@@ -209,28 +255,6 @@ public class SonicRustParticleEntity extends AbstractHurtingProjectile {
             }
         }
         return null;
-    }
-
-    public static boolean breakBlock(Level level, BlockPos blockPos, ItemStack itemStack, @Nullable Entity entity) {
-        BlockState blockstate = level.getBlockState(blockPos);
-        if (blockstate.isAir()) {
-            return false;
-        } else {
-            FluidState fluidstate = level.getFluidState(blockPos);
-            if (!(blockstate.getBlock() instanceof BaseFireBlock)) {
-                level.levelEvent(2001, blockPos, Block.getId(blockstate));
-            }
-
-            BlockEntity blockentity = blockstate.hasBlockEntity() ? level.getBlockEntity(blockPos) : null;
-            Block.dropResources(blockstate, level, blockPos, blockentity, entity, itemStack);
-
-            boolean flag = level.setBlock(blockPos, fluidstate.createLegacyBlock(), 3, 512);
-            if (flag) {
-                level.gameEvent(GameEvent.BLOCK_DESTROY, blockPos, GameEvent.Context.of(entity, blockstate));
-            }
-
-            return flag;
-        }
     }
 
     public static boolean areAllies(@Nullable Entity entity, @Nullable Entity entity1){

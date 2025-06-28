@@ -1,9 +1,9 @@
 package net.nokunami.elementus.common.entity.projectile;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,15 +12,12 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.players.OldUsersConverter;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -31,38 +28,51 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.ModParticleTypes;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
 
-public class AnthektiteSlash extends AbstractHurtingProjectile {
+public class AnthektiteSlash extends Projectile {
     protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.OPTIONAL_UUID);
+    protected static final EntityDataAccessor<Boolean> CHARGEABLE = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.BOOLEAN);
+    protected static final EntityDataAccessor<BlockPos> BLOCK_POS = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.BLOCK_POS);
+    protected static final EntityDataAccessor<Float> DISCARD_DISTANCE = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Integer> DISCARD_TIME = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.INT);
+    protected static final EntityDataAccessor<Boolean> FRIENDLY_FIRE = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.BOOLEAN);
+    protected static final EntityDataAccessor<ItemStack> WEAPON = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.ITEM_STACK);
     private ItemStack weapon = new ItemStack(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
     private float damage;
-    private int lifespan;
-    private int totallife;
+    private int delay;
+    private final int totalDelay;
+    public int pTimer;
+    public Predicate<LivingEntity> REMOVE_PREDICATE = (e) ->
+        !(e instanceof OwnableEntity) && (e.isAlliedTo(this.getTrueOwner()) && getFriendlyFire() || !e.isAlliedTo(this.getTrueOwner())) ||
+        (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null && (ownable.getOwner().is(this.getTrueOwner()) ||
+                ownable.getOwner().isAlliedTo(this.getTrueOwner())) && getFriendlyFire()) || ownable.getOwner() == null));
 
-    public AnthektiteSlash(EntityType<? extends AbstractHurtingProjectile> entityType, Level level) {
+    public AnthektiteSlash(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
         this.damage = 7.5F;
-        this.lifespan = 0;
-        this.totallife = 120;
+        this.delay = 0;
+        this.totalDelay = 1;
     }
 
-    protected AnthektiteSlash(EntityType<? extends AbstractHurtingProjectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
+    protected AnthektiteSlash(EntityType<? extends Projectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
         this(pEntityType, pLevel);
         this.setPos(pX, pY, pZ);
     }
 
-    protected AnthektiteSlash(EntityType<? extends AbstractHurtingProjectile> pEntityType, LivingEntity pShooter, Level pLevel) {
+    protected AnthektiteSlash(EntityType<? extends Projectile> pEntityType, LivingEntity pShooter, Level pLevel) {
         this(pEntityType, pShooter.getX(), pShooter.getEyeY() - (double)0.1F, pShooter.getZ(), pLevel);
         this.setOwner(pShooter);
     }
@@ -70,6 +80,15 @@ public class AnthektiteSlash extends AbstractHurtingProjectile {
     public AnthektiteSlash(Level pLevel, LivingEntity pShooter) {
         this(ModEntityType.ANTHEKTITE_SLASH.get(), pShooter, pLevel);
         this.weapon = pShooter.getMainHandItem();
+    }
+
+    public void launchSlash(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
+        float f = -Mth.sin(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
+        float f1 = -Mth.sin((pX + pZ) * ((float)Math.PI / 180F));
+        float f2 = Mth.cos(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
+        this.shoot(f, f1, f2, pVelocity, pInaccuracy);
+        Vec3 vec3 = pShooter.getDeltaMovement();
+        this.setDeltaMovement(this.getDeltaMovement().add(vec3.x, 0.0D, vec3.z));
     }
 
     public float getDamage() {
@@ -80,24 +99,14 @@ public class AnthektiteSlash extends AbstractHurtingProjectile {
         this.damage = damage;
     }
 
-    public int getTotallife() {
-        return totallife;
-    }
-
-    public void setTotallife(int totallife) {
-        this.totallife = totallife;
-    }
-
-    public int getLifespan() {
-        return lifespan;
-    }
-
-    public void setLifespan(int lifespan) {
-        this.lifespan = lifespan;
-    }
-
     protected void defineSynchedData() {
         this.entityData.define(OWNER_UNIQUE_ID, Optional.empty());
+        this.entityData.define(CHARGEABLE, false);
+        this.entityData.define(BLOCK_POS, BlockPos.ZERO);
+        this.entityData.define(DISCARD_DISTANCE, 10F);
+        this.entityData.define(FRIENDLY_FIRE, false);
+        this.entityData.define(WEAPON, ItemStack.EMPTY);
+        this.entityData.define(DISCARD_TIME, 0);
     }
 
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
@@ -109,24 +118,29 @@ public class AnthektiteSlash extends AbstractHurtingProjectile {
             String s = compound.getString("Owner");
             uuid = OldUsersConverter.convertMobOwnerIfNecessary(this.getServer(), s);
         }
-
         if (uuid != null) {
             try {
                 this.setOwnerId(uuid);
             } catch (Throwable ignored) {
             }
         }
-
         if (compound.contains("Damage")) {
-            this.setLifespan(compound.getInt("Damage"));
+            this.setDamage(compound.getFloat("Damage"));
         }
-        if (compound.contains("Lifespan")) {
-            this.setLifespan(compound.getInt("Lifespan"));
+        this.setChargeable(compound.getBoolean("Chargeable"));
+        int x = compound.getInt("PosX");
+        int y = compound.getInt("PosY");
+        int z = compound.getInt("PosZ");
+        this.setBlockPos(new BlockPos(x, y, z));
+        this.setDiscardDistance(compound.getFloat("DiscardDistance"));
+        this.setFriendlyFire(compound.getBoolean("FriendlyFire"));
+        CompoundTag stack = compound.getCompound("ItemStack");
+        if (!stack.isEmpty()) {
+            ItemStack itemStack = ItemStack.of(stack);
+            if (itemStack.isEmpty()) Elementus.LOGGER.warn("Unable to load ItemStack from: {}", stack);
+            this.setItemStack(itemStack);
         }
-        if (compound.contains("TotalLife")) {
-            this.setTotallife(compound.getInt("TotalLife"));
-        }
-
+        this.setDiscardTime(compound.getInt("DiscardTime"));
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
@@ -135,8 +149,16 @@ public class AnthektiteSlash extends AbstractHurtingProjectile {
             compound.putUUID("Owner", this.getOwnerId());
         }
         compound.putFloat("Damage", this.getDamage());
-        compound.putInt("Lifespan", this.getLifespan());
-        compound.putInt("TotalLife", this.getTotallife());
+        compound.putBoolean("Chargeable", this.getChargeable());
+        compound.putInt("PosX", getBlockPos().getX());
+        compound.putInt("PosY", getBlockPos().getY());
+        compound.putInt("PosZ", getBlockPos().getZ());
+        compound.putFloat("DiscardDistance", this.getDiscardDistance());
+        compound.putBoolean("FriendlyFire", this.getFriendlyFire());
+        if (!this.getItemStack().isEmpty()) {
+            compound.put("ItemStack", this.getItemStack().save(new CompoundTag()));
+        }
+        compound.putInt("DiscardTime", this.getDiscardTime());
     }
 
     public LivingEntity getTrueOwner() {
@@ -157,24 +179,129 @@ public class AnthektiteSlash extends AbstractHurtingProjectile {
         this.entityData.set(OWNER_UNIQUE_ID, Optional.ofNullable(p_184754_1_));
     }
 
+    public boolean getChargeable() {
+        return this.entityData.get(CHARGEABLE);
+    }
+
+    public void setChargeable(boolean blockPos) {
+        this.entityData.set(CHARGEABLE, blockPos);
+    }
+
+    public BlockPos getBlockPos() {
+        return this.entityData.get(BLOCK_POS);
+    }
+
+    public void setBlockPos(BlockPos blockPos) {
+        this.entityData.set(BLOCK_POS, blockPos);
+    }
+
+    public float getDiscardDistance() {
+        return this.entityData.get(DISCARD_DISTANCE);
+    }
+
+    public void setDiscardDistance(float v) {
+        this.entityData.set(DISCARD_DISTANCE, v);
+    }
+
+    public boolean getFriendlyFire() {
+        return this.entityData.get(FRIENDLY_FIRE);
+    }
+
+    public void setFriendlyFire(boolean b) {
+        this.entityData.set(FRIENDLY_FIRE, b);
+    }
+
+    public ItemStack getItemStack() {
+        return this.entityData.get(WEAPON);
+    }
+
+    public void setItemStack(ItemStack b) {
+        this.entityData.set(WEAPON, b);
+    }
+
+    public int getDiscardTime() {
+        return this.entityData.get(DISCARD_TIME);
+    }
+
+    public void setDiscardTime(int b) {
+        this.entityData.set(DISCARD_TIME, b);
+    }
+
     public void tick() {
-        super.tick();
-        if (this.lifespan < getTotallife()){
-            ++this.lifespan;
-        } else {
-            this.discard();
+        this.setFriendlyFire(AnthektiteChargeBlade.getFriendlyFire(this.weapon));
+
+        double discardDistance = Mth.square(this.getDiscardDistance());
+        Set<Entity> targets = new HashSet<>();
+
+        if (this.getTrueOwner() != null && getBlockPos() != null) {
+            double blockPos = this.distanceToSqr(this.getBlockPos().getCenter());
+            if (blockPos >= discardDistance) {
+                this.setDiscardTime(this.getDiscardTime() + 1);
+                if (this.getDiscardTime() < 0) {
+                    this.getTrueOwner().sendSystemMessage(Component.literal("out of range"));
+                }
+            }
+
+            if (this.getDiscardTime() == 1) {
+                this.level().addParticle(ModParticleTypes.SONIC_BOOM_START.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+            } else if (this.getDiscardTime() > 1) {
+                this.discard();
+            }
+
+
+            for (Entity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5F), REMOVE_PREDICATE)) {
+                if (this.getTrueOwner() != null) {
+                    targets.add(entity);
+//                this.getTrueOwner().sendSystemMessage(Component.literal(String.valueOf(entity.getType())));
+                }
+            }
+
+            if (this.distanceToSqr(this.getBlockPos().getCenter()) < Mth.square(2)) {
+                if (pTimer < 0) ++pTimer;
+            }
         }
-//        List<Entity> targets = new ArrayList<>();
-//        for (Entity entity : this.level().getEntitiesOfClass(Entity.class, this.getBoundingBox().inflate(0.5F))) {
-//            if (this.getTrueOwner() != null) {
-//                if (entity != this.getTrueOwner() && !areAllies(entity, this.getTrueOwner()) && entity != this.getTrueOwner().getVehicle()) {
-//                    targets.add(entity);
-//                }
+
+        Vec3 vec3 = this.getDeltaMovement();
+        double d0 = this.getX() + vec3.x;
+        double d1 = this.getY() + vec3.y;
+        double d2 = this.getZ() + vec3.z;
+//        if (this.level().isClientSide || (owner == null || !owner.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
+//            if (this.delay < totalDelay){
+//                delay += 1;
 //            } else {
-//                targets.add(entity);
+//                this.level().addParticle(ParticleTypes.SWEEP_ATTACK, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+//                delay = 0;
 //            }
 //        }
-        boolean breakBlock = false;
+        if (pTimer > 2) {
+            if (this.delay < totalDelay){
+                delay += 1;
+            } else {
+                if (this.level().isClientSide())
+                    this.level().addParticle(ParticleTypes.SWEEP_ATTACK, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+                delay = 0;
+            }
+        }
+
+
+        targets.remove(this.getTrueOwner());
+        float damage1 = this.getDamage();
+        if (!targets.isEmpty()){
+            for (Entity entity: targets){
+                if (this.getTrueOwner() != null) {
+                    if (entity.isAlliedTo(this.getTrueOwner())) {
+                        targets.remove(entity);
+                        this.getTrueOwner().sendSystemMessage(Component.literal("Removed: " + entity.getType()));
+                    }
+                    if (entity instanceof LivingEntity living && entity != this.getTrueOwner() /*&& !areAllies(entity, this.getTrueOwner())*/) {
+                        damage1 += EnchantmentHelper.getDamageBonus(this.weapon, (living).getMobType());
+                        hurtMob(entity, entity.damageSources().playerAttack((Player) getTrueOwner()), damage1);
+                    }
+                }
+            }
+        }
+
+        boolean breakBlock = true;
         if (breakBlock) {
             AABB aabb = this.getBoundingBox().inflate(0.2D);
 
@@ -189,75 +316,50 @@ public class AnthektiteSlash extends AbstractHurtingProjectile {
                 }
             }
         }
-//        float f = this.getDamage();
-//        if (!targets.isEmpty()){
-//            for (Entity entity: targets){
-//                if (this.getTrueOwner() != null) {
-//                    if (entity instanceof LivingEntity) {
-//                        f += EnchantmentHelper.getDamageBonus(this.weapon, ((LivingEntity) entity).getMobType());
-//                    }
-//                    if (this.getTrueOwner() instanceof Player player) {
-//                        entity.hurt(entity.damageSources().playerAttack(player), f);
-//                        if (entity instanceof EnderDragon enderDragonEntity){
-//                            enderDragonEntity.hurt(entity.damageSources().playerAttack(player), f);
-//                        }
-//                    } else {
-//                        entity.hurt(entity.damageSources().mobAttack(this.getTrueOwner()), f);
-//                    }
-//                } else {
-//                    entity.hurt(entity.damageSources().generic(), f);
-//                }
-//            }
-//        }
+
+        travel();
+
+        super.tick();
+    }
+
+    // Code form Iron's Spellsbooks https://github.com/iron431/irons-spells-n-spellbooks/blob/1.21/src/main/java/io/redspace/ironsspellbooks/entity/spells/AbstractMagicProjectile.java#L29
+    public void travel() {
+        setPos(position().add(getDeltaMovement()));
+        Vec3 motion = this.getDeltaMovement();
+        float xRot = -((float) (Mth.atan2(motion.horizontalDistance(), motion.y) * (double) (180F / (float) Math.PI)) - 90.0F);
+        float yRot = -((float) (Mth.atan2(motion.z, motion.x) * (double) (180F / (float) Math.PI)) + 90.0F);
+        this.setXRot(Mth.wrapDegrees(xRot));
+        this.setYRot(Mth.wrapDegrees(yRot));
+        Vec3 vec34 = this.getDeltaMovement();
+//        this.setDeltaMovement(vec34.x + 0.05D, vec34.y + 0.05D, vec34.z + 0.05D);
+        this.setDeltaMovement(vec34.x + (vec34.x * 0.125), vec34.y + (vec34.y * 0.125), vec34.z + (vec34.z * 0.125));
+    }
+
+    private void hurtMob(Entity entity, DamageSource source, float damage) {
+        if (this.getChargeable()/* && entity.isAlliedTo(this.getTrueOwner())*/) {
+            AnthektiteChargeBlade.setCharge(this.weapon, 1);
+            this.setChargeable(false);
+        }
+        this.getTrueOwner().sendSystemMessage(Component.literal( "chargeable: " + this.getChargeable()));
+        entity.hurt(source, damage);
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult pResult) {
-        Entity entity = pResult.getEntity();
-        float f = 8.0F;
-        if (entity instanceof LivingEntity livingentity) {
-            f += EnchantmentHelper.getDamageBonus(this.weapon, livingentity.getMobType());
-        }
-
-        Entity entity1 = this.getOwner();
-        DamageSource damagesource = this.damageSources().trident(this, (Entity)(entity1 == null ? this : entity1));
-        SoundEvent soundevent = SoundEvents.TRIDENT_HIT;
-        if (entity.hurt(damagesource, f)) {
-            if (entity.getType() == EntityType.ENDERMAN) {
-                return;
-            }
-
-            if (entity instanceof LivingEntity livingentity1) {
-                if (entity1 instanceof LivingEntity) {
-                    EnchantmentHelper.doPostHurtEffects(livingentity1, entity1);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity)entity1, livingentity1);
-                }
-            }
-        }
-
-        this.playSound(soundevent, 1, 1);
-        this.discard();
+    public boolean canChangeDimensions() {
+        return false;
     }
 
-    protected void onHitBlock(@NotNull BlockHitResult p_230299_1_) {
-        super.onHitBlock(p_230299_1_);
-        this.discard();
+    @Override
+    public boolean isNoGravity() {
+        return true;
     }
 
     public boolean isOnFire() {
         return false;
     }
 
-    public boolean isPickable() {
-        return false;
-    }
-
     public boolean hurt(@NotNull DamageSource pSource, float pAmount) {
         return false;
-    }
-
-    protected @NotNull ParticleOptions getTrailParticle() {
-        return ParticleTypes.GLOW;
     }
 
     @Override

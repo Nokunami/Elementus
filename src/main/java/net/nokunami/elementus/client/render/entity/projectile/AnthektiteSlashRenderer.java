@@ -14,20 +14,25 @@ import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.projectile.AnthektiteSlashModel;
 import net.nokunami.elementus.common.entity.projectile.AnthektiteSlash;
+import net.nokunami.elementus.common.entity.projectile.AnthektiteSlash2;
+import net.nokunami.elementus.common.entity.projectile.AnthektiteSlash3;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
 
 import static net.nokunami.elementus.Elementus.modLoc;
 
 public class AnthektiteSlashRenderer extends EntityRenderer<AnthektiteSlash> {
     public static final ResourceLocation[] TEXTURE_BY_TYPE = {
-        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_0.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_1.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_2.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_3.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_4.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_5.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_6.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_7.png")
+//        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_0.png"),
+//        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_1.png"),
+//        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_2.png"),
+//        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_3.png"),
+//        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_4.png"),
+//        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_5.png"),
+//        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_6.png"),
+//        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash_7.png")
+        modLoc("textures/entity/projectiles/anthektite_slash/anthektite_slash.png")
     };
     private final AnthektiteSlashModel model;
 
@@ -37,17 +42,21 @@ public class AnthektiteSlashRenderer extends EntityRenderer<AnthektiteSlash> {
     }
 
     @Override
-    public void render(AnthektiteSlash entity, float pEntityYaw, float pPartialTick, PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight) {
-        pPoseStack.pushPose();
-        Vec3 motion = entity.getDeltaMovement();
-        float xRot = -((float) (Mth.atan2(motion.horizontalDistance(), motion.y) * (double) (180F / (float) Math.PI)) - 90.0F);
-        float yRot = -((float) (Mth.atan2(motion.z, motion.x) * (double) (180F / (float) Math.PI)) + 90.0F);
-        pPoseStack.mulPose(Axis.YP.rotationDegrees(yRot));
-        pPoseStack.mulPose(Axis.YP.rotationDegrees(xRot));
-        VertexConsumer vertexconsumer = pBuffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
-        this.model.renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F,1.0F, 1.0F);
-        pPoseStack.popPose();
-        super.render(entity, pEntityYaw, pPartialTick, pPoseStack, pBuffer, pPackedLight);
+    public void render(@NotNull AnthektiteSlash entity, float entityYaw, float partialTick, PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
+//        if (entity.pTimer > 10) {
+        if (entity.tickCount >= 2 || !(this.entityRenderDispatcher.camera.getEntity().distanceToSqr(entity) < 12.25D)) {
+            poseStack.pushPose();
+            Vec3 motion = entity.getDeltaMovement();
+            float xRot = -((float) (Mth.atan2(motion.horizontalDistance(), motion.y) * (double) (180F / (float) Math.PI)) - 90.0F);
+            float yRot = -((float) (Mth.atan2(motion.z, motion.x) * (double) (180F / (float) Math.PI)) + 90.0F);
+            poseStack.mulPose(Axis.YP.rotationDegrees(yRot));
+            poseStack.mulPose(Axis.XP.rotationDegrees(xRot));
+
+            VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
+            this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F,1.0F, 1.0F);
+            poseStack.popPose();
+            super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+        }
     }
 
     @Override

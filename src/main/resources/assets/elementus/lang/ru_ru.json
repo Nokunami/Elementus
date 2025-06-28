@@ -1,0 +1,634 @@
+{
+  "translation_credits" : "DanisimoQ2",
+  "#elementus:steel_recyclable": "Перерабатываемая сталь",
+
+  "item.elementus.crude_steel": "Необработанная сталь",
+  "item.elementus.steel_scrap": "Стальной лом",
+  "item.elementus.steel_ingot": "Стальной слиток",
+  "item.elementus.steel_nugget": "Стальной самородок",
+  "item.elementus.anthektite_scrap": "Конвертировать в ателисовый лом",
+  "item.elementus.atelis_scrap": "Ателисовый лом",
+  "item.elementus.diarkrite_ingot": "Диаркритовый слиток",
+  "item.elementus.anthektite_ingot": "Антектитовый слиток",
+
+  "item.elementus.movcadia_berries": "Ягоды мовкадии",
+  "item.elementus.movcadia_essence": "Эссенция мовкадии",
+
+  "item.elementus.crushed_remnant": "Разрушенный Остаток",
+
+  "item.elementus.steel_golem_spawn_egg": "Яйцо призыва стального голема",
+
+  "item.elementus.steel_sword": "Стальной меч",
+  "item.elementus.steel_shovel": "Стальная лопата",
+  "item.elementus.steel_pickaxe": "Стальная кирка",
+  "item.elementus.steel_axe": "Стальной топор",
+  "item.elementus.steel_hoe": "Стальная мотыга",
+  "item.elementus.diarkrite_sword": "Даиркритовый меч",
+  "item.elementus.diarkrite_shovel": "Даиркритовая лопата",
+  "item.elementus.diarkrite_pickaxe": "Диаркритовая кирка",
+  "item.elementus.diarkrite_axe": "Диаркритовый топор",
+  "item.elementus.diarkrite_hoe": "Диаркритовая мотыга",
+  "item.elementus.anthektite_sword": "Антектитовый меч",
+  "item.elementus.anthektite_shovel": "Антектитовая лопата",
+  "item.elementus.anthektite_pickaxe": "Антектитовая кирка",
+  "item.elementus.anthektite_axe": "Антектитовый топор",
+  "item.elementus.anthektite_hoe": "Антектитовая мотыга",
+
+  "item.elementus.diarkrite_charge_blade": "Диаркритовый заряженный меч",
+  "item.elementus.diarkrite_charge_blade.charge_desc": "Текущий заряд: %s",
+  "item.elementus.diarkrite_charge_blade.cursed_charge_desc": "Расходует 25% от максимального здоровья для стрельбы",
+  "item.elementus.diarkrite_charge_blade.damage_ratio_desc": "Урон: ",
+  "item.elementus.diarkrite_charge_blade.damage_ratio_shift_desc": "Текущий звуковой урон: ",
+  "item.elementus.diarkrite_charge_blade.friendly_fire_desc": "Дружественный огонь: %s",
+
+  "item.elementus.steel_shield": "Стальной щит",
+  "item.elementus.anthektite_shield": "Антектитовый щит",
+  "item.elementus.diarkrite_shield": "Диаркритовый щит",
+
+  "item.elementus.steel_bow": "Усиленный сталью лук",
+  "item.elementus.anthektite_bow": "Усиленный антектитом лук",
+  "item.elementus.diarkrite_bow": "Усиленный диаркритом лук",
+
+  "item.elementus.steel_helmet": "Стальной шлем",
+  "item.elementus.steel_chestplate": "Стальной нагрудник",
+  "item.elementus.steel_leggings": "Стальные поножи",
+  "item.elementus.steel_boots": "Стальные ботинки",
+  "item.elementus.diarkrite_helmet": "Диаркритовый шлем",
+  "item.elementus.diarkrite_chestplate": "Диаркритовый нагрудник",
+  "item.elementus.diarkrite_leggings": "Даиркритовые поножи",
+  "item.elementus.diarkrite_boots": "Диаркритовые ботинки",
+  "item.elementus.anthektite_helmet": "Антектитовый шлем",
+  "item.elementus.anthektite_chestplate": "Антектитовый нагрудник",
+  "item.elementus.anthektite_leggings": "Антектитовые поножи",
+  "item.elementus.anthektite_boots": "Антектитовые ботинки",
+  "item.elementus.catalyst_chestplate": "Нагрудник-катализатор",
+
+  "item.elementus.diarkrite_pickaxe.desc": "Быстрее добывает крепкие блоки",
+  "item.elementus.anthektite_pickaxe.desc": "Скорость %s",
+
+  "item.elementus.catalyst_nether_star_1.desc": "Звезда Незера",
+  "item.elementus.catalyst_nether_star_2.desc": "Получите силу маяка. Когда здоровье опустится ниже половины, эффекты станут сильнее.",
+  "item.elementus.catalyst_iginitum_1.desc": "Отражение пламени",
+  "item.elementus.catalyst_iginitum_2.desc": "Случайно поджигает атакующих и накладывает 'Пылающий след', и 'Невосприимчивость пылающему следу'.",
+  "item.elementus.cataclysm_not_installed.desc": "В основе этого катализатора, по-видимому, отсутствует какая-то фундаментальная сила. (Установите L_Ender's Cataclysm)",
+  "item.elementus.catalyst_iss.desc": "Расширение Арканы",
+  "item.elementus.catalyst_iss_max_mana.desc": "+%s мана",
+  "item.elementus.catalyst_iss_mana_regen.desc": "+%s регенерация маны",
+  "item.elementus.catalyst_iss_spell_power.desc": "+%s сила заклинаний",
+  "item.elementus.catalyst_iss_spell_resist.desc": "+%s сопротивление заклинаниям",
+  "item.elementus.iss_not_installed.desc": "В основе этого катализатора, по-видимому, отсутствует какая-то фундаментальная сила. (Установите Iron's Spells 'n Spellbooks)",
+  "item.elementus.catalyst_heart_of_the_sea_1.desc" : "Сердце Моря",
+  "item.elementus.catalyst_heart_of_the_sea_2.desc" : "Даёт силу морского источника во время дождя или под водой.",
+  "item.elementus.catalyst_totem_1.desc" : "Тотем бессмертия",
+  "item.elementus.catalyst_totem_2.desc" : "Ваш второй шанс.",
+  "item.elementus.catalyst_cursium_1.desc" : "Проклятье",
+  "item.elementus.catalyst_cursium_2.desc" : "Оживитель нечисти и уловка для призраков.",
+  "item.elementus.catalyst_withered_nether_star_1.desc": "Иссушенная звезда Незера",
+  "item.elementus.catalyst_withered_nether_star_2.desc": "Лишь малая толика силы Визер Шторма. (В разработке)",
+  "item.elementus.witherstormod_not_installed.desc": "В основе этого катализатора, по-видимому, отсутствует какая-то фундаментальная сила. (Cracker's Witherstorm Mod).",
+
+  "item.elementus.catalyst_elytra_equiped": "Элитры экипированы! LALT + ЛКМ чтобы убрать.",
+
+  "item.elementus.movcadia_boat": "Лодка из мовкадии",
+  "item.elementus.movcadia_chest_boat": "Грузовая лодка из мовкадии",
+
+
+  "block.elementus.steel_block": "Стальной блок",
+  "block.elementus.anthektite_block": "Антектитовый блок",
+  "block.elementus.diarkrite_block": "Диаркритовый блок",
+  "block.elementus.remnant": "Остаток",
+
+  "block.elementus.steel_bars": "Стальные прутья",
+
+  "block.elementus.steel_tiles": "Стальные плиты",
+  "block.elementus.steel_tile_stair": "Ступеньки из стальных плит",
+  "block.elementus.steel_tile_slab": "Полублок из стальных плит",
+
+  "block.elementus.movcadia_sapling": "Саженец мовкадии",
+
+  "block.elementus.movcadia_rooted_dirt": "Земля с корнями мовадии",
+  "block.elementus.movcadia_rooted_stone": "Камень с корнями мовкадии",
+  "block.elementus.movcadia_rooted_deepslate": "Сланец с корнями мовкадии",
+
+  "block.elementus.movcadia_log": "Бревно мовкадии",
+  "block.elementus.stripped_movcadia_log": "Обтёсанное бревно мовкадии",
+  "block.elementus.movcadia_wood": "Древесина мовкадии",
+  "block.elementus.stripped_movcadia_wood": "Обтёсанная древесина мовкадии",
+
+  "block.elementus.movcadia_leaves": "Листья мовкадии",
+  "block.elementus.flowering_movcadia_leaves": "Листья цветущей мовкадии",
+
+  "block.elementus.movcadia_planks": "Доски из мовкадии",
+  "block.elementus.movcadia_stairs": "Ступеньки из мовкадии",
+  "block.elementus.movcadia_slab": "Полублоки из мовкадии",
+
+  "block.elementus.movcadia_door": "Дверь из мовкадии",
+  "block.elementus.movcadia_trapdoor": "Люк из мовкадии",
+
+  "block.elementus.movcadia_fence": "Забор из мовкадии",
+  "block.elementus.movcadia_fence_gate": "Калитка из мовкадии",
+
+  "block.elementus.movcadia_pressure_plate": "Нажимная плита из мовкадии",
+  "block.elementus.movcadia_button": "Кнопка из мовкадии",
+
+  "block.elementus.movcadia_sign": "Табличка из мовкадии",
+  "block.elementus.movcadia_hanging_sign": "Подвесная табличка из мовкадии",
+  "block.elementus.sturdy_movcadia_sign": "Крепкая табличка из мовкадии",
+
+  "block.elementus.movcadia_chest": "Сундук из мовкадии",
+
+  "item.elementus.atelis_upgrade_smithing_template": "Кузнечный шаблон",
+  "upgrade.elementus.atelis_upgrade": "Антектитовое/Даркритовое улучшение",
+  "item.elementus.smithing_template.atelis_upgrade.applies_to": "Стальная экипировка",
+  "item.elementus.smithing_template.atelis_upgrade.ingredients": "Антектитовый/Диаркритовый слиток",
+  "item.elementus.weapon_fragment": "Фрагмент оружия",
+  "upgrade.elementus.weapon_fragment": "Улучшение для оружие",
+  "item.elementus.smithing_template.weapon_fragment.applies_to": "Оружие",
+  "item.elementus.smithing_template.weapon_fragment.ingredients": "Материал",
+
+  "creativetab.elementus_mod_integration": "Elementus Mod Integration",
+
+  "enchantment.elementus.arcane_sharpness": "Аркановая острота",
+  "enchantment.elementus.arcane_sharpness.desc": "Дополнительный урон, основанный на зачарованности предмета",
+  "enchantment.elementus.sacrifice_curse": "Жертва",
+  "enchantment.elementus.sacrifice_curse.desc": "Расходует здоровье вместо зарядов для стрельбы и увеличивает урон до 125%",
+  "enchantment.elementus.resonance": "Резонанс",
+  "enchantment.elementus.resonance.desc": "Заряжается, если держать его в руке  и у вас есть более 3 зарядов",
+  "enchantment.elementus.condensed_burst": "Направленный взрыв",
+  "enchantment.elementus.condensed_burst.desc": "Концентрирует звуковой взрыв в луч",
+
+  "advancements.story.smelt_steel.title": "Но сталь тяжелее перьев!",
+  "advancements.story.smelt_steel.description": "Создайте стальной слиток",
+
+  "advancements.story.recycle_steel.title": "Уменьшаю свой карбоновый след!",
+  "advancements.story.recycle_steel.description": "Расплавил стальную экипировку для получения стального лома",
+
+  "advancements.story.obtain_remnant.title": "Помнится мне я выбросил 8 таких...",
+  "advancements.story.obtain_remnant.description": "Добудьте Остаток — древний металлический материал, спрятанный в глубинах Верхнего мира",
+
+  "trim_material.elementus.steel": "Стальной материал",
+  "trim_material.elementus.diarkrite": "Даркритовй материал",
+  "trim_material.elementus.anthektite": "Антектитовый материал",
+
+  "effect.elementus.additional_iss_mana": "Расширение Арканы",
+  "effect.elementus.totem_cooldown": "Истощение тотема катализатора",
+  "effect.elementus.beacon_power": "Сила маяка",
+  "effect.elementus.withered_beacon_power": "Иссушеная сила маяка",
+
+  "entity.elementus.movcadia_boat": "Лодка из мовкадии",
+  "entity.elementus.movcadia_chest_boat": "Грузовая лодка из мовкадии",
+  "entity.elementus.steel_golem": "Стальной голем",
+  "entity.elementus.steel_golem_down": "Стальной голем отключен, текущее состояние шасси: %s",
+
+
+  "tag.item.elementus.steel_recyclable": "Перерабатываемая сталь",
+  "tag.item.elementus.movcadia_logs": "Брёвна из мовкадии",
+  "tag.item.elementus.catalyst_items": "Катализаторы",
+
+  "subtitles.elementus.item.catalyst_armor_activation": "Активируется каталитическая броня",
+  "subtitles.elementus.item.catalyst_armor_deactivation": "Деактивируется каталитическая броня",
+  "subtitles.elementus.item.diarkrite_shield.block": "Блокирует тяжёлым щитом",
+  "subtitles.elementus.entity.steel_golem.down": "Стальной голем ломается",
+
+  "config.elementus.lava_renderer": "Заменить рендерер лавы?",
+  "config.elementus.diarkriteEfficiency.desc": "Эффективность диаркритовой кирки",
+  "config.elementus.catalystArmorDurability.desc": "Прочность каталитической брони",
+  "config.elementus.catalystTotemAbility.desc": "Способность тотема в каталитической броне",
+  "config.elementus.arcaneSharpnessTreasure.desc": "Найденные предметы с Аркановой остротой?",
+  "config.elementus.arcaneSharpnessPercent.desc": "Процентный урон Аркановой остроты",
+  "config.elementus.arcaneSharpnessPercent": "Зачаровываемость предмета * это",
+  "config.elementus.arcaneSharpnessIncompatibility.desc": "Совместимость с чарами Аркановой остроты",
+  "config.elementus.arcaneSharpnessIncompatibility":  "",
+
+
+  "item.elementus.steel_knife": "Стальной нож",
+  "item.elementus.diarkrite_knife": "Диаркритовый нож",
+  "item.elementus.anthektite_knife": "Антектитовый нож",
+  "block.elementus.movcadia_cabinet":"Шкаф из мовкадии",
+
+  "item.elementus.steel_paxel": "Стальной мультитул",
+  "item.elementus.diarkrite_paxel": "Диаркритовый мультитул",
+  "item.elementus.anthektite_paxel": "Антектитовый мультитул",
+  "item.elementus.diarkrite_paxel_upgrade_kit": "Диаркритовое улучшение мультитула",
+  "item.elementus.anthektite_paxel_upgrade_kit": "Антектитовое улучшение мульитула",
+
+  "item.elementus.steel_machete": "Стальное мачете",
+  "item.elementus.diarkrite_machete": "Диаркритовое мачете",
+  "item.elementus.anthektite_machete": "Антектитовое мачете",
+
+  "item.elementus.steel_spell_book": "Том со стальной отделкой",
+  "item.elementus.diarkrite_spell_book": "Том Винатоса",
+  "item.elementus.anthektite_spell_book": "Гримуар Тахитита",
+  "item.elementus.diarkrite_mage_helmet": "Диаркритовый шлем мааг",
+  "item.elementus.diarkrite_mage_chestplate": "Диаркритовый нагрудник мага",
+  "item.elementus.diarkrite_mage_leggings": "Диаркритовые поножи мага",
+  "item.elementus.diarkrite_mage_boots": "Диаркритовые ботинки мага",
+  "item.elementus.anthektite_mage_helmet": "Антектитовый шлем мага",
+  "item.elementus.anthektite_mage_chestplate": "Антектитовый нагрудник мага",
+  "item.elementus.anthektite_mage_leggings": "Антектитовые поножи мага",
+  "item.elementus.anthektite_mage_boots": "Антектитовые ботинки мага",
+
+
+  "item.elementus.steel_chakram": "Стальной чакрам",
+  "item.elementus.steel_claymore": "Стальной клеймор",
+  "item.elementus.steel_cutlass": "Стальной кортик",
+  "item.elementus.steel_glaive": "Стальная глефа",
+  "item.elementus.steel_greataxe": "Стальной большой топор",
+  "item.elementus.steel_greathammer": "Стальной большой молот",
+  "item.elementus.steel_halberd": "Стальная алебарда",
+  "item.elementus.steel_katana": "Стальная катана",
+  "item.elementus.steel_longsword": "Стальная длинный меч",
+  "item.elementus.steel_rapier": "Стальная рапира",
+  "item.elementus.steel_sai": "Стальной сай",
+  "item.elementus.steel_scythe": "Стальная коса",
+  "item.elementus.steel_spear": "Стальное копьё",
+  "item.elementus.steel_twinblade": "Стальной двойной клинок",
+  "item.elementus.steel_warglaive": "Стальной боевой кинжал",
+
+  "item.elementus.diarkrite_chakram": "Диаркритовый чакрам",
+  "item.elementus.diarkrite_claymore": "Диаркритовый клеймор",
+  "item.elementus.diarkrite_cutlass": "Диаркритовый кортик",
+  "item.elementus.diarkrite_glaive": "Диаркритовая глефа",
+  "item.elementus.diarkrite_greataxe": "Диаркритовый большой топор",
+  "item.elementus.diarkrite_greathammer": "Диаркритовый большой молот",
+  "item.elementus.diarkrite_halberd": "Диаркритовая алебарда",
+  "item.elementus.diarkrite_katana": "Диаркритовая катана",
+  "item.elementus.diarkrite_longsword": "Диаркритовый длинный меч",
+  "item.elementus.diarkrite_rapier": "Диаркритовая рапира",
+  "item.elementus.diarkrite_sai": "Диаркритовый сай",
+  "item.elementus.diarkrite_scythe": "Диаркритовая коса",
+  "item.elementus.diarkrite_spear": "Диаркритовое копьё",
+  "item.elementus.diarkrite_twinblade": "Диаркритовый двойной клинок",
+  "item.elementus.diarkrite_warglaive": "Диаркритовый боевой кинжал",
+
+  "item.elementus.anthektite_chakram": "Антектитовый чакрам",
+  "item.elementus.anthektite_claymore": "Антектитовый клеймор",
+  "item.elementus.anthektite_cutlass": "Антектитовый кортик",
+  "item.elementus.anthektite_glaive": "Антектитовая глефа",
+  "item.elementus.anthektite_greataxe": "Антектитовый большой топор",
+  "item.elementus.anthektite_greathammer": "Антектитовый большой молот",
+  "item.elementus.anthektite_halberd": "Антектитовая алебарда",
+  "item.elementus.anthektite_katana": "Антектитовая катана",
+  "item.elementus.anthektite_longsword": "Антектитовый длинный меч",
+  "item.elementus.anthektite_rapier": "Антектитовая рапира",
+  "item.elementus.anthektite_sai": "Антектитовый сай",
+  "item.elementus.anthektite_scythe": "Антектитовая коса",
+  "item.elementus.anthektite_spear": "Антектитовое копьё",
+  "item.elementus.anthektite_twinblade": "Антектитовый двойной клинок",
+  "item.elementus.anthektite_warglaive": "Антектитовый боевой кинжал",
+
+
+  "item.elementus.steel_gloves": "Стальные перчатки",
+  "item.elementus.diarkrite_gloves": "Диаркритовые перчатки",
+  "item.elementus.anthektite_gloves": "Антектитовые перчатки",
+
+
+  "item.dixtas_armory.steel_dagger": "Стальной кинжал",
+  "item.dixtas_armory.steel_shortsword": "Стальной короткий меч",
+  "item.dixtas_armory.steel_stiletto": "Стальной стилет",
+  "item.dixtas_armory.steel_rapier": "Стальная рапира",
+  "item.dixtas_armory.steel_katana": "Стальная катана",
+  "item.dixtas_armory.steel_katana_two_handed": "Стальняа катана",
+  "item.dixtas_armory.steel_greatsword": "Стальной большой меч",
+  "item.dixtas_armory.steel_longsword": "Стальной длинный меч",
+  "item.dixtas_armory.steel_twinblade": "Стальной двойной клинок",
+  "item.dixtas_armory.steel_zweihander": "Стальной цвайхандер",
+  "item.dixtas_armory.steel_battle_axe": "Стальной боевой топор",
+  "item.dixtas_armory.steel_battle_axe_two_handed": "Стальной боевой топор",
+  "item.dixtas_armory.steel_glaive": "Стальная глефа",
+  "item.dixtas_armory.steel_spear": "Стальное копьё",
+  "item.dixtas_armory.steel_spear_two_handed": "Стальное копьё",
+  "item.dixtas_armory.steel_halberd": "Стальная алебарда",
+  "item.dixtas_armory.steel_pike": "Стальная пика",
+
+  "item.dixtas_armory.diarkrite_dagger": "Диаркритовый кинжал",
+  "item.dixtas_armory.diarkrite_shortsword": "Диаркритовый короткий меч",
+  "item.dixtas_armory.diarkrite_stiletto": "Диаркритовый стилет",
+  "item.dixtas_armory.diarkrite_rapier": "Диаркритовая рапира",
+  "item.dixtas_armory.diarkrite_katana": "Диаркритовая катана",
+  "item.dixtas_armory.diarkrite_katana_two_handed": "Диаркритовая катана",
+  "item.dixtas_armory.diarkrite_greatsword": "Диарикритовый большой меч",
+  "item.dixtas_armory.diarkrite_longsword": "Диаркритовый длинный меч",
+  "item.dixtas_armory.diarkrite_twinblade": "Диаркритовый двойной клинок",
+  "item.dixtas_armory.diarkrite_zweihander": "Диаркритовый цвайхандер",
+  "item.dixtas_armory.diarkrite_battle_axe": "Диаркритовый боевой топор",
+  "item.dixtas_armory.diarkrite_battle_axe_two_handed": "Диаркритовый боевой топор",
+  "item.dixtas_armory.diarkrite_glaive": "Диакритовая глефа",
+  "item.dixtas_armory.diarkrite_spear": "Диаркритовое копьё",
+  "item.dixtas_armory.diarkrite_spear_two_handed": "Диаркритовое копьё",
+  "item.dixtas_armory.diarkrite_halberd": "Диаркритовая алебарда",
+  "item.dixtas_armory.diarkrite_pike": "Диаркритовая пика",
+
+  "item.dixtas_armory.anthektite_dagger": "Антектитовый кинжал",
+  "item.dixtas_armory.anthektite_shortsword": "Антектитовый короткий меч",
+  "item.dixtas_armory.anthektite_stiletto": "Антектитовый стилет",
+  "item.dixtas_armory.anthektite_rapier": "Антектитовая рапира",
+  "item.dixtas_armory.anthektite_katana": "Антектитовая катана",
+  "item.dixtas_armory.anthektite_katana_two_handed": "Антектитовая катана",
+  "item.dixtas_armory.anthektite_greatsword": "Антектитовый большой меч",
+  "item.dixtas_armory.anthektite_longsword": "Антектитовый длинный меч",
+  "item.dixtas_armory.anthektite_twinblade": "Антектитовый двойной клинок",
+  "item.dixtas_armory.anthektite_zweihander": "Антектитовый цвайхандер",
+  "item.dixtas_armory.anthektite_battle_axe": "Антектитовый боевой топор",
+  "item.dixtas_armory.anthektite_battle_axe_two_handed": "Антектитовый боевой топор",
+  "item.dixtas_armory.anthektite_glaive": "Антектитовая глефа",
+  "item.dixtas_armory.anthektite_spear": "Антектитовое копьё",
+  "item.dixtas_armory.anthektite_spear_two_handed": "Антектитовое копьё",
+  "item.dixtas_armory.anthektite_halberd": "Антектитовая алебарда",
+  "item.dixtas_armory.anthektite_pike": "Антектитовая пика",
+
+
+  "item.elementus.steel_great_sword": "Стальной большой меч",
+  "item.elementus.diarkrite_great_sword": "Диаркритовый большой меч",
+  "item.elementus.anthektite_great_sword": "Антектитовый большой меч",
+  "item.elementus.sniffs_weapons/steel_great_sword": "Стальной большой меч",
+  "item.elementus.sniffs_weapons/diarkrite_great_sword": "Диаркритовый большой меч",
+  "item.elementus.sniffs_weapons/anthektite_great_sword": "Антектитовый большой меч",
+
+
+  "item.elementus.steel_great_axe": "Стальной болльшой топор",
+  "item.elementus.diarkrite_great_axe": "Диаркритовый большой топор",
+  "item.elementus.anthektite_great_axe": "Антектитовый большой топор",
+
+  "item.elementus.sniffs_weapons/steel_great_axe": "Стальной большой топор",
+  "item.elementus.sniffs_weapons/diarkrite_great_axe": "Диаркритовый большой топор",
+  "item.elementus.sniffs_weapons/anthektite_great_axe": "Антектитовый большой топор",
+
+
+  "item.elementus.steel_great_pickaxe": "Стальная большая кирка",
+  "item.elementus.diarkrite_great_pickaxe": "Диаркритовая большая кирка",
+  "item.elementus.anthektite_great_pickaxe": "Анктитовая большая кирка",
+
+  "item.elementus.sniffs_weapons/steel_great_pickaxe": "Стальная большая кирка",
+  "item.elementus.sniffs_weapons/diarkrite_great_pickaxe": "Диаркритовая большая кирка",
+  "item.elementus.sniffs_weapons/anthektite_great_pickaxe": "Анктитовая большая кирка",
+
+
+  "item.elementus.steel_naginata": "Стальная нагината",
+  "item.elementus.diarkrite_naginata": "Диаркритовая нагината",
+  "item.elementus.anthektite_naginata": "Антектитовая нагината",
+
+  "item.elementus.sniffs_weapons/steel_naginata": "Стальная нагината",
+  "item.elementus.sniffs_weapons/diarkrite_naginata": "Диаркритовая нагината",
+  "item.elementus.sniffs_weapons/anthektite_naginata": "Антектитовая нагината",
+
+
+  "item.elementus.steel_surcoat": "Стальная накидка",
+  "item.elementus.diarkrite_surcoat": "Диаркритовая накидка",
+  "item.elementus.anthektite_surcoat": "Антектитовая накидка",
+
+  "item.elementus.sniffs_weapons/steel_surcoat": "Стальная накидка",
+  "item.elementus.sniffs_weapons/diarkrite_surcoat": "Диаркритовая накидка",
+  "item.elementus.sniffs_weapons/anthektite_surcoat": "Антектитовая накидка",
+
+
+  "item.elementus.steel_helm": "Стальной шлем",
+  "item.elementus.diarkrite_helm": "Диаркритовый шлем",
+  "item.elementus.anthektite_helm": "Антектитовый шлем",
+
+  "item.elementus.sniffs_weapons/steel_helm": "Стальной шлем",
+  "item.elementus.sniffs_weapons/diarkrite_helm": "Диаркритовый шлем",
+  "item.elementus.sniffs_weapons/anthektite_helm": "Антектитовый шлем",
+
+
+  "item.elementus.plated_steel_chestplate": "Нагрудник из стальных пластин",
+  "item.elementus.plated_diarkrite_chestplate": "Нагрудник из диаркритовых пластин",
+  "item.elementus.plated_anthektite_chestplate": "Нагрудник из антектитовых пластин",
+
+  "item.elementus.sniffs_weapons/plated_steel_chestplate": "Нагрудник из стальных пластин",
+  "item.elementus.sniffs_weapons/plated_diarkrite_chestplate": "Нагрудник из диаркритовых пластин",
+  "item.elementus.sniffs_weapons/plated_anthektite_chestplate": "Нагрудник из антектитовых пластин",
+
+
+  "item.elementus.steel_horned_helm": "Стальной рогатый шлем",
+  "item.elementus.diarkrite_horned_helm": "Диаркритовый рогатый шлем",
+  "item.elementus.anthektite_horned_helm": "Антектитовый рогатый шлем",
+
+  "item.elementus.sniffs_weapons/steel_horned_helm": "Стальной рогатый шлем",
+  "item.elementus.sniffs_weapons/diarkrite_horned_helm": "Диаркритовый рогатый шлем",
+  "item.elementus.sniffs_weapons/anthektite_horned_helm": "Антектитовый рогатый шлем",
+
+
+  "item.elementus.steel_kabuto": "Стальное кабуто",
+  "item.elementus.diarkrite_kabuto": "Диаркитовое кабуто",
+  "item.elementus.anthektite_kabuto": "Антектитовое кабуто",
+
+  "item.elementus.sniffs_weapons/steel_kabuto": "Стальное кабуто",
+  "item.elementus.sniffs_weapons/diarkrite_kabuto": "Диаркитовое кабуто",
+  "item.elementus.sniffs_weapons/anthektite_kabuto": "Антектитовое кабуто",
+
+
+  "item.elementus.steel_do": "Стальное дō",
+  "item.elementus.diarkrite_do": "Диаркритовое дō",
+  "item.elementus.anthektite_do": "Анектитовое дō",
+
+  "item.elementus.sniffs_weapons/steel_do": "Стальное дō",
+  "item.elementus.sniffs_weapons/diarkrite_do": "Диаркритовое дō",
+  "item.elementus.sniffs_weapons/anthektite_do": "Анектитовое дō",
+
+
+  "item.elementus.clothed_steel_cuirass": "Стальное кусари",
+  "item.elementus.clothed_diarkrite_cuirass": "Диаркритовое кусари",
+  "item.elementus.clothed_anthektite_cuirass": "Анетитовое кусари",
+
+
+
+  "item.elementus.diarkrite_iron_ingot": "Диаркрито-железный слиток",
+  "item.elementus.diarkrite_gold_ingot": "Диаркрито-золотой слиток",
+  "item.elementus.diarkrite_emerald_ingot": "Диаркрито-изумрудный слиток",
+  "item.elementus.diarkrite_diamond_ingot": "Диаркрито-алмазный слиток",
+
+  "item.elementus.anthektite_iron_ingot": "Антектито-железный слиток",
+  "item.elementus.anthektite_gold_ingot": "Антектито-золотой слиток",
+  "item.elementus.anthektite_emerald_ingot": "Антектито-изумрудный слиток",
+  "item.elementus.anthektite_diamond_ingot": "Антектито-алмазный слиток",
+
+  "item.elementus.diarkrite_iron_sword": "Диаркрито-железный меч",
+  "item.elementus.diarkrite_iron_shovel": "Диаркрито-железная лопата",
+  "item.elementus.diarkrite_iron_pickaxe": "Диаркрито-железная кирка",
+  "item.elementus.diarkrite_iron_axe": "Диаркрито-железный топор",
+  "item.elementus.diarkrite_iron_hoe": "Диаркрито-железная мотыга",
+
+  "item.elementus.diarkrite_gold_sword": "Диаркрито-золотой меч",
+  "item.elementus.diarkrite_gold_shovel": "Диаркрито-золотая лопата",
+  "item.elementus.diarkrite_gold_pickaxe": "Диаркрито-золотая кирка",
+  "item.elementus.diarkrite_gold_axe": "Диаркрито-золотой топор",
+  "item.elementus.diarkrite_gold_hoe": "Диаркрито-золотая мотыга",
+
+  "item.elementus.diarkrite_emerald_sword": "Диаркрито-изумрудный меч",
+  "item.elementus.diarkrite_emerald_shovel": "Диаркрито-изумрудная лопата",
+  "item.elementus.diarkrite_emerald_pickaxe": "Диаркрито-изумрудная кирка",
+  "item.elementus.diarkrite_emerald_axe": "Диаркрито-изумрудный топор",
+  "item.elementus.diarkrite_emerald_hoe": "Диаркрито-изумрудная мотыга",
+
+  "item.elementus.diarkrite_diamond_sword": "Диаркрито-алмазный меч",
+  "item.elementus.diarkrite_diamond_shovel": "Диаркрито-алмазная лопата",
+  "item.elementus.diarkrite_diamond_pickaxe": "Диаркрито-алмазная кирка",
+  "item.elementus.diarkrite_diamond_axe": "Диаркрито-алмазный топор",
+  "item.elementus.diarkrite_diamond_hoe": "Диаркрито-алмазная мотыга",
+
+  "item.elementus.anthektite_iron_sword": "Антектито-железный меч",
+  "item.elementus.anthektite_iron_shovel": "Антектито-железная лопата",
+  "item.elementus.anthektite_iron_pickaxe": "Антектито-железная кирка",
+  "item.elementus.anthektite_iron_axe": "Антектито-железный топор",
+  "item.elementus.anthektite_iron_hoe": "Антектито-железная мотыга",
+
+  "item.elementus.anthektite_gold_sword": "Антектито-золотой меч",
+  "item.elementus.anthektite_gold_shovel": "Антектито-золотая лопата",
+  "item.elementus.anthektite_gold_pickaxe": "Антектито-золотая кирка",
+  "item.elementus.anthektite_gold_axe": "Антектито-золотой топор",
+  "item.elementus.anthektite_gold_hoe": "Антектито-золотая мотыга",
+
+  "item.elementus.anthektite_emerald_sword": "Антектито-изумрудный меч",
+  "item.elementus.anthektite_emerald_shovel": "Антектито-изумрудная лопата",
+  "item.elementus.anthektite_emerald_pickaxe": "Антектито-изумрудная кирка",
+  "item.elementus.anthektite_emerald_axe": "Антектито-изумрудный топор",
+  "item.elementus.anthektite_emerald_hoe": "Антектито-изумрудная мотыга",
+
+  "item.elementus.anthektite_diamond_sword": "Антектито-алмазный меч",
+  "item.elementus.anthektite_diamond_shovel": "Антектито-алмазная лопата",
+  "item.elementus.anthektite_diamond_pickaxe": "Антектито-алмазная кирка",
+  "item.elementus.anthektite_diamond_axe": "Антектито-алмазный топор",
+  "item.elementus.anthektite_diamond_hoe": "Антектито-алмазная мотыга",
+
+  "item.elementus.diarkrite_iron_helmet": "Диаркрито-железный шлем",
+  "item.elementus.diarkrite_iron_chestplate": "Диаркрито-железный нагрудник",
+  "item.elementus.diarkrite_iron_leggings": "Диаркрито-железные поножи",
+  "item.elementus.diarkrite_iron_boots": "Диаркрито-железные ботинки",
+
+  "item.elementus.diarkrite_gold_helmet": "Диаркрито-золотой шлем",
+  "item.elementus.diarkrite_gold_chestplate": "Диаркрито-золотой нагрудник",
+  "item.elementus.diarkrite_gold_leggings": "Диаркрито-золотые поножи",
+  "item.elementus.diarkrite_gold_boots": "Диаркрито-золотые ботинки",
+
+  "item.elementus.diarkrite_emerald_helmet": "Диаркрито-изумрудный шлем",
+  "item.elementus.diarkrite_emerald_chestplate": "Диаркрито-изумрудный нагрудник",
+  "item.elementus.diarkrite_emerald_leggings": "Диаркрито-изумрудные поножи",
+  "item.elementus.diarkrite_emerald_boots": "Диаркрито-изумрудные ботинки",
+
+  "item.elementus.diarkrite_diamond_helmet": "Диаркрито-алмазный шлем",
+  "item.elementus.diarkrite_diamond_chestplate": "Диаркрито-алмазный нагрудник",
+  "item.elementus.diarkrite_diamond_leggings": "Диаркрито-алмазные поножи",
+  "item.elementus.diarkrite_diamond_boots": "Диаркрито-алмазные ботинки",
+
+  "item.elementus.anthektite_iron_helmet": "Антектито-железный шлем",
+  "item.elementus.anthektite_iron_chestplate": "Антектито-железный нагрудник",
+  "item.elementus.anthektite_iron_leggings": "Антектито-железные поножи",
+  "item.elementus.anthektite_iron_boots": "Антектито-железные ботинки",
+
+  "item.elementus.anthektite_gold_helmet": "Антектито-золотой шлем",
+  "item.elementus.anthektite_gold_chestplate": "Антектито-золотой нагрудник",
+  "item.elementus.anthektite_gold_leggings": "Антектито-золотые поножи",
+  "item.elementus.anthektite_gold_boots": "Антектито-золотые ботинки",
+
+  "item.elementus.anthektite_emerald_helmet": "Антектито-изумрудный шлем",
+  "item.elementus.anthektite_emerald_chestplate": "Антектито-изумрудный нагрудник",
+  "item.elementus.anthektite_emerald_leggings": "Антектито-изумрудные поножи",
+  "item.elementus.anthektite_emerald_boots": "Антектито-изумрудные ботинки",
+
+  "item.elementus.anthektite_diamond_helmet": "Антектито-алмазный шлем",
+  "item.elementus.anthektite_diamond_chestplate": "Антектито-алмазный нагрудник",
+  "item.elementus.anthektite_diamond_leggings": "Антектито-алмазные поножи",
+  "item.elementus.anthektite_diamond_boots": "Антектито-алмазные ботинки",
+
+  "block.elementus.diarkrite_iron_block": "Диаркрито-железный блок",
+  "block.elementus.diarkrite_gold_block": "Диаркрито-золотой блок",
+  "block.elementus.diarkrite_emerald_block": "Даиркрито-изумрудный блок",
+  "block.elementus.diarkrite_diamond_block": "Диаркрито-алмазный блок",
+
+  "block.elementus.anthektite_iron_block": "Антектито-железный блок",
+  "block.elementus.anthektite_gold_block": "Антектито-золотой блок",
+  "block.elementus.anthektite_emerald_block": "Антектито-изумрудный блок",
+  "block.elementus.anthektite_diamond_block": "Антектито-алмазный блок",
+
+
+
+  "item.elementus.steel_samurai_helmet": "Стальной шлем самурая",
+  "item.elementus.steel_samurai_chestplate": "Стальной нагрудник самурая",
+  "item.elementus.steel_samurai_leggings": "Стальные поножи самурая",
+  "item.elementus.steel_samurai_boots": "Стальные ботинки самурая",
+
+  "item.elementus.steel_samurai_helmet_light": "Лёгкий стальной шлем самурая",
+  "item.elementus.steel_samurai_chestplate_light": "Лёгкий стальной нагрудник самурая",
+  "item.elementus.steel_samurai_leggings_light": "Лёгкие стальные поножи самурая",
+  "item.elementus.steel_samurai_boots_light": "Лёгкие стальные ботинки самурая",
+
+  "item.elementus.steel_samurai_helmet_master": "Превосходный стальной шлем самурая",
+  "item.elementus.steel_samurai_chestplate_master": "Превосходный стальной нагрудник самурая",
+  "item.elementus.steel_samurai_leggings_master": "Превосходные стальные поножи самурая",
+  "item.elementus.steel_samurai_boots_master": "Превосходные стальные ботинки самурая",
+
+
+  "item.elementus.diarkrite_samurai_helmet": "Диаркритовый шлем самурая",
+  "item.elementus.diarkrite_samurai_chestplate": "Диаркритовый нагрудник самурая",
+  "item.elementus.diarkrite_samurai_leggings": "Диаркритовы поножи самурая",
+  "item.elementus.diarkrite_samurai_boots": "Диаркритовые ботинки самурая",
+
+  "item.elementus.diarkrite_samurai_helmet_light": "Лёгкий диаркритовый шлем самурая",
+  "item.elementus.diarkrite_samurai_chestplate_light": "Лёгкий диаркритовый нагрудник самурая",
+  "item.elementus.diarkrite_samurai_leggings_light": "Лёгкий диаркритовые поножи самурая",
+  "item.elementus.diarkrite_samurai_boots_light": "Лёгкий диаркритовые ботинки самурая",
+
+  "item.elementus.diarkrite_samurai_helmet_master": "Превосходный диаркритовый шлем самурая",
+  "item.elementus.diarkrite_samurai_chestplate_master": "Превосходный диаркритовый нагрудник самурая",
+  "item.elementus.diarkrite_samurai_leggings_master": "Превосходный диаркритовые поножи самурая",
+  "item.elementus.diarkrite_samurai_boots_master": "Превосходный диаркритовые ботинки самурая",
+
+
+  "item.elementus.anthektite_samurai_helmet": "Антектитовый шлем самурая",
+  "item.elementus.anthektite_samurai_chestplate": "Антектитовый нагрудник самурая",
+  "item.elementus.anthektite_samurai_leggings": "Антектитовые поножи самурая",
+  "item.elementus.anthektite_samurai_boots": "Антектитовые ботинки самурая",
+
+  "item.elementus.anthektite_samurai_helmet_light": "Лёгкий антектитовый шлем самурая",
+  "item.elementus.anthektite_samurai_chestplate_light": "Лёгкий антектитовый нагрудник самурая",
+  "item.elementus.anthektite_samurai_leggings_light": "Лёгкий антектитовые поножи самурая",
+  "item.elementus.anthektite_samurai_boots_light": "Лёгкий антектитовые ботинки самурая",
+
+  "item.elementus.anthektite_samurai_helmet_master": "Превосходный антектитовый шлем самурая",
+  "item.elementus.anthektite_samurai_chestplate_master": "Превосходный антектитовый нагрудник самурая",
+  "item.elementus.anthektite_samurai_leggings_master": "Превосходный антектитовые поножи самурая",
+  "item.elementus.anthektite_samurai_boots_master": "Превосходный антектитовые ботинки самурая",
+
+
+
+  "tetra.material.diarkrite.prefix": "Диаркрит",
+  "tetra.material.anthektite.prefix": "Антектит",
+
+  "tetra.improvement.basic_hilt/movcadia.name":"Мовкадия",
+  "tetra.improvement.basic_hilt/movcadia.description":"Странное фиолетовое дерево",
+  "tetra.improvement.basic_handle/movcadia.name":"Мовкадия",
+  "tetra.improvement.basic_handle/movcadia.description":"Странное фиолетовое дерево",
+
+
+
+  "block.elementus.movcadia_table":"Стол из мовкадии",
+
+
+
+  "material.silentgear.diarkrite": "Диаркрит",
+  "material.silentgear.anthektite": "Антектит",
+
+  "item.elementus.steel_command_block_sword": "Стальной командный блок меч",
+  "item.elementus.steel_command_block_shovel": "Стальной командный блок лопата",
+  "item.elementus.steel_command_block_pickaxe": "Стальной командный блок кирка",
+  "item.elementus.steel_command_block_axe": "Стальной командный блок топор",
+  "item.elementus.steel_command_block_hoe": "Стальной командный блок мотыга",
+
+  "item.elementus.diarkrite_command_block_sword": "Диаркритовый командный блок меч",
+  "item.elementus.diarkrite_command_block_shovel": "Диаркритовый командный блок лопата",
+  "item.elementus.diarkrite_command_block_pickaxe": "Диаркритовый командный блок кирка",
+  "item.elementus.diarkrite_command_block_axe": "Диаркритовый командный блок топор",
+  "item.elementus.diarkrite_command_block_hoe": "Диаркритовый командный блок мотыга",
+
+  "item.elementus.anthektite_command_block_sword": "Антектитовый командный блок меч",
+  "item.elementus.anthektite_command_block_shovel": "Антектитовый командный блок лопата",
+  "item.elementus.anthektite_command_block_pickaxe": "Антектитовый командный блок кирка",
+  "item.elementus.anthektite_command_block_axe": "Антектитовый командный блок топор",
+  "item.elementus.anthektite_command_block_hoe": "Антектитовый командный блок мотыга",
+
+
+  "item.elementus.steel_claws": "Cтальные когти",
+  "item.elementus.diarkrite_claws": "Даиркритове когти",
+  "item.elementus.anthektite_claws": "Антектитовые когти"
+}

@@ -9,7 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.nokunami.elementus.ModClientEvents;
+import net.nokunami.elementus.ElementusClient;
+import net.nokunami.elementus.common.item.ModDyeableArmorItem;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,14 +20,14 @@ import java.util.function.Consumer;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
-public class SniffsWeaponsArmorItem extends DyeableArmorItem {
+public class SniffsWeaponsArmorItem extends ModDyeableArmorItem {
     private final int color;
     private final String texture_type;
 
     protected final ModArmorMaterials material;
 
     public SniffsWeaponsArmorItem(ModArmorMaterials material, Type type, String texture_type, int color, Properties properties) {
-        super(material, type, new Properties());
+        super(material, type, properties);
         this.material = material;
         this.color = color;
         this.texture_type = texture_type;
@@ -35,7 +36,7 @@ public class SniffsWeaponsArmorItem extends DyeableArmorItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) ModClientEvents.PROXY.getArmorRenderProperties());
+        consumer.accept((IClientItemExtensions) ElementusClient.PROXY.getArmorRenderProperties());
     }
 
     public int getColor(ItemStack itemStack) {

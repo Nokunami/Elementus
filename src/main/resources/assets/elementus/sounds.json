@@ -22,6 +22,53 @@
     ],
     "subtitle": "subtitles.elementus.item.diarkrite_shield.block"
   },
+  "item.anthektite_shield.block": {
+    "sounds": [
+      "elementus:item/diarkrite_shield/block1",
+      "elementus:item/diarkrite_shield/block2",
+      "elementus:item/diarkrite_shield/block3"
+    ],
+    "subtitle": "subtitles.elementus.item.anthektite_shield.block"
+  },
+  "item.diarkrite_charge_blade.block": {
+    "sounds": [
+      "elementus:item/diarkrite_charge_blade/sword_block0",
+      "elementus:item/diarkrite_charge_blade/sword_block1",
+      "elementus:item/diarkrite_charge_blade/sword_block2"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.block"
+  },
+  "item.diarkrite_charge_blade.parry": {
+    "sounds": [
+      "elementus:item/diarkrite_charge_blade/sword_parry0",
+      "elementus:item/diarkrite_charge_blade/sword_parry1",
+      "elementus:item/diarkrite_charge_blade/sword_parry2"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.parry"
+  },
+  "item.diarkrite_charge_blade.block_resonance": {
+    "sounds": [
+      "elementus:item/diarkrite_charge_blade/sword_resonance_block0",
+      "elementus:item/diarkrite_charge_blade/sword_resonance_block1",
+      "elementus:item/diarkrite_charge_blade/sword_resonance_block2"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.block"
+  },
+  "item.diarkrite_charge_blade.parry_resonance": {
+    "sounds": [
+      "elementus:item/diarkrite_charge_blade/sword_resonance_parry0",
+      "elementus:item/diarkrite_charge_blade/sword_resonance_parry1"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.parry"
+  },
+  "item.diarkrite_charge_blade.sonic_resonance": {
+    "sounds": [
+      "elementus:item/diarkrite_charge_blade/sonic_resonance_0",
+      "elementus:item/diarkrite_charge_blade/sonic_resonance_1",
+      "elementus:item/diarkrite_charge_blade/sonic_resonance_2"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.resonate"
+  },
   "entity.steel_golem.repair": {
     "sounds": [
       "mob/irongolem/repair"

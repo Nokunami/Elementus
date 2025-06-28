@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
 import org.jetbrains.annotations.NotNull;
 
@@ -102,26 +103,22 @@ public abstract class TamableChestedGolem extends TamableGolem {
         } : super.getSlot(pSlot);
     }
 
-    public @NotNull InteractionResult mobInteract(@NotNull Player pPlayer, @NotNull InteractionHand pHand) {
-        boolean flag = !this.isBaby() && this.isTame() && pPlayer.isSecondaryUseActive();
-        if (!this.isVehicle() && !flag) {
-            ItemStack itemstack = pPlayer.getItemInHand(pHand);
-            if (!itemstack.isEmpty()) {
-                if (!this.isTame()) {
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
-                }
-
-                if (!this.hasChest() && itemstack.is(Items.CHEST)) {
-                    this.equipChest(pPlayer, itemstack);
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
-                }
-            }
-
-            return super.mobInteract(pPlayer, pHand);
-        } else {
-            return super.mobInteract(pPlayer, pHand);
-        }
-    }
+//    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
+//        boolean flag = this.isTame() && player.isSecondaryUseActive();
+//        ItemStack itemstack = player.getItemInHand(hand);
+//
+//        if (!this.isVehicle() && !flag) {
+//            if (!itemstack.isEmpty()) {
+//                if (!this.hasChest() && itemstack.is(Items.CHEST)) {
+//                    this.equipChest(player, itemstack);
+//                    Elementus.LOGGER.debug("tamableChestGolemEquipChest");
+//                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+//                }
+//            }
+//        }
+//        Elementus.LOGGER.debug("tamableChestGolemSuperMobInt");
+//        return super.mobInteract(player, hand);
+//    }
 
     private void equipChest(Player pPlayer, ItemStack pChestStack) {
         this.setChest(true);

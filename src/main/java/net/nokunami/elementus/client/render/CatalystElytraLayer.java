@@ -59,17 +59,11 @@ public class CatalystElytraLayer<T extends LivingEntity, M extends EntityModel<T
             }
 
             elytraModelType(type, poseStack, buffer, packedLight, livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, resourcelocation, resourcelocation1, itemstack);
-//            VertexConsumer vertexconsumer1 = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.armorCutoutNoCull(resourcelocation1), false, itemstack.hasFoil());
-//            poseStack.pushPose();
-////            this.getParentModel().copyPropertiesTo(this.catalystBaseModel);
-//            this.catalystBaseModel.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-//            this.catalystBaseModel.renderCatalystOverlay(poseStack, vertexconsumer1, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-//            poseStack.popPose();
         }
     }
 
     public boolean shouldRender(@NotNull ItemStack stack, LivingEntity entity) {
-        return entity.getItemBySlot(EquipmentSlot.CHEST).is(CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquiped(stack).findAny().isPresent();
+        return entity.getItemBySlot(EquipmentSlot.CHEST).is(CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(stack).findAny().isPresent();
     }
 
     public @NotNull ResourceLocation getElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {

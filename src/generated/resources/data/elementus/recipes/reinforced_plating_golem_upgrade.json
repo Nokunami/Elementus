@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "elementus:steel_block"
+    },
+    "/": {
+      "item": "elementus:steel_ingot"
+    },
+    "@": {
+      "item": "elementus:steel_chestplate"
+    }
+  },
+  "pattern": [
+    "#/#",
+    "/#/",
+    "/@/"
+  ],
+  "result": {
+    "item": "elementus:reinforced_plating_golem_upgrade"
+  },
+  "show_notification": true
+}

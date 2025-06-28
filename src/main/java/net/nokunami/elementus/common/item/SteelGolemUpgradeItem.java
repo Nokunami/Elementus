@@ -1,16 +1,17 @@
 package net.nokunami.elementus.common.item;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,89 +21,75 @@ import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.Elementus.modLoc;
 
 public class SteelGolemUpgradeItem extends Item {
+    public final GolemUpgradeProperties properties;
     private static final String TEX_FOLDER = "textures/entity/golem/steel_golem/";
-    private final int protection;
-    private final int toughness;
-    private final boolean pushable;
     private final ResourceLocation texture;
     public String identifier;
 
-    public void onArmorTick(ItemStack stack, Level level, LivingEntity entity) {
-        if (identifier.equals("reinforced_plating")) {
-            entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 0, 1, false, true));
+    public void onArmorTick(ItemStack stack, Level level, SteelGolem entity) {
+        if (!entity.isChassisBroken()) {
+            for (Pair<MobEffectInstance, Float> pair : properties.getEffects()) {
+                if (!level.isClientSide && pair.getFirst() != null && level.random.nextFloat() < pair.getSecond()) {
+                    entity.addEffect(new MobEffectInstance(pair.getFirst()));
+                }
+            }
         }
     }
 
-
-    public SteelGolemUpgradeItem(int protection, int toughness, boolean pushable, String identifier, Item.Properties properties) {
-        this(protection, toughness, pushable, modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png"), properties);
-        this.identifier = identifier;
-    }
-
-    public SteelGolemUpgradeItem(int protection, int toughness, String identifier, Item.Properties properties) {
-        this(protection, toughness, false, modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png"), properties);
-        this.identifier = identifier;
-    }
-
-
-    public SteelGolemUpgradeItem(int protection, boolean pushable, String identifier, Item.Properties properties) {
-        this(protection, 0, pushable, modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png"), properties);
-        this.identifier = identifier;
-    }
-
-    public SteelGolemUpgradeItem(int protection, String identifier, Item.Properties properties) {
-        this(protection, 0, false, modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png"), properties);
-        this.identifier = identifier;
-    }
-
-
-    public SteelGolemUpgradeItem(boolean pushable, String identifier, Item.Properties properties) {
-        this(0, 0, pushable, modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png"), properties);
-        this.identifier = identifier;
-    }
-
-    public SteelGolemUpgradeItem(String identifier, Item.Properties properties) {
-        this(0, 0, false, modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png"), properties);
-        this.identifier = identifier;
-    }
-
-    /**
-     *
-     * @param protection the given protection level of the {@code HorseArmorItem}
-     * @param id the texture path identifier for the {@code DyeableHorseArmorItem}, {@link
-     * net.minecraft.world.item.HorseArmorItem}
-     * @param properties the item properties
-     */
-    public SteelGolemUpgradeItem(int protection, int toughness, boolean pushable, ResourceLocation id, Item.Properties properties) {
+    public SteelGolemUpgradeItem(String identifier, Item.Properties properties, GolemUpgradeProperties golemUpgradeProperties) {
         super(properties);
-        this.protection = protection;
-        this.toughness = toughness;
-        this.pushable = pushable;
-        this.texture = id;
+        this.texture = modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png");
+        this.identifier = identifier;
+        this.properties = golemUpgradeProperties;
     }
 
     public ResourceLocation getTexture() {
-        return texture;
+        return this.texture;
     }
 
-    public int getProtection() {
-        return this.protection;
+    public boolean isNotPushable() {
+        return properties != null && properties.isNotPushable();
     }
 
-    public int getToughness() {
-        return this.toughness;
+    public boolean isFastAttack() {
+        return properties != null && properties.isFastAttack();
     }
 
-    public boolean getPushable() {
-        return this.pushable;
+    public GolemUpgradeProperties getGolemUpgradeProperties() {
+        return this.properties;
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, components, flag);
-        components.add(Component.translatable("item.elementus.golem_upgrade." + identifier).withStyle(ChatFormatting.GRAY));
-        if (this.protection != 0) components.add(Component.translatable("item.elementus.golem_upgrade_armor").append(CommonComponents.SPACE).append(String.valueOf(this.protection)).withStyle(ChatFormatting.BLUE));
-        if (this.toughness != 0) components.add(Component.translatable("item.elementus.golem_upgrade_toughness").append(CommonComponents.SPACE).append(String.valueOf(this.toughness)).withStyle(ChatFormatting.BLUE));
+        String armorId = "item." + MODID + ".golem_upgrade." + identifier;
+        components.add(Component.translatable(armorId).withStyle(ChatFormatting.GRAY));
+        components.add(Component.translatable("item." + MODID + ".golem_upgrade.upgrades").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.GOLD));
+        bonusDescription(components, "item." + MODID + ".golem_upgrade.pushable", properties.isNotPushable());
+        bonusDescription(components, "item." + MODID + ".golem_upgrade.fast_attack", properties.isFastAttack());
+        components.add(CommonComponents.space());
+        components.add(Component.translatable("item." + MODID + ".golem_upgrade.modifier_equip").withStyle(ChatFormatting.GRAY));
+        statDescription(components, "attribute.name.generic.armor", properties.getArmor());
+        statDescription(components, "attribute.name.generic.armor_toughness", properties.getToughness());
+    }
+
+    public void statDescription(List<Component> components, String translationKey, double value) {
+        String adjective = value > 0 ? "attribute.modifier.plus.0" : "attribute.modifier.take.0";
+        ChatFormatting formatting = value > 0 ? ChatFormatting.BLUE : ChatFormatting.RED;
+        if (value != 0) {
+            components.add(Component.translatable(adjective, Math.round((value/10)*10), Component.translatable(translationKey)).withStyle(formatting));
+        }
+    }
+
+    public void bonusDescription(List<Component> components, String translationKey, boolean value) {
+        if (value) {
+            components.add(CommonComponents.space().append(Component.translatable(translationKey)).withStyle(ChatFormatting.YELLOW));
+        }
+    }
+
+    @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 1;
     }
 
     @Override

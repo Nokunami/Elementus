@@ -15,13 +15,13 @@ public class MobEffectUtilMixin {
 
     @Inject(method = "getDigSpeedAmplification", at = @At(value = "RETURN"), cancellable = true)
     private static void beaconPowerHaste(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
-        int defaullValue = cir.getReturnValue();
+        int defaultValue = cir.getReturnValue();
         int netherStarHaste = 0;
         if (entity.hasEffect(ElementusEffects.BEACON_POWER.get())) {
             int level = entity.getEffect(ElementusEffects.BEACON_POWER.get()).getAmplifier();
             netherStarHaste = CatalystArmorConfig.NSHaste + level;
         }
-        cir.setReturnValue(Math.max(defaullValue, netherStarHaste));
+        cir.setReturnValue(Math.max(defaultValue, netherStarHaste));
     }
 
     @Inject(method = "hasDigSpeed", at = @At(value = "RETURN"), cancellable = true)

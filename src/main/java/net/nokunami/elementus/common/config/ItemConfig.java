@@ -64,11 +64,6 @@ public class ItemConfig {
     public static int anthektiteShieldDurability;
     public static int anthektiteBowDurability;
 
-    public static int diarkriteChargeBladeDamage;
-    public static double diarkriteChargeBladeAttackSpeed;
-    public static double diarkriteChargeBladeAttackReach;
-    public static double diarkriteChargeBladeSonicDamage;
-
     //Farmer's Delight
     public static double steelKnifeDamage;
     public static double steelKnifeAttackSpeed;
@@ -147,11 +142,6 @@ public class ItemConfig {
         anthektiteHoeAttackSpeed = 0.0;
         anthektiteShieldDurability = 598;
         anthektiteBowDurability = 598;
-
-        diarkriteChargeBladeDamage = 3;
-        diarkriteChargeBladeAttackSpeed = -2.9;
-        diarkriteChargeBladeAttackReach = 1;
-        diarkriteChargeBladeSonicDamage = 15;
 
         //Farmer's Delight
         steelKnifeDamage = 0.5;
@@ -269,11 +259,6 @@ public class ItemConfig {
                         case "anthektiteHoe.Speed": anthektiteHoeAttackSpeed = value; break;
                         case "anthektiteShield.Durability": anthektiteShieldDurability = (int) value; break;
                         case "anthektiteBow.Durability": anthektiteBowDurability = (int) value; break;
-
-                        case "diarkriteChargeBlade.Damage": diarkriteChargeBladeDamage = (int) value; break;
-                        case "diarkriteChargeBlade.AttackSpeed": diarkriteChargeBladeAttackSpeed = value; break;
-                        case "diarkriteChargeBlade.AttackReach": diarkriteChargeBladeAttackReach = value; break;
-                        case "diarkriteChargeBlade.SonicDamage": diarkriteChargeBladeSonicDamage = value; break;
 
                         //Farmer's Delight
                         case "steelKnife.Damage": steelKnifeDamage = value; break;
@@ -411,17 +396,6 @@ public class ItemConfig {
             writer.write("  anthektiteShield.Durability = " + anthektiteShieldDurability + "\n");
             writer.write("# Default: " + anthektiteBowDurability + "\n");
             writer.write("  anthektiteBow.Durability = " + anthektiteBowDurability + "\n");
-            writer.write("\n");
-            writer.write("\n");
-            writer.write("[DiarkriteChargeBlade]\n");
-            writer.write("# Default: " + diarkriteChargeBladeDamage + "\n");
-            writer.write("  diarkriteChargeBlade.Damage = " + diarkriteChargeBladeDamage + "\n");
-            writer.write("# Default: " + diarkriteChargeBladeAttackSpeed + "\n");
-            writer.write("  diarkriteChargeBlade.AttackSpeed = " + diarkriteChargeBladeAttackSpeed + "\n");
-            writer.write("# Default: " + diarkriteChargeBladeAttackReach + "\n");
-            writer.write("  diarkriteChargeBlade.AttackReach = " + diarkriteChargeBladeAttackReach + "\n");
-            writer.write("# Default: " + diarkriteChargeBladeSonicDamage + "\n");
-            writer.write("  diarkriteChargeBlade.SonicDamage = " + diarkriteChargeBladeSonicDamage + "\n");
             writer.write("\n");
             writer.write("\n");
             writer.write("[FarmersDelight.Steel]\n");
