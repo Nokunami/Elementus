@@ -498,7 +498,8 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
                 .add(Attributes.ATTACK_DAMAGE, EntityConfig.AttackDamage)
                 .add(Attributes.ARMOR, EntityConfig.Armor)
                 .add(Attributes.ARMOR_TOUGHNESS, EntityConfig.Toughness)
-                .add(ForgeMod.STEP_HEIGHT.get(), 0.5);
+//                .add(ForgeMod.STEP_HEIGHT.get(), 0.5)
+                ;
     }
 
     @Override
