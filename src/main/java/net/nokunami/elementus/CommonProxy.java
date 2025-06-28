@@ -24,7 +24,4 @@ public class CommonProxy {
     public static void attributeCreationEvent(EntityAttributeCreationEvent event) {
         event.put(ModEntityType.STEEL_GOLEM.get(), SteelGolem.createAttributes().build());
     }
-
-    public void setReferencedMob(Entity entity) {
-    }
 }
