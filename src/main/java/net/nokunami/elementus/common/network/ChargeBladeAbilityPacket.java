@@ -13,7 +13,7 @@ import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.item.ChargeSwordItem;
 import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.registry.ModDamageTypes;
-import net.nokunami.elementus.common.registry.ModMobEffects;
+import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
 
 import java.util.function.Supplier;
 
@@ -56,21 +56,26 @@ public class ChargeBladeAbilityPacket {
     public static void ability(Player player, InteractionHand hand) {
         Level level = player.level();
         ItemStack stack = player.getUseItem();
-        if (!level.isClientSide && !player.isSpectator() && player.isUsingItem() && (getCharge(stack) > 2 || isEnchantedWith(stack, SACRIFICE_CURSE) || player.isCreative())) {
-            if (stack.getItem() instanceof DiarkriteChargeBlade) {
+        if (!level.isClientSide && !player.isSpectator() && player.isUsingItem()) {
+            int cooldown = 0;
+            if (stack.getItem() instanceof DiarkriteChargeBlade && (getCharge(stack) > 2 || isEnchantedWith(stack, SACRIFICE_CURSE) || player.isCreative())) {
                 createBoom(level, player, stack);
                 if (isEnchantedWith(stack, SACRIFICE_CURSE)) player.hurt(level.damageSources().source(ModDamageTypes.SACRIFICIAL), player.getMaxHealth() * (float) diarkriteChargeBladeSelfSacrificeDamage);
+                cooldown = 10;
+                player.swing(hand, true);
             }
             if (stack.getItem() instanceof AnthektiteChargeBlade) {
-                if (!player.hasEffect(ModMobEffects.ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()) && getCharge(stack) >= getMaxCharge(stack)) {
-                    player.addEffect(new MobEffectInstance(ModMobEffects.ElementusEffects.ANTHEKTITE_SWORD_DANCE.get(), 600));
+                if (player.hasEffect(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get())) {
+                    AnthektiteChargeBlade.swordDanceSlash(player, hand);
+                    cooldown = 240;
+                    player.swing(hand, true);
+                } else if (!player.hasEffect(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()) && (getCharge(stack) >= getMaxCharge(stack) || player.isCreative())) {
+                    player.addEffect(new MobEffectInstance(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get(), 600));
                     setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
-                    if (!player.isCreative()) player.getCooldowns().addCooldown(stack.getItem(), 10);
-                } else if (player.hasEffect(ModMobEffects.ElementusEffects.ANTHEKTITE_SWORD_DANCE.get())) {
-                    AnthektiteChargeBlade.spawnSlash(player, hand);
+                    cooldown = 10;
                 }
             }
-            if (!player.isCreative()) player.getCooldowns().addCooldown(stack.getItem(), 10);
+            if (!player.isCreative()) player.getCooldowns().addCooldown(stack.getItem(), cooldown);
         }
     }
 }

@@ -1,6 +1,5 @@
 package net.nokunami.elementus.event;
 
-import com.aetherteam.aether.item.combat.DartItem;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModParticle;
@@ -26,13 +25,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -42,10 +36,7 @@ import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.pattern.BlockPattern;
 import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -62,14 +53,11 @@ import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
-import nonamecrackers2.witherstormmod.common.event.EntityConversionEvents;
 
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import static net.nokunami.elementus.ModChecker.aether;
 import static net.nokunami.elementus.ModChecker.cataclysm;
-import static net.nokunami.elementus.common.entity.MobUtil.alliedAttacked;
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnParticlesOnEntity;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.cursium;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.ignitium;
@@ -77,7 +65,7 @@ import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
 import static net.nokunami.elementus.common.registry.ModEnchantments.RESONANCE;
 
 @Mod.EventBusSubscriber(modid = Elementus.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ModServerEvents {
+public class ServerEvents {
     private static final int parryWindow = 6;
 
     @SubscribeEvent

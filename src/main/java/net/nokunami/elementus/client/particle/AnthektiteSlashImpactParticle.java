@@ -11,18 +11,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class SonicBoomBurstStartParticle extends HugeExplosionParticle {
-    private final float rotSpeed;
+public class AnthektiteSlashImpactParticle extends HugeExplosionParticle {
+    private float rotSpeed;
     private final SpriteSet sprites;
+    private static final int totalLifetime = 12;
 
-    public SonicBoomBurstStartParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
+    public AnthektiteSlashImpactParticle(ClientLevel pLevel, double pX, double pY, double pZ, double pQuadSizeMultiplier, SpriteSet pSprites) {
         super(pLevel, pX, pY, pZ, pQuadSizeMultiplier, pSprites);
         this.sprites = pSprites;
-        this.lifetime = 24;
-        this.quadSize = 3F;
+        this.lifetime = totalLifetime;
+        this.quadSize = 1.5F;
         this.setSpriteFromAge(pSprites);
-        this.rotSpeed = 0.05F + ((float) Math.min(0.05F, Math.random() * 0.05F));
-        this.roll = (float)Math.random() * ((float)Math.PI * 0.5F);
+        this.rotSpeed = 40;
     }
 
     @Override
@@ -30,7 +30,10 @@ public class SonicBoomBurstStartParticle extends HugeExplosionParticle {
         super.tick();
         this.setSpriteFromAge(this.sprites);
         this.oRoll = this.roll;
-        this.roll += (float)Math.PI * this.rotSpeed * 2.0F;
+        if (this.age >= totalLifetime/2) {
+            this.rotSpeed = this.rotSpeed - this.rotSpeed * 0.5F;
+        } else this.rotSpeed = this.rotSpeed - this.rotSpeed * 0.1F;
+        this.roll += (float) (this.rotSpeed * (Math.PI * 0.01));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -42,11 +45,7 @@ public class SonicBoomBurstStartParticle extends HugeExplosionParticle {
         }
 
         public Particle createParticle(@NotNull SimpleParticleType pType, @NotNull ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-            SonicBoomBurstStartParticle particle = new SonicBoomBurstStartParticle(pLevel, pX, pY, pZ, pXSpeed, this.sprites);
-            particle.rCol = 1;
-            particle.gCol = 1;
-            particle.bCol = 1;
-            return particle;
+            return new AnthektiteSlashImpactParticle(pLevel, pX, pY, pZ, pXSpeed, this.sprites);
         }
     }
 }

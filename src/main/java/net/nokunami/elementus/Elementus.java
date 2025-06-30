@@ -8,9 +8,7 @@ import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -22,13 +20,12 @@ import net.minecraftforge.resource.PathPackResources;
 import net.nokunami.elementus.client.ClientProxy;
 import net.nokunami.elementus.common.CreativeTabProperties;
 import net.nokunami.elementus.common.config.*;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.*;
 import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
 import net.nokunami.elementus.datagen.loot.ModLootModifiers;
-import net.nokunami.elementus.event.ModClientEvents;
-import net.nokunami.elementus.event.ModServerEvents;
+import net.nokunami.elementus.event.ClientEvents;
+import net.nokunami.elementus.event.ServerEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -96,7 +93,7 @@ public class Elementus {
         ModTrunkPlacer.register(modEventBus);
         ModParticleTypes.register(modEventBus);
 
-        MinecraftForge.EVENT_BUS.register(new ModServerEvents());
+        MinecraftForge.EVENT_BUS.register(new ServerEvents());
 
         if (ModChecker.integrationTab()) CreativeTabProperties.register(modEventBus);
 
@@ -104,7 +101,7 @@ public class Elementus {
         modEventBus.addListener(this::addPackFinders);
         modEventBus.addListener(this::commonSetup);
         ModNetwork.setup();
-        modEventBus.addListener(ModClientEvents::itemDecorations);
+        modEventBus.addListener(ClientEvents::itemDecorations);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {

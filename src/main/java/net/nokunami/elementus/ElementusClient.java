@@ -37,6 +37,7 @@ import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.particle.*;
 import net.nokunami.elementus.client.render.CatalystElytraLayer;
 import net.nokunami.elementus.client.render.entity.projectile.SonicRushParticleEntityRenderer;
+import net.nokunami.elementus.client.render.entity.projectile.SwordDanceSlashRenderer;
 import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
 import net.nokunami.elementus.client.render.vehicle.ModChestRenderer;
 import net.nokunami.elementus.client.render.entity.steelGolem.SteelGolemRenderer;
@@ -75,6 +76,7 @@ public class ElementusClient {
         EntityRenderers.register(ModEntityType.STEEL_GOLEM.get(), SteelGolemRenderer::new);
         EntityRenderers.register(ModEntityType.ANTHEKTITE_SLASH.get(), AnthektiteSlashRenderer::new);
         EntityRenderers.register(ModEntityType.SONIC_RUSH.get(), SonicRushParticleEntityRenderer::new);
+        EntityRenderers.register(ModEntityType.SWORD_DANCE_SLASH.get(), SwordDanceSlashRenderer::new);
 
 
         if (ModConfig.CLIENT.lavaRendererType.get()) {
@@ -170,5 +172,7 @@ public class ElementusClient {
         event.registerSpriteSet(ModParticleTypes.PARRY_RESONANCE.get(), ParryParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.SONIC_BOOM_START.get(), SonicBoomBurstStartParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BOOM_START.get(), SonicBoomBurstStartParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.SLASH_IMPACT.get(), AnthektiteSlashImpactParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.SLASH_CLASH.get(), AnthektiteSlashImpactParticle.Provider::new);
     }
 }

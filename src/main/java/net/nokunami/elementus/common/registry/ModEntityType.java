@@ -29,6 +29,9 @@ public class ModEntityType {
     public static final RegistryObject<EntityType<SonicRustParticleEntity>> SONIC_RUSH = ENTITY_TYPES.register("sonic_rush",
             () -> EntityType.Builder.<SonicRustParticleEntity>of(SonicRustParticleEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).build("sonic_rush"));
 
+    public static final RegistryObject<EntityType<SwordDanceSlashEntity>> SWORD_DANCE_SLASH = ENTITY_TYPES.register("sword_dance_slash",
+            () -> EntityType.Builder.<SwordDanceSlashEntity>of(SwordDanceSlashEntity::new, MobCategory.MISC).sized(2.0F, 2.0F).build("sword_dance_slash"));
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

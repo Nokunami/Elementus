@@ -15,7 +15,10 @@ import net.minecraft.server.players.OldUsersConverter;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
@@ -35,22 +38,21 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModItems;
-import net.nokunami.elementus.common.registry.ModMobEffects;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Predicate;
 
-public class AnthektiteSlash extends Projectile {
-    protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.OPTIONAL_UUID);
-    protected static final EntityDataAccessor<Boolean> CHARGEABLE = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.BOOLEAN);
-    protected static final EntityDataAccessor<BlockPos> BLOCK_POS = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.BLOCK_POS);
-    protected static final EntityDataAccessor<Float> DISCARD_DISTANCE = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.FLOAT);
-    protected static final EntityDataAccessor<Integer> DISCARD_TIME = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.INT);
-    protected static final EntityDataAccessor<Boolean> FRIENDLY_FIRE = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.BOOLEAN);
-    protected static final EntityDataAccessor<ItemStack> WEAPON = SynchedEntityData.defineId(AnthektiteSlash.class, EntityDataSerializers.ITEM_STACK);
+public class SwordDanceSlashEntity extends Projectile {
+    protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+    protected static final EntityDataAccessor<Integer> DISCARD_TIME = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.INT);
+    protected static final EntityDataAccessor<Boolean> FRIENDLY_FIRE = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.BOOLEAN);
+    protected static final EntityDataAccessor<ItemStack> WEAPON = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.ITEM_STACK);
     private ItemStack weapon = new ItemStack(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
     private float damage;
     private int delay;
@@ -62,7 +64,7 @@ public class AnthektiteSlash extends Projectile {
         (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null && (ownable.getOwner().is(this.getTrueOwner()) ||
                 ownable.getOwner().isAlliedTo(this.getTrueOwner())) && getFriendlyFire()) || ownable.getOwner() == null));
 
-    public AnthektiteSlash(EntityType<? extends Projectile> entityType, Level level) {
+    public SwordDanceSlashEntity(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
         this.damage = 7.5F;
         this.delay = 0;
@@ -70,28 +72,29 @@ public class AnthektiteSlash extends Projectile {
         this.alreadyHitEntities = new HashSet<>();
     }
 
-    protected AnthektiteSlash(EntityType<? extends Projectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
+    protected SwordDanceSlashEntity(EntityType<? extends Projectile> pEntityType, double pX, double pY, double pZ, Level pLevel) {
         this(pEntityType, pLevel);
         this.setPos(pX, pY, pZ);
     }
 
-    protected AnthektiteSlash(EntityType<? extends Projectile> pEntityType, LivingEntity pShooter, Level pLevel) {
+    protected SwordDanceSlashEntity(EntityType<? extends Projectile> pEntityType, LivingEntity pShooter, Level pLevel) {
         this(pEntityType, pShooter.getX(), pShooter.getEyeY() - (double)0.1F, pShooter.getZ(), pLevel);
         this.setOwner(pShooter);
     }
 
-    public AnthektiteSlash(Level pLevel, LivingEntity pShooter) {
-        this(ModEntityType.ANTHEKTITE_SLASH.get(), pShooter, pLevel);
+    public SwordDanceSlashEntity(Level pLevel, LivingEntity pShooter) {
+        this(ModEntityType.SWORD_DANCE_SLASH.get(), pShooter, pLevel);
         this.weapon = pShooter.getMainHandItem();
     }
 
-    public void launchSlash(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
+    public void launchSlash(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy, Vec3 vec3) {
         float f = -Mth.sin(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
         float f1 = -Mth.sin((pX + pZ) * ((float)Math.PI / 180F));
         float f2 = Mth.cos(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
         this.shoot(f, f1, f2, pVelocity, pInaccuracy);
-        Vec3 vec3 = pShooter.getDeltaMovement();
-        this.setDeltaMovement(this.getDeltaMovement().add(vec3.x, 0.0D, vec3.z));
+        Vec3 vec31 = pShooter.getDeltaMovement();
+        this.setPos(vec3.x, vec3.y - 1, vec3.z);
+        this.setDeltaMovement(this.getDeltaMovement().add(vec31.x, 0.0D, vec31.z));
     }
 
     public float getDamage() {
@@ -104,9 +107,6 @@ public class AnthektiteSlash extends Projectile {
 
     protected void defineSynchedData() {
         this.entityData.define(OWNER_UNIQUE_ID, Optional.empty());
-        this.entityData.define(CHARGEABLE, false);
-        this.entityData.define(BLOCK_POS, BlockPos.ZERO);
-        this.entityData.define(DISCARD_DISTANCE, 10F);
         this.entityData.define(FRIENDLY_FIRE, false);
         this.entityData.define(WEAPON, ItemStack.EMPTY);
         this.entityData.define(DISCARD_TIME, 0);
@@ -130,12 +130,6 @@ public class AnthektiteSlash extends Projectile {
         if (compound.contains("Damage")) {
             this.setDamage(compound.getFloat("Damage"));
         }
-        this.setChargeable(compound.getBoolean("Chargeable"));
-        int x = compound.getInt("PosX");
-        int y = compound.getInt("PosY");
-        int z = compound.getInt("PosZ");
-        this.setBlockPos(new BlockPos(x, y, z));
-        this.setDiscardDistance(compound.getFloat("DiscardDistance"));
         this.setFriendlyFire(compound.getBoolean("FriendlyFire"));
         CompoundTag stack = compound.getCompound("ItemStack");
         if (!stack.isEmpty()) {
@@ -152,11 +146,6 @@ public class AnthektiteSlash extends Projectile {
             compound.putUUID("Owner", this.getOwnerId());
         }
         compound.putFloat("Damage", this.getDamage());
-        compound.putBoolean("Chargeable", this.getChargeable());
-        compound.putInt("PosX", getBlockPos().getX());
-        compound.putInt("PosY", getBlockPos().getY());
-        compound.putInt("PosZ", getBlockPos().getZ());
-        compound.putFloat("DiscardDistance", this.getDiscardDistance());
         compound.putBoolean("FriendlyFire", this.getFriendlyFire());
         if (!this.getItemStack().isEmpty()) {
             compound.put("ItemStack", this.getItemStack().save(new CompoundTag()));
@@ -180,30 +169,6 @@ public class AnthektiteSlash extends Projectile {
 
     public void setOwnerId(@Nullable UUID p_184754_1_) {
         this.entityData.set(OWNER_UNIQUE_ID, Optional.ofNullable(p_184754_1_));
-    }
-
-    public boolean getChargeable() {
-        return this.entityData.get(CHARGEABLE);
-    }
-
-    public void setChargeable(boolean blockPos) {
-        this.entityData.set(CHARGEABLE, blockPos);
-    }
-
-    public BlockPos getBlockPos() {
-        return this.entityData.get(BLOCK_POS);
-    }
-
-    public void setBlockPos(BlockPos blockPos) {
-        this.entityData.set(BLOCK_POS, blockPos);
-    }
-
-    public float getDiscardDistance() {
-        return this.entityData.get(DISCARD_DISTANCE);
-    }
-
-    public void setDiscardDistance(float v) {
-        this.entityData.set(DISCARD_DISTANCE, v);
     }
 
     public boolean getFriendlyFire() {
@@ -233,62 +198,27 @@ public class AnthektiteSlash extends Projectile {
     public void tick() {
         this.setFriendlyFire(AnthektiteChargeBlade.getFriendlyFire(this.weapon));
 
-        double discardDistance = Mth.square(this.getDiscardDistance());
         Set<Entity> targets = new HashSet<>();
 
-        if (this.getTrueOwner() != null && getBlockPos() != null) {
-            double blockPos = this.distanceToSqr(this.getBlockPos().getCenter());
-            if (blockPos >= discardDistance) {
-                this.setDiscardTime(this.getDiscardTime() + 1);
-            }
-
-            if (this.getDiscardTime() == 1) {
-                this.level().addParticle(ModParticleTypes.SLASH_IMPACT.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
-            } else if (this.getDiscardTime() > 1) {
+        if (this.getTrueOwner() != null) {
+            this.setDiscardTime(this.getDiscardTime() + 1);
+            if (this.getDiscardTime() > 6) {
                 this.discard();
             }
-
 
             for (Entity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5F), REMOVE_PREDICATE)) {
                 if (this.getTrueOwner() != null) {
                     targets.add(entity);
                 }
             }
-
-            if (this.distanceToSqr(this.getBlockPos().getCenter()) < Mth.square(2)) {
-                if (pTimer < 0) ++pTimer;
-            }
         }
-
-        Vec3 vec3 = this.getDeltaMovement();
-        double d0 = this.getX() + vec3.x;
-        double d1 = this.getY() + vec3.y;
-        double d2 = this.getZ() + vec3.z;
-//        if (this.level().isClientSide || (owner == null || !owner.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
-//            if (this.delay < totalDelay){
-//                delay += 1;
-//            } else {
-//                this.level().addParticle(ParticleTypes.SWEEP_ATTACK, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-//                delay = 0;
-//            }
-//        }
-        if (pTimer > 2) {
-            if (this.delay < totalDelay){
-                delay += 1;
-            } else {
-                if (this.level().isClientSide())
-                    this.level().addParticle(ParticleTypes.SWEEP_ATTACK, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-                delay = 0;
-            }
-        }
-
 
         targets.remove(this.getTrueOwner());
         float damage1 = this.getDamage();
         if (!targets.isEmpty()){
             for (Entity entity: targets){
                 if (this.getTrueOwner() != null) {
-                    if (entity instanceof AnthektiteSlash slash && (slash.getTrueOwner() == null || !slash.getTrueOwner().isAlliedTo(this.getTrueOwner()))) {
+                    if (entity instanceof SwordDanceSlashEntity slash && (slash.getTrueOwner() == null || !slash.getTrueOwner().isAlliedTo(this.getTrueOwner()))) {
                         this.level().addParticle(ModParticleTypes.SLASH_CLASH.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
                         this.discard();
                     }
@@ -296,7 +226,7 @@ public class AnthektiteSlash extends Projectile {
                         targets.remove(entity);
                         this.getTrueOwner().sendSystemMessage(Component.literal("Removed: " + entity.getType()));
                     }
-                    if (entity instanceof LivingEntity living && entity != this.getTrueOwner() /*&& !areAllies(entity, this.getTrueOwner())*/) {
+                    if (entity instanceof LivingEntity living && entity != this.getTrueOwner()) {
                         damage1 += EnchantmentHelper.getDamageBonus(this.weapon, (living).getMobType());
                         hurtMob(living, entity.damageSources().playerAttack((Player) getTrueOwner()), damage1);
                     }
@@ -334,21 +264,14 @@ public class AnthektiteSlash extends Projectile {
         this.setXRot(Mth.wrapDegrees(xRot));
         this.setYRot(Mth.wrapDegrees(yRot));
         Vec3 vec34 = this.getDeltaMovement();
-//        this.setDeltaMovement(vec34.x + 0.05D, vec34.y + 0.05D, vec34.z + 0.05D);
-        this.setDeltaMovement(vec34.x + (vec34.x * 0.125), vec34.y + (vec34.y * 0.125), vec34.z + (vec34.z * 0.125));
+        this.setDeltaMovement(vec34.x, vec34.y, vec34.z);
     }
 
     private void hurtMob(LivingEntity entity, DamageSource source, float damage) {
-        if (this.getChargeable() && entity.getLastAttacker() == this.getTrueOwner()) {
-            if (!entity.hasEffect(ModMobEffects.ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()))
-                AnthektiteChargeBlade.setCharge(this.weapon, 1);
-            this.setChargeable(false);
-        }
         if (!alreadyHitEntities.contains(entity)) {
             this.level().addParticle(ModParticleTypes.SLASH_IMPACT.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
             this.alreadyHitEntities.add(entity);
         }
-//        this.getTrueOwner().sendSystemMessage(Component.literal( "chargeable: " + this.getChargeable()));
         entity.hurt(source, damage);
     }
 

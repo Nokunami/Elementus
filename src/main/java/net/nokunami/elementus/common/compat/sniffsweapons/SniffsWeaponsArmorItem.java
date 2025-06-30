@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
-public class SniffsWeaponsArmorItem extends ModDyeableArmorItem {
+public class SniffsWeaponsArmorItem extends DyeableArmorItem {
     private final int color;
     private final String texture_type;
 

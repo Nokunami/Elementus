@@ -102,6 +102,5 @@ public class StylishArmorModel extends HumanoidModel<LivingEntity> {
                 this.surcoat.visible = true;
                 this.body.visible = true;
         }
-
     }
 }

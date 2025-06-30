@@ -20,6 +20,8 @@ public class ModParticleTypes {
     public static final RegistryObject<SimpleParticleType> PARRY_RESONANCE = PARTICLE.register("parry_resonance", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SONIC_BOOM_START = PARTICLE.register("sonic_boom_start", () -> new SimpleParticleType(true));
     public static final RegistryObject<SimpleParticleType> SACRIFICE_SONIC_BOOM_START = PARTICLE.register("sacrifice_sonic_boom_start", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> SLASH_IMPACT = PARTICLE.register("anthektite_slash_impact", () -> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> SLASH_CLASH = PARTICLE.register("anthektite_slash_clash", () -> new SimpleParticleType(true));
 
     public static void register(IEventBus eventBus) {
         PARTICLE.register(eventBus);

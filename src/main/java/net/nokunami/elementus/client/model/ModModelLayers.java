@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.client.model.armor.*;
 import net.nokunami.elementus.client.model.armor.ironsSpellbooks.AnthektiteMageArmorModel;
 import net.nokunami.elementus.client.model.armor.ironsSpellbooks.DiarkriteMageArmorModel;
@@ -21,6 +20,7 @@ import net.nokunami.elementus.client.model.armor.sniffsWeapons.SamuraiArmorModel
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.StylishArmorModel;
 import net.nokunami.elementus.client.model.mob.*;
 import net.nokunami.elementus.client.model.projectile.AnthektiteSlashModel;
+import net.nokunami.elementus.client.model.projectile.SwordDanceSlashModel;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
@@ -86,6 +86,8 @@ public class ModModelLayers {
 
     public static final ModelLayerLocation ANTHEKTITE_SLASH = new ModelLayerLocation(
             new ResourceLocation(MODID, "anthektite_slash"), "main");
+    public static final ModelLayerLocation SWORD_DANCE_SLASH = new ModelLayerLocation(
+            new ResourceLocation(MODID, "sword_dance_slash"), "main");
 
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -126,6 +128,7 @@ public class ModModelLayers {
         event.registerLayerDefinition(STEEL_GOLEM_CHEST, SteelGolemChestModel::createChestLayer);
 
         event.registerLayerDefinition(ANTHEKTITE_SLASH, AnthektiteSlashModel::createLayer);
+        event.registerLayerDefinition(SWORD_DANCE_SLASH, SwordDanceSlashModel::createLayer);
     }
 
     private static ModelLayerLocation createLocation(String model) {

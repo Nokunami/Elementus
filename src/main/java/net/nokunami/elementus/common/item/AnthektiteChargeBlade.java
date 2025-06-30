@@ -28,6 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import net.nokunami.elementus.common.entity.projectile.AnthektiteSlash;
+import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
 import net.nokunami.elementus.common.network.AnthektiteChargeBladeSlashPacket;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.ModMobEffects;
@@ -113,7 +114,7 @@ public class AnthektiteChargeBlade extends ChargeSwordItem {
     public static void spawnSlash(Player player, InteractionHand hand) {
         Level level = player.level();
         if (player.getAttackStrengthScale(1.0F) >= 0.99F) {
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_EYE_DEATH, SoundSource.NEUTRAL, 1.0F, 1.4F / (level.random.nextFloat() * 0.4F + 0.8F));
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_EYE_DEATH, SoundSource.PLAYERS, 1.0F, 1.4F / (level.random.nextFloat() * 0.4F + 0.8F));
             if (!level.isClientSide) {
                 AnthektiteSlash slash = new AnthektiteSlash(level, player);
                 slash.setOwnerId(player.getUUID());
@@ -125,6 +126,24 @@ public class AnthektiteChargeBlade extends ChargeSwordItem {
                 slash.launchSlash(player, player.getXRot(), player.getYRot(), 0.0F, 0.25F, 1.0F);
                 level.addFreshEntity(slash);
             }
+        }
+    }
+
+    public static void swordDanceSlash(Player player, InteractionHand hand) {
+        Level level = player.level();
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_EYE_DEATH, SoundSource.PLAYERS, 1.0F, 1.4F / (level.random.nextFloat() * 0.4F + 0.8F));
+        if (!level.isClientSide) {
+            Vec3 eyePos = player.getEyePosition();
+            Vec3 target = eyePos.add(Vec3.directionFromRotation(player.getXRot(), player.yHeadRot).scale(1));
+            Vec3 offsetToTarget = target.subtract(eyePos);
+            Vec3 particle = eyePos.add(offsetToTarget.normalize().scale(2));
+
+            SwordDanceSlashEntity slash = new SwordDanceSlashEntity(level, player);
+            slash.setOwnerId(player.getUUID());
+            slash.setDamage(20);
+            slash.setItemStack(player.getItemInHand(hand));
+            slash.launchSlash(player, player.getXRot(), player.getYRot(), 0.0F, 0.05F, 1, particle);
+            level.addFreshEntity(slash);
         }
     }
 

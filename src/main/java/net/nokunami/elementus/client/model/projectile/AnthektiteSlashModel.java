@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class AnthektiteSlashModel extends Model {
-    public static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/trident.png");
     private final ModelPart root;
 
     public AnthektiteSlashModel(ModelPart pRoot) {
