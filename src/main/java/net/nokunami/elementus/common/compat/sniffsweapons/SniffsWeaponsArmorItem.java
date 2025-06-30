@@ -10,7 +10,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ElementusClient;
-import net.nokunami.elementus.common.item.ModDyeableArmorItem;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +19,7 @@ import java.util.function.Consumer;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
-public class SniffsWeaponsArmorItem extends ModDyeableArmorItem {
+public class SniffsWeaponsArmorItem extends DyeableArmorItem {
     private final int color;
     private final String texture_type;
 
