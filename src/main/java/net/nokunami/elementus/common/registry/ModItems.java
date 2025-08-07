@@ -1,6 +1,5 @@
 package net.nokunami.elementus.common.registry;
 
-import net.dakotapride.vanilla_claws.item.ClawsItem;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -10,9 +9,13 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import net.nokunami.elementus.common.config.*;
+import net.nokunami.elementus.common.config.ItemConfig;
+import net.nokunami.elementus.common.config.TierConfig;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
-import net.nokunami.elementus.common.item.*;
+import net.nokunami.elementus.common.item.GolemUpgradeProperties;
+import net.nokunami.elementus.common.item.ModBoatItem;
+import net.nokunami.elementus.common.item.ModBowItem;
+import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
 import net.nokunami.elementus.common.item.basic.*;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
@@ -275,63 +278,6 @@ public class ModItems {
                 () -> new ModBoatItem(false, ModBoatEntity.Type.MOVCADIA, new Item.Properties().fireResistant().stacksTo(1)));
         public static final RegistryObject<Item> MOVCADIA_CHEST_BOAT = ITEMS.register("movcadia_chest_boat",
                 () -> new ModBoatItem(true, ModBoatEntity.Type.MOVCADIA, new Item.Properties().fireResistant().stacksTo(1)));
-
-        public static void register(IEventBus eventBus) {
-            ITEMS.register(eventBus);
-        }
-    }
-
-    public static class WitherstormModItems {
-        public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-
-        public static final RegistryObject<Item> STEEL_CMD_SWORD = ITEMS.register("steel_command_block_sword", () -> new ModSwordItem(ModTiers.STEEL_CMD,
-                WSConfig.steelCMDSwordDamage, (float) WSConfig.steelCMDSwordAttackSpeed + steelSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> STEEL_CMD_SHOVEL = ITEMS.register("steel_command_block_shovel", () -> new ModShovelItem(ModTiers.STEEL_CMD,
-                (float) WSConfig.steelCMDShovelDamage, (float) WSConfig.steelCMDShovelAttackSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> STEEL_CMD_PICKAXE = ITEMS.register("steel_command_block_pickaxe", () -> new ModPickaxeItem(ModTiers.STEEL_CMD,
-                WSConfig.steelCMDPickaxeDamage, (float) WSConfig.steelCMDPickaxeAttackSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> STEEL_CMD_AXE = ITEMS.register("steel_command_block_axe", () -> new ModAxeItem(ModTiers.STEEL_CMD,
-                WSConfig.steelCMDAxeDamage, (float) WSConfig.steelCMDAxeAttackSpeed + steelSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> STEEL_CMD_HOE = ITEMS.register("steel_command_block_hoe", () -> new ModHoeItem(ModTiers.STEEL_CMD,
-                WSConfig.steelCMDHoeDamage, (float) WSConfig.steelCMDHoeAttackSpeed, new Item.Properties()));
-
-
-        public static final RegistryObject<Item> DIARKRITE_CMD_SWORD = ITEMS.register("diarkrite_command_block_sword", () -> new ModSwordItem(ModTiers.DIARKRITE_CMD,
-                WSConfig.diarkriteCMDSwordDamage, (float) WSConfig.diarkriteCMDSwordAttackSpeed + diarkriteSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> DIARKRITE_CMD_SHOVEL = ITEMS.register("diarkrite_command_block_shovel", () -> new ModShovelItem(ModTiers.DIARKRITE_CMD,
-                (float) WSConfig.diarkriteCMDShovelDamage, (float) WSConfig.diarkriteCMDShovelAttackSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> DIARKRITE_CMD_PICKAXE = ITEMS.register("diarkrite_command_block_pickaxe", () -> new ModPickaxeItem(ModTiers.DIARKRITE_CMD,
-                WSConfig.diarkriteCMDPickaxeDamage, (float) WSConfig.diarkriteCMDPickaxeAttackSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> DIARKRITE_CMD_AXE = ITEMS.register("diarkrite_command_block_axe", () -> new ModAxeItem(ModTiers.DIARKRITE_CMD,
-                WSConfig.diarkriteCMDAxeDamage, (float) WSConfig.diarkriteCMDAxeAttackSpeed + diarkriteSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> DIARKRITE_CMD_HOE = ITEMS.register("diarkrite_command_block_hoe", () -> new ModHoeItem(ModTiers.DIARKRITE_CMD,
-                WSConfig.diarkriteCMDHoeDamage, (float) WSConfig.diarkriteCMDHoeAttackSpeed, new Item.Properties()));
-
-
-        public static final RegistryObject<Item> ANTHEKTITE_CMD_SWORD = ITEMS.register("anthektite_command_block_sword", () -> new ModSwordItem(ModTiers.ANTHEKTITE_CMD,
-                WSConfig.anthektiteCMDSwordDamage, (float) WSConfig.anthektiteCMDSwordAttackSpeed + anthektiteSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> ANTHEKTITE_CMD_SHOVEL = ITEMS.register("anthektite_command_block_shovel", () -> new ModShovelItem(ModTiers.ANTHEKTITE_CMD,
-                (float) WSConfig.anthektiteCMDShovelDamage, (float) WSConfig.anthektiteCMDShovelAttackSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> ANTHEKTITE_CMD_PICKAXE = ITEMS.register("anthektite_command_block_pickaxe", () -> new ModPickaxeItem(ModTiers.ANTHEKTITE_CMD,
-                WSConfig.anthektiteCMDPickaxeDamage, (float) WSConfig.anthektiteCMDPickaxeAttackSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> ANTHEKTITE_CMD_AXE = ITEMS.register("anthektite_command_block_axe", () -> new ModAxeItem(ModTiers.ANTHEKTITE_CMD,
-                WSConfig.anthektiteCMDAxeDamage, (float) WSConfig.anthektiteCMDAxeAttackSpeed + anthektiteSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> ANTHEKTITE_CMD_HOE = ITEMS.register("anthektite_command_block_hoe", () -> new ModHoeItem(ModTiers.ANTHEKTITE_CMD,
-                WSConfig.anthektiteCMDHoeDamage, (float) WSConfig.anthektiteCMDHoeAttackSpeed, new Item.Properties()));
-
-        public static void register(IEventBus eventBus) {
-            ITEMS.register(eventBus);
-        }
-    }
-    public static class BanillaClawsItems {
-        public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-
-        public static final RegistryObject<Item> STEEL_CLAWS = ITEMS.register("steel_claws", () -> new ClawsItem(ModTiers.STEEL_CLAW,
-                ItemConfig.steelClawDamage, (float) ItemConfig.steelClawAttackSpeed + steelSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> DIARKRITE_CLAWS = ITEMS.register("diarkrite_claws", () -> new ClawsItem(ModTiers.DIARKRITE_CLAW,
-                ItemConfig.diarkriteClawDamage, (float) ItemConfig.diarkriteClawAttackSpeed + diarkriteSpeed, new Item.Properties()));
-        public static final RegistryObject<Item> ANTHEKTITE_CLAWS = ITEMS.register("anthektite_claws", () -> new ClawsItem(ModTiers.ANTHEKTITE_CLAW,
-                ItemConfig.anthektiteClawDamage, (float) ItemConfig.anthektiteClawAttackSpeed + anthektiteSpeed, new Item.Properties()));
 
         public static void register(IEventBus eventBus) {
             ITEMS.register(eventBus);

@@ -3,8 +3,8 @@ package net.nokunami.elementus.common.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.nokunami.elementus.common.registry.ModBlockEntityType;
 import net.nokunami.elementus.common.block.entity.ModChestBlockEntity;
+import net.nokunami.elementus.common.registry.ModBlockEntityType;
 
 public enum ModChests {
 

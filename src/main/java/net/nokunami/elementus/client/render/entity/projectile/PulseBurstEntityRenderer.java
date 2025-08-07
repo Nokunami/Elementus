@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.nokunami.elementus.common.entity.projectile.PulseBurstEntity;
-import net.nokunami.elementus.common.entity.projectile.RushProjectileEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class PulseBurstEntityRenderer extends EntityRenderer<PulseBurstEntity> {

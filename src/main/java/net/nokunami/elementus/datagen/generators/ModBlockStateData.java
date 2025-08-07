@@ -1,10 +1,13 @@
 package net.nokunami.elementus.datagen.generators;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.CeilingHangingSignBlock;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.WallHangingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
 import net.nokunami.elementus.datagen.providers.ModBlockStateProvider;
-import net.nokunami.elementus.common.registry.ModBlocks.*;
 
 public class ModBlockStateData extends ModBlockStateProvider {
     public ModBlockStateData(PackOutput output, String modid, ExistingFileHelper exFileHelper) {

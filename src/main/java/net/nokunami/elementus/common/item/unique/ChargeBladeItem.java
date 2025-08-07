@@ -38,7 +38,8 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 import static net.nokunami.elementus.ModChecker.betterCombat;
-import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
+import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeBaseCharge;
+import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeChargePenalty;
 import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 
 public class ChargeBladeItem extends SwordItem {

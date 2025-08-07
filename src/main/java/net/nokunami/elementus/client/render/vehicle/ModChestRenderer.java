@@ -24,9 +24,9 @@ import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.block.entity.ModChestBlockEntity;
 import net.nokunami.elementus.common.block.ModChestBlock;
 import net.nokunami.elementus.common.block.ModChests;
+import net.nokunami.elementus.common.block.entity.ModChestBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class ModChestRenderer<T extends ModChestBlockEntity & LidBlockEntity> extends ChestRenderer<T> {

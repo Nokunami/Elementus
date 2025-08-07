@@ -8,7 +8,7 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

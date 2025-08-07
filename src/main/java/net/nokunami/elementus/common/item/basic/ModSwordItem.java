@@ -6,7 +6,10 @@ import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.config.ModConfig;
@@ -19,7 +22,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static net.nokunami.elementus.common.item.EItemUtil.*;
+import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
+import static net.nokunami.elementus.common.item.EItemUtil.setMovcadiaEssence;
 
 public class ModSwordItem extends SwordItem {
     public ModSwordItem(Tier tier, int attackDamage, float attackSpeed, Properties properties) {

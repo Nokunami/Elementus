@@ -1,9 +1,7 @@
 package net.nokunami.elementus.common.effect;
 
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.item.ItemStack;
-import net.nokunami.elementus.common.registry.ModMobEffects;
 
 import java.util.List;
 

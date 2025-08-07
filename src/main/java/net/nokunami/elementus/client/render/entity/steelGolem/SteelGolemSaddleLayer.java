@@ -12,7 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.ModModelLayers;
-import net.nokunami.elementus.client.model.mob.*;
+import net.nokunami.elementus.client.model.mob.SteelGolemModel;
+import net.nokunami.elementus.client.model.mob.SteelGolemSaddleModel;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 

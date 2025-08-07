@@ -8,7 +8,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.nokunami.elementus.client.model.armor.*;
+import net.nokunami.elementus.client.model.armor.CatalystBaseModel;
+import net.nokunami.elementus.client.model.armor.CatalystElytraModel;
+import net.nokunami.elementus.client.model.armor.ExtendedArmorModel;
 import net.nokunami.elementus.client.model.armor.ironsSpellbooks.AnthektiteMageArmorModel;
 import net.nokunami.elementus.client.model.armor.ironsSpellbooks.DiarkriteMageArmorModel;
 import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiArmorModel;
@@ -18,7 +20,10 @@ import net.nokunami.elementus.client.model.armor.sniffsWeapons.ClothedCuirassMod
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.HornedArmorModel;
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.SamuraiArmorModel;
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.StylishArmorModel;
-import net.nokunami.elementus.client.model.mob.*;
+import net.nokunami.elementus.client.model.mob.SteelGolemArmorModel;
+import net.nokunami.elementus.client.model.mob.SteelGolemChestModel;
+import net.nokunami.elementus.client.model.mob.SteelGolemModel;
+import net.nokunami.elementus.client.model.mob.SteelGolemSaddleModel;
 import net.nokunami.elementus.client.model.projectile.AnthektiteSlashModel;
 import net.nokunami.elementus.client.model.projectile.SwordDanceSlashModel;
 

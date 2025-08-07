@@ -9,12 +9,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.datagen.generators.*;
 import net.nokunami.elementus.datagen.generators.create.CreateProcessingRecipe;
-import net.nokunami.elementus.datagen.providers.ModGlobalLootModifierProvider;
 
 import java.util.concurrent.CompletableFuture;
 
 import static net.nokunami.elementus.Elementus.MODID;
-import static net.nokunami.elementus.ModChecker.*;
+import static net.nokunami.elementus.ModChecker.projectE;
 
 @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {

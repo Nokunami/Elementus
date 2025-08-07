@@ -16,9 +16,9 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidType;
-import net.nokunami.elementus.common.registry.ModBlocks.*;
+import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.IntFunction;

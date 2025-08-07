@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static net.minecraft.client.renderer.Sheets.*;
+import static net.minecraft.client.renderer.Sheets.CHEST_SHEET;
+import static net.minecraft.client.renderer.Sheets.SIGN_SHEET;
 
 public class ModAtlases {
     public static Material MOVCADIA_CHEST_MATERIAL;

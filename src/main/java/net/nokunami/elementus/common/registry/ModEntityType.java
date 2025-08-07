@@ -8,7 +8,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
-import net.nokunami.elementus.common.entity.projectile.*;
+import net.nokunami.elementus.common.entity.projectile.AnthektiteSlashEntity;
+import net.nokunami.elementus.common.entity.projectile.PulseBurstEntity;
+import net.nokunami.elementus.common.entity.projectile.RushProjectileEntity;
+import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
 import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
 

@@ -1,8 +1,5 @@
 package net.nokunami.elementus.datagen.generators;
 
-import com.aetherteam.aether.AetherTags;
-import com.ninni.twigs.TwigsTags;
-import io.redspace.ironsspellbooks.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -13,17 +10,13 @@ import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.compat.twigs.TWModBlocks;
 import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
-import net.nokunami.elementus.common.registry.ModBlocks.TwigsBlocks;
-import nonamecrackers2.witherstormmod.common.tags.WitherStormModBlockTags;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 import static net.nokunami.elementus.Elementus.modLoc;
-import static net.nokunami.elementus.ModChecker.*;
 
 public class ModBlockTagsData extends BlockTagsProvider {
     public ModBlockTagsData(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> compFeaHoldP, @Nullable ExistingFileHelper existHelper) {

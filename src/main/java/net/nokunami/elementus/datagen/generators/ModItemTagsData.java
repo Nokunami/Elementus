@@ -1,7 +1,5 @@
 package net.nokunami.elementus.datagen.generators;
 
-import com.aetherteam.aether.AetherTags;
-import com.ninni.twigs.TwigsTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -12,17 +10,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import org.jetbrains.annotations.NotNull;
-import umpaz.nethersdelight.common.tag.NDTags;
-import vectorwing.farmersdelight.common.tag.ModTags;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.Elementus.modLoc;
-import static net.nokunami.elementus.ModChecker.*;
 
 public class ModItemTagsData extends ItemTagsProvider {
     public ModItemTagsData(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> compFeaHoldP,

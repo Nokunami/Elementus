@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import static net.nokunami.elementus.Elementus.MODID;
-import static net.nokunami.elementus.ModChecker.*;
 
 @Mod(MODID)
 @Mod.EventBusSubscriber(modid = MODID)
@@ -41,20 +40,17 @@ public class Elementus {
     public static final String MODID = "elementus";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String CONFIG_VERSION = "1.4";
-    public static final Path TIER_CONFIG_PATH = configPath("config/elementus", "tier_config.toml");
-    public static final Path ITEM_CONFIG_PATH = configPath("config/elementus", "item_config.toml");
-    public static final Path UNIQUE_ITEM_CONFIG_PATH = configPath("config/elementus", "unique_item_config.toml");
-    public static final Path ARMOR_CONFIG_PATH = configPath("config/elementus", "armor_config.toml");
-    public static final Path CATALYST_CONFIG_PATH = configPath("config/elementus", "catalyst_armor_config.toml");
-    public static final Path ENTITY_CONFIG = configPath("config/elementus", "entity_config.toml");
-    public static final Path ISS_CONFIG_PATH = configPath("config/elementus/compat", "irons_spellbook_config.toml");
-    public static final Path AE_CONFIG_PATH = configPath("config/elementus/compat", "aether_config.toml");
-    public static final Path SS_CONFIG_PATH = configPath("config/elementus/compat", "simply_sword_config.toml");
-    public static final Path SW_CONFIG_PATH = configPath("config/elementus/compat", "sniff_weapon_config.toml");
-    public static final Path AN_CONFIG_PATH = configPath("config/elementus/compat", "advanced_netherite_config.toml");
-    public static final Path SD_CONFIG_PATH = configPath("config/elementus/compat", "samurai_dynasty_config.toml");
-    public static final Path WS_CONFIG_PATH = configPath("config/elementus/compat", "witherstorm_config.toml");
+    public static final Path TIER_CONFIG_PATH = configPath("tier_config.toml");
+    public static final Path ITEM_CONFIG_PATH = configPath("item_config.toml");
+    public static final Path UNIQUE_ITEM_CONFIG_PATH = configPath("unique_item_config.toml");
+    public static final Path ARMOR_CONFIG_PATH = configPath("armor_config.toml");
+    public static final Path CATALYST_CONFIG_PATH = configPath("catalyst_armor_config.toml");
+    public static final Path ENTITY_CONFIG = configPath("entity_config.toml");
     public static CommonProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+
+    static Path configPath(String configPath) {
+        return FMLPaths.getOrCreateGameRelativePath(Path.of("config/elementus")).resolve(configPath);
+    }
 
     static Path configPath(String path, String configPath) {
         return FMLPaths.getOrCreateGameRelativePath(Path.of(path)).resolve(configPath);

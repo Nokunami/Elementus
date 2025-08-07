@@ -9,10 +9,10 @@ import org.infernalstudios.archeryexp.util.BowUtil;
 
 import static net.nokunami.elementus.Elementus.modLoc;
 import static net.nokunami.elementus.ModChecker.archeryExp;
-import static net.nokunami.elementus.common.item.unique.CatalystArmorItem.catalystActivator;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
-import static net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade.*;
 import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
+import static net.nokunami.elementus.common.item.unique.CatalystArmorItem.catalystActivator;
+import static net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade.*;
 import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 
 public class ItemPredicateRegister {

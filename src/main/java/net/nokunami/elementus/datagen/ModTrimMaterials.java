@@ -10,7 +10,7 @@ import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.armortrim.TrimMaterial;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 
 import java.util.Map;
 

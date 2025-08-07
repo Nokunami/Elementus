@@ -20,8 +20,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.armor.CatalystElytraModel;
-import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.CatalystItemUtil;
+import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.MODID;

@@ -5,10 +5,7 @@ import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
-
-import static net.nokunami.elementus.ModChecker.*;
 
 public class ModLootModifiers {
 

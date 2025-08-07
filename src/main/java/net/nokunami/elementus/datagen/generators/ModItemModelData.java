@@ -2,9 +2,9 @@ package net.nokunami.elementus.datagen.generators;
 
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import net.nokunami.elementus.datagen.providers.ModItemModelProvider;
-import net.nokunami.elementus.common.registry.ModBlocks.*;
-import net.nokunami.elementus.common.registry.ModItems.*;
 
 public class ModItemModelData extends ModItemModelProvider {
     public ModItemModelData(PackOutput output, String modid, ExistingFileHelper existingFileHelper) {

@@ -15,8 +15,8 @@ import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableConditio
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.nokunami.elementus.common.registry.ModBlocks.*;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

@@ -12,9 +12,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.nokunami.elementus.client.gui.ItemBarItemDecoration;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
-import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.network.ChargeBladeAbilityPacket;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.nokunami.elementus.common.network.ModNetwork;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 
 import static net.nokunami.elementus.Elementus.MODID;
 

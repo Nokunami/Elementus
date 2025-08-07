@@ -5,7 +5,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
-import net.nokunami.elementus.common.registry.ModBlocks.*;
+import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
 
 import javax.annotation.Nullable;
 

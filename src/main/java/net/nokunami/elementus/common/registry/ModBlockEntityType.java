@@ -6,11 +6,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.block.entity.ModChestBlockEntity;
 import net.nokunami.elementus.common.block.ModChests;
+import net.nokunami.elementus.common.block.entity.ModChestBlockEntity;
 import net.nokunami.elementus.common.block.entity.ModHangingSignBlockEntity;
 import net.nokunami.elementus.common.block.entity.ModSignBlockEntity;
-import net.nokunami.elementus.common.registry.ModBlocks.*;
+import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
 
 public class ModBlockEntityType {
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Elementus.MODID);

@@ -1,6 +1,5 @@
 package net.nokunami.elementus.datagen.providers;
 
-import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -9,22 +8,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.nokunami.elementus.common.registry.ModItems.*;
-import net.nokunami.elementus.datagen.generators.ModRecipeData;
-import nl.sniffiandros.sniffsweapons.reg.ItemReg;
-import nonamecrackers2.witherstormmod.WitherStormMod;
-import nonamecrackers2.witherstormmod.common.item.crafting.builder.AnvilRecipeBuilder;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import static net.nokunami.elementus.ModChecker.*;
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
     protected final String id;

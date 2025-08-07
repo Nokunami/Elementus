@@ -35,7 +35,10 @@ import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
 import static net.nokunami.elementus.common.registry.ModEnchantments.*;

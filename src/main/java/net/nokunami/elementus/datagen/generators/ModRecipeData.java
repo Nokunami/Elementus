@@ -7,9 +7,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
 import net.nokunami.elementus.common.Etags;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import net.nokunami.elementus.datagen.generators.create.CreateProcessingRecipe;
 import net.nokunami.elementus.datagen.providers.ModRecipeProvider;
-import net.nokunami.elementus.common.registry.ModItems.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
