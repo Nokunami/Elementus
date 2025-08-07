@@ -1,8 +1,6 @@
-package net.nokunami.elementus.common.item;
+package net.nokunami.elementus.common.item.basic;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
@@ -12,6 +10,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.config.ModConfig;
+import net.nokunami.elementus.common.item.EItemUtil;
 import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
@@ -28,22 +27,6 @@ public class ModSwordItem extends SwordItem {
     }
 
     @Override
-    public @NotNull Rarity getRarity(@NotNull ItemStack stack) {
-        if (cmdTier(this.getTier())) {
-            return Rarity.EPIC;
-        }
-        return super.getRarity(stack);
-    }
-
-    @Override
-    public boolean canBeHurtBy(@NotNull DamageSource pDamageSource) {
-        if (cmdTier(this.getTier())) {
-            return pDamageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
-        }
-        return super.canBeHurtBy(pDamageSource);
-    }
-
-    @Override
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack otherStack, Slot slot, ClickAction action, Player player, SlotAccess access) {
         if (this.getTier().equals(ModTiers.MOVCADIA) && getMovcadiaEssence(stack) < 1 && otherStack.getItem() == ModItems.ElementusItems.MOVCADIA_ESSENCE.get() && action.equals(ClickAction.SECONDARY)) {
             EItemUtil.movcadiaClickAction(stack, otherStack, player);
@@ -56,14 +39,6 @@ public class ModSwordItem extends SwordItem {
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
         if (getMovcadiaEssence(stack) > 0) setMovcadiaEssence(stack, getMovcadiaEssence(stack) - 1);
         return super.damageItem(stack, amount, entity, onBroken);
-    }
-
-    @Override
-    public boolean isEnchantable(@NotNull ItemStack stack) {
-        if (cmdTier(this.getTier())) {
-            return this.getMaxStackSize(stack) == 1;
-        }
-        return super.isEnchantable(stack);
     }
 
 //    @Override

@@ -2,7 +2,7 @@ package net.nokunami.elementus.client;
 
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.ItemStack;
-import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
+import net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade;
 import org.jetbrains.annotations.NotNull;
 
 public class DiarkriteChargeBladeColor implements ItemColor {

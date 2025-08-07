@@ -3,12 +3,8 @@ package net.nokunami.elementus.datagen.generators;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
-import net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightBlocks;
 import net.nokunami.elementus.datagen.providers.ModBlockStateProvider;
 import net.nokunami.elementus.common.registry.ModBlocks.*;
-
-import static net.nokunami.elementus.ModChecker.*;
 
 public class ModBlockStateData extends ModBlockStateProvider {
     public ModBlockStateData(PackOutput output, String modid, ExistingFileHelper exFileHelper) {
@@ -58,21 +54,5 @@ public class ModBlockStateData extends ModBlockStateProvider {
         signBlock((StandingSignBlock) ElementusBlocks.STURDY_MOVCADIA_SIGN.get(), (WallSignBlock) ElementusBlocks.STURDY_MOVCADIA_WALL_SIGN.get(), this.texture(this.name(ElementusBlocks.MOVCADIA_LOG.get()), "natural/"));
 
         saplingBlock(ElementusBlocks.MOVCADIA_SAPLING, "natural/");
-
-        if (farmersDelight) {
-            cabinetBlock(FarmersDelightBlocks.MOVCADIA_CABINET.get(), "compat/farmersdelight/movcadia");
-        }
-        if (advancedNetherite) {
-            block(ANModBlocks.DIARKRITE_IRON_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.DIARKRITE_GOLD_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.DIARKRITE_EMERALD_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.DIARKRITE_DIAMOND_BLOCK, "compat/advancednetherite/");
-
-            block(ANModBlocks.ANTHEKTITE_IRON_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.ANTHEKTITE_GOLD_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.ANTHEKTITE_EMERALD_BLOCK, "compat/advancednetherite/");
-            block(ANModBlocks.ANTHEKTITE_DIAMOND_BLOCK, "compat/advancednetherite/");
-        }
-
     }
 }

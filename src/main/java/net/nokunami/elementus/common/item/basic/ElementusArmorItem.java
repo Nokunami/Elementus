@@ -1,4 +1,4 @@
-package net.nokunami.elementus.common.item;
+package net.nokunami.elementus.common.item.basic;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

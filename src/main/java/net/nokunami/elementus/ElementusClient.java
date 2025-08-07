@@ -1,8 +1,5 @@
 package net.nokunami.elementus;
 
-import com.aetherteam.aether.client.renderer.accessory.GlovesRenderer;
-import io.redspace.ironsspellbooks.item.SpellBook;
-import io.redspace.ironsspellbooks.render.SpellBookCurioRenderer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.particle.SonicBoomParticle;
@@ -18,7 +15,6 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -44,18 +40,12 @@ import net.nokunami.elementus.client.render.entity.steelGolem.SteelGolemRenderer
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
 import net.nokunami.elementus.client.render.vehicle.ModChestRenderer;
-import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
-import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
-import net.nokunami.elementus.common.compat.theaether.TAModItems;
 import net.nokunami.elementus.common.config.ModConfig;
 import net.nokunami.elementus.common.item.ItemPredicateRegister;
 import net.nokunami.elementus.common.registry.ModBlockEntityType;
 import net.nokunami.elementus.common.registry.ModBlockSetType;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
-import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
-
-import static net.nokunami.elementus.ModChecker.*;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Elementus.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -83,16 +73,6 @@ public class ElementusClient {
 
         if (ModConfig.CLIENT.lavaRendererType.get()) {
             ItemBlockRenderTypes.setRenderLayer(Fluids.LAVA, RenderType.translucent());
-        }
-
-        if (ironsSpellbooks) {
-            ISSModItems.getISSCompatItems().stream().filter((item) -> item.get() instanceof SpellBook)
-                    .forEach((item) -> CuriosRendererRegistry.register(item.get(), SpellBookCurioRenderer::new));
-        }
-        if (aether) {
-            CuriosRendererRegistry.register(TAModItems.STEEL_GLOVES.get(), GlovesRenderer::new);
-            CuriosRendererRegistry.register(TAModItems.ANTHEKTITE_GLOVES.get(), GlovesRenderer::new);
-            CuriosRendererRegistry.register(TAModItems.DIARKRITE_GLOVES.get(), GlovesRenderer::new);
         }
     }
 
@@ -133,30 +113,30 @@ public class ElementusClient {
 
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        if (sniffsWeapons) {
-            event.register((stack, layer) -> layer > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack),
-                    SWModItems.STEEL_SURCOAT.get(),
-                    SWModItems.DIARKRITE_SURCOAT.get(),
-                    SWModItems.ANTHEKTITE_SURCOAT.get(),
-                    SWModItems.STEEL_HELM.get(),
-                    SWModItems.DIARKRITE_HELM.get(),
-                    SWModItems.ANTHEKTITE_HELM.get(),
-                    SWModItems.STEEL_HORNED_HELM.get(),
-                    SWModItems.DIARKRITE_HORNED_HELM.get(),
-                    SWModItems.ANTHEKTITE_HORNED_HELM.get(),
-                    SWModItems.PLATED_STEEL_CHESTPLATE.get(),
-                    SWModItems.PLATED_DIARKRITE_CHESTPLATE.get(),
-                    SWModItems.PLATED_ANTHEKTITE_CHESTPLATE.get(),
-                    SWModItems.STEEL_KABUTO.get(),
-                    SWModItems.DIARKRITE_KABUTO.get(),
-                    SWModItems.ANTHEKTITE_KABUTO.get(),
-                    SWModItems.STEEL_DO.get(),
-                    SWModItems.DIARKRITE_DO.get(),
-                    SWModItems.ANTHEKTITE_DO.get(),
-                    SWModItems.CLOTHED_STEEL_CUIRASS.get(),
-                    SWModItems.CLOTHED_DIARKRITE_CUIRASS.get(),
-                    SWModItems.CLOTHED_ANTHEKTITE_CUIRASS.get());
-        }
+//        if (sniffsWeapons) {
+//            event.register((stack, layer) -> layer > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack),
+//                    SWModItems.STEEL_SURCOAT.get(),
+//                    SWModItems.DIARKRITE_SURCOAT.get(),
+//                    SWModItems.ANTHEKTITE_SURCOAT.get(),
+//                    SWModItems.STEEL_HELM.get(),
+//                    SWModItems.DIARKRITE_HELM.get(),
+//                    SWModItems.ANTHEKTITE_HELM.get(),
+//                    SWModItems.STEEL_HORNED_HELM.get(),
+//                    SWModItems.DIARKRITE_HORNED_HELM.get(),
+//                    SWModItems.ANTHEKTITE_HORNED_HELM.get(),
+//                    SWModItems.PLATED_STEEL_CHESTPLATE.get(),
+//                    SWModItems.PLATED_DIARKRITE_CHESTPLATE.get(),
+//                    SWModItems.PLATED_ANTHEKTITE_CHESTPLATE.get(),
+//                    SWModItems.STEEL_KABUTO.get(),
+//                    SWModItems.DIARKRITE_KABUTO.get(),
+//                    SWModItems.ANTHEKTITE_KABUTO.get(),
+//                    SWModItems.STEEL_DO.get(),
+//                    SWModItems.DIARKRITE_DO.get(),
+//                    SWModItems.ANTHEKTITE_DO.get(),
+//                    SWModItems.CLOTHED_STEEL_CUIRASS.get(),
+//                    SWModItems.CLOTHED_DIARKRITE_CUIRASS.get(),
+//                    SWModItems.CLOTHED_ANTHEKTITE_CUIRASS.get());
+//        }
     }
 
     @SubscribeEvent

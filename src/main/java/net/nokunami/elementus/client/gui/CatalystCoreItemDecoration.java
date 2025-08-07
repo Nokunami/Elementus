@@ -5,7 +5,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.IItemDecorator;
-import net.nokunami.elementus.common.item.CatalystArmorItem;
+import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 
 public class CatalystCoreItemDecoration implements IItemDecorator {
     @Override

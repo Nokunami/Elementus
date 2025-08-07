@@ -1,6 +1,7 @@
 package net.nokunami.elementus.common.item;
 
 import net.minecraft.world.item.DyeableLeatherItem;
+import net.nokunami.elementus.common.item.basic.ElementusArmorItem;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 
 public class ModDyeableArmorItem extends ElementusArmorItem implements DyeableLeatherItem {

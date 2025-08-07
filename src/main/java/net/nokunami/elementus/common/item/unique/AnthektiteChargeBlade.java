@@ -1,8 +1,7 @@
-package net.nokunami.elementus.common.item;
+package net.nokunami.elementus.common.item.unique;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -38,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Locale;
 
 import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.common.config.UniqueItemConfig.*;

@@ -421,207 +421,8 @@ public class ModItemTagsData extends ItemTagsProvider {
     }
 
     private void modCompatibilityTags() {
-        //Farmer's Delight
-        if (farmersDelight) {
-            tag(ModTags.KNIVES)
-                    .addOptional(modLoc("steel_knife"))
-                    .addOptional(modLoc("diarkrite_knife"))
-                    .addOptional(modLoc("anthektite_knife"));
-            tag(Etags.Items.FD_KNIFE)
-                    .addOptional(modLoc("steel_knife"))
-                    .addOptional(modLoc("diarkrite_knife"))
-                    .addOptional(modLoc("anthektite_knife"));
-        }
-
-        //Nether's Delight
-        if (nethersDelight) tag(NDTags.MACHETES)
-                .addOptional(modLoc("steel_machete"))
-                .addOptional(modLoc("diarkrite_machete"))
-                .addOptional(modLoc("anthektite_machete"));
-
-        //Iron's Spells 'n Spellbooks
-        if (ironsSpellbooks) tag(Etags.Items.CURIOS_SPELLBOOK)
-                .addOptional(modLoc("steel_spell_book"))
-                .addOptional(modLoc("diarkrite_spell_book"))
-                .addOptional(modLoc("anthektite_spell_book"));
-
-        //Aether
-        if (aether) tag(AetherTags.Items.ACCESSORIES_GLOVES)
-                .addOptional(modLoc("steel_gloves"))
-                .addOptional(modLoc("diarkrite_gloves"))
-                .addOptional(modLoc("anthektite_gloves"));
-
-        //Simply Swords
-        if (simplySwords) {
-            tag(Etags.Items.SIMPLY_SWORDS_SWORDS)
-                    .addOptional(modLoc("steel_chakram"))
-                    .addOptional(modLoc("steel_claymore"))
-                    .addOptional(modLoc("steel_cutlass"))
-                    .addOptional(modLoc("steel_glaive"))
-                    .addOptional(modLoc("steel_greataxe"))
-                    .addOptional(modLoc("steel_greatehammer"))
-                    .addOptional(modLoc("steel_halberd"))
-                    .addOptional(modLoc("steel_katana"))
-                    .addOptional(modLoc("steel_longsword"))
-                    .addOptional(modLoc("steel_rapier"))
-                    .addOptional(modLoc("steel_sai"))
-                    .addOptional(modLoc("steel_scythe"))
-                    .addOptional(modLoc("steel_spear"))
-                    .addOptional(modLoc("steel_twinblade"))
-                    .addOptional(modLoc("steel_warglaive"))
-
-                    .addOptional(modLoc("diarkrite_chakram"))
-                    .addOptional(modLoc("diarkrite_claymore"))
-                    .addOptional(modLoc("diarkrite_cutlass"))
-                    .addOptional(modLoc("diarkrite_glaive"))
-                    .addOptional(modLoc("diarkrite_greataxe"))
-                    .addOptional(modLoc("diarkrite_greatehammer"))
-                    .addOptional(modLoc("diarkrite_halberd"))
-                    .addOptional(modLoc("diarkrite_katana"))
-                    .addOptional(modLoc("diarkrite_longsword"))
-                    .addOptional(modLoc("diarkrite_rapier"))
-                    .addOptional(modLoc("diarkrite_sai"))
-                    .addOptional(modLoc("diarkrite_scythe"))
-                    .addOptional(modLoc("diarkrite_spear"))
-                    .addOptional(modLoc("diarkrite_twinblade"))
-                    .addOptional(modLoc("diarkrite_warglaive"))
-
-                    .addOptional(modLoc("anthektite_chakram"))
-                    .addOptional(modLoc("anthektite_claymore"))
-                    .addOptional(modLoc("anthektite_cutlass"))
-                    .addOptional(modLoc("anthektite_glaive"))
-                    .addOptional(modLoc("anthektite_greataxe"))
-                    .addOptional(modLoc("anthektite_greatehammer"))
-                    .addOptional(modLoc("anthektite_halberd"))
-                    .addOptional(modLoc("anthektite_katana"))
-                    .addOptional(modLoc("anthektite_longsword"))
-                    .addOptional(modLoc("anthektite_rapier"))
-                    .addOptional(modLoc("anthektite_sai"))
-                    .addOptional(modLoc("anthektite_scythe"))
-                    .addOptional(modLoc("anthektite_spear"))
-                    .addOptional(modLoc("anthektite_twinblade"))
-                    .addOptional(modLoc("anthektite_warglaive"));
-            tag(Etags.Items.SIMPLY_SWORDS_STEEL)
-                    .addOptional(modLoc("steel_chakram"))
-                    .addOptional(modLoc("steel_claymore"))
-                    .addOptional(modLoc("steel_cutlass"))
-                    .addOptional(modLoc("steel_glaive"))
-                    .addOptional(modLoc("steel_greataxe"))
-                    .addOptional(modLoc("steel_greatehammer"))
-                    .addOptional(modLoc("steel_halberd"))
-                    .addOptional(modLoc("steel_katana"))
-                    .addOptional(modLoc("steel_longsword"))
-                    .addOptional(modLoc("steel_rapier"))
-                    .addOptional(modLoc("steel_sai"))
-                    .addOptional(modLoc("steel_scythe"))
-                    .addOptional(modLoc("steel_spear"))
-                    .addOptional(modLoc("steel_twinblade"))
-                    .addOptional(modLoc("steel_warglaive"));
-            tag(Etags.Items.SIMPLY_SWORDS_DIARKRITE)
-                    .addOptional(modLoc("diarkrite_chakram"))
-                    .addOptional(modLoc("diarkrite_claymore"))
-                    .addOptional(modLoc("diarkrite_cutlass"))
-                    .addOptional(modLoc("diarkrite_glaive"))
-                    .addOptional(modLoc("diarkrite_greataxe"))
-                    .addOptional(modLoc("diarkrite_greatehammer"))
-                    .addOptional(modLoc("diarkrite_halberd"))
-                    .addOptional(modLoc("diarkrite_katana"))
-                    .addOptional(modLoc("diarkrite_longsword"))
-                    .addOptional(modLoc("diarkrite_rapier"))
-                    .addOptional(modLoc("diarkrite_sai"))
-                    .addOptional(modLoc("diarkrite_scythe"))
-                    .addOptional(modLoc("diarkrite_spear"))
-                    .addOptional(modLoc("diarkrite_twinblade"))
-                    .addOptional(modLoc("diarkrite_warglaive"));
-            tag(Etags.Items.SIMPLY_SWORDS_ANTHEKTITE)
-                    .addOptional(modLoc("anthektite_chakram"))
-                    .addOptional(modLoc("anthektite_claymore"))
-                    .addOptional(modLoc("anthektite_cutlass"))
-                    .addOptional(modLoc("anthektite_glaive"))
-                    .addOptional(modLoc("anthektite_greataxe"))
-                    .addOptional(modLoc("anthektite_greatehammer"))
-                    .addOptional(modLoc("anthektite_halberd"))
-                    .addOptional(modLoc("anthektite_katana"))
-                    .addOptional(modLoc("anthektite_longsword"))
-                    .addOptional(modLoc("anthektite_rapier"))
-                    .addOptional(modLoc("anthektite_sai"))
-                    .addOptional(modLoc("anthektite_scythe"))
-                    .addOptional(modLoc("anthektite_spear"))
-                    .addOptional(modLoc("anthektite_twinblade"))
-                    .addOptional(modLoc("anthektite_warglaive"));
-        }
-
-        if (sniffsWeapons) {
-            tag(Etags.Items.SNIFFS_WEAPONS_GREAT_AXES)
-                    .addOptional(modLoc("steel_great_axe"))
-                    .addOptional(modLoc("diarkrite_great_axe"))
-                    .addOptional(modLoc("anthektite_great_axe"));
-            tag(Etags.Items.SNIFFS_WEAPONS_GREAT_PICKAXES)
-                    .addOptional(modLoc("steel_great_pickaxe"))
-                    .addOptional(modLoc("diarkrite_great_pickaxe"))
-                    .addOptional(modLoc("anthektite_great_pickaxe"));
-            tag(Etags.Items.SNIFFS_WEAPONS_GREAT_SWORDS)
-                    .addOptional(modLoc("steel_great_sword"))
-                    .addOptional(modLoc("diarkrite_great_sword"))
-                    .addOptional(modLoc("anthektite_great_sword"));
-            tag(Etags.Items.SNIFFS_WEAPONS_GREAT_NAGINATA)
-                    .addOptional(modLoc("steel_naginata"))
-                    .addOptional(modLoc("diarkrite_naginata"))
-                    .addOptional(modLoc("anthektite_naginata"));
-        }
-
-        //Advanced Netherite
-        if (advancedNetherite) {
-            tag(Etags.Items.INGOTS_DIARKRITE_IRON).addOptional(new ResourceLocation(MODID, "diarkrite_iron_ingot"));
-            tag(Etags.Items.INGOTS_DIARKRITE_GOLD).addOptional(new ResourceLocation(MODID, "diarkrite_gold_ingot"));
-            tag(Etags.Items.INGOTS_DIARKRITE_EMERALD).addOptional(new ResourceLocation(MODID, "diarkrite_emerald_ingot"));
-            tag(Etags.Items.INGOTS_DIARKRITE_DIAMOND).addOptional(new ResourceLocation(MODID, "diarkrite_diamond_ingot"));
-            tag(Etags.Items.INGOTS_ANTHEKTITE_IRON).addOptional(new ResourceLocation(MODID, "anthektite_iron_ingot"));
-            tag(Etags.Items.INGOTS_ANTHEKTITE_GOLD).addOptional(new ResourceLocation(MODID, "anthektite_gold_ingot"));
-            tag(Etags.Items.INGOTS_ANTHEKTITE_EMERALD).addOptional(new ResourceLocation(MODID, "anthektite_emerald_ingot"));
-            tag(Etags.Items.INGOTS_ANTHEKTITE_DIAMOND).addOptional(new ResourceLocation(MODID, "anthektite_diamond_ingot"));
-
-            tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_TOOLS_NETHERITE_IRON)
-                    .addOptional(modLoc("diarkrite_iron_axe")).addOptional(modLoc("diarkrite_iron_hoe")).addOptional(modLoc("diarkrite_iron_pickaxe")).addOptional(modLoc("diarkrite_iron_shovel")).addOptional(modLoc("diarkrite_iron_sword"))
-                    .addOptional(modLoc("anthektite_iron_axe")).addOptional(modLoc("anthektite_iron_hoe")).addOptional(modLoc("anthektite_iron_pickaxe")).addOptional(modLoc("anthektite_iron_shovel")).addOptional(modLoc("anthektite_iron_sword"));
-
-            tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_TOOLS_NETHERITE_GOLD)
-                    .addOptional(modLoc("diarkrite_gold_axe")).addOptional(modLoc("diarkrite_gold_hoe")).addOptional(modLoc("diarkrite_gold_pickaxe")).addOptional(modLoc("diarkrite_gold_shovel")).addOptional(modLoc("diarkrite_gold_sword"))
-                    .addOptional(modLoc("anthektite_gold_axe")).addOptional(modLoc("anthektite_gold_hoe")).addOptional(modLoc("anthektite_gold_pickaxe")).addOptional(modLoc("anthektite_gold_shovel")).addOptional(modLoc("anthektite_gold_sword"));
-
-            tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_TOOLS_NETHERITE_EMERALD)
-                    .addOptional(modLoc("diarkrite_emerald_axe")).addOptional(modLoc("diarkrite_emerald_hoe")).addOptional(modLoc("diarkrite_emerald_pickaxe")).addOptional(modLoc("diarkrite_emerald_shovel")).addOptional(modLoc("diarkrite_emerald_sword"))
-                    .addOptional(modLoc("anthektite_emerald_axe")).addOptional(modLoc("anthektite_emerald_hoe")).addOptional(modLoc("anthektite_emerald_pickaxe")).addOptional(modLoc("anthektite_emerald_shovel")).addOptional(modLoc("anthektite_emerald_sword"));
-
-            tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_TOOLS_NETHERITE_DIAMOND)
-                    .addOptional(modLoc("diarkrite_diamond_axe")).addOptional(modLoc("diarkrite_diamond_hoe")).addOptional(modLoc("diarkrite_diamond_pickaxe")).addOptional(modLoc("diarkrite_diamond_shovel")).addOptional(modLoc("diarkrite_diamond_sword"))
-                    .addOptional(modLoc("anthektite_diamond_axe")).addOptional(modLoc("anthektite_diamond_hoe")).addOptional(modLoc("anthektite_diamond_pickaxe")).addOptional(modLoc("anthektite_diamond_shovel")).addOptional(modLoc("anthektite_diamond_sword"));
-
-
-            tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_ARMOR_NETHERITE_IRON)
-                    .addOptional(modLoc("diarkrite_iron_helmet")).addOptional(modLoc("diarkrite_iron_chestplate")).addOptional(modLoc("diarkrite_iron_leggings")).addOptional(modLoc("diarkrite_iron_boots"))
-                    .addOptional(modLoc("anthektite_iron_helmet")).addOptional(modLoc("anthektite_iron_chestplate")).addOptional(modLoc("anthektite_iron_leggings")).addOptional(modLoc("anthektite_iron_boots"));
-
-            tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_ARMOR_NETHERITE_GOLD)
-                    .addOptional(modLoc("diarkrite_gold_helmet")).addOptional(modLoc("diarkrite_gold_chestplate")).addOptional(modLoc("diarkrite_gold_leggings")).addOptional(modLoc("diarkrite_gold_boots"))
-                    .addOptional(modLoc("anthektite_gold_helmet")).addOptional(modLoc("anthektite_gold_chestplate")).addOptional(modLoc("anthektite_gold_leggings")).addOptional(modLoc("anthektite_gold_boots"));
-
-            tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_ARMOR_NETHERITE_EMERALD)
-                    .addOptional(modLoc("diarkrite_emerald_helmet")).addOptional(modLoc("diarkrite_emerald_chestplate")).addOptional(modLoc("diarkrite_emerald_leggings")).addOptional(modLoc("diarkrite_emerald_boots"))
-                    .addOptional(modLoc("anthektite_emerald_helmet")).addOptional(modLoc("anthektite_emerald_chestplate")).addOptional(modLoc("anthektite_emerald_leggings")).addOptional(modLoc("anthektite_emerald_boots"));
-
-            tag(com.autovw.advancednetherite.core.util.ModTags.TIERS_ARMOR_NETHERITE_DIAMOND)
-                    .addOptional(modLoc("diarkrite_diamond_helmet")).addOptional(modLoc("diarkrite_diamond_chestplate")).addOptional(modLoc("diarkrite_diamond_leggings")).addOptional(modLoc("diarkrite_diamond_boots"))
-                    .addOptional(modLoc("anthektite_diamond_helmet")).addOptional(modLoc("anthektite_diamond_chestplate")).addOptional(modLoc("anthektite_diamond_leggings")).addOptional(modLoc("anthektite_diamond_boots"));
-        }
-
-        //Twigs
-        if (twigs) tag(TwigsTags.TABLES_ITEM).addOptional(modLoc("movcadia_table"));
-
-
         //Alex's Caves
-        {
-            tag(Etags.Items.AC_FERROMAGNETIC)
+        tag(Etags.Items.AC_FERROMAGNETIC)
                 .addTag(Etags.Items.INGOTS_STEEL).addTag(Etags.Items.INGOTS_DIARKRITE).addTag(Etags.Items.INGOTS_ANTHEKTITE)
                 .addTag(Etags.Items.NUGGETS_STEEL).addTag(Etags.Items.RAW_MATERIALS_STEEL).addTag(Etags.Items.ORES_ATELIS)
                 .addTag(Etags.Items.STORAGE_BLOCK_STEEL).addTag(Etags.Items.STORAGE_BLOCK_DIARKRITE).addTag(Etags.Items.STORAGE_BLOCK_ANTHEKTITE)
@@ -963,41 +764,34 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("steel_claws"))
                 .addOptional(modLoc("diarkrite_claws"))
                 .addOptional(modLoc("anthektite_claws"));
-        }
 
         //Cracker's Witherstorm Mod
-        {
-            tag(Etags.Items.COMMAND_BLOCK_TOOLS)
-                    .addOptional(modLoc("steel_command_block_sword"))
-                    .addOptional(modLoc("steel_command_block_shovel"))
-                    .addOptional(modLoc("steel_command_block_pickaxe"))
-                    .addOptional(modLoc("steel_command_block_axe"))
-                    .addOptional(modLoc("steel_command_block_hoe"))
-                    .addOptional(modLoc("diarkrite_command_block_sword"))
-                    .addOptional(modLoc("diarkrite_command_block_shovel"))
-                    .addOptional(modLoc("diarkrite_command_block_pickaxe"))
-                    .addOptional(modLoc("diarkrite_command_block_axe"))
-                    .addOptional(modLoc("diarkrite_command_block_hoe"))
-                    .addOptional(modLoc("anthektite_command_block_sword"))
-                    .addOptional(modLoc("anthektite_command_block_shovel"))
-                    .addOptional(modLoc("anthektite_command_block_pickaxe"))
-                    .addOptional(modLoc("anthektite_command_block_axe"))
-                    .addOptional(modLoc("anthektite_command_block_hoe"));
-        }
+        tag(Etags.Items.COMMAND_BLOCK_TOOLS)
+                .addOptional(modLoc("steel_command_block_sword"))
+                .addOptional(modLoc("steel_command_block_shovel"))
+                .addOptional(modLoc("steel_command_block_pickaxe"))
+                .addOptional(modLoc("steel_command_block_axe"))
+                .addOptional(modLoc("steel_command_block_hoe"))
+                .addOptional(modLoc("diarkrite_command_block_sword"))
+                .addOptional(modLoc("diarkrite_command_block_shovel"))
+                .addOptional(modLoc("diarkrite_command_block_pickaxe"))
+                .addOptional(modLoc("diarkrite_command_block_axe"))
+                .addOptional(modLoc("diarkrite_command_block_hoe"))
+                .addOptional(modLoc("anthektite_command_block_sword"))
+                .addOptional(modLoc("anthektite_command_block_shovel"))
+                .addOptional(modLoc("anthektite_command_block_pickaxe"))
+                .addOptional(modLoc("anthektite_command_block_axe"))
+                .addOptional(modLoc("anthektite_command_block_hoe"));
 
         //Archery Expansion
-        {
-            tag(Etags.Items.ANTI_POWER_BOW)
-                    .addOptional(ElementusItems.STEEL_BOW.getId())
-                    .addOptional(ElementusItems.DIARKRITE_BOW.getId())
-                    .addOptional(ElementusItems.ANTHEKTITE_BOW.getId());
-        }
+        tag(Etags.Items.ANTI_POWER_BOW)
+                .addOptional(ElementusItems.STEEL_BOW.getId())
+                .addOptional(ElementusItems.DIARKRITE_BOW.getId())
+                .addOptional(ElementusItems.ANTHEKTITE_BOW.getId());
 
         //Create
-        {
-            tag(Etags.Items.CREATE_MOODED_STRIPPED_LOGS)
-                    .addOptional(ElementusItems.STRIPPED_MOVCADIA_LOG.getId())
-                    .addOptional(ElementusItems.STRIPPED_MOVCADIA_WOOD.getId());
-        }
+        tag(Etags.Items.CREATE_MOODED_STRIPPED_LOGS)
+                .addOptional(ElementusItems.STRIPPED_MOVCADIA_LOG.getId())
+                .addOptional(ElementusItems.STRIPPED_MOVCADIA_WOOD.getId());
     }
 }

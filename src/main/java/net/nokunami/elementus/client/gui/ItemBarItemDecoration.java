@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.client.IItemDecorator;
-import net.nokunami.elementus.common.item.ChargeBladeItem;
+import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.registry.ModEnchantments;
 import net.nokunami.elementus.common.registry.ModItems;
 

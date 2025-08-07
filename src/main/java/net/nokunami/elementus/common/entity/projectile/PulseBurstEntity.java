@@ -3,7 +3,6 @@ package net.nokunami.elementus.common.entity.projectile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -25,7 +24,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.MobUtil;
-import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
+import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +33,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static net.nokunami.elementus.common.item.ChargeBladeItem.isEnchantedWith;
+import static net.nokunami.elementus.common.item.unique.ChargeBladeItem.isEnchantedWith;
 import static net.nokunami.elementus.common.registry.ModEnchantments.SACRIFICE_CURSE;
 
 public class PulseBurstEntity extends Projectile {

@@ -1,7 +1,6 @@
 package net.nokunami.elementus.common.entity.projectile;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -35,7 +34,7 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.MobUtil;
-import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
+import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModMobEffects;

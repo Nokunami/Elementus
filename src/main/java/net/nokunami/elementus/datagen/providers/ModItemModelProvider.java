@@ -1,6 +1,5 @@
 package net.nokunami.elementus.datagen.providers;
 
-import com.aetherteam.aether.item.accessories.gloves.GlovesItem;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import static net.nokunami.elementus.ModChecker.aether;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
 
 public class ModItemModelProvider extends ItemModelProvider {
@@ -360,21 +358,6 @@ public class ModItemModelProvider extends ItemModelProvider {
                         .texture("layer1", this.mcLoc("trims/items/" + armorItem.getType().getName() + "_trim_" + material));
                 builder.override().predicate(new ResourceLocation("trim_type"), (float) index).model(this.getExistingFile(this.modLoc("item/" + name))).end();
                 index += 0.1;
-            }
-        }
-        if (aether) {
-            if (item.get() instanceof GlovesItem) {
-                ItemModelBuilder builder = this.withExistingParent(this.itemName(item.get()), this.mcLoc("item/generated"))
-                        .texture("layer0", this.modLoc("item/" + location + "/" + this.itemName(item.get())));
-                double index = 0.1;
-                for(Iterator var6 = ModItemModelProvider.VANILLA_TRIM_MATERIALS.iterator(); var6.hasNext(); index += 0.1) {
-                    ResourceKey<TrimMaterial> trimMaterial = (ResourceKey)var6.next();
-                    String material = trimMaterial.location().getPath();
-                    String var10000 = this.itemName(item.get());
-                    String name = var10000 + "_" + material + "_trim";
-                    this.withExistingParent(name, this.mcLoc("item/generated")).texture("layer0", this.modLoc("item/" + location + "/" + this.itemName(item.get()))).texture("layer1", "aether:" + "trims/items/gloves_trim_" + material);
-                    builder.override().predicate(new ResourceLocation("trim_type"), (float)index).model(this.getExistingFile(this.modLoc("item/" + name))).end();
-                }
             }
         }
     }

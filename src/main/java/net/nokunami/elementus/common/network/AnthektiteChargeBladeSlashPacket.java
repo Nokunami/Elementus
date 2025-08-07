@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.network.NetworkEvent;
-import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
+import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 
 import java.util.function.Supplier;
 

@@ -1,17 +1,19 @@
-package net.nokunami.elementus.common.item;
+package net.nokunami.elementus.common.item.basic;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.config.ModConfig;
+import net.nokunami.elementus.common.item.EItemUtil;
 import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
@@ -20,27 +22,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static net.nokunami.elementus.common.item.EItemUtil.*;
+import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
+import static net.nokunami.elementus.common.item.EItemUtil.setMovcadiaEssence;
 
-public class ModHoeItem extends HoeItem {
-    public ModHoeItem(Tier tier, int attackDamage, float attackSpeed, Properties properties) {
+public class ModAxeItem extends AxeItem {
+    public ModAxeItem(Tier tier, float attackDamage, float attackSpeed, Properties properties) {
         super(tier, attackDamage, attackSpeed, properties);
-    }
-
-    @Override
-    public @NotNull Rarity getRarity(@NotNull ItemStack stack) {
-        if (cmdTier(this.getTier())) {
-            return Rarity.EPIC;
-        }
-        return super.getRarity(stack);
-    }
-
-    @Override
-    public boolean canBeHurtBy(@NotNull DamageSource pDamageSource) {
-        if (cmdTier(this.getTier())) {
-            return pDamageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
-        }
-        return super.canBeHurtBy(pDamageSource);
     }
 
     @Override
@@ -56,14 +43,6 @@ public class ModHoeItem extends HoeItem {
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
         if (getMovcadiaEssence(stack) > 0) setMovcadiaEssence(stack, getMovcadiaEssence(stack) - 1);
         return super.damageItem(stack, amount, entity, onBroken);
-    }
-
-    @Override
-    public boolean isEnchantable(@NotNull ItemStack stack) {
-        if (cmdTier(this.getTier())) {
-            return this.getMaxStackSize(stack) == 1;
-        }
-        return super.isEnchantable(stack);
     }
 
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {

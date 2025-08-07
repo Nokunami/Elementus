@@ -35,7 +35,6 @@ public class ModBlockTagsData extends BlockTagsProvider {
         this.minecraftTags();
         this.forgeTags();
         this.elementusTags();
-        this.modCompatibilityTags();
     }
 
     private void minecraftTags() {
@@ -188,20 +187,5 @@ public class ModBlockTagsData extends BlockTagsProvider {
         tag(Etags.Blocks.MOVCADIA_ROOTED_DIRT).add(Blocks.DIRT, Blocks.ROOTED_DIRT, Blocks.GRASS_BLOCK, Blocks.MYCELIUM, Blocks.PODZOL);
         tag(Etags.Blocks.MOVCADIA_ROOTED_STONE).add(Blocks.STONE);
         tag(Etags.Blocks.MOVCADIA_ROOTED_DEEPSLATE).add(Blocks.DEEPSLATE);
-    }
-
-    private void modCompatibilityTags() {
-        if (aether) {
-            tag(AetherTags.Blocks.GRAVITITE_ABILITY_BLACKLIST).addOptional(ElementusBlocks.MOVCADIA_FENCE_GATE.getId())
-                    .addOptional(ElementusBlocks.MOVCADIA_TRAPDOOR.getId())
-                    .addOptional(ElementusBlocks.MOVCADIA_PRESSURE_PLATE.getId())
-                    .addOptional(ElementusBlocks.MOVCADIA_BUTTON.getId());
-            tag(AetherTags.Blocks.NON_BRONZE_DUNGEON_REPLACEABLE).addOptional(ElementusBlocks.MOVCADIA_CHEST.getId());
-        }
-        if (ironsSpellbooks) tag(ModTags.GUARDED_BY_WIZARDS).addOptional(ElementusBlocks.MOVCADIA_CHEST.getId());
-        if (twigs) tag(TwigsTags.TABLES_BLOCK).addOptional(TWModBlocks.MOVCADIA_TABLE.getId());
-        if (witherStormMod) {
-            tag(WitherStormModBlockTags.NATURE_CLUSTER_WHITELIST).addOptional(ElementusBlocks.STEEL_BARS.getId()).addOptional(ElementusBlocks.MOVCADIA_LEAVES.getId()).addOptional(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.getId());
-        }
     }
 }

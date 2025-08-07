@@ -1,4 +1,4 @@
-package net.nokunami.elementus.common.item;
+package net.nokunami.elementus.common.item.unique;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;

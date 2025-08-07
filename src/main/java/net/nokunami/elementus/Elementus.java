@@ -73,13 +73,6 @@ public class Elementus {
         ArmorConfig.reload();
         CatalystArmorConfig.reload();
         EntityConfig.reload();
-        if (ironsSpellbooks) ISSConfig.reload();
-        if (aether) AetherModConfig.reload();
-        if (simplySwords) SSConfig.reload();
-        if (sniffsWeapons) SWConfig.reload();
-        if (advancedNetherite) ANConfig.reload();
-        if (samuraiDynasty) SDConfig.reload();
-        if (witherStormMod) WSConfig.reload();
         ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, ModConfig.CLIENT_SPEC, "elementus/client.toml");
         ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, ModConfig.COMMON_SPEC, "elementus/common.toml");
 
@@ -95,8 +88,6 @@ public class Elementus {
         ModParticleTypes.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
-
-        if (ModChecker.integrationTab()) CreativeTabProperties.register(modEventBus);
 
         modEventBus.addListener(CreativeTabProperties::addCreative);
         modEventBus.addListener(this::addPackFinders);
@@ -118,9 +109,6 @@ public class Elementus {
         try {
             if (event.getPackType() == PackType.CLIENT_RESOURCES) {
                 addBuiltinPack(event, "elementus_legacy_textures", Component.literal("Elementus Legacy Textures"));
-                if (samuraiDynasty) {
-                    addBuiltinPack(event, "simply_swords_default_style", Component.literal("Elementus Simply Swords Defualt Style"));
-                }
             }
         } catch (IOException var3) {
             LOGGER.error("Failed to load a builtin resource pack! If you see this message, please report it to https://github.com/Nokunami/Elementus/issues");

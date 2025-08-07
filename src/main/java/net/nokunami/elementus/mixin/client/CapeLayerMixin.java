@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.layers.CapeLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
-import net.nokunami.elementus.common.item.CatalystArmorItem;
+import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.registry.ModItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -17,10 +17,6 @@ import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.block.*;
 import net.nokunami.elementus.common.block.entity.ModRotatedPillarBlock;
-import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
-import net.nokunami.elementus.common.compat.twigs.TWModBlocks;
-
-import static net.nokunami.elementus.ModChecker.*;
 
 public class ModBlocks {
 
@@ -334,14 +330,5 @@ public class ModBlocks {
     public static void register(IEventBus eventBus) {
 //        BLOCKS.register(eventBus);
         ElementusBlocks.register(eventBus);
-        if (farmersDelight) {
-            net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightBlocks.register(eventBus);
-        }
-        if (advancedNetherite) {
-            ANModBlocks.register(eventBus);
-        }
-        if (twigs) {
-            TWModBlocks.register(eventBus);
-        }
     }
 }

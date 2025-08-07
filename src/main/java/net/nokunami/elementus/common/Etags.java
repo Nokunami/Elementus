@@ -32,6 +32,8 @@ public class Etags {
         public static final TagKey<Item> CATALYST_ITEMS = elementusTag("catalyst/core");
         public static final TagKey<Item> CATALYST_ELYTRA = elementusTag("catalyst/elytra");
 
+        public static final TagKey<Item> ARCANE_SHARPNESS_COMPATIBLE = elementusTag("arcane_sharpness_compatible");
+
         public static final TagKey<Item> TOUGH_PICAXE = elementusTag("tough_pickaxe");
         public static final TagKey<Item> EFFICIENT_PICKAXE = elementusTag("efficient_pickaxe");
 
@@ -63,27 +65,6 @@ public class Etags {
         public static final TagKey<Item> REPAIRS_ANTHEKTITE_GOLD_ARMOR = elementusTag("repairs_anthektite_gold_armor");
         public static final TagKey<Item> REPAIRS_ANTHEKTITE_EMERALD_ARMOR = elementusTag("repairs_anthektite_emerald_armor");
         public static final TagKey<Item> REPAIRS_ANTHEKTITE_DIAMOND_ARMOR = elementusTag("repairs_anthektite_diamond_armor");
-
-        public static final TagKey<Item> INGOTS_DIARKRITE_IRON = forgeTag("ingots/diarkrite_iron");
-        public static final TagKey<Item> INGOTS_DIARKRITE_GOLD = forgeTag("ingots/diarkrite_gold");
-        public static final TagKey<Item> INGOTS_DIARKRITE_EMERALD = forgeTag("ingots/diarkrite_emerald");
-        public static final TagKey<Item> INGOTS_DIARKRITE_DIAMOND = forgeTag("ingots/diarkrite_diamond");
-        public static final TagKey<Item> INGOTS_ANTHEKTITE_IRON = forgeTag("ingots/anthektite_iron");
-        public static final TagKey<Item> INGOTS_ANTHEKTITE_GOLD = forgeTag("ingots/anthektite_gold");
-        public static final TagKey<Item> INGOTS_ANTHEKTITE_EMERALD = forgeTag("ingots/anthektite_emerald");
-        public static final TagKey<Item> INGOTS_ANTHEKTITE_DIAMOND = forgeTag("ingots/anthektite_diamond");
-
-        public static final TagKey<Item> SIMPLY_SWORDS_SWORDS = modTag(simplySwordsID, "swords");
-        public static final TagKey<Item> SIMPLY_SWORDS_STEEL = modTag(simplySwordsID, "steel_tools");
-        public static final TagKey<Item> SIMPLY_SWORDS_DIARKRITE = modTag(simplySwordsID, "diarkrite_tools");
-        public static final TagKey<Item> SIMPLY_SWORDS_ANTHEKTITE = modTag(simplySwordsID, "anthektite_tools");
-
-        public static final TagKey<Item> SNIFFS_WEAPONS_GREAT_AXES = modTag(sniffsWeaponsID, "great_axes");
-        public static final TagKey<Item> SNIFFS_WEAPONS_GREAT_PICKAXES = modTag(sniffsWeaponsID, "great_pickaxes");
-        public static final TagKey<Item> SNIFFS_WEAPONS_GREAT_SWORDS = modTag(sniffsWeaponsID, "great_swords");
-        public static final TagKey<Item> SNIFFS_WEAPONS_GREAT_NAGINATA = modTag(sniffsWeaponsID, "naginata");
-
-        public static final TagKey<Item> CURIOS_SPELLBOOK = modTag("curios", "spellbook");
 
         public static final TagKey<Item> AC_FERROMAGNETIC = modTag("alexscaves", "ferromagnetic_items");
 

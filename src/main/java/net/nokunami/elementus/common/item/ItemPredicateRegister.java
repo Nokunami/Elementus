@@ -2,17 +2,16 @@ package net.nokunami.elementus.common.item;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
-import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
-import net.nokunami.elementus.common.registry.ModItems.*;
+import net.minecraft.world.item.Item;
+import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
 
 import static net.nokunami.elementus.Elementus.modLoc;
-import static net.nokunami.elementus.ModChecker.*;
-import static net.nokunami.elementus.common.item.CatalystArmorItem.catalystActivator;
+import static net.nokunami.elementus.ModChecker.archeryExp;
+import static net.nokunami.elementus.common.item.unique.CatalystArmorItem.catalystActivator;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
-import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
+import static net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade.*;
 import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
 import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 
@@ -22,12 +21,6 @@ public class ItemPredicateRegister {
          shieldBlocking(ElementusItems.STEEL_SHIELD.get());
          shieldBlocking(ElementusItems.ANTHEKTITE_SHIELD.get());
          shieldBlocking(ElementusItems.DIARKRITE_SHIELD.get());
-
-         if (sniffsWeapons) {
-             shieldBlocking(SWModItems.STEEL_GREAT_PICKAXE.get());
-             shieldBlocking(SWModItems.DIARKRITE_GREAT_PICKAXE.get());
-             shieldBlocking(SWModItems.ANTHEKTITE_GREAT_PICKAXE.get());
-         }
          catalystArmor(ElementusItems.CATALYST_CHESTPLATE.get());
 
          if (archeryExp) {

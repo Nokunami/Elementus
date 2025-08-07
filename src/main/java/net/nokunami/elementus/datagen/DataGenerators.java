@@ -40,7 +40,6 @@ public class DataGenerators {
 
             generator.addProvider(event.includeServer(), new ModEntityTypeTags(packOutput, lookupProvider, existingFileHelper));
 
-            if (advancedNetherite) generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(packOutput));
             //generator.addProvider(event.includeServer(), new PoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
 
             generator.addProvider(event.includeServer(), new DatapackEntriesBuilder(packOutput, lookupProvider));

@@ -4,15 +4,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.TierConfig;
-import net.nokunami.elementus.common.registry.ModItems;
-import net.nokunami.elementus.common.registry.ModTiers;
 
 import java.util.List;
 
@@ -58,27 +54,11 @@ public class EItemUtil {
     }
 
     public static boolean diarkriteTier(Tier tier) {
-        return tier.equals(DIARKRITE)
-                || tier.equals(DIARKRITE_IRON)
-                || tier.equals(DIARKRITE_GOLD)
-                || tier.equals(DIARKRITE_EMERALD)
-                || tier.equals(DIARKRITE_DIAMOND)
-                || tier.equals(DIARKRITE_CMD);
+        return tier.equals(DIARKRITE);
     }
 
     public static boolean anthektiteTier(Tier tier) {
-        return tier.equals(ANTHEKTITE)
-                || tier.equals(ANTHEKTITE_IRON)
-                || tier.equals(ANTHEKTITE_GOLD)
-                || tier.equals(ANTHEKTITE_EMERALD)
-                || tier.equals(ANTHEKTITE_DIAMOND)
-                || tier.equals(ANTHEKTITE_CMD);
-    }
-
-    public static boolean cmdTier(Tier tier) {
-        return tier.equals(STEEL_CMD)
-                || tier.equals(DIARKRITE_CMD)
-                || tier.equals(ANTHEKTITE_CMD);
+        return tier.equals(ANTHEKTITE);
     }
 
     public static boolean getFriendlyFire(ItemStack stack) {
@@ -106,9 +86,9 @@ public class EItemUtil {
         return Math.round(13.0F - (float)(32 - getMovcadiaEssence(stack)) * 13.0F / (float)32);
     }
 
-    public boolean canBeHurtBy(DamageSource source, Tier tier) {
-        return !tier.equals(STEEL_CMD) && !tier.equals(DIARKRITE_CMD) && !tier.equals(ANTHEKTITE_CMD);
-    }
+//    public static boolean canBeHurtBy(DamageSource source, Tier tier) {
+//        return !tier.equals(STEEL_CMD) && !tier.equals(DIARKRITE_CMD) && !tier.equals(ANTHEKTITE_CMD);
+//    }
 
     public static void movcadiaClickAction(ItemStack stack, ItemStack otherStack, Player player) {
         player.playSound(SoundEvents.ENDER_EYE_DEATH);

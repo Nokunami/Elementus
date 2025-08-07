@@ -1,38 +1,16 @@
 package net.nokunami.elementus.datagen.providers;
 
-import com.autovw.advancednetherite.common.loot.CropDropsLootModifier;
-import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
-import net.minecraftforge.fml.ModList;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
 import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
-import net.nokunami.elementus.datagen.loot.MobDropsLootModifier;
 import net.nokunami.elementus.datagen.loot.ModLootModifier;
-import net.nokunami.elementus.datagen.loot.OreDropsLootModifier;
-
-import java.util.List;
 
 public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
-
-    private final List<Item> HOE_ITEMS = List.of(
-            ANModItems.DIARKRITE_IRON_HOE.get(),
-            ANModItems.DIARKRITE_GOLD_HOE.get(),
-            ANModItems.DIARKRITE_EMERALD_HOE.get(),
-            ANModItems.DIARKRITE_DIAMOND_HOE.get(),
-            ANModItems.ANTHEKTITE_IRON_HOE.get(),
-            ANModItems.ANTHEKTITE_GOLD_HOE.get(),
-            ANModItems.ANTHEKTITE_EMERALD_HOE.get(),
-            ANModItems.ANTHEKTITE_DIAMOND_HOE.get()
-            );
 
     public ModGlobalLootModifierProvider(PackOutput output) {
         super(output, Elementus.MODID);
@@ -155,22 +133,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 new LootTableIdCondition.Builder(new ResourceLocation("chests/village/village_weaponsmith")).build(),
                 LootItemRandomChanceCondition.randomChance(0.5F).build()},
                 ElementusItems.STEEL_BOOTS.get()));
-
-        if (ModList.get().isLoaded("advancednetherite")) {
-        // AdvancedNetherite
-        // ores
-            this.add("ore_drops_loot_modifier", new OreDropsLootModifier(new LootItemCondition[] {}));
-
-            // entities
-            add("mob_drops_loot_modifier_e", new MobDropsLootModifier(new LootItemCondition[] {
-                    LootItemKilledByPlayerCondition.killedByPlayer().build()
-            }));
-
-            // crops
-            add("crop_drops_loot_modifier", new CropDropsLootModifier(new LootItemCondition[] {
-                MatchTool.toolMatches(ItemPredicate.Builder.item().of(HOE_ITEMS.toArray(Item[]::new))).build()
-            }));
-        }
     }
 }
 

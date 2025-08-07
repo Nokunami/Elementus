@@ -1,6 +1,5 @@
 package net.nokunami.elementus;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

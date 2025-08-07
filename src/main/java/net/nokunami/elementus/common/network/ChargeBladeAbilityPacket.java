@@ -9,16 +9,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
-import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
-import net.nokunami.elementus.common.item.ChargeBladeItem;
-import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
+import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
+import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
+import net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.registry.ModDamageTypes;
 import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
 
 import java.util.function.Supplier;
 
 import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeSelfSacrificeDamage;
-import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
+import static net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade.*;
 import static net.nokunami.elementus.common.registry.ModEnchantments.RUSH;
 import static net.nokunami.elementus.common.registry.ModEnchantments.SACRIFICE_CURSE;
 

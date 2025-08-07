@@ -1,4 +1,4 @@
-package net.nokunami.elementus.common.item;
+package net.nokunami.elementus.common.item.basic;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;

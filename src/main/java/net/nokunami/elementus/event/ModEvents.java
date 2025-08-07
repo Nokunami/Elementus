@@ -2,28 +2,20 @@ package net.nokunami.elementus.event;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.config.UniqueItemConfig;
-import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEnchantments;
 import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 
 import java.util.List;
-import java.util.UUID;
 
 import static net.nokunami.elementus.event.VillagerTradeEnchantment.createForEnchantment;
 

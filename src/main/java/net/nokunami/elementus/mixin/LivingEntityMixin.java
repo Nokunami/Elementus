@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.nokunami.elementus.common.config.CatalystArmorConfig;
-import net.nokunami.elementus.common.item.CatalystArmorItem;
+import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.DiarkriteBootsItem;
 import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;

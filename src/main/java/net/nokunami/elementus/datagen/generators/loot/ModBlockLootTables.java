@@ -15,17 +15,12 @@ import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableConditio
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
-import net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightBlocks;
-import net.nokunami.elementus.common.compat.twigs.TWModBlocks;
 import net.nokunami.elementus.common.registry.ModBlocks.*;
 import net.nokunami.elementus.common.registry.ModItems.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static net.nokunami.elementus.ModChecker.*;
 
 public class ModBlockLootTables extends BlockLootSubProvider {
     private static final LootItemCondition.Builder HAS_SHEARS_OR_SILK_TOUCH = HAS_SHEARS.or(HAS_SILK_TOUCH);
@@ -95,24 +90,6 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ElementusBlocks.MOVCADIA_CHEST.get());
 
         this.dropSelf(ElementusBlocks.MOVCADIA_SAPLING.get());
-
-        if (farmersDelight) {
-            this.dropSelf(FarmersDelightBlocks.MOVCADIA_CABINET.get());
-        }
-        if (advancedNetherite) {
-            this.dropSelf(ANModBlocks.DIARKRITE_IRON_BLOCK.get());
-            this.dropSelf(ANModBlocks.DIARKRITE_GOLD_BLOCK.get());
-            this.dropSelf(ANModBlocks.DIARKRITE_EMERALD_BLOCK.get());
-            this.dropSelf(ANModBlocks.DIARKRITE_DIAMOND_BLOCK.get());
-
-            this.dropSelf(ANModBlocks.ANTHEKTITE_IRON_BLOCK.get());
-            this.dropSelf(ANModBlocks.ANTHEKTITE_GOLD_BLOCK.get());
-            this.dropSelf(ANModBlocks.ANTHEKTITE_EMERALD_BLOCK.get());
-            this.dropSelf(ANModBlocks.ANTHEKTITE_DIAMOND_BLOCK.get());
-        }
-        if (twigs) {
-            this.dropSelf(TWModBlocks.MOVCADIA_TABLE.get());
-        }
     }
 
     protected LootTable.Builder createCopperLikeOreDrops(Block pBlock, Item item) {

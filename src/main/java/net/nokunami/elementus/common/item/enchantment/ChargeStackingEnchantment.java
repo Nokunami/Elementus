@@ -4,7 +4,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.nokunami.elementus.common.item.ChargeBladeItem;
+import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import org.jetbrains.annotations.NotNull;
 
 public class ChargeStackingEnchantment extends Enchantment {

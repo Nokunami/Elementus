@@ -30,7 +30,7 @@ import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.ModChecker.cataclysm;
 import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
 import static net.nokunami.elementus.common.config.CatalystArmorConfig.*;
-import static net.nokunami.elementus.common.item.CatalystArmorItem.*;
+import static net.nokunami.elementus.common.item.unique.CatalystArmorItem.*;
 
 public class CatalystItemUtil {
     public static final String netherStar = "nether_star";

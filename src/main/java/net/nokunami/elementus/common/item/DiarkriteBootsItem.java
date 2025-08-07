@@ -15,8 +15,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.Lazy;
-import net.nokunami.elementus.common.config.ArmorConfig;
-import net.nokunami.elementus.common.config.UniqueItemConfig;
+import net.nokunami.elementus.common.item.basic.ElementusArmorItem;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 
