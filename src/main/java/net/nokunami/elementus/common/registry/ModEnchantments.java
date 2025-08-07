@@ -28,8 +28,11 @@ public class ModEnchantments {
     public static final RegistryObject<Enchantment> RUSH = ENCHANTMENT.register("rush",
             () -> new RushEnchantment(Enchantment.Rarity.RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
-    public static final RegistryObject<Enchantment> MULTI_CHARGE = ENCHANTMENT.register("multi_charge",
-            () -> new MultiChargeEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> CHARGE_STACKING = ENCHANTMENT.register("charge_stacking",
+            () -> new ChargeStackingEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
+
+    public static final RegistryObject<Enchantment> PULSE_BURST = ENCHANTMENT.register("pulse_burst",
+            () -> new CondensedBurstEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND));
 
     public static void register(IEventBus eventBus) {
         ENCHANTMENT.register(eventBus);

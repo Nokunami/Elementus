@@ -26,6 +26,7 @@ public class Etags {
         public static final TagKey<Item> REPAIRS_STEEL_EQUIPMENT = elementusTag("repairs_steel_equipment");
         public static final TagKey<Item> REPAIRS_DIARKRITE_EQUIPMENT = elementusTag("repairs_diarkrite_equipment");
         public static final TagKey<Item> REPAIRS_ANTHEKTITE_EQUIPMENT = elementusTag("repairs_anthektite_equipment");
+        public static final TagKey<Item> REPAIRS_MOVCADIA_EQUIPMENT = elementusTag("repairs_movcadia_equipment");
 
         public static final TagKey<Item> REPAIRS_CATALYST_ARMOR = elementusTag("repairs_catalyst_armor");
         public static final TagKey<Item> CATALYST_ITEMS = elementusTag("catalyst/core");
@@ -117,6 +118,9 @@ public class Etags {
         public static final TagKey<Block> MOVCADIA_ROOTED_DIRT = elementusTag("movcadia_rooted_dirt");
         public static final TagKey<Block> MOVCADIA_ROOTED_STONE = elementusTag("movcadia_rooted_stone");
         public static final TagKey<Block> MOVCADIA_ROOTED_DEEPSLATE = elementusTag("movcadia_rooted_deepslate");
+
+        public static final TagKey<Block> ANTHEKTITE_SLASH_BREAKABLE = elementusTag("mine_with_anthektite_slash");
+        public static final TagKey<Block> ANTHEKTITE_SLASH_BLACKLIST = elementusTag("mine_with_anthektite_slash_blacklist");
 
         private static TagKey<Block> forgeTag(String name) {
             return BlockTags.create(new ResourceLocation("forge", name));

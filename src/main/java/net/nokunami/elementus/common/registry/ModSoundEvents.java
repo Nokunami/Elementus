@@ -57,23 +57,50 @@ public class ModSoundEvents {
     public static final RegistryObject<SoundEvent> STEEL_GOLEM_CARPET_SWAG = SOUNDS.register("steel_golem_carpet_swag",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "entity.steel_golem.carpet_swag")));
 
-    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_CHARGE_UP = SOUNDS.register("diarkrite_charge_blade_charge_up",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.charge_up")));
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_CHARGE_UP = SOUNDS.register("charge_blade_charge_up",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.charge_blade.charge_up")));
 
-    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_BLOCK = SOUNDS.register("diarkrite_charge_blade.block",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.block")));
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_BLOCK = SOUNDS.register("charge_blade.block",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.charge_blade.block")));
 
-    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_PARRY = SOUNDS.register("diarkrite_charge_blade.parry",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.parry")));
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_PARRY = SOUNDS.register("charge_blade.parry",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.charge_blade.parry")));
 
-    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE = SOUNDS.register("diarkrite_charge_blade.block_resonance",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.block_resonance")));
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE = SOUNDS.register("charge_blade.block_resonance",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.charge_blade.block_resonance")));
 
-    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE = SOUNDS.register("diarkrite_charge_blade.parry_resonance",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.parry_resonance")));
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE = SOUNDS.register("charge_blade.parry_resonance",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.charge_blade.parry_resonance")));
 
-    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE = SOUNDS.register("diarkrite_charge_blade.sonic_resonance",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.sonic_resonance")));
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE = SOUNDS.register("charge_blade.sonic_resonance",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.charge_blade.sonic_resonance")));
+
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_BURST = SOUNDS.register("diarkrite_charge_blade.burst",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.burst")));
+
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_BURST_CURSED = SOUNDS.register("diarkrite_charge_blade.burst_cursed",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.burst_cursed")));
+
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_CONDENSED_BURST = SOUNDS.register("diarkrite_charge_blade.condensed_burst",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.condensed_burst")));
+
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_CONDENSED_BURST_CURSED = SOUNDS.register("diarkrite_charge_blade.condensed_burst_cursed",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.condensed_burst_cursed")));
+
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_PULSE_BURST = SOUNDS.register("diarkrite_charge_blade.pulse_burst",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.pulse_burst")));
+
+    public static final RegistryObject<SoundEvent> DIARKRITE_CHARGE_BLADE_PULSE_BURST_CURSED = SOUNDS.register("diarkrite_charge_blade.pulse_burst_cursed",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.diarkrite_charge_blade.pulse_burst")));
+
+    public static final RegistryObject<SoundEvent> CHARGE_BLADE_WIND_SLASH = SOUNDS.register("anthektite_charge_blade.wind_slash",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.anthektite_charge_blade.wind_slash")));
+
+    public static final RegistryObject<SoundEvent> CHARGE_BLADE_CLEAVE = SOUNDS.register("anthektite_charge_blade.cleave",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.anthektite_charge_blade.cleave")));
+
+    public static final RegistryObject<SoundEvent> CHARGE_BLADE_RUSH = SOUNDS.register("anthektite_charge_blade.rush",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "item.anthektite_charge_blade.rush")));
 
     public static void register(IEventBus eventBus) {
         SOUNDS.register(eventBus);

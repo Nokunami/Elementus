@@ -17,14 +17,14 @@ public class ModGreatPickaxeItem extends GreatPickaxeItem {
     }
 
     public void appendHoverText(@NotNull ItemStack stack, @javax.annotation.Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
-        EItemUtil.pickaxeTooltip(stack, tooltip, getTier());
+        EItemUtil.tooltip(stack, tooltip, getTier());
     }
 
     @Override
     public float getDestroySpeed(@NotNull ItemStack stack, @NotNull BlockState state) {
         if (ModConfig.COMMON.diarkriteEfficiency.get()) {
             float originalSpeed = super.getDestroySpeed(stack, state);
-            return EItemUtil.pickaxeMiningSpeed(originalSpeed, stack, state);
+            return EItemUtil.toolMiningSpeed(originalSpeed, stack, state);
         }
         return super.getDestroySpeed(stack, state);
     }

@@ -1,7 +1,6 @@
 package net.nokunami.elementus.common.entity.projectile;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -35,6 +34,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModItems;
@@ -50,25 +50,23 @@ import java.util.function.Predicate;
 
 public class SwordDanceSlashEntity extends Projectile {
     protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-    protected static final EntityDataAccessor<Integer> DISCARD_TIME = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Boolean> FRIENDLY_FIRE = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<ItemStack> WEAPON = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.ITEM_STACK);
+    protected static final EntityDataAccessor<Boolean> MIRRORED = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.BOOLEAN);
     private ItemStack weapon = new ItemStack(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
     private float damage;
-    private int delay;
-    private final int totalDelay;
-    public int pTimer;
     private final Set<Entity> alreadyHitEntities;
-    public Predicate<LivingEntity> REMOVE_PREDICATE = (e) ->
-        !(e instanceof OwnableEntity) && (e.isAlliedTo(this.getTrueOwner()) && getFriendlyFire() || !e.isAlliedTo(this.getTrueOwner())) ||
-        (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null && (ownable.getOwner().is(this.getTrueOwner()) ||
-                ownable.getOwner().isAlliedTo(this.getTrueOwner())) && getFriendlyFire()) || ownable.getOwner() == null));
+//    public Predicate<LivingEntity> REMOVE_PREDICATE = (e) ->
+//        !(e instanceof OwnableEntity) && (e.isAlliedTo(this.getTrueOwner()) && getFriendlyFire() || !e.isAlliedTo(this.getTrueOwner())) ||
+//        (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null && (ownable.getOwner().is(this.getTrueOwner()) ||
+//                ownable.getOwner().isAlliedTo(this.getTrueOwner())) && getFriendlyFire()) || ownable.getOwner() == null));
+public Predicate<? super Entity> REMOVE_ENTITIES_PREDICATE = (e -> MobUtil.allied(this.getTrueOwner(), e, this.getFriendlyFire()) || e.equals(this.getTrueOwner()));
+    public static float bbWidth = 4.25F;
+    public static float bbHeight = 0.9F;
 
     public SwordDanceSlashEntity(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
         this.damage = 7.5F;
-        this.delay = 0;
-        this.totalDelay = 1;
         this.alreadyHitEntities = new HashSet<>();
     }
 
@@ -87,14 +85,12 @@ public class SwordDanceSlashEntity extends Projectile {
         this.weapon = pShooter.getMainHandItem();
     }
 
-    public void launchSlash(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy, Vec3 vec3) {
+    public void launchSlash(LivingEntity entity, float pX, float pY, float pZ, float pVelocity, float pInaccuracy, Vec3 vec3) {
         float f = -Mth.sin(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
         float f1 = -Mth.sin((pX + pZ) * ((float)Math.PI / 180F));
         float f2 = Mth.cos(pY * ((float)Math.PI / 180F)) * Mth.cos(pX * ((float)Math.PI / 180F));
         this.shoot(f, f1, f2, pVelocity, pInaccuracy);
-        Vec3 vec31 = pShooter.getDeltaMovement();
         this.setPos(vec3.x, vec3.y - 1, vec3.z);
-        this.setDeltaMovement(this.getDeltaMovement().add(vec31.x, 0.0D, vec31.z));
     }
 
     public float getDamage() {
@@ -109,7 +105,7 @@ public class SwordDanceSlashEntity extends Projectile {
         this.entityData.define(OWNER_UNIQUE_ID, Optional.empty());
         this.entityData.define(FRIENDLY_FIRE, false);
         this.entityData.define(WEAPON, ItemStack.EMPTY);
-        this.entityData.define(DISCARD_TIME, 0);
+        this.entityData.define(MIRRORED, false);
     }
 
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
@@ -137,7 +133,7 @@ public class SwordDanceSlashEntity extends Projectile {
             if (itemStack.isEmpty()) Elementus.LOGGER.warn("Unable to load ItemStack from: {}", stack);
             this.setItemStack(itemStack);
         }
-        this.setDiscardTime(compound.getInt("DiscardTime"));
+        this.setMirrored(compound.getBoolean("Mirrored"));
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
@@ -150,7 +146,7 @@ public class SwordDanceSlashEntity extends Projectile {
         if (!this.getItemStack().isEmpty()) {
             compound.put("ItemStack", this.getItemStack().save(new CompoundTag()));
         }
-        compound.putInt("DiscardTime", this.getDiscardTime());
+        compound.putBoolean("Mirrored", this.getMirrored());
     }
 
     public LivingEntity getTrueOwner() {
@@ -187,45 +183,28 @@ public class SwordDanceSlashEntity extends Projectile {
         this.entityData.set(WEAPON, b);
     }
 
-    public int getDiscardTime() {
-        return this.entityData.get(DISCARD_TIME);
+    public boolean getMirrored() {
+        return this.entityData.get(MIRRORED);
     }
 
-    public void setDiscardTime(int b) {
-        this.entityData.set(DISCARD_TIME, b);
+    public void setMirrored(boolean b) {
+        this.entityData.set(MIRRORED, b);
     }
 
     public void tick() {
         this.setFriendlyFire(AnthektiteChargeBlade.getFriendlyFire(this.weapon));
 
-        Set<Entity> targets = new HashSet<>();
-
         if (this.getTrueOwner() != null) {
-            this.setDiscardTime(this.getDiscardTime() + 1);
-            if (this.getDiscardTime() > 6) {
+            if (this.tickCount >= 12) {
                 this.discard();
             }
 
-            for (Entity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5F), REMOVE_PREDICATE)) {
-                if (this.getTrueOwner() != null) {
-                    targets.add(entity);
-                }
-            }
-        }
-
-        targets.remove(this.getTrueOwner());
-        float damage1 = this.getDamage();
-        if (!targets.isEmpty()){
-            for (Entity entity: targets){
-                if (this.getTrueOwner() != null) {
-                    if (entity instanceof SwordDanceSlashEntity slash && (slash.getTrueOwner() == null || !slash.getTrueOwner().isAlliedTo(this.getTrueOwner()))) {
-                        this.level().addParticle(ModParticleTypes.SLASH_CLASH.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
-                        this.discard();
-                    }
-                    if (entity.isAlliedTo(this.getTrueOwner())) {
-                        targets.remove(entity);
-                        this.getTrueOwner().sendSystemMessage(Component.literal("Removed: " + entity.getType()));
-                    }
+            Set<Entity> targets = new HashSet<>(this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5F), (e) -> MobUtil.allied(this.getTrueOwner(), e, getFriendlyFire())));
+//            targets.remove(this.getTrueOwner());
+//            targets.removeIf(REMOVE_ENTITIES_PREDICATE);
+            float damage1 = this.getDamage();
+            if (!targets.isEmpty()){
+                for (Entity entity: targets) {
                     if (entity instanceof LivingEntity living && entity != this.getTrueOwner()) {
                         damage1 += EnchantmentHelper.getDamageBonus(this.weapon, (living).getMobType());
                         hurtMob(living, entity.damageSources().playerAttack((Player) getTrueOwner()), damage1);
@@ -233,6 +212,7 @@ public class SwordDanceSlashEntity extends Projectile {
                 }
             }
         }
+
 
         boolean breakBlock = true;
         if (breakBlock) {
@@ -250,29 +230,14 @@ public class SwordDanceSlashEntity extends Projectile {
             }
         }
 
-        travel();
-
         super.tick();
-    }
-
-    // Code form Iron's Spellsbooks https://github.com/iron431/irons-spells-n-spellbooks/blob/1.21/src/main/java/io/redspace/ironsspellbooks/entity/spells/AbstractMagicProjectile.java#L29
-    public void travel() {
-        setPos(position().add(getDeltaMovement()));
-        Vec3 motion = this.getDeltaMovement();
-        float xRot = -((float) (Mth.atan2(motion.horizontalDistance(), motion.y) * (double) (180F / (float) Math.PI)) - 90.0F);
-        float yRot = -((float) (Mth.atan2(motion.z, motion.x) * (double) (180F / (float) Math.PI)) + 90.0F);
-        this.setXRot(Mth.wrapDegrees(xRot));
-        this.setYRot(Mth.wrapDegrees(yRot));
-        Vec3 vec34 = this.getDeltaMovement();
-        this.setDeltaMovement(vec34.x, vec34.y, vec34.z);
     }
 
     private void hurtMob(LivingEntity entity, DamageSource source, float damage) {
         if (!alreadyHitEntities.contains(entity)) {
-            this.level().addParticle(ModParticleTypes.SLASH_IMPACT.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+            entity.hurt(source, damage);
             this.alreadyHitEntities.add(entity);
         }
-        entity.hurt(source, damage);
     }
 
     @Override

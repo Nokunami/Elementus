@@ -14,13 +14,13 @@
     {
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_base",
       "predicate": {
-        "elementus:enchanted": 0.1
+        "elementus:sacrifice": 1.0
       }
     },
     {
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_blocking",
       "predicate": {
-        "elementus:enchanted": 0.1,
+        "elementus:sacrifice": 1.0,
         "minecraft:blocking": 1.0
       }
     },
@@ -93,14 +93,14 @@
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_0",
       "predicate": {
         "elementus:charge": 0.2,
-        "elementus:enchanted": 0.1
+        "elementus:sacrifice": 1.0
       }
     },
     {
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_0_blocking",
       "predicate": {
         "elementus:charge": 0.16,
-        "elementus:enchanted": 0.1,
+        "elementus:sacrifice": 1.0,
         "minecraft:blocking": 1.0
       }
     },
@@ -108,14 +108,14 @@
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_1",
       "predicate": {
         "elementus:charge": 0.4,
-        "elementus:enchanted": 0.1
+        "elementus:sacrifice": 1.0
       }
     },
     {
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_1_blocking",
       "predicate": {
         "elementus:charge": 0.32,
-        "elementus:enchanted": 0.1,
+        "elementus:sacrifice": 1.0,
         "minecraft:blocking": 1.0
       }
     },
@@ -123,14 +123,14 @@
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_2",
       "predicate": {
         "elementus:charge": 0.6,
-        "elementus:enchanted": 0.1
+        "elementus:sacrifice": 1.0
       }
     },
     {
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_2_blocking",
       "predicate": {
         "elementus:charge": 0.48,
-        "elementus:enchanted": 0.1,
+        "elementus:sacrifice": 1.0,
         "minecraft:blocking": 1.0
       }
     },
@@ -138,14 +138,14 @@
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_3",
       "predicate": {
         "elementus:charge": 0.8,
-        "elementus:enchanted": 0.1
+        "elementus:sacrifice": 1.0
       }
     },
     {
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_3_blocking",
       "predicate": {
         "elementus:charge": 0.64,
-        "elementus:enchanted": 0.1,
+        "elementus:sacrifice": 1.0,
         "minecraft:blocking": 1.0
       }
     },
@@ -153,14 +153,14 @@
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_4",
       "predicate": {
         "elementus:charge": 0.8,
-        "elementus:enchanted": 0.1
+        "elementus:sacrifice": 1.0
       }
     },
     {
       "model": "elementus:item/diarkrite_charge_blade_sacrifice_charge_4_blocking",
       "predicate": {
         "elementus:charge": 0.8,
-        "elementus:enchanted": 0.1,
+        "elementus:sacrifice": 1.0,
         "minecraft:blocking": 1.0
       }
     }

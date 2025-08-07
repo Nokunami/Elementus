@@ -31,6 +31,8 @@ public class AnthektiteSlashImpactParticle extends HugeExplosionParticle {
         this.setSpriteFromAge(this.sprites);
         this.oRoll = this.roll;
         if (this.age >= totalLifetime/2) {
+            this.rotSpeed = this.rotSpeed - this.rotSpeed * 0.125F;
+        } else if (this.age >= totalLifetime/4) {
             this.rotSpeed = this.rotSpeed - this.rotSpeed * 0.5F;
         } else this.rotSpeed = this.rotSpeed - this.rotSpeed * 0.1F;
         this.roll += (float) (this.rotSpeed * (Math.PI * 0.01));

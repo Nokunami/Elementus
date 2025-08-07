@@ -19,7 +19,7 @@ public class EPaxelItem extends PaxelItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
-        EItemUtil.pickaxeTooltip(stack, tooltip, getTier());
+        EItemUtil.tooltip(stack, tooltip, getTier());
         boolean empty = true;
 
         for(PaxelSlot slot : PaxelSlot.values()) {
@@ -41,7 +41,7 @@ public class EPaxelItem extends PaxelItem {
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         if (ModConfig.COMMON.diarkriteEfficiency.get()) {
             float originalSpeed = super.getDestroySpeed(stack, state);
-            return EItemUtil.pickaxeMiningSpeed(originalSpeed, stack, state);
+            return EItemUtil.toolMiningSpeed(originalSpeed, stack, state);
         }
         return super.getDestroySpeed(stack, state);
     }

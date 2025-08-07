@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 import net.nokunami.elementus.common.item.AnthektiteChargeBlade;
-import net.nokunami.elementus.common.item.ChargeSwordItem;
+import net.nokunami.elementus.common.item.ChargeBladeItem;
 import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.registry.ModDamageTypes;
 import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 
 import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeSelfSacrificeDamage;
 import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
+import static net.nokunami.elementus.common.registry.ModEnchantments.RUSH;
 import static net.nokunami.elementus.common.registry.ModEnchantments.SACRIFICE_CURSE;
 
 /// Code from SpartanObliviousSpartan's SpartanShields mod
@@ -45,7 +46,7 @@ public class ChargeBladeAbilityPacket {
             Item item = player.getItemInHand(packet.hand).getItem();
             ItemStack itemStack = player.getItemInHand(packet.hand);
 
-            if (item instanceof ChargeSwordItem) {
+            if (item instanceof ChargeBladeItem) {
                 if (!itemStack.isEmpty() && player.isUsingItem() && !player.getCooldowns().isOnCooldown(itemStack.getItem())) {
                     ability(player, packet.hand);
                 }
@@ -58,24 +59,36 @@ public class ChargeBladeAbilityPacket {
         ItemStack stack = player.getUseItem();
         if (!level.isClientSide && !player.isSpectator() && player.isUsingItem()) {
             int cooldown = 0;
+            boolean shouldStopUsing = false;
             if (stack.getItem() instanceof DiarkriteChargeBlade && (getCharge(stack) > 2 || isEnchantedWith(stack, SACRIFICE_CURSE) || player.isCreative())) {
                 createBoom(level, player, stack);
                 if (isEnchantedWith(stack, SACRIFICE_CURSE)) player.hurt(level.damageSources().source(ModDamageTypes.SACRIFICIAL), player.getMaxHealth() * (float) diarkriteChargeBladeSelfSacrificeDamage);
                 cooldown = 10;
+                shouldStopUsing = true;
                 player.swing(hand, true);
             }
             if (stack.getItem() instanceof AnthektiteChargeBlade) {
-                if (player.hasEffect(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get())) {
-                    AnthektiteChargeBlade.swordDanceSlash(player, hand);
-                    cooldown = 240;
-                    player.swing(hand, true);
-                } else if (!player.hasEffect(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()) && (getCharge(stack) >= getMaxCharge(stack) || player.isCreative())) {
-                    player.addEffect(new MobEffectInstance(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get(), 600));
+                if (isEnchantedWith(stack, RUSH) && (getCharge(stack) >= getChargeStack(stack) || player.isCreative())) {
+                    AnthektiteChargeBlade.rush(player);
                     setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
-                    cooldown = 10;
+                    cooldown = 40;
+                } else {
+                    if (player.hasEffect(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get())) {
+                        AnthektiteChargeBlade.swordDanceSlash(player, hand);
+                        cooldown = 240;
+                        shouldStopUsing = true;
+                        player.swing(hand, true);
+                    } else if (!player.hasEffect(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()) && (getCharge(stack) >= getChargeStack(stack) || player.isCreative())) {
+                        player.addEffect(new MobEffectInstance(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get(), 600));
+                        setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
+                        cooldown = 10;
+                    }
                 }
             }
-            if (!player.isCreative()) player.getCooldowns().addCooldown(stack.getItem(), cooldown);
+            if (!player.isCreative()) {
+                player.getCooldowns().addCooldown(stack.getItem(), cooldown);
+                if (shouldStopUsing) player.stopUsingItem();
+            }
         }
     }
 }

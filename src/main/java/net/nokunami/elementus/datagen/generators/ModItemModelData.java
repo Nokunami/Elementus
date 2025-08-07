@@ -2,6 +2,16 @@ package net.nokunami.elementus.datagen.generators;
 
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
+import net.nokunami.elementus.common.compat.epicsamurai.ESModItems;
+import net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightBlocks;
+import net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightItems;
+import net.nokunami.elementus.common.compat.farmersdelight.NethersDelightItems;
+import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
+import net.nokunami.elementus.common.compat.piercingpaxels.PPModItems;
+import net.nokunami.elementus.common.compat.theaether.TAModItems;
+import net.nokunami.elementus.common.compat.twigs.TWModItems;
 import net.nokunami.elementus.datagen.providers.ModItemModelProvider;
 import net.nokunami.elementus.common.registry.ModBlocks.*;
 import net.nokunami.elementus.common.registry.ModItems.*;
@@ -55,19 +65,24 @@ public class ModItemModelData extends ModItemModelProvider {
         handheldItem(ElementusItems.STEEL_AXE, "tools");
         handheldItem(ElementusItems.STEEL_HOE, "tools");
 
-        handheldItem(ElementusItems.ANTHEKTITE_SWORD, "tools");
-        handheldItem(ElementusItems.ANTHEKTITE_SHOVEL, "tools");
-        handheldItem(ElementusItems.ANTHEKTITE_PICKAXE, "tools");
-        handheldItem(ElementusItems.ANTHEKTITE_AXE, "tools");
-        handheldItem(ElementusItems.ANTHEKTITE_HOE, "tools");
-
         handheldItem(ElementusItems.DIARKRITE_SWORD, "tools");
         handheldItem(ElementusItems.DIARKRITE_SHOVEL, "tools");
         handheldItem(ElementusItems.DIARKRITE_PICKAXE, "tools");
         handheldItem(ElementusItems.DIARKRITE_AXE, "tools");
         handheldItem(ElementusItems.DIARKRITE_HOE, "tools");
 
-//        chargerItem(ElementusItems.DIARKRITE_CHARGE_BLADE, "tools/diarkrite_charge_blade");
+        handheldItem(ElementusItems.ANTHEKTITE_SWORD, "tools");
+        handheldItem(ElementusItems.ANTHEKTITE_SHOVEL, "tools");
+        handheldItem(ElementusItems.ANTHEKTITE_PICKAXE, "tools");
+        handheldItem(ElementusItems.ANTHEKTITE_AXE, "tools");
+        handheldItem(ElementusItems.ANTHEKTITE_HOE, "tools");
+
+        movcadiaTools(ElementusItems.MOVCADIA_SWORD, "tools");
+        movcadiaTools(ElementusItems.MOVCADIA_SHOVEL, "tools");
+        movcadiaTools(ElementusItems.MOVCADIA_PICKAXE, "tools");
+        movcadiaTools(ElementusItems.MOVCADIA_AXE, "tools");
+        movcadiaTools(ElementusItems.MOVCADIA_HOE, "tools");
+
         diarkriteChargeBlade(ElementusItems.DIARKRITE_CHARGE_BLADE, "tools/diarkrite_charge_blade");
         anthektiteLongsword(ElementusItems.ANTHEKTITE_CHARGE_BLADE, "tools/anthektite_longsword");
 
@@ -146,11 +161,11 @@ public class ModItemModelData extends ModItemModelProvider {
         blockItem(FarmersDelightBlocks.MOVCADIA_CABINET);
     }
     private void PiercingPaxels() {
-        handheldItem(PiercingPaxelsItems.STEEL_PAXEL, "compat/piercingpaxels");
-        handheldItem(PiercingPaxelsItems.ANTHEKTITE_PAXEL, "compat/piercingpaxels");
-        handheldItem(PiercingPaxelsItems.DIARKRITE_PAXEL, "compat/piercingpaxels");
-        generatedItem(PiercingPaxelsItems.ANTHEKTITE_UPGRADE_KIT, "compat/piercingpaxels");
-        generatedItem(PiercingPaxelsItems.DIARKRITE_UPGRADE_KIT, "compat/piercingpaxels");
+        handheldItem(PPModItems.STEEL_PAXEL, "compat/piercingpaxels");
+        handheldItem(PPModItems.ANTHEKTITE_PAXEL, "compat/piercingpaxels");
+        handheldItem(PPModItems.DIARKRITE_PAXEL, "compat/piercingpaxels");
+        generatedItem(PPModItems.ANTHEKTITE_UPGRADE_KIT, "compat/piercingpaxels");
+        generatedItem(PPModItems.DIARKRITE_UPGRADE_KIT, "compat/piercingpaxels");
     }
     private void NethersDelight() {
         handheldItem(NethersDelightItems.STEEL_MACHETE, "compat/nethers_delight");
@@ -158,22 +173,22 @@ public class ModItemModelData extends ModItemModelProvider {
         handheldItem(NethersDelightItems.DIARKRITE_MACHETE, "compat/nethers_delight");
     }
     private void IronsSpellbooks() {
-        generatedItem(IronsSpellbooksItems.ANTHEKTITE_MAGE_HELMET, "compat/irons_spellbooks");
-        generatedItem(IronsSpellbooksItems.ANTHEKTITE_MAGE_CHESTPLATE, "compat/irons_spellbooks");
-        generatedItem(IronsSpellbooksItems.ANTHEKTITE_MAGE_LEGGINGS, "compat/irons_spellbooks");
-        generatedItem(IronsSpellbooksItems.ANTHEKTITE_MAGE_BOOTS, "compat/irons_spellbooks");
-        generatedItem(IronsSpellbooksItems.DIARKRITE_MAGE_HELMET, "compat/irons_spellbooks");
-        generatedItem(IronsSpellbooksItems.DIARKRITE_MAGE_CHESTPLATE, "compat/irons_spellbooks");
-        generatedItem(IronsSpellbooksItems.DIARKRITE_MAGE_LEGGINGS, "compat/irons_spellbooks");
-        generatedItem(IronsSpellbooksItems.DIARKRITE_MAGE_BOOTS, "compat/irons_spellbooks");
-        spellBookItem(IronsSpellbooksItems.STEEL_SPELL_BOOK);
-        spellBookItem(IronsSpellbooksItems.DIARKRITE_SPELL_BOOK);
-        spellBookItem(IronsSpellbooksItems.ANTHEKTITE_SPELL_BOOK);
+        generatedItem(ISSModItems.ANTHEKTITE_MAGE_HELMET, "compat/irons_spellbooks");
+        generatedItem(ISSModItems.ANTHEKTITE_MAGE_CHESTPLATE, "compat/irons_spellbooks");
+        generatedItem(ISSModItems.ANTHEKTITE_MAGE_LEGGINGS, "compat/irons_spellbooks");
+        generatedItem(ISSModItems.ANTHEKTITE_MAGE_BOOTS, "compat/irons_spellbooks");
+        generatedItem(ISSModItems.DIARKRITE_MAGE_HELMET, "compat/irons_spellbooks");
+        generatedItem(ISSModItems.DIARKRITE_MAGE_CHESTPLATE, "compat/irons_spellbooks");
+        generatedItem(ISSModItems.DIARKRITE_MAGE_LEGGINGS, "compat/irons_spellbooks");
+        generatedItem(ISSModItems.DIARKRITE_MAGE_BOOTS, "compat/irons_spellbooks");
+        spellBookItem(ISSModItems.STEEL_SPELL_BOOK);
+        spellBookItem(ISSModItems.DIARKRITE_SPELL_BOOK);
+        spellBookItem(ISSModItems.ANTHEKTITE_SPELL_BOOK);
     }
     private void Aether() {
-        armorItem(AetherItems.STEEL_GLOVES, "compat/aether");
-        armorItem(AetherItems.DIARKRITE_GLOVES, "compat/aether");
-        armorItem(AetherItems.ANTHEKTITE_GLOVES, "compat/aether");
+        armorItem(TAModItems.STEEL_GLOVES, "compat/aether");
+        armorItem(TAModItems.DIARKRITE_GLOVES, "compat/aether");
+        armorItem(TAModItems.ANTHEKTITE_GLOVES, "compat/aether");
     }
     private void SimplySwords() {
         simplySwordsItem("steel");
@@ -202,167 +217,167 @@ public class ModItemModelData extends ModItemModelProvider {
         sniffsWeaponsItem("anthektite", "naginata");
     }
     private void AdvancedNetherite() {
-        generatedItem(AdvancedNetheriteItems.DIARKRITE_IRON, "compat/advancednetherite/ingredient");
-        generatedItem(AdvancedNetheriteItems.DIARKRITE_GOLD, "compat/advancednetherite/ingredient");
-        generatedItem(AdvancedNetheriteItems.DIARKRITE_EMERALD, "compat/advancednetherite/ingredient");
-        generatedItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND, "compat/advancednetherite/ingredient");
-        generatedItem(AdvancedNetheriteItems.ANTHEKTITE_IRON, "compat/advancednetherite/ingredient");
-        generatedItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD, "compat/advancednetherite/ingredient");
-        generatedItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD, "compat/advancednetherite/ingredient");
-        generatedItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND, "compat/advancednetherite/ingredient");
+        generatedItem(ANModItems.DIARKRITE_IRON, "compat/advancednetherite/ingredient");
+        generatedItem(ANModItems.DIARKRITE_GOLD, "compat/advancednetherite/ingredient");
+        generatedItem(ANModItems.DIARKRITE_EMERALD, "compat/advancednetherite/ingredient");
+        generatedItem(ANModItems.DIARKRITE_DIAMOND, "compat/advancednetherite/ingredient");
+        generatedItem(ANModItems.ANTHEKTITE_IRON, "compat/advancednetherite/ingredient");
+        generatedItem(ANModItems.ANTHEKTITE_GOLD, "compat/advancednetherite/ingredient");
+        generatedItem(ANModItems.ANTHEKTITE_EMERALD, "compat/advancednetherite/ingredient");
+        generatedItem(ANModItems.ANTHEKTITE_DIAMOND, "compat/advancednetherite/ingredient");
 
 
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_IRON_SWORD, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_IRON_SHOVEL, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_IRON_PICKAXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_IRON_AXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_IRON_HOE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_IRON_SWORD, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_IRON_SHOVEL, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_IRON_PICKAXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_IRON_AXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_IRON_HOE, "compat/advancednetherite/tools");
 
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_GOLD_SWORD, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_GOLD_SHOVEL, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_GOLD_PICKAXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_GOLD_AXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_GOLD_HOE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_GOLD_SWORD, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_GOLD_SHOVEL, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_GOLD_PICKAXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_GOLD_AXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_GOLD_HOE, "compat/advancednetherite/tools");
 
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_SWORD, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_SHOVEL, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_PICKAXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_AXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_HOE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_EMERALD_SWORD, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_EMERALD_SHOVEL, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_EMERALD_PICKAXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_EMERALD_AXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_EMERALD_HOE, "compat/advancednetherite/tools");
 
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_SWORD, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_SHOVEL, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_PICKAXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_AXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_HOE, "compat/advancednetherite/tools");
-
-
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_SWORD, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_SHOVEL, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_PICKAXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_AXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_HOE, "compat/advancednetherite/tools");
-
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_SWORD, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_SHOVEL, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_PICKAXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_AXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_HOE, "compat/advancednetherite/tools");
-
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_SWORD, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_SHOVEL, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_PICKAXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_AXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_HOE, "compat/advancednetherite/tools");
-
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_SWORD, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_SHOVEL, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_PICKAXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_AXE, "compat/advancednetherite/tools");
-        handheldItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_HOE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_DIAMOND_SWORD, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_DIAMOND_SHOVEL, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_DIAMOND_PICKAXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_DIAMOND_AXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.DIARKRITE_DIAMOND_HOE, "compat/advancednetherite/tools");
 
 
-        armorItem(AdvancedNetheriteItems.DIARKRITE_IRON_HELMET, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_IRON_CHESTPLATE, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_IRON_LEGGINGS, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_IRON_BOOTS, "compat/advancednetherite/armor");
+        handheldItem(ANModItems.ANTHEKTITE_IRON_SWORD, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_IRON_SHOVEL, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_IRON_PICKAXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_IRON_AXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_IRON_HOE, "compat/advancednetherite/tools");
 
-        armorItem(AdvancedNetheriteItems.DIARKRITE_GOLD_HELMET, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_GOLD_CHESTPLATE, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_GOLD_LEGGINGS, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_GOLD_BOOTS, "compat/advancednetherite/armor");
+        handheldItem(ANModItems.ANTHEKTITE_GOLD_SWORD, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_GOLD_SHOVEL, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_GOLD_PICKAXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_GOLD_AXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_GOLD_HOE, "compat/advancednetherite/tools");
 
-        armorItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_HELMET, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_CHESTPLATE, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_LEGGINGS, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_EMERALD_BOOTS, "compat/advancednetherite/armor");
+        handheldItem(ANModItems.ANTHEKTITE_EMERALD_SWORD, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_EMERALD_SHOVEL, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_EMERALD_PICKAXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_EMERALD_AXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_EMERALD_HOE, "compat/advancednetherite/tools");
 
-        armorItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_HELMET, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_CHESTPLATE, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_LEGGINGS, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.DIARKRITE_DIAMOND_BOOTS, "compat/advancednetherite/armor");
+        handheldItem(ANModItems.ANTHEKTITE_DIAMOND_SWORD, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_DIAMOND_SHOVEL, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_DIAMOND_PICKAXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_DIAMOND_AXE, "compat/advancednetherite/tools");
+        handheldItem(ANModItems.ANTHEKTITE_DIAMOND_HOE, "compat/advancednetherite/tools");
 
 
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_HELMET, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_CHESTPLATE, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_LEGGINGS, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_IRON_BOOTS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_IRON_HELMET, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_IRON_CHESTPLATE, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_IRON_LEGGINGS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_IRON_BOOTS, "compat/advancednetherite/armor");
 
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_HELMET, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_CHESTPLATE, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_LEGGINGS, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_GOLD_BOOTS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_GOLD_HELMET, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_GOLD_CHESTPLATE, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_GOLD_LEGGINGS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_GOLD_BOOTS, "compat/advancednetherite/armor");
 
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_HELMET, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_CHESTPLATE, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_LEGGINGS, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_EMERALD_BOOTS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_EMERALD_HELMET, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_EMERALD_CHESTPLATE, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_EMERALD_LEGGINGS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_EMERALD_BOOTS, "compat/advancednetherite/armor");
 
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_HELMET, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_CHESTPLATE, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_LEGGINGS, "compat/advancednetherite/armor");
-        armorItem(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_BOOTS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_DIAMOND_HELMET, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_DIAMOND_CHESTPLATE, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_DIAMOND_LEGGINGS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.DIARKRITE_DIAMOND_BOOTS, "compat/advancednetherite/armor");
 
-        blockItem(AdvancedNetheriteBlocks.DIARKRITE_IRON_BLOCK);
-        blockItem(AdvancedNetheriteBlocks.DIARKRITE_GOLD_BLOCK);
-        blockItem(AdvancedNetheriteBlocks.DIARKRITE_EMERALD_BLOCK);
-        blockItem(AdvancedNetheriteBlocks.DIARKRITE_DIAMOND_BLOCK);
 
-        blockItem(AdvancedNetheriteBlocks.ANTHEKTITE_IRON_BLOCK);
-        blockItem(AdvancedNetheriteBlocks.ANTHEKTITE_GOLD_BLOCK);
-        blockItem(AdvancedNetheriteBlocks.ANTHEKTITE_EMERALD_BLOCK);
-        blockItem(AdvancedNetheriteBlocks.ANTHEKTITE_DIAMOND_BLOCK);
+        armorItem(ANModItems.ANTHEKTITE_IRON_HELMET, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_IRON_CHESTPLATE, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_IRON_LEGGINGS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_IRON_BOOTS, "compat/advancednetherite/armor");
+
+        armorItem(ANModItems.ANTHEKTITE_GOLD_HELMET, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_GOLD_CHESTPLATE, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_GOLD_LEGGINGS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_GOLD_BOOTS, "compat/advancednetherite/armor");
+
+        armorItem(ANModItems.ANTHEKTITE_EMERALD_HELMET, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_EMERALD_CHESTPLATE, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_EMERALD_LEGGINGS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_EMERALD_BOOTS, "compat/advancednetherite/armor");
+
+        armorItem(ANModItems.ANTHEKTITE_DIAMOND_HELMET, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_DIAMOND_CHESTPLATE, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_DIAMOND_LEGGINGS, "compat/advancednetherite/armor");
+        armorItem(ANModItems.ANTHEKTITE_DIAMOND_BOOTS, "compat/advancednetherite/armor");
+
+        blockItem(ANModBlocks.DIARKRITE_IRON_BLOCK);
+        blockItem(ANModBlocks.DIARKRITE_GOLD_BLOCK);
+        blockItem(ANModBlocks.DIARKRITE_EMERALD_BLOCK);
+        blockItem(ANModBlocks.DIARKRITE_DIAMOND_BLOCK);
+
+        blockItem(ANModBlocks.ANTHEKTITE_IRON_BLOCK);
+        blockItem(ANModBlocks.ANTHEKTITE_GOLD_BLOCK);
+        blockItem(ANModBlocks.ANTHEKTITE_EMERALD_BLOCK);
+        blockItem(ANModBlocks.ANTHEKTITE_DIAMOND_BLOCK);
     }
     private void EpicSamurai() {
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_HELMET, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_BOOTS, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_HELMET, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_CHESTPLATE, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_LEGGINGS, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_BOOTS, "compat/epicsamurai");
 
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_HELMET_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_BOOTS_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_HELMET_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_CHESTPLATE_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_LEGGINGS_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_BOOTS_LIGHT, "compat/epicsamurai");
 
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_HELMET_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.STEEL_SAMURAI_BOOTS_MASTER, "compat/epicsamurai");
-
-
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS, "compat/epicsamurai");
-
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS_LIGHT, "compat/epicsamurai");
-
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_HELMET_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_CHESTPLATE_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_LEGGINGS_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.STEEL_SAMURAI_BOOTS_MASTER, "compat/epicsamurai");
 
 
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_BOOTS, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_HELMET, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_CHESTPLATE, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_LEGGINGS, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_BOOTS, "compat/epicsamurai");
 
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS_LIGHT, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_BOOTS_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_HELMET_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_CHESTPLATE_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_LEGGINGS_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_BOOTS_LIGHT, "compat/epicsamurai");
 
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS_MASTER, "compat/epicsamurai");
-        generatedItem(EpicSamuraiItems.ANTHEKTITE_SAMURAI_BOOTS_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_HELMET_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_CHESTPLATE_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_LEGGINGS_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.DIARKRITE_SAMURAI_BOOTS_MASTER, "compat/epicsamurai");
+
+
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_HELMET, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_BOOTS, "compat/epicsamurai");
+
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_HELMET_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS_LIGHT, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_BOOTS_LIGHT, "compat/epicsamurai");
+
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_HELMET_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS_MASTER, "compat/epicsamurai");
+        generatedItem(ESModItems.ANTHEKTITE_SAMURAI_BOOTS_MASTER, "compat/epicsamurai");
     }
     private void Twigs() {
-        itemCustomParentModel(TwigsItems.MOVCADIA_TABLE, "block/compat/twigs/movcadia_table_inventory");
+        itemCustomParentModel(TWModItems.MOVCADIA_TABLE, "block/compat/twigs/movcadia_table_inventory");
     }
     private void WitherStormmod() {
         handheldItem(WitherstormModItems.STEEL_CMD_SWORD, "compat/witherstormmod");

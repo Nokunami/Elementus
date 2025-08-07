@@ -13,7 +13,7 @@ import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 import net.minecraftforge.fml.ModList;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.registry.ModItems.AdvancedNetheriteItems;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
 import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import net.nokunami.elementus.datagen.loot.MobDropsLootModifier;
 import net.nokunami.elementus.datagen.loot.ModLootModifier;
@@ -24,14 +24,14 @@ import java.util.List;
 public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
     private final List<Item> HOE_ITEMS = List.of(
-            AdvancedNetheriteItems.DIARKRITE_IRON_HOE.get(),
-            AdvancedNetheriteItems.DIARKRITE_GOLD_HOE.get(),
-            AdvancedNetheriteItems.DIARKRITE_EMERALD_HOE.get(),
-            AdvancedNetheriteItems.DIARKRITE_DIAMOND_HOE.get(),
-            AdvancedNetheriteItems.ANTHEKTITE_IRON_HOE.get(),
-            AdvancedNetheriteItems.ANTHEKTITE_GOLD_HOE.get(),
-            AdvancedNetheriteItems.ANTHEKTITE_EMERALD_HOE.get(),
-            AdvancedNetheriteItems.ANTHEKTITE_DIAMOND_HOE.get()
+            ANModItems.DIARKRITE_IRON_HOE.get(),
+            ANModItems.DIARKRITE_GOLD_HOE.get(),
+            ANModItems.DIARKRITE_EMERALD_HOE.get(),
+            ANModItems.DIARKRITE_DIAMOND_HOE.get(),
+            ANModItems.ANTHEKTITE_IRON_HOE.get(),
+            ANModItems.ANTHEKTITE_GOLD_HOE.get(),
+            ANModItems.ANTHEKTITE_EMERALD_HOE.get(),
+            ANModItems.ANTHEKTITE_DIAMOND_HOE.get()
             );
 
     public ModGlobalLootModifierProvider(PackOutput output) {

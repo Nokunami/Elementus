@@ -3,9 +3,9 @@ package net.nokunami.elementus.common.registry;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.nokunami.elementus.common.Etags;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
 import net.nokunami.elementus.common.config.ANConfig;
 import net.nokunami.elementus.common.config.TierConfig;
-import net.nokunami.elementus.common.registry.ModItems.AdvancedNetheriteItems;
 import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,32 +21,35 @@ public enum ModTiers implements Tier {
     ANTHEKTITE(TierConfig.anthektiteTierHarvestLevel, TierConfig.anthektiteTierDurability, (float) TierConfig.anthektiteTierEfficiency,
             (float) TierConfig.anthektiteTierDamage, TierConfig.anthektiteTierEnchantability,
             () -> Ingredient.of(Etags.Items.REPAIRS_ANTHEKTITE_EQUIPMENT)),
+    MOVCADIA(TierConfig.movcadiaTierHarvestLevel, TierConfig.movcadiaTierDurability, (float) TierConfig.movcadiaTierEfficiency,
+            (float) TierConfig.movcadiaTierDamage, TierConfig.movcadiaTierEnchantability,
+            () -> Ingredient.of(Etags.Items.REPAIRS_MOVCADIA_EQUIPMENT)),
 
     DIARKRITE_IRON(ANConfig.diarkriteIronTierHarvestLevel, ANConfig.diarkriteIronTierDurability, ANConfig.diarkriteIronTierEfficiency,
             ANConfig.diarkriteIronTierDamage, ANConfig.diarkriteIronTierEnchantability,
-            () -> Ingredient.of(AdvancedNetheriteItems.DIARKRITE_IRON.get())),
+            () -> Ingredient.of(ANModItems.DIARKRITE_IRON.get())),
     DIARKRITE_GOLD(ANConfig.diarkriteGoldTierHarvestLevel, ANConfig.diarkriteGoldTierDurability, ANConfig.diarkriteGoldTierEfficiency,
             ANConfig.diarkriteGoldTierDamage, ANConfig.diarkriteGoldTierEnchantability,
-            () -> Ingredient.of(AdvancedNetheriteItems.DIARKRITE_GOLD.get())),
+            () -> Ingredient.of(ANModItems.DIARKRITE_GOLD.get())),
     DIARKRITE_EMERALD(ANConfig.diarkriteEmeraldTierHarvestLevel, ANConfig.diarkriteEmeraldTierDurability, ANConfig.diarkriteEmeraldTierEfficiency,
             ANConfig.diarkriteEmeraldTierDamage, ANConfig.diarkriteEmeraldTierEnchantability,
-            () -> Ingredient.of(AdvancedNetheriteItems.DIARKRITE_EMERALD.get())),
+            () -> Ingredient.of(ANModItems.DIARKRITE_EMERALD.get())),
     DIARKRITE_DIAMOND(ANConfig.diarkriteDiamondTierHarvestLevel, ANConfig.diarkriteDiamondTierDurability, ANConfig.diarkriteDiamondTierEfficiency,
             ANConfig.diarkriteDiamondTierDamage, ANConfig.diarkriteDiamondTierEnchantability,
-            () -> Ingredient.of(AdvancedNetheriteItems.DIARKRITE_DIAMOND.get())),
+            () -> Ingredient.of(ANModItems.DIARKRITE_DIAMOND.get())),
 
     ANTHEKTITE_IRON(ANConfig.anthektiteIronTierHarvestLevel, ANConfig.anthektiteIronTierDurability, ANConfig.anthektiteIronTierEfficiency,
             ANConfig.anthektiteIronTierDamage, ANConfig.anthektiteIronTierEnchantability,
-            () -> Ingredient.of(AdvancedNetheriteItems.ANTHEKTITE_IRON.get())),
+            () -> Ingredient.of(ANModItems.ANTHEKTITE_IRON.get())),
     ANTHEKTITE_GOLD(ANConfig.anthektiteGoldTierHarvestLevel, ANConfig.anthektiteGoldTierDurability, ANConfig.anthektiteGoldTierEfficiency,
             ANConfig.anthektiteGoldTierDamage, ANConfig.anthektiteGoldTierEnchantability,
-            () -> Ingredient.of(AdvancedNetheriteItems.ANTHEKTITE_GOLD.get())),
+            () -> Ingredient.of(ANModItems.ANTHEKTITE_GOLD.get())),
     ANTHEKTITE_EMERALD(ANConfig.anthektiteEmeraldTierHarvestLevel, ANConfig.anthektiteEmeraldTierDurability, ANConfig.anthektiteEmeraldTierEfficiency,
             ANConfig.anthektiteEmeraldTierDamage, ANConfig.anthektiteEmeraldTierEnchantability,
-            () -> Ingredient.of(AdvancedNetheriteItems.ANTHEKTITE_EMERALD.get())),
+            () -> Ingredient.of(ANModItems.ANTHEKTITE_EMERALD.get())),
     ANTHEKTITE_DIAMOND(ANConfig.anthektiteDiamondTierHarvestLevel, ANConfig.anthektiteDiamondTierDurability, ANConfig.anthektiteDiamondTierEfficiency,
             ANConfig.anthektiteDiamondTierDamage, ANConfig.anthektiteDiamondTierEnchantability,
-            () -> Ingredient.of(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND.get())),
+            () -> Ingredient.of(ANModItems.ANTHEKTITE_DIAMOND.get())),
 
     STEEL_CMD(TierConfig.steelCMDTierHarvestLevel, TierConfig.steelCMDTierDurability, (float) TierConfig.steelCMDTierEfficiency,
             (float) TierConfig.steelCMDTierDamage, TierConfig.steelCMDTierEnchantability,

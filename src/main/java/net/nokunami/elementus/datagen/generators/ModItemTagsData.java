@@ -39,8 +39,9 @@ public class ModItemTagsData extends ItemTagsProvider {
     }
 
     private void minecraftTags() {
-        tag(ItemTags.SWORDS).add(ElementusItems.STEEL_SWORD.get(), ElementusItems.ANTHEKTITE_SWORD.get(), ElementusItems.DIARKRITE_SWORD.get(),
-                        ElementusItems.DIARKRITE_CHARGE_BLADE.get())
+        tag(ItemTags.SWORDS).add(ElementusItems.STEEL_SWORD.get(), ElementusItems.DIARKRITE_SWORD.get(), ElementusItems.ANTHEKTITE_SWORD.get(),
+                        ElementusItems.MOVCADIA_SWORD.get(),
+                        ElementusItems.DIARKRITE_CHARGE_BLADE.get(), ElementusItems.ANTHEKTITE_CHARGE_BLADE.get())
                 .addOptional(modLoc("diarkrite_iron_sword"))
                 .addOptional(modLoc("diarkrite_gold_sword"))
                 .addOptional(modLoc("diarkrite_emerald_sword"))
@@ -51,7 +52,8 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_sword"))
                 .addOptional(modLoc("anthektite_diamond_sword"));
 
-        tag(ItemTags.SHOVELS).add(ElementusItems.STEEL_SHOVEL.get(), ElementusItems.ANTHEKTITE_SHOVEL.get(), ElementusItems.DIARKRITE_SHOVEL.get())
+        tag(ItemTags.SHOVELS).add(ElementusItems.STEEL_SHOVEL.get(), ElementusItems.DIARKRITE_SHOVEL.get(), ElementusItems.ANTHEKTITE_SHOVEL.get(),
+                        ElementusItems.MOVCADIA_SHOVEL.get())
                 .addOptional(modLoc("diarkrite_iron_shovel"))
                 .addOptional(modLoc("diarkrite_gold_shovel"))
                 .addOptional(modLoc("diarkrite_emerald_shovel"))
@@ -62,7 +64,8 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_shovel"))
                 .addOptional(modLoc("anthektite_diamond_shovel"));
 
-        tag(ItemTags.PICKAXES).add(ElementusItems.STEEL_PICKAXE.get(), ElementusItems.ANTHEKTITE_PICKAXE.get(), ElementusItems.DIARKRITE_PICKAXE.get())
+        tag(ItemTags.PICKAXES).add(ElementusItems.STEEL_PICKAXE.get(), ElementusItems.DIARKRITE_PICKAXE.get(), ElementusItems.ANTHEKTITE_PICKAXE.get(),
+                        ElementusItems.MOVCADIA_PICKAXE.get())
                 .addOptional(modLoc("diarkrite_iron_pickaxe"))
                 .addOptional(modLoc("diarkrite_gold_pickaxe"))
                 .addOptional(modLoc("diarkrite_emerald_pickaxe"))
@@ -73,7 +76,8 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_pickaxe"))
                 .addOptional(modLoc("anthektite_diamond_pickaxe"));
 
-        tag(ItemTags.AXES).add(ElementusItems.STEEL_AXE.get(), ElementusItems.ANTHEKTITE_AXE.get(), ElementusItems.DIARKRITE_AXE.get())
+        tag(ItemTags.AXES).add(ElementusItems.STEEL_AXE.get(), ElementusItems.DIARKRITE_AXE.get(), ElementusItems.ANTHEKTITE_AXE.get(),
+                        ElementusItems.MOVCADIA_AXE.get())
                 .addOptional(modLoc("diarkrite_iron_axe"))
                 .addOptional(modLoc("diarkrite_gold_axe"))
                 .addOptional(modLoc("diarkrite_emerald_axe"))
@@ -84,7 +88,8 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_axe"))
                 .addOptional(modLoc("anthektite_diamond_axe"));
 
-        tag(ItemTags.HOES).add(ElementusItems.STEEL_HOE.get(), ElementusItems.ANTHEKTITE_HOE.get(), ElementusItems.DIARKRITE_HOE.get())
+        tag(ItemTags.HOES).add(ElementusItems.STEEL_HOE.get(), ElementusItems.DIARKRITE_HOE.get(), ElementusItems.ANTHEKTITE_HOE.get(),
+                        ElementusItems.MOVCADIA_HOE.get())
                 .addOptional(modLoc("diarkrite_iron_hoe"))
                 .addOptional(modLoc("diarkrite_gold_hoe"))
                 .addOptional(modLoc("diarkrite_emerald_hoe"))

@@ -246,6 +246,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
 
     @Override
     protected void updateContainerEquipment() {
+        super.updateContainerEquipment();
         if (!this.level().isClientSide) {
             super.updateContainerEquipment();
             this.setArmorEquipment(this.inventory.getItem(1));

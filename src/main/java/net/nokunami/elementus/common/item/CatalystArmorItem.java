@@ -1,9 +1,7 @@
 package net.nokunami.elementus.common.item;
 
-import com.github.L_Ender.cataclysm.init.ModItems;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -30,9 +28,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.common.MinecraftForge;
 import net.nokunami.elementus.ElementusClient;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.common.Etags;
@@ -52,7 +48,8 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static net.nokunami.elementus.ModChecker.*;
+import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
+import static net.nokunami.elementus.ModChecker.witherStormMod;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
 
 public class CatalystArmorItem extends ArmorItem {
@@ -104,7 +101,7 @@ public class CatalystArmorItem extends ArmorItem {
 
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
         if (getContents(stack).findAny().isPresent()) {
-            tooltip.add(Component.translatable(getDescriptionId() + "." + catalystActivator(stack) + "_title_desc").withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable(getDescriptionId() + "." + catalystActivator(stack) + "_title_desc").withStyle(titleColor(stack)));
             tooltip.add(Component.translatable(getDescriptionId() + "." + catalystActivator(stack) + "_desc").withStyle(ChatFormatting.GRAY));
         }
         if (getElytraEquipped(stack).findAny().isPresent()) {
@@ -113,45 +110,42 @@ public class CatalystArmorItem extends ArmorItem {
         if (getElytraEquiped(stack).findAny().isPresent()) {
             tooltip.add(Component.translatable(getDescriptionId() + ".elytra_equipped_legacy").withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.UNDERLINE));
         }
-        if (catalystActivator(stack).equals(netherStar)) {
-            tooltip.add(Component.translatable(getDescriptionId() + ".nether_star_title_desc").withStyle(ChatFormatting.LIGHT_PURPLE));
-            tooltip.add(Component.translatable(getDescriptionId() + ".nether_star_desc").withStyle(ChatFormatting.GRAY));
-        }
-        if (catalystActivator(stack).equals(ignitium)) {
-            if (cataclysm) {
-                tooltip.add(Component.translatable(getDescriptionId() + ".iginitum_title_desc").withStyle(ChatFormatting.YELLOW));
-                tooltip.add(Component.translatable(getDescriptionId() + ".iginitum_desc").withStyle(ChatFormatting.GRAY));
-            } else tooltip.add(Component.translatable("item.elementus.cataclysm_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
-        }
         if (catalystActivator(stack).equals(arcane)) {
             if (ironsSpellbooks) {
-                tooltip.add(Component.translatable(getDescriptionId() + ".iss_title").withStyle(ChatFormatting.LIGHT_PURPLE));
+//                tooltip.add(Component.translatable(getDescriptionId() + ".iss_title").withStyle(ChatFormatting.LIGHT_PURPLE));
                 if (CatalystArmorConfig.ISS_MaxMana != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_max_mana_desc", String.valueOf(CatalystArmorConfig.ISS_MaxMana)).withStyle(ChatFormatting.AQUA));
                 if (CatalystArmorConfig.ISS_ManaRegen != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_mana_regen_desc", (int)(CatalystArmorConfig.ISS_ManaRegen * 100) + "%").withStyle(ChatFormatting.AQUA));
                 if (CatalystArmorConfig.ISS_SpellPower != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_spell_power_desc", (int)(CatalystArmorConfig.ISS_SpellPower * 100) + "%").withStyle(ChatFormatting.AQUA));
                 if (CatalystArmorConfig.ISS_SpellResist != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_spell_resist_desc", (int)(CatalystArmorConfig.ISS_SpellResist * 100) + "%").withStyle(ChatFormatting.AQUA));
             } else tooltip.add(Component.translatable("item.elementus.iss_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
         }
-        if (catalystActivator(stack).equals(heartSea)) {
-            tooltip.add(Component.translatable(getDescriptionId() + ".heart_of_the_sea_title_desc").withStyle(ChatFormatting.BLUE));
-            tooltip.add(Component.translatable(getDescriptionId() + ".heart_of_the_sea_desc").withStyle(ChatFormatting.GRAY));
-        }
-        if (catalystActivator(stack).equals(totem)) {
-            tooltip.add(Component.translatable(getDescriptionId() + ".totem_title_desc").withStyle(ChatFormatting.GOLD));
-            tooltip.add(Component.translatable(getDescriptionId() + ".totem_desc").withStyle(ChatFormatting.GRAY));
-        }
-        if (catalystActivator(stack).equals(cursium)) {
-            if (cataclysm) {
-                tooltip.add(Component.translatable(getDescriptionId() + ".cursium_title_desc").withStyle(ChatFormatting.DARK_AQUA));
-                tooltip.add(Component.translatable(getDescriptionId() + ".cursium_desc").withStyle(ChatFormatting.GRAY));
-            } else tooltip.add(Component.translatable("item.elementus.cataclysm_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
-        }
-        if (catalystActivator(stack).equals(witheredNetherStar)) {
-            if (witherStormMod) {
-                tooltip.add(Component.translatable(getDescriptionId() + ".withered_nether_star_title_desc").withStyle(ChatFormatting.DARK_PURPLE));
-                tooltip.add(Component.translatable(getDescriptionId() + ".withered_nether_star_desc").withStyle(ChatFormatting.GRAY));
-            } else tooltip.add(Component.translatable("item.elementus.witherstormod_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
-        }
+//        if (catalystActivator(stack).equals(totem)) {
+//            tooltip.add(Component.translatable(getDescriptionId() + ".totem_title_desc").withStyle(ChatFormatting.GOLD));
+//            tooltip.add(Component.translatable(getDescriptionId() + ".totem_desc").withStyle(ChatFormatting.GRAY));
+//        }
+//        if (catalystActivator(stack).equals(cursium)) {
+//            if (cataclysm) {
+//                tooltip.add(Component.translatable(getDescriptionId() + ".cursium_title_desc").withStyle(ChatFormatting.DARK_AQUA));
+//                tooltip.add(Component.translatable(getDescriptionId() + ".cursium_desc").withStyle(ChatFormatting.GRAY));
+//            } else tooltip.add(Component.translatable("item.elementus.cataclysm_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
+//        }
+//        if (catalystActivator(stack).equals(witheredNetherStar)) {
+//            if (witherStormMod) {
+//                tooltip.add(Component.translatable(getDescriptionId() + ".withered_nether_star_title_desc").withStyle(ChatFormatting.DARK_PURPLE));
+//                tooltip.add(Component.translatable(getDescriptionId() + ".withered_nether_star_desc").withStyle(ChatFormatting.GRAY));
+//            } else tooltip.add(Component.translatable("item.elementus.witherstormod_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
+//        }
+    }
+
+    private ChatFormatting titleColor(ItemStack stack) {
+        return switch (catalystActivator(stack)) {
+            case ignitium -> ChatFormatting.YELLOW;
+            case heartSea -> ChatFormatting.BLUE;
+            case totem -> ChatFormatting.GOLD;
+            case cursium -> ChatFormatting.DARK_AQUA;
+            case witheredNetherStar -> ChatFormatting.DARK_PURPLE;
+            default -> ChatFormatting.LIGHT_PURPLE;
+        };
     }
 
     @Override

@@ -23,14 +23,17 @@ public class ModEntityType {
     public static final RegistryObject<EntityType<SteelGolem>> STEEL_GOLEM = ENTITY_TYPES.register("steel_golem",
             () -> EntityType.Builder.of(SteelGolem::new, MobCategory.CREATURE).sized(SteelGolem.rawBbWidth, SteelGolem.rawBbHeight).build("steel_golem"));
 
-    public static final RegistryObject<EntityType<AnthektiteSlash>> ANTHEKTITE_SLASH = ENTITY_TYPES.register("anthektite_slash",
-            () -> EntityType.Builder.<AnthektiteSlash>of(AnthektiteSlash::new, MobCategory.MISC).sized(0.75F, 0.5F).build("anthektite_slash"));
+    public static final RegistryObject<EntityType<AnthektiteSlashEntity>> ANTHEKTITE_SLASH = ENTITY_TYPES.register("anthektite_slash",
+            () -> EntityType.Builder.<AnthektiteSlashEntity>of(AnthektiteSlashEntity::new, MobCategory.MISC).sized(0.75F, 0.5F).build("anthektite_slash"));
 
-    public static final RegistryObject<EntityType<SonicRustParticleEntity>> SONIC_RUSH = ENTITY_TYPES.register("sonic_rush",
-            () -> EntityType.Builder.<SonicRustParticleEntity>of(SonicRustParticleEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).build("sonic_rush"));
+    public static final RegistryObject<EntityType<RushProjectileEntity>> RUSH_PROJECTILE = ENTITY_TYPES.register("rush_projectile",
+            () -> EntityType.Builder.<RushProjectileEntity>of(RushProjectileEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).build("rush_projectile"));
 
     public static final RegistryObject<EntityType<SwordDanceSlashEntity>> SWORD_DANCE_SLASH = ENTITY_TYPES.register("sword_dance_slash",
-            () -> EntityType.Builder.<SwordDanceSlashEntity>of(SwordDanceSlashEntity::new, MobCategory.MISC).sized(2.0F, 2.0F).build("sword_dance_slash"));
+            () -> EntityType.Builder.<SwordDanceSlashEntity>of(SwordDanceSlashEntity::new, MobCategory.MISC).sized(SwordDanceSlashEntity.bbWidth, SwordDanceSlashEntity.bbHeight).build("sword_dance_slash"));
+
+    public static final RegistryObject<EntityType<PulseBurstEntity>> PULSE_BURST = ENTITY_TYPES.register("pulse_burst",
+            () -> EntityType.Builder.<PulseBurstEntity>of(PulseBurstEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).build("pulse_burst"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

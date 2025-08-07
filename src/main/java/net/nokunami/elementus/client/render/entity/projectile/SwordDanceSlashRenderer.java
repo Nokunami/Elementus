@@ -9,23 +9,29 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.client.model.ModModelLayers;
-import net.nokunami.elementus.client.model.projectile.AnthektiteSlashModel;
 import net.nokunami.elementus.client.model.projectile.SwordDanceSlashModel;
-import net.nokunami.elementus.common.entity.projectile.AnthektiteSlash;
 import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.modLoc;
 
 public class SwordDanceSlashRenderer extends EntityRenderer<SwordDanceSlashEntity> {
-    public static final ResourceLocation[] TEXTURE_BY_TYPE = {
-        modLoc("textures/entity/projectiles/anthektite_slash/sword_dance_slash_0.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/sword_dance_slash_1.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/sword_dance_slash_2.png"),
-        modLoc("textures/entity/projectiles/anthektite_slash/sword_dance_slash_3.png")
+    public static final ResourceLocation[] DEFAULT_TEXTURE = {
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_0.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_1.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_2.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_3.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_4.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_5.png")
+    };
+    public static final ResourceLocation[] MIRRORED_TEXTURE = {
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_0_m.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_1_m.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_2_m.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_3_m.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_4_m.png"),
+        modLoc("textures/entity/projectiles/sword_dance_slash/sword_dance_slash_5_m.png")
     };
     private final SwordDanceSlashModel model;
 
@@ -37,21 +43,19 @@ public class SwordDanceSlashRenderer extends EntityRenderer<SwordDanceSlashEntit
     @Override
     public void render(@NotNull SwordDanceSlashEntity entity, float entityYaw, float partialTick, PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
-        Vec3 motion = entity.getDeltaMovement();
-        float xRot = -((float) (Mth.atan2(motion.horizontalDistance(), motion.x) * (double) (180F / (float) Math.PI)) - 90.0F);
-        float yRot = -((float) (Mth.atan2(motion.z, motion.x) * (double) (180F / (float) Math.PI)) + 90.0F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(yRot));
-        poseStack.mulPose(Axis.XP.rotationDegrees(xRot));
+        poseStack.mulPose(Axis.YP.rotationDegrees(90.0F - entity.getYRot()));
+        poseStack.mulPose(Axis.XP.rotationDegrees(-entity.getXRot()));
 
-        VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F,1.0F, 1.0F);
+        VertexConsumer defaultLayer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
+        this.model.renderToBuffer(poseStack, defaultLayer, 15728880, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F,1.0F, 1.0F);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull SwordDanceSlashEntity pEntity) {
-        int i = (pEntity.tickCount) / 2 % TEXTURE_BY_TYPE.length;
-        return TEXTURE_BY_TYPE[i];
+    public @NotNull ResourceLocation getTextureLocation(@NotNull SwordDanceSlashEntity entity) {
+        int i = (entity.tickCount) / 2 % DEFAULT_TEXTURE.length;
+        if (entity.getMirrored()) return MIRRORED_TEXTURE[i];
+        return DEFAULT_TEXTURE[i];
     }
 }

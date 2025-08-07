@@ -64,6 +64,17 @@ public class ItemConfig {
     public static int anthektiteShieldDurability;
     public static int anthektiteBowDurability;
 
+    public static int movcadiaSwordDamage;
+    public static double movcadiaSwordAttackSpeed;
+    public static double movcadiaShovelDamage;
+    public static double movcadiaShovelAttackSpeed;
+    public static int movcadiaPickaxeDamage;
+    public static double movcadiaPickaxeAttackSpeed;
+    public static double movcadiaAxeDamage;
+    public static double movcadiaAxeAttackSpeed;
+    public static int movcadiaHoeDamage;
+    public static double movcadiaHoeAttackSpeed;
+
     //Farmer's Delight
     public static double steelKnifeDamage;
     public static double steelKnifeAttackSpeed;
@@ -142,6 +153,17 @@ public class ItemConfig {
         anthektiteHoeAttackSpeed = 0.0;
         anthektiteShieldDurability = 598;
         anthektiteBowDurability = 598;
+
+        movcadiaSwordDamage = 3;
+        movcadiaSwordAttackSpeed = -2.4;
+        movcadiaShovelDamage = 1.5;
+        movcadiaShovelAttackSpeed = -3.0;
+        movcadiaPickaxeDamage = 1;
+        movcadiaPickaxeAttackSpeed = -2.8;
+        movcadiaAxeDamage = 7;
+        movcadiaAxeAttackSpeed = -3.1;
+        movcadiaHoeDamage = -1;
+        movcadiaHoeAttackSpeed = -1.0;
 
         //Farmer's Delight
         steelKnifeDamage = 0.5;
@@ -259,6 +281,17 @@ public class ItemConfig {
                         case "anthektiteHoe.Speed": anthektiteHoeAttackSpeed = value; break;
                         case "anthektiteShield.Durability": anthektiteShieldDurability = (int) value; break;
                         case "anthektiteBow.Durability": anthektiteBowDurability = (int) value; break;
+
+                        case "movcadiaSword.Damage": movcadiaSwordDamage = (int) value; break;
+                        case "movcadiaSword.Speed": movcadiaSwordAttackSpeed = value; break;
+                        case "movcadiaShovel.Damage": movcadiaShovelDamage = value; break;
+                        case "movcadiaShovel.Speed": movcadiaShovelAttackSpeed = value; break;
+                        case "movcadiaPickaxe.Damage": movcadiaPickaxeDamage = (int) value; break;
+                        case "movcadiaPickaxe.Speed": movcadiaPickaxeAttackSpeed = value; break;
+                        case "movcadiaAxe.Damage": movcadiaAxeDamage = value; break;
+                        case "movcadiaAxe.Speed": movcadiaAxeAttackSpeed = value; break;
+                        case "movcadiaHoe.Damage": movcadiaHoeDamage = (int) value; break;
+                        case "movcadiaHoe.Speed": movcadiaHoeAttackSpeed = value; break;
 
                         //Farmer's Delight
                         case "steelKnife.Damage": steelKnifeDamage = value; break;
@@ -396,6 +429,28 @@ public class ItemConfig {
             writer.write("  anthektiteShield.Durability = " + anthektiteShieldDurability + "\n");
             writer.write("# Default: " + anthektiteBowDurability + "\n");
             writer.write("  anthektiteBow.Durability = " + anthektiteBowDurability + "\n");
+            writer.write("\n");
+            writer.write("[Movcadia]\n");
+            writer.write("# Default: " + movcadiaSwordDamage + "\n");
+            writer.write("  movcadiaSword.Damage = " + movcadiaSwordDamage + "\n");
+            writer.write("# Default: " + movcadiaSwordAttackSpeed + "\n");
+            writer.write("  movcadiaSword.Speed = " + movcadiaSwordAttackSpeed + "\n");
+            writer.write("# Default: " + movcadiaShovelDamage + "\n");
+            writer.write("  movcadiaShovel.Damage = " + movcadiaShovelDamage + "\n");
+            writer.write("# Default: " + movcadiaShovelAttackSpeed + "\n");
+            writer.write("  movcadiaShovel.Speed = " + movcadiaShovelAttackSpeed + "\n");
+            writer.write("# Default: " + movcadiaPickaxeDamage + "\n");
+            writer.write("  movcadiaPickaxe.Damage = " + movcadiaPickaxeDamage + "\n");
+            writer.write("# Default: " + movcadiaPickaxeAttackSpeed + "\n");
+            writer.write("  movcadiaPickaxe.Speed = " + movcadiaPickaxeAttackSpeed + "\n");
+            writer.write("# Default: " + movcadiaAxeDamage + "\n");
+            writer.write("  movcadiaAxe.Damage = " + movcadiaAxeDamage + "\n");
+            writer.write("# Default: " + movcadiaAxeAttackSpeed + "\n");
+            writer.write("  movcadiaAxe.Speed = " + movcadiaAxeAttackSpeed + "\n");
+            writer.write("# Default: " + movcadiaHoeDamage + "\n");
+            writer.write("  movcadiaHoe.Damage = " + movcadiaHoeDamage + "\n");
+            writer.write("# Default: " + movcadiaHoeAttackSpeed + "\n");
+            writer.write("  movcadiaHoe.Speed = " + movcadiaHoeAttackSpeed + "\n");
             writer.write("\n");
             writer.write("\n");
             writer.write("[FarmersDelight.Steel]\n");

@@ -7,21 +7,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.nokunami.elementus.client.gui.ChargeSwordItemDecoration;
-import net.nokunami.elementus.common.item.ChargeSwordItem;
-import net.nokunami.elementus.common.item.DiarkriteChargeBlade;
+import net.nokunami.elementus.client.gui.ItemBarItemDecoration;
+import net.nokunami.elementus.common.item.ChargeBladeItem;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.network.ChargeBladeAbilityPacket;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.ModItems.*;
 
 import static net.nokunami.elementus.Elementus.MODID;
-import static net.nokunami.elementus.common.item.ChargeSwordItem.getCharge;
-import static net.nokunami.elementus.common.item.ChargeSwordItem.isEnchantedWith;
-import static net.nokunami.elementus.common.registry.ModEnchantments.SACRIFICE_CURSE;
 
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
 public class ClientEvents {
@@ -48,7 +43,7 @@ public class ClientEvents {
             ItemStack usedItem = player.getUseItem();
             Item item = usedItem.getItem();
             // NOTE: To prevent erroneous hand swinging, the attack keybind needs to be 'consumed' so it isn't used after this
-            if(item instanceof ChargeSwordItem && mc.options.keyAttack.consumeClick()) {
+            if(item instanceof ChargeBladeItem && mc.options.keyAttack.consumeClick()) {
                 itemStack = player.getUseItem();
                 hand = player.getUsedItemHand();
             } else return;
@@ -62,14 +57,13 @@ public class ClientEvents {
 
     public static void itemDecorations(RegisterItemDecorationsEvent event) {
 //        event.register(ElementusItems.CATALYST_CHESTPLATE.get(), new CatalystCoreItemDecoration());
-        event.register(ModItems.ElementusItems.DIARKRITE_CHARGE_BLADE.get(), new ChargeSwordItemDecoration());
-        event.register(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get(), new ChargeSwordItemDecoration());
-    }
+        event.register(ElementusItems.DIARKRITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
+        event.register(ElementusItems.ANTHEKTITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
 
-    @SubscribeEvent
-    public static void itemColorRegistry(RegisterColorHandlersEvent.Item event) {
-//        ItemColors colors = event.getItemColors();
-//
-//        event.register(colors, ElementusItems.DIARKRITE_CHARGE_BLADE.get());
+        event.register(ElementusItems.MOVCADIA_SWORD.get(), new ItemBarItemDecoration());
+        event.register(ElementusItems.MOVCADIA_SHOVEL.get(), new ItemBarItemDecoration());
+        event.register(ElementusItems.MOVCADIA_PICKAXE.get(), new ItemBarItemDecoration());
+        event.register(ElementusItems.MOVCADIA_AXE.get(), new ItemBarItemDecoration());
+        event.register(ElementusItems.MOVCADIA_HOE.get(), new ItemBarItemDecoration());
     }
 }

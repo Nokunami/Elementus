@@ -15,6 +15,9 @@ import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableConditio
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
+import net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightBlocks;
+import net.nokunami.elementus.common.compat.twigs.TWModBlocks;
 import net.nokunami.elementus.common.registry.ModBlocks.*;
 import net.nokunami.elementus.common.registry.ModItems.*;
 import org.jetbrains.annotations.NotNull;
@@ -97,18 +100,18 @@ public class ModBlockLootTables extends BlockLootSubProvider {
             this.dropSelf(FarmersDelightBlocks.MOVCADIA_CABINET.get());
         }
         if (advancedNetherite) {
-            this.dropSelf(AdvancedNetheriteBlocks.DIARKRITE_IRON_BLOCK.get());
-            this.dropSelf(AdvancedNetheriteBlocks.DIARKRITE_GOLD_BLOCK.get());
-            this.dropSelf(AdvancedNetheriteBlocks.DIARKRITE_EMERALD_BLOCK.get());
-            this.dropSelf(AdvancedNetheriteBlocks.DIARKRITE_DIAMOND_BLOCK.get());
+            this.dropSelf(ANModBlocks.DIARKRITE_IRON_BLOCK.get());
+            this.dropSelf(ANModBlocks.DIARKRITE_GOLD_BLOCK.get());
+            this.dropSelf(ANModBlocks.DIARKRITE_EMERALD_BLOCK.get());
+            this.dropSelf(ANModBlocks.DIARKRITE_DIAMOND_BLOCK.get());
 
-            this.dropSelf(AdvancedNetheriteBlocks.ANTHEKTITE_IRON_BLOCK.get());
-            this.dropSelf(AdvancedNetheriteBlocks.ANTHEKTITE_GOLD_BLOCK.get());
-            this.dropSelf(AdvancedNetheriteBlocks.ANTHEKTITE_EMERALD_BLOCK.get());
-            this.dropSelf(AdvancedNetheriteBlocks.ANTHEKTITE_DIAMOND_BLOCK.get());
+            this.dropSelf(ANModBlocks.ANTHEKTITE_IRON_BLOCK.get());
+            this.dropSelf(ANModBlocks.ANTHEKTITE_GOLD_BLOCK.get());
+            this.dropSelf(ANModBlocks.ANTHEKTITE_EMERALD_BLOCK.get());
+            this.dropSelf(ANModBlocks.ANTHEKTITE_DIAMOND_BLOCK.get());
         }
         if (twigs) {
-            this.dropSelf(TwigsBlocks.MOVCADIA_TABLE.get());
+            this.dropSelf(TWModBlocks.MOVCADIA_TABLE.get());
         }
     }
 
@@ -146,6 +149,6 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         return knownBlocks;
 //        return List.of(
 //                ElementusBlocks.REMNANT.get(),
-//                AdvancedNetheriteBlocks.ANTHEKTITE_DIAMOND_BLOCK.get());
+//                ANModBlocks.ANTHEKTITE_DIAMOND_BLOCK.get());
     }
 }

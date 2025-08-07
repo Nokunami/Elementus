@@ -11,11 +11,11 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.nokunami.elementus.common.Etags;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
 import net.nokunami.elementus.common.config.ANConfig;
 import net.nokunami.elementus.common.config.ArmorConfig;
 import net.nokunami.elementus.common.config.CatalystArmorConfig;
 import net.nokunami.elementus.common.config.SDConfig;
-import net.nokunami.elementus.common.registry.ModItems.AdvancedNetheriteItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
@@ -56,50 +56,50 @@ public enum ModArmorMaterials implements ArmorMaterial {
     DIARKRITE_IRON("diarkrite_iron", ANConfig.diarkriteIronArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ANConfig.anthektiteIronArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ANConfig.anthektiteIronArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ANConfig.anthektiteIronArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ANConfig.anthektiteIronArmor_Helmet);
     }), ANConfig.diarkriteIronArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ANConfig.diarkriteIronArmor_Toughness, ANConfig.diarkriteIronArmor_KnockbackResistance, () -> Ingredient.of(AdvancedNetheriteItems.DIARKRITE_IRON.get()), Map.of(
+            ANConfig.diarkriteIronArmor_Toughness, ANConfig.diarkriteIronArmor_KnockbackResistance, () -> Ingredient.of(ANModItems.DIARKRITE_IRON.get()), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ANConfig.diarkriteIronArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ANConfig.diarkriteIronArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE))),
     DIARKRITE_GOLD("diarkrite_gold", ANConfig.diarkriteGoldArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ANConfig.anthektiteGoldArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ANConfig.anthektiteGoldArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ANConfig.anthektiteGoldArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ANConfig.anthektiteGoldArmor_Helmet);
     }), ANConfig.diarkriteGoldArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ANConfig.diarkriteGoldArmor_Toughness, ANConfig.diarkriteGoldArmor_KnockbackResistance, () -> Ingredient.of(AdvancedNetheriteItems.DIARKRITE_GOLD.get()), Map.of(
+            ANConfig.diarkriteGoldArmor_Toughness, ANConfig.diarkriteGoldArmor_KnockbackResistance, () -> Ingredient.of(ANModItems.DIARKRITE_GOLD.get()), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ANConfig.diarkriteGoldArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ANConfig.diarkriteGoldArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE))),
     DIARKRITE_EMERALD("diarkrite_emerald", ANConfig.diarkriteEmeraldArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ANConfig.anthektiteEmeraldArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ANConfig.anthektiteEmeraldArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ANConfig.anthektiteEmeraldArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ANConfig.anthektiteEmeraldArmor_Helmet);
     }), ANConfig.diarkriteEmeraldArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ANConfig.diarkriteEmeraldArmor_Toughness, ANConfig.diarkriteEmeraldArmor_KnockbackResistance, () -> Ingredient.of(AdvancedNetheriteItems.DIARKRITE_EMERALD.get()), Map.of(
+            ANConfig.diarkriteEmeraldArmor_Toughness, ANConfig.diarkriteEmeraldArmor_KnockbackResistance, () -> Ingredient.of(ANModItems.DIARKRITE_EMERALD.get()), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ANConfig.diarkriteEmeraldArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ANConfig.diarkriteEmeraldArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE))),
     DIARKRITE_DIAMOND("diarkrite_diamond", ANConfig.diarkriteDiamondArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ANConfig.anthektiteDiamondArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ANConfig.anthektiteDiamondArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ANConfig.anthektiteDiamondArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ANConfig.anthektiteDiamondArmor_Helmet);
     }), ANConfig.diarkriteDiamondArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ANConfig.diarkriteDiamondArmor_Toughness, ANConfig.diarkriteDiamondArmor_KnockbackResistance, () -> Ingredient.of(AdvancedNetheriteItems.DIARKRITE_DIAMOND.get()), Map.of(
+            ANConfig.diarkriteDiamondArmor_Toughness, ANConfig.diarkriteDiamondArmor_KnockbackResistance, () -> Ingredient.of(ANModItems.DIARKRITE_DIAMOND.get()), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ANConfig.diarkriteDiamondArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ANConfig.diarkriteDiamondArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE))),
 
     ANTHEKTITE_IRON("anthektite_iron", ANConfig.anthektiteIronArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ANConfig.anthektiteIronArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ANConfig.anthektiteIronArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ANConfig.anthektiteIronArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ANConfig.anthektiteIronArmor_Helmet);
     }), ANConfig.anthektiteIronArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ANConfig.anthektiteIronArmor_Toughness, ANConfig.anthektiteIronArmor_KnockbackResistance, () -> Ingredient.of(AdvancedNetheriteItems.ANTHEKTITE_IRON.get()), Map.of(
+            ANConfig.anthektiteIronArmor_Toughness, ANConfig.anthektiteIronArmor_KnockbackResistance, () -> Ingredient.of(ANModItems.ANTHEKTITE_IRON.get()), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ANConfig.anthektiteIronArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ANConfig.anthektiteIronArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE))),
     ANTHEKTITE_GOLD("anthektite_gold", ANConfig.anthektiteGoldArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ANConfig.anthektiteGoldArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ANConfig.anthektiteGoldArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ANConfig.anthektiteGoldArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ANConfig.anthektiteGoldArmor_Helmet);
     }), ANConfig.anthektiteGoldArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ANConfig.anthektiteGoldArmor_Toughness, ANConfig.anthektiteGoldArmor_KnockbackResistance, () -> Ingredient.of(AdvancedNetheriteItems.ANTHEKTITE_GOLD.get()), Map.of(
+            ANConfig.anthektiteGoldArmor_Toughness, ANConfig.anthektiteGoldArmor_KnockbackResistance, () -> Ingredient.of(ANModItems.ANTHEKTITE_GOLD.get()), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ANConfig.anthektiteGoldArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ANConfig.anthektiteGoldArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE))),
     ANTHEKTITE_EMERALD("anthektite_emerald", ANConfig.anthektiteEmeraldArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ANConfig.anthektiteEmeraldArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ANConfig.anthektiteEmeraldArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ANConfig.anthektiteEmeraldArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ANConfig.anthektiteEmeraldArmor_Helmet);
     }), ANConfig.anthektiteEmeraldArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ANConfig.anthektiteEmeraldArmor_Toughness, ANConfig.anthektiteEmeraldArmor_KnockbackResistance, () -> Ingredient.of(AdvancedNetheriteItems.ANTHEKTITE_EMERALD.get()), Map.of(
+            ANConfig.anthektiteEmeraldArmor_Toughness, ANConfig.anthektiteEmeraldArmor_KnockbackResistance, () -> Ingredient.of(ANModItems.ANTHEKTITE_EMERALD.get()), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ANConfig.anthektiteEmeraldArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ANConfig.anthektiteEmeraldArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE))),
     ANTHEKTITE_DIAMOND("anthektite_diamond", ANConfig.anthektiteDiamondArmor_DurabilityForType, Util.make(new EnumMap<>(ArmorItem.Type.class), (c) -> {
         c.put(ArmorItem.Type.BOOTS, ANConfig.anthektiteDiamondArmor_Boots);c.put(ArmorItem.Type.LEGGINGS, ANConfig.anthektiteDiamondArmor_Leggings);c.put(ArmorItem.Type.CHESTPLATE, ANConfig.anthektiteDiamondArmor_Chestplate);c.put(ArmorItem.Type.HELMET, ANConfig.anthektiteDiamondArmor_Helmet);
     }), ANConfig.anthektiteDiamondArmor_Enchantability, SoundEvents.ARMOR_EQUIP_NETHERITE,
-            ANConfig.anthektiteDiamondArmor_Toughness, ANConfig.anthektiteDiamondArmor_KnockbackResistance, () -> Ingredient.of(AdvancedNetheriteItems.ANTHEKTITE_DIAMOND.get()), Map.of(
+            ANConfig.anthektiteDiamondArmor_Toughness, ANConfig.anthektiteDiamondArmor_KnockbackResistance, () -> Ingredient.of(ANModItems.ANTHEKTITE_DIAMOND.get()), Map.of(
             Attributes.ATTACK_SPEED, new AttributeModifier("Armor Attack Speed Modifier", ANConfig.anthektiteDiamondArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE),
             Attributes.MOVEMENT_SPEED, new AttributeModifier("Armor Movement Speed Modifier", ANConfig.anthektiteDiamondArmor_MovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE))),
 

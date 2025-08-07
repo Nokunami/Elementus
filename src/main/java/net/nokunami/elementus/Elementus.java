@@ -32,10 +32,11 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.ModChecker.*;
 
-@Mod(Elementus.MODID)
-@Mod.EventBusSubscriber(modid = "elementus")
+@Mod(MODID)
+@Mod.EventBusSubscriber(modid = MODID)
 public class Elementus {
     public static final String MODID = "elementus";
     public static final Logger LOGGER = LogManager.getLogger();
@@ -60,7 +61,7 @@ public class Elementus {
     }
 
     public static ResourceLocation modLoc(String location) {
-        return new ResourceLocation(Elementus.MODID, location);
+        return new ResourceLocation(MODID, location);
     }
 
     public Elementus() {
@@ -73,7 +74,7 @@ public class Elementus {
         CatalystArmorConfig.reload();
         EntityConfig.reload();
         if (ironsSpellbooks) ISSConfig.reload();
-        if (aether) AEConfig.reload();
+        if (aether) AetherModConfig.reload();
         if (simplySwords) SSConfig.reload();
         if (sniffsWeapons) SWConfig.reload();
         if (advancedNetherite) ANConfig.reload();

@@ -30,44 +30,96 @@
     ],
     "subtitle": "subtitles.elementus.item.anthektite_shield.block"
   },
-  "item.diarkrite_charge_blade.block": {
+  "item.charge_blade.block": {
     "sounds": [
-      "elementus:item/diarkrite_charge_blade/sword_block0",
-      "elementus:item/diarkrite_charge_blade/sword_block1",
-      "elementus:item/diarkrite_charge_blade/sword_block2"
+      "elementus:item/charge_blade/sword_block0",
+      "elementus:item/charge_blade/sword_block1",
+      "elementus:item/charge_blade/sword_block2"
     ],
-    "subtitle": "subtitles.item.diarkrite_charge_blade.block"
+    "subtitle": "subtitles.item.charge_blade.block"
   },
-  "item.diarkrite_charge_blade.parry": {
+  "item.charge_blade.parry": {
     "sounds": [
-      "elementus:item/diarkrite_charge_blade/sword_parry0",
-      "elementus:item/diarkrite_charge_blade/sword_parry1",
-      "elementus:item/diarkrite_charge_blade/sword_parry2"
+      "elementus:item/charge_blade/sword_parry0",
+      "elementus:item/charge_blade/sword_parry1",
+      "elementus:item/charge_blade/sword_parry2"
     ],
-    "subtitle": "subtitles.item.diarkrite_charge_blade.parry"
+    "subtitle": "subtitles.item.charge_blade.parry"
   },
-  "item.diarkrite_charge_blade.block_resonance": {
+  "item.charge_blade.block_resonance": {
     "sounds": [
-      "elementus:item/diarkrite_charge_blade/sword_resonance_block0",
-      "elementus:item/diarkrite_charge_blade/sword_resonance_block1",
-      "elementus:item/diarkrite_charge_blade/sword_resonance_block2"
+      "elementus:item/charge_blade/sword_resonance_block0",
+      "elementus:item/charge_blade/sword_resonance_block1",
+      "elementus:item/charge_blade/sword_resonance_block2"
     ],
-    "subtitle": "subtitles.item.diarkrite_charge_blade.block"
+    "subtitle": "subtitles.item.charge_blade.block"
   },
-  "item.diarkrite_charge_blade.parry_resonance": {
+  "item.charge_blade.parry_resonance": {
     "sounds": [
-      "elementus:item/diarkrite_charge_blade/sword_resonance_parry0",
-      "elementus:item/diarkrite_charge_blade/sword_resonance_parry1"
+      "elementus:item/charge_blade/sword_resonance_parry0",
+      "elementus:item/charge_blade/sword_resonance_parry1"
     ],
-    "subtitle": "subtitles.item.diarkrite_charge_blade.parry"
+    "subtitle": "subtitles.item.charge_blade.parry"
   },
-  "item.diarkrite_charge_blade.sonic_resonance": {
+  "item.charge_blade.sonic_resonance": {
     "sounds": [
-      "elementus:item/diarkrite_charge_blade/sonic_resonance_0",
-      "elementus:item/diarkrite_charge_blade/sonic_resonance_1",
-      "elementus:item/diarkrite_charge_blade/sonic_resonance_2"
+      "elementus:item/charge_blade/sonic_resonance_0",
+      "elementus:item/charge_blade/sonic_resonance_1",
+      "elementus:item/charge_blade/sonic_resonance_2"
     ],
-    "subtitle": "subtitles.item.diarkrite_charge_blade.resonate"
+    "subtitle": "subtitles.item.charge_blade.resonate"
+  },
+  "item.diarkrite_charge_blade.burst": {
+    "sounds": [
+      "mob/warden/sonic_boom1",
+      "mob/warden/sonic_boom2",
+      "mob/warden/sonic_boom3",
+      "mob/warden/sonic_boom4"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.burst"
+  },
+  "item.diarkrite_charge_blade.burst_cursed": {
+    "sounds": [
+      "elementus:item/diarkrite_charge_blade/burst_cursed1",
+      "elementus:item/diarkrite_charge_blade/burst_cursed2",
+      "elementus:item/diarkrite_charge_blade/burst_cursed3",
+      "elementus:item/diarkrite_charge_blade/burst_cursed4"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.burst_cursed"
+  },
+  "item.diarkrite_charge_blade.condensed_burst": {
+    "sounds": [
+      "elementus:item/diarkrite_charge_blade/condensed_burst0",
+      "elementus:item/diarkrite_charge_blade/condensed_burst1"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.condensed_burst"
+  },
+  "item.diarkrite_charge_blade.condensed_burst_cursed": {
+    "sounds": [
+      "elementus:item/diarkrite_charge_blade/condensed_burst_cursed0",
+      "elementus:item/diarkrite_charge_blade/condensed_burst_cursed1"
+    ],
+    "subtitle": "subtitles.item.diarkrite_charge_blade.condensed_burst_cursed"
+  },
+  "item.anthektite_charge_blade.wind_slash": {
+    "sounds": [
+      "entity/endereye/death1",
+      "entity/endereye/death2"
+    ],
+    "subtitle": "subtitles.item.anthektite_charge_blade.wind_slash"
+  },
+  "item.anthektite_charge_blade.cleave": {
+    "sounds": [
+      "entity/endereye/death1",
+      "entity/endereye/death2"
+    ],
+    "subtitle": "subtitles.item.anthektite_charge_blade.cleave"
+  },
+  "item.anthektite_charge_blade.rush": {
+    "sounds": [
+      "elementus:item/anthektite_charge_blade/rush"
+    ],
+    "subtitle": "subtitles.item.anthektite_charge_blade.rush"
   },
   "entity.steel_golem.repair": {
     "sounds": [

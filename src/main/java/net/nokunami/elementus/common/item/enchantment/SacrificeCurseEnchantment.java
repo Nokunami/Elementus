@@ -19,7 +19,7 @@ public class SacrificeCurseEnchantment extends Enchantment {
 
     @Override
     protected boolean checkCompatibility(@NotNull Enchantment ench) {
-        return !(ench instanceof MultiChargeEnchantment) && super.checkCompatibility(ench);
+        return !(ench instanceof ChargeStackingEnchantment) && super.checkCompatibility(ench);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package net.nokunami.elementus.common.registry;
 
-import com.ninni.twigs.block.TableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
@@ -18,9 +17,9 @@ import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.block.*;
 import net.nokunami.elementus.common.block.entity.ModRotatedPillarBlock;
-import vectorwing.farmersdelight.common.block.CabinetBlock;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
+import net.nokunami.elementus.common.compat.twigs.TWModBlocks;
 
-import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.ModChecker.*;
 
 public class ModBlocks {
@@ -166,49 +165,49 @@ public class ModBlocks {
     }
 
     public static class FarmersDelightBlocks {
-        public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Elementus.MODID);
-
-        public static final RegistryObject<Block> MOVCADIA_CABINET = BLOCKS.register("movcadia_cabinet",
-                () -> new CabinetBlock(BlockBehaviour.Properties.copy(ElementusBlocks.MOVCADIA_PLANKS.get())));
-
-        public static void register(IEventBus eventBus) {
-            BLOCKS.register(eventBus);
-        }
+//        public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Elementus.MODID);
+//
+//        public static final RegistryObject<Block> MOVCADIA_CABINET = BLOCKS.register("movcadia_cabinet",
+//                () -> new CabinetBlock(BlockBehaviour.Properties.copy(ElementusBlocks.MOVCADIA_PLANKS.get())));
+//
+//        public static void register(IEventBus eventBus) {
+//            BLOCKS.register(eventBus);
+//        }
     }
     public static class AdvancedNetheriteBlocks {
-        public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Elementus.MODID);
-
-        public static final RegistryObject<Block> DIARKRITE_IRON_BLOCK = BLOCKS.register("diarkrite_iron_block",
-                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-        public static final RegistryObject<Block> DIARKRITE_GOLD_BLOCK = BLOCKS.register("diarkrite_gold_block",
-                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-        public static final RegistryObject<Block> DIARKRITE_EMERALD_BLOCK = BLOCKS.register("diarkrite_emerald_block",
-                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-        public static final RegistryObject<Block> DIARKRITE_DIAMOND_BLOCK = BLOCKS.register("diarkrite_diamond_block",
-                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-
-        public static final RegistryObject<Block> ANTHEKTITE_IRON_BLOCK = BLOCKS.register("anthektite_iron_block",
-                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-        public static final RegistryObject<Block> ANTHEKTITE_GOLD_BLOCK = BLOCKS.register("anthektite_gold_block",
-                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-        public static final RegistryObject<Block> ANTHEKTITE_EMERALD_BLOCK = BLOCKS.register("anthektite_emerald_block",
-                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-        public static final RegistryObject<Block> ANTHEKTITE_DIAMOND_BLOCK = BLOCKS.register("anthektite_diamond_block",
-                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-
-        public static void register(IEventBus eventBus) {
-            BLOCKS.register(eventBus);
-        }
+//        public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Elementus.MODID);
+//
+//        public static final RegistryObject<Block> DIARKRITE_IRON_BLOCK = BLOCKS.register("diarkrite_iron_block",
+//                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+//        public static final RegistryObject<Block> DIARKRITE_GOLD_BLOCK = BLOCKS.register("diarkrite_gold_block",
+//                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+//        public static final RegistryObject<Block> DIARKRITE_EMERALD_BLOCK = BLOCKS.register("diarkrite_emerald_block",
+//                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+//        public static final RegistryObject<Block> DIARKRITE_DIAMOND_BLOCK = BLOCKS.register("diarkrite_diamond_block",
+//                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+//
+//        public static final RegistryObject<Block> ANTHEKTITE_IRON_BLOCK = BLOCKS.register("anthektite_iron_block",
+//                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+//        public static final RegistryObject<Block> ANTHEKTITE_GOLD_BLOCK = BLOCKS.register("anthektite_gold_block",
+//                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+//        public static final RegistryObject<Block> ANTHEKTITE_EMERALD_BLOCK = BLOCKS.register("anthektite_emerald_block",
+//                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+//        public static final RegistryObject<Block> ANTHEKTITE_DIAMOND_BLOCK = BLOCKS.register("anthektite_diamond_block",
+//                () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
+//
+//        public static void register(IEventBus eventBus) {
+//            BLOCKS.register(eventBus);
+//        }
     }
     public static class TwigsBlocks {
-        public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-
-        public static final RegistryObject<Block> MOVCADIA_TABLE = BLOCKS.register("movcadia_table",
-                () -> new TableBlock(BlockBehaviour.Properties.copy(ElementusBlocks.MOVCADIA_PLANKS.get())));
-
-        public static void register(IEventBus eventBus) {
-            BLOCKS.register(eventBus);
-        }
+//        public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
+//
+//        public static final RegistryObject<Block> MOVCADIA_TABLE = BLOCKS.register("movcadia_table",
+//                () -> new TableBlock(BlockBehaviour.Properties.copy(ElementusBlocks.MOVCADIA_PLANKS.get())));
+//
+//        public static void register(IEventBus eventBus) {
+//            BLOCKS.register(eventBus);
+//        }
     }
 
 //    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Elementus.MODID);
@@ -336,13 +335,13 @@ public class ModBlocks {
 //        BLOCKS.register(eventBus);
         ElementusBlocks.register(eventBus);
         if (farmersDelight) {
-            FarmersDelightBlocks.register(eventBus);
+            net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightBlocks.register(eventBus);
         }
         if (advancedNetherite) {
-            AdvancedNetheriteBlocks.register(eventBus);
+            ANModBlocks.register(eventBus);
         }
         if (twigs) {
-            TwigsBlocks.register(eventBus);
+            TWModBlocks.register(eventBus);
         }
     }
 }

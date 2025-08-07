@@ -47,6 +47,13 @@ public class TierConfig {
     public static int anthektiteTierEnchantability;
     public static double anthektiteWeaponSpeedModifier;
 
+    public static int movcadiaTierHarvestLevel;
+    public static int movcadiaTierDurability;
+    public static double movcadiaTierEfficiency;
+    public static double movcadiaTierDamage;
+    public static int movcadiaTierEnchantability;
+    public static double movcadiaWeaponSpeedModifier;
+
     //Cracker's Witherstormmod
     public static int steelCMDTierHarvestLevel;
     public static int steelCMDTierDurability;
@@ -114,6 +121,13 @@ public class TierConfig {
         anthektiteTierDamage = 3.0;
         anthektiteTierEnchantability = 15;
         anthektiteWeaponSpeedModifier = 0.5;
+
+        movcadiaTierHarvestLevel = 3;
+        movcadiaTierDurability = 300;
+        movcadiaTierEfficiency = 8.0;
+        movcadiaTierDamage = 1.0;
+        movcadiaTierEnchantability = 20;
+        movcadiaWeaponSpeedModifier = 0.0;
 
         //Cracker's Witherstormmod
         steelCMDTierHarvestLevel = 5;
@@ -220,6 +234,13 @@ public class TierConfig {
                         case "anthektite.Damage": anthektiteTierDamage = value; break;
                         case "anthektite.Enchantability": anthektiteTierEnchantability = (int) value; break;
                         case "anthektite.WeaponSpeedModifier": anthektiteWeaponSpeedModifier = value; break;
+
+                        case "movcadia.HarvestLevel": movcadiaTierHarvestLevel = (int) value; break;
+                        case "movcadia.Durability": movcadiaTierDurability = (int) value; break;
+                        case "movcadia.Efficiency": movcadiaTierEfficiency = value; break;
+                        case "movcadia.Damage": movcadiaTierDamage = value; break;
+                        case "movcadia.Enchantability": movcadiaTierEnchantability = (int) value; break;
+                        case "movcadia.WeaponSpeedModifier": movcadiaWeaponSpeedModifier = value; break;
 
                         //Cracker's Witherstormmod
                         case "steelCMD.HarvestLevel": steelCMDTierHarvestLevel = (int) value; break;
@@ -335,6 +356,20 @@ public class TierConfig {
             writer.write("  anthektite.Enchantability = " + anthektiteTierEnchantability + "\n");
             writer.write("# [Default: " + anthektiteWeaponSpeedModifier + "]\n");
             writer.write("  anthektite.WeaponSpeedModifier = " + anthektiteWeaponSpeedModifier + "\n");
+            writer.write("\n");
+            writer.write("[Movcadia]\n");
+            writer.write("# [Default: " + movcadiaTierHarvestLevel + "]\n");
+            writer.write("  movcadia.HarvestLevel = " + movcadiaTierHarvestLevel + "\n");
+            writer.write("# [Default: " + movcadiaTierDurability + "]\n");
+            writer.write("  movcadia.Durability = " + movcadiaTierDurability + "\n");
+            writer.write("# [Default: " + movcadiaTierEfficiency + "]\n");
+            writer.write("  movcadia.Efficiency = " + movcadiaTierEfficiency + "\n");
+            writer.write("# [Default: " + movcadiaTierDamage + "]\n");
+            writer.write("  movcadia.Damage = " + movcadiaTierDamage + "\n");
+            writer.write("# [Default: " + movcadiaTierEnchantability + "]\n");
+            writer.write("  movcadia.Enchantability = " + movcadiaTierEnchantability + "\n");
+            writer.write("# [Default: " + movcadiaWeaponSpeedModifier + "]\n");
+            writer.write("  movcadia.WeaponSpeedModifier = " + movcadiaWeaponSpeedModifier + "\n");
             writer.write("\n");
             writer.write("\n");
             writer.write("[Witherstormmod.SteelCMD]\n");

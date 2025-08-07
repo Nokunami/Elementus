@@ -3,8 +3,7 @@ package net.nokunami.elementus.common.item;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.nokunami.elementus.common.registry.ModEnchantments;
+import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
 import net.nokunami.elementus.common.registry.ModItems.*;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
@@ -14,6 +13,7 @@ import static net.nokunami.elementus.ModChecker.*;
 import static net.nokunami.elementus.common.item.CatalystArmorItem.catalystActivator;
 import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
 import static net.nokunami.elementus.common.item.DiarkriteChargeBlade.*;
+import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
 import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 
 public class ItemPredicateRegister {
@@ -24,9 +24,9 @@ public class ItemPredicateRegister {
          shieldBlocking(ElementusItems.DIARKRITE_SHIELD.get());
 
          if (sniffsWeapons) {
-             shieldBlocking(SniffsWeaponsItems.STEEL_GREAT_PICKAXE.get());
-             shieldBlocking(SniffsWeaponsItems.DIARKRITE_GREAT_PICKAXE.get());
-             shieldBlocking(SniffsWeaponsItems.ANTHEKTITE_GREAT_PICKAXE.get());
+             shieldBlocking(SWModItems.STEEL_GREAT_PICKAXE.get());
+             shieldBlocking(SWModItems.DIARKRITE_GREAT_PICKAXE.get());
+             shieldBlocking(SWModItems.ANTHEKTITE_GREAT_PICKAXE.get());
          }
          catalystArmor(ElementusItems.CATALYST_CHESTPLATE.get());
 
@@ -42,6 +42,12 @@ public class ItemPredicateRegister {
 
          chargeBlade(ElementusItems.DIARKRITE_CHARGE_BLADE.get());
          chargeBlade(ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
+
+         movcadiaTools(ElementusItems.MOVCADIA_SWORD.get());
+         movcadiaTools(ElementusItems.MOVCADIA_SHOVEL.get());
+         movcadiaTools(ElementusItems.MOVCADIA_PICKAXE.get());
+         movcadiaTools(ElementusItems.MOVCADIA_AXE.get());
+         movcadiaTools(ElementusItems.MOVCADIA_HOE.get());
      }
 
     private static void shieldBlocking(Item item) {
@@ -89,13 +95,24 @@ public class ItemPredicateRegister {
         ItemProperties.register(item, new ResourceLocation("blocking"), (itemStack, clientLevel, livingEntity, i)
                 -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
 
-        ItemProperties.register(item, modLoc("enchanted"), (itemStack, clientLevel, livingEntity, i)
-                -> isEnchantedWith(itemStack, SACRIFICE_CURSE) ? 0.1F : isEnchantedWith(itemStack, MULTI_CHARGE) ? 0.2F : 0F);
+        ItemProperties.register(item, modLoc("sacrifice"), (itemStack, clientLevel, livingEntity, i)
+                -> isEnchantedWith(itemStack, SACRIFICE_CURSE) ? 1 : 0);
+        ItemProperties.register(item, modLoc("charge_stacking"), (itemStack, clientLevel, livingEntity, i)
+                -> isEnchantedWith(itemStack, CHARGE_STACKING) ? 1 : 0);
+        ItemProperties.register(item, modLoc("charge_stacking"), (itemStack, clientLevel, livingEntity, i)
+                -> isEnchantedWith(itemStack, RUSH) ? 1 : 0);
 
         ItemProperties.register(item, modLoc("charge"), (itemStack, clientLevel, livingEntity, i) -> {
             float i0 = Math.min(getCharge(itemStack), getMaxCharge(itemStack));
             float i1 = getMaxCharge(itemStack);
             return i0 / i1;
         });
+    }
+
+    private static void movcadiaTools(Item item) {
+        ItemProperties.register(item, modLoc("damage_state"), (itemStack, clientLevel, livingEntity, i)
+                -> (float) itemStack.getMaxDamage() / itemStack.getMaxDamage());
+        ItemProperties.register(item, modLoc("empowered"), (itemStack, clientLevel, livingEntity, i)
+                -> getMovcadiaEssence(itemStack) > 0 ? 1 : 0);
     }
 }

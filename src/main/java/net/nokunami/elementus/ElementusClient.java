@@ -36,21 +36,22 @@ import net.nokunami.elementus.client.gui.screens.inventory.tooltip.ClientCatalys
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.particle.*;
 import net.nokunami.elementus.client.render.CatalystElytraLayer;
-import net.nokunami.elementus.client.render.entity.projectile.SonicRushParticleEntityRenderer;
+import net.nokunami.elementus.client.render.entity.projectile.AnthektiteSlashRenderer;
+import net.nokunami.elementus.client.render.entity.projectile.PulseBurstEntityRenderer;
+import net.nokunami.elementus.client.render.entity.projectile.RushProjectileEntityRenderer;
 import net.nokunami.elementus.client.render.entity.projectile.SwordDanceSlashRenderer;
-import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
-import net.nokunami.elementus.client.render.vehicle.ModChestRenderer;
 import net.nokunami.elementus.client.render.entity.steelGolem.SteelGolemRenderer;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
-import net.nokunami.elementus.client.render.entity.projectile.AnthektiteSlashRenderer;
+import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
+import net.nokunami.elementus.client.render.vehicle.ModChestRenderer;
+import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
+import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
+import net.nokunami.elementus.common.compat.theaether.TAModItems;
 import net.nokunami.elementus.common.config.ModConfig;
 import net.nokunami.elementus.common.item.ItemPredicateRegister;
 import net.nokunami.elementus.common.registry.ModBlockEntityType;
 import net.nokunami.elementus.common.registry.ModBlockSetType;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems.AetherItems;
-import net.nokunami.elementus.common.registry.ModItems.IronsSpellbooksItems;
-import net.nokunami.elementus.common.registry.ModItems.SniffsWeaponsItems;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
@@ -75,8 +76,9 @@ public class ElementusClient {
         EntityRenderers.register(ModEntityType.MOD_CHEST_BOAT.get(), pContext -> new ModBoatRenderer(pContext, true));
         EntityRenderers.register(ModEntityType.STEEL_GOLEM.get(), SteelGolemRenderer::new);
         EntityRenderers.register(ModEntityType.ANTHEKTITE_SLASH.get(), AnthektiteSlashRenderer::new);
-        EntityRenderers.register(ModEntityType.SONIC_RUSH.get(), SonicRushParticleEntityRenderer::new);
+        EntityRenderers.register(ModEntityType.RUSH_PROJECTILE.get(), RushProjectileEntityRenderer::new);
         EntityRenderers.register(ModEntityType.SWORD_DANCE_SLASH.get(), SwordDanceSlashRenderer::new);
+        EntityRenderers.register(ModEntityType.PULSE_BURST.get(), PulseBurstEntityRenderer::new);
 
 
         if (ModConfig.CLIENT.lavaRendererType.get()) {
@@ -84,13 +86,13 @@ public class ElementusClient {
         }
 
         if (ironsSpellbooks) {
-            IronsSpellbooksItems.getISSCompatItems().stream().filter((item) -> item.get() instanceof SpellBook)
+            ISSModItems.getISSCompatItems().stream().filter((item) -> item.get() instanceof SpellBook)
                     .forEach((item) -> CuriosRendererRegistry.register(item.get(), SpellBookCurioRenderer::new));
         }
         if (aether) {
-            CuriosRendererRegistry.register(AetherItems.STEEL_GLOVES.get(), GlovesRenderer::new);
-            CuriosRendererRegistry.register(AetherItems.ANTHEKTITE_GLOVES.get(), GlovesRenderer::new);
-            CuriosRendererRegistry.register(AetherItems.DIARKRITE_GLOVES.get(), GlovesRenderer::new);
+            CuriosRendererRegistry.register(TAModItems.STEEL_GLOVES.get(), GlovesRenderer::new);
+            CuriosRendererRegistry.register(TAModItems.ANTHEKTITE_GLOVES.get(), GlovesRenderer::new);
+            CuriosRendererRegistry.register(TAModItems.DIARKRITE_GLOVES.get(), GlovesRenderer::new);
         }
     }
 
@@ -120,15 +122,11 @@ public class ElementusClient {
                 LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> livingEntityRenderer = addLayersEvent.getSkin(s);
                 if(livingEntityRenderer instanceof PlayerRenderer playerRenderer){
                     playerRenderer.addLayer(new CatalystElytraLayer<>(playerRenderer, entityModels));
-//                    playerRenderer.addLayer(new DiarkriteEmissiveLayer<>(playerRenderer, entityModels));
-//                    playerRenderer.addLayer(new CatalystElytraExtraLayer<>(playerRenderer, entityModels));
                 }
             });
             LivingEntityRenderer<ArmorStand, ? extends EntityModel<ArmorStand>> livingEntityRenderer = addLayersEvent.getRenderer(EntityType.ARMOR_STAND);
             if(livingEntityRenderer instanceof ArmorStandRenderer armorStandRenderer){
                 armorStandRenderer.addLayer(new CatalystElytraLayer<>(armorStandRenderer, entityModels));
-//                armorStandRenderer.addLayer(new DiarkriteEmissiveLayer<>(armorStandRenderer, entityModels));
-//                armorStandRenderer.addLayer(new CatalystElytraExtraLayer<>(armorStandRenderer,entityModels));
             }
         }
     }
@@ -137,42 +135,45 @@ public class ElementusClient {
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
         if (sniffsWeapons) {
             event.register((stack, layer) -> layer > 0 ? -1 : ((DyeableLeatherItem)stack.getItem()).getColor(stack),
-                    SniffsWeaponsItems.STEEL_SURCOAT.get(),
-                    SniffsWeaponsItems.DIARKRITE_SURCOAT.get(),
-                    SniffsWeaponsItems.ANTHEKTITE_SURCOAT.get(),
-                    SniffsWeaponsItems.STEEL_HELM.get(),
-                    SniffsWeaponsItems.DIARKRITE_HELM.get(),
-                    SniffsWeaponsItems.ANTHEKTITE_HELM.get(),
-                    SniffsWeaponsItems.STEEL_HORNED_HELM.get(),
-                    SniffsWeaponsItems.DIARKRITE_HORNED_HELM.get(),
-                    SniffsWeaponsItems.ANTHEKTITE_HORNED_HELM.get(),
-                    SniffsWeaponsItems.PLATED_STEEL_CHESTPLATE.get(),
-                    SniffsWeaponsItems.PLATED_DIARKRITE_CHESTPLATE.get(),
-                    SniffsWeaponsItems.PLATED_ANTHEKTITE_CHESTPLATE.get(),
-                    SniffsWeaponsItems.STEEL_KABUTO.get(),
-                    SniffsWeaponsItems.DIARKRITE_KABUTO.get(),
-                    SniffsWeaponsItems.ANTHEKTITE_KABUTO.get(),
-                    SniffsWeaponsItems.STEEL_DO.get(),
-                    SniffsWeaponsItems.DIARKRITE_DO.get(),
-                    SniffsWeaponsItems.ANTHEKTITE_DO.get(),
-                    SniffsWeaponsItems.CLOTHED_STEEL_CUIRASS.get(),
-                    SniffsWeaponsItems.CLOTHED_DIARKRITE_CUIRASS.get(),
-                    SniffsWeaponsItems.CLOTHED_ANTHEKTITE_CUIRASS.get());
+                    SWModItems.STEEL_SURCOAT.get(),
+                    SWModItems.DIARKRITE_SURCOAT.get(),
+                    SWModItems.ANTHEKTITE_SURCOAT.get(),
+                    SWModItems.STEEL_HELM.get(),
+                    SWModItems.DIARKRITE_HELM.get(),
+                    SWModItems.ANTHEKTITE_HELM.get(),
+                    SWModItems.STEEL_HORNED_HELM.get(),
+                    SWModItems.DIARKRITE_HORNED_HELM.get(),
+                    SWModItems.ANTHEKTITE_HORNED_HELM.get(),
+                    SWModItems.PLATED_STEEL_CHESTPLATE.get(),
+                    SWModItems.PLATED_DIARKRITE_CHESTPLATE.get(),
+                    SWModItems.PLATED_ANTHEKTITE_CHESTPLATE.get(),
+                    SWModItems.STEEL_KABUTO.get(),
+                    SWModItems.DIARKRITE_KABUTO.get(),
+                    SWModItems.ANTHEKTITE_KABUTO.get(),
+                    SWModItems.STEEL_DO.get(),
+                    SWModItems.DIARKRITE_DO.get(),
+                    SWModItems.ANTHEKTITE_DO.get(),
+                    SWModItems.CLOTHED_STEEL_CUIRASS.get(),
+                    SWModItems.CLOTHED_DIARKRITE_CUIRASS.get(),
+                    SWModItems.CLOTHED_ANTHEKTITE_CUIRASS.get());
         }
     }
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticleTypes.SONIC_BURST.get(), SonicBurstParticle.Provider::new);
-        event.registerSpecial(ModParticleTypes.SONIC_BURST_EMITTER.get(), new SonicBurstEmitterParticle.Provider());
-        event.registerSpecial(ModParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get(), new SacrificeSonicBoomEmitterParticle.Provider());
-        event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), SonicBoomParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BURST.get(), SonicBurstParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.PARRY.get(), ParryParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.PARRY_RESONANCE.get(), ParryParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.SONIC_BURST.get(), SonicBurstParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.SONIC_BOOM_START.get(), SonicBoomBurstStartParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), SonicBoomParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BURST.get(), SonicBurstParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BOOM_START.get(), SonicBoomBurstStartParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.SLASH_IMPACT.get(), AnthektiteSlashImpactParticle.Provider::new);
         event.registerSpriteSet(ModParticleTypes.SLASH_CLASH.get(), AnthektiteSlashImpactParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.SLASH_TRAIL.get(), SlashTrailParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.RUSH_TRAIL.get(), RushTrailParticle.Provider::new);
+//        event.registerSpriteSet(ModParticleTypes.SLASH_AFTER_EFFECT.get(), new SlashAfterEffectsParticle.Provider());
+        event.registerSpecial(ModParticleTypes.SONIC_BURST_EMITTER.get(), new SonicBurstEmitterParticle.Provider());
+        event.registerSpecial(ModParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get(), new SacrificeSonicBoomEmitterParticle.Provider());
     }
 }

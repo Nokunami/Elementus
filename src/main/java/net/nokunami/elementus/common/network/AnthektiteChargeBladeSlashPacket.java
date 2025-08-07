@@ -27,7 +27,7 @@ public class AnthektiteChargeBladeSlashPacket {
         ctx.get().enqueueWork(() -> {
             ServerPlayer player = ctx.get().getSender();
 
-            if (player != null) {
+            if (player != null && !player.isSpectator()) {
                 AnthektiteChargeBlade.spawnSlash(player, packet.hand);
             }
         });

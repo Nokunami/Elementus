@@ -1,9 +1,11 @@
 {
   "values": [
     "elementus:steel_sword",
-    "elementus:anthektite_sword",
     "elementus:diarkrite_sword",
+    "elementus:anthektite_sword",
+    "elementus:movcadia_sword",
     "elementus:diarkrite_charge_blade",
+    "elementus:anthektite_charge_blade",
     {
       "id": "elementus:diarkrite_iron_sword",
       "required": false

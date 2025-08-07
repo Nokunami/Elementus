@@ -1,9 +1,9 @@
 package net.nokunami.elementus.common.entity;
 
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.monster.Enemy;
-
-import java.util.function.Predicate;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.OwnableEntity;
 
 public class MobUtil {
 
@@ -29,8 +29,23 @@ public class MobUtil {
         return tamed instanceof OwnableEntity ownable && ownable.getOwner() != null;
     }
 
-    public static boolean alliedMob(LivingEntity team, LivingEntity ally) {
-        return ally.isAlliedTo(team);
+    public static boolean alliedMob(LivingEntity alliedTo, LivingEntity entity) {
+        return alliedTo.isAlliedTo(entity);
+    }
+
+    public static boolean allied(Entity ally, Entity entity, boolean friendlyFire) {
+        if (!(entity instanceof OwnableEntity) && (entity.isAlliedTo(ally) && friendlyFire || !entity.isAlliedTo(ally)) ||
+                (entity instanceof OwnableEntity oE && ((oE.getOwner() != null && (oE.getOwner().is(ally) || oE.getOwner().isAlliedTo(ally)) && friendlyFire) ||
+                        oE.getOwner() == null))) return true;
+        return false;
+//                    (e) -> !(e instanceof OwnableEntity) && (e.isAlliedTo(livingEntity) && getFriendlyFire(stack) || !e.isAlliedTo(livingEntity)) ||
+//                            (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&
+//                                    (ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)) && getFriendlyFire(stack)) ||
+//                                    ownable.getOwner() == null))
+
+//        if (!friendlyFire && entity instanceof OwnableEntity oE && oE.getOwner() != null) return true;
+//        if (!friendlyFire && entity.isAlliedTo(ally)) return true;
+//        return false;
     }
 
     public static boolean alliedTamedMob(LivingEntity team, LivingEntity ally) {

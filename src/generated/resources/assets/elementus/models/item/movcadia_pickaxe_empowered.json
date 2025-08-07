@@ -1,0 +1,17 @@
+{
+  "parent": "minecraft:item/handheld",
+  "forge_data": {
+    "layers": {
+      "1": {
+        "block_light": 15,
+        "sky_light": 15
+      }
+    }
+  },
+  "loader": "forge:item_layers",
+  "render_types": {},
+  "textures": {
+    "layer0": "elementus:item/tools/movcadia_pickaxe_empowered",
+    "layer1": "elementus:item/tools/movcadia_pickaxe_empowered_e"
+  }
+}

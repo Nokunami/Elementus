@@ -3,6 +3,8 @@ package net.nokunami.elementus.datagen.generators;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModBlocks;
+import net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightBlocks;
 import net.nokunami.elementus.datagen.providers.ModBlockStateProvider;
 import net.nokunami.elementus.common.registry.ModBlocks.*;
 
@@ -61,15 +63,15 @@ public class ModBlockStateData extends ModBlockStateProvider {
             cabinetBlock(FarmersDelightBlocks.MOVCADIA_CABINET.get(), "compat/farmersdelight/movcadia");
         }
         if (advancedNetherite) {
-            block(AdvancedNetheriteBlocks.DIARKRITE_IRON_BLOCK, "compat/advancednetherite/");
-            block(AdvancedNetheriteBlocks.DIARKRITE_GOLD_BLOCK, "compat/advancednetherite/");
-            block(AdvancedNetheriteBlocks.DIARKRITE_EMERALD_BLOCK, "compat/advancednetherite/");
-            block(AdvancedNetheriteBlocks.DIARKRITE_DIAMOND_BLOCK, "compat/advancednetherite/");
+            block(ANModBlocks.DIARKRITE_IRON_BLOCK, "compat/advancednetherite/");
+            block(ANModBlocks.DIARKRITE_GOLD_BLOCK, "compat/advancednetherite/");
+            block(ANModBlocks.DIARKRITE_EMERALD_BLOCK, "compat/advancednetherite/");
+            block(ANModBlocks.DIARKRITE_DIAMOND_BLOCK, "compat/advancednetherite/");
 
-            block(AdvancedNetheriteBlocks.ANTHEKTITE_IRON_BLOCK, "compat/advancednetherite/");
-            block(AdvancedNetheriteBlocks.ANTHEKTITE_GOLD_BLOCK, "compat/advancednetherite/");
-            block(AdvancedNetheriteBlocks.ANTHEKTITE_EMERALD_BLOCK, "compat/advancednetherite/");
-            block(AdvancedNetheriteBlocks.ANTHEKTITE_DIAMOND_BLOCK, "compat/advancednetherite/");
+            block(ANModBlocks.ANTHEKTITE_IRON_BLOCK, "compat/advancednetherite/");
+            block(ANModBlocks.ANTHEKTITE_GOLD_BLOCK, "compat/advancednetherite/");
+            block(ANModBlocks.ANTHEKTITE_EMERALD_BLOCK, "compat/advancednetherite/");
+            block(ANModBlocks.ANTHEKTITE_DIAMOND_BLOCK, "compat/advancednetherite/");
         }
 
     }

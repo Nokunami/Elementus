@@ -13,6 +13,7 @@ import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.Etags;
+import net.nokunami.elementus.common.compat.twigs.TWModBlocks;
 import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
 import net.nokunami.elementus.common.registry.ModBlocks.TwigsBlocks;
 import nonamecrackers2.witherstormmod.common.tags.WitherStormModBlockTags;
@@ -198,7 +199,7 @@ public class ModBlockTagsData extends BlockTagsProvider {
             tag(AetherTags.Blocks.NON_BRONZE_DUNGEON_REPLACEABLE).addOptional(ElementusBlocks.MOVCADIA_CHEST.getId());
         }
         if (ironsSpellbooks) tag(ModTags.GUARDED_BY_WIZARDS).addOptional(ElementusBlocks.MOVCADIA_CHEST.getId());
-        if (twigs) tag(TwigsTags.TABLES_BLOCK).addOptional(TwigsBlocks.MOVCADIA_TABLE.getId());
+        if (twigs) tag(TwigsTags.TABLES_BLOCK).addOptional(TWModBlocks.MOVCADIA_TABLE.getId());
         if (witherStormMod) {
             tag(WitherStormModBlockTags.NATURE_CLUSTER_WHITELIST).addOptional(ElementusBlocks.STEEL_BARS.getId()).addOptional(ElementusBlocks.MOVCADIA_LEAVES.getId()).addOptional(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.getId());
         }

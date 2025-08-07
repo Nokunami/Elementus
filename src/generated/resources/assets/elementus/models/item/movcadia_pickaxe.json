@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/handheld",
+  "overrides": [
+    {
+      "model": "elementus:item/movcadia_pickaxe_empowered",
+      "predicate": {
+        "elementus:empowered": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "elementus:item/tools/movcadia_pickaxe"
+  }
+}

@@ -1,5 +1,6 @@
 package net.nokunami.elementus.common;
 
+import com.aetherteam.aether.item.AetherItems;
 import com.ninni.twigs.registry.TwigsCreativeModeTabs;
 import com.simibubi.create.AllCreativeModeTabs;
 import io.redspace.ironsspellbooks.registries.CreativeTabRegistry;
@@ -16,6 +17,16 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.common.compat.advancednetherite.ANModItems;
+import net.nokunami.elementus.common.compat.epicsamurai.ESModItems;
+import net.nokunami.elementus.common.compat.farmersdelight.FarmersDelightItems;
+import net.nokunami.elementus.common.compat.farmersdelight.NethersDelightItems;
+import net.nokunami.elementus.common.compat.ironsspellbooks.ISSModItems;
+import net.nokunami.elementus.common.compat.piercingpaxels.PPModItems;
+import net.nokunami.elementus.common.compat.simplyswords.SSModItems;
+import net.nokunami.elementus.common.compat.sniffsweapons.SWModItems;
+import net.nokunami.elementus.common.compat.theaether.TAModItems;
+import net.nokunami.elementus.common.compat.twigs.TWModItems;
 import net.nokunami.elementus.common.registry.ModItems.*;
 import net.sweenus.simplyswords.SimplySwords;
 import net.sweenus.simplyswords.registry.ItemsRegistry;
@@ -76,6 +87,7 @@ public class CreativeTabProperties {
             }
             putAfter(entries, ElementusItems.STEEL_SWORD, ElementusItems.DIARKRITE_SWORD);
             putAfter(entries, ElementusItems.DIARKRITE_SWORD, ElementusItems.ANTHEKTITE_SWORD);
+            putAfter(entries, ElementusItems.ANTHEKTITE_SWORD, ElementusItems.MOVCADIA_SWORD);
 
             // Axes
             if  (sniffsWeapons) {
@@ -85,6 +97,7 @@ public class CreativeTabProperties {
             }
             putAfter(entries, ElementusItems.STEEL_AXE, ElementusItems.DIARKRITE_AXE);
             putAfter(entries, ElementusItems.DIARKRITE_AXE, ElementusItems.ANTHEKTITE_AXE);
+            putAfter(entries, ElementusItems.ANTHEKTITE_AXE, ElementusItems.MOVCADIA_AXE);
 
             // Shields
             putAfter(entries, Items.SHIELD, ElementusItems.STEEL_SHIELD);
@@ -99,21 +112,21 @@ public class CreativeTabProperties {
             putAfter(entries, ElementusItems.DIARKRITE_CHARGE_BLADE, ElementusItems.ANTHEKTITE_CHARGE_BLADE);
 
             if (sniffsWeapons) {
-                putAfter(entries, ItemReg.NETHERITE_GREAT_SWORD, SniffsWeaponsItems.STEEL_GREAT_SWORD);
-                putAfter(entries, SniffsWeaponsItems.STEEL_GREAT_SWORD, SniffsWeaponsItems.DIARKRITE_GREAT_SWORD);
-                putAfter(entries, SniffsWeaponsItems.DIARKRITE_GREAT_SWORD, SniffsWeaponsItems.ANTHEKTITE_GREAT_SWORD);
+                putAfter(entries, ItemReg.NETHERITE_GREAT_SWORD, SWModItems.STEEL_GREAT_SWORD);
+                putAfter(entries, SWModItems.STEEL_GREAT_SWORD, SWModItems.DIARKRITE_GREAT_SWORD);
+                putAfter(entries, SWModItems.DIARKRITE_GREAT_SWORD, SWModItems.ANTHEKTITE_GREAT_SWORD);
 
-                putAfter(entries, ItemReg.NETHERITE_GREAT_AXE, SniffsWeaponsItems.STEEL_GREAT_AXE);
-                putAfter(entries, SniffsWeaponsItems.STEEL_GREAT_AXE, SniffsWeaponsItems.DIARKRITE_GREAT_AXE);
-                putAfter(entries, SniffsWeaponsItems.DIARKRITE_GREAT_AXE, SniffsWeaponsItems.ANTHEKTITE_GREAT_AXE);
+                putAfter(entries, ItemReg.NETHERITE_GREAT_AXE, SWModItems.STEEL_GREAT_AXE);
+                putAfter(entries, SWModItems.STEEL_GREAT_AXE, SWModItems.DIARKRITE_GREAT_AXE);
+                putAfter(entries, SWModItems.DIARKRITE_GREAT_AXE, SWModItems.ANTHEKTITE_GREAT_AXE);
 
-                putAfter(entries, ItemReg.NETHERITE_GREAT_PICKAXE, SniffsWeaponsItems.STEEL_GREAT_PICKAXE);
-                putAfter(entries, SniffsWeaponsItems.STEEL_GREAT_PICKAXE, SniffsWeaponsItems.DIARKRITE_GREAT_PICKAXE);
-                putAfter(entries, SniffsWeaponsItems.DIARKRITE_GREAT_PICKAXE, SniffsWeaponsItems.ANTHEKTITE_GREAT_PICKAXE);
+                putAfter(entries, ItemReg.NETHERITE_GREAT_PICKAXE, SWModItems.STEEL_GREAT_PICKAXE);
+                putAfter(entries, SWModItems.STEEL_GREAT_PICKAXE, SWModItems.DIARKRITE_GREAT_PICKAXE);
+                putAfter(entries, SWModItems.DIARKRITE_GREAT_PICKAXE, SWModItems.ANTHEKTITE_GREAT_PICKAXE);
 
-                putAfter(entries, ItemReg.NETHERITE_NAGINATA, SniffsWeaponsItems.STEEL_NAGINATA);
-                putAfter(entries, SniffsWeaponsItems.STEEL_NAGINATA, SniffsWeaponsItems.DIARKRITE_NAGINATA);
-                putAfter(entries, SniffsWeaponsItems.DIARKRITE_NAGINATA, SniffsWeaponsItems.ANTHEKTITE_NAGINATA);
+                putAfter(entries, ItemReg.NETHERITE_NAGINATA, SWModItems.STEEL_NAGINATA);
+                putAfter(entries, SWModItems.STEEL_NAGINATA, SWModItems.DIARKRITE_NAGINATA);
+                putAfter(entries, SWModItems.DIARKRITE_NAGINATA, SWModItems.ANTHEKTITE_NAGINATA);
             }
             if (vanillaClaws) {
                 putAfter(entries, ItemsInit.ZIRCON_CLAWS, BanillaClawsItems.STEEL_CLAWS);
@@ -138,13 +151,18 @@ public class CreativeTabProperties {
             putAfter(entries, ElementusItems.ANTHEKTITE_PICKAXE, ElementusItems.ANTHEKTITE_AXE);
             putAfter(entries, ElementusItems.ANTHEKTITE_AXE, ElementusItems.ANTHEKTITE_HOE);
 
+            putAfter(entries, ElementusItems.ANTHEKTITE_HOE, ElementusItems.MOVCADIA_SHOVEL);
+            putAfter(entries, ElementusItems.MOVCADIA_SHOVEL, ElementusItems.MOVCADIA_PICKAXE);
+            putAfter(entries, ElementusItems.MOVCADIA_PICKAXE, ElementusItems.MOVCADIA_AXE);
+            putAfter(entries, ElementusItems.MOVCADIA_AXE, ElementusItems.MOVCADIA_HOE);
+
             putAfter(entries, Items.BAMBOO_CHEST_RAFT, ElementusItems.MOVCADIA_BOAT);
             putAfter(entries, ElementusItems.MOVCADIA_BOAT, ElementusItems.MOVCADIA_CHEST_BOAT);
         }
         // Armor
         if (tab == CreativeModeTabs.COMBAT) {
             if  (aether) {
-                putAfter(entries, com.aetherteam.aether.item.AetherItems.NETHERITE_GLOVES, ElementusItems.STEEL_HELMET);
+                putAfter(entries, AetherItems.NETHERITE_GLOVES, ElementusItems.STEEL_HELMET);
             } else {
                 putAfter(entries, Items.NETHERITE_BOOTS, ElementusItems.STEEL_HELMET);
             }
@@ -165,35 +183,35 @@ public class CreativeTabProperties {
             putAfter(entries, ElementusItems.ANTHEKTITE_BOOTS, ElementusItems.CATALYST_CHESTPLATE);
 
             if (aether) {
-                putAfter(entries, ElementusItems.STEEL_BOOTS, AetherItems.STEEL_GLOVES);
-                putAfter(entries, ElementusItems.DIARKRITE_BOOTS, AetherItems.DIARKRITE_GLOVES);
-                putAfter(entries, ElementusItems.ANTHEKTITE_BOOTS, AetherItems.ANTHEKTITE_GLOVES);
+                putAfter(entries, ElementusItems.STEEL_BOOTS, TAModItems.STEEL_GLOVES);
+                putAfter(entries, ElementusItems.DIARKRITE_BOOTS, TAModItems.DIARKRITE_GLOVES);
+                putAfter(entries, ElementusItems.ANTHEKTITE_BOOTS, TAModItems.ANTHEKTITE_GLOVES);
             }
 
             if (sniffsWeapons) {
-                putAfter(entries, ElementusItems.STEEL_HELMET, SniffsWeaponsItems.STEEL_HELM);
-                putAfter(entries, SniffsWeaponsItems.STEEL_HELM, SniffsWeaponsItems.STEEL_HORNED_HELM);
-                putAfter(entries, SniffsWeaponsItems.STEEL_HORNED_HELM, SniffsWeaponsItems.STEEL_KABUTO);
-                putAfter(entries, ElementusItems.STEEL_CHESTPLATE, SniffsWeaponsItems.STEEL_SURCOAT);
-                putAfter(entries, SniffsWeaponsItems.STEEL_SURCOAT, SniffsWeaponsItems.PLATED_STEEL_CHESTPLATE);
-                putAfter(entries, SniffsWeaponsItems.PLATED_STEEL_CHESTPLATE, SniffsWeaponsItems.STEEL_DO);
-                putAfter(entries, SniffsWeaponsItems.STEEL_DO, SniffsWeaponsItems.CLOTHED_STEEL_CUIRASS);
+                putAfter(entries, ElementusItems.STEEL_HELMET, SWModItems.STEEL_HELM);
+                putAfter(entries, SWModItems.STEEL_HELM, SWModItems.STEEL_HORNED_HELM);
+                putAfter(entries, SWModItems.STEEL_HORNED_HELM, SWModItems.STEEL_KABUTO);
+                putAfter(entries, ElementusItems.STEEL_CHESTPLATE, SWModItems.STEEL_SURCOAT);
+                putAfter(entries, SWModItems.STEEL_SURCOAT, SWModItems.PLATED_STEEL_CHESTPLATE);
+                putAfter(entries, SWModItems.PLATED_STEEL_CHESTPLATE, SWModItems.STEEL_DO);
+                putAfter(entries, SWModItems.STEEL_DO, SWModItems.CLOTHED_STEEL_CUIRASS);
 
-                putAfter(entries, ElementusItems.DIARKRITE_HELMET, SniffsWeaponsItems.DIARKRITE_HELM);
-                putAfter(entries, SniffsWeaponsItems.DIARKRITE_HELM, SniffsWeaponsItems.DIARKRITE_HORNED_HELM);
-                putAfter(entries, SniffsWeaponsItems.DIARKRITE_HORNED_HELM, SniffsWeaponsItems.DIARKRITE_KABUTO);
-                putAfter(entries, ElementusItems.DIARKRITE_CHESTPLATE, SniffsWeaponsItems.DIARKRITE_SURCOAT);
-                putAfter(entries, SniffsWeaponsItems.DIARKRITE_SURCOAT, SniffsWeaponsItems.PLATED_DIARKRITE_CHESTPLATE);
-                putAfter(entries, SniffsWeaponsItems.PLATED_DIARKRITE_CHESTPLATE, SniffsWeaponsItems.DIARKRITE_DO);
-                putAfter(entries, SniffsWeaponsItems.DIARKRITE_DO, SniffsWeaponsItems.CLOTHED_DIARKRITE_CUIRASS);
+                putAfter(entries, ElementusItems.DIARKRITE_HELMET, SWModItems.DIARKRITE_HELM);
+                putAfter(entries, SWModItems.DIARKRITE_HELM, SWModItems.DIARKRITE_HORNED_HELM);
+                putAfter(entries, SWModItems.DIARKRITE_HORNED_HELM, SWModItems.DIARKRITE_KABUTO);
+                putAfter(entries, ElementusItems.DIARKRITE_CHESTPLATE, SWModItems.DIARKRITE_SURCOAT);
+                putAfter(entries, SWModItems.DIARKRITE_SURCOAT, SWModItems.PLATED_DIARKRITE_CHESTPLATE);
+                putAfter(entries, SWModItems.PLATED_DIARKRITE_CHESTPLATE, SWModItems.DIARKRITE_DO);
+                putAfter(entries, SWModItems.DIARKRITE_DO, SWModItems.CLOTHED_DIARKRITE_CUIRASS);
 
-                putAfter(entries, ElementusItems.ANTHEKTITE_HELMET, SniffsWeaponsItems.ANTHEKTITE_HELM);
-                putAfter(entries, SniffsWeaponsItems.ANTHEKTITE_HELM, SniffsWeaponsItems.ANTHEKTITE_HORNED_HELM);
-                putAfter(entries, SniffsWeaponsItems.ANTHEKTITE_HORNED_HELM, SniffsWeaponsItems.ANTHEKTITE_KABUTO);
-                putAfter(entries, ElementusItems.ANTHEKTITE_CHESTPLATE, SniffsWeaponsItems.ANTHEKTITE_SURCOAT);
-                putAfter(entries, SniffsWeaponsItems.ANTHEKTITE_SURCOAT, SniffsWeaponsItems.PLATED_ANTHEKTITE_CHESTPLATE);
-                putAfter(entries, SniffsWeaponsItems.PLATED_ANTHEKTITE_CHESTPLATE, SniffsWeaponsItems.ANTHEKTITE_DO);
-                putAfter(entries, SniffsWeaponsItems.ANTHEKTITE_DO, SniffsWeaponsItems.CLOTHED_ANTHEKTITE_CUIRASS);
+                putAfter(entries, ElementusItems.ANTHEKTITE_HELMET, SWModItems.ANTHEKTITE_HELM);
+                putAfter(entries, SWModItems.ANTHEKTITE_HELM, SWModItems.ANTHEKTITE_HORNED_HELM);
+                putAfter(entries, SWModItems.ANTHEKTITE_HORNED_HELM, SWModItems.ANTHEKTITE_KABUTO);
+                putAfter(entries, ElementusItems.ANTHEKTITE_CHESTPLATE, SWModItems.ANTHEKTITE_SURCOAT);
+                putAfter(entries, SWModItems.ANTHEKTITE_SURCOAT, SWModItems.PLATED_ANTHEKTITE_CHESTPLATE);
+                putAfter(entries, SWModItems.PLATED_ANTHEKTITE_CHESTPLATE, SWModItems.ANTHEKTITE_DO);
+                putAfter(entries, SWModItems.ANTHEKTITE_DO, SWModItems.CLOTHED_ANTHEKTITE_CUIRASS);
             }
 
             putAfter(entries, Items.DIAMOND_HORSE_ARMOR, ElementusItems.REINFORCED_PLATING_GOLEM_UPGRADE);
@@ -259,122 +277,122 @@ public class CreativeTabProperties {
         }
         if (piercingPaxels) {
             if (tab == PiercingPaxels.PIERCING_PAXELS_ITEM_GROUP.getKey()) {
-                putAfter(entries, PiercingPaxels.NETHERITE_PAXEL, PiercingPaxelsItems.STEEL_PAXEL);
-                putAfter(entries, PiercingPaxelsItems.STEEL_PAXEL, PiercingPaxelsItems.DIARKRITE_PAXEL);
-                putAfter(entries, PiercingPaxelsItems.DIARKRITE_PAXEL, PiercingPaxelsItems.ANTHEKTITE_PAXEL);
-                putAfter(entries, PiercingPaxels.NETHERITE_UPGRADE_KIT, PiercingPaxelsItems.DIARKRITE_UPGRADE_KIT);
-                putAfter(entries, PiercingPaxelsItems.DIARKRITE_UPGRADE_KIT, PiercingPaxelsItems.ANTHEKTITE_UPGRADE_KIT);
+                putAfter(entries, PiercingPaxels.NETHERITE_PAXEL, PPModItems.STEEL_PAXEL);
+                putAfter(entries, PPModItems.STEEL_PAXEL, PPModItems.DIARKRITE_PAXEL);
+                putAfter(entries, PPModItems.DIARKRITE_PAXEL, PPModItems.ANTHEKTITE_PAXEL);
+                putAfter(entries, PiercingPaxels.NETHERITE_UPGRADE_KIT, PPModItems.DIARKRITE_UPGRADE_KIT);
+                putAfter(entries, PPModItems.DIARKRITE_UPGRADE_KIT, PPModItems.ANTHEKTITE_UPGRADE_KIT);
             }
         }
         if (ironsSpellbooks) {
             if (tab == CreativeTabRegistry.EQUIPMENT_TAB.getKey()) {
-                putAfter(entries, ItemRegistry.DRUIDIC_SPELL_BOOK, IronsSpellbooksItems.STEEL_SPELL_BOOK);
-                putAfter(entries, IronsSpellbooksItems.STEEL_SPELL_BOOK, IronsSpellbooksItems.DIARKRITE_SPELL_BOOK);
-                putAfter(entries, IronsSpellbooksItems.DIARKRITE_SPELL_BOOK, IronsSpellbooksItems.ANTHEKTITE_SPELL_BOOK);
-                putAfter(entries, ItemRegistry.NETHERITE_MAGE_BOOTS, IronsSpellbooksItems.DIARKRITE_MAGE_HELMET);
-                putAfter(entries, IronsSpellbooksItems.DIARKRITE_MAGE_HELMET, IronsSpellbooksItems.DIARKRITE_MAGE_CHESTPLATE);
-                putAfter(entries, IronsSpellbooksItems.DIARKRITE_MAGE_CHESTPLATE, IronsSpellbooksItems.DIARKRITE_MAGE_LEGGINGS);
-                putAfter(entries, IronsSpellbooksItems.DIARKRITE_MAGE_LEGGINGS, IronsSpellbooksItems.DIARKRITE_MAGE_BOOTS);
-                putAfter(entries, IronsSpellbooksItems.DIARKRITE_MAGE_BOOTS, IronsSpellbooksItems.ANTHEKTITE_MAGE_HELMET);
-                putAfter(entries, IronsSpellbooksItems.ANTHEKTITE_MAGE_HELMET, IronsSpellbooksItems.ANTHEKTITE_MAGE_CHESTPLATE);
-                putAfter(entries, IronsSpellbooksItems.ANTHEKTITE_MAGE_CHESTPLATE, IronsSpellbooksItems.ANTHEKTITE_MAGE_LEGGINGS);
-                putAfter(entries, IronsSpellbooksItems.ANTHEKTITE_MAGE_LEGGINGS, IronsSpellbooksItems.ANTHEKTITE_MAGE_BOOTS);
+                putAfter(entries, ItemRegistry.DRUIDIC_SPELL_BOOK, ISSModItems.STEEL_SPELL_BOOK);
+                putAfter(entries, ISSModItems.STEEL_SPELL_BOOK, ISSModItems.DIARKRITE_SPELL_BOOK);
+                putAfter(entries, ISSModItems.DIARKRITE_SPELL_BOOK, ISSModItems.ANTHEKTITE_SPELL_BOOK);
+                putAfter(entries, ItemRegistry.NETHERITE_MAGE_BOOTS, ISSModItems.DIARKRITE_MAGE_HELMET);
+                putAfter(entries, ISSModItems.DIARKRITE_MAGE_HELMET, ISSModItems.DIARKRITE_MAGE_CHESTPLATE);
+                putAfter(entries, ISSModItems.DIARKRITE_MAGE_CHESTPLATE, ISSModItems.DIARKRITE_MAGE_LEGGINGS);
+                putAfter(entries, ISSModItems.DIARKRITE_MAGE_LEGGINGS, ISSModItems.DIARKRITE_MAGE_BOOTS);
+                putAfter(entries, ISSModItems.DIARKRITE_MAGE_BOOTS, ISSModItems.ANTHEKTITE_MAGE_HELMET);
+                putAfter(entries, ISSModItems.ANTHEKTITE_MAGE_HELMET, ISSModItems.ANTHEKTITE_MAGE_CHESTPLATE);
+                putAfter(entries, ISSModItems.ANTHEKTITE_MAGE_CHESTPLATE, ISSModItems.ANTHEKTITE_MAGE_LEGGINGS);
+                putAfter(entries, ISSModItems.ANTHEKTITE_MAGE_LEGGINGS, ISSModItems.ANTHEKTITE_MAGE_BOOTS);
             }
         }
         if (simplySwords) {
             if (tab == SimplySwords.SIMPLYSWORDS.getKey()) {
-                putAfter(entries, ItemsRegistry.RUNIC_HALBERD, SimplySwordsItems.STEEL_LONGSWORD);
-                putAfter(entries, SimplySwordsItems.STEEL_LONGSWORD, SimplySwordsItems.STEEL_TWINBLADE);
-                putAfter(entries, SimplySwordsItems.STEEL_TWINBLADE, SimplySwordsItems.STEEL_RAPIER);
-                putAfter(entries, SimplySwordsItems.STEEL_RAPIER, SimplySwordsItems.STEEL_KATANA);
-                putAfter(entries, SimplySwordsItems.STEEL_KATANA, SimplySwordsItems.STEEL_SAI);
-                putAfter(entries, SimplySwordsItems.STEEL_SAI, SimplySwordsItems.STEEL_SPEAR);
-                putAfter(entries, SimplySwordsItems.STEEL_SPEAR, SimplySwordsItems.STEEL_GLAIVE);
-                putAfter(entries, SimplySwordsItems.STEEL_GLAIVE, SimplySwordsItems.STEEL_CUTLASS);
-                putAfter(entries, SimplySwordsItems.STEEL_CUTLASS, SimplySwordsItems.STEEL_CLAYMORE);
-                putAfter(entries, SimplySwordsItems.STEEL_CLAYMORE, SimplySwordsItems.STEEL_CHAKRAM);
-                putAfter(entries, SimplySwordsItems.STEEL_CHAKRAM, SimplySwordsItems.STEEL_GREATAXE);
-                putAfter(entries, SimplySwordsItems.STEEL_GREATAXE, SimplySwordsItems.STEEL_GREATHAMMER);
-                putAfter(entries, SimplySwordsItems.STEEL_GREATHAMMER, SimplySwordsItems.STEEL_WARGLAIVE);
-                putAfter(entries, SimplySwordsItems.STEEL_WARGLAIVE, SimplySwordsItems.STEEL_SCYTHE);
-                putAfter(entries, SimplySwordsItems.STEEL_SCYTHE, SimplySwordsItems.STEEL_HALBERD);
-                putAfter(entries, SimplySwordsItems.STEEL_HALBERD, SimplySwordsItems.DIARKRITE_LONGSWORD);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_LONGSWORD, SimplySwordsItems.DIARKRITE_TWINBLADE);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_TWINBLADE, SimplySwordsItems.DIARKRITE_RAPIER);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_RAPIER, SimplySwordsItems.DIARKRITE_KATANA);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_KATANA, SimplySwordsItems.DIARKRITE_SAI);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_SAI, SimplySwordsItems.DIARKRITE_SPEAR);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_SPEAR, SimplySwordsItems.DIARKRITE_GLAIVE);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_GLAIVE, SimplySwordsItems.DIARKRITE_CUTLASS);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_CUTLASS, SimplySwordsItems.DIARKRITE_CLAYMORE);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_CLAYMORE, SimplySwordsItems.DIARKRITE_CHAKRAM);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_CHAKRAM, SimplySwordsItems.DIARKRITE_GREATAXE);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_GREATAXE, SimplySwordsItems.DIARKRITE_GREATHAMMER);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_GREATHAMMER, SimplySwordsItems.DIARKRITE_WARGLAIVE);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_WARGLAIVE, SimplySwordsItems.DIARKRITE_SCYTHE);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_SCYTHE, SimplySwordsItems.DIARKRITE_HALBERD);
-                putAfter(entries, SimplySwordsItems.DIARKRITE_HALBERD, SimplySwordsItems.ANTHEKTITE_LONGSWORD);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_LONGSWORD, SimplySwordsItems.ANTHEKTITE_TWINBLADE);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_TWINBLADE, SimplySwordsItems.ANTHEKTITE_RAPIER);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_RAPIER, SimplySwordsItems.ANTHEKTITE_KATANA);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_KATANA, SimplySwordsItems.ANTHEKTITE_SAI);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_SAI, SimplySwordsItems.ANTHEKTITE_SPEAR);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_SPEAR, SimplySwordsItems.ANTHEKTITE_GLAIVE);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_GLAIVE, SimplySwordsItems.ANTHEKTITE_CUTLASS);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_CUTLASS, SimplySwordsItems.ANTHEKTITE_CLAYMORE);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_CLAYMORE, SimplySwordsItems.ANTHEKTITE_CHAKRAM);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_CHAKRAM, SimplySwordsItems.ANTHEKTITE_GREATAXE);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_GREATAXE, SimplySwordsItems.ANTHEKTITE_GREATHAMMER);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_GREATHAMMER, SimplySwordsItems.ANTHEKTITE_WARGLAIVE);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_WARGLAIVE, SimplySwordsItems.ANTHEKTITE_SCYTHE);
-                putAfter(entries, SimplySwordsItems.ANTHEKTITE_SCYTHE, SimplySwordsItems.ANTHEKTITE_HALBERD);
+                putAfter(entries, ItemsRegistry.RUNIC_HALBERD, SSModItems.STEEL_LONGSWORD);
+                putAfter(entries, SSModItems.STEEL_LONGSWORD, SSModItems.STEEL_TWINBLADE);
+                putAfter(entries, SSModItems.STEEL_TWINBLADE, SSModItems.STEEL_RAPIER);
+                putAfter(entries, SSModItems.STEEL_RAPIER, SSModItems.STEEL_KATANA);
+                putAfter(entries, SSModItems.STEEL_KATANA, SSModItems.STEEL_SAI);
+                putAfter(entries, SSModItems.STEEL_SAI, SSModItems.STEEL_SPEAR);
+                putAfter(entries, SSModItems.STEEL_SPEAR, SSModItems.STEEL_GLAIVE);
+                putAfter(entries, SSModItems.STEEL_GLAIVE, SSModItems.STEEL_CUTLASS);
+                putAfter(entries, SSModItems.STEEL_CUTLASS, SSModItems.STEEL_CLAYMORE);
+                putAfter(entries, SSModItems.STEEL_CLAYMORE, SSModItems.STEEL_CHAKRAM);
+                putAfter(entries, SSModItems.STEEL_CHAKRAM, SSModItems.STEEL_GREATAXE);
+                putAfter(entries, SSModItems.STEEL_GREATAXE, SSModItems.STEEL_GREATHAMMER);
+                putAfter(entries, SSModItems.STEEL_GREATHAMMER, SSModItems.STEEL_WARGLAIVE);
+                putAfter(entries, SSModItems.STEEL_WARGLAIVE, SSModItems.STEEL_SCYTHE);
+                putAfter(entries, SSModItems.STEEL_SCYTHE, SSModItems.STEEL_HALBERD);
+                putAfter(entries, SSModItems.STEEL_HALBERD, SSModItems.DIARKRITE_LONGSWORD);
+                putAfter(entries, SSModItems.DIARKRITE_LONGSWORD, SSModItems.DIARKRITE_TWINBLADE);
+                putAfter(entries, SSModItems.DIARKRITE_TWINBLADE, SSModItems.DIARKRITE_RAPIER);
+                putAfter(entries, SSModItems.DIARKRITE_RAPIER, SSModItems.DIARKRITE_KATANA);
+                putAfter(entries, SSModItems.DIARKRITE_KATANA, SSModItems.DIARKRITE_SAI);
+                putAfter(entries, SSModItems.DIARKRITE_SAI, SSModItems.DIARKRITE_SPEAR);
+                putAfter(entries, SSModItems.DIARKRITE_SPEAR, SSModItems.DIARKRITE_GLAIVE);
+                putAfter(entries, SSModItems.DIARKRITE_GLAIVE, SSModItems.DIARKRITE_CUTLASS);
+                putAfter(entries, SSModItems.DIARKRITE_CUTLASS, SSModItems.DIARKRITE_CLAYMORE);
+                putAfter(entries, SSModItems.DIARKRITE_CLAYMORE, SSModItems.DIARKRITE_CHAKRAM);
+                putAfter(entries, SSModItems.DIARKRITE_CHAKRAM, SSModItems.DIARKRITE_GREATAXE);
+                putAfter(entries, SSModItems.DIARKRITE_GREATAXE, SSModItems.DIARKRITE_GREATHAMMER);
+                putAfter(entries, SSModItems.DIARKRITE_GREATHAMMER, SSModItems.DIARKRITE_WARGLAIVE);
+                putAfter(entries, SSModItems.DIARKRITE_WARGLAIVE, SSModItems.DIARKRITE_SCYTHE);
+                putAfter(entries, SSModItems.DIARKRITE_SCYTHE, SSModItems.DIARKRITE_HALBERD);
+                putAfter(entries, SSModItems.DIARKRITE_HALBERD, SSModItems.ANTHEKTITE_LONGSWORD);
+                putAfter(entries, SSModItems.ANTHEKTITE_LONGSWORD, SSModItems.ANTHEKTITE_TWINBLADE);
+                putAfter(entries, SSModItems.ANTHEKTITE_TWINBLADE, SSModItems.ANTHEKTITE_RAPIER);
+                putAfter(entries, SSModItems.ANTHEKTITE_RAPIER, SSModItems.ANTHEKTITE_KATANA);
+                putAfter(entries, SSModItems.ANTHEKTITE_KATANA, SSModItems.ANTHEKTITE_SAI);
+                putAfter(entries, SSModItems.ANTHEKTITE_SAI, SSModItems.ANTHEKTITE_SPEAR);
+                putAfter(entries, SSModItems.ANTHEKTITE_SPEAR, SSModItems.ANTHEKTITE_GLAIVE);
+                putAfter(entries, SSModItems.ANTHEKTITE_GLAIVE, SSModItems.ANTHEKTITE_CUTLASS);
+                putAfter(entries, SSModItems.ANTHEKTITE_CUTLASS, SSModItems.ANTHEKTITE_CLAYMORE);
+                putAfter(entries, SSModItems.ANTHEKTITE_CLAYMORE, SSModItems.ANTHEKTITE_CHAKRAM);
+                putAfter(entries, SSModItems.ANTHEKTITE_CHAKRAM, SSModItems.ANTHEKTITE_GREATAXE);
+                putAfter(entries, SSModItems.ANTHEKTITE_GREATAXE, SSModItems.ANTHEKTITE_GREATHAMMER);
+                putAfter(entries, SSModItems.ANTHEKTITE_GREATHAMMER, SSModItems.ANTHEKTITE_WARGLAIVE);
+                putAfter(entries, SSModItems.ANTHEKTITE_WARGLAIVE, SSModItems.ANTHEKTITE_SCYTHE);
+                putAfter(entries, SSModItems.ANTHEKTITE_SCYTHE, SSModItems.ANTHEKTITE_HALBERD);
             }
         }
         if (samuraiDynasty) {
             if (tab == net.veroxuniverse.samurai_dynasty.registry.CreativeTabRegistry.TAB.getKey()) {
-                putAfter(entries, net.veroxuniverse.samurai_dynasty.registry.ItemsRegistry.GRAY_SAMURAI_BOOTS_MASTER, EpicSamuraiItems.STEEL_SAMURAI_HELMET);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_HELMET, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS, EpicSamuraiItems.STEEL_SAMURAI_BOOTS);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_BOOTS, EpicSamuraiItems.STEEL_SAMURAI_HELMET_LIGHT);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_HELMET_LIGHT, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE_LIGHT);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE_LIGHT, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS_LIGHT);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS_LIGHT, EpicSamuraiItems.STEEL_SAMURAI_BOOTS_LIGHT);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_BOOTS_LIGHT, EpicSamuraiItems.STEEL_SAMURAI_HELMET_MASTER);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_HELMET_MASTER, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE_MASTER);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_CHESTPLATE_MASTER, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS_MASTER);
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_LEGGINGS_MASTER, EpicSamuraiItems.STEEL_SAMURAI_BOOTS_MASTER);
+                putAfter(entries, net.veroxuniverse.samurai_dynasty.registry.ItemsRegistry.GRAY_SAMURAI_BOOTS_MASTER, ESModItems.STEEL_SAMURAI_HELMET);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_HELMET, ESModItems.STEEL_SAMURAI_CHESTPLATE);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_CHESTPLATE, ESModItems.STEEL_SAMURAI_LEGGINGS);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_LEGGINGS, ESModItems.STEEL_SAMURAI_BOOTS);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_BOOTS, ESModItems.STEEL_SAMURAI_HELMET_LIGHT);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_HELMET_LIGHT, ESModItems.STEEL_SAMURAI_CHESTPLATE_LIGHT);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_CHESTPLATE_LIGHT, ESModItems.STEEL_SAMURAI_LEGGINGS_LIGHT);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_LEGGINGS_LIGHT, ESModItems.STEEL_SAMURAI_BOOTS_LIGHT);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_BOOTS_LIGHT, ESModItems.STEEL_SAMURAI_HELMET_MASTER);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_HELMET_MASTER, ESModItems.STEEL_SAMURAI_CHESTPLATE_MASTER);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_CHESTPLATE_MASTER, ESModItems.STEEL_SAMURAI_LEGGINGS_MASTER);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_LEGGINGS_MASTER, ESModItems.STEEL_SAMURAI_BOOTS_MASTER);
 
-                putAfter(entries, EpicSamuraiItems.STEEL_SAMURAI_BOOTS_MASTER, EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET, EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE, EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS, EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS, EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET_LIGHT);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET_LIGHT, EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE_LIGHT);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE_LIGHT, EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS_LIGHT);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS_LIGHT, EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS_LIGHT);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS_LIGHT, EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET_MASTER);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_HELMET_MASTER, EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE_MASTER);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_CHESTPLATE_MASTER, EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS_MASTER);
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_LEGGINGS_MASTER, EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS_MASTER);
+                putAfter(entries, ESModItems.STEEL_SAMURAI_BOOTS_MASTER, ESModItems.DIARKRITE_SAMURAI_HELMET);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_HELMET, ESModItems.DIARKRITE_SAMURAI_CHESTPLATE);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_CHESTPLATE, ESModItems.DIARKRITE_SAMURAI_LEGGINGS);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_LEGGINGS, ESModItems.DIARKRITE_SAMURAI_BOOTS);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_BOOTS, ESModItems.DIARKRITE_SAMURAI_HELMET_LIGHT);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_HELMET_LIGHT, ESModItems.DIARKRITE_SAMURAI_CHESTPLATE_LIGHT);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_CHESTPLATE_LIGHT, ESModItems.DIARKRITE_SAMURAI_LEGGINGS_LIGHT);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_LEGGINGS_LIGHT, ESModItems.DIARKRITE_SAMURAI_BOOTS_LIGHT);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_BOOTS_LIGHT, ESModItems.DIARKRITE_SAMURAI_HELMET_MASTER);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_HELMET_MASTER, ESModItems.DIARKRITE_SAMURAI_CHESTPLATE_MASTER);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_CHESTPLATE_MASTER, ESModItems.DIARKRITE_SAMURAI_LEGGINGS_MASTER);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_LEGGINGS_MASTER, ESModItems.DIARKRITE_SAMURAI_BOOTS_MASTER);
 
-                putAfter(entries, EpicSamuraiItems.DIARKRITE_SAMURAI_BOOTS_MASTER, EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET, EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE, EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS, EpicSamuraiItems.ANTHEKTITE_SAMURAI_BOOTS);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_BOOTS, EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET_LIGHT);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET_LIGHT, EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE_LIGHT);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE_LIGHT, EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS_LIGHT);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS_LIGHT, EpicSamuraiItems.ANTHEKTITE_SAMURAI_BOOTS_LIGHT);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_BOOTS_LIGHT, EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET_MASTER);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_HELMET_MASTER, EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE_MASTER);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_CHESTPLATE_MASTER, EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS_MASTER);
-                putAfter(entries, EpicSamuraiItems.ANTHEKTITE_SAMURAI_LEGGINGS_MASTER, EpicSamuraiItems.ANTHEKTITE_SAMURAI_BOOTS_MASTER);
+                putAfter(entries, ESModItems.DIARKRITE_SAMURAI_BOOTS_MASTER, ESModItems.ANTHEKTITE_SAMURAI_HELMET);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_HELMET, ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE, ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS, ESModItems.ANTHEKTITE_SAMURAI_BOOTS);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_BOOTS, ESModItems.ANTHEKTITE_SAMURAI_HELMET_LIGHT);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_HELMET_LIGHT, ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE_LIGHT);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE_LIGHT, ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS_LIGHT);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS_LIGHT, ESModItems.ANTHEKTITE_SAMURAI_BOOTS_LIGHT);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_BOOTS_LIGHT, ESModItems.ANTHEKTITE_SAMURAI_HELMET_MASTER);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_HELMET_MASTER, ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE_MASTER);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_CHESTPLATE_MASTER, ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS_MASTER);
+                putAfter(entries, ESModItems.ANTHEKTITE_SAMURAI_LEGGINGS_MASTER, ESModItems.ANTHEKTITE_SAMURAI_BOOTS_MASTER);
             }
         }
         if (twigs) {
             if (tab == TwigsCreativeModeTabs.TWIG.getKey()) {
-                putAfter(entries, com.ninni.twigs.registry.TwigsItems.BAMBOO_TABLE, TwigsItems.MOVCADIA_TABLE);
+                putAfter(entries, com.ninni.twigs.registry.TwigsItems.BAMBOO_TABLE, TWModItems.MOVCADIA_TABLE);
             }
         }
         if (witherStormMod) {
@@ -431,15 +449,15 @@ public class CreativeTabProperties {
                     .title(Component.translatable("creativetab.elementus_mod_integration"))
                     .displayItems((parameters, output) -> {
                         if (farmersDelight) FarmersDelightItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
-                        if (piercingPaxels) PiercingPaxelsItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
+                        if (piercingPaxels) PPModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
                         if (nethersDelight) NethersDelightItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
-                        if (ironsSpellbooks) IronsSpellbooksItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
-                        if (aether) AetherItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
-                        if (simplySwords) SimplySwordsItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
-                        if (sniffsWeapons) SniffsWeaponsItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
-                        if (advancedNetherite) AdvancedNetheriteItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
-                        if (samuraiDynasty) EpicSamuraiItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
-                        if (twigs) TwigsItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
+                        if (ironsSpellbooks) ISSModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
+                        if (aether) TAModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
+                        if (simplySwords) SSModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
+                        if (sniffsWeapons) SWModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
+                        if (advancedNetherite) ANModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
+                        if (samuraiDynasty) ESModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
+                        if (twigs) TWModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
                         if (witherStormMod) WitherstormModItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
                         if (vanillaClaws) BanillaClawsItems.ITEMS.getEntries().stream().map(RegistryObject::get).forEach(output::accept);
                         if (create) output.accept(ElementusItems.CRUSHED_REMNANT.get());

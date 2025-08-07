@@ -1,8 +1,9 @@
 {
   "values": [
     "elementus:steel_hoe",
-    "elementus:anthektite_hoe",
     "elementus:diarkrite_hoe",
+    "elementus:anthektite_hoe",
+    "elementus:movcadia_hoe",
     {
       "id": "elementus:diarkrite_iron_hoe",
       "required": false

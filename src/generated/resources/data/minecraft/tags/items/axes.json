@@ -1,8 +1,9 @@
 {
   "values": [
     "elementus:steel_axe",
-    "elementus:anthektite_axe",
     "elementus:diarkrite_axe",
+    "elementus:anthektite_axe",
+    "elementus:movcadia_axe",
     {
       "id": "elementus:diarkrite_iron_axe",
       "required": false
