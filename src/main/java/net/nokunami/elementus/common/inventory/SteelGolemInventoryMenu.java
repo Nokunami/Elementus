@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
-import net.nokunami.elementus.common.entity.living.TamableChestedGolem;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 import org.jetbrains.annotations.NotNull;
 
@@ -105,7 +104,7 @@ public class SteelGolemInventoryMenu extends AbstractContainerMenu {
     }
 
     private boolean hasChest(TamableGolem golem) {
-        return golem instanceof TamableChestedGolem && golem.hasChest();
+        return golem instanceof TamableGolem && golem.hasChest();
     }
 
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {

@@ -388,7 +388,7 @@ public class CatalystArmorItem extends ArmorItem {
         }
     }
 
-    static int getContentWeight(ItemStack pStack) {
+    public static int getContentWeight(ItemStack pStack) {
         return getContents(pStack).mapToInt(ItemStack::getCount).sum();
     }
 

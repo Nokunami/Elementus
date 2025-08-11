@@ -9,7 +9,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.common.entity.living.TamableChestedGolem;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 import net.nokunami.elementus.common.inventory.SteelGolemInventoryMenu;
 import org.jetbrains.annotations.NotNull;
@@ -40,11 +39,9 @@ public class SteelGolemInventoryScreen extends AbstractContainerScreen<SteelGole
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         guiGraphics.blit(RESOURCE_LOCATION, i, j, 0, 0, this.imageWidth, 182);
-        if (this.golem instanceof TamableChestedGolem chestedGolem) {
-            if (chestedGolem.hasChest()) {
-                guiGraphics.blit(RESOURCE_LOCATION, i + 79, j + 17, 0, this.imageHeight + 18, ((TamableChestedGolem)golem).getInventoryColumns() * 18, 72);
+        if (golem.hasChest()) {
+            guiGraphics.blit(RESOURCE_LOCATION, i + 79, j + 17, 0, this.imageHeight + 18, golem.getInventoryColumns() * 18, 72);
 //                guiGraphics.blit(RESOURCE_LOCATION, i + 61, j + 35 + 36, 90, this.imageHeight + 18, 18, 18);
-            }
         }
 
         if (this.golem.isSaddleable()) {

@@ -48,6 +48,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.network.PacketDistributor;
 import net.nokunami.elementus.common.Etags;
@@ -78,37 +79,26 @@ import static net.nokunami.elementus.common.registry.ModSoundEvents.STEEL_GOLEM_
 import static net.nokunami.elementus.common.registry.ModSoundEvents.STEEL_GOLEM_REVIVE;
 
 @SuppressWarnings("deprecation")
-public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shearable, IForgeShearable {
+public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, IForgeShearable {
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
     @javax.annotation.Nullable
     private UUID persistentAngerTarget;
-    protected static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> IS_ATTACKING = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_AOE_ATTACKING = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> FAST_ATTACK = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> AOE_TIMER = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> CHASSIS_STATUS = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> AGGRO = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_WAXED = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> CHASSIS_HEALTH = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> ATTACK_TYPE = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MOSS_TIMER = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MOSS_STAGE = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> BROKEN_TICK = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SIT_TICK = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> CHEST_OPEN = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
     public final AnimationState attackLoopAnimationState = new AnimationState();
     public final AnimationState attackEndAnimationState = new AnimationState();
     public final AnimationState upswingAttackAnimationState = new AnimationState();
-    public final AnimationState sitFromStandAnimState = new AnimationState();
-    public final AnimationState standFromSitAnimState = new AnimationState();
-    public final AnimationState brokenAnim = new AnimationState();
-    public final AnimationState repairedAnim = new AnimationState();
     public final AnimationState ridden = new AnimationState();
     public final AnimationState unRide = new AnimationState();
-    public final AnimationState chestOpened = new AnimationState();
-    public final AnimationState chestClosed = new AnimationState();
     public int attackAnimTimeout = 0;
     public int aoeAttackAnimTimeout = 0;
     public int aoeAnimTimeout = 320;
@@ -122,7 +112,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     public static float rawBbWidth = 1.6F;
     public static float rawBbHeight = 2.9F;
 
-    public SteelGolem(EntityType<? extends TamableChestedGolem> pEntityType, Level pLevel) {
+    public SteelGolem(EntityType<? extends TamableGolem> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         createInventory();
         this.setMaxUpStep(1.5F);
@@ -133,11 +123,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DATA_FLAGS_ID, (byte)0);
         this.entityData.define(IS_ATTACKING, false);
-        this.entityData.define(CHASSIS_HEALTH, 5);
-        this.entityData.define(CHASSIS_STATUS, false);
-        this.entityData.define(AGGRO, true);
         this.entityData.define(IS_WAXED, false);
         this.entityData.define(ATTACK_TYPE, 0);
         this.entityData.define(MOSS_TIMER, 0);
@@ -146,22 +132,18 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         this.entityData.define(SIT_TICK, 0);
         this.entityData.define(AOE_TIMER, 100);
         this.entityData.define(IS_AOE_ATTACKING, false);
-        this.entityData.define(CHEST_OPEN, false);
         this.entityData.define(FAST_ATTACK, false);
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         this.addPersistentAngerSaveData(tag);
-        tag.putBoolean("PlayerCreated", this.isPlayerCreated());
         tag.putInt("ChassisValue", this.getChassisHealth());
         tag.putBoolean("ChassisState", this.isChassisBroken());
-        tag.putBoolean("AggroState", this.getAggroState());
         tag.putBoolean("Waxed", this.isWaxed());
         tag.putInt("AttackType", this.getAttackType());
         tag.putInt("MossTimer", this.getMossTimer());
         tag.putInt("MossStage", this.getMossStage());
-        tag.putBoolean("Chested", this.hasChest());
         if (!this.inventory.getItem(1).isEmpty()) {
             tag.put("ArmorItem", this.inventory.getItem(1).save(new CompoundTag()));
         }
@@ -174,17 +156,14 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         tag.putInt("BrokenTick", this.getBrokenTick());
         tag.putInt("SitTick", this.getSitTick());
         tag.putInt("AoeTimer", this.getAoeTimer());
-        tag.putBoolean("ChestOpened", this.chestOpened());
         tag.putBoolean("FastAttack", this.getFastAttack());
     }
 
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.setPlayerCreated(tag.getBoolean("PlayerCreated"));
         this.readPersistentAngerSaveData(this.level(), tag);
         this.setChassisHealth(tag.getInt("ChassisValue"));
         this.setChassisState(tag.getBoolean("ChassisState"));
-        this.setAggroState(tag.getBoolean("AggroState"));
         this.setWaxed(tag.getBoolean("Waxed"));
         this.setAttackType(tag.getInt("AttackType"));
         this.setMossTimer(tag.getInt("MossTimer"));
@@ -206,7 +185,6 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         this.setBrokenTick(tag.getInt("BrokenTick"));
         this.setSitTick(tag.getInt("SitTick"));
         this.setAoeTimer(tag.getInt("AoeTimer"));
-        this.isChestOpened(tag.getBoolean("ChestOpened"));
         this.setFastAttack(tag.getBoolean("FastAttack"));
     }
 
@@ -235,14 +213,6 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     private void wearDripCarpet(ItemStack stack) {
         this.setItemSlot(EquipmentSlot.FEET, stack);
         this.setDropChance(EquipmentSlot.FEET, 0.0F);
-    }
-
-    public boolean chestOpened() {
-        return this.entityData.get(CHEST_OPEN);
-    }
-
-    public void isChestOpened(boolean open) {
-        this.entityData.set(CHEST_OPEN, open);
     }
 
     @Override
@@ -337,6 +307,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         boolean carpet = itemStack.is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION) && this.getDripCarpet().isEmpty();
         boolean wax = itemStack.is(Items.HONEYCOMB) && !this.isWaxed();
         boolean scrapWax = itemStack.is(ItemTags.AXES) && this.isWaxed();
+        boolean chest = itemStack.is(Tags.Items.CHESTS_WOODEN) && !this.hasChest();
         boolean chassisCondition = this.getChassisHealth() < 5;
         boolean healItem = itemStack.is(Etags.Items.STEEL_GOLEM_HEAL) || itemStack.is(Etags.Items.STEEL_GOLEM_REPAIR_HALF);
         boolean repair = itemStack.is(Etags.Items.STEEL_GOLEM_REPAIR_FULL);
@@ -355,8 +326,8 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
 
             if (shearMoss)
                 return trimMoss(player, hand);
-            if (armor || leaves || carpet || wax || scrapWax)
-                return setGolemDecoration(player, hand);
+            if (armor || leaves || carpet || wax || scrapWax || chest)
+                return setGolemEquippable(player, hand);
             if (player.isSecondaryUseActive())
                 return openInventory(player);
 
@@ -382,10 +353,12 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         return InteractionResult.SUCCESS;
     }
 
-    public InteractionResult setGolemDecoration(Player player, InteractionHand hand) {
+    public InteractionResult setGolemEquippable(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (isArmor(stack)) {
             this.equipArmor(player, stack);
+        } else if (stack.is(Tags.Items.CHESTS_WOODEN)) {
+            this.equipChest(player, stack);
         } else if (stack.is(Items.SADDLE)) {
             super.mobInteract(player, hand);
         } else if (stack.is(Items.HONEYCOMB) && !this.isWaxed()) {
@@ -500,6 +473,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
                 .add(Attributes.ATTACK_DAMAGE, EntityConfig.AttackDamage)
                 .add(Attributes.ARMOR, EntityConfig.Armor)
                 .add(Attributes.ARMOR_TOUGHNESS, EntityConfig.Toughness)
+                .add(Attributes.FOLLOW_RANGE, 32.0D)
 //                .add(ForgeMod.STEP_HEIGHT.get(), 0.5)
                 ;
     }
@@ -552,7 +526,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
             }
 
             if (!this.getArmor().isEmpty() && this.getArmor().getItem() instanceof SteelGolemUpgradeItem armorItem) {
-                armorItem.onArmorTick(this.getArmor(), this.level(), this);
+                armorItem.onArmorTick(this.level(), this);
             }
 
             this.setFastAttack(this.getArmor().getItem() instanceof SteelGolemUpgradeItem upgradeItem && upgradeItem.isFastAttack());
@@ -817,47 +791,8 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         return this.entityData.get(IS_ATTACKING);
     }
 
-    public int getChassisHealth() {
-        return this.entityData.get(CHASSIS_HEALTH);
-    }
-
-    public void setChassisHealth(int health) {
-        this.entityData.set(CHASSIS_HEALTH, health);
-    }
-
-    public void setChassisState(boolean state) {
-        this.entityData.set(CHASSIS_STATUS, state);
-    }
-
-    public boolean isChassisBroken() {
-        return this.entityData.get(CHASSIS_STATUS);
-    }
-
-    public boolean isChassisCompromised() {
-        if (this.getHealth() <= 0) {
-            if (this.isPlayerCreated() && this.getChassisHealth() > 1) {
-                this.stopAllAttackAnimation();
-                this.setChassisState(true);
-                this.setChassisHealth(this.getChassisHealth() - 1);
-                this.setHealth(1);
-                this.stopBeingAngry();
-                this.setAggressive(false);
-                this.setOrderedToSit(false);
-                return false;
-            } else return true;
-        } else return false;
-    }
-
     public ItemStack getSaddle() {
         return this.inventory.getItem(0);
-    }
-
-    public void setAggroState(boolean state) {
-        this.entityData.set(AGGRO, state);
-    }
-
-    public boolean getAggroState() {
-        return this.entityData.get(AGGRO);
     }
 
     public void setAttackType(int type) {
@@ -933,6 +868,22 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     }
 
     @Override
+    public boolean isChassisCompromised() {
+        if (this.getHealth() <= 0) {
+            if (this.isPlayerCreated() && this.getChassisHealth() > 1) {
+                this.stopAllAttackAnimation();
+                this.setChassisState(true);
+                this.setChassisHealth(this.getChassisHealth() - 1);
+                this.setHealth(1);
+                this.stopBeingAngry();
+                this.setAggressive(false);
+                this.setOrderedToSit(false);
+                return false;
+            } else return true;
+        } else return false;
+    }
+
+    @Override
     public void openCustomInventoryScreen(@NotNull Player player) {
         if(player instanceof ServerPlayer serverplayer) {
             if (isAlive()) {
@@ -989,7 +940,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     //Some Ridable Relate Stuff
     @Override
     protected float getRiddenSpeed(@NotNull Player player) {
-        float f = player.isSprinting() /*&& this.getJumpCooldown() == 0*/ ? 0.1F : 0.0F;
+        float f = player.isSprinting() ? 0.1F : 0.0F;
         return (float) (this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.3F) + f;
     }
 
@@ -1152,24 +1103,15 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
     @Override
     protected void dropCustomDeathLoot(@NotNull DamageSource pSource, int pLooting, boolean pRecentlyHit) {
         super.dropCustomDeathLoot(pSource, pLooting, pRecentlyHit);
-        ItemStack leaves = this.isCamouflaged();
-        ItemStack saddle = this.getSaddle();
-        ItemStack carpet = this.getDripCarpet();
-        if (leaves != null) this.spawnAtLocation(leaves);
-        if (saddle != null) this.spawnAtLocation(saddle);
-        if (carpet != null) this.spawnAtLocation(carpet);
-    }
-
-    public boolean isPlayerCreated() {
-        return (this.entityData.get(DATA_FLAGS_ID) & 1) != 0;
-    }
-
-    public void setPlayerCreated(boolean playerMade) {
-        byte b0 = this.entityData.get(DATA_FLAGS_ID);
-        if (playerMade) {
-            this.entityData.set(DATA_FLAGS_ID, (byte)(b0 | 1));
-        } else {
-            this.entityData.set(DATA_FLAGS_ID, (byte)(b0 & -2));
+//        ItemStack leaves = this.isCamouflaged();
+//        ItemStack saddle = this.getSaddle();
+//        ItemStack carpet = this.getDripCarpet();
+//        if (leaves != null) this.spawnAtLocation(leaves);
+//        if (saddle != null) this.spawnAtLocation(saddle);
+//        if (carpet != null) this.spawnAtLocation(carpet);
+        for (int i = 0; i < this.getInventorySize(); i ++) {
+            if (!this.inventory.getItem(i).isEmpty())
+                this.spawnAtLocation(this.inventory.getItem(i));
         }
     }
 
@@ -1205,7 +1147,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
             }
             return items;
         }
-        return java.util.Collections.emptyList();
+        return Collections.emptyList();
     }
 
     @Override
@@ -1214,11 +1156,11 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         this.setMossStage(this.getMossStage() - 1);
         int i = 1 + this.random.nextInt(3);
 
-        for(int j = 0; j < i; ++j) {
-            ItemEntity itementity = this.spawnAtLocation(new ItemStack(Items.MOSS_BLOCK));
-            if (itementity != null) {
-                itementity.setDeltaMovement(itementity.getDeltaMovement().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
-            }
+//        for(int j = 0; j < i; ++j) {
+//        }
+        ItemEntity itementity = this.spawnAtLocation(new ItemStack(Items.MOSS_BLOCK));
+        if (itementity != null) {
+            itementity.setDeltaMovement(itementity.getDeltaMovement().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
         }
     }
 
@@ -1234,7 +1176,8 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         MEDIUM(0.5F),
         HIGH(0.25F);
 
-        private static final List<SteelGolem.Crackiness> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((p_28904_) -> p_28904_.fraction)).collect(ImmutableList.toImmutableList());
+        private static final List<SteelGolem.Crackiness> BY_DAMAGE = Stream.of(values())
+                .sorted(Comparator.comparingDouble((crack) -> crack.fraction)).collect(ImmutableList.toImmutableList());
 
         private final float fraction;
         Crackiness(float pFraction) {
@@ -1242,12 +1185,9 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         }
 
         public static SteelGolem.Crackiness byFraction(float pFraction) {
-            for(SteelGolem.Crackiness steelgolem$crackiness : BY_DAMAGE) {
-                if (pFraction < steelgolem$crackiness.fraction) {
+            for(SteelGolem.Crackiness steelgolem$crackiness : BY_DAMAGE)
+                if (pFraction < steelgolem$crackiness.fraction)
                     return steelgolem$crackiness;
-                }
-            }
-
             return NONE;
         }
 
@@ -1261,7 +1201,7 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         HIGH(0.21F);
 
         private static final List<ChassisCrackiness> BY_DAMAGE = Stream.of(values())
-                .sorted(Comparator.comparingDouble((p_28904_) -> p_28904_.fraction)).collect(ImmutableList.toImmutableList());
+                .sorted(Comparator.comparingDouble((crack) -> crack.fraction)).collect(ImmutableList.toImmutableList());
 
         private final float fraction;
         ChassisCrackiness(float pFraction) {
@@ -1269,12 +1209,9 @@ public class SteelGolem extends TamableChestedGolem implements NeutralMob, Shear
         }
 
         public static ChassisCrackiness byFraction(float pFraction) {
-            for(ChassisCrackiness steelgolem$chassis : BY_DAMAGE) {
-                if (pFraction < steelgolem$chassis.fraction) {
+            for(ChassisCrackiness steelgolem$chassis : BY_DAMAGE)
+                if (pFraction < steelgolem$chassis.fraction)
                     return steelgolem$chassis;
-                }
-            }
-
             return NONE;
         }
     }

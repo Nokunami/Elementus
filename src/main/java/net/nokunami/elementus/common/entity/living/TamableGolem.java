@@ -3,6 +3,7 @@ package net.nokunami.elementus.common.entity.living;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -38,8 +40,19 @@ import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public abstract class TamableGolem extends TamableAnimal implements ContainerListener, HasCustomInventoryScreen, MenuProvider, PlayerRideableJumping, Saddleable, RiderShieldingMount {
+    protected static final EntityDataAccessor<Boolean> IS_PLAYER_CREATED = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> AGGRO = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> CHASSIS_STATUS = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> CHASSIS_HEALTH = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Byte> DATA_SADDLED_ID = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> DATA_ID_CHEST = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> CHEST_OPEN = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
+    public final AnimationState sitFromStandAnimState = new AnimationState();
+    public final AnimationState standFromSitAnimState = new AnimationState();
+    public final AnimationState brokenAnim = new AnimationState();
+    public final AnimationState repairedAnim = new AnimationState();
+    public final AnimationState chestOpened = new AnimationState();
+    public final AnimationState chestClosed = new AnimationState();
     public static final int EQUIPMENT_SLOT_OFFSET = 400;
     public static final int CHEST_SLOT_OFFSET = 499;
     public static final int INVENTORY_SLOT_OFFSET = 500;
@@ -90,8 +103,13 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(IS_PLAYER_CREATED, false);
+        this.entityData.define(AGGRO, true);
+        this.entityData.define(CHASSIS_HEALTH, 5);
+        this.entityData.define(CHASSIS_STATUS, false);
         this.getEntityData().define(DATA_SADDLED_ID, (byte) 0);
         this.entityData.define(DATA_ID_CHEST, false);
+        this.entityData.define(CHEST_OPEN, false);
     }
 
     protected boolean getSaddleFlag() {
@@ -113,6 +131,34 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     public void setChest(boolean pChested) {
         this.entityData.set(DATA_ID_CHEST, pChested);
+    }
+
+    public boolean chestOpened() {
+        return this.entityData.get(CHEST_OPEN);
+    }
+
+    public void isChestOpened(boolean open) {
+        this.entityData.set(CHEST_OPEN, open);
+    }
+
+    public int getChassisHealth() {
+        return this.entityData.get(CHASSIS_HEALTH);
+    }
+
+    public void setChassisHealth(int health) {
+        this.entityData.set(CHASSIS_HEALTH, health);
+    }
+
+    public void setChassisState(boolean state) {
+        this.entityData.set(CHASSIS_STATUS, state);
+    }
+
+    public boolean isChassisBroken() {
+        return this.entityData.get(CHASSIS_STATUS);
+    }
+
+    public boolean isChassisCompromised() {
+        return false;
     }
 
     public boolean isJumping() {
@@ -155,7 +201,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     protected int getInventorySize() {
-        return INV_BASE_COUNT;
+        return this.hasChest() ? 17 : INV_BASE_COUNT;
     }
 
     protected void createInventory() {
@@ -192,6 +238,14 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         if (this.tickCount > 20 && !flag && this.isSaddled()) {
             this.playSound(this.getSaddleSoundEvent(), 0.5F, 1.0F);
         }
+    }
+
+    public boolean isPlayerCreated() {
+        return this.entityData.get(IS_PLAYER_CREATED);
+    }
+
+    public void setPlayerCreated(boolean playerMade) {
+        this.entityData.set(IS_PLAYER_CREATED, playerMade);
     }
 
     private void setSaddle(ItemStack stack) {
@@ -233,38 +287,14 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
             }
 
         }
-    }
+        if (this.hasChest()) {
+            if (!this.level().isClientSide) {
+                this.spawnAtLocation(Blocks.CHEST);
+            }
 
-//    public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
-//        ItemStack itemStack = player.getItemInHand(hand);
-//        InteractionResult itemInteract = itemStack.interactLivingEntity(player, this, hand);
-//
-////        if (!isVehicle()) {
-////            if (isTame() && player.isSecondaryUseActive() && (!itemStack.isEmpty() && !itemInteract.consumesAction())) {
-////                Elementus.LOGGER.debug("tamableGolemOpenInv");
-////                return openInventory(player);
-////            } else {
-////                if (!itemStack.isEmpty()) {
-////                    if (itemInteract.consumesAction()) {
-////                        Elementus.LOGGER.debug("tamableGolemItem");
-////                        return itemInteract;
-////                    }
-////                    if (this.canWearArmor() && isArmor(itemStack) && !isWearingArmor()) {
-////                        this.equipArmor(player, itemStack);
-////                        Elementus.LOGGER.debug("tamableGolemArmor");
-////                        return InteractionResult.sidedSuccess(this.level().isClientSide);
-////                    }
-////                }
-////                Elementus.LOGGER.debug("tamableGolemEmptyStack");
-////                return InteractionResult.sidedSuccess(this.level().isClientSide);
-////            }
-////        } else {
-////            Elementus.LOGGER.debug("tamableGolemSuperMobInt");
-////            return super.mobInteract(player, hand);
-////        }
-//        Elementus.LOGGER.debug("tamableGolemSuperMobInt");
-//        return super.mobInteract(player, hand);
-//    }
+            this.setChest(false);
+        }
+    }
 
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
@@ -323,20 +353,59 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putBoolean("PlayerCreated", this.isPlayerCreated());
         if (!this.inventory.getItem(0).isEmpty()) {
             tag.put("SaddleItem", this.inventory.getItem(0).save(new CompoundTag()));
         }
+        tag.putBoolean("ChestOpened", this.chestOpened());
+        tag.putBoolean("Chested", this.hasChest());
+        if (this.hasChest()) {
+            ListTag listtag = new ListTag();
+            for(int i = 2; i < this.inventory.getContainerSize(); ++i) {
+                ItemStack itemstack = this.inventory.getItem(i);
+                if (!itemstack.isEmpty()) {
+                    CompoundTag compoundtag = new CompoundTag();
+                    compoundtag.putByte("Slot", (byte)i);
+                    itemstack.save(compoundtag);
+                    listtag.add(compoundtag);
+                }
+            }
+            tag.put("Items", listtag);
+        }
+        tag.putBoolean("AggroState", this.getAggroState());
     }
 
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        this.setPlayerCreated(tag.getBoolean("PlayerCreated"));
         if (tag.contains("SaddleItem", 10)) {
             ItemStack itemStack = ItemStack.of(tag.getCompound("SaddleItem"));
             if (itemStack.is(Items.SADDLE)) {
                 this.inventory.setItem(0, itemStack);
             }
         }
+        this.isChestOpened(tag.getBoolean("ChestOpened"));
+        this.setChest(tag.getBoolean("Chested"));
+        if (this.hasChest()) {
+            ListTag listtag = tag.getList("Items", 10);
+            for(int i = 0; i < listtag.size(); ++i) {
+                CompoundTag compoundtag = listtag.getCompound(i);
+                int j = compoundtag.getByte("Slot") & 255;
+                if (j >= 2 && j < this.inventory.getContainerSize()) {
+                    this.inventory.setItem(j, ItemStack.of(compoundtag));
+                }
+            }
+        }
         this.updateContainerEquipment();
+        this.setAggroState(tag.getBoolean("AggroState"));
+    }
+
+    public void setAggroState(boolean state) {
+        this.entityData.set(AGGRO, state);
+    }
+
+    public boolean getAggroState() {
+        return this.entityData.get(AGGRO);
     }
 
     @Override
@@ -391,20 +460,60 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     public @NotNull SlotAccess getSlot(int pSlot) {
-        int i = pSlot - EQUIPMENT_SLOT_OFFSET;
+        return pSlot == CHEST_SLOT_OFFSET ? new SlotAccess() {
+            public @NotNull ItemStack get() {
+                return TamableGolem.this.hasChest() ? new ItemStack(Items.CHEST) : ItemStack.EMPTY;
+            }
+
+            public boolean set(@NotNull ItemStack stack) {
+                if (stack.isEmpty()) {
+                    if (TamableGolem.this.hasChest()) {
+                        TamableGolem.this.setChest(false);
+                        TamableGolem.this.createInventory();
+                    }
+                    return true;
+                } else if (stack.is(Items.CHEST)) {
+                    if (!TamableGolem.this.hasChest()) {
+                        TamableGolem.this.setChest(true);
+                        TamableGolem.this.createInventory();
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } : this.getSlot1(pSlot);
+    }
+
+    public SlotAccess getSlot1(int slot) {
+        int i = slot - EQUIPMENT_SLOT_OFFSET;
         if (i >= INV_SLOT_SADDLE && i < INV_BASE_COUNT && i < this.inventory.getContainerSize()) {
             if (i == INV_SLOT_SADDLE) {
                 return this.createEquipmentSlotAccess(i, (stack) -> stack.isEmpty() || stack.is(Items.SADDLE));
             }
-            if (i == INV_SLOT_ARMOR) {
-                if (!this.canWearArmor()) {
-                    return SlotAccess.NULL;
-                }
-                return this.createEquipmentSlotAccess(i, (p_149516_) -> p_149516_.isEmpty() || this.isArmor(p_149516_));
+            if (!this.canWearArmor()) {
+                return SlotAccess.NULL;
             }
+            return this.createEquipmentSlotAccess(i, (p_149516_) -> p_149516_.isEmpty() || this.isArmor(p_149516_));
         }
-        int j = pSlot - INVENTORY_SLOT_OFFSET + 2;
-        return j >= 2 && j < this.inventory.getContainerSize() ? SlotAccess.forContainer(this.inventory, j) : super.getSlot(pSlot);
+        int j = slot - INVENTORY_SLOT_OFFSET + 2;
+        return j >= 2 && j < this.inventory.getContainerSize() ? SlotAccess.forContainer(this.inventory, j) : super.getSlot(slot);
+    }
+
+    public void equipChest(Player pPlayer, ItemStack pChestStack) {
+        this.setChest(true);
+        this.playChestEquipsSound();
+        if (!pPlayer.getAbilities().instabuild)
+            pChestStack.shrink(1);
+        this.createInventory();
+    }
+
+    protected void playChestEquipsSound() {
+        this.playSound(ModSoundEvents.STEEL_GOLEM_CHESTED.get(), 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+    }
+
+    public int getInventoryColumns() {
+        return 5;
     }
 
     @Nullable

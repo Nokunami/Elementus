@@ -128,11 +128,11 @@ public class Etags {
         public static final TagKey<EntityType<?>> FAW_NOT_AFRAID_OF_THINGS = modTag("fromanotherworld", "not_afraid_of_things");
 
         private static TagKey<EntityType<?>> forgeTag(String name) {
-            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("forge", name));
+            return modTag("forge", name);
         }
 
         private static TagKey<EntityType<?>> elementusTag(String name) {
-            return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(MODID, name));
+            return modTag(MODID, name);
         }
 
         private static TagKey<EntityType<?>> modTag(String modId, String name) {

@@ -25,7 +25,7 @@ public class SteelGolemUpgradeItem extends Item {
     private final ResourceLocation texture;
     public String identifier;
 
-    public void onArmorTick(ItemStack stack, Level level, SteelGolem entity) {
+    public void onArmorTick(Level level, SteelGolem entity) {
         if (!entity.isChassisBroken()) {
             for (Pair<MobEffectInstance, Float> pair : properties.getEffects()) {
                 if (!level.isClientSide && pair.getFirst() != null && level.random.nextFloat() < pair.getSecond()) {
