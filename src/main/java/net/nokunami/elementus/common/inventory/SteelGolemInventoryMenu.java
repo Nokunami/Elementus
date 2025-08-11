@@ -140,7 +140,7 @@ public class SteelGolemInventoryMenu extends AbstractContainerMenu {
                     if (!this.moveItemStackTo(itemstack1, i, j, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= i && index < j) {
+                } else if (index < j) {
                     if (!this.moveItemStackTo(itemstack1, j, k, false)) {
                         return ItemStack.EMPTY;
                     }
