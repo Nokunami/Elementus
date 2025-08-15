@@ -59,8 +59,10 @@ public class ModItemModelData extends ModItemModelProvider {
         movcadiaTools(ElementusItems.MOVCADIA_AXE, "tools");
         movcadiaTools(ElementusItems.MOVCADIA_HOE, "tools");
 
-        diarkriteChargeBlade(ElementusItems.DIARKRITE_CHARGE_BLADE, "tools/diarkrite_charge_blade");
-        anthektiteLongsword(ElementusItems.ANTHEKTITE_CHARGE_BLADE, "tools/anthektite_longsword");
+//        diarkriteChargeBlade(ElementusItems.DIARKRITE_CHARGE_BLADE, "weapons/diarkrite_charge_blade");
+//        anthektiteLongsword(ElementusItems.ANTHEKTITE_CHARGE_BLADE, "weapons/anthektite_longsword");
+
+        tridentModel(ElementusItems.TEST_TRIDENT, "weapons");
 
         shieldItem(ElementusItems.STEEL_SHIELD, "shield");
         shieldItem(ElementusItems.DIARKRITE_SHIELD, "shield");

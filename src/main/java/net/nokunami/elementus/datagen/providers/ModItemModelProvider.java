@@ -326,6 +326,23 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .perspective(ItemDisplayContext.GROUND, nested().parent(getExistingFile(modLoc(item.get() + guiEx)))).end();
     }
 
+    public void tridentModel(Supplier<? extends Item> item, String location) {
+        withExistingParent(itemName(item.get()) + "_gui", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())));
+        withExistingParent(itemName(item.get()) + "_held", modLoc("item/template_trident")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())));
+        withExistingParent(itemName(item.get()) + "_throwing_model", modLoc("item/template_trident_throwing")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())));
+
+        withExistingParent(itemName(item.get()), mcLoc("item/handheld")).customLoader(SeparateTransformsModelBuilder::begin)
+                .base(nested().parent(getExistingFile(modLoc(item.get() + "_held"))))
+                .perspective(ItemDisplayContext.GUI, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
+                .perspective(ItemDisplayContext.FIXED, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
+                .perspective(ItemDisplayContext.GROUND, nested().parent(getExistingFile(modLoc(item.get() + "_gui")))).end();
+        withExistingParent(itemName(item.get()) + "throwing", mcLoc("item/handheld")).customLoader(SeparateTransformsModelBuilder::begin)
+                .base(nested().parent(getExistingFile(modLoc(item.get() + "_throwing_model"))))
+                .perspective(ItemDisplayContext.GUI, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
+                .perspective(ItemDisplayContext.FIXED, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
+                .perspective(ItemDisplayContext.GROUND, nested().parent(getExistingFile(modLoc(item.get() + "_gui")))).end();
+    }
+
     public void shieldItem(Supplier<? extends  Item> item, String location) {
         withExistingParent(itemName(item.get()) + "_blocking", modLoc("item/elementus_model_shield_blocking")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())));
         withExistingParent(itemName(item.get()), modLoc("item/elementus_model_shield")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())))

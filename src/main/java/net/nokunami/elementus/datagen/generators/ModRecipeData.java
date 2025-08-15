@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public class ModRecipeData extends ModRecipeProvider {
     public ModRecipeData(PackOutput output) {
         super(output, "elementus");
-        new CreateProcessingRecipe(output);
+//        new CreateProcessingRecipe(output);
     }
 
     @Override

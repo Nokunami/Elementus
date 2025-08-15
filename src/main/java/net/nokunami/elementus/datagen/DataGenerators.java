@@ -48,7 +48,7 @@ public class DataGenerators {
             }
 
 //            generator.addProvider (event.includeServer(), new CreateProcessingRecipe(packOutput));
-            CreateProcessingRecipe.registerAll(generator, packOutput);
+//            CreateProcessingRecipe.registerAll(generator, packOutput);
         }
 
 //        if (ModChecker.refurbished_furniture()) {

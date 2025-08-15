@@ -32,10 +32,7 @@ import net.nokunami.elementus.client.gui.screens.inventory.tooltip.ClientCatalys
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.particle.*;
 import net.nokunami.elementus.client.render.CatalystElytraLayer;
-import net.nokunami.elementus.client.render.entity.projectile.AnthektiteSlashRenderer;
-import net.nokunami.elementus.client.render.entity.projectile.PulseBurstEntityRenderer;
-import net.nokunami.elementus.client.render.entity.projectile.RushProjectileEntityRenderer;
-import net.nokunami.elementus.client.render.entity.projectile.SwordDanceSlashRenderer;
+import net.nokunami.elementus.client.render.entity.projectile.*;
 import net.nokunami.elementus.client.render.entity.steelGolem.SteelGolemRenderer;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
@@ -69,6 +66,7 @@ public class ElementusClient {
         EntityRenderers.register(ModEntityType.RUSH_PROJECTILE.get(), RushProjectileEntityRenderer::new);
         EntityRenderers.register(ModEntityType.SWORD_DANCE_SLASH.get(), SwordDanceSlashRenderer::new);
         EntityRenderers.register(ModEntityType.PULSE_BURST.get(), PulseBurstEntityRenderer::new);
+        EntityRenderers.register(ModEntityType.TEST_TRIDENT.get(), TestTridentRenderer::new);
 
 
         if (ModConfig.CLIENT.lavaRendererType.get()) {

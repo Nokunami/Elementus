@@ -138,8 +138,6 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         this.addPersistentAngerSaveData(tag);
-        tag.putInt("ChassisValue", this.getChassisHealth());
-        tag.putBoolean("ChassisState", this.isChassisBroken());
         tag.putBoolean("Waxed", this.isWaxed());
         tag.putInt("AttackType", this.getAttackType());
         tag.putInt("MossTimer", this.getMossTimer());
@@ -162,8 +160,6 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.readPersistentAngerSaveData(this.level(), tag);
-        this.setChassisHealth(tag.getInt("ChassisValue"));
-        this.setChassisState(tag.getBoolean("ChassisState"));
         this.setWaxed(tag.getBoolean("Waxed"));
         this.setAttackType(tag.getInt("AttackType"));
         this.setMossTimer(tag.getInt("MossTimer"));

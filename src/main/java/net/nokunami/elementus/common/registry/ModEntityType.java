@@ -8,12 +8,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
-import net.nokunami.elementus.common.entity.projectile.AnthektiteSlashEntity;
-import net.nokunami.elementus.common.entity.projectile.PulseBurstEntity;
-import net.nokunami.elementus.common.entity.projectile.RushProjectileEntity;
-import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
+import net.nokunami.elementus.common.entity.projectile.*;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
 import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
+import net.nokunami.elementus.common.item.unique.TestTridentItem;
 
 public class ModEntityType {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Elementus.MODID);
@@ -37,6 +35,9 @@ public class ModEntityType {
 
     public static final RegistryObject<EntityType<PulseBurstEntity>> PULSE_BURST = ENTITY_TYPES.register("pulse_burst",
             () -> EntityType.Builder.<PulseBurstEntity>of(PulseBurstEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).build("pulse_burst"));
+
+    public static final RegistryObject<EntityType<TestTridentEntity>> TEST_TRIDENT = ENTITY_TYPES.register("wrath_of_the_sea",
+            () -> EntityType.Builder.<TestTridentEntity>of(TestTridentEntity::new, MobCategory.MISC).sized(TestTridentEntity.bbWidth, TestTridentEntity.bbHeight).build("depth_trident"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

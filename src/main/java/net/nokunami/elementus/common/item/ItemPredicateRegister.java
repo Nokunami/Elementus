@@ -3,6 +3,7 @@ package net.nokunami.elementus.common.item;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
@@ -41,15 +42,22 @@ public class ItemPredicateRegister {
          movcadiaTools(ElementusItems.MOVCADIA_PICKAXE.get());
          movcadiaTools(ElementusItems.MOVCADIA_AXE.get());
          movcadiaTools(ElementusItems.MOVCADIA_HOE.get());
+
+         throwing(ElementusItems.TEST_TRIDENT.get());
      }
 
     private static void shieldBlocking(Item item) {
-        ItemProperties.register(item, new ResourceLocation("blocking"), (itemStack, clientLevel, livingEntity, i)
-                -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
+        ItemProperties.register(item, new ResourceLocation("blocking"), (itemStack, level, entity, i)
+                -> entity != null && entity.isUsingItem() && entity.getUseItem() == itemStack ? 1.0F : 0.0F);
+    }
+
+    private static void throwing(Item item) {
+        ItemProperties.register(item, new ResourceLocation("throwing"), (itemStack, level, entity, i)
+                -> entity != null && entity.isUsingItem() && entity.getUseItem() == itemStack ? 1.0F : 0.0F);
     }
 
     private static void catalystArmor(Item item) {
-         ItemProperties.register(item, new ResourceLocation("elementus", "catalyst"), (itemStack, clientLevel, livingEntity, i) -> switch (catalystActivator(itemStack)) {
+         ItemProperties.register(item, new ResourceLocation("elementus", "catalyst"), (itemStack, level, entity, i) -> switch (catalystActivator(itemStack)) {
              case netherStar -> 0.11F;
              case ignitium -> 0.12F;
              case arcane -> 0.13F;
@@ -62,22 +70,21 @@ public class ItemPredicateRegister {
     }
 
     private static void bowPull(Item item) {
-        ItemProperties.register(item, new ResourceLocation("pulling"),
-                (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
+        ItemProperties.register(item, new ResourceLocation("pulling"), (itemStack, level, entity, i)
+                -> entity != null && entity.isUsingItem() && entity.getUseItem() == itemStack ? 1.0F : 0.0F);
 
-        ItemProperties.register(item, new ResourceLocation("pull"),
-                (itemStack, clientLevel, livingEntity, i) -> livingEntity != null ? livingEntity.getUseItem() != itemStack ? 0.0F : (float) (itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) / 20.0F : 0.0F);
+        ItemProperties.register(item, new ResourceLocation("pull"), (itemStack, level, entity, i)
+                -> entity != null ? entity.getUseItem() != itemStack ? 0.0F : (float) (itemStack.getUseDuration() - entity.getUseItemRemainingTicks()) / 20.0F : 0.0F);
     }
 
     private static void aeComapt(Item item) {
-        ItemProperties.register(item, new ResourceLocation("drawing"),
-                (itemStack, clientLevel, livingEntity, i) -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
+        ItemProperties.register(item, new ResourceLocation("drawing"), (itemStack, level, entity, i)
+                -> entity != null && entity.isUsingItem() && entity.getUseItem() == itemStack ? 1.0F : 0.0F);
 
-        ItemProperties.register(item, new ResourceLocation("draw"),
-                (itemStack, clientLevel, livingEntity, i) -> {
-                    if (livingEntity != null && livingEntity.getUseItem() == itemStack) {
+        ItemProperties.register(item, new ResourceLocation("draw"), (itemStack, level, entity, i) -> {
+                    if (entity != null && entity.getUseItem() == itemStack) {
                         BowProperties properties = (BowProperties)itemStack.getItem();
-                        return BowUtil.getPowerForDrawTime(itemStack.getUseDuration() - livingEntity.getUseItemRemainingTicks(), properties);
+                        return BowUtil.getPowerForDrawTime(itemStack.getUseDuration() - entity.getUseItemRemainingTicks(), properties);
                     } else {
                         return 0.0F;
                     }
@@ -85,17 +92,17 @@ public class ItemPredicateRegister {
     }
 
     private static void chargeBlade(Item item) {
-        ItemProperties.register(item, new ResourceLocation("blocking"), (itemStack, clientLevel, livingEntity, i)
-                -> livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F);
+        ItemProperties.register(item, new ResourceLocation("blocking"), (itemStack, level, entity, i)
+                -> entity != null && entity.isUsingItem() && entity.getUseItem() == itemStack ? 1.0F : 0.0F);
 
-        ItemProperties.register(item, modLoc("sacrifice"), (itemStack, clientLevel, livingEntity, i)
+        ItemProperties.register(item, modLoc("sacrifice"), (itemStack, level, entity, i)
                 -> isEnchantedWith(itemStack, SACRIFICE_CURSE) ? 1 : 0);
-        ItemProperties.register(item, modLoc("charge_stacking"), (itemStack, clientLevel, livingEntity, i)
+        ItemProperties.register(item, modLoc("charge_stacking"), (itemStack, level, entity, i)
                 -> isEnchantedWith(itemStack, CHARGE_STACKING) ? 1 : 0);
-        ItemProperties.register(item, modLoc("charge_stacking"), (itemStack, clientLevel, livingEntity, i)
+        ItemProperties.register(item, modLoc("charge_stacking"), (itemStack, level, entity, i)
                 -> isEnchantedWith(itemStack, RUSH) ? 1 : 0);
 
-        ItemProperties.register(item, modLoc("charge"), (itemStack, clientLevel, livingEntity, i) -> {
+        ItemProperties.register(item, modLoc("charge"), (itemStack, level, entity, i) -> {
             float i0 = Math.min(getCharge(itemStack), getMaxCharge(itemStack));
             float i1 = getMaxCharge(itemStack);
             return i0 / i1;
@@ -103,9 +110,9 @@ public class ItemPredicateRegister {
     }
 
     private static void movcadiaTools(Item item) {
-        ItemProperties.register(item, modLoc("damage_state"), (itemStack, clientLevel, livingEntity, i)
+        ItemProperties.register(item, modLoc("damage_state"), (itemStack, level, entity, i)
                 -> (float) itemStack.getMaxDamage() / itemStack.getMaxDamage());
-        ItemProperties.register(item, modLoc("empowered"), (itemStack, clientLevel, livingEntity, i)
+        ItemProperties.register(item, modLoc("empowered"), (itemStack, level, entity, i)
                 -> getMovcadiaEssence(itemStack) > 0 ? 1 : 0);
     }
 }

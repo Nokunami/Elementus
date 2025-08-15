@@ -41,7 +41,7 @@ import java.util.function.Predicate;
 
 public abstract class TamableGolem extends TamableAnimal implements ContainerListener, HasCustomInventoryScreen, MenuProvider, PlayerRideableJumping, Saddleable, RiderShieldingMount {
     protected static final EntityDataAccessor<Boolean> IS_PLAYER_CREATED = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> AGGRO = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> AGGRO = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> CHASSIS_STATUS = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CHASSIS_HEALTH = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Byte> DATA_SADDLED_ID = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BYTE);
@@ -373,6 +373,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
             tag.put("Items", listtag);
         }
         tag.putBoolean("AggroState", this.getAggroState());
+        tag.putInt("ChassisValue", this.getChassisHealth());
+        tag.putBoolean("ChassisState", this.isChassisBroken());
     }
 
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
@@ -398,6 +400,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         }
         this.updateContainerEquipment();
         this.setAggroState(tag.getBoolean("AggroState"));
+        this.setChassisHealth(tag.getInt("ChassisValue"));
+        this.setChassisState(tag.getBoolean("ChassisState"));
     }
 
     public void setAggroState(boolean state) {

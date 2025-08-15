@@ -15,16 +15,7 @@ import net.nokunami.elementus.common.inventory.SteelGolemInventoryMenu;
 import java.util.function.Supplier;
 
 // Code from Cataclysm Netherite Ministrosity
-public class SteelGolemInventoryPacket {
-    private final int id;
-    private final int size;
-    private final int entityId;
-
-    public SteelGolemInventoryPacket(int id, int size, int entityId) {
-        this.id = id;
-        this.size = size;
-        this.entityId = entityId;
-    }
+public record SteelGolemInventoryPacket(int id, int size, int entityId) {
 
     public static SteelGolemInventoryPacket decode(FriendlyByteBuf buf) {
         return new SteelGolemInventoryPacket(buf.readUnsignedByte(), buf.readVarInt(), buf.readInt());
@@ -34,19 +25,6 @@ public class SteelGolemInventoryPacket {
         buf.writeByte(message.id);
         buf.writeVarInt(message.size);
         buf.writeInt(message.entityId);
-    }
-
-
-    public int getId() {
-        return this.id;
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public int getEntityId() {
-        return this.entityId;
     }
 
     public static void consume(SteelGolemInventoryPacket msg, Supplier<NetworkEvent.Context> context) {
@@ -59,10 +37,10 @@ public class SteelGolemInventoryPacket {
     public static void openInventory(SteelGolemInventoryPacket packet) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
-            Entity entity = player.level().getEntity(packet.getEntityId());
+            Entity entity = player.level().getEntity(packet.entityId());
             if (entity instanceof SteelGolem steelGolem) {
                 LocalPlayer localPlayer = Minecraft.getInstance().player;
-                SteelGolemInventoryMenu container = new SteelGolemInventoryMenu(packet.getId(), player.getInventory(), steelGolem.inventory, steelGolem);
+                SteelGolemInventoryMenu container = new SteelGolemInventoryMenu(packet.id(), player.getInventory(), steelGolem.inventory, steelGolem);
                 localPlayer.containerMenu = container;
                 Minecraft.getInstance().setScreen(new SteelGolemInventoryScreen(container, player.getInventory(), steelGolem));
             }

@@ -175,25 +175,6 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     public static String catalystActivator(ItemStack stack) {
-//        if (getContents(stack).anyMatch((c -> c.getItem() == Items.NETHER_STAR)))
-//            return netherStar;
-//        if (cataclysm) {
-//            if (getContents(stack).anyMatch((c -> c.getItem() == ModItems.IGNITIUM_INGOT.get())))
-//                return ignitium;
-//            if (getContents(stack).anyMatch((c -> c.getItem() == ModItems.CURSIUM_INGOT.get())))
-//                return cursium;
-//        }
-//        if (ironsSpellbooks)
-//            if (getContents(stack).anyMatch((c -> c.getItem() == ItemRegistry.ARCANE_INGOT.get())))
-//                return arcane;
-//        if (getContents(stack).anyMatch((c -> c.getItem() == Items.HEART_OF_THE_SEA)))
-//            return heartSea;
-//        if (getContents(stack).anyMatch((c -> c.getItem() == Items.TOTEM_OF_UNDYING)))
-//            return totem;
-//        if (witherStormMod)
-//            if (getContents(stack).anyMatch((c -> c.getItem() == WitherStormModItems.WITHERED_NETHER_STAR.get())))
-//                return witheredNetherStar;
-//        return "false";
         return getContents(stack).findAny().isPresent() ? getContents(stack).findAny().get().getItem().toString() : "false";
     }
 
