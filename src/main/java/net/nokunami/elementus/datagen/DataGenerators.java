@@ -25,33 +25,29 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        if (event.includeClient()) {
-            generator.addProvider(event.includeClient(), new ModBlockStateData(packOutput, MODID, existingFileHelper));
-            generator.addProvider(event.includeClient(), new ModItemModelData(packOutput, MODID, existingFileHelper));
-            generator.addProvider(event.includeClient(), new ModDamageTypeTagsData(packOutput, lookupProvider, MODID, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModBlockStateData(packOutput, MODID, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModItemModelData(packOutput, MODID, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModDamageTypeTagsData(packOutput, lookupProvider, MODID, existingFileHelper));
+
+        generator.addProvider(event.includeServer(), new ModRecipeData(packOutput));
+        generator.addProvider(event.includeServer(), ModLootTableData.create(packOutput));
+
+        ModBlockTagsData blockTagGenerator = generator.addProvider(event.includeServer(), new ModBlockTagsData(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModItemTagsData(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
+
+        generator.addProvider(event.includeServer(), new ModEntityTypeTags(packOutput, lookupProvider, existingFileHelper));
+
+        if (advancedNetherite) generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(packOutput));
+        //generator.addProvider(event.includeServer(), new PoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
+
+        generator.addProvider(event.includeServer(), new DatapackEntriesBuilder(packOutput, lookupProvider));
+
+        if (projectE) {
+            generator.addProvider (event.includeServer(), new PECustomConversionData(packOutput, lookupProvider));
         }
-
-        if (event.includeServer()) {
-            generator.addProvider(event.includeServer(), new ModRecipeData(packOutput));
-            generator.addProvider(event.includeServer(), ModLootTableData.create(packOutput));
-
-            ModBlockTagsData blockTagGenerator = generator.addProvider(event.includeServer(), new ModBlockTagsData(packOutput, lookupProvider, existingFileHelper));
-            generator.addProvider(event.includeServer(), new ModItemTagsData(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
-
-            generator.addProvider(event.includeServer(), new ModEntityTypeTags(packOutput, lookupProvider, existingFileHelper));
-
-            if (advancedNetherite) generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(packOutput));
-            //generator.addProvider(event.includeServer(), new PoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
-
-            generator.addProvider(event.includeServer(), new DatapackEntriesBuilder(packOutput, lookupProvider));
-
-            if (projectE) {
-                generator.addProvider (event.includeServer(), new PECustomConversionData(packOutput, lookupProvider));
-            }
 
 //            generator.addProvider (event.includeServer(), new CreateProcessingRecipe(packOutput));
-            CreateProcessingRecipe.registerAll(generator, packOutput);
-        }
+        CreateProcessingRecipe.registerAll(generator, packOutput);
 
 //        if (ModChecker.refurbished_furniture()) {
 //            generator.addProvider(event.includeServer(), new RFFurnitureModelProvider(packOutput, existingFileHelper));
