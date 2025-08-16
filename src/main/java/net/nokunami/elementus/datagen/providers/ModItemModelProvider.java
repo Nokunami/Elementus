@@ -3,6 +3,7 @@ package net.nokunami.elementus.datagen.providers;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -12,13 +13,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.loaders.ItemLayerModelBuilder;
 import net.minecraftforge.client.model.generators.loaders.SeparateTransformsModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.datagen.ModTrimMaterials;
 
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -111,46 +115,6 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .override().predicate(new ResourceLocation("drawing"), 1).predicate(new ResourceLocation("draw"), 0.9F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_drawing_2"))).end();
     }
 
-    public void chargerItem(Supplier<? extends Item> item, String location) {
-        withExistingParent(itemName(item.get()) + "_gui", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())));
-        withExistingParent(itemName(item.get()) + "_gui_charge_0", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get()) + "_charge_0"));
-        withExistingParent(itemName(item.get()) + "_gui_charge_1", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get()) + "_charge_1"));
-        withExistingParent(itemName(item.get()) + "_gui_charge_2", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get()) + "_charge_2"));
-        withExistingParent(itemName(item.get()) + "_handheld", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get()) + "_handheld"));
-        withExistingParent(itemName(item.get()) + "_handheld_charge_0", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get()) + "_handheld_charge_0"))
-                .texture("layer1", modLoc("item/" + location + "/" + itemName(item.get()) + "_handheld_charge_0_emissive"))
-                .customLoader(ItemLayerModelBuilder::begin).emissive(15, 15, 1).end();
-        withExistingParent(itemName(item.get()) + "_handheld_charge_1", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get()) + "_handheld_charge_1"))
-                .texture("layer1", modLoc("item/" + location + "/" + itemName(item.get()) + "_handheld_charge_1_emissive"))
-                .customLoader(ItemLayerModelBuilder::begin).emissive(15, 15, 1).end();
-        withExistingParent(itemName(item.get()) + "_handheld_charge_2", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get()) + "_handheld_charge_2"))
-                .texture("layer1", modLoc("item/" + location + "/" + itemName(item.get()) + "_handheld_charge_2_emissive"))
-                .customLoader(ItemLayerModelBuilder::begin).emissive(15, 15, 1).end();
-
-        withExistingParent(itemName(item.get()) + "_charge_0", new ResourceLocation("handheld"))
-                .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(nested().parent(withExistingParent(item.get() + "_handheld_charge_0", modLoc("item/claymore_item"))))
-                .perspective(ItemDisplayContext.GUI, nested().parent(withExistingParent(itemName(item.get()) + "_gui_charge_0", mcLoc("generated")))).end();
-        withExistingParent(itemName(item.get()) + "_charge_1", new ResourceLocation("handheld"))
-                .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(nested().parent(withExistingParent(item.get() + "_handheld_charge_1", modLoc("item/claymore_item"))))
-                .perspective(ItemDisplayContext.GUI, nested().parent(withExistingParent(itemName(item.get()) + "_gui_charge_1", mcLoc("generated")))).end();
-        withExistingParent(itemName(item.get()) + "_charge_2", new ResourceLocation("handheld"))
-                .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(nested().parent(withExistingParent(item.get() + "_handheld_charge_2", modLoc("item/claymore_item"))))
-                .perspective(ItemDisplayContext.GUI, nested().parent(withExistingParent(itemName(item.get()) + "_gui_charge_2", mcLoc("generated")))).end();
-
-        withExistingParent(itemName(item.get()), new ResourceLocation("handheld"))
-                .customLoader(SeparateTransformsModelBuilder::begin)
-                .base(nested().parent(withExistingParent(item.get() + "_handheld", modLoc("item/claymore_item"))))
-                .perspective(ItemDisplayContext.GUI, nested().parent(withExistingParent(itemName(item.get()) + "_gui", mcLoc("generated"))))
-                .perspective(ItemDisplayContext.FIXED, nested().parent(withExistingParent(itemName(item.get()) + "_gui", mcLoc("generated"))))
-                .perspective(ItemDisplayContext.GROUND, nested().parent(withExistingParent(itemName(item.get()) + "_gui", mcLoc("generated")))).end()
-                .override().predicate(new ResourceLocation("pulling"), 1).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_charge_0"))).end()
-                .override().predicate(new ResourceLocation("pulling"), 1).predicate(new ResourceLocation("pull"), 0.65F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_charge_1"))).end()
-                .override().predicate(new ResourceLocation("pulling"), 1).predicate(new ResourceLocation("pull"), 0.9F).model(getExistingFile(modLoc("item/" + itemName(item.get()) + "_charge_2"))).end();
-    }
-
     public void movcadiaTools(Supplier<? extends Item> item, String location) {
         withExistingParent(itemName(item.get()), mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())))
                 .override().predicate(modLoc("empowered"), 1).model(
@@ -176,7 +140,6 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         baseModels(item, "_gui", "_handheld", modLoc("item/claymore_item"), "_handheld_blocking", modLoc("item/claymore_item_blocking"), location);
         baseModels(item, sacrifice, "_" + sacrifice + "_gui", "_" + sacrifice + "_handheld", modLoc("item/claymore_item"), "_" + sacrifice + "_handheld_blocking", modLoc("item/claymore_item_blocking"), location);
-        baseModels(item, "multi", "_multi_gui", "_multi_handheld", modLoc("item/claymore_item"), "_multi_handheld_blocking", modLoc("item/claymore_item_blocking"), location);
 
         withExistingParent(itemName(item.get()), modLoc("item/claymore_item")).customLoader(SeparateTransformsModelBuilder::begin)
                 .base(nested().parent(getExistingFile(modLoc("item/" + itemName(item.get()) + "_base")))).end()
@@ -327,20 +290,21 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     public void tridentModel(Supplier<? extends Item> item, String location) {
-        withExistingParent(itemName(item.get()) + "_gui", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())));
-        withExistingParent(itemName(item.get()) + "_held", modLoc("item/template_trident")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())));
-        withExistingParent(itemName(item.get()) + "_throwing_model", modLoc("item/template_trident_throwing")).texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())));
+        withExistingParent(itemName(item.get()) + "_gui", mcLoc("item/handheld")).texture("layer0", modLoc("item/" + location + "/" + item.get()));
+        withExistingParent(itemName(item.get()) + "_held", modLoc("item/template_trident")).texture("layer0", modLoc("item/" + location + "/" + item.get() + "_model"));
+        withExistingParent(itemName(item.get()) + "_throwing_model", modLoc("item/template_trident_throwing")).texture("layer0", modLoc("item/" + location + "/" + item.get() + "_model"));
 
-        withExistingParent(itemName(item.get()), mcLoc("item/handheld")).customLoader(SeparateTransformsModelBuilder::begin)
-                .base(nested().parent(getExistingFile(modLoc(item.get() + "_held"))))
-                .perspective(ItemDisplayContext.GUI, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
-                .perspective(ItemDisplayContext.FIXED, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
-                .perspective(ItemDisplayContext.GROUND, nested().parent(getExistingFile(modLoc(item.get() + "_gui")))).end();
-        withExistingParent(itemName(item.get()) + "throwing", mcLoc("item/handheld")).customLoader(SeparateTransformsModelBuilder::begin)
+        withExistingParent(item.get() + "_throwing", mcLoc("item/handheld")).customLoader(SeparateTransformsModelBuilder::begin)
                 .base(nested().parent(getExistingFile(modLoc(item.get() + "_throwing_model"))))
                 .perspective(ItemDisplayContext.GUI, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
                 .perspective(ItemDisplayContext.FIXED, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
                 .perspective(ItemDisplayContext.GROUND, nested().parent(getExistingFile(modLoc(item.get() + "_gui")))).end();
+        withExistingParent(itemName(item.get()), mcLoc("item/handheld")).customLoader(SeparateTransformsModelBuilder::begin)
+                .base(nested().parent(getExistingFile(modLoc(item.get() + "_held"))))
+                .perspective(ItemDisplayContext.GUI, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
+                .perspective(ItemDisplayContext.FIXED, nested().parent(getExistingFile(modLoc(item.get() + "_gui"))))
+                .perspective(ItemDisplayContext.GROUND, nested().parent(getExistingFile(modLoc(item.get() + "_gui")))).end()
+                .override().predicate(mcLoc("throwing"), 1).model(getExistingFile(modLoc(item.get() + "_throwing")));
     }
 
     public void shieldItem(Supplier<? extends  Item> item, String location) {
@@ -362,19 +326,51 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .texture("layer1", modLoc("item/" + "/" + location + "/" + itemName(layer1.get())));
     }
 
-    public void armorItem(Supplier<? extends Item> item, String location) {
-        if (item.get() instanceof ArmorItem armorItem) {
-            ItemModelBuilder builder = withExistingParent(this.itemName(item.get()), this.mcLoc("item/generated"))
-                    .texture("layer0", modLoc("item/" + location + "/" + this.itemName(item.get())));
-            double index = 0.1;
-            for (ResourceKey<TrimMaterial> trimMaterial : VANILLA_TRIM_MATERIALS) {
-                String material = trimMaterial.location().getPath();
-                String name = itemName(item.get()) + "_" + material + "_trim";
-                withExistingParent(name, mcLoc("item/generated"))
-                        .texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())))
-                        .texture("layer1", this.mcLoc("trims/items/" + armorItem.getType().getName() + "_trim_" + material));
-                builder.override().predicate(new ResourceLocation("trim_type"), (float) index).model(this.getExistingFile(this.modLoc("item/" + name))).end();
-                index += 0.1;
+//    public void armorItem(Supplier<? extends Item> item, String location) {
+//        if (item.get() instanceof ArmorItem armorItem) {
+//            ItemModelBuilder builder = withExistingParent(this.itemName(item.get()), this.mcLoc("item/generated"))
+//                    .texture("layer0", modLoc("item/" + location + "/" + this.itemName(item.get())));
+//            double index = 0.1;
+//            for (ResourceKey<TrimMaterial> trimMaterial : VANILLA_TRIM_MATERIALS) {
+//                String material = trimMaterial.location().getPath();
+//                String name = itemName(item.get()) + "_" + material + "_trim";
+//
+//                existingFileHelper.exists(mcLoc(material), PackType.CLIENT_RESOURCES, ".png", "textures");
+//
+//                withExistingParent(name, mcLoc("item/generated"))
+//                        .texture("layer0", modLoc("item/" + location + "/" + itemName(item.get())))
+//                        .texture("layer1", this.mcLoc("trims/items/" + armorItem.getType().getName() + "_trim_" + material));
+//                builder.override().predicate(new ResourceLocation("trim_type"), (float) index).model(this.getExistingFile(this.modLoc("item/" + name))).end();
+//                index += 0.1;
+//            }
+//        }
+//    }
+
+    public void armorItem(RegistryObject<Item> item, String loc) {
+        if(item.get() instanceof ArmorItem armorItem) {
+            double trimValue = 0.1F;
+            for (ResourceKey<TrimMaterial> trimMat : VANILLA_TRIM_MATERIALS) {
+                String trimPath = "trims/items/" + armorItem.getType().getName() + "_trim_" + trimMat.location().getPath();
+                String currentTrimName = "item/" + armorItem + "_" + trimMat.location().getPath() + "_trim";
+                ResourceLocation trimResLoc = mcLoc(trimPath); // minecraft namespace
+                ResourceLocation trimNameResLoc = modLoc(currentTrimName);
+
+                // This is used for making the ExistingFileHelper acknowledge that this texture exist, so this will
+                // avoid an IllegalArgumentException
+                existingFileHelper.trackGenerated(trimResLoc, PackType.CLIENT_RESOURCES, ".png", "textures");
+
+                // Trimmed armorItem files
+                getBuilder(currentTrimName).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                        .texture("layer0", modLoc("item/" + loc + "/" + itemName(item.get())))
+                        .texture("layer1", trimResLoc);
+
+                // Non-trimmed armorItem file (normal variant)
+                this.withExistingParent(itemName(item.get()), mcLoc("item/generated"))
+                        .override()
+                        .model(new ModelFile.UncheckedModelFile(trimNameResLoc))
+                        .predicate(mcLoc("trim_type"), (float) trimValue).end()
+                        .texture("layer0", modLoc("item/" + loc + "/" + itemName(item.get())));
+                trimValue += 0.1;
             }
         }
     }

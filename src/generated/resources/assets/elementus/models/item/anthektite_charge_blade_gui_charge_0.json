@@ -11,7 +11,7 @@
   "loader": "forge:item_layers",
   "render_types": {},
   "textures": {
-    "layer0": "elementus:item/tools/anthektite_longsword/anthektite_charge_blade_charge_0",
-    "layer1": "elementus:item/tools/anthektite_longsword/anthektite_charge_blade_charge_0_e"
+    "layer0": "elementus:item/weapons/anthektite_longsword/anthektite_charge_blade_charge_0",
+    "layer1": "elementus:item/weapons/anthektite_longsword/anthektite_charge_blade_charge_0_e"
   }
 }

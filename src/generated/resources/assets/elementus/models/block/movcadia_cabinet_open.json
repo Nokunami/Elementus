@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "front": "elementus:block/compat/farmersdelight/movcadia_cabinet_front_open",
-    "side": "elementus:block/compat/farmersdelight/movcadia_cabinet_side",
-    "top": "elementus:block/compat/farmersdelight/movcadia_cabinet_top"
-  }
-}

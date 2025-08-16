@@ -1,6 +1,0 @@
-{
-  "parent": "elementus:item/simplyswords/template_reworked_greathammer",
-  "textures": {
-    "texture": "elementus:item/compat/simplyswords/anthektite/anthektite_greathammer_model"
-  }
-}

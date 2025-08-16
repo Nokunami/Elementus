@@ -4,6 +4,8 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.message.MessageParticle;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -38,6 +40,7 @@ import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.level.BlockEvent;
@@ -56,6 +59,7 @@ import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import static net.nokunami.elementus.ModChecker.cataclysm;
@@ -399,9 +403,6 @@ public class ServerEvents {
 //        }
 //    }
 
-
-
     public void steelGolemConversion(LivingConversionEvent event) {
-
     }
 }

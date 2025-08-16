@@ -1,12 +1,13 @@
 package net.nokunami.elementus.common.entity.projectile;
 
+import com.simibubi.create.AllEntityTypes;
+import com.simibubi.create.content.logistics.box.PackageEntity;
+import com.simibubi.create.content.logistics.chute.ChuteBlock;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -29,9 +30,12 @@ import net.nokunami.elementus.common.registry.ModEntityType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.UUID;
 
 public class TestTridentEntity extends AbstractArrow {
     private static final EntityDataAccessor<ItemStack> ITEM_STACK = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.ITEM_STACK);
+//    private static final EntityDataAccessor<Optional<UUID>> TRUE_OWNER = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.BOOLEAN);
     private boolean dealtDamage;
@@ -46,6 +50,14 @@ public class TestTridentEntity extends AbstractArrow {
     public TestTridentEntity(Level level, LivingEntity entity, ItemStack stack) {
         super(ModEntityType.TEST_TRIDENT.get(), entity, level);
         this.setTridentItem(stack.copy());
+//        this.setOwnerUUID(entity.getUUID());
+        this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));
+        this.entityData.set(ID_FOIL, stack.hasFoil());
+    }
+
+    public TestTridentEntity(Level level, Entity entity, ItemStack stack) {
+        super(ModEntityType.TEST_TRIDENT.get(), level);
+        this.setTridentItem(stack.copy());
         this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));
         this.entityData.set(ID_FOIL, stack.hasFoil());
     }
@@ -58,6 +70,7 @@ public class TestTridentEntity extends AbstractArrow {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
+//        this.entityData.define(TRUE_OWNER, Optional.empty());
         this.entityData.define(ITEM_STACK, ItemStack.EMPTY);
         this.entityData.define(ID_LOYALTY, (byte)0);
         this.entityData.define(ID_FOIL, false);
@@ -68,6 +81,7 @@ public class TestTridentEntity extends AbstractArrow {
             this.dealtDamage = true;
         }
 
+//        Entity entity = this.level().getPlayerByUUID(this.getOwnerUUID());
         Entity entity = this.getOwner();
         int i = this.entityData.get(ID_LOYALTY);
         if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
@@ -115,6 +129,25 @@ public class TestTridentEntity extends AbstractArrow {
         this.entityData.set(ITEM_STACK, stack);
     }
 
+//    public UUID getOwnerUUID() {
+//        return this.entityData.get(TRUE_OWNER).orElse(null);
+//    }
+
+//    public void setOwnerUUID(UUID uuid) {
+//        this.entityData.set(TRUE_OWNER, Optional.ofNullable(uuid));
+//    }
+
+//    public Entity getTrueOwner() {
+//        if (this.getOwnerUUID() != null) {
+//            return this.level().getPlayerByUUID(this.getOwnerUUID());
+//        } /*else if (this.getOwnerUUID() != null && this.level() instanceof ServerLevel) {
+//            this.cachedOwner = ((ServerLevel)this.level()).getEntity(this.getOwnerUUID());
+//            return this.cachedOwner;
+//        } */else {
+//            return null;
+//        }
+//    }
+
     public @NotNull ItemStack getPickupItem() {
         return this.getTridentItem().copy();
     }
@@ -130,6 +163,7 @@ public class TestTridentEntity extends AbstractArrow {
         if (entity instanceof LivingEntity livingentity)
             f += EnchantmentHelper.getDamageBonus(this.getTridentItem(), livingentity.getMobType());
 
+//        LivingEntity owner = this.level().getPlayerByUUID(this.getOwnerUUID());
         Entity owner = this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, owner == null ? this : owner);
         this.dealtDamage = true;
@@ -139,9 +173,9 @@ public class TestTridentEntity extends AbstractArrow {
                 return;
 
             if (entity instanceof LivingEntity livingEntity) {
-                if (owner instanceof LivingEntity) {
+                if (owner != null) {
                     EnchantmentHelper.doPostHurtEffects(livingEntity, owner);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity)owner, livingEntity);
+                    EnchantmentHelper.doPostDamageEffects((LivingEntity) owner, livingEntity);
                 }
                 this.doPostHurtEffects(livingEntity);
             }

@@ -1,6 +1,6 @@
 {
   "parent": "elementus:item/claymore_item",
   "textures": {
-    "layer0": "elementus:item/tools/anthektite_longsword/anthektite_charge_blade_handheld"
+    "layer0": "elementus:item/weapons/anthektite_longsword/anthektite_charge_blade_handheld"
   }
 }

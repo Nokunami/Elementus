@@ -67,6 +67,27 @@ public class CreativeTabProperties {
             // Special Weapon
             putAfter(entries, Items.TRIDENT, ElementusItems.DIARKRITE_CHARGE_BLADE);
             putAfter(entries, ElementusItems.DIARKRITE_CHARGE_BLADE, ElementusItems.ANTHEKTITE_CHARGE_BLADE);
+            putAfter(entries, ElementusItems.ANTHEKTITE_CHARGE_BLADE, ElementusItems.TEST_TRIDENT);
+
+            // Armor
+            putAfter(entries, Items.NETHERITE_BOOTS, ElementusItems.STEEL_HELMET);
+            putAfter(entries, ElementusItems.STEEL_HELMET, ElementusItems.STEEL_CHESTPLATE);
+            putAfter(entries, ElementusItems.STEEL_CHESTPLATE, ElementusItems.STEEL_LEGGINGS);
+            putAfter(entries, ElementusItems.STEEL_LEGGINGS, ElementusItems.STEEL_BOOTS);
+
+            putAfter(entries, ElementusItems.STEEL_BOOTS, ElementusItems.DIARKRITE_HELMET);
+            putAfter(entries, ElementusItems.DIARKRITE_HELMET, ElementusItems.DIARKRITE_CHESTPLATE);
+            putAfter(entries, ElementusItems.DIARKRITE_CHESTPLATE, ElementusItems.DIARKRITE_LEGGINGS);
+            putAfter(entries, ElementusItems.DIARKRITE_LEGGINGS, ElementusItems.DIARKRITE_BOOTS);
+
+            putAfter(entries, ElementusItems.DIARKRITE_BOOTS, ElementusItems.ANTHEKTITE_HELMET);
+            putAfter(entries, ElementusItems.ANTHEKTITE_HELMET, ElementusItems.ANTHEKTITE_CHESTPLATE);
+            putAfter(entries, ElementusItems.ANTHEKTITE_CHESTPLATE, ElementusItems.ANTHEKTITE_LEGGINGS);
+            putAfter(entries, ElementusItems.ANTHEKTITE_LEGGINGS, ElementusItems.ANTHEKTITE_BOOTS);
+
+            putAfter(entries, ElementusItems.ANTHEKTITE_BOOTS, ElementusItems.CATALYST_CHESTPLATE);
+
+            putAfter(entries, Items.DIAMOND_HORSE_ARMOR, ElementusItems.REINFORCED_PLATING_GOLEM_UPGRADE);
         }
         // Tools
         if (tab == CreativeModeTabs.TOOLS_AND_UTILITIES) {
@@ -92,27 +113,6 @@ public class CreativeTabProperties {
 
             putAfter(entries, Items.BAMBOO_CHEST_RAFT, ElementusItems.MOVCADIA_BOAT);
             putAfter(entries, ElementusItems.MOVCADIA_BOAT, ElementusItems.MOVCADIA_CHEST_BOAT);
-        }
-        // Armor
-        if (tab == CreativeModeTabs.COMBAT) {
-            putAfter(entries, Items.NETHERITE_BOOTS, ElementusItems.STEEL_HELMET);
-            putAfter(entries, ElementusItems.STEEL_HELMET, ElementusItems.STEEL_CHESTPLATE);
-            putAfter(entries, ElementusItems.STEEL_CHESTPLATE, ElementusItems.STEEL_LEGGINGS);
-            putAfter(entries, ElementusItems.STEEL_LEGGINGS, ElementusItems.STEEL_BOOTS);
-
-            putAfter(entries, ElementusItems.STEEL_BOOTS, ElementusItems.DIARKRITE_HELMET);
-            putAfter(entries, ElementusItems.DIARKRITE_HELMET, ElementusItems.DIARKRITE_CHESTPLATE);
-            putAfter(entries, ElementusItems.DIARKRITE_CHESTPLATE, ElementusItems.DIARKRITE_LEGGINGS);
-            putAfter(entries, ElementusItems.DIARKRITE_LEGGINGS, ElementusItems.DIARKRITE_BOOTS);
-
-            putAfter(entries, ElementusItems.DIARKRITE_BOOTS, ElementusItems.ANTHEKTITE_HELMET);
-            putAfter(entries, ElementusItems.ANTHEKTITE_HELMET, ElementusItems.ANTHEKTITE_CHESTPLATE);
-            putAfter(entries, ElementusItems.ANTHEKTITE_CHESTPLATE, ElementusItems.ANTHEKTITE_LEGGINGS);
-            putAfter(entries, ElementusItems.ANTHEKTITE_LEGGINGS, ElementusItems.ANTHEKTITE_BOOTS);
-
-            putAfter(entries, ElementusItems.ANTHEKTITE_BOOTS, ElementusItems.CATALYST_CHESTPLATE);
-
-            putAfter(entries, Items.DIAMOND_HORSE_ARMOR, ElementusItems.REINFORCED_PLATING_GOLEM_UPGRADE);
         }
         // Blocks
         if (tab == CreativeModeTabs.BUILDING_BLOCKS) {

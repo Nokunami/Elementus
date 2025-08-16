@@ -58,8 +58,7 @@ public class TestTridentItem extends Item implements Vanishable {
 
     @Override
     public @Nullable Entity createEntity(Level level, Entity location, ItemStack stack) {
-        TestTridentEntity testTrident = new TestTridentEntity(level, (LivingEntity) location, stack);
-        return super.createEntity(level, location, stack);
+        return new TestTridentEntity(level, location, stack);
     }
 
     public boolean canAttackBlock(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player) {

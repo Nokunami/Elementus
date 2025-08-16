@@ -1,6 +1,4 @@
-// 1.20.1	2025-03-29T12:00:36.6153101	Tags for minecraft:block mod id elementus
-0c0260ad081718c6892270211794048188521329 data/aether/tags/blocks/gravitite_ability_blacklist.json
-986c1e147ae675c82714a652fca7bb51bdcbd442 data/aether/tags/blocks/non_tunnel_replaceable.json
+// 1.20.1	2025-08-15T10:46:28.8512183	Tags for minecraft:block mod id elementus
 71d46d8d9077c91285e2d64d6c47396ff8f26913 data/elementus/tags/blocks/diarkrite_efficient.json
 a5ccd42e6d1ff8f83ab7b319a0f170e3c7e33447 data/elementus/tags/blocks/movcadia_grows_on.json
 a0b5a4c32f395e746a011df6476367c16ee3d7c8 data/elementus/tags/blocks/movcadia_logs.json
@@ -14,7 +12,6 @@ b5721baf6374cb7d8ded94559d036761a19d264f data/forge/tags/blocks/storage_blocks.j
 0ead1c564f93285fae66c97ae726271d04951332 data/forge/tags/blocks/storage_blocks/anthektite.json
 0d3dd4dd42391a8ad32d06be49210205eef850e0 data/forge/tags/blocks/storage_blocks/diarkrite.json
 05f2a0186ba2e1c5f623c7e18ff14b32e23449bf data/forge/tags/blocks/storage_blocks/steel.json
-986c1e147ae675c82714a652fca7bb51bdcbd442 data/irons_spellbooks/tags/blocks/guarded_by_wizards.json
 1bd737ed3de5e6a94f53e433f3210ad16667af64 data/minecraft/tags/blocks/beacon_base_blocks.json
 0590ff5409cbc977e0ba76e0e6e360d5ffdb53c7 data/minecraft/tags/blocks/buttons.json
 c62bdec374c982caa72eafa4bdecc7135c61c981 data/minecraft/tags/blocks/ceiling_hanging_signs.json
@@ -54,5 +51,3 @@ c3734d10cfbdddfd72c73070c0586a45e414c754 data/minecraft/tags/blocks/wooden_doors
 113be7f85d70123f321b32db1fac7b88943a46cf data/minecraft/tags/blocks/wooden_slabs.json
 aa6e9c0a4cff9abc580246f5d0bb9cb41eadd356 data/minecraft/tags/blocks/wooden_stairs.json
 dfde8b78be574055b982ee449d101647f2db8e90 data/minecraft/tags/blocks/wooden_trapdoors.json
-adf78f7a35130397a3a4f91ec4f22455b41df4ba data/twigs/tags/blocks/tables.json
-1c58e64a56efc2f2cb4a98518c51269f2c43b73d data/witherstormmod/tags/blocks/wither_storm_nature_cluster_whitelist.json
