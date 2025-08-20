@@ -1,8 +1,5 @@
 package net.nokunami.elementus.common.entity.projectile;
 
-import com.simibubi.create.AllEntityTypes;
-import com.simibubi.create.content.logistics.box.PackageEntity;
-import com.simibubi.create.content.logistics.chute.ChuteBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -19,6 +16,7 @@ import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -30,10 +28,8 @@ import net.nokunami.elementus.common.registry.ModEntityType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.UUID;
 
-public class TestTridentEntity extends AbstractArrow {
+public class TestTridentEntity extends ThrownTrident {
     private static final EntityDataAccessor<ItemStack> ITEM_STACK = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.ITEM_STACK);
 //    private static final EntityDataAccessor<Optional<UUID>> TRUE_OWNER = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.BYTE);
@@ -48,7 +44,8 @@ public class TestTridentEntity extends AbstractArrow {
     }
 
     public TestTridentEntity(Level level, LivingEntity entity, ItemStack stack) {
-        super(ModEntityType.TEST_TRIDENT.get(), entity, level);
+        super(level, entity, stack);
+//        super(ModEntityType.TEST_TRIDENT.get(), entity, level);
         this.setTridentItem(stack.copy());
 //        this.setOwnerUUID(entity.getUUID());
         this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));

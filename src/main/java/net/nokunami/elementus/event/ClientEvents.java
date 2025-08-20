@@ -1,25 +1,39 @@
 package net.nokunami.elementus.event;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.nokunami.elementus.client.gui.ItemBarItemDecoration;
+import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.network.ChargeBladeAbilityPacket;
 import net.nokunami.elementus.common.network.ModNetwork;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
 public class ClientEvents {
+
+    @SubscribeEvent
+    public static void itemTooltip(ItemTooltipEvent event) {
+        ItemStack itemStack = event.getItemStack();
+        if (!event.getItemStack().isEmpty()) {
+            if (itemStack.is(Etags.Items.CATALYST_ITEMS)) {
+                event.getToolTip().add(Component.literal("test"));
+            }
+        }
+    }
 
     /// Code from SpartanObliviousSpartan's SpartanShields mod
     @SubscribeEvent
@@ -56,14 +70,14 @@ public class ClientEvents {
     }
 
     public static void itemDecorations(RegisterItemDecorationsEvent event) {
-//        event.register(ElementusItems.CATALYST_CHESTPLATE.get(), new CatalystCoreItemDecoration());
-        event.register(ElementusItems.DIARKRITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
-        event.register(ElementusItems.ANTHEKTITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
+//        event.register(ModItems.CATALYST_CHESTPLATE.get(), new CatalystCoreItemDecoration());
+        event.register(ModItems.DIARKRITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
+        event.register(ModItems.ANTHEKTITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
 
-        event.register(ElementusItems.MOVCADIA_SWORD.get(), new ItemBarItemDecoration());
-        event.register(ElementusItems.MOVCADIA_SHOVEL.get(), new ItemBarItemDecoration());
-        event.register(ElementusItems.MOVCADIA_PICKAXE.get(), new ItemBarItemDecoration());
-        event.register(ElementusItems.MOVCADIA_AXE.get(), new ItemBarItemDecoration());
-        event.register(ElementusItems.MOVCADIA_HOE.get(), new ItemBarItemDecoration());
+        event.register(ModItems.MOVCADIA_SWORD.get(), new ItemBarItemDecoration());
+        event.register(ModItems.MOVCADIA_SHOVEL.get(), new ItemBarItemDecoration());
+        event.register(ModItems.MOVCADIA_PICKAXE.get(), new ItemBarItemDecoration());
+        event.register(ModItems.MOVCADIA_AXE.get(), new ItemBarItemDecoration());
+        event.register(ModItems.MOVCADIA_HOE.get(), new ItemBarItemDecoration());
     }
 }

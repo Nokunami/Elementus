@@ -49,10 +49,10 @@ public class CreateProcessingRecipe extends CreateRecipeProvider {
 
     public static class Pressing extends ProcessingRecipeGen {
 //        GeneratedRecipe STEEL = create(Elementus.modLoc("steel_pressing"), b -> b
-//                .require(ModItems.ElementusItems.STEEL_SCRAP.get())
-//                .require(ModItems.ElementusItems.STEEL_SCRAP.get())
+//                .require(ModItems.STEEL_SCRAP.get())
+//                .require(ModItems.STEEL_SCRAP.get())
 //                .require(Items.IRON_INGOT)
-//                .output(ModItems.ElementusItems.STEEL_INGOT.get()));
+//                .output(ModItems.STEEL_INGOT.get()));
 
         public Pressing(PackOutput generator) {
             super(generator);
@@ -67,14 +67,14 @@ public class CreateProcessingRecipe extends CreateRecipeProvider {
         GeneratedRecipe STEEL_RECYCLE = create(Elementus.modLoc("steel_recycle"), b -> b
                 .duration(200)
                 .withItemIngredients(Ingredient.of(Etags.Items.STEEL_RECYCLABLE))
-                .output(ModItems.ElementusItems.STEEL_SCRAP.get(), 1)
-                .output(0.5F, ModItems.ElementusItems.STEEL_SCRAP.get()));
+                .output(ModItems.STEEL_SCRAP.get(), 1)
+                .output(0.5F, ModItems.STEEL_SCRAP.get()));
         GeneratedRecipe REMNANT = create(Elementus.modLoc("remnant_crushing"), b -> b
                 .duration(300)
-                .withItemIngredients(Ingredient.of(ModItems.ElementusItems.REMNANT.get()))
-                .output(ModItems.ElementusItems.CRUSHED_REMNANT.get(), 1)
+                .withItemIngredients(Ingredient.of(ModItems.REMNANT.get()))
+                .output(ModItems.CRUSHED_REMNANT.get(), 1)
                 .output(0.25F, Items.COBBLED_DEEPSLATE, 1)
-                .output(0.05F, ModItems.ElementusItems.CRUSHED_REMNANT.get()));
+                .output(0.05F, ModItems.CRUSHED_REMNANT.get()));
 
 
         public Crushing(PackOutput generator) {
@@ -88,11 +88,11 @@ public class CreateProcessingRecipe extends CreateRecipeProvider {
     }
     public static class Mixing extends ProcessingRecipeGen {
         GeneratedRecipe STEEL = create(Elementus.modLoc("steel_mixing"), b -> b
-                .require(ModItems.ElementusItems.STEEL_SCRAP.get())
-                .require(ModItems.ElementusItems.STEEL_SCRAP.get())
+                .require(ModItems.STEEL_SCRAP.get())
+                .require(ModItems.STEEL_SCRAP.get())
                 .require(Items.IRON_INGOT)
                 .requiresHeat(HeatCondition.HEATED)
-                .output(ModItems.ElementusItems.STEEL_INGOT.get()));
+                .output(ModItems.STEEL_INGOT.get()));
 
         public Mixing(PackOutput generator) {
             super(generator);

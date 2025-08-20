@@ -63,11 +63,11 @@ public class ItemBarItemDecoration implements IItemDecorator {
                     }
                 }
             }
-            if (stack.getItem() == ModItems.ElementusItems.MOVCADIA_SWORD.get() ||
-                    stack.getItem() == ModItems.ElementusItems.MOVCADIA_SHOVEL.get() ||
-                    stack.getItem() == ModItems.ElementusItems.MOVCADIA_PICKAXE.get() ||
-                    stack.getItem() == ModItems.ElementusItems.MOVCADIA_AXE.get() ||
-                    stack.getItem() == ModItems.ElementusItems.MOVCADIA_HOE.get()) {
+            if (stack.getItem() == ModItems.MOVCADIA_SWORD.get() ||
+                    stack.getItem() == ModItems.MOVCADIA_SHOVEL.get() ||
+                    stack.getItem() == ModItems.MOVCADIA_PICKAXE.get() ||
+                    stack.getItem() == ModItems.MOVCADIA_AXE.get() ||
+                    stack.getItem() == ModItems.MOVCADIA_HOE.get()) {
                 int r = getEssenceBarWidth(stack);
                 int i = 12054986;
                 int minX = xOffset + 2;

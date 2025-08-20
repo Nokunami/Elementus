@@ -11,7 +11,6 @@ import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.entity.projectile.*;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
 import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
-import net.nokunami.elementus.common.item.unique.TestTridentItem;
 
 public class ModEntityType {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Elementus.MODID);

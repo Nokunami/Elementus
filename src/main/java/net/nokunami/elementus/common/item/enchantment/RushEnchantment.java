@@ -14,6 +14,6 @@ public class RushEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(@NotNull ItemStack pStack) {
-        return pStack.is(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
+        return pStack.is(ModItems.ANTHEKTITE_CHARGE_BLADE.get());
     }
 }

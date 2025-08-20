@@ -62,7 +62,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (!damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             if ((Object) this instanceof LivingEntity livingEntity) {
                 ItemStack chestplateItem = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
-                if (chestplateItem.is(ModItems.ElementusItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.catalystActivator(chestplateItem).equals(totem) &&
+                if (chestplateItem.is(ModItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.catalystActivator(chestplateItem).equals(totem) &&
                         !livingEntity.hasEffect(ElementusEffects.TOTEM_COOLDOWN.get()))  {
                     if (entity instanceof ServerPlayer serverplayer) {
                         serverplayer.awardStat(Stats.ITEM_USED.get(Items.TOTEM_OF_UNDYING), 1);
@@ -126,12 +126,12 @@ public abstract class LivingEntityMixin extends Entity {
     ///  Credits: Team Abode's Guarding Mod
     @Inject(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;broadcastEntityEvent(Lnet/minecraft/world/entity/Entity;B)V"), cancellable = true)
     private void Elementus$playBlockSound(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (this.getUseItem().is(ModItems.ElementusItems.DIARKRITE_SHIELD.get())) {
+        if (this.getUseItem().is(ModItems.DIARKRITE_SHIELD.get())) {
             LivingEntity livingEntity = LivingEntity.class.cast(this);
             livingEntity.level().playSound(null, livingEntity.blockPosition(), ModSoundEvents.DIARKRITE_SHIELD_BLOCK.get(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
             cir.cancel();
         }
-        if (this.getUseItem().is(ModItems.ElementusItems.ANTHEKTITE_SHIELD.get())) {
+        if (this.getUseItem().is(ModItems.ANTHEKTITE_SHIELD.get())) {
             LivingEntity livingEntity = LivingEntity.class.cast(this);
             livingEntity.level().playSound(null, livingEntity.blockPosition(), ModSoundEvents.ANTHEKTITE_SHIELD_BLOCK.get(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
             cir.cancel();

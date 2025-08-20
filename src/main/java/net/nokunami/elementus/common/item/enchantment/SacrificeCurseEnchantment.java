@@ -24,6 +24,6 @@ public class SacrificeCurseEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(@NotNull ItemStack pStack) {
-        return pStack.is(ModItems.ElementusItems.DIARKRITE_CHARGE_BLADE.get());
+        return pStack.is(ModItems.DIARKRITE_CHARGE_BLADE.get());
     }
 }

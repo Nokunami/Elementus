@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -34,9 +34,9 @@ public class ModItemTagsData extends ItemTagsProvider {
     }
 
     private void minecraftTags() {
-        tag(ItemTags.SWORDS).add(ElementusItems.STEEL_SWORD.get(), ElementusItems.DIARKRITE_SWORD.get(), ElementusItems.ANTHEKTITE_SWORD.get(),
-                        ElementusItems.MOVCADIA_SWORD.get(),
-                        ElementusItems.DIARKRITE_CHARGE_BLADE.get(), ElementusItems.ANTHEKTITE_CHARGE_BLADE.get())
+        tag(ItemTags.SWORDS).add(ModItems.STEEL_SWORD.get(), ModItems.DIARKRITE_SWORD.get(), ModItems.ANTHEKTITE_SWORD.get(),
+                        ModItems.MOVCADIA_SWORD.get(),
+                        ModItems.DIARKRITE_CHARGE_BLADE.get(), ModItems.ANTHEKTITE_CHARGE_BLADE.get())
                 .addOptional(modLoc("diarkrite_iron_sword"))
                 .addOptional(modLoc("diarkrite_gold_sword"))
                 .addOptional(modLoc("diarkrite_emerald_sword"))
@@ -47,8 +47,8 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_sword"))
                 .addOptional(modLoc("anthektite_diamond_sword"));
 
-        tag(ItemTags.SHOVELS).add(ElementusItems.STEEL_SHOVEL.get(), ElementusItems.DIARKRITE_SHOVEL.get(), ElementusItems.ANTHEKTITE_SHOVEL.get(),
-                        ElementusItems.MOVCADIA_SHOVEL.get())
+        tag(ItemTags.SHOVELS).add(ModItems.STEEL_SHOVEL.get(), ModItems.DIARKRITE_SHOVEL.get(), ModItems.ANTHEKTITE_SHOVEL.get(),
+                        ModItems.MOVCADIA_SHOVEL.get())
                 .addOptional(modLoc("diarkrite_iron_shovel"))
                 .addOptional(modLoc("diarkrite_gold_shovel"))
                 .addOptional(modLoc("diarkrite_emerald_shovel"))
@@ -59,8 +59,8 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_shovel"))
                 .addOptional(modLoc("anthektite_diamond_shovel"));
 
-        tag(ItemTags.PICKAXES).add(ElementusItems.STEEL_PICKAXE.get(), ElementusItems.DIARKRITE_PICKAXE.get(), ElementusItems.ANTHEKTITE_PICKAXE.get(),
-                        ElementusItems.MOVCADIA_PICKAXE.get())
+        tag(ItemTags.PICKAXES).add(ModItems.STEEL_PICKAXE.get(), ModItems.DIARKRITE_PICKAXE.get(), ModItems.ANTHEKTITE_PICKAXE.get(),
+                        ModItems.MOVCADIA_PICKAXE.get())
                 .addOptional(modLoc("diarkrite_iron_pickaxe"))
                 .addOptional(modLoc("diarkrite_gold_pickaxe"))
                 .addOptional(modLoc("diarkrite_emerald_pickaxe"))
@@ -71,8 +71,8 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_pickaxe"))
                 .addOptional(modLoc("anthektite_diamond_pickaxe"));
 
-        tag(ItemTags.AXES).add(ElementusItems.STEEL_AXE.get(), ElementusItems.DIARKRITE_AXE.get(), ElementusItems.ANTHEKTITE_AXE.get(),
-                        ElementusItems.MOVCADIA_AXE.get())
+        tag(ItemTags.AXES).add(ModItems.STEEL_AXE.get(), ModItems.DIARKRITE_AXE.get(), ModItems.ANTHEKTITE_AXE.get(),
+                        ModItems.MOVCADIA_AXE.get())
                 .addOptional(modLoc("diarkrite_iron_axe"))
                 .addOptional(modLoc("diarkrite_gold_axe"))
                 .addOptional(modLoc("diarkrite_emerald_axe"))
@@ -83,8 +83,8 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_axe"))
                 .addOptional(modLoc("anthektite_diamond_axe"));
 
-        tag(ItemTags.HOES).add(ElementusItems.STEEL_HOE.get(), ElementusItems.DIARKRITE_HOE.get(), ElementusItems.ANTHEKTITE_HOE.get(),
-                        ElementusItems.MOVCADIA_HOE.get())
+        tag(ItemTags.HOES).add(ModItems.STEEL_HOE.get(), ModItems.DIARKRITE_HOE.get(), ModItems.ANTHEKTITE_HOE.get(),
+                        ModItems.MOVCADIA_HOE.get())
                 .addOptional(modLoc("diarkrite_iron_hoe"))
                 .addOptional(modLoc("diarkrite_gold_hoe"))
                 .addOptional(modLoc("diarkrite_emerald_hoe"))
@@ -95,9 +95,9 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_emerald_hoe"))
                 .addOptional(modLoc("anthektite_diamond_hoe"));
 
-        tag(ItemTags.TRIMMABLE_ARMOR).add(ElementusItems.STEEL_HELMET.get(), ElementusItems.STEEL_CHESTPLATE.get(), ElementusItems.STEEL_LEGGINGS.get(), ElementusItems.STEEL_BOOTS.get(),
-                        ElementusItems.ANTHEKTITE_HELMET.get(), ElementusItems.ANTHEKTITE_CHESTPLATE.get(), ElementusItems.ANTHEKTITE_LEGGINGS.get(), ElementusItems.ANTHEKTITE_BOOTS.get(),
-                        ElementusItems.DIARKRITE_HELMET.get(), ElementusItems.DIARKRITE_CHESTPLATE.get(), ElementusItems.DIARKRITE_LEGGINGS.get(), ElementusItems.DIARKRITE_BOOTS.get())
+        tag(ItemTags.TRIMMABLE_ARMOR).add(ModItems.STEEL_HELMET.get(), ModItems.STEEL_CHESTPLATE.get(), ModItems.STEEL_LEGGINGS.get(), ModItems.STEEL_BOOTS.get(),
+                        ModItems.ANTHEKTITE_HELMET.get(), ModItems.ANTHEKTITE_CHESTPLATE.get(), ModItems.ANTHEKTITE_LEGGINGS.get(), ModItems.ANTHEKTITE_BOOTS.get(),
+                        ModItems.DIARKRITE_HELMET.get(), ModItems.DIARKRITE_CHESTPLATE.get(), ModItems.DIARKRITE_LEGGINGS.get(), ModItems.DIARKRITE_BOOTS.get())
                 .addOptional(modLoc("steel_gloves"))
                 .addOptional(modLoc("diarkrite_gloves"))
                 .addOptional(modLoc("anthektite_gloves"))
@@ -145,54 +145,54 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_diamond_boots"));
 
 
-        tag(ItemTags.TRIM_MATERIALS).add(ElementusItems.STEEL_INGOT.get(), ElementusItems.DIARKRITE_INGOT.get(), ElementusItems.ANTHEKTITE_INGOT.get());
+        tag(ItemTags.TRIM_MATERIALS).add(ModItems.STEEL_INGOT.get(), ModItems.DIARKRITE_INGOT.get(), ModItems.ANTHEKTITE_INGOT.get());
 
         tag(ItemTags.LOGS).addTag(Etags.Items.MOVCADIA_LOGS);
 
-        tag(ItemTags.PLANKS).add(ElementusItems.MOVCADIA_PLANKS.get());
+        tag(ItemTags.PLANKS).add(ModItems.MOVCADIA_PLANKS.get());
 
-        tag(ItemTags.STAIRS).add(ElementusItems.MOVCADIA_STAIRS.get());
-        tag(ItemTags.WOODEN_STAIRS).add(ElementusItems.MOVCADIA_STAIRS.get());
+        tag(ItemTags.STAIRS).add(ModItems.MOVCADIA_STAIRS.get());
+        tag(ItemTags.WOODEN_STAIRS).add(ModItems.MOVCADIA_STAIRS.get());
 
-        tag(ItemTags.SLABS).add(ElementusItems.MOVCADIA_SLAB.get());
-        tag(ItemTags.WOODEN_SLABS).add(ElementusItems.MOVCADIA_SLAB.get());
+        tag(ItemTags.SLABS).add(ModItems.MOVCADIA_SLAB.get());
+        tag(ItemTags.WOODEN_SLABS).add(ModItems.MOVCADIA_SLAB.get());
 
-        tag(ItemTags.FENCES).add(ElementusItems.MOVCADIA_FENCE.get());
-        tag(ItemTags.WOODEN_FENCES).add(ElementusItems.MOVCADIA_FENCE.get());
-        tag(Tags.Items.FENCES).add(ElementusItems.MOVCADIA_FENCE.get());
+        tag(ItemTags.FENCES).add(ModItems.MOVCADIA_FENCE.get());
+        tag(ItemTags.WOODEN_FENCES).add(ModItems.MOVCADIA_FENCE.get());
+        tag(Tags.Items.FENCES).add(ModItems.MOVCADIA_FENCE.get());
 
-        tag(ItemTags.DOORS).add(ElementusItems.MOVCADIA_DOOR.get());
-        tag(ItemTags.WOODEN_DOORS).add(ElementusItems.MOVCADIA_DOOR.get());
+        tag(ItemTags.DOORS).add(ModItems.MOVCADIA_DOOR.get());
+        tag(ItemTags.WOODEN_DOORS).add(ModItems.MOVCADIA_DOOR.get());
 
-        tag(ItemTags.BUTTONS).add(ElementusItems.MOVCADIA_BUTTON.get());
-        tag(ItemTags.WOODEN_BUTTONS).add(ElementusItems.MOVCADIA_BUTTON.get());
+        tag(ItemTags.BUTTONS).add(ModItems.MOVCADIA_BUTTON.get());
+        tag(ItemTags.WOODEN_BUTTONS).add(ModItems.MOVCADIA_BUTTON.get());
 
-        tag(ItemTags.WOODEN_PRESSURE_PLATES).add(ElementusItems.MOVCADIA_PRESSURE_PLATE.get());
+        tag(ItemTags.WOODEN_PRESSURE_PLATES).add(ModItems.MOVCADIA_PRESSURE_PLATE.get());
 
-        tag(ItemTags.TRAPDOORS).add(ElementusItems.MOVCADIA_TRAPDOOR.get());
-        tag(ItemTags.WOODEN_TRAPDOORS).add(ElementusItems.MOVCADIA_TRAPDOOR.get());
+        tag(ItemTags.TRAPDOORS).add(ModItems.MOVCADIA_TRAPDOOR.get());
+        tag(ItemTags.WOODEN_TRAPDOORS).add(ModItems.MOVCADIA_TRAPDOOR.get());
 
-        tag(ItemTags.NON_FLAMMABLE_WOOD).add(ElementusItems.MOVCADIA_LOG.get(), ElementusItems.STRIPPED_MOVCADIA_LOG.get(),
-                        ElementusItems.MOVCADIA_WOOD.get(), ElementusItems.STRIPPED_MOVCADIA_WOOD.get(),ElementusItems.MOVCADIA_PLANKS.get(),
-                        ElementusItems.MOVCADIA_SLAB.get(), ElementusItems.MOVCADIA_STAIRS.get(),ElementusItems.MOVCADIA_FENCE.get(),
-                        ElementusItems.MOVCADIA_FENCE_GATE.get(),ElementusItems.MOVCADIA_DOOR.get(), ElementusItems.MOVCADIA_TRAPDOOR.get(),
-                        ElementusItems.MOVCADIA_PRESSURE_PLATE.get(), ElementusItems.MOVCADIA_BUTTON.get(),ElementusItems.MOVCADIA_SIGN.get(),
-                        ElementusItems.STURDY_MOVCADIA_SIGN.get(),ElementusItems.MOVCADIA_HANGING_SIGN.get())
+        tag(ItemTags.NON_FLAMMABLE_WOOD).add(ModItems.MOVCADIA_LOG.get(), ModItems.STRIPPED_MOVCADIA_LOG.get(),
+                        ModItems.MOVCADIA_WOOD.get(), ModItems.STRIPPED_MOVCADIA_WOOD.get(),ModItems.MOVCADIA_PLANKS.get(),
+                        ModItems.MOVCADIA_SLAB.get(), ModItems.MOVCADIA_STAIRS.get(),ModItems.MOVCADIA_FENCE.get(),
+                        ModItems.MOVCADIA_FENCE_GATE.get(),ModItems.MOVCADIA_DOOR.get(), ModItems.MOVCADIA_TRAPDOOR.get(),
+                        ModItems.MOVCADIA_PRESSURE_PLATE.get(), ModItems.MOVCADIA_BUTTON.get(),ModItems.MOVCADIA_SIGN.get(),
+                        ModItems.STURDY_MOVCADIA_SIGN.get(),ModItems.MOVCADIA_HANGING_SIGN.get())
                 .addOptional(modLoc("movcadia_cabinet"))
                 .addOptional(modLoc("movcadia_table"));
 
-        tag(ItemTags.LEAVES).add(ElementusItems.MOVCADIA_LEAVES.get(), ElementusItems.FLOWERING_MOVCADIA_LEAVES.get());
+        tag(ItemTags.LEAVES).add(ModItems.MOVCADIA_LEAVES.get(), ModItems.FLOWERING_MOVCADIA_LEAVES.get());
 
-        tag(ItemTags.SIGNS).add(ElementusItems.MOVCADIA_SIGN.get(), ElementusItems.STURDY_MOVCADIA_SIGN.get());
+        tag(ItemTags.SIGNS).add(ModItems.MOVCADIA_SIGN.get(), ModItems.STURDY_MOVCADIA_SIGN.get());
 
-        tag(ItemTags.HANGING_SIGNS).add(ElementusItems.MOVCADIA_HANGING_SIGN.get());
+        tag(ItemTags.HANGING_SIGNS).add(ModItems.MOVCADIA_HANGING_SIGN.get());
 
-        tag(ItemTags.SAPLINGS).add(ElementusItems.MOVCADIA_SAPLING.get());
+        tag(ItemTags.SAPLINGS).add(ModItems.MOVCADIA_SAPLING.get());
 
-        tag(ItemTags.FOX_FOOD).add(ElementusItems.MOVCADIA_BERRIES.get());
+        tag(ItemTags.FOX_FOOD).add(ModItems.MOVCADIA_BERRIES.get());
     }
     private void forgeTags() {
-        tag(Tags.Items.ARMORS_HELMETS).add(ElementusItems.STEEL_HELMET.get(),ElementusItems.DIARKRITE_HELMET.get(),ElementusItems.ANTHEKTITE_HELMET.get())
+        tag(Tags.Items.ARMORS_HELMETS).add(ModItems.STEEL_HELMET.get(),ModItems.DIARKRITE_HELMET.get(),ModItems.ANTHEKTITE_HELMET.get())
                 .addOptional(modLoc("diarkrite_mage_helmet"))
                 .addOptional(modLoc("anthektite_mage_helmet"))
 
@@ -226,7 +226,7 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_samurai_helmet_light"))
                 .addOptional(modLoc("anthektite_samurai_helmet_master"));
 
-        tag(Tags.Items.ARMORS_CHESTPLATES).add(ElementusItems.STEEL_CHESTPLATE.get(),ElementusItems.DIARKRITE_CHESTPLATE.get(),ElementusItems.ANTHEKTITE_CHESTPLATE.get())
+        tag(Tags.Items.ARMORS_CHESTPLATES).add(ModItems.STEEL_CHESTPLATE.get(),ModItems.DIARKRITE_CHESTPLATE.get(),ModItems.ANTHEKTITE_CHESTPLATE.get())
                 .addOptional(modLoc("diarkrite_mage_chestplate"))
                 .addOptional(modLoc("anthektite_mage_chestplate"))
 
@@ -263,7 +263,7 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_samurai_chestplate_light"))
                 .addOptional(modLoc("anthektite_samurai_chestplate_master"));
 
-        tag(Tags.Items.ARMORS_LEGGINGS).add(ElementusItems.STEEL_LEGGINGS.get(),ElementusItems.DIARKRITE_LEGGINGS.get(),ElementusItems.ANTHEKTITE_LEGGINGS.get())
+        tag(Tags.Items.ARMORS_LEGGINGS).add(ModItems.STEEL_LEGGINGS.get(),ModItems.DIARKRITE_LEGGINGS.get(),ModItems.ANTHEKTITE_LEGGINGS.get())
                 .addOptional(modLoc("diarkrite_mage_leggings"))
                 .addOptional(modLoc("anthektite_mage_leggings"))
 
@@ -287,7 +287,7 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_samurai_leggings_light"))
                 .addOptional(modLoc("anthektite_samurai_leggings_master"));
 
-        tag(Tags.Items.ARMORS_BOOTS).add(ElementusItems.STEEL_BOOTS.get(),ElementusItems.DIARKRITE_BOOTS.get(),ElementusItems.ANTHEKTITE_BOOTS.get())
+        tag(Tags.Items.ARMORS_BOOTS).add(ModItems.STEEL_BOOTS.get(),ModItems.DIARKRITE_BOOTS.get(),ModItems.ANTHEKTITE_BOOTS.get())
                 .addOptional(modLoc("diarkrite_mage_boots"))
                 .addOptional(modLoc("anthektite_mage_boots"))
 
@@ -311,22 +311,22 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(modLoc("anthektite_samurai_boots_light"))
                 .addOptional(modLoc("anthektite_samurai_boots_master"));
 
-        tag(Tags.Items.TOOLS_SHIELDS).add(ElementusItems.STEEL_SHIELD.get(),ElementusItems.DIARKRITE_SHIELD.get(),ElementusItems.ANTHEKTITE_SHIELD.get());
+        tag(Tags.Items.TOOLS_SHIELDS).add(ModItems.STEEL_SHIELD.get(),ModItems.DIARKRITE_SHIELD.get(),ModItems.ANTHEKTITE_SHIELD.get());
 
         tag(Tags.Items.INGOTS).addTag(Etags.Items.INGOTS_STEEL).addTag(Etags.Items.INGOTS_DIARKRITE).addTag(Etags.Items.INGOTS_ANTHEKTITE);
         tag(Tags.Items.NUGGETS).addTag(Etags.Items.NUGGETS_STEEL);
         tag(Tags.Items.ORES).addTag(Etags.Items.ORES_ATELIS);
         tag(Tags.Items.RAW_MATERIALS).addTag(Etags.Items.RAW_MATERIALS_STEEL);
         tag(Tags.Items.STORAGE_BLOCKS).addTag(Etags.Items.STORAGE_BLOCK_STEEL).addTag(Etags.Items.STORAGE_BLOCK_DIARKRITE).addTag(Etags.Items.STORAGE_BLOCK_ANTHEKTITE);
-        tag(Etags.Items.BERRIES).add(ElementusItems.MOVCADIA_BERRIES.get());
+        tag(Etags.Items.BERRIES).add(ModItems.MOVCADIA_BERRIES.get());
 
-        tag(Tags.Items.CHESTS_WOODEN).add(ElementusItems.MOVCADIA_CHEST.get());
+        tag(Tags.Items.CHESTS_WOODEN).add(ModItems.MOVCADIA_CHEST.get());
     }
     private void elementusTags() {
         tag(Etags.Items.STEEL_RECYCLABLE)
-                .add(ElementusItems.STEEL_SWORD.get(), ElementusItems.STEEL_SHOVEL.get(), ElementusItems.STEEL_PICKAXE.get(), ElementusItems.STEEL_AXE.get(), ElementusItems.STEEL_HOE.get())
-                .add(ElementusItems.STEEL_HELMET.get(), ElementusItems.STEEL_CHESTPLATE.get(), ElementusItems.STEEL_LEGGINGS.get(), ElementusItems.STEEL_BOOTS.get())
-                .add(ElementusItems.STEEL_SHIELD.get())
+                .add(ModItems.STEEL_SWORD.get(), ModItems.STEEL_SHOVEL.get(), ModItems.STEEL_PICKAXE.get(), ModItems.STEEL_AXE.get(), ModItems.STEEL_HOE.get())
+                .add(ModItems.STEEL_HELMET.get(), ModItems.STEEL_CHESTPLATE.get(), ModItems.STEEL_LEGGINGS.get(), ModItems.STEEL_BOOTS.get())
+                .add(ModItems.STEEL_SHIELD.get())
                 .addOptional(new ResourceLocation("dixtas_armory", "steel_dagger"))
                 .addOptional(new ResourceLocation("dixtas_armory", "steel_shortsword"))
                 .addOptional(new ResourceLocation("dixtas_armory", "steel_stiletto"))
@@ -371,23 +371,23 @@ public class ModItemTagsData extends ItemTagsProvider {
 
 
         tag(Etags.Items.MOVCADIA_LOGS)
-                .add(ElementusItems.MOVCADIA_LOG.get(), ElementusItems.STRIPPED_MOVCADIA_LOG.get())
-                .add(ElementusItems.MOVCADIA_WOOD.get(), ElementusItems.STRIPPED_MOVCADIA_WOOD.get());
+                .add(ModItems.MOVCADIA_LOG.get(), ModItems.STRIPPED_MOVCADIA_LOG.get())
+                .add(ModItems.MOVCADIA_WOOD.get(), ModItems.STRIPPED_MOVCADIA_WOOD.get());
 
-        tag(Etags.Items.INGOTS_STEEL).add(ElementusItems.STEEL_INGOT.get());
-        tag(Etags.Items.INGOTS_DIARKRITE).add(ElementusItems.DIARKRITE_INGOT.get());
-        tag(Etags.Items.INGOTS_ANTHEKTITE).add(ElementusItems.ANTHEKTITE_INGOT.get());
-        tag(Etags.Items.NUGGETS_STEEL).add(ElementusItems.STEEL_NUGGET.get());
-        tag(Etags.Items.RAW_MATERIALS_STEEL).add(ElementusItems.CRUDE_STEEL.get());
-        tag(Etags.Items.ORES_ATELIS).add(ElementusItems.ATELIS_SCRAP.get());
+        tag(Etags.Items.INGOTS_STEEL).add(ModItems.STEEL_INGOT.get());
+        tag(Etags.Items.INGOTS_DIARKRITE).add(ModItems.DIARKRITE_INGOT.get());
+        tag(Etags.Items.INGOTS_ANTHEKTITE).add(ModItems.ANTHEKTITE_INGOT.get());
+        tag(Etags.Items.NUGGETS_STEEL).add(ModItems.STEEL_NUGGET.get());
+        tag(Etags.Items.RAW_MATERIALS_STEEL).add(ModItems.CRUDE_STEEL.get());
+        tag(Etags.Items.ORES_ATELIS).add(ModItems.ATELIS_SCRAP.get());
 
-        tag(Etags.Items.STORAGE_BLOCK_STEEL).add(ElementusItems.STEEL_BLOCK.get());
-        tag(Etags.Items.STORAGE_BLOCK_DIARKRITE).add(ElementusItems.DIARKRITE_BLOCK.get());
-        tag(Etags.Items.STORAGE_BLOCK_ANTHEKTITE).add(ElementusItems.ANTHEKTITE_BLOCK.get());
+        tag(Etags.Items.STORAGE_BLOCK_STEEL).add(ModItems.STEEL_BLOCK.get());
+        tag(Etags.Items.STORAGE_BLOCK_DIARKRITE).add(ModItems.DIARKRITE_BLOCK.get());
+        tag(Etags.Items.STORAGE_BLOCK_ANTHEKTITE).add(ModItems.ANTHEKTITE_BLOCK.get());
 
-        tag(Etags.Items.REPAIRS_STEEL_EQUIPMENT).add(ElementusItems.STEEL_INGOT.get());
-        tag(Etags.Items.REPAIRS_DIARKRITE_EQUIPMENT).add(ElementusItems.DIARKRITE_INGOT.get());
-        tag(Etags.Items.REPAIRS_ANTHEKTITE_EQUIPMENT).add(ElementusItems.ANTHEKTITE_INGOT.get());
+        tag(Etags.Items.REPAIRS_STEEL_EQUIPMENT).add(ModItems.STEEL_INGOT.get());
+        tag(Etags.Items.REPAIRS_DIARKRITE_EQUIPMENT).add(ModItems.DIARKRITE_INGOT.get());
+        tag(Etags.Items.REPAIRS_ANTHEKTITE_EQUIPMENT).add(ModItems.ANTHEKTITE_INGOT.get());
 
         tag(Etags.Items.REPAIRS_DIARKRITE_IRON_ARMOR).addOptional(modLoc("diarkrite_iron_ingot"));
         tag(Etags.Items.REPAIRS_DIARKRITE_GOLD_ARMOR).addOptional(modLoc("diarkrite_gold_ingot"));
@@ -407,9 +407,9 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addOptional(new ResourceLocation("witherstormmod", "withered_nether_star"));
         tag(Etags.Items.CATALYST_ELYTRA)
                 .add(net.minecraft.world.item.Items.ELYTRA);
-        tag(Etags.Items.STEEL_GOLEM_HEAL).add(ElementusItems.STEEL_INGOT.get());
-        tag(Etags.Items.STEEL_GOLEM_REPAIR_HALF).add(ElementusItems.STEEL_SCRAP.get());
-        tag(Etags.Items.STEEL_GOLEM_REPAIR_FULL).add(ElementusItems.STEEL_BLOCK.get());
+        tag(Etags.Items.STEEL_GOLEM_HEAL).add(ModItems.STEEL_INGOT.get());
+        tag(Etags.Items.STEEL_GOLEM_REPAIR_HALF).add(ModItems.STEEL_SCRAP.get());
+        tag(Etags.Items.STEEL_GOLEM_REPAIR_FULL).add(ModItems.STEEL_BLOCK.get());
         tag(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION).addTag(ItemTags.LEAVES);
         tag(Etags.Items.STEEL_GOLEM_CARPET_DECORATION).addTag(ItemTags.WOOL_CARPETS);
         tag(Etags.Items.STEEL_GOLEM_MOSS).add(Items.MOSS_BLOCK, Items.MOSS_CARPET);
@@ -421,17 +421,17 @@ public class ModItemTagsData extends ItemTagsProvider {
                 .addTag(Etags.Items.INGOTS_STEEL).addTag(Etags.Items.INGOTS_DIARKRITE).addTag(Etags.Items.INGOTS_ANTHEKTITE)
                 .addTag(Etags.Items.NUGGETS_STEEL).addTag(Etags.Items.RAW_MATERIALS_STEEL).addTag(Etags.Items.ORES_ATELIS)
                 .addTag(Etags.Items.STORAGE_BLOCK_STEEL).addTag(Etags.Items.STORAGE_BLOCK_DIARKRITE).addTag(Etags.Items.STORAGE_BLOCK_ANTHEKTITE)
-                .add(ElementusItems.STEEL_SCRAP.get())
+                .add(ModItems.STEEL_SCRAP.get())
 
-                .add(ElementusItems.STEEL_SWORD.get(), ElementusItems.STEEL_SHOVEL.get(), ElementusItems.STEEL_PICKAXE.get(), ElementusItems.STEEL_AXE.get(), ElementusItems.STEEL_HOE.get())
-                .add(ElementusItems.DIARKRITE_SWORD.get(), ElementusItems.DIARKRITE_SHOVEL.get(), ElementusItems.DIARKRITE_PICKAXE.get(), ElementusItems.DIARKRITE_AXE.get(), ElementusItems.DIARKRITE_HOE.get())
-                .add(ElementusItems.ANTHEKTITE_SWORD.get(), ElementusItems.ANTHEKTITE_SHOVEL.get(), ElementusItems.ANTHEKTITE_PICKAXE.get(), ElementusItems.ANTHEKTITE_AXE.get(), ElementusItems.ANTHEKTITE_HOE.get())
+                .add(ModItems.STEEL_SWORD.get(), ModItems.STEEL_SHOVEL.get(), ModItems.STEEL_PICKAXE.get(), ModItems.STEEL_AXE.get(), ModItems.STEEL_HOE.get())
+                .add(ModItems.DIARKRITE_SWORD.get(), ModItems.DIARKRITE_SHOVEL.get(), ModItems.DIARKRITE_PICKAXE.get(), ModItems.DIARKRITE_AXE.get(), ModItems.DIARKRITE_HOE.get())
+                .add(ModItems.ANTHEKTITE_SWORD.get(), ModItems.ANTHEKTITE_SHOVEL.get(), ModItems.ANTHEKTITE_PICKAXE.get(), ModItems.ANTHEKTITE_AXE.get(), ModItems.ANTHEKTITE_HOE.get())
 
-                .add(ElementusItems.STEEL_HELMET.get(), ElementusItems.STEEL_CHESTPLATE.get(), ElementusItems.STEEL_LEGGINGS.get(), ElementusItems.STEEL_BOOTS.get())
-                .add(ElementusItems.DIARKRITE_HELMET.get(), ElementusItems.DIARKRITE_CHESTPLATE.get(), ElementusItems.DIARKRITE_LEGGINGS.get(), ElementusItems.DIARKRITE_BOOTS.get())
-                .add(ElementusItems.ANTHEKTITE_HELMET.get(), ElementusItems.ANTHEKTITE_CHESTPLATE.get(), ElementusItems.ANTHEKTITE_LEGGINGS.get(), ElementusItems.ANTHEKTITE_BOOTS.get())
+                .add(ModItems.STEEL_HELMET.get(), ModItems.STEEL_CHESTPLATE.get(), ModItems.STEEL_LEGGINGS.get(), ModItems.STEEL_BOOTS.get())
+                .add(ModItems.DIARKRITE_HELMET.get(), ModItems.DIARKRITE_CHESTPLATE.get(), ModItems.DIARKRITE_LEGGINGS.get(), ModItems.DIARKRITE_BOOTS.get())
+                .add(ModItems.ANTHEKTITE_HELMET.get(), ModItems.ANTHEKTITE_CHESTPLATE.get(), ModItems.ANTHEKTITE_LEGGINGS.get(), ModItems.ANTHEKTITE_BOOTS.get())
 
-                .add(ElementusItems.STEEL_SHIELD.get(), ElementusItems.DIARKRITE_SHIELD.get(), ElementusItems.ANTHEKTITE_SHIELD.get())
+                .add(ModItems.STEEL_SHIELD.get(), ModItems.DIARKRITE_SHIELD.get(), ModItems.ANTHEKTITE_SHIELD.get())
                 .addOptional(new ResourceLocation("dixtas_armory", "steel_dagger"))
                 .addOptional(new ResourceLocation("dixtas_armory", "steel_shortsword"))
                 .addOptional(new ResourceLocation("dixtas_armory", "steel_stiletto"))
@@ -780,13 +780,13 @@ public class ModItemTagsData extends ItemTagsProvider {
 
         //Archery Expansion
         tag(Etags.Items.ANTI_POWER_BOW)
-                .addOptional(ElementusItems.STEEL_BOW.getId())
-                .addOptional(ElementusItems.DIARKRITE_BOW.getId())
-                .addOptional(ElementusItems.ANTHEKTITE_BOW.getId());
+                .addOptional(ModItems.STEEL_BOW.getId())
+                .addOptional(ModItems.DIARKRITE_BOW.getId())
+                .addOptional(ModItems.ANTHEKTITE_BOW.getId());
 
         //Create
         tag(Etags.Items.CREATE_MOODED_STRIPPED_LOGS)
-                .addOptional(ElementusItems.STRIPPED_MOVCADIA_LOG.getId())
-                .addOptional(ElementusItems.STRIPPED_MOVCADIA_WOOD.getId());
+                .addOptional(ModItems.STRIPPED_MOVCADIA_LOG.getId())
+                .addOptional(ModItems.STRIPPED_MOVCADIA_WOOD.getId());
     }
 }

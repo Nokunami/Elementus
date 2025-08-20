@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.nokunami.elementus.common.config.CatalystArmorConfig;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModMobEffects;
 import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
 import net.nokunami.elementus.common.registry.ModSoundEvents;
@@ -162,7 +162,7 @@ public class CatalystItemUtil {
         ItemStack chestplateItem = p.getItemBySlot(EquipmentSlot.CHEST);
         int range = 16;
         if (!level.isClientSide) {
-            if (chestplateItem.is(ElementusItems.CATALYST_CHESTPLATE.get())) {
+            if (chestplateItem.is(ModItems.CATALYST_CHESTPLATE.get())) {
                 if (catalyst.equals(netherStar) || catalyst.equals(witheredNetherStar)) {
                     areaEffect(p, w, type, range);
                 } else if (catalyst.equals(heartSea)) {

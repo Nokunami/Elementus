@@ -20,7 +20,7 @@ import net.nokunami.elementus.client.model.armor.sniffsWeapons.ClothedCuirassMod
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.HornedArmorModel;
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.SamuraiArmorModel;
 import net.nokunami.elementus.client.model.armor.sniffsWeapons.StylishArmorModel;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 public class CustomArmorRenderProperties implements IClientItemExtensions {
@@ -69,23 +69,23 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
         if (!init) initializedModels();
         Item item = itemStack.getItem();
 
-        if (item == ElementusItems.STEEL_HELMET.get() ||
-                item == ElementusItems.STEEL_CHESTPLATE.get() ||
-                item == ElementusItems.STEEL_BOOTS.get()||
-                item == ElementusItems.DIARKRITE_HELMET.get() ||
-                item == ElementusItems.DIARKRITE_CHESTPLATE.get() ||
-                item == ElementusItems.DIARKRITE_BOOTS.get()||
-                item == ElementusItems.ANTHEKTITE_HELMET.get() ||
-                item == ElementusItems.ANTHEKTITE_CHESTPLATE.get() ||
-                item == ElementusItems.ANTHEKTITE_BOOTS.get()) {
+        if (item == ModItems.STEEL_HELMET.get() ||
+                item == ModItems.STEEL_CHESTPLATE.get() ||
+                item == ModItems.STEEL_BOOTS.get()||
+                item == ModItems.DIARKRITE_HELMET.get() ||
+                item == ModItems.DIARKRITE_CHESTPLATE.get() ||
+                item == ModItems.DIARKRITE_BOOTS.get()||
+                item == ModItems.ANTHEKTITE_HELMET.get() ||
+                item == ModItems.ANTHEKTITE_CHESTPLATE.get() ||
+                item == ModItems.ANTHEKTITE_BOOTS.get()) {
             return EXTENDED_ARMOR_MODEL;}
-        if (item == ElementusItems.STEEL_LEGGINGS.get() ||
-                item == ElementusItems.DIARKRITE_LEGGINGS.get() ||
-                item == ElementusItems.ANTHEKTITE_LEGGINGS.get()) {
+        if (item == ModItems.STEEL_LEGGINGS.get() ||
+                item == ModItems.DIARKRITE_LEGGINGS.get() ||
+                item == ModItems.ANTHEKTITE_LEGGINGS.get()) {
             return EXTENDED_ARMOR_MODEL_LEGS;
         }
 
-        if ((item == ElementusItems.CATALYST_CHESTPLATE.get())) {
+        if ((item == ModItems.CATALYST_CHESTPLATE.get())) {
             return CATALYST_ARMOR_MODEL;
         }
 

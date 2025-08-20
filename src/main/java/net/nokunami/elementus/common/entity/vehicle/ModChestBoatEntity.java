@@ -15,7 +15,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidType;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 public class ModChestBoatEntity extends ChestBoat {
@@ -37,7 +37,7 @@ public class ModChestBoatEntity extends ChestBoat {
     public @NotNull Item getDropItem() {
         switch (getModVariant()) {
             case MOVCADIA -> {
-                return ElementusItems.MOVCADIA_CHEST_BOAT.get();
+                return ModItems.MOVCADIA_CHEST_BOAT.get();
             }
         }
         return super.getDropItem();

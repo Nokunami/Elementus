@@ -5,7 +5,7 @@ import moze_intel.projecte.api.data.CustomConversionProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -22,11 +22,11 @@ public class PECustomConversionData extends CustomConversionProvider {
 //                .before(ModItems.CRUDE_STEEL.get(), 1_280)
 //                .before(Etags.Items.ORES_ATELIS, 24_576)
                 .before(Etags.Items.INGOTS_STEEL, 1_350)
-//                .before(ElementusItems.ATELIS_SCRAP.get(), 12_288)
-//                .before(ElementusItems.DIARKRITE_INGOT.get(), 77_906)
-//                .before(ElementusItems.ANTHEKTITE_INGOT.get(), 77_906)
-                .before(ElementusItems.ATELIS_UPGRADE_SMITHING_TEMPLATE.get(), 18_432)
-                .before(ElementusItems.MOVCADIA_ESSENCE.get(), 192)
+//                .before(ModItems.ATELIS_SCRAP.get(), 12_288)
+//                .before(ModItems.DIARKRITE_INGOT.get(), 77_906)
+//                .before(ModItems.ANTHEKTITE_INGOT.get(), 77_906)
+                .before(ModItems.ATELIS_UPGRADE_SMITHING_TEMPLATE.get(), 18_432)
+                .before(ModItems.MOVCADIA_ESSENCE.get(), 192)
 
 //                .before(PPModItems.DIARKRITE_UPGRADE_KIT.get(), 384_060)
 //                .before(PPModItems.ANTHEKTITE_UPGRADE_KIT.get(), 384_060)

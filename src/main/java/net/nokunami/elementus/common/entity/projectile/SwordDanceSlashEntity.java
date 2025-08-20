@@ -50,7 +50,7 @@ public class SwordDanceSlashEntity extends Projectile {
     protected static final EntityDataAccessor<Boolean> FRIENDLY_FIRE = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<ItemStack> WEAPON = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.ITEM_STACK);
     protected static final EntityDataAccessor<Boolean> MIRRORED = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.BOOLEAN);
-    private ItemStack weapon = new ItemStack(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
+    private ItemStack weapon = new ItemStack(ModItems.ANTHEKTITE_CHARGE_BLADE.get());
     private float damage;
     private final Set<Entity> alreadyHitEntities;
 //    public Predicate<LivingEntity> REMOVE_PREDICATE = (e) ->
@@ -220,7 +220,7 @@ public Predicate<? super Entity> REMOVE_ENTITIES_PREDICATE = (e -> MobUtil.allie
                 if (blockstate.is(BlockTags.MINEABLE_WITH_HOE)) {
                     ItemStack itemStack = this.weapon;
                     if (this.weapon == null || this.weapon.isEmpty()){
-                        itemStack = new ItemStack(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
+                        itemStack = new ItemStack(ModItems.ANTHEKTITE_CHARGE_BLADE.get());
                     }
                     breakBlock(this.level(), blockpos, itemStack, this);
                 }

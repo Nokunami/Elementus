@@ -279,7 +279,7 @@ public class AnthektiteSlashEntity extends Projectile {
             if (blockstate.is(BlockTags.MINEABLE_WITH_HOE) && !blockstate.is(Etags.Blocks.ANTHEKTITE_SLASH_BLACKLIST)) {
                 ItemStack itemStack = this.getItemStack();
                 if (this.getItemStack() == null || this.getItemStack().isEmpty()){
-                    itemStack = new ItemStack(ModItems.ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
+                    itemStack = new ItemStack(ModItems.ANTHEKTITE_CHARGE_BLADE.get());
                 }
                 breakBlock(this.level(), blockpos, itemStack, this);
             }

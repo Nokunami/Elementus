@@ -16,7 +16,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -59,7 +59,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(ElementusBlocks.MOVCADIA_LEAVES.get(), block ->
                 createLeavesDrops(block, ElementusBlocks.MOVCADIA_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
         this.add(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get(), block ->
-                movcadiaBerryLeaves(block, ElementusBlocks.MOVCADIA_SAPLING.get(), ElementusItems.MOVCADIA_BERRIES.get(), NORMAL_LEAVES_SAPLING_CHANCES));
+                movcadiaBerryLeaves(block, ElementusBlocks.MOVCADIA_SAPLING.get(), ModItems.MOVCADIA_BERRIES.get(), NORMAL_LEAVES_SAPLING_CHANCES));
 
         this.dropSelf(ElementusBlocks.MOVCADIA_PLANKS.get());
         this.dropSelf(ElementusBlocks.MOVCADIA_STAIRS.get());
@@ -75,17 +75,17 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ElementusBlocks.MOVCADIA_BUTTON.get());
 
         this.add(ElementusBlocks.MOVCADIA_SIGN.get(), block ->
-                createSingleItemTable(ElementusItems.MOVCADIA_SIGN.get()));
+                createSingleItemTable(ModItems.MOVCADIA_SIGN.get()));
         this.add(ElementusBlocks.MOVCADIA_WALL_SIGN.get(), block ->
-                createSingleItemTable(ElementusItems.MOVCADIA_SIGN.get()));
+                createSingleItemTable(ModItems.MOVCADIA_SIGN.get()));
         this.add(ElementusBlocks.MOVCADIA_HANGING_SIGN.get(), block ->
-                createSingleItemTable(ElementusItems.MOVCADIA_HANGING_SIGN.get()));
+                createSingleItemTable(ModItems.MOVCADIA_HANGING_SIGN.get()));
         this.add(ElementusBlocks.MOVCADIA_WALL_HANGING_SIGN.get(), block ->
-                createSingleItemTable(ElementusItems.MOVCADIA_HANGING_SIGN.get()));
+                createSingleItemTable(ModItems.MOVCADIA_HANGING_SIGN.get()));
         this.add(ElementusBlocks.STURDY_MOVCADIA_SIGN.get(), block ->
-                createSingleItemTable(ElementusItems.STURDY_MOVCADIA_SIGN.get()));
+                createSingleItemTable(ModItems.STURDY_MOVCADIA_SIGN.get()));
         this.add(ElementusBlocks.STURDY_MOVCADIA_WALL_SIGN.get(), block ->
-                createSingleItemTable(ElementusItems.STURDY_MOVCADIA_SIGN.get()));
+                createSingleItemTable(ModItems.STURDY_MOVCADIA_SIGN.get()));
 
         this.dropSelf(ElementusBlocks.MOVCADIA_CHEST.get());
 

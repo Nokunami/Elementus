@@ -8,7 +8,6 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.datagen.generators.*;
-import net.nokunami.elementus.datagen.generators.create.CreateProcessingRecipe;
 
 import java.util.concurrent.CompletableFuture;
 

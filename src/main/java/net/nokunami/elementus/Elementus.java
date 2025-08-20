@@ -93,10 +93,10 @@ public class Elementus {
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
-        ComposterBlock.COMPOSTABLES.put(ModItems.ElementusItems.MOVCADIA_BERRIES.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(ModItems.ElementusItems.MOVCADIA_SAPLING.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(ModItems.ElementusItems.MOVCADIA_LEAVES.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(ModItems.ElementusItems.FLOWERING_MOVCADIA_LEAVES.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.MOVCADIA_BERRIES.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.MOVCADIA_SAPLING.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.MOVCADIA_LEAVES.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ModItems.FLOWERING_MOVCADIA_LEAVES.get(), 0.3F);
     }
 
     public void addPackFinders(AddPackFindersEvent event) {

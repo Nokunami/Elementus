@@ -8,7 +8,7 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,11 +47,11 @@ public class ElementusShieldItem extends ShieldItem {
 
     public boolean isValidRepairItem(@NotNull ItemStack pToRepair, @NotNull ItemStack pRepair) {
         if (tier == ModTiers.STEEL) {
-            return pRepair.is(ElementusItems.STEEL_INGOT.get());
+            return pRepair.is(ModItems.STEEL_INGOT.get());
         } else if (tier == ModTiers.DIARKRITE) {
-            return pRepair.is(ElementusItems.DIARKRITE_INGOT.get());
+            return pRepair.is(ModItems.DIARKRITE_INGOT.get());
         } else if (tier == ModTiers.ANTHEKTITE) {
-            return pRepair.is(ElementusItems.ANTHEKTITE_INGOT.get());
+            return pRepair.is(ModItems.ANTHEKTITE_INGOT.get());
         }
         return this.tier.getRepairIngredient().test(pRepair) || super.isValidRepairItem(pToRepair, pRepair);
     }

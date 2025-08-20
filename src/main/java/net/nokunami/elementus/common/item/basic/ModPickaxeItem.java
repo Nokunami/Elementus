@@ -33,7 +33,7 @@ public class ModPickaxeItem extends PickaxeItem {
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack otherStack, Slot slot, ClickAction action, Player player, SlotAccess access) {
-        if (this.getTier().equals(ModTiers.MOVCADIA) && getMovcadiaEssence(stack) < 1 && otherStack.getItem() == ModItems.ElementusItems.MOVCADIA_ESSENCE.get() && action.equals(ClickAction.SECONDARY)) {
+        if (this.getTier().equals(ModTiers.MOVCADIA) && getMovcadiaEssence(stack) < 1 && otherStack.getItem() == ModItems.MOVCADIA_ESSENCE.get() && action.equals(ClickAction.SECONDARY)) {
             EItemUtil.movcadiaClickAction(stack, otherStack, player);
             return true;
         }

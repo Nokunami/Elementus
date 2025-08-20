@@ -15,7 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.registry.ModEnchantments;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 
 import java.util.List;
 
@@ -31,17 +31,17 @@ public class ModEvents {
 
             trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 12),
-                    createForEnchantment(ElementusItems.STEEL_LEGGINGS.get(), 1, RandomSource.create(), false),
+                    createForEnchantment(ModItems.STEEL_LEGGINGS.get(), 1, RandomSource.create(), false),
                     3, 15, 0.2F));
 
             trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD,7),
-                    createForEnchantment(ElementusItems.STEEL_BOOTS.get(), 1, RandomSource.create(), false),
+                    createForEnchantment(ModItems.STEEL_BOOTS.get(), 1, RandomSource.create(), false),
                     3, 15, 0.2F));
 
             trades.get(5).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD,7),
-                    createForEnchantment(ElementusItems.STEEL_HELMET.get(), 2, RandomSource.create(), false),
+                    createForEnchantment(ModItems.STEEL_HELMET.get(), 2, RandomSource.create(), false),
                     3, 30, 0.2F));
         }
 
@@ -50,12 +50,12 @@ public class ModEvents {
 
             trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 10),
-                    new ItemStack(ElementusItems.STEEL_AXE.get()),
+                    new ItemStack(ModItems.STEEL_AXE.get()),
                     3, 15, 0.2F));
 
             trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 7),
-                    createForEnchantment(ElementusItems.STEEL_SWORD.get(), 1, RandomSource.create(), false),
+                    createForEnchantment(ModItems.STEEL_SWORD.get(), 1, RandomSource.create(), false),
                     3, 30, 0.2F));
         }
 
@@ -64,22 +64,22 @@ public class ModEvents {
 
             trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 4),
-                    new ItemStack(ElementusItems.STEEL_HOE.get(), 1),
+                    new ItemStack(ModItems.STEEL_HOE.get(), 1),
                     3, 10, 0.2F));
 
             trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 10),
-                    new ItemStack(ElementusItems.STEEL_AXE.get(), 1),
+                    new ItemStack(ModItems.STEEL_AXE.get(), 1),
                     3, 15, 0.2F));
 
             trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 4),
-                    new ItemStack(ElementusItems.STEEL_SHOVEL.get(), 1),
+                    new ItemStack(ModItems.STEEL_SHOVEL.get(), 1),
                     3, 15, 0.2F));
 
             trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
                     new ItemStack(Items.EMERALD, 11),
-                    new ItemStack(ElementusItems.STEEL_PICKAXE.get(), 1),
+                    new ItemStack(ModItems.STEEL_PICKAXE.get(), 1),
                     3, 30, 0.2F));
         }
 
@@ -113,17 +113,17 @@ public class ModEvents {
 
         genericTrades.add(((pTrader, pRandom) -> new MerchantOffer(
                 new ItemStack(Items.EMERALD, 4),
-                new ItemStack(ElementusItems.MOVCADIA_LEAVES.get(), 5),
+                new ItemStack(ModItems.MOVCADIA_LEAVES.get(), 5),
                 6, 1, 0.25F)));
 
         genericTrades.add(((pTrader, pRandom) -> new MerchantOffer(
                 new ItemStack(Items.EMERALD, 6),
-                new ItemStack(ElementusItems.MOVCADIA_BERRIES.get(), 4),
+                new ItemStack(ModItems.MOVCADIA_BERRIES.get(), 4),
                 4, 2, 0.5F)));
 
         rareTrades.add(((pTrader, pRandom) -> new MerchantOffer(
                 new ItemStack(Items.EMERALD, 15),
-                new ItemStack(ElementusItems.MOVCADIA_SAPLING.get(), 2),
+                new ItemStack(ModItems.MOVCADIA_SAPLING.get(), 2),
                 1, 5, 0.5F)));
     }
 }

@@ -11,7 +11,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -248,14 +248,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
     protected void steelRecycleSmelt(Consumer<FinishedRecipe> consumer, Ingredient ingredient, float experience, String critName) {
-        SimpleCookingRecipeBuilder.smelting(ingredient, RecipeCategory.MISC, ElementusItems.STEEL_SCRAP.get(), experience, 200)
-                .unlockedBy(critName, has(ElementusItems.STEEL_INGOT.get()))
-                .save(consumer, this.name(getItemName(ElementusItems.STEEL_SCRAP.get()) + "_from_smelting"));
+        SimpleCookingRecipeBuilder.smelting(ingredient, RecipeCategory.MISC, ModItems.STEEL_SCRAP.get(), experience, 200)
+                .unlockedBy(critName, has(ModItems.STEEL_INGOT.get()))
+                .save(consumer, this.name(getItemName(ModItems.STEEL_SCRAP.get()) + "_from_smelting"));
     }
     protected void steelRecycleBlast(Consumer<FinishedRecipe> consumer, Ingredient ingredient, float experience, String critName) {
-        SimpleCookingRecipeBuilder.blasting(ingredient, RecipeCategory.MISC, ElementusItems.STEEL_SCRAP.get(), experience, 100)
-                .unlockedBy(critName, has(ElementusItems.STEEL_INGOT.get()))
-                .save(consumer, this.name(getItemName(ElementusItems.STEEL_SCRAP.get()) + "_from_blasting"));
+        SimpleCookingRecipeBuilder.blasting(ingredient, RecipeCategory.MISC, ModItems.STEEL_SCRAP.get(), experience, 100)
+                .unlockedBy(critName, has(ModItems.STEEL_INGOT.get()))
+                .save(consumer, this.name(getItemName(ModItems.STEEL_SCRAP.get()) + "_from_blasting"));
     }
 
     protected void wood(Consumer<FinishedRecipe> consumer, Supplier<? extends  Item> log, Supplier<? extends  Item> result) {

@@ -18,7 +18,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidType;
 import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.IntFunction;
@@ -41,7 +41,7 @@ public class ModBoatEntity extends Boat {
     @Override
     public @NotNull Item getDropItem() {
         return switch (getModVariant()) {
-            case MOVCADIA -> ElementusItems.MOVCADIA_BOAT.get();
+            case MOVCADIA -> ModItems.MOVCADIA_BOAT.get();
         };
     }
 

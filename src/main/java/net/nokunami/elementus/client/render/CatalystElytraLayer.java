@@ -25,7 +25,7 @@ import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.MODID;
-import static net.nokunami.elementus.common.registry.ModItems.ElementusItems.CATALYST_CHESTPLATE;
+import static net.nokunami.elementus.common.registry.ModItems.CATALYST_CHESTPLATE;
 
 @OnlyIn(Dist.CLIENT)
 public class CatalystElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraLayer<T, M> {

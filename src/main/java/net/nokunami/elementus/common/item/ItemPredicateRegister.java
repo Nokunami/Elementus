@@ -3,8 +3,7 @@ package net.nokunami.elementus.common.item;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.nokunami.elementus.common.registry.ModItems.ElementusItems;
+import net.nokunami.elementus.common.registry.ModItems;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
 
@@ -19,31 +18,31 @@ import static net.nokunami.elementus.common.registry.ModEnchantments.*;
 public class ItemPredicateRegister {
 
      public static void registerItemPredicate() {
-         shieldBlocking(ElementusItems.STEEL_SHIELD.get());
-         shieldBlocking(ElementusItems.ANTHEKTITE_SHIELD.get());
-         shieldBlocking(ElementusItems.DIARKRITE_SHIELD.get());
-         catalystArmor(ElementusItems.CATALYST_CHESTPLATE.get());
+         shieldBlocking(ModItems.STEEL_SHIELD.get());
+         shieldBlocking(ModItems.ANTHEKTITE_SHIELD.get());
+         shieldBlocking(ModItems.DIARKRITE_SHIELD.get());
+         catalystArmor(ModItems.CATALYST_CHESTPLATE.get());
 
          if (archeryExp) {
-             aeComapt(ElementusItems.STEEL_BOW.get());
-             aeComapt(ElementusItems.DIARKRITE_BOW.get());
-             aeComapt(ElementusItems.ANTHEKTITE_BOW.get());
+             aeComapt(ModItems.STEEL_BOW.get());
+             aeComapt(ModItems.DIARKRITE_BOW.get());
+             aeComapt(ModItems.ANTHEKTITE_BOW.get());
          } else {
-             bowPull(ElementusItems.STEEL_BOW.get());
-             bowPull(ElementusItems.DIARKRITE_BOW.get());
-             bowPull(ElementusItems.ANTHEKTITE_BOW.get());
+             bowPull(ModItems.STEEL_BOW.get());
+             bowPull(ModItems.DIARKRITE_BOW.get());
+             bowPull(ModItems.ANTHEKTITE_BOW.get());
          }
 
-         chargeBlade(ElementusItems.DIARKRITE_CHARGE_BLADE.get());
-         chargeBlade(ElementusItems.ANTHEKTITE_CHARGE_BLADE.get());
+         chargeBlade(ModItems.DIARKRITE_CHARGE_BLADE.get());
+         chargeBlade(ModItems.ANTHEKTITE_CHARGE_BLADE.get());
 
-         movcadiaTools(ElementusItems.MOVCADIA_SWORD.get());
-         movcadiaTools(ElementusItems.MOVCADIA_SHOVEL.get());
-         movcadiaTools(ElementusItems.MOVCADIA_PICKAXE.get());
-         movcadiaTools(ElementusItems.MOVCADIA_AXE.get());
-         movcadiaTools(ElementusItems.MOVCADIA_HOE.get());
+         movcadiaTools(ModItems.MOVCADIA_SWORD.get());
+         movcadiaTools(ModItems.MOVCADIA_SHOVEL.get());
+         movcadiaTools(ModItems.MOVCADIA_PICKAXE.get());
+         movcadiaTools(ModItems.MOVCADIA_AXE.get());
+         movcadiaTools(ModItems.MOVCADIA_HOE.get());
 
-         throwing(ElementusItems.TEST_TRIDENT.get());
+         throwing(ModItems.TEST_TRIDENT.get());
      }
 
     private static void shieldBlocking(Item item) {
