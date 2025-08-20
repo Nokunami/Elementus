@@ -16,6 +16,8 @@ import static net.nokunami.elementus.ModChecker.*;
 
 public class Etags {
     public static class Items {
+        public static final TagKey<Item> WARN = elementusTag("warn");
+
         public static final TagKey<Item> INGOTS_STEEL = forgeTag("ingots/steel");
         public static final TagKey<Item> INGOTS_DIARKRITE = forgeTag("ingots/diarkrite");
         public static final TagKey<Item> INGOTS_ANTHEKTITE = forgeTag("ingots/anthektite");

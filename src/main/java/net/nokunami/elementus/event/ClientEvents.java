@@ -1,6 +1,8 @@
 package net.nokunami.elementus.event;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -8,9 +10,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.nokunami.elementus.client.gui.ItemBarItemDecoration;
+import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.item.ChargeBladeItem;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.network.ChargeBladeAbilityPacket;
@@ -20,6 +25,25 @@ import static net.nokunami.elementus.Elementus.MODID;
 
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
 public class ClientEvents {
+
+    @SubscribeEvent
+    public static void itemTooltip(ItemTooltipEvent event) {
+        ItemStack itemStack = event.getItemStack();
+        if (!event.getItemStack().isEmpty()) {
+            if (itemStack.is(Etags.Items.CATALYST_ITEMS)) {
+                event.getToolTip().add(Component.translatable("desc.elementus.catalyst.core").withStyle(ChatFormatting.GRAY));
+            }
+        }
+        if (!event.getItemStack().isEmpty()) {
+            if (itemStack.is(Etags.Items.WARN)) {
+                if (ModList.get().isLoaded("elementus_integrations")) {
+                    event.getToolTip().add(Component.translatable("item.elementus.warn_item_removal_1").withStyle(ChatFormatting.RED));
+                } else {
+                    event.getToolTip().add(Component.translatable("item.elementus.warn_item_removal_0").withStyle(ChatFormatting.RED));
+                }
+            }
+        }
+    }
 
     /// Code from SpartanObliviousSpartan's SpartanShields mod
     @SubscribeEvent

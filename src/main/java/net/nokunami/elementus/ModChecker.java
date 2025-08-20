@@ -3,7 +3,6 @@ package net.nokunami.elementus;
 import net.minecraftforge.fml.ModList;
 
 public class ModChecker {
-    public static boolean tab = false;
     public static String farmersDelightID = "farmersdelight";
     public static String piercingPaxelsID = "piercingpaxels";
     public static String nethersDelightID = "nethersdelight";
@@ -44,19 +43,7 @@ public class ModChecker {
     public static boolean betterCombat = ModList.get().isLoaded(betterCombatID);
 
     public static boolean integrationTab() {
-        var thisTab = tab;
-        if ((thisTab = farmersDelight) ||
-                (thisTab = piercingPaxels) ||
-                (thisTab = nethersDelight) ||
-                (thisTab = ironsSpellbooks) ||
-                (thisTab = aether) ||
-                (thisTab = simplySwords) ||
-                (thisTab = sniffsWeapons) ||
-                (thisTab = advancedNetherite) ||
-                (thisTab = samuraiDynasty) ||
-                (thisTab = twigs) ||
-                (thisTab = witherStormMod) ||
-                (thisTab = vanillaClaws));
-        return thisTab;
+        return farmersDelight || piercingPaxels || nethersDelight || ironsSpellbooks || aether || simplySwords ||
+                sniffsWeapons || advancedNetherite || samuraiDynasty || twigs || witherStormMod;
     }
 }

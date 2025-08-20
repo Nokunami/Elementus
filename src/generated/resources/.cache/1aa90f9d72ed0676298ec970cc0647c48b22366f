@@ -1,4 +1,4 @@
-// 1.20.1	2025-07-18T13:58:34.6697585	Tags for minecraft:item mod id elementus
+// 1.20.1	2025-08-20T20:40:51.1935036	Tags for minecraft:item mod id elementus
 cac5872e21530608e5d2e90870aa2bd2dd81e79f data/advancednetherite/tags/items/tiers/armor/netherite_diamond.json
 cf5521e0ff2ae8fff77c03f8d113b19f98ca46f3 data/advancednetherite/tags/items/tiers/armor/netherite_emerald.json
 43169b0f71f687059baab4dbc1de3c31fccd80e6 data/advancednetherite/tags/items/tiers/armor/netherite_gold.json
@@ -34,6 +34,7 @@ efe6d58e86177a50d0cd62cbaa1b811e7f7c0715 data/elementus/tags/items/steel_golem_m
 05f2a0186ba2e1c5f623c7e18ff14b32e23449bf data/elementus/tags/items/steel_golem_repair_full.json
 d90cfdb7840054d7ae5ad457998f56931b842edd data/elementus/tags/items/steel_golem_repair_half.json
 7acd3050c0b032697265e2ab6beea7b4719a6ac2 data/elementus/tags/items/steel_recyclable.json
+4c60f01a796ff68c6de7a5899eb7e591d2eb734c data/elementus/tags/items/warn.json
 f3776d4b1eeee5975beb739561a10a4965d0cf5a data/farmersdelight/tags/items/tools/knives.json
 9d0f65f296071ff58074b93326718af5c3192509 data/forge/tags/items/armors/boots.json
 0ed9bbc410e65590c7edbd02bc4fb11e921d8787 data/forge/tags/items/armors/chestplates.json

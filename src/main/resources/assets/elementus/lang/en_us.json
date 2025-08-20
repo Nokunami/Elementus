@@ -1,4 +1,6 @@
 {
+  "item.elementus.warn_item_removal_0": "Item will be removed in the next item, please convert it in the smithing table.",
+  "item.elementus.warn_item_removal_1": "Item will be removed in the next item, please install the integration mod.",
   "#elementus:steel_recyclable": "Steel Recyclables",
 
   "item.elementus.crude_steel": "Crude Steel",
@@ -173,10 +175,11 @@
   "entity.elementus.steel_golem": "Steel Golem",
   "entity.elementus.steel_golem_down": "Steel Golem powered down, Current Chassis Health: %s",
 
-
   "tag.item.elementus.steel_recyclable": "Steel Recyclable",
   "tag.item.elementus.movcadia_logs": "Movcadia Logs",
-  "tag.item.elementus.catalyst_items": "Catalyst Items",
+  "tag.item.elementus.catalyst.core": "Catalyst Core",
+
+  "desc.elementus.catalyst.core": "Can be used a Catalyst core",
 
   "subtitles.elementus.item.catalyst_armor_activation": "Catalyst armor activates",
   "subtitles.elementus.item.catalyst_armor_deactivation": "Catalyst armor deactivates",
