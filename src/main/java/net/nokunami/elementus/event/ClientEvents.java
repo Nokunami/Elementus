@@ -1,5 +1,6 @@
 package net.nokunami.elementus.event;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -30,7 +31,7 @@ public class ClientEvents {
         ItemStack itemStack = event.getItemStack();
         if (!event.getItemStack().isEmpty()) {
             if (itemStack.is(Etags.Items.CATALYST_ITEMS)) {
-                event.getToolTip().add(Component.literal("test"));
+                event.getToolTip().add(Component.translatable("item.elementus.catalyst_core.desc").withStyle(ChatFormatting.GRAY));
             }
         }
     }

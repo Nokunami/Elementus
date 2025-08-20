@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class TestTridentEntity extends ThrownTrident {
+public class TestTridentEntity extends AbstractArrow {
     private static final EntityDataAccessor<ItemStack> ITEM_STACK = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.ITEM_STACK);
 //    private static final EntityDataAccessor<Optional<UUID>> TRUE_OWNER = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.BYTE);
@@ -40,12 +40,12 @@ public class TestTridentEntity extends ThrownTrident {
     public static float bbHeight = 0.5F;
 
     public TestTridentEntity(EntityType<? extends TestTridentEntity> entityType, Level level) {
-        super(entityType, level);
+        super(ModEntityType.TEST_TRIDENT.get(), level);
     }
 
     public TestTridentEntity(Level level, LivingEntity entity, ItemStack stack) {
-        super(level, entity, stack);
-//        super(ModEntityType.TEST_TRIDENT.get(), entity, level);
+//        super(level, entity, stack);
+        super(ModEntityType.TEST_TRIDENT.get(), entity, level);
         this.setTridentItem(stack.copy());
 //        this.setOwnerUUID(entity.getUUID());
         this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));
