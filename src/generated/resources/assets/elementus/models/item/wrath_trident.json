@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:item/handheld",
   "base": {
-    "parent": "elementus:item/test_trident_held"
+    "parent": "elementus:item/wrath_trident_held"
   },
   "loader": "forge:separate_transforms",
   "overrides": [
     {
-      "model": "elementus:item/test_trident_throwing",
+      "model": "elementus:item/wrath_trident_throwing",
       "predicate": {
         "minecraft:throwing": 1.0
       }
@@ -14,13 +14,13 @@
   ],
   "perspectives": {
     "fixed": {
-      "parent": "elementus:item/test_trident_gui"
+      "parent": "elementus:item/wrath_trident_gui"
     },
     "ground": {
-      "parent": "elementus:item/test_trident_gui"
+      "parent": "elementus:item/wrath_trident_gui"
     },
     "gui": {
-      "parent": "elementus:item/test_trident_gui"
+      "parent": "elementus:item/wrath_trident_gui"
     }
   }
 }

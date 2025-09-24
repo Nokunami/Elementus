@@ -20,7 +20,7 @@ import net.nokunami.elementus.common.item.basic.*;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade;
-import net.nokunami.elementus.common.item.unique.TestTridentItem;
+import net.nokunami.elementus.common.item.unique.WrathTrident;
 import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
 
 import static net.nokunami.elementus.Elementus.MODID;
@@ -186,8 +186,8 @@ public class ModItems {
     public static final RegistryObject<Item> CATALYST_CHESTPLATE = ITEMS.register("catalyst_chestplate",
             () -> new CatalystArmorItem(ModArmorMaterials.CATALYST, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
-    public static final RegistryObject<Item> TEST_TRIDENT = ITEMS.register("test_trident",
-            () -> new TestTridentItem(new Item.Properties().durability(250).fireResistant().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> WRATH_TRIDENT = ITEMS.register("wrath_trident",
+            () -> new WrathTrident(new Item.Properties().durability(250).fireResistant().rarity(Rarity.EPIC)));
 
 //        public static final RegistryObject<Item> DIARKRITE_BOOTS_SCULK = ITEMS.register("diarkrite_boots_sculk",
 //                () -> new DiarkriteBootsItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));

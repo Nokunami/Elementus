@@ -1,4 +1,4 @@
-// 1.20.1	2025-08-15T23:18:29.7543855	Item Models: elementus
+// 1.20.1	2025-08-27T20:19:13.7535915	Item Models: elementus
 1750916832f41cf9f87511296e3aa8d75d813884 assets/elementus/models/item/anthektite_axe.json
 1344df550c4bc0f7e94f2d1cf1f83bc6e514c84f assets/elementus/models/item/anthektite_block.json
 16012a3759abb6d390955761b9b47b27d0a5a186 assets/elementus/models/item/anthektite_boots.json
@@ -361,9 +361,9 @@ f1d02c501aa03b00d15915471401b154f659cb7f assets/elementus/models/item/steel_tile
 948ee64e0391abf9b4802ab0575aecf1ce7ff00c assets/elementus/models/item/stripped_movcadia_log.json
 9d23d61825049c471a7da3ac49538e95cc7a6622 assets/elementus/models/item/stripped_movcadia_wood.json
 008420a214e26764075d35b155df7fe803945677 assets/elementus/models/item/sturdy_movcadia_sign.json
-1539a0e70bab4259b7f8d92a1ffd187125fb66a3 assets/elementus/models/item/test_trident.json
-b3cb54afac00fd69fc1fd83f3b0f71696d00d36f assets/elementus/models/item/test_trident_gui.json
-3682dfba198ce6708426b5dbbbdf2166fb073ae6 assets/elementus/models/item/test_trident_held.json
-424bdc2fb1ad39b7ab9d4c77f01ef37956a83aa7 assets/elementus/models/item/test_trident_throwing.json
-326b6090029922bc0a08db0c8f1d1341257545ba assets/elementus/models/item/test_trident_throwing_model.json
 f725c41dc338ac76b832185150e7d609dd06c561 assets/elementus/models/item/weapon_fragment.json
+9aa71f6a282c78588a749e108b6c57a063ba50de assets/elementus/models/item/wrath_trident.json
+6648dc3270f27fc146b37c7a3994c451ee26c3ae assets/elementus/models/item/wrath_trident_gui.json
+0e0a463d6cbd56ef16fecfe2b44ad6b1bb4c3105 assets/elementus/models/item/wrath_trident_held.json
+eef7c19425dfd5f9f94e4f37bdac432655c6f5ec assets/elementus/models/item/wrath_trident_throwing.json
+cd2ea88c321185887cdce66b9e29afe04ccd0820 assets/elementus/models/item/wrath_trident_throwing_model.json

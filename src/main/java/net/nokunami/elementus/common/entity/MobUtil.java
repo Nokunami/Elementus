@@ -1,11 +1,43 @@
 package net.nokunami.elementus.common.entity;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.world.entity.*;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 public class MobUtil {
+
+    public static List<Entity> getEntityAoe(Entity entity, float iXYZ) {
+        return getEntityAoe(entity, iXYZ, iXYZ, iXYZ, EntitySelector.NO_SPECTATORS);
+    }
+
+    public static List<Entity> getEntityAoe(Entity entity, float iXYZ, Predicate<? super Entity> predicate) {
+        return getEntityAoe(entity, iXYZ, iXYZ, iXYZ, predicate);
+    }
+
+    public static List<Entity> getEntityAoe(Entity entity, float iX, float iY, float iZ) {
+        return getEntityAoe(entity, iX, iY, iZ, EntitySelector.NO_SPECTATORS);
+    }
+
+    public static List<Entity> getEntityAoe(Entity entity, float iX, float iY, float iZ, Predicate<? super Entity> predicate) {
+        return entity.level().getEntities(entity, entity.getBoundingBox().inflate(iX, iY, iZ), predicate);
+    }
+
+    public static <T extends Entity> List<T> getEntityAoe(Entity entity, Class<T> pClazz, float iXYZ) {
+        return getEntityAoe(entity, pClazz, iXYZ, iXYZ, iXYZ, EntitySelector.NO_SPECTATORS);
+    }
+
+    public static <T extends Entity> List<T> getEntityAoe(Entity entity, Class<T> pClazz, float iXYZ, Predicate<? super Entity> predicate) {
+        return getEntityAoe(entity, pClazz, iXYZ, iXYZ, iXYZ, predicate);
+    }
+
+    public static <T extends Entity> List<T> getEntityAoe(Entity entity, Class<T> pClazz, float iX, float iY, float iZ) {
+        return getEntityAoe(entity, pClazz, iX, iY, iZ, EntitySelector.NO_SPECTATORS);
+    }
+
+    public static <T extends Entity> List<T> getEntityAoe(Entity entity, Class<T> pClazz, float iX, float iY, float iZ, Predicate<? super Entity> predicate) {
+        return entity.level().getEntitiesOfClass(pClazz, entity.getBoundingBox().inflate(iX, iY, iZ), predicate);
+    }
 
     public static boolean alliedAttacked(Entity ally, Entity enemy) {
         if (enemy instanceof Mob mob) {

@@ -63,6 +63,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public int sprintCounter;
     protected boolean isJumping;
     public SimpleContainer inventory;
+    private boolean canEquipChest;
 
     protected TamableGolem(EntityType<? extends TamableGolem> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -173,8 +174,11 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         return this.isAlive() && this.isTame();
     }
 
-    public void equipSaddle(@Nullable SoundSource pSource) {
+    public void equipSaddle(@Nullable SoundSource source) {
         this.inventory.setItem(INV_SLOT_SADDLE, new ItemStack(Items.SADDLE));
+        if (source != null) {
+            this.level().playSound(null, this, ModSoundEvents.STEEL_GOLEM_SADDLED.get(), source, 0.5F, 1.0F);
+        }
     }
 
     public void equipArmor(@NotNull Player pPlayer, @NotNull ItemStack pArmor) {
@@ -502,6 +506,30 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         }
         int j = slot - INVENTORY_SLOT_OFFSET + 2;
         return j >= 2 && j < this.inventory.getContainerSize() ? SlotAccess.forContainer(this.inventory, j) : super.getSlot(slot);
+    }
+
+    public boolean canEquipChest() {
+        return canEquipChest;
+    }
+
+    public void setCanEquipChest(boolean canEquipChest) {
+        this.canEquipChest = canEquipChest;
+    }
+
+    @Override
+    public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if (this.canEquipChest() && itemStack.is(Items.CHEST)) {
+            this.equipChest(player, itemStack);
+            return InteractionResult.SUCCESS;
+        }
+        if (this.isArmor(itemStack)) {
+            this.equipArmor(player, itemStack);
+            return InteractionResult.SUCCESS;
+        }
+        if (this.isSaddleable() && itemStack.is(Items.SADDLE))
+            equipSaddle(SoundSource.NEUTRAL);
+        return super.mobInteract(player, hand);
     }
 
     public void equipChest(Player pPlayer, ItemStack pChestStack) {

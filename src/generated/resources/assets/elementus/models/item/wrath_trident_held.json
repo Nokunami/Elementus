@@ -1,6 +1,6 @@
 {
   "parent": "elementus:item/template_trident",
   "textures": {
-    "layer0": "elementus:item/weapons/test_trident_model"
+    "layer0": "elementus:item/weapons/wrath_trident_model"
   }
 }

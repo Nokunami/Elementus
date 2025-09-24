@@ -60,39 +60,23 @@ public class ModModelLayers {
     public static final ModelLayerLocation SD_SAMURAI_MASTER_ARMOR_MODEL = createLocation("samurai_master_armor_model");
     public static final ModelLayerLocation SD_SAMURAI_MASTER_ARMOR_MODEL_LEGS = createLocation("samurai_master_armor_model_leg");
 
+    public static final ModelLayerLocation MOVCADIA_BOAT_LAYER = createLocation("boat/movcadia");
+    public static final ModelLayerLocation MOVCADIA_CHEST_BOAT_LAYER = createLocation("chest_boat/movcadia");
 
-    public static final ModelLayerLocation MOVCADIA_BOAT_LAYER = new ModelLayerLocation(
-            new ResourceLocation(MODID, "boat/movcadia"), "main");
-    public static final ModelLayerLocation MOVCADIA_CHEST_BOAT_LAYER = new ModelLayerLocation(
-            new ResourceLocation(MODID, "chest_boat/movcadia"), "main");
+    public static final ModelLayerLocation STEEL_GOLEM = createLocation("steel_golem");
+    public static final ModelLayerLocation STEEL_GOLEM_CARPET = createLocation("steel_golem_carpet");
+    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_1 = createLocation("steel_golem_extra_1");
+    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_1S = createLocation("steel_golem_extra_1s");
+    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_2 = createLocation("steel_golem_extra_2");
+    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_2S = createLocation("steel_golem_extra_2s");
+    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_3 = createLocation("steel_golem_extra_3");
+    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_3S = createLocation("steel_golem_extra_3s");
+    public static final ModelLayerLocation STEEL_GOLEM_SADDLE = createLocation("steel_golem_saddle");
+    public static final ModelLayerLocation STEEL_GOLEM_ARMOR = createLocation("steel_golem_armor");
+    public static final ModelLayerLocation STEEL_GOLEM_CHEST = createLocation("steel_golem_chest");
 
-    public static final ModelLayerLocation STEEL_GOLEM = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_CARPET = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_carpet"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_1 = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_extra_1"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_1S = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_extra_1s"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_2 = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_extra_2"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_2S = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_extra_2s"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_3 = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_extra_3"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_EXTRA_3S = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_extra_3s"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_SADDLE = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_saddle"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_ARMOR = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_armor"), "main");
-    public static final ModelLayerLocation STEEL_GOLEM_CHEST = new ModelLayerLocation(
-            new ResourceLocation(MODID, "steel_golem_chest"), "main");
-
-    public static final ModelLayerLocation ANTHEKTITE_SLASH = new ModelLayerLocation(
-            new ResourceLocation(MODID, "anthektite_slash"), "main");
-    public static final ModelLayerLocation SWORD_DANCE_SLASH = new ModelLayerLocation(
-            new ResourceLocation(MODID, "sword_dance_slash"), "main");
+    public static final ModelLayerLocation ANTHEKTITE_SLASH = createLocation("anthektite_slash");
+    public static final ModelLayerLocation SWORD_DANCE_SLASH = createLocation("sword_dance_slash");
 
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {

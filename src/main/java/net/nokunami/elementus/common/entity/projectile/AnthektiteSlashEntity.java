@@ -59,13 +59,6 @@ public class AnthektiteSlashEntity extends Projectile {
     private int delay;
     public int pTimer;
     public int tickD;
-//    public Predicate<LivingEntity> REMOVE_PREDICATE = (e) ->
-//        !(e instanceof OwnableEntity) && (e.isAlliedTo(this.getTrueOwner()) && getFriendlyFire() || !e.isAlliedTo(this.getTrueOwner())) ||
-//        (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null && (ownable.getOwner().is(this.getTrueOwner()) ||
-//                ownable.getOwner().isAlliedTo(this.getTrueOwner())) && getFriendlyFire()) || ownable.getOwner() == null));
-
-    public Predicate<LivingEntity> TEST = (e -> MobUtil.allied(this.getTrueOwner(), e, this.getFriendlyFire()));
-    public Predicate<? super Entity> REMOVE_ENTITIES_PREDICATE = (e -> MobUtil.allied(this.getTrueOwner(), e, this.getFriendlyFire()) || e.equals(this.getTrueOwner()));
     private final Set<Entity> alreadyHitEntities = new HashSet<>();
 
     public AnthektiteSlashEntity(EntityType<? extends Projectile> entityType, Level level) {

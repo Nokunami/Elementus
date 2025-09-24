@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -27,19 +28,19 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.nokunami.elementus.common.entity.projectile.TestTridentEntity;
+import net.nokunami.elementus.common.entity.projectile.WrathTridentEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TestTridentItem extends Item implements Vanishable {
+public class WrathTrident extends Item implements Vanishable {
     public static final int THROW_THRESHOLD_TIME = 10;
     public static final float BASE_DAMAGE = 8.0F;
     public static final float SHOOT_POWER = 2.5F;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public TestTridentItem(Properties properties) {
+    public WrathTrident(Properties properties) {
         super(properties);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", BASE_DAMAGE, AttributeModifier.Operation.ADDITION));
@@ -54,6 +55,49 @@ public class TestTridentItem extends Item implements Vanishable {
 
     public boolean canAttackBlock(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player) {
         return !player.isCreative();
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
+        if (!hasOwnerTag(stack))
+            setOwnerTag(stack, entity.getUUID().toString());
+        setSlotId(stack, slotId);
+    }
+
+    public static boolean hasOwnerTag(ItemStack stack) {
+        return stack.getOrCreateTag().getBoolean("hasOwner");
+    }
+
+    public static String getOwnerTag(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getString("OwnerUUID") : null;
+    }
+
+    public void setOwnerTag(ItemStack stack, String uuid) {
+        stack.getOrCreateTag().putString("OwnerUUID", uuid);
+        stack.getOrCreateTag().putBoolean("hasOwner", true);
+    }
+
+    public static int getSlotId(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getInt("LastSlot") : 0;
+    }
+
+    public void setSlotId(ItemStack stack, int slot) {
+        stack.getOrCreateTag().putInt("LastSlot", slot);
+    }
+
+    @Override
+    public boolean hasCustomEntity(ItemStack stack) {
+        return hasOwnerTag(stack);
+    }
+
+    @Override
+    public @Nullable Entity createEntity(Level level, Entity location, ItemStack stack) {
+        if (hasOwnerTag(stack))
+            return WrathTridentEntity.trident(level, location, stack);
+        return super.createEntity(level, location, stack);
     }
 
     public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
@@ -74,7 +118,7 @@ public class TestTridentItem extends Item implements Vanishable {
                     if (!level.isClientSide) {
                         stack.hurtAndBreak(1, player, (event) -> event.broadcastBreakEvent(entity.getUsedItemHand()));
                         if (j == 0) {
-                            TestTridentEntity throwntrident = new TestTridentEntity(level, player, stack);
+                            WrathTridentEntity throwntrident = new WrathTridentEntity(level, player, stack);
                             throwntrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, SHOOT_POWER + (float)j * 0.5F, 1.0F);
                             if (player.getAbilities().instabuild) throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
 
@@ -144,7 +188,7 @@ public class TestTridentItem extends Item implements Vanishable {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return stack.is(Items.TRIDENT);
+        return enchantment.canEnchant(Items.TRIDENT.getDefaultInstance());
     }
 
     @Override

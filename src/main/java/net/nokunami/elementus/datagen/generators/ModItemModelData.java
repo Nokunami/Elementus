@@ -62,7 +62,7 @@ public class ModItemModelData extends ModItemModelProvider {
         diarkriteChargeBlade(ModItems.DIARKRITE_CHARGE_BLADE, "weapons/diarkrite_charge_blade");
         anthektiteLongsword(ModItems.ANTHEKTITE_CHARGE_BLADE, "weapons/anthektite_longsword");
 
-        tridentModel(ModItems.TEST_TRIDENT, "weapons");
+        tridentModel(ModItems.WRATH_TRIDENT, "weapons");
 
         shieldItem(ModItems.STEEL_SHIELD, "shield");
         shieldItem(ModItems.DIARKRITE_SHIELD, "shield");

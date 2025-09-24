@@ -9,68 +9,72 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.common.item.unique.WrathTrident;
 import net.nokunami.elementus.common.registry.ModEntityType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
-public class TestTridentEntity extends AbstractArrow {
-    private static final EntityDataAccessor<ItemStack> ITEM_STACK = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.ITEM_STACK);
-//    private static final EntityDataAccessor<Optional<UUID>> TRUE_OWNER = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.BYTE);
-    private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(TestTridentEntity.class, EntityDataSerializers.BOOLEAN);
+public class WrathTridentEntity extends AbstractArrow {
+    private static final EntityDataAccessor<ItemStack> ITEM_STACK = SynchedEntityData.defineId(WrathTridentEntity.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(WrathTridentEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Integer> ID_SLOT = SynchedEntityData.defineId(WrathTridentEntity.class, EntityDataSerializers.INT);
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
     public static float bbWidth = 0.5F;
     public static float bbHeight = 0.5F;
 
-    public TestTridentEntity(EntityType<? extends TestTridentEntity> entityType, Level level) {
-        super(ModEntityType.TEST_TRIDENT.get(), level);
+    public WrathTridentEntity(EntityType<? extends WrathTridentEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public TestTridentEntity(Level level, LivingEntity entity, ItemStack stack) {
-//        super(level, entity, stack);
+    public WrathTridentEntity(Level level, LivingEntity entity, ItemStack stack) {
         super(ModEntityType.TEST_TRIDENT.get(), entity, level);
         this.setTridentItem(stack.copy());
-//        this.setOwnerUUID(entity.getUUID());
         this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));
-        this.entityData.set(ID_FOIL, stack.hasFoil());
+        this.setSlotId(WrathTrident.getSlotId(stack));
     }
 
-    public TestTridentEntity(Level level, Entity entity, ItemStack stack) {
-        super(ModEntityType.TEST_TRIDENT.get(), level);
-        this.setTridentItem(stack.copy());
-        this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));
-        this.entityData.set(ID_FOIL, stack.hasFoil());
+    public static WrathTridentEntity trident(Level level, Entity entity, ItemStack stack) {
+        WrathTridentEntity trident = new WrathTridentEntity(ModEntityType.TEST_TRIDENT.get(), level);
+        Vec3 position = entity.position();
+        trident.setPos(position);
+        trident.setDeltaMovement(entity.getDeltaMovement().scale(1.5F));
+        trident.setOwner(level.getPlayerByUUID(UUID.fromString(WrathTrident.getOwnerTag(stack))));
+        trident.setTridentItem(stack);
+        trident.pickup = Pickup.ALLOWED;
+        trident.setSlotId(WrathTrident.getSlotId(stack));
+        trident.setLoyalty((byte)EnchantmentHelper.getLoyalty(stack));
+
+        return trident;
     }
 
     @Override
     protected void onHitBlock(@NotNull BlockHitResult hitResult) {
         super.onHitBlock(hitResult);
-        this.setSoundEvent(SoundEvents.TRIDENT_HIT);
+        this.setSoundEvent(SoundEvents.TRIDENT_HIT_GROUND);
     }
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-//        this.entityData.define(TRUE_OWNER, Optional.empty());
         this.entityData.define(ITEM_STACK, ItemStack.EMPTY);
         this.entityData.define(ID_LOYALTY, (byte)0);
-        this.entityData.define(ID_FOIL, false);
+        this.entityData.define(ID_SLOT, 0);
     }
 
     public void tick() {
@@ -78,26 +82,26 @@ public class TestTridentEntity extends AbstractArrow {
             this.dealtDamage = true;
         }
 
-//        Entity entity = this.level().getPlayerByUUID(this.getOwnerUUID());
         Entity entity = this.getOwner();
-        int i = this.entityData.get(ID_LOYALTY);
+        int i = this.getLoyalty();
         if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
-            if (!this.isAcceptibleReturnOwner()) {
+            if (!this.isAcceptableReturnOwner()) {
                 if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
                     this.spawnAtLocation(this.getPickupItem(), 0.1F);
                 }
-
                 this.discard();
             } else {
                 this.setNoPhysics(true);
                 Vec3 vec3 = entity.getEyePosition().subtract(this.position());
                 this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015D * (double)i, this.getZ());
-                if (this.level().isClientSide) {
+                if (this.level().isClientSide)
                     this.yOld = this.getY();
-                }
 
-                double d0 = 0.05D * (double)i;
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(d0)));
+                float distanceMulti = Mth.clampedLerp(this.distanceTo(entity)/5, 1, 4);
+
+                double d0 = (0.05D * (double)i) * distanceMulti;
+                this.setDeltaMovement(this.getDeltaMovement().scale(Mth.clamp(this.distanceTo(entity)/10, 0.95, 0.99)).add(vec3.normalize().scale(d0)));
+                this.getBoundingBox().inflate(5);
                 if (this.clientSideReturnTridentTickCount == 0) {
                     this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
                 }
@@ -109,7 +113,7 @@ public class TestTridentEntity extends AbstractArrow {
         super.tick();
     }
 
-    private boolean isAcceptibleReturnOwner() {
+    private boolean isAcceptableReturnOwner() {
         Entity entity = this.getOwner();
         if (entity != null && entity.isAlive()) {
             return !(entity instanceof ServerPlayer) || !entity.isSpectator();
@@ -126,24 +130,21 @@ public class TestTridentEntity extends AbstractArrow {
         this.entityData.set(ITEM_STACK, stack);
     }
 
-//    public UUID getOwnerUUID() {
-//        return this.entityData.get(TRUE_OWNER).orElse(null);
-//    }
+    public byte getLoyalty() {
+        return this.entityData.get(ID_LOYALTY);
+    }
 
-//    public void setOwnerUUID(UUID uuid) {
-//        this.entityData.set(TRUE_OWNER, Optional.ofNullable(uuid));
-//    }
+    public void setLoyalty(byte b) {
+        this.entityData.set(ID_LOYALTY, b);
+    }
 
-//    public Entity getTrueOwner() {
-//        if (this.getOwnerUUID() != null) {
-//            return this.level().getPlayerByUUID(this.getOwnerUUID());
-//        } /*else if (this.getOwnerUUID() != null && this.level() instanceof ServerLevel) {
-//            this.cachedOwner = ((ServerLevel)this.level()).getEntity(this.getOwnerUUID());
-//            return this.cachedOwner;
-//        } */else {
-//            return null;
-//        }
-//    }
+    public int getSlotId() {
+        return this.entityData.get(ID_SLOT);
+    }
+
+    public void setSlotId(int i) {
+        this.entityData.set(ID_SLOT, i);
+    }
 
     public @NotNull ItemStack getPickupItem() {
         return this.getTridentItem().copy();
@@ -160,7 +161,6 @@ public class TestTridentEntity extends AbstractArrow {
         if (entity instanceof LivingEntity livingentity)
             f += EnchantmentHelper.getDamageBonus(this.getTridentItem(), livingentity.getMobType());
 
-//        LivingEntity owner = this.level().getPlayerByUUID(this.getOwnerUUID());
         Entity owner = this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, owner == null ? this : owner);
         this.dealtDamage = true;
@@ -201,18 +201,32 @@ public class TestTridentEntity extends AbstractArrow {
     }
 
     protected boolean tryPickup(@NotNull Player player) {
-        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
+        return this.tryPickup1(player) || this.isNoPhysics() && this.ownedBy(player)/* && player.getInventory().add(this.getPickupItem())*/;
+    }
+
+    private boolean tryPickup1(Player player) {
+        switch (this.pickup) {
+            case ALLOWED:
+                Inventory inv = player.getInventory();
+                if (inv.getItem(this.getSlotId()).isEmpty())
+                    return inv.add(this.getSlotId(), this.getTridentItem());
+                else return inv.add(this.getTridentItem());
+            case CREATIVE_ONLY:
+                return player.getAbilities().instabuild;
+            default:
+                return false;
+        }
     }
 
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {
         return SoundEvents.TRIDENT_HIT_GROUND;
     }
 
+    @Override
     public void playerTouch(@NotNull Player player) {
         if (this.ownedBy(player) || this.getOwner() == null) {
             super.playerTouch(player);
         }
-
     }
 
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
@@ -226,6 +240,7 @@ public class TestTridentEntity extends AbstractArrow {
 
         this.dealtDamage = tag.getBoolean("DealtDamage");
         this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(this.getTridentItem()));
+        this.setSlotId(tag.getInt("Slot"));
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
@@ -233,10 +248,11 @@ public class TestTridentEntity extends AbstractArrow {
         if (!this.getTridentItem().isEmpty())
             tag.put("Trident", this.getTridentItem().save(new CompoundTag()));
         tag.putBoolean("DealtDamage", this.dealtDamage);
+        tag.putInt("Slot", this.getSlotId());
     }
 
     public void tickDespawn() {
-        int i = this.entityData.get(ID_LOYALTY);
+        int i = this.getLoyalty();
         if (this.pickup != AbstractArrow.Pickup.ALLOWED || i <= 0) {
             super.tickDespawn();
         }

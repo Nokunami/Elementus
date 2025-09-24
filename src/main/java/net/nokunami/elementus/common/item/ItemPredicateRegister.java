@@ -42,7 +42,7 @@ public class ItemPredicateRegister {
          movcadiaTools(ModItems.MOVCADIA_AXE.get());
          movcadiaTools(ModItems.MOVCADIA_HOE.get());
 
-         throwing(ModItems.TEST_TRIDENT.get());
+         throwing(ModItems.WRATH_TRIDENT.get());
      }
 
     private static void shieldBlocking(Item item) {

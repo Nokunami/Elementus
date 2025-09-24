@@ -11,10 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.nokunami.elementus.common.entity.projectile.TestTridentEntity;
+import net.nokunami.elementus.common.entity.projectile.WrathTridentEntity;
 import org.jetbrains.annotations.NotNull;
 
-public class TestTridentRenderer extends EntityRenderer<TestTridentEntity> {
+public class TestTridentRenderer extends EntityRenderer<WrathTridentEntity> {
     private final ItemRenderer item;
 
     public TestTridentRenderer(EntityRendererProvider.Context context) {
@@ -23,7 +23,7 @@ public class TestTridentRenderer extends EntityRenderer<TestTridentEntity> {
     }
 
     @Override
-    public void render(TestTridentEntity entity, float entityYaw, float partialTick, PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
+    public void render(WrathTridentEntity entity, float entityYaw, float partialTick, PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
         //Credits: justliliandev @link{https://github.com/justliliandev/arrow-sprites/blob/1.20.x/common/src/main/java/dev/agnor/spritearrows/SpriteArrowRenderer.java}
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, entity.yRotO, entity.getYRot()) - 90.0F));
@@ -37,7 +37,7 @@ public class TestTridentRenderer extends EntityRenderer<TestTridentEntity> {
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull TestTridentEntity pEntity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull WrathTridentEntity pEntity) {
         return null;
     }
 }

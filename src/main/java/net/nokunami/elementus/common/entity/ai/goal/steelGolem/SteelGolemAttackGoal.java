@@ -43,7 +43,7 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
 
             if(isTimeToStartAttackAnimation()) {
                 steelGolem.setAttacking(true);
-                this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+                this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
             }
             if(isTimeToAttack()) {
                 this.mob.getLookControl().setLookAt(enemy.getX(), enemy.getEyeY(), enemy.getZ());

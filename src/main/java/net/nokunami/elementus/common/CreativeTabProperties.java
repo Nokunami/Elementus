@@ -67,7 +67,7 @@ public class CreativeTabProperties {
             // Special Weapon
             putAfter(entries, Items.TRIDENT, ModItems.DIARKRITE_CHARGE_BLADE);
             putAfter(entries, ModItems.DIARKRITE_CHARGE_BLADE, ModItems.ANTHEKTITE_CHARGE_BLADE);
-            putAfter(entries, ModItems.ANTHEKTITE_CHARGE_BLADE, ModItems.TEST_TRIDENT);
+            putAfter(entries, ModItems.ANTHEKTITE_CHARGE_BLADE, ModItems.WRATH_TRIDENT);
 
             // Armor
             putAfter(entries, Items.NETHERITE_BOOTS, ModItems.STEEL_HELMET);

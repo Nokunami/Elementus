@@ -138,12 +138,6 @@ public class DiarkriteChargeBlade extends ChargeBladeItem {
                 firstTick = false;
             }
             if (particleIndex > 2) ((ServerLevel)level).sendParticles(particleTypes, particle.x, particle.y, particle.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
-//            hitSet.addAll(level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos((int) particle.x(), (int) particle.y(), (int) particle.z()))).inflate(boomRadius(stack)),
-//                    (e) -> !(e instanceof OwnableEntity) && (e.isAlliedTo(livingEntity) && getFriendlyFire(stack) || !e.isAlliedTo(livingEntity)) ||
-//                            (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&
-//                                    (ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)) && getFriendlyFire(stack)) ||
-//                                    ownable.getOwner() == null))
-//            ));
             hitSet.addAll(level.getEntitiesOfClass(LivingEntity.class, (new AABB(new BlockPos((int) particle.x(), (int) particle.y(), (int) particle.z()))).inflate(boomRadius(stack)),
                     (e) -> MobUtil.allied(livingEntity, e, getFriendlyFire(stack))
             ));

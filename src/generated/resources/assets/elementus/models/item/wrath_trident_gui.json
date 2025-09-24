@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "elementus:item/weapons/test_trident"
+    "layer0": "elementus:item/weapons/wrath_trident"
   }
 }

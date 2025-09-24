@@ -137,10 +137,7 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
     }
 
     public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        resetBodyPos();
-        resetHeadPos();
-        resetArmPos();
-        resetLegPos();
+        resetPartPosRot();
 
         this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
         this.head.xRot = headPitch * ((float)Math.PI / 180F);
@@ -171,6 +168,21 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
         }
         this.animate(entity.chestOpened, SteelGolemChestAnimation.chestOpen, ageInTicks);
         this.animate(entity.chestClosed, SteelGolemChestAnimation.chestClosed, ageInTicks);
+    }
+
+    private void resetPartPosRot() {
+        this.body.setPos(0, 5, 0);
+        this.body.setRotation(0, 0, 0);
+        this.head.setPos(0, -20, -3.5F);
+        this.head.setRotation(0, 0, 0);
+        this.left_arm.setPos(9, -13, 0);
+        this.left_arm.setRotation(0, 0, 0);
+        this.right_arm.setPos(-left_arm.x, left_arm.y, left_arm.z);
+        this.right_arm.setRotation(left_arm.xRot, left_arm.yRot, -left_arm.zRot);
+        this.left_leg.setPos(4.5F, 5, 0);
+        this.left_leg.setRotation(0, 0, 0);
+        this.right_leg.setPos(-left_leg.x, left_leg.y, left_leg.z);
+        this.right_leg.setRotation(left_leg.xRot, left_leg.yRot, -left_leg.zRot);
     }
 
     private void resetBodyPos() {
