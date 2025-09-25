@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.common.item.catalystCore.CatalystCore.CATALYST_CORE_LIST;
+import static net.nokunami.elementus.common.item.catalystCore.CatalystCore.CATALYST_CORE_MAP;
 
 @Mod(MODID)
 @Mod.EventBusSubscriber(modid = MODID)
@@ -97,6 +99,7 @@ public class Elementus {
         ComposterBlock.COMPOSTABLES.put(ModItems.MOVCADIA_SAPLING.get(), 0.3F);
         ComposterBlock.COMPOSTABLES.put(ModItems.MOVCADIA_LEAVES.get(), 0.3F);
         ComposterBlock.COMPOSTABLES.put(ModItems.FLOWERING_MOVCADIA_LEAVES.get(), 0.3F);
+        CATALYST_CORE_LIST.forEach(core -> CATALYST_CORE_MAP.put(core.id, core));
     }
 
     public void addPackFinders(AddPackFindersEvent event) {
