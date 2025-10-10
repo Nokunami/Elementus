@@ -2,7 +2,7 @@ package net.nokunami.elementus.mixin;
 
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
-import net.nokunami.elementus.common.config.CatalystArmorConfig;
+import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
 import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

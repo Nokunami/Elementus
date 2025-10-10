@@ -6,7 +6,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 @Mod.EventBusSubscriber(modid = Elementus.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -17,6 +17,6 @@ public class ResonanceEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(@NotNull ItemStack pStack) {
-        return pStack.is(ModItems.DIARKRITE_CHARGE_BLADE.get());
+        return pStack.is(EItems.DIARKRITE_CHARGE_BLADE.get());
     }
 }

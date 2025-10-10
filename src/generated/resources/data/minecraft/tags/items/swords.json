@@ -5,38 +5,6 @@
     "elementus:anthektite_sword",
     "elementus:movcadia_sword",
     "elementus:diarkrite_charge_blade",
-    "elementus:anthektite_charge_blade",
-    {
-      "id": "elementus:diarkrite_iron_sword",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_gold_sword",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_emerald_sword",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_diamond_sword",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_iron_sword",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_gold_sword",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_emerald_sword",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_diamond_sword",
-      "required": false
-    }
+    "elementus:anthektite_charge_blade"
   ]
 }

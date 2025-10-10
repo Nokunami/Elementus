@@ -3,38 +3,6 @@
     "elementus:steel_hoe",
     "elementus:diarkrite_hoe",
     "elementus:anthektite_hoe",
-    "elementus:movcadia_hoe",
-    {
-      "id": "elementus:diarkrite_iron_hoe",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_gold_hoe",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_emerald_hoe",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_diamond_hoe",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_iron_hoe",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_gold_hoe",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_emerald_hoe",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_diamond_hoe",
-      "required": false
-    }
+    "elementus:movcadia_hoe"
   ]
 }

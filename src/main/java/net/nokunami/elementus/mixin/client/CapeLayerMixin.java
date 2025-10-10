@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,6 +32,6 @@ public abstract class CapeLayerMixin extends RenderLayer<AbstractClientPlayer, P
     )
     private void elementus$disableCape(PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
         ItemStack itemStack = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
-        if (itemStack.is(ModItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(itemStack).findAny().isPresent()) ci.cancel();
+        if (itemStack.is(EItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(itemStack).findAny().isPresent()) ci.cancel();
     }
 }

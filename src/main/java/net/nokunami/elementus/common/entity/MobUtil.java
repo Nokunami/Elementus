@@ -1,61 +1,22 @@
 package net.nokunami.elementus.common.entity;
 
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.phys.Vec3;
+import net.nokunami.elementus.common.item.unique.TestCatalystArmorItem;
 
-import java.util.List;
-import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class MobUtil {
-
-    public static List<Entity> getEntityAoe(Entity entity, float iXYZ) {
-        return getEntityAoe(entity, iXYZ, iXYZ, iXYZ, EntitySelector.NO_SPECTATORS);
-    }
-
-    public static List<Entity> getEntityAoe(Entity entity, float iXYZ, Predicate<? super Entity> predicate) {
-        return getEntityAoe(entity, iXYZ, iXYZ, iXYZ, predicate);
-    }
-
-    public static List<Entity> getEntityAoe(Entity entity, float iX, float iY, float iZ) {
-        return getEntityAoe(entity, iX, iY, iZ, EntitySelector.NO_SPECTATORS);
-    }
-
-    public static List<Entity> getEntityAoe(Entity entity, float iX, float iY, float iZ, Predicate<? super Entity> predicate) {
-        return entity.level().getEntities(entity, entity.getBoundingBox().inflate(iX, iY, iZ), predicate);
-    }
-
-    public static <T extends Entity> List<T> getEntityAoe(Entity entity, Class<T> pClazz, float iXYZ) {
-        return getEntityAoe(entity, pClazz, iXYZ, iXYZ, iXYZ, EntitySelector.NO_SPECTATORS);
-    }
-
-    public static <T extends Entity> List<T> getEntityAoe(Entity entity, Class<T> pClazz, float iXYZ, Predicate<? super Entity> predicate) {
-        return getEntityAoe(entity, pClazz, iXYZ, iXYZ, iXYZ, predicate);
-    }
-
-    public static <T extends Entity> List<T> getEntityAoe(Entity entity, Class<T> pClazz, float iX, float iY, float iZ) {
-        return getEntityAoe(entity, pClazz, iX, iY, iZ, EntitySelector.NO_SPECTATORS);
-    }
-
-    public static <T extends Entity> List<T> getEntityAoe(Entity entity, Class<T> pClazz, float iX, float iY, float iZ, Predicate<? super Entity> predicate) {
-        return entity.level().getEntitiesOfClass(pClazz, entity.getBoundingBox().inflate(iX, iY, iZ), predicate);
-    }
 
     public static boolean alliedAttacked(Entity ally, Entity enemy) {
         if (enemy instanceof Mob mob) {
             return mob.getTarget() != null && (mob.getTarget().is(ally) || mob.getTarget().isAlliedTo(ally));
         } else return false;
     }
-
-//    public static boolean alliedMob(Entity ally, Entity otherEntity) {
-//        if (ally instanceof OwnableEntity allyOwnable) {
-//            if ((otherEntity instanceof OwnableEntity oE && (oE.getOwner() != null/* && allyOwnable.getOwner() != null*/) && oE instanceof Enemy)) {
-////                return oE.getOwner().is((allyOwnable.getOwner()));
-//                return /*oE.getOwner().is((allyOwnable.getOwner())) || */oE.getOwner() != null;
-//            } else if (otherEntity instanceof OwnableEntity oE && (oE.getOwner() != null/* && allyOwnable.getOwner() != null*/)) {
-//                return /*oE.getOwner().is((allyOwnable.getOwner())) || */oE.getOwner() != null;
-//            }
-//        }
-//        return otherEntity.isAlliedTo(ally);
-//    }
 
     public static boolean tamedMob(Entity tamed) {
         return tamed instanceof OwnableEntity ownable && ownable.getOwner() != null;
@@ -66,25 +27,63 @@ public class MobUtil {
     }
 
     public static boolean allied(Entity ally, Entity entity, boolean friendlyFire) {
-        if (!(entity instanceof OwnableEntity) && (entity.isAlliedTo(ally) && friendlyFire || !entity.isAlliedTo(ally)) ||
+        return !(entity instanceof OwnableEntity) && (entity.isAlliedTo(ally) && friendlyFire || !entity.isAlliedTo(ally)) ||
                 (entity instanceof OwnableEntity oE && ((oE.getOwner() != null && (oE.getOwner().is(ally) || oE.getOwner().isAlliedTo(ally)) && friendlyFire) ||
-                        oE.getOwner() == null))) return true;
-        return false;
-//                    (e) -> !(e instanceof OwnableEntity) && (e.isAlliedTo(livingEntity) && getFriendlyFire(stack) || !e.isAlliedTo(livingEntity)) ||
-//                            (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&
-//                                    (ownable.getOwner().is(livingEntity) || ownable.getOwner().isAlliedTo(livingEntity)) && getFriendlyFire(stack)) ||
-//                                    ownable.getOwner() == null))
-
-//        if (!friendlyFire && entity instanceof OwnableEntity oE && oE.getOwner() != null) return true;
-//        if (!friendlyFire && entity.isAlliedTo(ally)) return true;
-//        return false;
+                        oE.getOwner() == null));
     }
 
-    public static boolean alliedTamedMob(LivingEntity team, LivingEntity ally) {
+    public static boolean alliedTamedMob(Entity team, Entity ally) {
         return ally instanceof OwnableEntity own && (own.getOwner() != null || own.getOwner() == team) && (ally.isAlliedTo(team));
     }
 
     public static boolean tamedMob(LivingEntity owner, Mob tamed) {
         return tamed instanceof OwnableEntity ownable && ownable.getOwner() != null && ownable.getOwner() != owner;
+    }
+
+    public static boolean healthPercent(Entity entity, float amount) {
+        return entity instanceof LivingEntity living && living.getHealth() < living.getMaxHealth() * amount;
+    }
+
+    public static boolean itemCooldown(Entity entity) {
+        return entity instanceof Player living &&
+                living.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof TestCatalystArmorItem &&
+                living.getCooldowns().isOnCooldown(living.getItemBySlot(EquipmentSlot.CHEST).getItem());
+    }
+
+    public static void applyItemCooldown(Entity entity, int cooldown) {
+        if (entity instanceof Player living) {
+            Item chestplate = living.getItemBySlot(EquipmentSlot.CHEST).getItem();
+            if (chestplate instanceof TestCatalystArmorItem)
+                living.getCooldowns().addCooldown(chestplate, cooldown);
+        }
+    }
+
+    public static boolean hasEffect(Entity entity, MobEffect effect) {
+        return entity instanceof LivingEntity living && living.hasEffect(effect);
+    }
+
+    public static boolean blockVec(Vec3 vec3, Vec3 pos, Vec3 view) {
+        if (vec3 != null) {
+            Vec3 vec31 = vec3.vectorTo(pos).normalize();
+            vec31 = new Vec3(vec31.x, 0, vec31.z);
+            return vec31.dot(view) < 0;
+        }
+        return false;
+    }
+
+    public static void playEntitySound(Entity entity, Supplier<SoundEvent> sound) {
+        playEntitySound(entity, sound.get(), 1, 1);
+    }
+
+    public static void playEntitySound(Entity entity, SoundEvent sound) {
+        playEntitySound(entity, sound, 1, 1);
+    }
+
+    public static void playEntitySound(Entity entity, Supplier<SoundEvent> sound, float volume, float pitch) {
+        playEntitySound(entity, sound.get(), volume, pitch);
+    }
+
+    public static void playEntitySound(Entity entity, SoundEvent sound, float volume, float pitch) {
+        entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), sound, entity.getSoundSource(), volume, pitch);
     }
 }

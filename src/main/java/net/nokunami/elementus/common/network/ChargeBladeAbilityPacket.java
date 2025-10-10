@@ -19,8 +19,8 @@ import java.util.function.Supplier;
 
 import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeSelfSacrificeDamage;
 import static net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade.*;
-import static net.nokunami.elementus.common.registry.ModEnchantments.RUSH;
-import static net.nokunami.elementus.common.registry.ModEnchantments.SACRIFICE_CURSE;
+import static net.nokunami.elementus.common.registry.EEnchantments.RUSH;
+import static net.nokunami.elementus.common.registry.EEnchantments.SACRIFICE_CURSE;
 
 /// Code from SpartanObliviousSpartan's SpartanShields mod
 public class ChargeBladeAbilityPacket {

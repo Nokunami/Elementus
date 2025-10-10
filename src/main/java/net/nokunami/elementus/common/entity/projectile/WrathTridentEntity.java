@@ -11,7 +11,10 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -20,7 +23,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.item.unique.WrathTrident;
@@ -44,14 +46,14 @@ public class WrathTridentEntity extends AbstractArrow {
     }
 
     public WrathTridentEntity(Level level, LivingEntity entity, ItemStack stack) {
-        super(ModEntityType.TEST_TRIDENT.get(), entity, level);
+        super(ModEntityType.WRATH_TRIDENT.get(), entity, level);
         this.setTridentItem(stack.copy());
         this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));
         this.setSlotId(WrathTrident.getSlotId(stack));
     }
 
     public static WrathTridentEntity trident(Level level, Entity entity, ItemStack stack) {
-        WrathTridentEntity trident = new WrathTridentEntity(ModEntityType.TEST_TRIDENT.get(), level);
+        WrathTridentEntity trident = new WrathTridentEntity(ModEntityType.WRATH_TRIDENT.get(), level);
         Vec3 position = entity.position();
         trident.setPos(position);
         trident.setDeltaMovement(entity.getDeltaMovement().scale(1.5F));
@@ -166,8 +168,8 @@ public class WrathTridentEntity extends AbstractArrow {
         this.dealtDamage = true;
         SoundEvent soundevent = SoundEvents.TRIDENT_HIT;
         if (entity.hurt(damagesource, f)) {
-            if (entity.getType() == EntityType.ENDERMAN)
-                return;
+//            if (entity.getType() == EntityType.ENDERMAN)
+//                return;
 
             if (entity instanceof LivingEntity livingEntity) {
                 if (owner != null) {
@@ -209,12 +211,12 @@ public class WrathTridentEntity extends AbstractArrow {
             case ALLOWED:
                 Inventory inv = player.getInventory();
                 if (inv.getItem(this.getSlotId()).isEmpty())
-                    return inv.add(this.getSlotId(), this.getTridentItem());
-                else return inv.add(this.getTridentItem());
+                    return inv.add(this.getSlotId(), this.getPickupItem());
+                else if (inv.isEmpty())
+                    return inv.add(this.getPickupItem());
             case CREATIVE_ONLY:
                 return player.getAbilities().instabuild;
-            default:
-                return false;
+            default: return false;
         }
     }
 

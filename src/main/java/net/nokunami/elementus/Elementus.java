@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -17,9 +16,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.resource.PathPackResources;
-import net.nokunami.elementus.client.ClientProxy;
 import net.nokunami.elementus.common.CreativeTabProperties;
 import net.nokunami.elementus.common.config.*;
+import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
+import net.nokunami.elementus.common.config.catalystConfigs.CatalystISSConfig;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.*;
 import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
@@ -33,8 +33,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import static net.nokunami.elementus.Elementus.MODID;
-import static net.nokunami.elementus.common.item.catalystCore.CatalystCore.CATALYST_CORE_LIST;
-import static net.nokunami.elementus.common.item.catalystCore.CatalystCore.CATALYST_CORE_MAP;
+import static net.nokunami.elementus.common.catalystCore.core.CatalystCore.*;
 
 @Mod(MODID)
 @Mod.EventBusSubscriber(modid = MODID)
@@ -48,10 +47,11 @@ public class Elementus {
     public static final Path ARMOR_CONFIG_PATH = configPath("armor_config.toml");
     public static final Path CATALYST_CONFIG_PATH = configPath("catalyst_armor_config.toml");
     public static final Path ENTITY_CONFIG = configPath("entity_config.toml");
-    public static CommonProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+
+    public static final Path CATALYST_ISS_CONFIG_PATH = configPath("config/elementus/compat", "catalyst_core_iss_config.toml");
 
     static Path configPath(String configPath) {
-        return FMLPaths.getOrCreateGameRelativePath(Path.of("config/elementus")).resolve(configPath);
+        return configPath("config/elementus", configPath);
     }
 
     static Path configPath(String path, String configPath) {
@@ -59,7 +59,11 @@ public class Elementus {
     }
 
     public static ResourceLocation modLoc(String location) {
-        return new ResourceLocation(MODID, location);
+        return modLoc(MODID, location);
+    }
+
+    public static ResourceLocation modLoc(String id, String location) {
+        return new ResourceLocation(id, location);
     }
 
     public Elementus() {
@@ -71,19 +75,23 @@ public class Elementus {
         ArmorConfig.reload();
         CatalystArmorConfig.reload();
         EntityConfig.reload();
+
+        CatalystISSConfig.reload();
+
         ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, ModConfig.CLIENT_SPEC, "elementus/client.toml");
         ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, ModConfig.COMMON_SPEC, "elementus/common.toml");
 
-        ModItems.register(modEventBus);
-        ModBlocks.register(modEventBus);
+        EItems.register(modEventBus);
+        EBlocks.register(modEventBus);
         ModBlockEntityType.register(modEventBus);
         ModEntityType.register(modEventBus);
         ModLootModifiers.register(modEventBus);
-        ModSoundEvents.register(modEventBus);
+        ESoundEvents.register(modEventBus);
         ModMobEffects.register(modEventBus);
-        ModEnchantments.register(modEventBus);
+        EEnchantments.register(modEventBus);
         ModTrunkPlacer.register(modEventBus);
         ModParticleTypes.register(modEventBus);
+        CatalystCoreRegistry.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
 
@@ -95,20 +103,19 @@ public class Elementus {
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
-        ComposterBlock.COMPOSTABLES.put(ModItems.MOVCADIA_BERRIES.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(ModItems.MOVCADIA_SAPLING.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(ModItems.MOVCADIA_LEAVES.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(ModItems.FLOWERING_MOVCADIA_LEAVES.get(), 0.3F);
-        CATALYST_CORE_LIST.forEach(core -> CATALYST_CORE_MAP.put(core.id, core));
+        ComposterBlock.COMPOSTABLES.put(EItems.MOVCADIA_BERRIES.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(EItems.MOVCADIA_SAPLING.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(EItems.MOVCADIA_LEAVES.get(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(EItems.FLOWERING_MOVCADIA_LEAVES.get(), 0.3F);
+        CATALYST_CORE_LIST.forEach(core -> CORE_ITEM_MAP.put(core.getCoreStack().getItem(), core));
+//        CATALYST_CORE_LIST.forEach(core -> CORE_ID_MAP.put(core.getCoreStack().getItem(), core.getId(core.getCoreStack())));
     }
 
     public void addPackFinders(AddPackFindersEvent event) {
         LOGGER.debug("addPackFinders");
-
         try {
-            if (event.getPackType() == PackType.CLIENT_RESOURCES) {
+            if (event.getPackType() == PackType.CLIENT_RESOURCES)
                 addBuiltinPack(event, "elementus_legacy_textures", Component.literal("Elementus Legacy Textures"));
-            }
         } catch (IOException var3) {
             LOGGER.error("Failed to load a builtin resource pack! If you see this message, please report it to https://github.com/Nokunami/Elementus/issues");
         }

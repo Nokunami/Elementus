@@ -4,7 +4,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 public class SacrificeCurseEnchantment extends Enchantment {
@@ -24,6 +24,6 @@ public class SacrificeCurseEnchantment extends Enchantment {
 
     @Override
     public boolean canEnchant(@NotNull ItemStack pStack) {
-        return pStack.is(ModItems.DIARKRITE_CHARGE_BLADE.get());
+        return pStack.is(EItems.DIARKRITE_CHARGE_BLADE.get());
     }
 }

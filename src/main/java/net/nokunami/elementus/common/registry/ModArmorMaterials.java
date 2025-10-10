@@ -12,7 +12,7 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.ArmorConfig;
-import net.nokunami.elementus.common.config.CatalystArmorConfig;
+import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;

@@ -1,11 +1,8 @@
 package net.nokunami.elementus.common.item.unique;
 
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -15,13 +12,15 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -29,62 +28,56 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.registries.RegistryManager;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.nokunami.elementus.ElementusClient;
+import net.nokunami.elementus.api.ICatalystTrim;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.config.CatalystArmorConfig;
+import net.nokunami.elementus.common.catalystCore.CoreArmorAttributes;
 import net.nokunami.elementus.common.config.ModConfig;
-import net.nokunami.elementus.common.item.catalystCore.CatalystCore;
-import net.nokunami.elementus.common.item.catalystCore.CatalystCoreAbility;
+import net.nokunami.elementus.common.registry.CustomRegistries;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
-import net.nokunami.elementus.common.registry.ModSoundEvents;
-import nonamecrackers2.witherstormmod.common.init.WitherStormModItems;
-import nonamecrackers2.witherstormmod.common.init.WitherStormModSoundEvents;
+import net.nokunami.elementus.common.registry.ESoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
-import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
-import static net.nokunami.elementus.ModChecker.witherStormMod;
-import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
-import static net.nokunami.elementus.common.item.catalystCore.CatalystCore.CATALYST_CORE_LIST;
-import static net.nokunami.elementus.common.item.catalystCore.CatalystCore.CORE_ITEM_LIST;
-import static net.nokunami.elementus.common.registry.CoreAbilityRegistry.CORE_ABILITIES_KEY;
-import static net.nokunami.elementus.common.registry.CoreAbilityRegistry.CORE_ABILITIES_RL;
+import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.*;
 
-public class TestCatalystArmorItem extends ArmorItem {
+public class TestCatalystArmorItem extends ArmorItem implements ICatalystTrim {
     public final ModArmorMaterials material;
     public static Multimap<Attribute, AttributeModifier> defaultModifiers;
-    private static final String core = "Items";
-    private static final String elytra = "ElytraEquipped";
-    private static final String elytraL = "ElytraEquiped";
-    public static int attributeCheck = 0;
+
 
 
     public TestCatalystArmorItem(ModArmorMaterials material, Type type, Properties properties) {
         super(material, type, properties);
         this.material = material;
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
-        builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(), AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(), AttributeModifier.Operation.ADDITION));
-        if (this.knockbackResistance > 0) {
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Knockback resistance", this.knockbackResistance, AttributeModifier.Operation.ADDITION));
-        }
-        for (Map.Entry<Attribute, AttributeModifier> modifierEntry : material.getAdditionalAttributes().entrySet()) {
-            AttributeModifier atr = modifierEntry.getValue();
-            atr = new AttributeModifier(uuid, atr.getName(), atr.getAmount(), atr.getOperation());
-            builder.put(modifierEntry.getKey(), atr);
-        }
+        defaultModifiers = CoreArmorAttributes.baseAttributes().build();
+        initClient();
+    }
 
-        defaultModifiers = builder.build();
+    private Object renderTrimProperties;
+
+    public Object getRenderTrimPropertiesInternal() {
+        return renderTrimProperties;
+    }
+
+    private void initClient() {
+        // Minecraft instance isn't available in datagen, so don't call initializeClient if in datagen
+        if (FMLEnvironment.dist == Dist.CLIENT && !FMLLoader.getLaunchHandler().isData()) {
+            initializeClientTrim(properties -> this.renderTrimProperties = properties);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void initializeClientTrim(Consumer<ICatalystTrim> consumer) {
+        consumer.accept((ICatalystTrim) ElementusClient.PROXY.getArmorCatalystTrimRenderProperties());
     }
 
     @Override
@@ -92,8 +85,10 @@ public class TestCatalystArmorItem extends ArmorItem {
         return this.material;
     }
 
-    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
-        return pEquipmentSlot == this.type.getSlot() ? defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        Optional<ItemStack> core = getEquippedCore(stack);
+        return slot == type.getSlot() ? core.isPresent() ? CustomRegistries.getCatalystAttribute(core.get()) : defaultModifiers : super.getAttributeModifiers(slot, stack);
     }
 
     @Override
@@ -103,88 +98,33 @@ public class TestCatalystArmorItem extends ArmorItem {
     }
 
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return armorTexture(stack, entity);
+        if (getEquippedCore(stack).isPresent()) return CustomRegistries.getCatalystAbility(getEquippedCore(stack).get()).getBaseTexture(stack);
+        return MODID + ":textures/models/armor/catalyst/catalyst_chestplate.png";
     }
 
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
-        if (getContents(stack).findAny().isPresent()) {
-            tooltip.add(Component.translatable(getDescriptionId() + "." + catalystActivator(stack) + "_title_desc").withStyle(titleColor(stack)));
-            tooltip.add(Component.translatable(getDescriptionId() + "." + catalystActivator(stack) + "_desc").withStyle(ChatFormatting.GRAY));
+        if (getEquippedCore(stack).isPresent()) {
+            CustomRegistries.getCatalystAbility(getEquippedCore(stack).get()).tooltip(getEquippedCore(stack).get(), tooltip);
         }
-        if (getElytraEquipped(stack).findAny().isPresent()) {
-            tooltip.add(Component.translatable(getDescriptionId() + ".elytra_equipped").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.UNDERLINE));
+        if (getEquippedElytra(stack).isPresent()) {
+            tooltip.add(Component.translatable("item.elementus.catalyst_chestplate.elytra_equipped").withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.UNDERLINE));
+        }
+        if (getContentsL(stack).findAny().isPresent()) {
+            tooltip.add(Component.translatableWithFallback("item.elementus.catalyst_chestplate.core_equipped_legacy", "Catalyst Core NBT tag has change, please remove core!").withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.UNDERLINE));
         }
         if (getElytraEquiped(stack).findAny().isPresent()) {
-            tooltip.add(Component.translatable(getDescriptionId() + ".elytra_equipped_legacy").withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.UNDERLINE));
+            tooltip.add(Component.translatableWithFallback("item.elementus.catalyst_chestplate.elytra_equipped_legacy", "Elytra NBT tag has change, please remove elytra!").withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.UNDERLINE));
         }
-        if (catalystActivator(stack).equals(arcane)) {
-            if (ironsSpellbooks) {
-//                tooltip.add(Component.translatable(getDescriptionId() + ".iss_title").withStyle(ChatFormatting.LIGHT_PURPLE));
-                if (CatalystArmorConfig.ISS_MaxMana != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_max_mana_desc", String.valueOf(CatalystArmorConfig.ISS_MaxMana)).withStyle(ChatFormatting.AQUA));
-                if (CatalystArmorConfig.ISS_ManaRegen != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_mana_regen_desc", (int)(CatalystArmorConfig.ISS_ManaRegen * 100) + "%").withStyle(ChatFormatting.AQUA));
-                if (CatalystArmorConfig.ISS_SpellPower != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_spell_power_desc", (int)(CatalystArmorConfig.ISS_SpellPower * 100) + "%").withStyle(ChatFormatting.AQUA));
-                if (CatalystArmorConfig.ISS_SpellResist != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_spell_resist_desc", (int)(CatalystArmorConfig.ISS_SpellResist * 100) + "%").withStyle(ChatFormatting.AQUA));
-            } else tooltip.add(Component.translatable("item.elementus.iss_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
-        }
-//        if (catalystActivator(stack).equals(totem)) {
-//            tooltip.add(Component.translatable(getDescriptionId() + ".totem_title_desc").withStyle(ChatFormatting.GOLD));
-//            tooltip.add(Component.translatable(getDescriptionId() + ".totem_desc").withStyle(ChatFormatting.GRAY));
-//        }
-//        if (catalystActivator(stack).equals(cursium)) {
-//            if (cataclysm) {
-//                tooltip.add(Component.translatable(getDescriptionId() + ".cursium_title_desc").withStyle(ChatFormatting.DARK_AQUA));
-//                tooltip.add(Component.translatable(getDescriptionId() + ".cursium_desc").withStyle(ChatFormatting.GRAY));
-//            } else tooltip.add(Component.translatable("item.elementus.cataclysm_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
-//        }
-//        if (catalystActivator(stack).equals(witheredNetherStar)) {
-//            if (witherStormMod) {
-//                tooltip.add(Component.translatable(getDescriptionId() + ".withered_nether_star_title_desc").withStyle(ChatFormatting.DARK_PURPLE));
-//                tooltip.add(Component.translatable(getDescriptionId() + ".withered_nether_star_desc").withStyle(ChatFormatting.GRAY));
-//            } else tooltip.add(Component.translatable("item.elementus.witherstormod_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
-//        }
-    }
-
-    private ChatFormatting titleColor(ItemStack stack) {
-        return switch (catalystActivator(stack)) {
-            case ignitium -> ChatFormatting.YELLOW;
-            case heartSea -> ChatFormatting.BLUE;
-            case totem -> ChatFormatting.GOLD;
-            case cursium -> ChatFormatting.DARK_AQUA;
-            case witheredNetherStar -> ChatFormatting.DARK_PURPLE;
-            default -> ChatFormatting.LIGHT_PURPLE;
-        };
-    }
-
-    @Override
-    public void onArmorTick(ItemStack stack, Level world, Player player) {
-        netherStar(stack, player);
-        ignitium(stack, player);
-        arcane(stack ,player);
-        heartSea(stack ,player);
-        witheredNetherStar(stack ,player);
     }
 
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         if (!level.isClientSide && entity instanceof Player player) {
-            CatalystCoreAbility ability = RegistryManager.ACTIVE.getRegistry(CORE_ABILITIES_KEY).getRaw(CORE_ABILITIES_RL);
-            ability.tickEffect(level, player);
-            int type = 0;
-            if (catalystActivator(stack).equals(Items.NETHER_STAR.toString())) type = 1;
-            if (catalystActivator(stack).equals(Items.HEART_OF_THE_SEA.toString())) type = 2;
-            if (witherStormMod)
-                if (catalystActivator(stack).equals(WitherStormModItems.WITHERED_NETHER_STAR.get().toString())) type = 3;
-            effectRadius(player, stack, level, type);
+            if (player.getItemBySlot(EquipmentSlot.CHEST).equals(stack)) {
+//                getEquippedCore(stack).ifPresent(core -> CatalystCore.getInstance(core).tick(entity, level));
+                getEquippedCore(stack).ifPresent(core -> CustomRegistries.getCatalystAbility(core).tick(level, entity));
+            }
         }
-        super.inventoryTick(stack, level, entity, slotId, isSelected);
-    }
-
-    public static void attribute(int i) {
-        attributeCheck = i;
-    }
-
-    public static String catalystActivator(ItemStack stack) {
-        return getContents(stack).findAny().isPresent() ? getContents(stack).findAny().get().getItem().toString() : "false";
     }
 
     @Override
@@ -207,13 +147,9 @@ public class TestCatalystArmorItem extends ArmorItem {
         return ModConfig.COMMON.catalystArmorDurability.get();
     }
 
-    public static boolean isFlyEnabled(ItemStack stack) {
-        return getElytraEquipped(stack).findAny().isPresent();
-    }
-
     @Override
     public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
-        return isFlyEnabled(stack);
+        return getEquippedElytra(stack).isPresent();
     }
 
     @Override
@@ -221,8 +157,8 @@ public class TestCatalystArmorItem extends ArmorItem {
         if (!entity.level().isClientSide) {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
-                if (nextFlightTick % 20 == 0) {
-                    if (!ModConfig.COMMON.catalystArmorDurability.get()) {
+                if (!ModConfig.COMMON.catalystArmorDurability.get()) {
+                    if (nextFlightTick % 20 == 0) {
                         stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(EquipmentSlot.CHEST));
                     }
                 }
@@ -244,246 +180,94 @@ public class TestCatalystArmorItem extends ArmorItem {
 
     // Insert Code
 
-    //OnStackClicked
-    public boolean overrideStackedOnOther(ItemStack stack, @NotNull Slot slot, @NotNull ClickAction action, @NotNull Player player) {
-        if (stack.getCount() != 1 || action != ClickAction.SECONDARY) {
+    //StackOnSlotClicked (Not on Mouse)
+    public boolean overrideStackedOnOther(ItemStack coreStack, @NotNull Slot slot, @NotNull ClickAction action, @NotNull Player player) {
+        if (coreStack.getCount() != 1 || action != ClickAction.SECONDARY) {
             return false;
         } else {
             ItemStack itemstack = slot.getItem();
             if (itemstack.isEmpty()) {
-                if (checkElytraEquiped(stack) > 0) {
-                    playElytraEquipSound(player);
-                    removeEquipedElytra(stack).ifPresent((item) -> equipElytraL(stack, slot.safeInsert(item)));
-                } else if (checkElytraEquipped(stack) > 0) {
-                    playElytraEquipSound(player);
-                    removeEquippedElytra(stack).ifPresent((item) -> equipElytra(stack, slot.safeInsert(item)));
-                } else if (getContentWeight(stack) > 0) {
-                    playRemoveSound(player);
-                    removeCore(stack).ifPresent((item) -> insertCore(stack, slot.safeInsert(item)));
+                if (checkElytraEquiped(coreStack) > 0) {
+                    removeEquipedElytra(coreStack).ifPresent((item) -> {
+                        playUnequipSound(player, coreStack);
+                        equipElytraL(coreStack, slot.safeInsert(item));
+                    });
+                } else if (getContentLWeight(coreStack) > 0) {
+                    removeCoreL(coreStack).ifPresent((item) -> {
+                        playUnequipSound(player, coreStack);
+                        insertCoreL(coreStack, slot.safeInsert(item));
+                    });
+                } else {
+                    takeStack(coreStack).ifPresent((coreItem) -> {
+                        playUnequipSound(player, coreStack);
+                        insertStack(coreStack, slot.safeInsert(coreItem));
+                    });
                 }
-            } else if (itemstack.is(Etags.Items.CATALYST_ITEMS)) {
-                int i = (1 - getContentWeight(stack));
-                int j = insertCore(stack, slot.safeTake(itemstack.getCount(), i, player));
-                if (j > 0) {
-                    playInsertSound(player, stack);
-                }
-            } else if (itemstack.is(Etags.Items.CATALYST_ELYTRA)) {
-                int e = (1 - checkElytraEquipped(stack));
-                int g = equipElytra(stack, slot.safeTake(itemstack.getCount(), e, player));
-                if (g > 0) {
-                    playElytraEquipSound(player);
+            } else if (itemstack.getItem().canFitInsideContainerItems()) {
+                int i = (2 - getContentAmount(coreStack)) / getWeight(itemstack);
+                int inserted = insertStack(coreStack, slot.safeTake(itemstack.getCount(), i, player));
+                if (inserted > 0) {
+                    playEquipSound(player, coreStack);
                 }
             }
+
             return true;
         }
     }
-    //OnClicked
+    //StackOnMouseClicked (IS on Mouse)
     public boolean overrideOtherStackedOnMe(ItemStack coreStack, @NotNull ItemStack mouseStack, @NotNull Slot slot, @NotNull ClickAction action, @NotNull Player player, @NotNull SlotAccess access) {
         if (coreStack.getCount() != 1) return false;
         if (action == ClickAction.SECONDARY && slot.allowModification(player)) {
             if (mouseStack.isEmpty()) {
                 if (checkElytraEquiped(coreStack) > 0) {
                     removeEquipedElytra(coreStack).ifPresent((item) -> {
-                        playElytraEquipSound(player);
+                        this.playUnequipSound(player, coreStack);
                         access.set(item);
                     });
-                } else if (checkElytraEquipped(coreStack) > 0) {
-                    removeEquippedElytra(coreStack).ifPresent((item) -> {
-                        playElytraEquipSound(player);
+                } else if (getContentLWeight(coreStack) > 0) {
+                    removeCoreL(coreStack).ifPresent((item) -> {
+                        this.playUnequipSound(player, coreStack);
                         access.set(item);
                     });
-                } else if (getContentWeight(coreStack) > 0) {
-                    removeCore(coreStack).ifPresent((item) -> {
-                        playRemoveSound(player);
-                        access.set(item);
+                } else {
+                    takeStack(coreStack).ifPresent((core) -> {
+                        this.playUnequipSound(player, coreStack);
+                        access.set(core);
                     });
                 }
             } else {
-                int i = insertCore(coreStack, mouseStack);
-                int e = equipElytra(coreStack, mouseStack);
+                int i = insertStack(coreStack, mouseStack);
                 if (i > 0) {
-                    playInsertSound(player, coreStack);
+                    this.playEquipSound(player, coreStack);
                     mouseStack.shrink(i);
                 }
-                if (e > 0) {
-                    playElytraEquipSound(player);
-                    mouseStack.shrink(e);
-                }
             }
+
             return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static int insertCore(ItemStack coreStack, ItemStack insertStack) {
-        if (!insertStack.isEmpty() && CORE_ITEM_LIST.contains(insertStack.getItem())) {
-            CompoundTag tag = coreStack.getOrCreateTag();
-            if (!tag.contains(core))
-                tag.put(core, new ListTag());
-            int k = Math.min(insertStack.getCount(), (1 - getContentWeight(coreStack)));
-            if (k == 0) {
-                return 0;
-            }
-            else {
-                CompoundTag newTag = new CompoundTag();
-                insertStack.copyWithCount(k).save(newTag);
-                tag.getList(core, 10).add(0, newTag);
-                return k;
-            }
-        } else {
-            return 0;
-        }
-    }
-
-    private static int equipElytra(ItemStack coreStack, ItemStack insertStack) {
-        if (!insertStack.isEmpty() && insertStack.is(Etags.Items.CATALYST_ELYTRA)) {
-            CompoundTag tag = coreStack.getOrCreateTag();
-            if (!tag.contains(elytra)) {
-                tag.put(elytra, new ListTag());
-            }
-            int k = Math.min(insertStack.getCount(), (1 - checkElytraEquipped(coreStack)));
-            if (k == 0) {
-                return 0;
-            }
-            else {
-                CompoundTag newTag = new CompoundTag();
-                insertStack.copyWithCount(k).save(newTag);
-                tag.getList(elytra, 10).add(0, newTag);
-                return k;
-            }
-        } else {
-            return 0;
-        }
-    }
-
-    private static int equipElytraL(ItemStack coreStack, ItemStack insertStack) {
-        if (!insertStack.isEmpty() && insertStack.is(Etags.Items.CATALYST_ELYTRA)) {
-            CompoundTag tag = coreStack.getOrCreateTag();
-            if (!tag.contains(elytraL)) {
-                tag.put(elytraL, new ListTag());
-            }
-            int k = Math.min(insertStack.getCount(), (1 - checkElytraEquipped(coreStack)));
-            if (k == 0) {
-                return 0;
-            }
-            else {
-                CompoundTag newTag = new CompoundTag();
-                insertStack.copyWithCount(k).save(newTag);
-                tag.getList(elytraL, 10).add(0, newTag);
-                return k;
-            }
-        } else {
-            return 0;
-        }
-    }
-
-    public static int getContentWeight(ItemStack pStack) {
-        return getContents(pStack).mapToInt(ItemStack::getCount).sum();
-    }
-
-    public static int checkElytraEquipped(ItemStack pStack) {
-        return getElytraEquipped(pStack).mapToInt(ItemStack::getCount).sum();
-    }
-
-    public static int checkElytraEquiped(ItemStack pStack) {
-        return getElytraEquiped(pStack).mapToInt(ItemStack::getCount).sum();
-    }
-
-    private static Optional<ItemStack> removeCore(ItemStack stack) {
-        ListTag items = stack.getOrCreateTag().getList(core, 10);
-        ItemStack itemstack = ItemStack.of(items.getCompound(0));
-
-        if (!stack.getOrCreateTag().contains(core)) {
-            return Optional.empty();
-        } else {
-            if (items.isEmpty()) {
-                return Optional.empty();
-            } else {
-                items.remove(0);
-                if (items.isEmpty()) {
-                    stack.removeTagKey(core);
-                }
-                return Optional.of(itemstack);
-            }
-        }
-    }
-
-    private static Optional<ItemStack> removeEquippedElytra(ItemStack stack) {
-        ListTag items = stack.getOrCreateTag().getList(elytra, 10);
-        ItemStack itemstack = ItemStack.of(items.getCompound(0));
-
-        if (!stack.getOrCreateTag().contains(elytra)) {
-            return Optional.empty();
-        } else {
-            if (items.isEmpty()) {
-                return Optional.empty();
-            } else {
-                items.remove(0);
-                if (items.isEmpty()) {
-                    stack.removeTagKey(elytra);
-                }
-                return Optional.of(itemstack);
-            }
-        }
-    }
-
-    private static Optional<ItemStack> removeEquipedElytra(ItemStack stack) {
-        ListTag items = stack.getOrCreateTag().getList(elytraL, 10);
-        ItemStack itemstack = ItemStack.of(items.getCompound(0));
-
-        if (!stack.getOrCreateTag().contains(elytraL)) {
-            return Optional.empty();
-        } else {
-            if (items.isEmpty()) {
-                return Optional.empty();
-            } else {
-                items.remove(0);
-                if (items.isEmpty()) {
-                    stack.removeTagKey(elytraL);
-                }
-                return Optional.of(itemstack);
-            }
-        }
-    }
-
-    public static Stream<ItemStack> getContents(ItemStack stack) {
-        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList(core, 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
-    }
-
-    public static Stream<ItemStack> getElytraEquipped(ItemStack stack) {
-        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList(elytra, 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
-    }
-
-    public static Stream<ItemStack> getElytraEquiped(ItemStack stack) {
-        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList(elytraL, 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
+        } else return false;
     }
 
     public @NotNull Optional<TooltipComponent> getTooltipImage(@NotNull ItemStack stack) {
         NonNullList<ItemStack> core = NonNullList.create();
         NonNullList<ItemStack> elytra = NonNullList.create();
-        getContents(stack).forEach(core::add);
-        getElytraEquipped(stack).forEach(elytra::add);
+        core.addAll(getEquippedCore(stack).stream().toList());
+        elytra.addAll(getEquippedElytra(stack).stream().toList());
         return Optional.of(new CatalystTooltip(core, elytra));
     }
 
     @Override
     public void onDestroyed(ItemEntity itemEntity, DamageSource damageSource) {
-        ItemUtils.onContainerDestroyed(itemEntity, getContents(itemEntity.getItem()));
+        ItemUtils.onContainerDestroyed(itemEntity, getCatalystContents(itemEntity.getItem()));
     }
 
-    private void playRemoveSound(Player entity) {
-        entity.playSound(ModSoundEvents.CATALYST_ARMOR_DEACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
+    private void playEquipSound(Player entity, ItemStack stack) {
+        if (stack.is(Etags.Items.CATALYST_ELYTRA))
+            entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
+        else entity.playSound(ESoundEvents.CATALYST_ARMOR_ACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
     }
-
-    private void playInsertSound(Player entity, ItemStack stack) {
-        entity.playSound(ModSoundEvents.CATALYST_ARMOR_ACTIVATE.get(), 0.75F, 0.5F + entity.level().getRandom().nextFloat() * 0.4F);
-        if (catalystActivator(stack).equals(witheredNetherStar) && witherStormMod) {
-            entity.playSound(WitherStormModSoundEvents.WITHER_STORM_REACTIVATES.get(), 0.8F, 1F);
-        }
-    }
-
-    private void playElytraEquipSound(Player entity) {
-        entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
+    private void playUnequipSound(Player entity, ItemStack stack) {
+        if (stack.is(Etags.Items.CATALYST_ELYTRA))
+            entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
+        else entity.playSound(ESoundEvents.CATALYST_ARMOR_DEACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 }

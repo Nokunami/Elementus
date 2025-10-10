@@ -3,38 +3,6 @@
     "elementus:steel_axe",
     "elementus:diarkrite_axe",
     "elementus:anthektite_axe",
-    "elementus:movcadia_axe",
-    {
-      "id": "elementus:diarkrite_iron_axe",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_gold_axe",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_emerald_axe",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_diamond_axe",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_iron_axe",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_gold_axe",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_emerald_axe",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_diamond_axe",
-      "required": false
-    }
+    "elementus:movcadia_axe"
   ]
 }

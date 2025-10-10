@@ -30,7 +30,7 @@ import net.nokunami.elementus.common.config.UniqueItemConfig;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.entity.projectile.PulseBurstEntity;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
-import net.nokunami.elementus.common.registry.ModSoundEvents;
+import net.nokunami.elementus.common.registry.ESoundEvents;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
-import static net.nokunami.elementus.common.registry.ModEnchantments.*;
+import static net.nokunami.elementus.common.registry.EEnchantments.*;
 
 public class DiarkriteChargeBlade extends ChargeBladeItem {
     private static final int BURST_RANGE = 3;
@@ -167,14 +167,12 @@ public class DiarkriteChargeBlade extends ChargeBladeItem {
             serverPlayer.awardStat(Stats.ITEM_USED.get(stack.getItem()));
         }
         setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
-        SoundEvent burstSound = isCursed ? ModSoundEvents.DIARKRITE_CHARGE_BLADE_BURST_CURSED.get() : ModSoundEvents.DIARKRITE_CHARGE_BLADE_BURST.get();
-        SoundEvent condensedSound = isCursed ? ModSoundEvents.DIARKRITE_CHARGE_BLADE_CONDENSED_BURST_CURSED.get() : ModSoundEvents.DIARKRITE_CHARGE_BLADE_CONDENSED_BURST.get();
+        SoundEvent burstSound = isCursed ? ESoundEvents.DIARKRITE_CHARGE_BLADE_BURST_CURSED.get() : ESoundEvents.DIARKRITE_CHARGE_BLADE_BURST.get();
+        SoundEvent condensedSound = isCursed ? ESoundEvents.DIARKRITE_CHARGE_BLADE_CONDENSED_BURST_CURSED.get() : ESoundEvents.DIARKRITE_CHARGE_BLADE_CONDENSED_BURST.get();
         if (isEnchantedWith(stack, CONDENSED_BURST)) {
             level.playSound(null, livingEntity, condensedSound, SoundSource.PLAYERS, 5.0F, 1.0F);
-//            level.playLocalSound(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), ModSoundEvents.DIARKRITE_CHARGE_BLADE_CONDENSED_BURST.get(), SoundSource.PLAYERS, 1, 1, false);
         } else {
             level.playSound(null, livingEntity, burstSound, SoundSource.PLAYERS, 2.5F, 1.0F);
-//            level.playLocalSound(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), ModSoundEvents.DIARKRITE_CHARGE_BLADE_BURST.get(), SoundSource.PLAYERS, 1, 1, false);
         }
     }
 

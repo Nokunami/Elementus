@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
+import net.nokunami.elementus.common.registry.EBlocks;
 
 import java.util.List;
 
@@ -41,15 +41,15 @@ public class ModPlacedFeatures {
 
         register(context, MOVCADIA_TREE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.MOVCADIA_TREE),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(5, 0.1f, 3),
-                        ElementusBlocks.MOVCADIA_SAPLING.get()));
+                        EBlocks.MOVCADIA_SAPLING.get()));
 
         register(context, MOVCADIA_TALL_TREE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.MOVCADIA_TALL_TREE),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(3, 0.1f, 2),
-                        ElementusBlocks.MOVCADIA_SAPLING.get()));
+                        EBlocks.MOVCADIA_SAPLING.get()));
 
         register(context, MOVCADIA_MEGA_TREE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.MOVCADIA_MEGA_TREE),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(2, 0.1f, 2),
-                        ElementusBlocks.MOVCADIA_SAPLING.get()));
+                        EBlocks.MOVCADIA_SAPLING.get()));
 
         register(context, ROOTED_MOVCADIA_TREE_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.ROOTED_MOVCADIA),
                 CountPlacement.of(UniformInt.of(1, 2)),

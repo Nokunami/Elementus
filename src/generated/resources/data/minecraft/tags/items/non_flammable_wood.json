@@ -15,14 +15,6 @@
     "elementus:movcadia_button",
     "elementus:movcadia_sign",
     "elementus:sturdy_movcadia_sign",
-    "elementus:movcadia_hanging_sign",
-    {
-      "id": "elementus:movcadia_cabinet",
-      "required": false
-    },
-    {
-      "id": "elementus:movcadia_table",
-      "required": false
-    }
+    "elementus:movcadia_hanging_sign"
   ]
 }

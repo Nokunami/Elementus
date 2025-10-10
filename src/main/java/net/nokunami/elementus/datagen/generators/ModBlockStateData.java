@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.WallHangingSignBlock;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
+import net.nokunami.elementus.common.registry.EBlocks;
 import net.nokunami.elementus.datagen.providers.ModBlockStateProvider;
 
 public class ModBlockStateData extends ModBlockStateProvider {
@@ -16,46 +16,46 @@ public class ModBlockStateData extends ModBlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        block(ElementusBlocks.STEEL_BLOCK, "building/");
-        block(ElementusBlocks.DIARKRITE_BLOCK, "building/");
-        block(ElementusBlocks.ANTHEKTITE_BLOCK, "building/");
-        columnBlock(ElementusBlocks.REMNANT, ElementusBlocks.REMNANT, "misc/");
+        block(EBlocks.STEEL_BLOCK, "building/");
+        block(EBlocks.DIARKRITE_BLOCK, "building/");
+        block(EBlocks.ANTHEKTITE_BLOCK, "building/");
+        columnBlock(EBlocks.REMNANT, EBlocks.REMNANT, "misc/");
 
-        block(ElementusBlocks.STEEL_TILES, "building/");
-        stairs(ElementusBlocks.STEEL_TILE_STAIR, ElementusBlocks.STEEL_TILES, "building/");
-        slab(ElementusBlocks.STEEL_TILE_SLAB, ElementusBlocks.STEEL_TILES, "building/");
+        block(EBlocks.STEEL_TILES, "building/");
+        stairs(EBlocks.STEEL_TILE_STAIR, EBlocks.STEEL_TILES, "building/");
+        slab(EBlocks.STEEL_TILE_SLAB, EBlocks.STEEL_TILES, "building/");
 
-        log(ElementusBlocks.MOVCADIA_LOG, "natural/");
-        log(ElementusBlocks.STRIPPED_MOVCADIA_LOG, "building/");
-        wood(ElementusBlocks.MOVCADIA_WOOD, ElementusBlocks.MOVCADIA_LOG, "natural/");
-        wood(ElementusBlocks.STRIPPED_MOVCADIA_WOOD, ElementusBlocks.STRIPPED_MOVCADIA_LOG, "building/");
+        log(EBlocks.MOVCADIA_LOG, "natural/");
+        log(EBlocks.STRIPPED_MOVCADIA_LOG, "building/");
+        wood(EBlocks.MOVCADIA_WOOD, EBlocks.MOVCADIA_LOG, "natural/");
+        wood(EBlocks.STRIPPED_MOVCADIA_WOOD, EBlocks.STRIPPED_MOVCADIA_LOG, "building/");
 
-        block(ElementusBlocks.MOVCADIA_ROOTED_DIRT, "natural/");
-        block(ElementusBlocks.MOVCADIA_ROOTED_STONE, "natural/");
-        block(ElementusBlocks.MOVCADIA_ROOTED_DEEPSLATE, "natural/");
+        block(EBlocks.MOVCADIA_ROOTED_DIRT, "natural/");
+        block(EBlocks.MOVCADIA_ROOTED_STONE, "natural/");
+        block(EBlocks.MOVCADIA_ROOTED_DEEPSLATE, "natural/");
 
-        transparentBlock(ElementusBlocks.MOVCADIA_LEAVES, "natural/");
-        transparentBlock(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES, "natural/");
+        transparentBlock(EBlocks.MOVCADIA_LEAVES, "natural/");
+        transparentBlock(EBlocks.FLOWERING_MOVCADIA_LEAVES, "natural/");
 
-        block(ElementusBlocks.MOVCADIA_PLANKS, "building/");
-        stairs(ElementusBlocks.MOVCADIA_STAIRS, ElementusBlocks.MOVCADIA_PLANKS, "building/");
-        slab(ElementusBlocks.MOVCADIA_SLAB, ElementusBlocks.MOVCADIA_PLANKS, "building/");
+        block(EBlocks.MOVCADIA_PLANKS, "building/");
+        stairs(EBlocks.MOVCADIA_STAIRS, EBlocks.MOVCADIA_PLANKS, "building/");
+        slab(EBlocks.MOVCADIA_SLAB, EBlocks.MOVCADIA_PLANKS, "building/");
 
-        fence(ElementusBlocks.MOVCADIA_FENCE, ElementusBlocks.MOVCADIA_PLANKS, "building/");
-        fenceGateBlock(ElementusBlocks.MOVCADIA_FENCE_GATE, ElementusBlocks.MOVCADIA_PLANKS, "building/");
+        fence(EBlocks.MOVCADIA_FENCE, EBlocks.MOVCADIA_PLANKS, "building/");
+        fenceGateBlock(EBlocks.MOVCADIA_FENCE_GATE, EBlocks.MOVCADIA_PLANKS, "building/");
 
-        doorBlock(ElementusBlocks.MOVCADIA_DOOR,
-                this.texture(this.name(ElementusBlocks.MOVCADIA_DOOR.get()), "building/", "_bottom"),
-                this.texture(this.name(ElementusBlocks.MOVCADIA_DOOR.get()), "building/", "_top"));
-        trapdoorBlock(ElementusBlocks.MOVCADIA_TRAPDOOR, this.texture(this.name(ElementusBlocks.MOVCADIA_TRAPDOOR.get()), "building/"), true);
+        doorBlock(EBlocks.MOVCADIA_DOOR,
+                this.texture(this.name(EBlocks.MOVCADIA_DOOR.get()), "building/", "_bottom"),
+                this.texture(this.name(EBlocks.MOVCADIA_DOOR.get()), "building/", "_top"));
+        trapdoorBlock(EBlocks.MOVCADIA_TRAPDOOR, this.texture(this.name(EBlocks.MOVCADIA_TRAPDOOR.get()), "building/"), true);
 
-        pressurePlateBlock(ElementusBlocks.MOVCADIA_PRESSURE_PLATE,  this.texture(this.name(ElementusBlocks.MOVCADIA_PLANKS.get()), "building/"));
-        buttonBlock(ElementusBlocks.MOVCADIA_BUTTON, this.texture(this.name(ElementusBlocks.MOVCADIA_PLANKS.get()), "building/"));
+        pressurePlateBlock(EBlocks.MOVCADIA_PRESSURE_PLATE,  this.texture(this.name(EBlocks.MOVCADIA_PLANKS.get()), "building/"));
+        buttonBlock(EBlocks.MOVCADIA_BUTTON, this.texture(this.name(EBlocks.MOVCADIA_PLANKS.get()), "building/"));
 
-        signBlock((StandingSignBlock) ElementusBlocks.MOVCADIA_SIGN.get(), (WallSignBlock) ElementusBlocks.MOVCADIA_WALL_SIGN.get(), this.texture(this.name(ElementusBlocks.MOVCADIA_PLANKS.get()), "building/"));
-        hangingSignBlock((CeilingHangingSignBlock) ElementusBlocks.MOVCADIA_HANGING_SIGN.get(), (WallHangingSignBlock) ElementusBlocks.MOVCADIA_WALL_HANGING_SIGN.get(), this.texture(this.name(ElementusBlocks.STRIPPED_MOVCADIA_LOG.get()), "building/"));
-        signBlock((StandingSignBlock) ElementusBlocks.STURDY_MOVCADIA_SIGN.get(), (WallSignBlock) ElementusBlocks.STURDY_MOVCADIA_WALL_SIGN.get(), this.texture(this.name(ElementusBlocks.MOVCADIA_LOG.get()), "natural/"));
+        signBlock((StandingSignBlock) EBlocks.MOVCADIA_SIGN.get(), (WallSignBlock) EBlocks.MOVCADIA_WALL_SIGN.get(), this.texture(this.name(EBlocks.MOVCADIA_PLANKS.get()), "building/"));
+        hangingSignBlock((CeilingHangingSignBlock) EBlocks.MOVCADIA_HANGING_SIGN.get(), (WallHangingSignBlock) EBlocks.MOVCADIA_WALL_HANGING_SIGN.get(), this.texture(this.name(EBlocks.STRIPPED_MOVCADIA_LOG.get()), "building/"));
+        signBlock((StandingSignBlock) EBlocks.STURDY_MOVCADIA_SIGN.get(), (WallSignBlock) EBlocks.STURDY_MOVCADIA_WALL_SIGN.get(), this.texture(this.name(EBlocks.MOVCADIA_LOG.get()), "natural/"));
 
-        saplingBlock(ElementusBlocks.MOVCADIA_SAPLING, "natural/");
+        saplingBlock(EBlocks.MOVCADIA_SAPLING, "natural/");
     }
 }

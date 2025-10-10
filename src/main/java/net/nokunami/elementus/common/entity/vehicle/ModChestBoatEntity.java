@@ -15,7 +15,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidType;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 public class ModChestBoatEntity extends ChestBoat {
@@ -26,7 +26,7 @@ public class ModChestBoatEntity extends ChestBoat {
     }
 
     public ModChestBoatEntity(Level pLevel, double pX, double pY, double pZ) {
-        this(ModEntityType.MOD_CHEST_BOAT.get(), pLevel);
+        this(ModEntityType.MOVCADIA_CHEST_BOAT.get(), pLevel);
         this.setPos(pX, pY, pZ);
         this.xo = pX;
         this.yo = pY;
@@ -37,7 +37,7 @@ public class ModChestBoatEntity extends ChestBoat {
     public @NotNull Item getDropItem() {
         switch (getModVariant()) {
             case MOVCADIA -> {
-                return ModItems.MOVCADIA_CHEST_BOAT.get();
+                return EItems.MOVCADIA_CHEST_BOAT.get();
             }
         }
         return super.getDropItem();

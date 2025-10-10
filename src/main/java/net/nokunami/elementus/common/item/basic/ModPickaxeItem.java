@@ -14,7 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.config.ModConfig;
 import net.nokunami.elementus.common.item.EItemUtil;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,7 +33,7 @@ public class ModPickaxeItem extends PickaxeItem {
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack otherStack, Slot slot, ClickAction action, Player player, SlotAccess access) {
-        if (this.getTier().equals(ModTiers.MOVCADIA) && getMovcadiaEssence(stack) < 1 && otherStack.getItem() == ModItems.MOVCADIA_ESSENCE.get() && action.equals(ClickAction.SECONDARY)) {
+        if (this.getTier().equals(ModTiers.MOVCADIA) && getMovcadiaEssence(stack) < 1 && otherStack.getItem() == EItems.MOVCADIA_ESSENCE.get() && action.equals(ClickAction.SECONDARY)) {
             EItemUtil.movcadiaClickAction(stack, otherStack, player);
             return true;
         }

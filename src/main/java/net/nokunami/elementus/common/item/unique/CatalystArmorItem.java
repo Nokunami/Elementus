@@ -32,10 +32,9 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ElementusClient;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.config.CatalystArmorConfig;
 import net.nokunami.elementus.common.config.ModConfig;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
-import net.nokunami.elementus.common.registry.ModSoundEvents;
+import net.nokunami.elementus.common.registry.ESoundEvents;
 import nonamecrackers2.witherstormmod.common.init.WitherStormModItems;
 import nonamecrackers2.witherstormmod.common.init.WitherStormModSoundEvents;
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +49,7 @@ import java.util.stream.Stream;
 
 import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
 import static net.nokunami.elementus.ModChecker.witherStormMod;
-import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
+import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.*;
 
 public class CatalystArmorItem extends ArmorItem {
     public final ModArmorMaterials material;
@@ -113,10 +112,10 @@ public class CatalystArmorItem extends ArmorItem {
         if (catalystActivator(stack).equals(arcane)) {
             if (ironsSpellbooks) {
 //                tooltip.add(Component.translatable(getDescriptionId() + ".iss_title").withStyle(ChatFormatting.LIGHT_PURPLE));
-                if (CatalystArmorConfig.ISS_MaxMana != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_max_mana_desc", String.valueOf(CatalystArmorConfig.ISS_MaxMana)).withStyle(ChatFormatting.AQUA));
-                if (CatalystArmorConfig.ISS_ManaRegen != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_mana_regen_desc", (int)(CatalystArmorConfig.ISS_ManaRegen * 100) + "%").withStyle(ChatFormatting.AQUA));
-                if (CatalystArmorConfig.ISS_SpellPower != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_spell_power_desc", (int)(CatalystArmorConfig.ISS_SpellPower * 100) + "%").withStyle(ChatFormatting.AQUA));
-                if (CatalystArmorConfig.ISS_SpellResist != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_spell_resist_desc", (int)(CatalystArmorConfig.ISS_SpellResist * 100) + "%").withStyle(ChatFormatting.AQUA));
+//                if (CatalystArmorConfig.ISS_MaxMana != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_max_mana_desc", String.valueOf(CatalystArmorConfig.ISS_MaxMana)).withStyle(ChatFormatting.AQUA));
+//                if (CatalystArmorConfig.ISS_ManaRegen != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_mana_regen_desc", (int)(CatalystArmorConfig.ISS_ManaRegen * 100) + "%").withStyle(ChatFormatting.AQUA));
+//                if (CatalystArmorConfig.ISS_SpellPower != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_spell_power_desc", (int)(CatalystArmorConfig.ISS_SpellPower * 100) + "%").withStyle(ChatFormatting.AQUA));
+//                if (CatalystArmorConfig.ISS_SpellResist != 0) tooltip.add(Component.translatable(getDescriptionId() + ".iss_spell_resist_desc", (int)(CatalystArmorConfig.ISS_SpellResist * 100) + "%").withStyle(ChatFormatting.AQUA));
             } else tooltip.add(Component.translatable("item.elementus.iss_not_installed.desc").withStyle(ChatFormatting.DARK_GRAY));
         }
 //        if (catalystActivator(stack).equals(totem)) {
@@ -464,11 +463,11 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     private void playRemoveSound(Player entity) {
-        entity.playSound(ModSoundEvents.CATALYST_ARMOR_DEACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
+        entity.playSound(ESoundEvents.CATALYST_ARMOR_DEACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 
     private void playInsertSound(Player entity, ItemStack stack) {
-        entity.playSound(ModSoundEvents.CATALYST_ARMOR_ACTIVATE.get(), 0.75F, 0.5F + entity.level().getRandom().nextFloat() * 0.4F);
+        entity.playSound(ESoundEvents.CATALYST_ARMOR_ACTIVATE.get(), 0.75F, 0.5F + entity.level().getRandom().nextFloat() * 0.4F);
         if (catalystActivator(stack).equals(witheredNetherStar) && witherStormMod) {
             entity.playSound(WitherStormModSoundEvents.WITHER_STORM_REACTIVATES.get(), 0.8F, 1F);
         }

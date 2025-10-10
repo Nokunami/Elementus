@@ -35,7 +35,7 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -50,14 +50,11 @@ public class SwordDanceSlashEntity extends Projectile {
     protected static final EntityDataAccessor<Boolean> FRIENDLY_FIRE = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<ItemStack> WEAPON = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.ITEM_STACK);
     protected static final EntityDataAccessor<Boolean> MIRRORED = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.BOOLEAN);
-    private ItemStack weapon = new ItemStack(ModItems.ANTHEKTITE_CHARGE_BLADE.get());
+    private ItemStack weapon = new ItemStack(EItems.ANTHEKTITE_CHARGE_BLADE.get());
     private float damage;
     private final Set<Entity> alreadyHitEntities;
-//    public Predicate<LivingEntity> REMOVE_PREDICATE = (e) ->
-//        !(e instanceof OwnableEntity) && (e.isAlliedTo(this.getTrueOwner()) && getFriendlyFire() || !e.isAlliedTo(this.getTrueOwner())) ||
-//        (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null && (ownable.getOwner().is(this.getTrueOwner()) ||
-//                ownable.getOwner().isAlliedTo(this.getTrueOwner())) && getFriendlyFire()) || ownable.getOwner() == null));
-public Predicate<? super Entity> REMOVE_ENTITIES_PREDICATE = (e -> MobUtil.allied(this.getTrueOwner(), e, this.getFriendlyFire()) || e.equals(this.getTrueOwner()));
+    private int offsetDegree = 0;
+    public Predicate<? super Entity> REMOVE_ENTITIES_PREDICATE = (e -> MobUtil.allied(this.getTrueOwner(), e, this.getFriendlyFire()) || e.equals(this.getTrueOwner()));
     public static float bbWidth = 4.25F;
     public static float bbHeight = 0.9F;
 
@@ -96,6 +93,14 @@ public Predicate<? super Entity> REMOVE_ENTITIES_PREDICATE = (e -> MobUtil.allie
 
     public void setDamage(float damage) {
         this.damage = damage;
+    }
+
+    public int getOffsetDegree() {
+        return offsetDegree;
+    }
+
+    public void setOffsetDegree(int offset) {
+        offsetDegree = offset;
     }
 
     protected void defineSynchedData() {
@@ -220,7 +225,7 @@ public Predicate<? super Entity> REMOVE_ENTITIES_PREDICATE = (e -> MobUtil.allie
                 if (blockstate.is(BlockTags.MINEABLE_WITH_HOE)) {
                     ItemStack itemStack = this.weapon;
                     if (this.weapon == null || this.weapon.isEmpty()){
-                        itemStack = new ItemStack(ModItems.ANTHEKTITE_CHARGE_BLADE.get());
+                        itemStack = new ItemStack(EItems.ANTHEKTITE_CHARGE_BLADE.get());
                     }
                     breakBlock(this.level(), blockpos, itemStack, this);
                 }

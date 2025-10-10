@@ -5,7 +5,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.util.MutableHashedLinkedMap;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 
 import java.util.function.Supplier;
 
@@ -18,143 +18,143 @@ public class CreativeTabProperties {
         MutableHashedLinkedMap<ItemStack, CreativeModeTab.TabVisibility> entries = event.getEntries();
         // SpawnEgg
         if (tab == CreativeModeTabs.SPAWN_EGGS) {
-            putAfter(entries, Items.SQUID_SPAWN_EGG, ModItems.STEEL_GOLEM_SPAWN_EGG);
+            putAfter(entries, Items.SQUID_SPAWN_EGG, EItems.STEEL_GOLEM_SPAWN_EGG);
         }
         // Food
         if (tab == CreativeModeTabs.FOOD_AND_DRINKS) {
-            putAfter(entries, Items.GLOW_BERRIES, ModItems.MOVCADIA_BERRIES);
-            putAfter(entries, ModItems.MOVCADIA_BERRIES, ModItems.GLISTERING_MOVCADIA_BERRIES);
+            putAfter(entries, Items.GLOW_BERRIES, EItems.MOVCADIA_BERRIES);
+            putAfter(entries, EItems.MOVCADIA_BERRIES, EItems.GLISTERING_MOVCADIA_BERRIES);
         }
         // Ingredients
         if (tab == CreativeModeTabs.INGREDIENTS) {
-            putAfter(entries, Items.ANCIENT_DEBRIS, ModItems.REMNANT);
+            putAfter(entries, Items.ANCIENT_DEBRIS, EItems.REMNANT);
 
-            putAfter(entries, Items.IRON_NUGGET, ModItems.STEEL_NUGGET);
-            putAfter(entries, Items.IRON_INGOT, ModItems.CRUDE_STEEL);
-            putAfter(entries, ModItems.CRUDE_STEEL, ModItems.STEEL_INGOT);
-            putAfter(entries, ModItems.STEEL_INGOT, ModItems.STEEL_SCRAP);
+            putAfter(entries, Items.IRON_NUGGET, EItems.STEEL_NUGGET);
+            putAfter(entries, Items.IRON_INGOT, EItems.CRUDE_STEEL);
+            putAfter(entries, EItems.CRUDE_STEEL, EItems.STEEL_INGOT);
+            putAfter(entries, EItems.STEEL_INGOT, EItems.STEEL_SCRAP);
 
-            putAfter(entries, Items.NETHERITE_INGOT, ModItems.ATELIS_SCRAP);
-            putAfter(entries, ModItems.ATELIS_SCRAP, ModItems.DIARKRITE_INGOT);
-            putAfter(entries, ModItems.DIARKRITE_INGOT, ModItems.ANTHEKTITE_INGOT);
-            putAfter(entries, Items.BLAZE_POWDER, ModItems.MOVCADIA_ESSENCE);
+            putAfter(entries, Items.NETHERITE_INGOT, EItems.ATELIS_SCRAP);
+            putAfter(entries, EItems.ATELIS_SCRAP, EItems.DIARKRITE_INGOT);
+            putAfter(entries, EItems.DIARKRITE_INGOT, EItems.ANTHEKTITE_INGOT);
+            putAfter(entries, Items.BLAZE_POWDER, EItems.MOVCADIA_ESSENCE);
 
-            putAfter(entries, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, ModItems.ATELIS_UPGRADE_SMITHING_TEMPLATE);
-            putAfter(entries, ModItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, ModItems.WEAPON_FRAGMENT);
+            putAfter(entries, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, EItems.ATELIS_UPGRADE_SMITHING_TEMPLATE);
+            putAfter(entries, EItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, EItems.WEAPON_FRAGMENT);
         }
         // Weapons
         if (tab == CreativeModeTabs.COMBAT) {
             // Swords
-            putAfter(entries, Items.NETHERITE_SWORD, ModItems.STEEL_SWORD);
-            putAfter(entries, ModItems.STEEL_SWORD, ModItems.DIARKRITE_SWORD);
-            putAfter(entries, ModItems.DIARKRITE_SWORD, ModItems.ANTHEKTITE_SWORD);
-            putAfter(entries, ModItems.ANTHEKTITE_SWORD, ModItems.MOVCADIA_SWORD);
+            putAfter(entries, Items.NETHERITE_SWORD, EItems.STEEL_SWORD);
+            putAfter(entries, EItems.STEEL_SWORD, EItems.DIARKRITE_SWORD);
+            putAfter(entries, EItems.DIARKRITE_SWORD, EItems.ANTHEKTITE_SWORD);
+            putAfter(entries, EItems.ANTHEKTITE_SWORD, EItems.MOVCADIA_SWORD);
 
             // Axes
-            putAfter(entries, Items.NETHERITE_AXE, ModItems.STEEL_AXE);
-            putAfter(entries, ModItems.STEEL_AXE, ModItems.DIARKRITE_AXE);
-            putAfter(entries, ModItems.DIARKRITE_AXE, ModItems.ANTHEKTITE_AXE);
-            putAfter(entries, ModItems.ANTHEKTITE_AXE, ModItems.MOVCADIA_AXE);
+            putAfter(entries, Items.NETHERITE_AXE, EItems.STEEL_AXE);
+            putAfter(entries, EItems.STEEL_AXE, EItems.DIARKRITE_AXE);
+            putAfter(entries, EItems.DIARKRITE_AXE, EItems.ANTHEKTITE_AXE);
+            putAfter(entries, EItems.ANTHEKTITE_AXE, EItems.MOVCADIA_AXE);
 
             // Shields
-            putAfter(entries, Items.SHIELD, ModItems.STEEL_SHIELD);
-            putAfter(entries, ModItems.STEEL_SHIELD, ModItems.DIARKRITE_SHIELD);
-            putAfter(entries, ModItems.DIARKRITE_SHIELD, ModItems.ANTHEKTITE_SHIELD);
+            putAfter(entries, Items.SHIELD, EItems.STEEL_SHIELD);
+            putAfter(entries, EItems.STEEL_SHIELD, EItems.DIARKRITE_SHIELD);
+            putAfter(entries, EItems.DIARKRITE_SHIELD, EItems.ANTHEKTITE_SHIELD);
             // Bows
-            putAfter(entries, Items.BOW, ModItems.STEEL_BOW);
-            putAfter(entries, ModItems.STEEL_BOW, ModItems.DIARKRITE_BOW);
-            putAfter(entries, ModItems.DIARKRITE_BOW, ModItems.ANTHEKTITE_BOW);
+            putAfter(entries, Items.BOW, EItems.STEEL_BOW);
+            putAfter(entries, EItems.STEEL_BOW, EItems.DIARKRITE_BOW);
+            putAfter(entries, EItems.DIARKRITE_BOW, EItems.ANTHEKTITE_BOW);
             // Special Weapon
-            putAfter(entries, Items.TRIDENT, ModItems.DIARKRITE_CHARGE_BLADE);
-            putAfter(entries, ModItems.DIARKRITE_CHARGE_BLADE, ModItems.ANTHEKTITE_CHARGE_BLADE);
-            putAfter(entries, ModItems.ANTHEKTITE_CHARGE_BLADE, ModItems.WRATH_TRIDENT);
+            putAfter(entries, Items.TRIDENT, EItems.DIARKRITE_CHARGE_BLADE);
+            putAfter(entries, EItems.DIARKRITE_CHARGE_BLADE, EItems.ANTHEKTITE_CHARGE_BLADE);
+            putAfter(entries, EItems.ANTHEKTITE_CHARGE_BLADE, EItems.WRATH_TRIDENT);
 
             // Armor
-            putAfter(entries, Items.NETHERITE_BOOTS, ModItems.STEEL_HELMET);
-            putAfter(entries, ModItems.STEEL_HELMET, ModItems.STEEL_CHESTPLATE);
-            putAfter(entries, ModItems.STEEL_CHESTPLATE, ModItems.STEEL_LEGGINGS);
-            putAfter(entries, ModItems.STEEL_LEGGINGS, ModItems.STEEL_BOOTS);
+            putAfter(entries, Items.NETHERITE_BOOTS, EItems.STEEL_HELMET);
+            putAfter(entries, EItems.STEEL_HELMET, EItems.STEEL_CHESTPLATE);
+            putAfter(entries, EItems.STEEL_CHESTPLATE, EItems.STEEL_LEGGINGS);
+            putAfter(entries, EItems.STEEL_LEGGINGS, EItems.STEEL_BOOTS);
 
-            putAfter(entries, ModItems.STEEL_BOOTS, ModItems.DIARKRITE_HELMET);
-            putAfter(entries, ModItems.DIARKRITE_HELMET, ModItems.DIARKRITE_CHESTPLATE);
-            putAfter(entries, ModItems.DIARKRITE_CHESTPLATE, ModItems.DIARKRITE_LEGGINGS);
-            putAfter(entries, ModItems.DIARKRITE_LEGGINGS, ModItems.DIARKRITE_BOOTS);
+            putAfter(entries, EItems.STEEL_BOOTS, EItems.DIARKRITE_HELMET);
+            putAfter(entries, EItems.DIARKRITE_HELMET, EItems.DIARKRITE_CHESTPLATE);
+            putAfter(entries, EItems.DIARKRITE_CHESTPLATE, EItems.DIARKRITE_LEGGINGS);
+            putAfter(entries, EItems.DIARKRITE_LEGGINGS, EItems.DIARKRITE_BOOTS);
 
-            putAfter(entries, ModItems.DIARKRITE_BOOTS, ModItems.ANTHEKTITE_HELMET);
-            putAfter(entries, ModItems.ANTHEKTITE_HELMET, ModItems.ANTHEKTITE_CHESTPLATE);
-            putAfter(entries, ModItems.ANTHEKTITE_CHESTPLATE, ModItems.ANTHEKTITE_LEGGINGS);
-            putAfter(entries, ModItems.ANTHEKTITE_LEGGINGS, ModItems.ANTHEKTITE_BOOTS);
+            putAfter(entries, EItems.DIARKRITE_BOOTS, EItems.ANTHEKTITE_HELMET);
+            putAfter(entries, EItems.ANTHEKTITE_HELMET, EItems.ANTHEKTITE_CHESTPLATE);
+            putAfter(entries, EItems.ANTHEKTITE_CHESTPLATE, EItems.ANTHEKTITE_LEGGINGS);
+            putAfter(entries, EItems.ANTHEKTITE_LEGGINGS, EItems.ANTHEKTITE_BOOTS);
 
-            putAfter(entries, ModItems.ANTHEKTITE_BOOTS, ModItems.CATALYST_CHESTPLATE);
+            putAfter(entries, EItems.ANTHEKTITE_BOOTS, EItems.CATALYST_CHESTPLATE);
 
-            putAfter(entries, Items.DIAMOND_HORSE_ARMOR, ModItems.REINFORCED_PLATING_GOLEM_UPGRADE);
+            putAfter(entries, Items.DIAMOND_HORSE_ARMOR, EItems.REINFORCED_PLATING_GOLEM_UPGRADE);
         }
         // Tools
         if (tab == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            putAfter(entries, Items.NETHERITE_HOE, ModItems.STEEL_SHOVEL);
-            putAfter(entries, ModItems.STEEL_SHOVEL, ModItems.STEEL_PICKAXE);
-            putAfter(entries, ModItems.STEEL_PICKAXE, ModItems.STEEL_AXE);
-            putAfter(entries, ModItems.STEEL_AXE, ModItems.STEEL_HOE);
+            putAfter(entries, Items.NETHERITE_HOE, EItems.STEEL_SHOVEL);
+            putAfter(entries, EItems.STEEL_SHOVEL, EItems.STEEL_PICKAXE);
+            putAfter(entries, EItems.STEEL_PICKAXE, EItems.STEEL_AXE);
+            putAfter(entries, EItems.STEEL_AXE, EItems.STEEL_HOE);
 
-            putAfter(entries, ModItems.STEEL_HOE, ModItems.DIARKRITE_SHOVEL);
-            putAfter(entries, ModItems.DIARKRITE_SHOVEL, ModItems.DIARKRITE_PICKAXE);
-            putAfter(entries, ModItems.DIARKRITE_PICKAXE, ModItems.DIARKRITE_AXE);
-            putAfter(entries, ModItems.DIARKRITE_AXE, ModItems.DIARKRITE_HOE);
+            putAfter(entries, EItems.STEEL_HOE, EItems.DIARKRITE_SHOVEL);
+            putAfter(entries, EItems.DIARKRITE_SHOVEL, EItems.DIARKRITE_PICKAXE);
+            putAfter(entries, EItems.DIARKRITE_PICKAXE, EItems.DIARKRITE_AXE);
+            putAfter(entries, EItems.DIARKRITE_AXE, EItems.DIARKRITE_HOE);
 
-            putAfter(entries, ModItems.DIARKRITE_HOE, ModItems.ANTHEKTITE_SHOVEL);
-            putAfter(entries, ModItems.ANTHEKTITE_SHOVEL, ModItems.ANTHEKTITE_PICKAXE);
-            putAfter(entries, ModItems.ANTHEKTITE_PICKAXE, ModItems.ANTHEKTITE_AXE);
-            putAfter(entries, ModItems.ANTHEKTITE_AXE, ModItems.ANTHEKTITE_HOE);
+            putAfter(entries, EItems.DIARKRITE_HOE, EItems.ANTHEKTITE_SHOVEL);
+            putAfter(entries, EItems.ANTHEKTITE_SHOVEL, EItems.ANTHEKTITE_PICKAXE);
+            putAfter(entries, EItems.ANTHEKTITE_PICKAXE, EItems.ANTHEKTITE_AXE);
+            putAfter(entries, EItems.ANTHEKTITE_AXE, EItems.ANTHEKTITE_HOE);
 
-            putAfter(entries, ModItems.ANTHEKTITE_HOE, ModItems.MOVCADIA_SHOVEL);
-            putAfter(entries, ModItems.MOVCADIA_SHOVEL, ModItems.MOVCADIA_PICKAXE);
-            putAfter(entries, ModItems.MOVCADIA_PICKAXE, ModItems.MOVCADIA_AXE);
-            putAfter(entries, ModItems.MOVCADIA_AXE, ModItems.MOVCADIA_HOE);
+            putAfter(entries, EItems.ANTHEKTITE_HOE, EItems.MOVCADIA_SHOVEL);
+            putAfter(entries, EItems.MOVCADIA_SHOVEL, EItems.MOVCADIA_PICKAXE);
+            putAfter(entries, EItems.MOVCADIA_PICKAXE, EItems.MOVCADIA_AXE);
+            putAfter(entries, EItems.MOVCADIA_AXE, EItems.MOVCADIA_HOE);
 
-            putAfter(entries, Items.BAMBOO_CHEST_RAFT, ModItems.MOVCADIA_BOAT);
-            putAfter(entries, ModItems.MOVCADIA_BOAT, ModItems.MOVCADIA_CHEST_BOAT);
+            putAfter(entries, Items.BAMBOO_CHEST_RAFT, EItems.MOVCADIA_BOAT);
+            putAfter(entries, EItems.MOVCADIA_BOAT, EItems.MOVCADIA_CHEST_BOAT);
         }
         // Blocks
         if (tab == CreativeModeTabs.BUILDING_BLOCKS) {
-            putAfter(entries, Items.NETHERITE_BLOCK, ModItems.STEEL_BLOCK);
-            putAfter(entries, ModItems.STEEL_BLOCK, ModItems.DIARKRITE_BLOCK);
-            putAfter(entries, ModItems.DIARKRITE_BLOCK, ModItems.ANTHEKTITE_BLOCK);
+            putAfter(entries, Items.NETHERITE_BLOCK, EItems.STEEL_BLOCK);
+            putAfter(entries, EItems.STEEL_BLOCK, EItems.DIARKRITE_BLOCK);
+            putAfter(entries, EItems.DIARKRITE_BLOCK, EItems.ANTHEKTITE_BLOCK);
 
-            putAfter(entries, ModItems.STEEL_BLOCK, ModItems.STEEL_BARS);
+            putAfter(entries, EItems.STEEL_BLOCK, EItems.STEEL_BARS);
 
-            putAfter(entries, ModItems.STEEL_BARS, ModItems.STEEL_TILES);
-            putAfter(entries, ModItems.STEEL_TILES, ModItems.STEEL_TILE_STAIR);
-            putAfter(entries, ModItems.STEEL_TILE_STAIR, ModItems.STEEL_TILE_SLAB);
+            putAfter(entries, EItems.STEEL_BARS, EItems.STEEL_TILES);
+            putAfter(entries, EItems.STEEL_TILES, EItems.STEEL_TILE_STAIR);
+            putAfter(entries, EItems.STEEL_TILE_STAIR, EItems.STEEL_TILE_SLAB);
 
-            putAfter(entries, Items.BAMBOO_BUTTON, ModItems.MOVCADIA_LOG);
-            putAfter(entries, ModItems.MOVCADIA_LOG, ModItems.MOVCADIA_WOOD);
-            putAfter(entries, ModItems.MOVCADIA_WOOD, ModItems.STRIPPED_MOVCADIA_LOG);
-            putAfter(entries, ModItems.STRIPPED_MOVCADIA_LOG, ModItems.STRIPPED_MOVCADIA_WOOD);
-            putAfter(entries, ModItems.STRIPPED_MOVCADIA_WOOD, ModItems.MOVCADIA_PLANKS);
-            putAfter(entries, ModItems.MOVCADIA_PLANKS, ModItems.MOVCADIA_STAIRS);
-            putAfter(entries, ModItems.MOVCADIA_STAIRS, ModItems.MOVCADIA_SLAB);
-            putAfter(entries, ModItems.MOVCADIA_SLAB, ModItems.MOVCADIA_FENCE);
-            putAfter(entries, ModItems.MOVCADIA_FENCE, ModItems.MOVCADIA_FENCE_GATE);
-            putAfter(entries, ModItems.MOVCADIA_FENCE_GATE, ModItems.MOVCADIA_DOOR);
-            putAfter(entries, ModItems.MOVCADIA_DOOR, ModItems.MOVCADIA_TRAPDOOR);
-            putAfter(entries, ModItems.MOVCADIA_TRAPDOOR, ModItems.MOVCADIA_PRESSURE_PLATE);
-            putAfter(entries, ModItems.MOVCADIA_PRESSURE_PLATE, ModItems.MOVCADIA_BUTTON);
+            putAfter(entries, Items.BAMBOO_BUTTON, EItems.MOVCADIA_LOG);
+            putAfter(entries, EItems.MOVCADIA_LOG, EItems.MOVCADIA_WOOD);
+            putAfter(entries, EItems.MOVCADIA_WOOD, EItems.STRIPPED_MOVCADIA_LOG);
+            putAfter(entries, EItems.STRIPPED_MOVCADIA_LOG, EItems.STRIPPED_MOVCADIA_WOOD);
+            putAfter(entries, EItems.STRIPPED_MOVCADIA_WOOD, EItems.MOVCADIA_PLANKS);
+            putAfter(entries, EItems.MOVCADIA_PLANKS, EItems.MOVCADIA_STAIRS);
+            putAfter(entries, EItems.MOVCADIA_STAIRS, EItems.MOVCADIA_SLAB);
+            putAfter(entries, EItems.MOVCADIA_SLAB, EItems.MOVCADIA_FENCE);
+            putAfter(entries, EItems.MOVCADIA_FENCE, EItems.MOVCADIA_FENCE_GATE);
+            putAfter(entries, EItems.MOVCADIA_FENCE_GATE, EItems.MOVCADIA_DOOR);
+            putAfter(entries, EItems.MOVCADIA_DOOR, EItems.MOVCADIA_TRAPDOOR);
+            putAfter(entries, EItems.MOVCADIA_TRAPDOOR, EItems.MOVCADIA_PRESSURE_PLATE);
+            putAfter(entries, EItems.MOVCADIA_PRESSURE_PLATE, EItems.MOVCADIA_BUTTON);
         }
         if (tab == CreativeModeTabs.NATURAL_BLOCKS) {
-            putAfter(entries, Items.CHERRY_LOG, ModItems.MOVCADIA_LOG);
-            putAfter(entries, Items.FLOWERING_AZALEA_LEAVES, ModItems.MOVCADIA_LEAVES);
-            putAfter(entries, ModItems.MOVCADIA_LEAVES, ModItems.FLOWERING_MOVCADIA_LEAVES);
-            putAfter(entries, Items.FLOWERING_AZALEA, ModItems.MOVCADIA_SAPLING);
-            putAfter(entries, Items.ROOTED_DIRT, ModItems.MOVCADIA_ROOTED_DIRT);
+            putAfter(entries, Items.CHERRY_LOG, EItems.MOVCADIA_LOG);
+            putAfter(entries, Items.FLOWERING_AZALEA_LEAVES, EItems.MOVCADIA_LEAVES);
+            putAfter(entries, EItems.MOVCADIA_LEAVES, EItems.FLOWERING_MOVCADIA_LEAVES);
+            putAfter(entries, Items.FLOWERING_AZALEA, EItems.MOVCADIA_SAPLING);
+            putAfter(entries, Items.ROOTED_DIRT, EItems.MOVCADIA_ROOTED_DIRT);
         }
         if (tab == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
-            putAfter(entries, Items.CHEST, ModItems.MOVCADIA_CHEST);
-            putAfter(entries, Items.BAMBOO_HANGING_SIGN, ModItems.MOVCADIA_SIGN);
-            putAfter(entries, ModItems.MOVCADIA_SIGN, ModItems.MOVCADIA_HANGING_SIGN);
-            putAfter(entries, ModItems.MOVCADIA_SIGN, ModItems.STURDY_MOVCADIA_SIGN);
+            putAfter(entries, Items.CHEST, EItems.MOVCADIA_CHEST);
+            putAfter(entries, Items.BAMBOO_HANGING_SIGN, EItems.MOVCADIA_SIGN);
+            putAfter(entries, EItems.MOVCADIA_SIGN, EItems.MOVCADIA_HANGING_SIGN);
+            putAfter(entries, EItems.MOVCADIA_SIGN, EItems.STURDY_MOVCADIA_SIGN);
         }
         if (tab == CreativeModeTabs.REDSTONE_BLOCKS) {
-            putAfter(entries, Items.CHEST, ModItems.MOVCADIA_CHEST);
+            putAfter(entries, Items.CHEST, EItems.MOVCADIA_CHEST);
         }
     }
 

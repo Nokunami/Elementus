@@ -30,6 +30,9 @@ public class Etags {
         public static final TagKey<Item> REPAIRS_CATALYST_ARMOR = elementusTag("repairs_catalyst_armor");
         public static final TagKey<Item> CATALYST_ITEMS = elementusTag("catalyst/core");
         public static final TagKey<Item> CATALYST_ELYTRA = elementusTag("catalyst/elytra");
+        public static final TagKey<Item> CORE_NETHER_STAR = elementusTag("catalyst/nether_star");
+        public static final TagKey<Item> CORE_HEART_OF_THE_SEA = elementusTag("catalyst/heart_of_the_sea");
+        public static final TagKey<Item> CORE_TOTEM_OF_UNDYING = elementusTag("catalyst/totem_of_undying");
 
         public static final TagKey<Item> ARCANE_SHARPNESS_COMPATIBLE = elementusTag("arcane_sharpness_compatible");
 

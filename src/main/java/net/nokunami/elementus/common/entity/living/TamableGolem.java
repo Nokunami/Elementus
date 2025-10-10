@@ -33,7 +33,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.network.NetworkHooks;
-import net.nokunami.elementus.common.registry.ModSoundEvents;
+import net.nokunami.elementus.common.registry.ESoundEvents;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -44,6 +44,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     private static final EntityDataAccessor<Boolean> AGGRO = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> CHASSIS_STATUS = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CHASSIS_HEALTH = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BROKEN_TICK = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Byte> DATA_SADDLED_ID = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> DATA_ID_CHEST = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> CHEST_OPEN = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
@@ -55,7 +56,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public final AnimationState chestClosed = new AnimationState();
     public static final int EQUIPMENT_SLOT_OFFSET = 400;
     public static final int CHEST_SLOT_OFFSET = 499;
-    public static final int INVENTORY_SLOT_OFFSET = 500;
+    public static final int INV_SLOT_OFFSET = 500;
     public static final int SADDLE_FLAG_ID = 1;
     public static final int INV_SLOT_SADDLE = 0;
     public static final int INV_SLOT_ARMOR = 1;
@@ -68,21 +69,6 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     protected TamableGolem(EntityType<? extends TamableGolem> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.createInventory();
-    }
-
-    public boolean isAlliedTo(@NotNull Entity pEntity) {
-        if (this.isTame()) {
-            LivingEntity livingentity = this.getOwner();
-            if (pEntity == livingentity) {
-                return true;
-            }
-
-            if (livingentity != null) {
-                return livingentity.isAlliedTo(pEntity);
-            }
-        }
-
-        return super.isAlliedTo(pEntity);
     }
 
     // Ridable Stuff
@@ -98,105 +84,155 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     @Override
     public @NotNull SoundEvent getSaddleSoundEvent() {
-        return ModSoundEvents.STEEL_GOLEM_SADDLED.get();
+        return ESoundEvents.STEEL_GOLEM_SADDLED.get();
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(IS_PLAYER_CREATED, false);
-        this.entityData.define(AGGRO, true);
-        this.entityData.define(CHASSIS_HEALTH, 5);
-        this.entityData.define(CHASSIS_STATUS, false);
-        this.getEntityData().define(DATA_SADDLED_ID, (byte) 0);
-        this.entityData.define(DATA_ID_CHEST, false);
-        this.entityData.define(CHEST_OPEN, false);
+        entityData.define(IS_PLAYER_CREATED, false);
+        entityData.define(AGGRO, true);
+        entityData.define(CHASSIS_HEALTH, 5);
+        entityData.define(CHASSIS_STATUS, false);
+        entityData.define(BROKEN_TICK, 0);
+        entityData.define(DATA_SADDLED_ID, (byte) 0);
+        entityData.define(DATA_ID_CHEST, false);
+        entityData.define(CHEST_OPEN, false);
+    }
+
+    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putBoolean("PlayerCreated", isPlayerCreated());
+        if (!inventory.getItem(0).isEmpty())
+            tag.put("SaddleItem", inventory.getItem(0).save(new CompoundTag()));
+        tag.putBoolean("ChestOpened", chestOpened());
+        tag.putBoolean("Chested", hasChest());
+        if (hasChest()) {
+            ListTag listtag = new ListTag();
+            for(int i = 2; i < inventory.getContainerSize(); ++i) {
+                ItemStack itemstack = inventory.getItem(i);
+                if (!itemstack.isEmpty()) {
+                    CompoundTag compoundtag = new CompoundTag();
+                    compoundtag.putByte("Slot", (byte)i);
+                    itemstack.save(compoundtag);
+                    listtag.add(compoundtag);
+                }
+            }
+            tag.put("Items", listtag);
+        }
+        tag.putBoolean("AggroState", getAggroState());
+        tag.putInt("ChassisValue", getChassisHealth());
+        tag.putBoolean("ChassisState", isChassisBroken());
+        tag.putInt("BrokenTick", getBrokenTick());
+    }
+
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        setPlayerCreated(tag.getBoolean("PlayerCreated"));
+        if (tag.contains("SaddleItem", 10)) {
+            ItemStack itemStack = ItemStack.of(tag.getCompound("SaddleItem"));
+            if (itemStack.is(Items.SADDLE)) inventory.setItem(0, itemStack);
+        }
+        isChestOpened(tag.getBoolean("ChestOpened"));
+        setChest(tag.getBoolean("Chested"));
+        if (hasChest()) {
+            ListTag listtag = tag.getList("Items", 10);
+            for(int i = 0; i < listtag.size(); ++i) {
+                CompoundTag compoundtag = listtag.getCompound(i);
+                int j = compoundtag.getByte("Slot") & 255;
+                if (j >= 2 && j < inventory.getContainerSize()) {
+                    inventory.setItem(j, ItemStack.of(compoundtag));
+                }
+            }
+        }
+        updateContainerEquipment();
+        setAggroState(tag.getBoolean("AggroState"));
+        setChassisHealth(tag.getInt("ChassisValue"));
+        setChassisState(tag.getBoolean("ChassisState"));
+        setBrokenTick(tag.getInt("BrokenTick"));
     }
 
     protected boolean getSaddleFlag() {
-        return (this.entityData.get(DATA_SADDLED_ID) & SADDLE_FLAG_ID) != 0;
+        return (entityData.get(DATA_SADDLED_ID) & SADDLE_FLAG_ID) != 0;
     }
 
     protected void setSaddleFlag(boolean pValue) {
-        byte b0 = this.entityData.get(DATA_SADDLED_ID);
+        byte b0 = entityData.get(DATA_SADDLED_ID);
         if (pValue) {
-            this.entityData.set(DATA_SADDLED_ID, (byte)(b0 | SADDLE_FLAG_ID));
+            entityData.set(DATA_SADDLED_ID, (byte)(b0 | SADDLE_FLAG_ID));
         } else {
-            this.entityData.set(DATA_SADDLED_ID, (byte)(b0 & ~SADDLE_FLAG_ID));
+            entityData.set(DATA_SADDLED_ID, (byte)(b0 & ~SADDLE_FLAG_ID));
         }
     }
-
     public boolean hasChest() {
-        return this.entityData.get(DATA_ID_CHEST);
+        return entityData.get(DATA_ID_CHEST);
     }
-
     public void setChest(boolean pChested) {
-        this.entityData.set(DATA_ID_CHEST, pChested);
+        entityData.set(DATA_ID_CHEST, pChested);
     }
 
     public boolean chestOpened() {
-        return this.entityData.get(CHEST_OPEN);
+        return entityData.get(CHEST_OPEN);
     }
-
     public void isChestOpened(boolean open) {
-        this.entityData.set(CHEST_OPEN, open);
+        entityData.set(CHEST_OPEN, open);
     }
 
     public int getChassisHealth() {
-        return this.entityData.get(CHASSIS_HEALTH);
+        return entityData.get(CHASSIS_HEALTH);
     }
-
     public void setChassisHealth(int health) {
-        this.entityData.set(CHASSIS_HEALTH, health);
+        entityData.set(CHASSIS_HEALTH, health);
     }
 
     public void setChassisState(boolean state) {
-        this.entityData.set(CHASSIS_STATUS, state);
+        entityData.set(CHASSIS_STATUS, state);
     }
-
     public boolean isChassisBroken() {
-        return this.entityData.get(CHASSIS_STATUS);
+        return entityData.get(CHASSIS_STATUS);
     }
 
     public boolean isChassisCompromised() {
         return false;
     }
+    public int getBrokenTick() {
+        return entityData.get(BROKEN_TICK);
+    }
 
+    public void setBrokenTick(int i) {
+        entityData.set(BROKEN_TICK, i);
+    }
     public boolean isJumping() {
-        return this.isJumping;
+        return isJumping;
     }
 
     public void setIsJumping(boolean pJumping) {
-        this.isJumping = pJumping;
+        isJumping = pJumping;
     }
 
     public boolean isSaddleable() {
-        return this.isAlive() && this.isTame();
+        return isAlive() && isTame();
     }
 
     public void equipSaddle(@Nullable SoundSource source) {
-        this.inventory.setItem(INV_SLOT_SADDLE, new ItemStack(Items.SADDLE));
-        if (source != null) {
-            this.level().playSound(null, this, ModSoundEvents.STEEL_GOLEM_SADDLED.get(), source, 0.5F, 1.0F);
-        }
+        inventory.setItem(INV_SLOT_SADDLE, new ItemStack(Items.SADDLE));
+        if (source != null) level().playSound(null, this, ESoundEvents.STEEL_GOLEM_SADDLED.get(), source, 0.5F, 1.0F);
     }
 
-    public void equipArmor(@NotNull Player pPlayer, @NotNull ItemStack pArmor) {
-        if (this.isArmor(pArmor)) {
-            this.inventory.setItem(1, pArmor.copyWithCount(1));
-            if (!pPlayer.getAbilities().instabuild) {
-                pArmor.shrink(1);
-            }
+    public void equipArmor(@NotNull Player player, @NotNull ItemStack stack) {
+        if (isArmor(stack)) {
+            inventory.setItem(1, stack.copyWithCount(1));
+            if (!player.getAbilities().instabuild) stack.shrink(1);
         }
     }
 
     public boolean isSaddled() {
-//        return this.getSaddleFlag();
-        return !this.getItemBySlot(EquipmentSlot.HEAD).isEmpty();
+//        return getSaddleFlag();
+        return !getItemBySlot(EquipmentSlot.HEAD).isEmpty();
     }
 
     public boolean isPushable() {
-        return !this.isVehicle();
+        return !isVehicle();
     }
 
     @Override
@@ -205,56 +241,56 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     protected int getInventorySize() {
-        return this.hasChest() ? 17 : INV_BASE_COUNT;
+        return hasChest() ? 17 : INV_BASE_COUNT;
     }
 
     protected void createInventory() {
-        SimpleContainer simplecontainer = this.inventory;
-        this.inventory = new SimpleContainer(this.getInventorySize());
+        SimpleContainer simplecontainer = inventory;
+        inventory = new SimpleContainer(getInventorySize());
         if (simplecontainer != null) {
             simplecontainer.removeListener(this);
-            int i = Math.min(simplecontainer.getContainerSize(), this.inventory.getContainerSize());
+            int i = Math.min(simplecontainer.getContainerSize(), inventory.getContainerSize());
 
             for(int j = 0; j < i; ++j) {
                 ItemStack itemstack = simplecontainer.getItem(j);
                 if (!itemstack.isEmpty()) {
-                    this.inventory.setItem(j, itemstack.copy());
+                    inventory.setItem(j, itemstack.copy());
                 }
             }
         }
 
-        this.inventory.addListener(this);
-        this.updateContainerEquipment();
-        this.itemHandler = LazyOptional.of(() -> new InvWrapper(this.inventory));
+        inventory.addListener(this);
+        updateContainerEquipment();
+        itemHandler = LazyOptional.of(() -> new InvWrapper(inventory));
     }
 
     protected void updateContainerEquipment() {
-        if (!this.level().isClientSide) {
-            this.setSaddle(this.inventory.getItem(0));
-//            this.setSaddleFlag(!this.inventory.getItem(0).isEmpty());
+        if (!level().isClientSide) {
+            setSaddle(inventory.getItem(0));
+//            setSaddleFlag(!inventory.getItem(0).isEmpty());
         }
     }
 
     @Override
     public void containerChanged(@NotNull Container pContainer) {
-        boolean flag = this.isSaddled();
-        this.updateContainerEquipment();
-        if (this.tickCount > 20 && !flag && this.isSaddled()) {
-            this.playSound(this.getSaddleSoundEvent(), 0.5F, 1.0F);
+        boolean flag = isSaddled();
+        updateContainerEquipment();
+        if (tickCount > 20 && !flag && isSaddled()) {
+            playSound(getSaddleSoundEvent(), 0.5F, 1.0F);
         }
     }
 
     public boolean isPlayerCreated() {
-        return this.entityData.get(IS_PLAYER_CREATED);
+        return entityData.get(IS_PLAYER_CREATED);
     }
 
     public void setPlayerCreated(boolean playerMade) {
-        this.entityData.set(IS_PLAYER_CREATED, playerMade);
+        entityData.set(IS_PLAYER_CREATED, playerMade);
     }
 
     private void setSaddle(ItemStack stack) {
-        this.setItemSlot(EquipmentSlot.HEAD, stack);
-        this.setDropChance(EquipmentSlot.HEAD, 0.0F);
+        setItemSlot(EquipmentSlot.HEAD, stack);
+        setDropChance(EquipmentSlot.HEAD, 0.0F);
     }
 
     public void openCustomInventoryScreen(@NotNull Player pPlayer) {
@@ -265,16 +301,16 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
             NetworkHooks.openScreen(serverPlayer, this);
         }
         openCustomInventoryScreen(player);
-        if (hasChest()) this.level().playSound(null, this.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
-        return InteractionResult.sidedSuccess(this.level().isClientSide);
+        if (hasChest()) level().playSound(null, blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
+        return InteractionResult.sidedSuccess(level().isClientSide);
     }
 
     protected InteractionResult doPlayerRide(Player pPlayer) {
-        this.setOrderedToSit(false);
-        this.setInSittingPose(false);
-        if (!this.level().isClientSide) {
-            pPlayer.setYRot(this.getYRot());
-            pPlayer.setXRot(this.getXRot());
+        setOrderedToSit(false);
+        setInSittingPose(false);
+        if (!level().isClientSide) {
+            pPlayer.setYRot(getYRot());
+            pPlayer.setXRot(getXRot());
             pPlayer.startRiding(this);
         }
         return InteractionResult.SUCCESS;
@@ -282,44 +318,39 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     protected void dropEquipment() {
         super.dropEquipment();
-        if (this.inventory != null) {
-            for(int i = 0; i < this.inventory.getContainerSize(); ++i) {
-                ItemStack itemstack = this.inventory.getItem(i);
+        if (inventory != null) {
+            for(int i = 0; i < inventory.getContainerSize(); ++i) {
+                ItemStack itemstack = inventory.getItem(i);
                 if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack)) {
-                    this.spawnAtLocation(itemstack);
+                    spawnAtLocation(itemstack);
                 }
             }
 
         }
-        if (this.hasChest()) {
-            if (!this.level().isClientSide) {
-                this.spawnAtLocation(Blocks.CHEST);
+        if (hasChest()) {
+            if (!level().isClientSide) {
+                spawnAtLocation(Blocks.CHEST);
             }
 
-            this.setChest(false);
+            setChest(false);
         }
     }
 
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
-        Vec2 vec2 = this.getRiddenRotation(pPlayer);
-        this.setRot(vec2.y, vec2.x);
-        this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
-//        if (this.isControlledByLocalInstance()) {
-//            if (this.onGround()) {
-//                this.setIsJumping(false);
-//                if (this.playerJumpPendingScale > 0.0F && !this.isJumping()) {
-//                    this.executeRidersJump(this.playerJumpPendingScale, pTravelVector);
+        Vec2 vec2 = getRiddenRotation(pPlayer);
+        setRot(vec2.y, vec2.x);
+        yRotO = yBodyRot = yHeadRot = getYRot();
+//        if (isControlledByLocalInstance()) {
+//            if (onGround()) {
+//                setIsJumping(false);
+//                if (playerJumpPendingScale > 0.0F && !isJumping()) {
+//                    executeRidersJump(playerJumpPendingScale, pTravelVector);
 //                }
 //
-//                this.playerJumpPendingScale = 0.0F;
+//                playerJumpPendingScale = 0.0F;
 //            }
 //        }
-    }
-
-    @Override
-    public boolean canBeLeashed(Player pPlayer) {
-        return super.canBeLeashed(pPlayer);
     }
 
     protected Vec2 getRiddenRotation(LivingEntity pEntity) {
@@ -335,85 +366,27 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         return new Vec3(f, 0.0D, f1);
     }
 
-    @Override
-    protected float getRiddenSpeed(@NotNull Player pPlayer) {
-        return super.getRiddenSpeed(pPlayer);
-    }
-
     protected void executeRidersJump(float pPlayerJumpPendingScale, Vec3 pTravelVector) {
-        double d0 = 0.9 * (double)pPlayerJumpPendingScale * (double)this.getBlockJumpFactor();
-        double d1 = d0 + (double)this.getJumpBoostPower();
-        Vec3 vec3 = this.getDeltaMovement();
-        this.setDeltaMovement(vec3.x, d1, vec3.z);
-        this.setIsJumping(true);
-        this.hasImpulse = true;
+        double d0 = 0.9 * (double)pPlayerJumpPendingScale * (double)getBlockJumpFactor();
+        double d1 = d0 + (double)getJumpBoostPower();
+        Vec3 vec3 = getDeltaMovement();
+        setDeltaMovement(vec3.x, d1, vec3.z);
+        setIsJumping(true);
+        hasImpulse = true;
         net.minecraftforge.common.ForgeHooks.onLivingJump(this);
         if (pTravelVector.z > 0.0D) {
-            float f = Mth.sin(this.getYRot() * ((float)Math.PI / 180F));
-            float f1 = Mth.cos(this.getYRot() * ((float)Math.PI / 180F));
-            this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * pPlayerJumpPendingScale, 0.0D, 0.4F * f1 * pPlayerJumpPendingScale));
+            float f = Mth.sin(getYRot() * ((float)Math.PI / 180F));
+            float f1 = Mth.cos(getYRot() * ((float)Math.PI / 180F));
+            setDeltaMovement(getDeltaMovement().add(-0.4F * f * pPlayerJumpPendingScale, 0.0D, 0.4F * f1 * pPlayerJumpPendingScale));
         }
-    }
-
-    public void addAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putBoolean("PlayerCreated", this.isPlayerCreated());
-        if (!this.inventory.getItem(0).isEmpty()) {
-            tag.put("SaddleItem", this.inventory.getItem(0).save(new CompoundTag()));
-        }
-        tag.putBoolean("ChestOpened", this.chestOpened());
-        tag.putBoolean("Chested", this.hasChest());
-        if (this.hasChest()) {
-            ListTag listtag = new ListTag();
-            for(int i = 2; i < this.inventory.getContainerSize(); ++i) {
-                ItemStack itemstack = this.inventory.getItem(i);
-                if (!itemstack.isEmpty()) {
-                    CompoundTag compoundtag = new CompoundTag();
-                    compoundtag.putByte("Slot", (byte)i);
-                    itemstack.save(compoundtag);
-                    listtag.add(compoundtag);
-                }
-            }
-            tag.put("Items", listtag);
-        }
-        tag.putBoolean("AggroState", this.getAggroState());
-        tag.putInt("ChassisValue", this.getChassisHealth());
-        tag.putBoolean("ChassisState", this.isChassisBroken());
-    }
-
-    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        this.setPlayerCreated(tag.getBoolean("PlayerCreated"));
-        if (tag.contains("SaddleItem", 10)) {
-            ItemStack itemStack = ItemStack.of(tag.getCompound("SaddleItem"));
-            if (itemStack.is(Items.SADDLE)) {
-                this.inventory.setItem(0, itemStack);
-            }
-        }
-        this.isChestOpened(tag.getBoolean("ChestOpened"));
-        this.setChest(tag.getBoolean("Chested"));
-        if (this.hasChest()) {
-            ListTag listtag = tag.getList("Items", 10);
-            for(int i = 0; i < listtag.size(); ++i) {
-                CompoundTag compoundtag = listtag.getCompound(i);
-                int j = compoundtag.getByte("Slot") & 255;
-                if (j >= 2 && j < this.inventory.getContainerSize()) {
-                    this.inventory.setItem(j, ItemStack.of(compoundtag));
-                }
-            }
-        }
-        this.updateContainerEquipment();
-        this.setAggroState(tag.getBoolean("AggroState"));
-        this.setChassisHealth(tag.getInt("ChassisValue"));
-        this.setChassisState(tag.getBoolean("ChassisState"));
     }
 
     public void setAggroState(boolean state) {
-        this.entityData.set(AGGRO, state);
+        entityData.set(AGGRO, state);
     }
 
     public boolean getAggroState() {
-        return this.entityData.get(AGGRO);
+        return entityData.get(AGGRO);
     }
 
     @Override
@@ -442,7 +415,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     public boolean isWearingArmor() {
-        return !this.getItemBySlot(EquipmentSlot.CHEST).isEmpty();
+        return !getItemBySlot(EquipmentSlot.CHEST).isEmpty();
     }
 
     public boolean isArmor(@NotNull ItemStack pStack) {
@@ -467,45 +440,78 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         };
     }
 
-    public @NotNull SlotAccess getSlot(int pSlot) {
-        return pSlot == CHEST_SLOT_OFFSET ? new SlotAccess() {
-            public @NotNull ItemStack get() {
-                return TamableGolem.this.hasChest() ? new ItemStack(Items.CHEST) : ItemStack.EMPTY;
-            }
+//    public @NotNull SlotAccess getSlot(int pSlot) {
+//        return pSlot == CHEST_SLOT_OFFSET ? new SlotAccess() {
+//            public @NotNull ItemStack get() {
+//                return TamableGolem.this.hasChest() ? new ItemStack(Items.CHEST) : ItemStack.EMPTY;
+//            }
+//
+//            public boolean set(@NotNull ItemStack stack) {
+//                if (stack.isEmpty()) {
+//                    if (TamableGolem.this.hasChest()) {
+//                        TamableGolem.this.setChest(false);
+//                        TamableGolem.this.createInventory();
+//                    }
+//                    return true;
+//                } else if (stack.is(Items.CHEST)) {
+//                    if (!TamableGolem.this.hasChest()) {
+//                        TamableGolem.this.setChest(true);
+//                        TamableGolem.this.createInventory();
+//                    }
+//                    return true;
+//                } else return false;
+//            }
+//        } : this.getSlot1(pSlot);
+//    }
+//
+//    public SlotAccess getSlot1(int slot) {
+//        int i = slot - EQUIPMENT_SLOT_OFFSET;
+//        if (i >= INV_SLOT_SADDLE && i < INV_BASE_COUNT && i < this.inventory.getContainerSize()) {
+//            if (i == INV_SLOT_SADDLE) {
+//                return this.createEquipmentSlotAccess(i, (stack) -> stack.isEmpty() || stack.is(Items.SADDLE));
+//            }
+//            if (!this.canWearArmor()) {
+//                return SlotAccess.NULL;
+//            }
+//            return this.createEquipmentSlotAccess(i, (p_149516_) -> p_149516_.isEmpty() || this.isArmor(p_149516_));
+//        }
+//        int j = slot - INV_SLOT_OFFSET + 2;
+//        return j >= 2 && j < this.inventory.getContainerSize() ? SlotAccess.forContainer(this.inventory, j) : super.getSlot(slot);
+//    }
 
-            public boolean set(@NotNull ItemStack stack) {
-                if (stack.isEmpty()) {
-                    if (TamableGolem.this.hasChest()) {
-                        TamableGolem.this.setChest(false);
-                        TamableGolem.this.createInventory();
-                    }
-                    return true;
-                } else if (stack.is(Items.CHEST)) {
-                    if (!TamableGolem.this.hasChest()) {
-                        TamableGolem.this.setChest(true);
-                        TamableGolem.this.createInventory();
-                    }
-                    return true;
-                } else {
-                    return false;
+    public @NotNull SlotAccess getSlot(int slot) {
+        int slot1 = slot - EQUIPMENT_SLOT_OFFSET;
+
+        if (slot == CHEST_SLOT_OFFSET)
+            return new SlotAccess() {
+                @Override
+                public @NotNull ItemStack get() {
+                    return TamableGolem.this.hasChest() ? new ItemStack(Items.CHEST) : ItemStack.EMPTY;
                 }
-            }
-        } : this.getSlot1(pSlot);
-    }
-
-    public SlotAccess getSlot1(int slot) {
-        int i = slot - EQUIPMENT_SLOT_OFFSET;
-        if (i >= INV_SLOT_SADDLE && i < INV_BASE_COUNT && i < this.inventory.getContainerSize()) {
-            if (i == INV_SLOT_SADDLE) {
-                return this.createEquipmentSlotAccess(i, (stack) -> stack.isEmpty() || stack.is(Items.SADDLE));
-            }
-            if (!this.canWearArmor()) {
-                return SlotAccess.NULL;
-            }
-            return this.createEquipmentSlotAccess(i, (p_149516_) -> p_149516_.isEmpty() || this.isArmor(p_149516_));
+                @Override
+                public boolean set(@NotNull ItemStack carried) {
+                    if (carried.isEmpty()) {
+                        if (TamableGolem.this.hasChest()) {
+                            TamableGolem.this.setChest(false);
+                            TamableGolem.this.createInventory();
+                        }
+                        return true;
+                    } else if (carried.is(Items.CHEST)) {
+                        if (!TamableGolem.this.hasChest()) {
+                            TamableGolem.this.setChest(true);
+                            TamableGolem.this.createInventory();
+                        }
+                        return true;
+                    } else return false;
+                }
+            };
+        else if (slot1 >= INV_SLOT_SADDLE && slot1 < INV_BASE_COUNT && slot1 < inventory.getContainerSize()) {
+            if (slot1 == INV_SLOT_SADDLE) return createEquipmentSlotAccess(slot1, stack -> stack.isEmpty() || stack.is(Items.SADDLE));
+            if (!canWearArmor()) return SlotAccess.NULL;
+            return createEquipmentSlotAccess(slot1, stack -> stack.isEmpty() || isArmor(stack));
         }
-        int j = slot - INVENTORY_SLOT_OFFSET + 2;
-        return j >= 2 && j < this.inventory.getContainerSize() ? SlotAccess.forContainer(this.inventory, j) : super.getSlot(slot);
+        int invOffset = slot - INV_SLOT_OFFSET + INV_BASE_COUNT;
+        return invOffset >= 2 && invOffset < inventory.getContainerSize() ? SlotAccess.forContainer(inventory, invOffset) : super.getSlot(slot);
     }
 
     public boolean canEquipChest() {
@@ -519,29 +525,29 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     @Override
     public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (this.canEquipChest() && itemStack.is(Items.CHEST)) {
-            this.equipChest(player, itemStack);
+        if (canEquipChest() && itemStack.is(Items.CHEST)) {
+            equipChest(player, itemStack);
             return InteractionResult.SUCCESS;
         }
-        if (this.isArmor(itemStack)) {
-            this.equipArmor(player, itemStack);
+        if (isArmor(itemStack)) {
+            equipArmor(player, itemStack);
             return InteractionResult.SUCCESS;
         }
-        if (this.isSaddleable() && itemStack.is(Items.SADDLE))
+        if (isSaddleable() && itemStack.is(Items.SADDLE))
             equipSaddle(SoundSource.NEUTRAL);
         return super.mobInteract(player, hand);
     }
 
     public void equipChest(Player pPlayer, ItemStack pChestStack) {
-        this.setChest(true);
-        this.playChestEquipsSound();
+        setChest(true);
+        playChestEquipsSound();
         if (!pPlayer.getAbilities().instabuild)
             pChestStack.shrink(1);
-        this.createInventory();
+        createInventory();
     }
 
     protected void playChestEquipsSound() {
-        this.playSound(ModSoundEvents.STEEL_GOLEM_CHESTED.get(), 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+        playSound(ESoundEvents.STEEL_GOLEM_CHESTED.get(), 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
     }
 
     public int getInventoryColumns() {
@@ -550,11 +556,11 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     @Nullable
     public LivingEntity getControllingPassenger() {
-        Entity entity = this.getFirstPassenger();
+        Entity entity = getFirstPassenger();
         if (!(entity instanceof Mob)) {
-            if (this.isSaddled()) {
-                entity = this.getFirstPassenger();
-                if (entity instanceof Player player && this.isOwnedBy(player)) {
+            if (isSaddled()) {
+                entity = getFirstPassenger();
+                if (entity instanceof Player player && isOwnedBy(player)) {
                     return player;
                 }
             }
@@ -565,17 +571,17 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     @Nullable
     private Vec3 getDismountLocationInDirection(Vec3 pDirection, LivingEntity passenger) {
-        double d0 = this.getX() + pDirection.x;
-        double d1 = this.getBoundingBox().minY;
-        double d2 = this.getZ() + pDirection.z;
+        double d0 = getX() + pDirection.x;
+        double d1 = getBoundingBox().minY;
+        double d2 = getZ() + pDirection.z;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
         for(Pose pose : passenger.getDismountPoses()) {
             blockpos$mutableblockpos.set(d0, d1, d2);
-            double d3 = this.getBoundingBox().maxY + 0.75D;
+            double d3 = getBoundingBox().maxY + 0.75D;
 
             while(true) {
-                double d4 = this.level().getBlockFloorHeight(blockpos$mutableblockpos);
+                double d4 = level().getBlockFloorHeight(blockpos$mutableblockpos);
                 if ((double)blockpos$mutableblockpos.getY() + d4 > d3) {
                     break;
                 }
@@ -583,7 +589,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
                 if (DismountHelper.isBlockFloorValid(d4)) {
                     AABB aabb = passenger.getLocalBoundsForPose(pose);
                     Vec3 vec3 = new Vec3(d0, (double)blockpos$mutableblockpos.getY() + d4, d2);
-                    if (DismountHelper.canDismountTo(this.level(), passenger, aabb.move(vec3))) {
+                    if (DismountHelper.canDismountTo(level(), passenger, aabb.move(vec3))) {
                         passenger.setPose(pose);
                         return vec3;
                     }
@@ -600,14 +606,14 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     public @NotNull Vec3 getDismountLocationForPassenger(LivingEntity pLivingEntity) {
-        Vec3 vec3 = getCollisionHorizontalEscapeVector(this.getBbWidth(), pLivingEntity.getBbWidth(), this.getYRot() + (pLivingEntity.getMainArm() == HumanoidArm.RIGHT ? 90.0F : -90.0F));
-        Vec3 vec31 = this.getDismountLocationInDirection(vec3, pLivingEntity);
+        Vec3 vec3 = getCollisionHorizontalEscapeVector(getBbWidth(), pLivingEntity.getBbWidth(), getYRot() + (pLivingEntity.getMainArm() == HumanoidArm.RIGHT ? 90.0F : -90.0F));
+        Vec3 vec31 = getDismountLocationInDirection(vec3, pLivingEntity);
         if (vec31 != null) {
             return vec31;
         } else {
-            Vec3 vec32 = getCollisionHorizontalEscapeVector(this.getBbWidth(), pLivingEntity.getBbWidth(), this.getYRot() + (pLivingEntity.getMainArm() == HumanoidArm.LEFT ? 90.0F : -90.0F));
-            Vec3 vec33 = this.getDismountLocationInDirection(vec32, pLivingEntity);
-            return vec33 != null ? vec33 : this.position();
+            Vec3 vec32 = getCollisionHorizontalEscapeVector(getBbWidth(), pLivingEntity.getBbWidth(), getYRot() + (pLivingEntity.getMainArm() == HumanoidArm.LEFT ? 90.0F : -90.0F));
+            Vec3 vec33 = getDismountLocationInDirection(vec32, pLivingEntity);
+            return vec33 != null ? vec33 : position();
         }
     }
 
@@ -615,7 +621,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     @Override
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-        if (this.isAlive() && capability == ForgeCapabilities.ITEM_HANDLER && itemHandler != null)
+        if (isAlive() && capability == ForgeCapabilities.ITEM_HANDLER && itemHandler != null)
             return itemHandler.cast();
         return super.getCapability(capability, facing);
     }
@@ -631,7 +637,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     public boolean hasInventoryChanged(@NotNull Container pInventory) {
-        return this.inventory != pInventory;
+        return inventory != pInventory;
     }
 
     /// No

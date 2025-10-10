@@ -26,6 +26,8 @@ public class ModNetwork {
         INSTANCE.registerMessage(id(), AnthektiteChargeBladeSlashPacket.class, AnthektiteChargeBladeSlashPacket::encode, AnthektiteChargeBladeSlashPacket::decode, AnthektiteChargeBladeSlashPacket::consume);
         INSTANCE.registerMessage(id(), ChargeBladeAbilityPacket.class, ChargeBladeAbilityPacket::encode, ChargeBladeAbilityPacket::decode, ChargeBladeAbilityPacket::consume);
         INSTANCE.registerMessage(id(), SteelGolemInventoryPacket.class, SteelGolemInventoryPacket::encode, SteelGolemInventoryPacket::decode, SteelGolemInventoryPacket::consume);
+        INSTANCE.registerMessage(id(), CatalystDeathItemDisplayPacket.class, CatalystDeathItemDisplayPacket::encode, CatalystDeathItemDisplayPacket::decode, CatalystDeathItemDisplayPacket::consume);
+        INSTANCE.registerMessage(id(), CatalystDeathParticlePacket.class, CatalystDeathParticlePacket::encode, CatalystDeathParticlePacket::decode, CatalystDeathParticlePacket::consume);
     }
 
     public static <MSG> void sendTo(Player player, MSG msg) {

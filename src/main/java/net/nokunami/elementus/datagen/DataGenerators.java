@@ -20,23 +20,25 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        ExistingFileHelper helper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeClient(), new ModBlockStateData(packOutput, MODID, existingFileHelper));
-        generator.addProvider(event.includeClient(), new ModItemModelData(packOutput, MODID, existingFileHelper));
-        generator.addProvider(event.includeClient(), new ModDamageTypeTagsData(packOutput, lookupProvider, MODID, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModBlockStateData(packOutput, MODID, helper));
+        generator.addProvider(event.includeClient(), new ModItemModelData(packOutput, MODID, helper));
+        generator.addProvider(event.includeClient(), new ModDamageTypeTagsData(packOutput, lookupProvider, MODID, helper));
+        generator.addProvider(event.includeClient(), new ELangGen(packOutput, MODID, "en_us"));
+        generator.addProvider(event.includeClient(), new ESoundGen(packOutput, MODID, helper));
 
 
         generator.addProvider(event.includeServer(), new ModRecipeData(packOutput));
         generator.addProvider(event.includeServer(), ModLootTableData.create(packOutput));
 
-        ModBlockTagsData blockTagGenerator = generator.addProvider(event.includeServer(), new ModBlockTagsData(packOutput, lookupProvider, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModItemTagsData(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), existingFileHelper));
+        ModBlockTagsData blockTagGenerator = generator.addProvider(event.includeServer(), new ModBlockTagsData(packOutput, lookupProvider, helper));
+        generator.addProvider(event.includeServer(), new ModItemTagsData(packOutput, lookupProvider, blockTagGenerator.contentsGetter(), helper));
 
-        generator.addProvider(event.includeServer(), new ModEntityTypeTags(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModEntityTypeTags(packOutput, lookupProvider, helper));
 
-        //generator.addProvider(event.includeServer(), new PoiTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
+        //generator.addProvider(event.includeServer(), new PoiTypeTagsProvider(packOutput, lookupProvider, helper));
 
         generator.addProvider(event.includeServer(), new DatapackEntriesBuilder(packOutput, lookupProvider));
 
@@ -48,7 +50,7 @@ public class DataGenerators {
 //            CreateProcessingRecipe.registerAll(generator, packOutput);
 
 //        if (ModChecker.refurbished_furniture()) {
-//            generator.addProvider(event.includeServer(), new RFFurnitureModelProvider(packOutput, existingFileHelper));
+//            generator.addProvider(event.includeServer(), new RFFurnitureModelProvider(packOutput, helper));
 //        }
     }
 }

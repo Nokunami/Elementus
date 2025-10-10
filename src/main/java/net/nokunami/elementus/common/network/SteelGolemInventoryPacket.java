@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
-import net.nokunami.elementus.client.SteelGolemInventoryScreen;
+import net.nokunami.elementus.client.gui.screens.inventory.SteelGolemInventoryScreen;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.inventory.SteelGolemInventoryMenu;
 

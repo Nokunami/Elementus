@@ -30,7 +30,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -55,7 +54,6 @@ import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.network.PacketDistributor;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.EntityConfig;
-import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.entity.ai.control.SmoothBodyControl;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.*;
 import net.nokunami.elementus.common.entity.ai.navigation.TestGroundNavigation;
@@ -64,7 +62,7 @@ import net.nokunami.elementus.common.item.GolemUpgradeProperties;
 import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.network.SteelGolemInventoryPacket;
-import net.nokunami.elementus.common.registry.ModSoundEvents;
+import net.nokunami.elementus.common.registry.ESoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -76,8 +74,8 @@ import static net.nokunami.elementus.Elementus.modLoc;
 import static net.nokunami.elementus.common.entity.MobUtil.tamedMob;
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnParticlesOnEntity;
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnWideParticlesOnEntity;
-import static net.nokunami.elementus.common.registry.ModSoundEvents.STEEL_GOLEM_REPAIR;
-import static net.nokunami.elementus.common.registry.ModSoundEvents.STEEL_GOLEM_REVIVE;
+import static net.nokunami.elementus.common.registry.ESoundEvents.STEEL_GOLEM_REPAIR;
+import static net.nokunami.elementus.common.registry.ESoundEvents.STEEL_GOLEM_REVIVE;
 
 @SuppressWarnings("deprecation")
 public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, IForgeShearable {
@@ -93,10 +91,8 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
     private static final EntityDataAccessor<Integer> ATTACK_TYPE = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MOSS_TIMER = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MOSS_STAGE = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> BROKEN_TICK = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SIT_TICK = SynchedEntityData.defineId(SteelGolem.class, EntityDataSerializers.INT);
     public final AnimationState attackLoopAnimationState = new AnimationState();
-    public final AnimationState attackEndAnimationState = new AnimationState();
     public final AnimationState upswingAttackAnimationState = new AnimationState();
     public final AnimationState ridden = new AnimationState();
     public final AnimationState unRide = new AnimationState();
@@ -132,7 +128,6 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
         this.entityData.define(ATTACK_TYPE, 0);
         this.entityData.define(MOSS_TIMER, 0);
         this.entityData.define(MOSS_STAGE, 0);
-        this.entityData.define(BROKEN_TICK, 0);
         this.entityData.define(SIT_TICK, 0);
         this.entityData.define(AOE_TIMER, 100);
         this.entityData.define(IS_AOE_ATTACKING, false);
@@ -152,7 +147,6 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
             tag.put("LeavesDecoration", this.inventory.getItem(2).save(new CompoundTag()));
         if (!this.inventory.getItem(3).isEmpty())
             tag.put("DecorItem", this.inventory.getItem(3).save(new CompoundTag()));
-        tag.putInt("BrokenTick", this.getBrokenTick());
         tag.putInt("SitTick", this.getSitTick());
         tag.putInt("AoeTimer", this.getAoeTimer());
         tag.putBoolean("FastAttack", this.getFastAttack());
@@ -178,7 +172,6 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
         if (tag.contains("DecorItem", 10))
             this.inventory.setItem(3, ItemStack.of(tag.getCompound("DecorItem")));
         this.updateContainerEquipment();
-        this.setBrokenTick(tag.getInt("BrokenTick"));
         this.setSitTick(tag.getInt("SitTick"));
         this.setAoeTimer(tag.getInt("AoeTimer"));
         this.setFastAttack(tag.getBoolean("FastAttack"));
@@ -251,15 +244,15 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
         ItemStack leaves1 = this.isCamouflaged();
         ItemStack carpet1 = this.getDripCarpet();
         if (this.tickCount > 20 && this.isArmor(armor1) && armor != armor1)
-            this.playSound(ModSoundEvents.STEEL_GOLEM_ARMORED.get(), 0.5F, 1.0F);
+            this.playSound(ESoundEvents.STEEL_GOLEM_ARMORED.get(), 0.5F, 1.0F);
         if (this.tickCount > 20 && leaves != leaves1)
-            this.playSound(ModSoundEvents.STEEL_GOLEM_LEAVES_SWAG.get(), 0.5F, 1.0F);
+            this.playSound(ESoundEvents.STEEL_GOLEM_LEAVES_SWAG.get(), 0.5F, 1.0F);
         if (this.tickCount > 20 && carpet != carpet1)
-            this.playSound(ModSoundEvents.STEEL_GOLEM_CARPET_SWAG.get(), 0.5F, 1.0F);
+            this.playSound(ESoundEvents.STEEL_GOLEM_CARPET_SWAG.get(), 0.5F, 1.0F);
     }
 
     protected SoundEvent getDeathSound() {
-        return isChassisCompromised() ? SoundEvents.IRON_GOLEM_DEATH : ModSoundEvents.STEEL_GOLEM_DOWN.get();
+        return isChassisCompromised() ? SoundEvents.IRON_GOLEM_DEATH : ESoundEvents.STEEL_GOLEM_DOWN.get();
     }
 
     protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
@@ -445,33 +438,16 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
                 .add(Attributes.ARMOR, EntityConfig.Armor)
                 .add(Attributes.ARMOR_TOUGHNESS, EntityConfig.Toughness)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
-//                .add(ForgeMod.STEP_HEIGHT.get(), 0.5)
                 ;
     }
 
     @Override
     public void baseTick() {
         super.baseTick();
-//        List<Entity> list = this.level().getEntities(this, this.getBoundingBox().inflate(0.2F, -0.01F, 0.2F), EntitySelector.pushableBy(this));
-        List<Entity> list = MobUtil.getEntityAoe(this, 0.2F, -0.01F, 0.2F, EntitySelector.pushableBy(this));
-//        Set<Entity> entitySet = new HashSet<>(level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(2), GOLEM_SURROUNDING_TARGETS));
-        Set<Entity> entitySet = new HashSet<>(MobUtil.getEntityAoe(this, LivingEntity.class, 2, GOLEM_SURROUNDING_TARGETS));
+        List<Entity> list = this.level().getEntities(this, this.getBoundingBox().inflate(0.2F, -0.01F, 0.2F), EntitySelector.pushableBy(this));
+        Set<Entity> entitySet = new HashSet<>(level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(2), GOLEM_SURROUNDING_TARGETS));
 
-        if (this.level().isClientSide) {
-            setupAnim();
-
-            if (isChassisBroken()) {
-                ++this.eyeLayerTick;
-                if (eyeLayerBrightness < 1) {
-                    this.eyeLayerBrightness += (0.0F - this.eyeLayerBrightness) * 0.02F;
-                }
-            } else {
-                --this.eyeLayerTick;
-                if (eyeLayerBrightness > 0) {
-                    this.eyeLayerBrightness -= (0.0F + this.eyeLayerBrightness) * 0.02F;
-                }
-            }
-        }
+        if (this.level().isClientSide) setupAnim();
 
         if (!this.level().isClientSide) {
             this.updatePersistentAnger((ServerLevel)this.level(), true);
@@ -618,6 +594,17 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
                 --this.aoeAttackAnimTimeout;
             }
         }
+        if (isChassisBroken()) {
+            ++this.eyeLayerTick;
+            if (eyeLayerBrightness < 1) {
+                this.eyeLayerBrightness += (0.0F - this.eyeLayerBrightness) * 0.02F;
+            }
+        } else {
+            --this.eyeLayerTick;
+            if (eyeLayerBrightness > 0) {
+                this.eyeLayerBrightness -= (0.0F + this.eyeLayerBrightness) * 0.02F;
+            }
+        }
 
         sitFromStandAnimState.animateWhen(this.isInSittingPose() && !(this.getBrokenTick() > 0), this.tickCount);
         standFromSitAnimState.animateWhen(!this.isInSittingPose(), this.tickCount);
@@ -634,7 +621,7 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
 
     public void stopAllAttackAnimation() {
         this.attackLoopAnimationState.stop();
-        this.attackEndAnimationState.stop();
+//        this.attackEndAnimationState.stop();
     }
 
     @Override
@@ -782,14 +769,6 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
 
     public void setWaxed(boolean i) {
         this.entityData.set(IS_WAXED, i);
-    }
-
-    public int getBrokenTick() {
-        return this.entityData.get(BROKEN_TICK);
-    }
-
-    public void setBrokenTick(int i) {
-        this.entityData.set(BROKEN_TICK, i);
     }
 
     public int getSitTick() {
@@ -1058,7 +1037,7 @@ public class SteelGolem extends TamableGolem implements NeutralMob, Shearable, I
     }
 
     @Override
-    public boolean canBeLeashed(@NotNull Player pPlayer) {
+    public boolean canBeLeashed(@NotNull Player player) {
         return !this.isLeashed() && !isAngry();
     }
 

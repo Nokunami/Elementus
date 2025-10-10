@@ -16,9 +16,9 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidType;
-import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
+import net.nokunami.elementus.common.registry.EBlocks;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.IntFunction;
@@ -31,7 +31,7 @@ public class ModBoatEntity extends Boat {
     }
 
     public ModBoatEntity(Level level, double pX, double pY, double pZ) {
-        this(ModEntityType.MOD_BOAT.get(), level);
+        this(ModEntityType.MOVCADIA_BOAT.get(), level);
         this.setPos(pX, pY, pZ);
         this.xo = pX;
         this.yo = pY;
@@ -41,7 +41,7 @@ public class ModBoatEntity extends Boat {
     @Override
     public @NotNull Item getDropItem() {
         return switch (getModVariant()) {
-            case MOVCADIA -> ModItems.MOVCADIA_BOAT.get();
+            case MOVCADIA -> EItems.MOVCADIA_BOAT.get();
         };
     }
 
@@ -69,7 +69,7 @@ public class ModBoatEntity extends Boat {
     }
 
     public enum Type implements StringRepresentable {
-        MOVCADIA(ElementusBlocks.MOVCADIA_PLANKS.get(), "movcadia");
+        MOVCADIA(EBlocks.MOVCADIA_PLANKS.get(), "movcadia");
 
         private final String name;
         private final Block planks;

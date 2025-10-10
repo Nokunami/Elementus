@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import static net.nokunami.elementus.common.item.CatalystItemUtil.*;
+import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.*;
 
 public class ModItemModelProvider extends ItemModelProvider {
 

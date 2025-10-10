@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.message.MessageParticle;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -14,6 +15,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -23,10 +25,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -41,36 +49,158 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.config.CatalystArmorConfig;
+import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
+import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade;
-import net.nokunami.elementus.common.registry.ModBlocks;
-import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems;
-import net.nokunami.elementus.common.registry.ModSoundEvents;
+import net.nokunami.elementus.common.item.unique.TestCatalystArmorItem;
+import net.nokunami.elementus.common.registry.*;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
 import static net.nokunami.elementus.ModChecker.cataclysm;
+import static net.nokunami.elementus.common.entity.MobUtil.blockVec;
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnParticlesOnEntity;
-import static net.nokunami.elementus.common.item.CatalystItemUtil.cursium;
-import static net.nokunami.elementus.common.item.CatalystItemUtil.ignitium;
+import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.*;
 import static net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade.*;
-import static net.nokunami.elementus.common.registry.ModEnchantments.RESONANCE;
+import static net.nokunami.elementus.common.registry.EEnchantments.RESONANCE;
 import static net.nokunami.elementus.common.registry.ModParticleTypes.PARRY;
 import static net.nokunami.elementus.common.registry.ModParticleTypes.PARRY_RESONANCE;
-import static net.nokunami.elementus.common.registry.ModSoundEvents.*;
+import static net.nokunami.elementus.common.registry.ESoundEvents.*;
+import static net.nokunami.elementus.event.VillagerTradeEnchantment.createForEnchantment;
 
 @Mod.EventBusSubscriber(modid = Elementus.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ServerEvents {
     private static final int parryWindow = 6;
+
+    @SubscribeEvent
+    public static void addCustomTrades(VillagerTradesEvent event) {
+        if (event.getType() == VillagerProfession.ARMORER) {
+            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+
+            trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 12),
+                    createForEnchantment(EItems.STEEL_LEGGINGS.get(), 1, RandomSource.create(), false),
+                    3, 15, 0.2F));
+
+            trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD,7),
+                    createForEnchantment(EItems.STEEL_BOOTS.get(), 1, RandomSource.create(), false),
+                    3, 15, 0.2F));
+
+            trades.get(5).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD,7),
+                    createForEnchantment(EItems.STEEL_HELMET.get(), 2, RandomSource.create(), false),
+                    3, 30, 0.2F));
+        }
+
+        if (event.getType() == VillagerProfession.WEAPONSMITH) {
+            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+
+            trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 10),
+                    new ItemStack(EItems.STEEL_AXE.get()),
+                    3, 15, 0.2F));
+
+            trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 7),
+                    createForEnchantment(EItems.STEEL_SWORD.get(), 1, RandomSource.create(), false),
+                    3, 30, 0.2F));
+        }
+
+        if (event.getType() == VillagerProfession.TOOLSMITH) {
+            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+
+            trades.get(2).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 4),
+                    new ItemStack(EItems.STEEL_HOE.get(), 1),
+                    3, 10, 0.2F));
+
+            trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 10),
+                    new ItemStack(EItems.STEEL_AXE.get(), 1),
+                    3, 15, 0.2F));
+
+            trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 4),
+                    new ItemStack(EItems.STEEL_SHOVEL.get(), 1),
+                    3, 15, 0.2F));
+
+            trades.get(3).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 11),
+                    new ItemStack(EItems.STEEL_PICKAXE.get(), 1),
+                    3, 30, 0.2F));
+        }
+
+        if (event.getType() == VillagerProfession.LIBRARIAN) {
+            Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
+            ItemStack arcaneSharpness = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(EEnchantments.ARCANE_SHARPNESS.get(), 1));
+            ItemStack resonance = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(EEnchantments.RESONANCE.get(), 1));
+            ItemStack condensedBurst = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(EEnchantments.CONDENSED_BURST.get(), 1));
+
+            trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 24), new ItemStack(Items.BOOK, 1),
+                    condensedBurst,
+                    3, 10, 0.2F));
+
+            trades.get(4).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 36), new ItemStack(Items.BOOK, 1),
+                    resonance,
+                    2, 20, 0.8F));
+
+            trades.get(5).add((pTrader, pRandom) -> new MerchantOffer(
+                    new ItemStack(Items.EMERALD, 56), new ItemStack(Items.BOOK, 1),
+                    arcaneSharpness,
+                    3, 30, 0.95F));
+        }
+    }
+
+    @SubscribeEvent
+    public static void addWanderingTraderTrades(WandererTradesEvent event) {
+        List<VillagerTrades.ItemListing> genericTrades = event.getGenericTrades();
+        List<VillagerTrades.ItemListing> rareTrades = event.getRareTrades();
+
+        genericTrades.add(((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 4),
+                new ItemStack(EItems.MOVCADIA_LEAVES.get(), 5),
+                6, 1, 0.25F)));
+
+        genericTrades.add(((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 6),
+                new ItemStack(EItems.MOVCADIA_BERRIES.get(), 4),
+                4, 2, 0.5F)));
+
+        rareTrades.add(((pTrader, pRandom) -> new MerchantOffer(
+                new ItemStack(Items.EMERALD, 15),
+                new ItemStack(EItems.MOVCADIA_SAPLING.get(), 2),
+                1, 5, 0.5F)));
+    }
+
+    @SubscribeEvent
+    public void CatalystArmorPostDamageEvent(LivingDamageEvent event) {
+        ItemStack itemStack = event.getEntity().getItemBySlot(EquipmentSlot.CHEST);
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof TestCatalystArmorItem) {
+            getEquippedCore(itemStack).ifPresent(core -> CatalystCore.getInstance(core).postDamageEvent(event));
+        }
+    }
+
+    @SubscribeEvent
+    public void CatalystArmorPostDeathEvent(LivingDeathEvent event) {
+        ItemStack itemStack = event.getEntity().getItemBySlot(EquipmentSlot.CHEST);
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof TestCatalystArmorItem) {
+            getEquippedCore(itemStack).ifPresent(core -> CatalystCore.getInstance(core).postDeathEvent(event));
+        }
+    }
 
     @SubscribeEvent
     public void CatalystIgnitiumEffect(LivingDamageEvent event) {
@@ -78,7 +208,7 @@ public class ServerEvents {
         Entity attacker = event.getSource().getEntity();
         if (cataclysm) {
             if (!stack.isEmpty() && event.getSource() != null && attacker != null
-                    && stack.getItem() == ModItems.CATALYST_CHESTPLATE.get()) {
+                    && stack.getItem() == EItems.CATALYST_CHESTPLATE.get()) {
                 if (CatalystArmorItem.catalystActivator(stack).equals(ignitium)) {
                     if (attacker instanceof LivingEntity && attacker != event.getEntity()) {
                         if (event.getEntity().getRandom().nextFloat() < 0.5F) {
@@ -111,13 +241,13 @@ public class ServerEvents {
         Entity attacker = event.getSource().getEntity();
         if (cataclysm) {
             if (!stack.isEmpty() && event.getSource() != null && attacker != null) {
-                if (stack.getItem() == ModItems.CATALYST_CHESTPLATE.get() && CatalystArmorItem.catalystActivator(stack).equals(cursium)) {
+                if (stack.getItem() == EItems.CATALYST_CHESTPLATE.get() && CatalystArmorItem.catalystActivator(stack).equals(cursium)) {
                     if (event.getEntity().hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
                         if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                             event.setCanceled(true);
                         }
                     }
-                    if (!stack.isEmpty() && stack.getItem() == ModItems.CATALYST_CHESTPLATE.get()) {
+                    if (!stack.isEmpty() && stack.getItem() == EItems.CATALYST_CHESTPLATE.get()) {
                         if (event.getSource().is(DamageTypeTags.IS_PROJECTILE)) {
                             if (event.getEntity().getRandom().nextFloat() < CatalystArmorConfig.cursium_ProjectileDodgeChance) {
                                 event.setCanceled(true);
@@ -139,7 +269,7 @@ public class ServerEvents {
         DamageSource source = event.getSource();
         if (cataclysm) {
             if (!event.getEntity().level().isClientSide && !stack.isEmpty()
-                    && stack.getItem() == ModItems.CATALYST_CHESTPLATE.get() && CatalystArmorItem.catalystActivator(stack).equals(cursium)) {
+                    && stack.getItem() == EItems.CATALYST_CHESTPLATE.get() && CatalystArmorItem.catalystActivator(stack).equals(cursium)) {
                 if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                     if(tryCursiumPlateRebirth(event.getEntity())){
                         event.setCanceled(true);
@@ -152,7 +282,7 @@ public class ServerEvents {
     private static boolean tryCursiumPlateRebirth(LivingEntity living) {
         ItemStack chestplate = living.getItemBySlot(EquipmentSlot.CHEST);
         if (cataclysm) { // Copy-pasted from Cataclysm's ServerEventHandler
-            if (chestplate.getItem() == ModItems.CATALYST_CHESTPLATE.get()
+            if (chestplate.getItem() == EItems.CATALYST_CHESTPLATE.get()
                     && CatalystArmorItem.catalystActivator(chestplate).equals(cursium)
                     && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS.get())
                     && !living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
@@ -196,7 +326,7 @@ public class ServerEvents {
                         "###",
                         "~#~")
                 .where('^', BlockInWorld.hasState(PUMPKINS_PREDICATE))
-                .where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(ModBlocks.ElementusBlocks.STEEL_BLOCK.get())))
+                .where('#', BlockInWorld.hasState(BlockStatePredicate.forBlock(EBlocks.STEEL_BLOCK.get())))
                 .where('~', (state) -> state.getState().isAir()).build();
     }
 
@@ -277,58 +407,46 @@ public class ServerEvents {
         float damage = event.getAmount();
         float randomFloat = 0.5F + (eventEntity.getRandom().nextFloat() - eventEntity.getRandom().nextFloat()) * 0.5F;
 
-        boolean flag = false;
+        boolean flag = directAttacker instanceof AbstractArrow abstractarrow && abstractarrow.getPierceLevel() > 0;
 
-        if (directAttacker instanceof AbstractArrow abstractarrow) {
-            if (abstractarrow.getPierceLevel() > 0) {
-                flag = true;
-            }
-        }
+        if (blockVec(vec32, position, viewVec))
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+            ItemStack stack = eventEntity.getItemBySlot(slot);
+            boolean parry = eventEntity.getTicksUsingItem() <= parryWindow;
 
-        if (vec32 != null) {
-            Vec3 vec31 = vec32.vectorTo(position).normalize();
-            vec31 = new Vec3(vec31.x, 0.0D, vec31.z);
-            if (vec31.dot(viewVec) < 0.0D) {
+            if (!stack.isEmpty() && stack.getItem() instanceof ChargeBladeItem && usingItem) {
+                float soundVol = 1;
+                SoundEvent soundEvent = isEnchantedWith(stack, RESONANCE) ? DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE.get() : CHARGE_BLADE_BLOCK.get();
+                float damageAmount = 0;
+                float knockback = 0;
+                if (((ChargeBladeItem)stack.getItem()).canParry() && parry) {
+                    soundEvent = isEnchantedWith(stack, RESONANCE) ? DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE.get() : CHARGE_BLADE_PARRY.get();
+                    ParticleOptions parryParticle = isEnchantedWith(stack, RESONANCE) ? PARRY_RESONANCE.get() : PARRY.get();
+                    parryParticle(level, eventEntity, parryParticle);
+                    setCharge(stack, 1);
+                    soundVol = 1.5F;
+                    damageAmount = event.getAmount();
+                    knockback = 2;
+                    removeStuckEntities(event);
+                    event.setCanceled(true);
+                } else if (!damageSource.is(DamageTypeTags.BYPASSES_SHIELD) && !flag) {
+                    event.setAmount(damage - (damage * damageAbsorption(stack)));
+                    knockback = 1;
+                } else if (stack.getItem() instanceof DiarkriteChargeBlade && damageSource.is(DamageTypes.SONIC_BOOM)) {
+                    soundEvent = DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE.get();
+                    event.setAmount(event.getAmount() * 0.8F);
+                    setCharge(stack, (int) event.getAmount() / 2);
+                }
+                level.playSound(null, eventEntity, soundEvent, SoundSource.PLAYERS, soundVol, randomFloat);
+                setCharge(stack, 1);
+                setResonanceCharge(stack, 1);
+                applyRecoil(directAttacker, eventEntity, knockback, true);
 
-                for (EquipmentSlot slot : EquipmentSlot.values()) {
-                    ItemStack stack = eventEntity.getItemBySlot(slot);
-                    boolean parry = eventEntity.getTicksUsingItem() <= parryWindow;
-
-                    if (!stack.isEmpty() && stack.getItem() instanceof ChargeBladeItem && usingItem) {
-                        float soundVol = 1;
-                        SoundEvent soundEvent = isEnchantedWith(stack, RESONANCE) ? DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE.get() : DIARKRITE_CHARGE_BLADE_BLOCK.get();
-                        float damageAmount = 0;
-                        float knockback = 0;
-                        if (((ChargeBladeItem)stack.getItem()).canParry() && parry) {
-                            soundEvent = isEnchantedWith(stack, RESONANCE) ? DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE.get() : DIARKRITE_CHARGE_BLADE_PARRY.get();
-                            ParticleOptions parryParticle = isEnchantedWith(stack, RESONANCE) ? PARRY_RESONANCE.get() : PARRY.get();
-                            parryParticle(level, eventEntity, parryParticle);
-                            setCharge(stack, 1);
-                            soundVol = 1.5F;
-                            damageAmount = event.getAmount();
-                            knockback = 2;
-                            removeStuckEntities(event);
-                            event.setCanceled(true);
-                        } else if (!damageSource.is(DamageTypeTags.BYPASSES_SHIELD) && !flag) {
-                            event.setAmount(damage - (damage * damageAbsorption(stack)));
-                            knockback = 1;
-                        } else if (stack.getItem() instanceof DiarkriteChargeBlade && damageSource.is(DamageTypes.SONIC_BOOM)) {
-                            soundEvent = DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE.get();
-                            event.setAmount(event.getAmount() * 0.8F);
-                            setCharge(stack, (int) event.getAmount() / 2);
-                        }
-                        level.playSound(null, eventEntity, soundEvent, SoundSource.PLAYERS, soundVol, randomFloat);
-                        setCharge(stack, 1);
-                        setResonanceCharge(stack, 1);
-                        applyRecoil(directAttacker, eventEntity, knockback, true);
-
-                        if ((directAttacker instanceof LivingEntity living && parry)) {
-                            parry(level, (Player) eventEntity, living, damageAmount);
-                        }
-                        if (attacker instanceof LivingEntity living && ((isEnchantedWith(stack, RESONANCE) && parry))) {
-                            parry(level, (Player) eventEntity, living, damageAmount);
-                        }
-                    }
+                if ((directAttacker instanceof LivingEntity living && parry)) {
+                    parry(level, (Player) eventEntity, living, damageAmount);
+                }
+                if (attacker instanceof LivingEntity living && ((isEnchantedWith(stack, RESONANCE) && parry))) {
+                    parry(level, (Player) eventEntity, living, damageAmount);
                 }
             }
         }
@@ -379,25 +497,16 @@ public class ServerEvents {
                 if (vec31.dot(viewVec) < 0.0D) {
                     if (entity.getUseItem().getItem() instanceof ChargeBladeItem bladeItem && entity.isUsingItem() && entity.getTicksUsingItem() <= parryWindow && bladeItem.canParry() && !isEnchantedWith(stack, RESONANCE)) {
                         Elementus.LOGGER.debug("testHit2 this deflects \"i hope\"");
-                        event.setCanceled(true);
+//                        event.setCanceled(true);
+                        event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
                         parryParticleAlt(level, entity, PARRY.get());
-                        level.playSound(null, entity, ModSoundEvents.DIARKRITE_CHARGE_BLADE_PARRY.get(), SoundSource.PLAYERS, 1, randomFloat);
+                        level.playSound(null, entity, ESoundEvents.CHARGE_BLADE_PARRY.get(), SoundSource.PLAYERS, 1, randomFloat);
                         projectile.setDeltaMovement(-projectileDelta.x/2, -projectileDelta.y/2, -projectileDelta.z/2);
                     }
                 }
             }
         }
     }
-
-//    public void catalystEffects(LivingEvent event) {
-//        ItemStack chestplate = event.getEntity().getItemBySlot(EquipmentSlot.CHEST);
-//        Predicate<ItemStack> coreItem = (e -> e.is(Items.NETHER_STAR));
-//        if (chestplate.is(ModItems.CATALYST_CHESTPLATE.get())) {
-//            if (CatalystArmorItem.getContents(chestplate).anyMatch(coreItem)) {
-//                event.getEntity().addEffect()
-//            }
-//        }
-//    }
 
     public void steelGolemConversion(LivingConversionEvent event) {
     }

@@ -5,7 +5,7 @@ import moze_intel.projecte.api.data.CustomConversionProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -25,8 +25,8 @@ public class PECustomConversionData extends CustomConversionProvider {
 //                .before(ModItems.ATELIS_SCRAP.get(), 12_288)
 //                .before(ModItems.DIARKRITE_INGOT.get(), 77_906)
 //                .before(ModItems.ANTHEKTITE_INGOT.get(), 77_906)
-                .before(ModItems.ATELIS_UPGRADE_SMITHING_TEMPLATE.get(), 18_432)
-                .before(ModItems.MOVCADIA_ESSENCE.get(), 192)
+                .before(EItems.ATELIS_UPGRADE_SMITHING_TEMPLATE.get(), 18_432)
+                .before(EItems.MOVCADIA_ESSENCE.get(), 192)
 
 //                .before(PPModItems.DIARKRITE_UPGRADE_KIT.get(), 384_060)
 //                .before(PPModItems.ANTHEKTITE_UPGRADE_KIT.get(), 384_060)

@@ -45,6 +45,7 @@ public class SwordDanceSlashRenderer extends EntityRenderer<SwordDanceSlashEntit
         poseStack.pushPose();
         poseStack.mulPose(Axis.YP.rotationDegrees(90.0F - entity.getYRot()));
         poseStack.mulPose(Axis.XP.rotationDegrees(-entity.getXRot()));
+        poseStack.mulPose(Axis.ZN.rotationDegrees(entity.getOffsetDegree()));
 
         VertexConsumer defaultLayer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
         this.model.renderToBuffer(poseStack, defaultLayer, 15728880, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F,1.0F, 1.0F);

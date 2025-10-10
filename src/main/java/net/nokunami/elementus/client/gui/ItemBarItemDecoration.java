@@ -8,8 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.client.IItemDecorator;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
-import net.nokunami.elementus.common.registry.ModEnchantments;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EEnchantments;
+import net.nokunami.elementus.common.registry.EItems;
 
 import static net.nokunami.elementus.common.item.EItemUtil.getEssenceBarWidth;
 import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
@@ -22,7 +22,7 @@ public class ItemBarItemDecoration implements IItemDecorator {
             posestack.pushPose();
             if (stack.getItem() instanceof ChargeBladeItem blade) {
                 if (blade.isMultiBarVisible(stack)) {
-                    int level = EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.CHARGE_STACKING.get(), stack);
+                    int level = EnchantmentHelper.getTagEnchantmentLevel(EEnchantments.CHARGE_STACKING.get(), stack);
                     int l = stack.getBarWidth();
                     int i = stack.getBarColor();
                     int minX = xOffset + 2;
@@ -63,11 +63,11 @@ public class ItemBarItemDecoration implements IItemDecorator {
                     }
                 }
             }
-            if (stack.getItem() == ModItems.MOVCADIA_SWORD.get() ||
-                    stack.getItem() == ModItems.MOVCADIA_SHOVEL.get() ||
-                    stack.getItem() == ModItems.MOVCADIA_PICKAXE.get() ||
-                    stack.getItem() == ModItems.MOVCADIA_AXE.get() ||
-                    stack.getItem() == ModItems.MOVCADIA_HOE.get()) {
+            if (stack.getItem() == EItems.MOVCADIA_SWORD.get() ||
+                    stack.getItem() == EItems.MOVCADIA_SHOVEL.get() ||
+                    stack.getItem() == EItems.MOVCADIA_PICKAXE.get() ||
+                    stack.getItem() == EItems.MOVCADIA_AXE.get() ||
+                    stack.getItem() == EItems.MOVCADIA_HOE.get()) {
                 int r = getEssenceBarWidth(stack);
                 int i = 12054986;
                 int minX = xOffset + 2;

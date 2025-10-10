@@ -1,12 +1,6 @@
 {
   "values": [
-    {
-      "id": "elementus:stripped_movcadia_log",
-      "required": false
-    },
-    {
-      "id": "elementus:stripped_movcadia_wood",
-      "required": false
-    }
+    "elementus:stripped_movcadia_log",
+    "elementus:stripped_movcadia_wood"
   ]
 }

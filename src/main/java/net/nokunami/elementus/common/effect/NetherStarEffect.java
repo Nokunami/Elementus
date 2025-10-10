@@ -8,7 +8,7 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.config.CatalystArmorConfig;
+import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
 import net.nokunami.elementus.common.registry.ModMobEffects;
 import org.jetbrains.annotations.NotNull;
 

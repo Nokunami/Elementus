@@ -36,7 +36,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 import static net.nokunami.elementus.common.item.unique.ChargeBladeItem.isEnchantedWith;
-import static net.nokunami.elementus.common.registry.ModEnchantments.SACRIFICE_CURSE;
+import static net.nokunami.elementus.common.registry.EEnchantments.SACRIFICE_CURSE;
 
 public class PulseBurstEntity extends Projectile {
     protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(PulseBurstEntity.class, EntityDataSerializers.OPTIONAL_UUID);

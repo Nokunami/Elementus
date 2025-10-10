@@ -14,7 +14,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -43,11 +46,6 @@ public class RushProjectileEntity extends Projectile {
     private int totalLifespan;
     private int delay;
     private final int totalDelay;
-    public Predicate<LivingEntity> REMOVE_PREDICATE = (e) ->
-            !(e instanceof OwnableEntity) && (e.isAlliedTo(this.getTrueOwner()) && getFriendlyFire() || !e.isAlliedTo(this.getTrueOwner())) ||
-                    (e instanceof OwnableEntity ownable && ((ownable.getOwner() != null &&
-                            (ownable.getOwner().is(this.getTrueOwner()) || ownable.getOwner().isAlliedTo(this.getTrueOwner())) && getFriendlyFire()) ||
-                            ownable.getOwner() == null));
     public Predicate<? super Entity> REMOVE_ENTITIES_PREDICATE = (e -> MobUtil.allied(this.getTrueOwner(), e, this.getFriendlyFire()) || e.equals(this.getTrueOwner()));
     public Predicate<? super LivingEntity> REMOVE_ENTITIES_PREDICATE2 = (e) -> MobUtil.allied(this.getTrueOwner(), e, getFriendlyFire());
     private final Set<Entity> alreadyHitEntities;
@@ -213,14 +211,14 @@ public class RushProjectileEntity extends Projectile {
         if (this.tickCount > getTotalLifespan())
             this.discard();
 
-        if (this.level().isClientSide || (owner == null || !owner.isRemoved())) {
-            if (this.delay < totalDelay){
-                ++this.delay;
-            } else {
-                if (!this.getTrueOwner().onGround())
-                    this.level().addParticle(ModParticleTypes.RUSH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
-                this.delay = 0;
-            }
+//        if (this.level().isClientSide && owner != null) {
+//        }
+        if (this.delay < totalDelay){
+            ++this.delay;
+        } else {
+            if (this.getTrueOwner() != null && !this.getTrueOwner().onGround())
+                this.level().addParticle(ModParticleTypes.RUSH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+            this.delay = 0;
         }
 
 

@@ -30,7 +30,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
+import net.nokunami.elementus.common.registry.EBlocks;
 import net.nokunami.elementus.common.worldgen.tree.MegaMovcadiaTrunkPlacer;
 import net.nokunami.elementus.common.worldgen.tree.MovcadiaTrunkPlacer;
 
@@ -54,20 +54,20 @@ public class ModConfiguredFeatures {
         RuleTest endReplaceables = new BlockMatchTest(Blocks.END_STONE);
 
         List<OreConfiguration.TargetBlockState> overworldRemnantOres = List.of(OreConfiguration.target(stoneReplaceable,
-                        ElementusBlocks.REMNANT.get().defaultBlockState()),
-                OreConfiguration.target(deepslateReplaceables, ElementusBlocks.REMNANT.get().defaultBlockState()));
+                        EBlocks.REMNANT.get().defaultBlockState()),
+                OreConfiguration.target(deepslateReplaceables, EBlocks.REMNANT.get().defaultBlockState()));
 
         register(context, OVERWORLD_REMNANT_KEY, Feature.ORE, new OreConfiguration(overworldRemnantOres, 4, 0.5F));
         register(context, OVERWORLD_REMNANT_BURIED_KEY, Feature.ORE, new OreConfiguration(overworldRemnantOres, 8, 1.0F));
 
 
         register(context, MOVCADIA_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ElementusBlocks.MOVCADIA_LOG.get()),
+                BlockStateProvider.simple(EBlocks.MOVCADIA_LOG.get()),
                 new MovcadiaTrunkPlacer(5, 2, 1),
 
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                        .add(ElementusBlocks.MOVCADIA_LEAVES.get().defaultBlockState(), 4)
-                        .add(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get().defaultBlockState(), 1)),
+                        .add(EBlocks.MOVCADIA_LEAVES.get().defaultBlockState(), 4)
+                        .add(EBlocks.FLOWERING_MOVCADIA_LEAVES.get().defaultBlockState(), 1)),
                 new RandomSpreadFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0), ConstantInt.of(3), 90),
 
 //                Optional.of(new MovcadiaRootPlacer(UniformInt.of(3, 7), BlockStateProvider.simple(Blocks.MANGROVE_ROOTS),
@@ -79,23 +79,23 @@ public class ModConfiguredFeatures {
                 new TwoLayersFeatureSize(1, 0, 3)).build());
 
         register(context, MOVCADIA_TALL_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-                BlockStateProvider.simple(ElementusBlocks.MOVCADIA_LOG.get()),
+                BlockStateProvider.simple(EBlocks.MOVCADIA_LOG.get()),
                 new MovcadiaTrunkPlacer(8, 2, 1),
 
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                        .add(ElementusBlocks.MOVCADIA_LEAVES.get().defaultBlockState(), 4)
-                        .add(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get().defaultBlockState(), 1)),
+                        .add(EBlocks.MOVCADIA_LEAVES.get().defaultBlockState(), 4)
+                        .add(EBlocks.FLOWERING_MOVCADIA_LEAVES.get().defaultBlockState(), 1)),
                 new RandomSpreadFoliagePlacer(ConstantInt.of(4), ConstantInt.of(0), ConstantInt.of(4), 150),
 
                 new TwoLayersFeatureSize(1, 0, 4)).build());
 
         FeatureUtils.register(context, MOVCADIA_MEGA_TREE, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
-                        BlockStateProvider.simple(ElementusBlocks.MOVCADIA_LOG.get()),
+                        BlockStateProvider.simple(EBlocks.MOVCADIA_LOG.get()),
                 new MegaMovcadiaTrunkPlacer(12, 3, 2),
 
                 new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                        .add(ElementusBlocks.MOVCADIA_LEAVES.get().defaultBlockState(), 7)
-                        .add(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get().defaultBlockState(), 1)),
+                        .add(EBlocks.MOVCADIA_LEAVES.get().defaultBlockState(), 7)
+                        .add(EBlocks.FLOWERING_MOVCADIA_LEAVES.get().defaultBlockState(), 1)),
                 new RandomSpreadFoliagePlacer(ConstantInt.of(7), ConstantInt.of(0), ConstantInt.of(4), 256),
 
                 new TwoLayersFeatureSize(1, 0, 2)).build());

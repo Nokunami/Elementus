@@ -17,12 +17,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.config.CatalystArmorConfig;
+import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
 import net.nokunami.elementus.common.item.DiarkriteBootsItem;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
-import net.nokunami.elementus.common.registry.ModSoundEvents;
+import net.nokunami.elementus.common.registry.ESoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
 
-import static net.nokunami.elementus.common.item.CatalystItemUtil.totem;
+import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.totem;
 
 @SuppressWarnings("ConstantConditions")
 @Mixin(LivingEntity.class)
@@ -62,15 +62,12 @@ public abstract class LivingEntityMixin extends Entity {
         if (!damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             if ((Object) this instanceof LivingEntity livingEntity) {
                 ItemStack chestplateItem = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
-                if (chestplateItem.is(ModItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.catalystActivator(chestplateItem).equals(totem) &&
+                if (chestplateItem.is(EItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.catalystActivator(chestplateItem).equals(totem) &&
                         !livingEntity.hasEffect(ElementusEffects.TOTEM_COOLDOWN.get()))  {
                     if (entity instanceof ServerPlayer serverplayer) {
                         serverplayer.awardStat(Stats.ITEM_USED.get(Items.TOTEM_OF_UNDYING), 1);
                         CriteriaTriggers.USED_TOTEM.trigger(serverplayer, chestplateItem);
                     }
-//                    if (entity instanceof Player player) {
-//                        player.getCooldowns().addCooldown(chestplateItem.getItem(), 200);
-//                    }
 
                     this.setHealth(1.0F);
                     this.removeAllEffects();
@@ -83,6 +80,24 @@ public abstract class LivingEntityMixin extends Entity {
                     livingEntity.level().broadcastEntityEvent(this, (byte)35);
                     cir.setReturnValue(true);
                 }
+
+//                ItemStack testChestplateItem = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
+//                Optional<ItemStack> coreStack = getContents(testChestplateItem).findAny();
+//                boolean isCorePresent = coreStack.isPresent();
+//                if (testChestplateItem.is(ModItems.TEST_CATALYST_CHESTPLATE.get()))  {
+//                    if (isCorePresent && CATALYST_CORE_MAP.containsKey(coreStack.get().getItem()) && !livingEntity.hasEffect(ElementusEffects.TOTEM_COOLDOWN.get())) {
+//                        if (entity instanceof ServerPlayer serverplayer) {
+//                            serverplayer.awardStat(Stats.ITEM_USED.get(coreStack.get().getItem()), 1);
+//                            CriteriaTriggers.USED_TOTEM.trigger(serverplayer, chestplateItem);
+//                        }
+//
+//                        this.setHealth(1.0F);
+//                        this.removeAllEffects();
+//                        CATALYST_CORE_MAP.get(coreStack.get().getItem()).postDeathEffects(this, level());
+//                        livingEntity.level().broadcastEntityEvent(this, (byte)35);
+//                        cir.setReturnValue(true);
+//                    }
+//                }
             }
         }
     }
@@ -126,14 +141,14 @@ public abstract class LivingEntityMixin extends Entity {
     ///  Credits: Team Abode's Guarding Mod
     @Inject(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;broadcastEntityEvent(Lnet/minecraft/world/entity/Entity;B)V"), cancellable = true)
     private void Elementus$playBlockSound(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (this.getUseItem().is(ModItems.DIARKRITE_SHIELD.get())) {
+        if (this.getUseItem().is(EItems.DIARKRITE_SHIELD.get())) {
             LivingEntity livingEntity = LivingEntity.class.cast(this);
-            livingEntity.level().playSound(null, livingEntity.blockPosition(), ModSoundEvents.DIARKRITE_SHIELD_BLOCK.get(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
+            livingEntity.level().playSound(null, livingEntity.blockPosition(), ESoundEvents.DIARKRITE_SHIELD_BLOCK.get(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
             cir.cancel();
         }
-        if (this.getUseItem().is(ModItems.ANTHEKTITE_SHIELD.get())) {
+        if (this.getUseItem().is(EItems.ANTHEKTITE_SHIELD.get())) {
             LivingEntity livingEntity = LivingEntity.class.cast(this);
-            livingEntity.level().playSound(null, livingEntity.blockPosition(), ModSoundEvents.ANTHEKTITE_SHIELD_BLOCK.get(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
+            livingEntity.level().playSound(null, livingEntity.blockPosition(), ESoundEvents.ANTHEKTITE_SHIELD_BLOCK.get(), SoundSource.PLAYERS, 1.0F, 0.8F + this.level().random.nextFloat() * 0.4F);
             cir.cancel();
         }
     }

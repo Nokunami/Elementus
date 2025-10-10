@@ -36,7 +36,7 @@ import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EItems;
 import net.nokunami.elementus.common.registry.ModMobEffects;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +46,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 public class AnthektiteSlashEntity extends Projectile {
     protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(AnthektiteSlashEntity.class, EntityDataSerializers.OPTIONAL_UUID);
@@ -272,7 +271,7 @@ public class AnthektiteSlashEntity extends Projectile {
             if (blockstate.is(BlockTags.MINEABLE_WITH_HOE) && !blockstate.is(Etags.Blocks.ANTHEKTITE_SLASH_BLACKLIST)) {
                 ItemStack itemStack = this.getItemStack();
                 if (this.getItemStack() == null || this.getItemStack().isEmpty()){
-                    itemStack = new ItemStack(ModItems.ANTHEKTITE_CHARGE_BLADE.get());
+                    itemStack = new ItemStack(EItems.ANTHEKTITE_CHARGE_BLADE.get());
                 }
                 breakBlock(this.level(), blockpos, itemStack, this);
             }

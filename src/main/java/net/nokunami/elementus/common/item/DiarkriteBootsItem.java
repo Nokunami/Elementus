@@ -40,7 +40,7 @@ public class DiarkriteBootsItem extends ElementusArmorItem {
         if (diarkriteBootsKnockbackResistance != 0) builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Knockback resistance", diarkriteBootsKnockbackResistance, AttributeModifier.Operation.ADDITION));
         if (diarkriteArmor_AttackSpeed != 0) builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(uuid, "Speed Modifier", diarkriteArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE));
         if (diarkriteBootsMovementSpeed != 0) builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Speed Modifier", diarkriteBootsMovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE));
-        if (diarkriteBootsStepHeight != 0) builder.put(ForgeMod.STEP_HEIGHT.get(), new AttributeModifier(uuid, "Step Height Modifier", diarkriteBootsStepHeight, AttributeModifier.Operation.ADDITION));
+        if (diarkriteBootsStepHeight != 0) builder.put(ForgeMod.STEP_HEIGHT_ADDITION.get(), new AttributeModifier(uuid, "Step Height Modifier", diarkriteBootsStepHeight, AttributeModifier.Operation.ADDITION));
         return builder;
     }
 

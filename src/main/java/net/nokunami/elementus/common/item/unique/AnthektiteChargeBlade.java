@@ -31,7 +31,7 @@ import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
 import net.nokunami.elementus.common.network.AnthektiteChargeBladeSlashPacket;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.ModMobEffects;
-import net.nokunami.elementus.common.registry.ModSoundEvents;
+import net.nokunami.elementus.common.registry.ESoundEvents;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 
@@ -103,7 +103,7 @@ public class AnthektiteChargeBlade extends ChargeBladeItem {
     public static void spawnSlash(Player player, InteractionHand hand) {
         Level level = player.level();
         if (player.getAttackStrengthScale(1.0F) >= 0.99F) {
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSoundEvents.CHARGE_BLADE_WIND_SLASH.get(), SoundSource.PLAYERS, 1.0F, 1.4F / (level.random.nextFloat() * 0.4F + 0.8F));
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), ESoundEvents.ANTHEKTITE_CHARGE_BLADE_WIND_SLASH.get(), SoundSource.PLAYERS, 1.0F, 1.4F / (level.random.nextFloat() * 0.4F + 0.8F));
             if (!level.isClientSide) {
                 AnthektiteSlashEntity slash = new AnthektiteSlashEntity(level, player);
                 slash.setOwnerId(player.getUUID());
@@ -123,14 +123,25 @@ public class AnthektiteChargeBlade extends ChargeBladeItem {
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDER_EYE_DEATH, SoundSource.PLAYERS, 1.0F, 1.4F / (level.random.nextFloat() * 0.4F + 0.8F));
         if (!level.isClientSide) {
             boolean mirrored = false;
+            int minOffset = -30;
+            int maxOffset = 5;
             if (player.getUsedItemHand() == InteractionHand.MAIN_HAND) {
-                if (player.getMainArm() == HumanoidArm.RIGHT) mirrored = true;
+                if (player.getMainArm() == HumanoidArm.RIGHT) {
+                    mirrored = true;
+                    minOffset = 5;
+                    maxOffset = 30;
+                }
             } else {
-                if (player.getMainArm() == HumanoidArm.LEFT) mirrored = true;
+                if (player.getMainArm() == HumanoidArm.LEFT) {
+                    mirrored = true;
+                    minOffset = 5;
+                    maxOffset = 30;
+                }
             }
             SwordDanceSlashEntity slash = new SwordDanceSlashEntity(level, player);
             slash.setOwnerId(player.getUUID());
             slash.setDamage(20);
+            slash.setOffsetDegree(player.getRandom().nextIntBetweenInclusive(minOffset, maxOffset));
             slash.setItemStack(player.getItemInHand(hand));
             slash.setMirrored(mirrored);
             Vec3 hitLocation = player.position().add(0.0F, player.getBbHeight() * 0.3F, 0.0F).add(player.getForward().multiply(1.65F, 0.35F, 1.65F));
@@ -146,7 +157,7 @@ public class AnthektiteChargeBlade extends ChargeBladeItem {
         Level level = player.level();
 //        level.playSound(null, player, SoundEvents.ENDER_EYE_DEATH, SoundSource.PLAYERS, 1.0F, 1.4F / (level.random.nextFloat() * 0.4F + 0.8F));
 //        level.playSound(null, player, SoundEvents.ELYTRA_FLYING, SoundSource.PLAYERS, 1.0F, 4F);
-        level.playSound(null, player, ModSoundEvents.CHARGE_BLADE_RUSH.get(), SoundSource.PLAYERS, 1.0F, 1F);
+        level.playSound(null, player, ESoundEvents.ANTHEKTITE_CHARGE_BLADE_RUSH.get(), SoundSource.PLAYERS, 1.0F, 1F);
         if (!level.isClientSide) {
             if (player.onGround() && player.getViewXRot(player.tickCount) > -5) {
                 applyRecoil(player, player, 1.25, 0, 1.25, true);

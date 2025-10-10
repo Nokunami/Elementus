@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.registry.ModBlocks;
+import net.nokunami.elementus.common.registry.EBlocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -26,9 +26,9 @@ public class MegaMovcadiaTrunkPlacer extends TrunkPlacer {
     public static final Codec<MegaMovcadiaTrunkPlacer> CODEC = RecordCodecBuilder.create(megaMovcadiaTrunkPlacerInstance ->
             trunkPlacerParts(megaMovcadiaTrunkPlacerInstance).apply(megaMovcadiaTrunkPlacerInstance, MegaMovcadiaTrunkPlacer::new));
 
-    private static final BlockStateProvider rootedDirt = BlockStateProvider.simple(ModBlocks.ElementusBlocks.MOVCADIA_ROOTED_DIRT.get());
-    private static final BlockStateProvider rootedStone = BlockStateProvider.simple(ModBlocks.ElementusBlocks.MOVCADIA_ROOTED_STONE.get());
-    private static final BlockStateProvider rootedDeepslate = BlockStateProvider.simple(ModBlocks.ElementusBlocks.MOVCADIA_ROOTED_DEEPSLATE.get());
+    private static final BlockStateProvider rootedDirt = BlockStateProvider.simple(EBlocks.MOVCADIA_ROOTED_DIRT.get());
+    private static final BlockStateProvider rootedStone = BlockStateProvider.simple(EBlocks.MOVCADIA_ROOTED_STONE.get());
+    private static final BlockStateProvider rootedDeepslate = BlockStateProvider.simple(EBlocks.MOVCADIA_ROOTED_DEEPSLATE.get());
 
     public MegaMovcadiaTrunkPlacer(int pBaseHeight, int pHeightRandA, int pHeightRandB) {
         super(pBaseHeight, pHeightRandA, pHeightRandB);

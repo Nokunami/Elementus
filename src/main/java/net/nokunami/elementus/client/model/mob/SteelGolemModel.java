@@ -10,13 +10,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemAnimation;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemAttackAnimation;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemChestAnimation;
+import net.nokunami.elementus.client.model.ModelUtil;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> {
-    public final float walkMaxAnimSpeed = 4.45F;
-    public final float walkAnimScaleFactor = 500;
+    public final float walkMaxAnimSpeed = 4.5F;
+    public final float walkAnimScaleFactor = 100;
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart head;
@@ -52,7 +53,6 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
 
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
-
     public static LayerDefinition createBodyCarpetLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
@@ -84,7 +84,6 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
 
         return LayerDefinition.create(meshdefinition, 176, 176);
     }
-
     public static LayerDefinition createExtraLayer1(CubeDeformation deformation) {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
@@ -101,7 +100,6 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
 
         return LayerDefinition.create(meshdefinition, 192, 192);
     }
-
     public static LayerDefinition createExtraLayer2(CubeDeformation deformation) {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
@@ -118,7 +116,6 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
 
         return LayerDefinition.create(meshdefinition, 192, 192);
     }
-
     public static LayerDefinition createExtraLayer3(CubeDeformation deformation) {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
@@ -143,10 +140,9 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
         this.head.xRot = headPitch * ((float)Math.PI / 180F);
 
         AnimationDefinition loopAttackAnim = entity.getAttackType() == 0 ? SteelGolemAttackAnimation.leftAttackLoop : entity.getAttackType() == 1 ? SteelGolemAttackAnimation.rightAttackLoop : SteelGolemAttackAnimation.upswingAttackLoop4;
-        AnimationDefinition endAttackAnim = entity.getAttackType() == 0 ? SteelGolemAttackAnimation.leftAttackEnd : entity.getAttackType() == 1 ? SteelGolemAttackAnimation.rightAttackEnd : SteelGolemAttackAnimation.upswingAttackEnd3;
+//        AnimationDefinition endAttackAnim = entity.getAttackType() == 0 ? SteelGolemAttackAnimation.leftAttackEnd : entity.getAttackType() == 1 ? SteelGolemAttackAnimation.rightAttackEnd : SteelGolemAttackAnimation.upswingAttackEnd3;
 
         this.animate(entity.attackLoopAnimationState, loopAttackAnim, ageInTicks);
-        this.animate(entity.attackEndAnimationState, endAttackAnim, ageInTicks);
         this.animate(entity.upswingAttackAnimationState, SteelGolemAttackAnimation.upswingAttackLoop4, ageInTicks);
 
         if (entity.isCrouching()) {
@@ -171,63 +167,13 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
     }
 
     private void resetPartPosRot() {
-        this.body.setPos(0, 5, 0);
-        this.body.setRotation(0, 0, 0);
-        this.head.setPos(0, -20, -3.5F);
-        this.head.setRotation(0, 0, 0);
-        this.left_arm.setPos(9, -13, 0);
-        this.left_arm.setRotation(0, 0, 0);
-        this.right_arm.setPos(-left_arm.x, left_arm.y, left_arm.z);
-        this.right_arm.setRotation(left_arm.xRot, left_arm.yRot, -left_arm.zRot);
-        this.left_leg.setPos(4.5F, 5, 0);
-        this.left_leg.setRotation(0, 0, 0);
-        this.right_leg.setPos(-left_leg.x, left_leg.y, left_leg.z);
-        this.right_leg.setRotation(left_leg.xRot, left_leg.yRot, -left_leg.zRot);
-    }
-
-    private void resetBodyPos() {
-        this.body.x = 0.0F;
-        this.body.y = 5.0F;
-        this.body.z = 0.0F;
-        this.body.xRot = 0.0F;
-        this.body.yRot = 0.0F;
-        this.body.zRot = 0.0F;
-    }
-    private void resetHeadPos() {
-        this.head.x = 0.0F;
-        this.head.y = -20.0F;
-        this.head.z = -3.5F;
-        this.head.xRot = 0.0F;
-        this.head.yRot = 0.0F;
-        this.head.zRot = 0.0F;
-    }
-    private void resetArmPos() {
-        this.left_arm.x = 9.0F;
-        this.left_arm.y = -13.0F;
-        this.left_arm.z = 0.0F;
-        this.left_arm.xRot = 0.0F;
-        this.left_arm.yRot = 0.0F;
-        this.left_arm.zRot = 0.0F;
-        this.right_arm.x = -left_arm.x;
-        this.right_arm.y = left_arm.y;
-        this.right_arm.z = left_arm.z;
-        this.right_arm.xRot = left_arm.xRot;
-        this.right_arm.yRot = left_arm.yRot;
-        this.right_arm.zRot = left_arm.zRot;
-    }
-    private void resetLegPos() {
-        this.left_leg.x = 4.5F;
-        this.left_leg.y = 5.0F;
-        this.left_leg.z = 0.0F;
-        this.left_leg.xRot = 0.0F;
-        this.left_leg.yRot = 0.0F;
-        this.left_leg.zRot = 0.0F;
-        this.right_leg.x = -left_leg.x;
-        this.right_leg.y = left_leg.y;
-        this.right_leg.z = left_leg.z;
-        this.right_leg.xRot = left_leg.xRot;
-        this.right_leg.yRot = left_leg.yRot;
-        this.right_leg.zRot = left_leg.zRot;
+        ModelUtil.setDefaults(root, 0, 0.5, 0);
+        ModelUtil.setDefaults(body, 0, 5.5, 0);
+        ModelUtil.setDefaults(head, 0, -20, -3.5);
+        ModelUtil.setDefaults(left_arm, 9, -13, 0);
+        ModelUtil.setDefaults(right_arm, -9, -13, 0);
+        ModelUtil.setDefaults(left_leg, -4.5, 5.5, 0);
+        ModelUtil.setDefaults(right_leg, 4.5, 5.5, 0);
     }
 
     @Override

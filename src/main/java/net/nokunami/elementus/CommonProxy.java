@@ -19,6 +19,14 @@ public class CommonProxy {
         return null;
     }
 
+    public Object getArmorCatalystRenderProperties() {
+        return null;
+    }
+
+    public Object getArmorCatalystTrimRenderProperties() {
+        return null;
+    }
+
     @SubscribeEvent
     public static void attributeCreationEvent(EntityAttributeCreationEvent event) {
         event.put(ModEntityType.STEEL_GOLEM.get(), SteelGolem.createAttributes().build());

@@ -1,16 +1,7 @@
 {
   "values": [
-    {
-      "id": "elementus:steel_bow",
-      "required": false
-    },
-    {
-      "id": "elementus:diarkrite_bow",
-      "required": false
-    },
-    {
-      "id": "elementus:anthektite_bow",
-      "required": false
-    }
+    "elementus:steel_bow",
+    "elementus:diarkrite_bow",
+    "elementus:anthektite_bow"
   ]
 }

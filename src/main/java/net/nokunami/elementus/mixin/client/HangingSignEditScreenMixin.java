@@ -3,7 +3,7 @@ package net.nokunami.elementus.mixin.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
-import net.nokunami.elementus.client.ModHangingSignEditScreen;
+import net.nokunami.elementus.client.gui.screens.inventory.ModHangingSignEditScreen;
 import net.nokunami.elementus.common.block.entity.ModHangingSignBlockEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

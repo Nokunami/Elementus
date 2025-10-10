@@ -15,8 +15,8 @@ import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableConditio
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.nokunami.elementus.common.registry.ModBlocks.ElementusBlocks;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.registry.EBlocks;
+import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -36,60 +36,60 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.dropSelf(ElementusBlocks.STEEL_BLOCK.get());
-        this.dropSelf(ElementusBlocks.DIARKRITE_BLOCK.get());
-        this.dropSelf(ElementusBlocks.ANTHEKTITE_BLOCK.get());
-        this.dropSelf(ElementusBlocks.REMNANT.get());
+        this.dropSelf(EBlocks.STEEL_BLOCK.get());
+        this.dropSelf(EBlocks.DIARKRITE_BLOCK.get());
+        this.dropSelf(EBlocks.ANTHEKTITE_BLOCK.get());
+        this.dropSelf(EBlocks.REMNANT.get());
 
-        this.dropSelf(ElementusBlocks.STEEL_BARS.get());
+        this.dropSelf(EBlocks.STEEL_BARS.get());
 
-        this.dropSelf(ElementusBlocks.STEEL_TILES.get());
-        this.dropSelf(ElementusBlocks.STEEL_TILE_STAIR.get());
-        this.dropSelf(ElementusBlocks.STEEL_TILE_SLAB.get());
+        this.dropSelf(EBlocks.STEEL_TILES.get());
+        this.dropSelf(EBlocks.STEEL_TILE_STAIR.get());
+        this.dropSelf(EBlocks.STEEL_TILE_SLAB.get());
 
-        this.dropSelf(ElementusBlocks.MOVCADIA_LOG.get());
-        this.dropSelf(ElementusBlocks.STRIPPED_MOVCADIA_LOG.get());
-        this.dropSelf(ElementusBlocks.MOVCADIA_WOOD.get());
-        this.dropSelf(ElementusBlocks.STRIPPED_MOVCADIA_WOOD.get());
+        this.dropSelf(EBlocks.MOVCADIA_LOG.get());
+        this.dropSelf(EBlocks.STRIPPED_MOVCADIA_LOG.get());
+        this.dropSelf(EBlocks.MOVCADIA_WOOD.get());
+        this.dropSelf(EBlocks.STRIPPED_MOVCADIA_WOOD.get());
 
-        this.dropSelf(ElementusBlocks.MOVCADIA_ROOTED_DIRT.get());
-        this.dropSelf(ElementusBlocks.MOVCADIA_ROOTED_STONE.get());
-        this.dropSelf(ElementusBlocks.MOVCADIA_ROOTED_DEEPSLATE.get());
+        this.dropSelf(EBlocks.MOVCADIA_ROOTED_DIRT.get());
+        this.dropSelf(EBlocks.MOVCADIA_ROOTED_STONE.get());
+        this.dropSelf(EBlocks.MOVCADIA_ROOTED_DEEPSLATE.get());
 
-        this.add(ElementusBlocks.MOVCADIA_LEAVES.get(), block ->
-                createLeavesDrops(block, ElementusBlocks.MOVCADIA_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
-        this.add(ElementusBlocks.FLOWERING_MOVCADIA_LEAVES.get(), block ->
-                movcadiaBerryLeaves(block, ElementusBlocks.MOVCADIA_SAPLING.get(), ModItems.MOVCADIA_BERRIES.get(), NORMAL_LEAVES_SAPLING_CHANCES));
+        this.add(EBlocks.MOVCADIA_LEAVES.get(), block ->
+                createLeavesDrops(block, EBlocks.MOVCADIA_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
+        this.add(EBlocks.FLOWERING_MOVCADIA_LEAVES.get(), block ->
+                movcadiaBerryLeaves(block, EBlocks.MOVCADIA_SAPLING.get(), EItems.MOVCADIA_BERRIES.get(), NORMAL_LEAVES_SAPLING_CHANCES));
 
-        this.dropSelf(ElementusBlocks.MOVCADIA_PLANKS.get());
-        this.dropSelf(ElementusBlocks.MOVCADIA_STAIRS.get());
-        this.dropSelf(ElementusBlocks.MOVCADIA_SLAB.get());
+        this.dropSelf(EBlocks.MOVCADIA_PLANKS.get());
+        this.dropSelf(EBlocks.MOVCADIA_STAIRS.get());
+        this.dropSelf(EBlocks.MOVCADIA_SLAB.get());
 
-        this.dropSelf(ElementusBlocks.MOVCADIA_FENCE.get());
-        this.dropSelf(ElementusBlocks.MOVCADIA_FENCE_GATE.get());
+        this.dropSelf(EBlocks.MOVCADIA_FENCE.get());
+        this.dropSelf(EBlocks.MOVCADIA_FENCE_GATE.get());
 
-        this.add(ElementusBlocks.MOVCADIA_DOOR.get(), createDoorTable(ElementusBlocks.MOVCADIA_DOOR.get()));
-        this.dropSelf(ElementusBlocks.MOVCADIA_TRAPDOOR.get());
+        this.add(EBlocks.MOVCADIA_DOOR.get(), createDoorTable(EBlocks.MOVCADIA_DOOR.get()));
+        this.dropSelf(EBlocks.MOVCADIA_TRAPDOOR.get());
 
-        this.dropSelf(ElementusBlocks.MOVCADIA_PRESSURE_PLATE.get());
-        this.dropSelf(ElementusBlocks.MOVCADIA_BUTTON.get());
+        this.dropSelf(EBlocks.MOVCADIA_PRESSURE_PLATE.get());
+        this.dropSelf(EBlocks.MOVCADIA_BUTTON.get());
 
-        this.add(ElementusBlocks.MOVCADIA_SIGN.get(), block ->
-                createSingleItemTable(ModItems.MOVCADIA_SIGN.get()));
-        this.add(ElementusBlocks.MOVCADIA_WALL_SIGN.get(), block ->
-                createSingleItemTable(ModItems.MOVCADIA_SIGN.get()));
-        this.add(ElementusBlocks.MOVCADIA_HANGING_SIGN.get(), block ->
-                createSingleItemTable(ModItems.MOVCADIA_HANGING_SIGN.get()));
-        this.add(ElementusBlocks.MOVCADIA_WALL_HANGING_SIGN.get(), block ->
-                createSingleItemTable(ModItems.MOVCADIA_HANGING_SIGN.get()));
-        this.add(ElementusBlocks.STURDY_MOVCADIA_SIGN.get(), block ->
-                createSingleItemTable(ModItems.STURDY_MOVCADIA_SIGN.get()));
-        this.add(ElementusBlocks.STURDY_MOVCADIA_WALL_SIGN.get(), block ->
-                createSingleItemTable(ModItems.STURDY_MOVCADIA_SIGN.get()));
+        this.add(EBlocks.MOVCADIA_SIGN.get(), block ->
+                createSingleItemTable(EItems.MOVCADIA_SIGN.get()));
+        this.add(EBlocks.MOVCADIA_WALL_SIGN.get(), block ->
+                createSingleItemTable(EItems.MOVCADIA_SIGN.get()));
+        this.add(EBlocks.MOVCADIA_HANGING_SIGN.get(), block ->
+                createSingleItemTable(EItems.MOVCADIA_HANGING_SIGN.get()));
+        this.add(EBlocks.MOVCADIA_WALL_HANGING_SIGN.get(), block ->
+                createSingleItemTable(EItems.MOVCADIA_HANGING_SIGN.get()));
+        this.add(EBlocks.STURDY_MOVCADIA_SIGN.get(), block ->
+                createSingleItemTable(EItems.STURDY_MOVCADIA_SIGN.get()));
+        this.add(EBlocks.STURDY_MOVCADIA_WALL_SIGN.get(), block ->
+                createSingleItemTable(EItems.STURDY_MOVCADIA_SIGN.get()));
 
-        this.dropSelf(ElementusBlocks.MOVCADIA_CHEST.get());
+        this.dropSelf(EBlocks.MOVCADIA_CHEST.get());
 
-        this.dropSelf(ElementusBlocks.MOVCADIA_SAPLING.get());
+        this.dropSelf(EBlocks.MOVCADIA_SAPLING.get());
     }
 
     protected LootTable.Builder createCopperLikeOreDrops(Block pBlock, Item item) {

@@ -15,7 +15,7 @@ import static net.nokunami.elementus.Elementus.modLoc;
 
 @OnlyIn(Dist.CLIENT)
 public class ClientCatalystTooltip implements ClientTooltipComponent {
-    public static final ResourceLocation TEXTURE_LOCATION = modLoc("textures/gui/container/catalyst_slot.png");
+    public static final ResourceLocation LOC = modLoc("textures/gui/container/catalyst_slot.png");
     private static final int MARGIN_Y = 4;
     private static final int TEX_SIZE_X = 32;
     private static final int TEX_SIZE_Y = 16;
@@ -37,37 +37,37 @@ public class ClientCatalystTooltip implements ClientTooltipComponent {
         return this.gridSizeX() * SLOT_SIZE_X + 2;
     }
 
-    public void renderImage(@NotNull Font pFont, int pX, int pY, @NotNull GuiGraphics pGuiGraphics) {
+    public void renderImage(@NotNull Font font, int x, int y, @NotNull GuiGraphics graphics) {
         int sizeX = this.gridSizeX();
         int sizeY = this.gridSizeY();
         int k = 0;
 
         for(int l = 0; l < sizeY; ++l) {
             for(int i1 = 0; i1 < sizeX; ++i1) {
-                int j1 = pX + i1 * 16;
-                int k1 = pY + l * 16;
-                this.renderSlot(j1, k1, k++, pGuiGraphics);
+                int j1 = x + i1 * 16;
+                int k1 = y + l * 16;
+                this.renderSlot(j1, k1, k++, graphics);
             }
         }
     }
 
-    private void renderSlot(int pX, int pY, int pItemIndex, GuiGraphics pGuiGraphics) {
+    private void renderSlot(int x, int y, int index, GuiGraphics graphics) {
         if (this.coreItem.isEmpty()) {
-            this.blit(pGuiGraphics, pX, pY, Texture.CORE);
+            this.blit(graphics, x, y, Texture.CORE);
         } else {
             ItemStack itemstack = this.coreItem.get(0);
-            pGuiGraphics.renderItem(itemstack, pX, pY, pItemIndex);
+            graphics.renderItem(itemstack, x, y, index);
         }
         if (this.elytraItem.isEmpty()) {
-            this.blit(pGuiGraphics, pX + 16, pY, Texture.ELYTRA);
+            this.blit(graphics, x + 16, y, Texture.ELYTRA);
         } else {
             ItemStack itemstack = this.elytraItem.get(0);
-            pGuiGraphics.renderItem(itemstack, pX + 16, pY, pItemIndex);
+            graphics.renderItem(itemstack, x + 16, y, index);
         }
     }
 
-    private void blit(GuiGraphics pGuiGraphics, int pX, int pY, ClientCatalystTooltip.Texture pTexture) {
-        pGuiGraphics.blit(TEXTURE_LOCATION, pX, pY, 0, (float)pTexture.x, (float)pTexture.y, pTexture.w, pTexture.h, TEX_SIZE_X, TEX_SIZE_Y);
+    private void blit(GuiGraphics graphics, int x, int y, ClientCatalystTooltip.Texture texture) {
+        graphics.blit(LOC, x, y, 0, (float)texture.x, (float)texture.y, texture.w, texture.h, TEX_SIZE_X, TEX_SIZE_Y);
     }
 
     private int gridSizeX() {
@@ -80,13 +80,6 @@ public class ClientCatalystTooltip implements ClientTooltipComponent {
 
     @OnlyIn(Dist.CLIENT)
     enum Texture {
-//        SLOT(0, 0, 18, 20),
-//        BLOCKED_SLOT(0, 40, 18, 20),
-//        BORDER_VERTICAL(0, 18, 1, 20),
-//        BORDER_HORIZONTAL_TOP(0, 20, 18, 1),
-//        BORDER_HORIZONTAL_BOTTOM(0, 60, 18, 1),
-//        BORDER_CORNER_TOP(0, 20, 1, 1),
-//        BORDER_CORNER_BOTTOM(0, 60, 1, 1),
         ELYTRA(16, 0, 16, 16),
         CORE(0, 0, 16, 16);
 

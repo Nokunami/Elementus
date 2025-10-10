@@ -8,40 +8,24 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.nokunami.elementus.ElementusClient;
 import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.armor.CatalystArmorModel;
 import net.nokunami.elementus.client.model.armor.CatalystBaseModel;
 import net.nokunami.elementus.client.model.armor.ExtendedArmorModel;
-import net.nokunami.elementus.client.model.armor.ironsSpellbooks.AnthektiteMageArmorModel;
-import net.nokunami.elementus.client.model.armor.ironsSpellbooks.DiarkriteMageArmorModel;
-import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiArmorModel;
-import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiLightArmorModel;
-import net.nokunami.elementus.client.model.armor.samuraiDynasty.SDSamuraiMasterArmorModel;
-import net.nokunami.elementus.client.model.armor.sniffsWeapons.ClothedCuirassModel;
-import net.nokunami.elementus.client.model.armor.sniffsWeapons.HornedArmorModel;
-import net.nokunami.elementus.client.model.armor.sniffsWeapons.SamuraiArmorModel;
-import net.nokunami.elementus.client.model.armor.sniffsWeapons.StylishArmorModel;
-import net.nokunami.elementus.common.registry.ModItems;
+import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
+import net.nokunami.elementus.common.registry.CustomRegistries;
+import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
+
+import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.getEquippedCore;
 
 public class CustomArmorRenderProperties implements IClientItemExtensions {
     private static boolean init;
-    public static ExtendedArmorModel EXTENDED_ARMOR_MODEL;
-    public static ExtendedArmorModel EXTENDED_ARMOR_MODEL_LEGS;
+    public static ExtendedArmorModel<?> EXTENDED_ARMOR_MODEL;
+    public static ExtendedArmorModel<?> EXTENDED_ARMOR_MODEL_LEGS;
     public static CatalystBaseModel<LivingEntity> CATALYST_ARMOR_MODEL;
-    public static DiarkriteMageArmorModel DIARKRITE_MAGE_ARMOR_MODEL;
-    public static DiarkriteMageArmorModel DIARKRITE_MAGE_ARMOR_MODEL_LEGS;
-    public static AnthektiteMageArmorModel ANTHEKTITE_MAGE_ARMOR_MODEL;
-    public static AnthektiteMageArmorModel ANTHEKTITE_MAGE_ARMOR_MODEL_LEGS;
-    public static StylishArmorModel STYLISH_ARMOR_MODEL;
-    public static HornedArmorModel HORNED_ARMOR_MODEL;
-    public static SamuraiArmorModel SAMURAI_ARMOR_MODEL;
-    public static ClothedCuirassModel CLOTHED_CUIRASS_MODEL;
-    public static SDSamuraiArmorModel SD_SAMURAI_ARMOR_MODEL;
-    public static SDSamuraiArmorModel SD_SAMURAI_ARMOR_MODEL_LEGS;
-    public static SDSamuraiLightArmorModel SD_SAMURAI_LIGHT_ARMOR_MODEL;
-    public static SDSamuraiLightArmorModel SD_SAMURAI_LIGHT_ARMOR_MODEL_LEGS;
-    public static SDSamuraiMasterArmorModel SD_SAMURAI_MASTER_ARMOR_MODEL;
-    public static SDSamuraiMasterArmorModel SD_SAMURAI_MASTER_ARMOR_MODEL_LEGS;
+    public static CatalystArmorModel<LivingEntity> TEST_CATALYST_ARMOR_MODEL;
 
     public static void initializedModels() {
         init = true;
@@ -49,44 +33,39 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
         EXTENDED_ARMOR_MODEL = new ExtendedArmorModel<>(bake.bakeLayer(ModModelLayers.EXTENDED_ARMOR_MODEL));
         EXTENDED_ARMOR_MODEL_LEGS = new ExtendedArmorModel<>(bake.bakeLayer(ModModelLayers.EXTENDED_ARMOR_MODEL_LEGS));
         CATALYST_ARMOR_MODEL = new CatalystBaseModel<>(bake.bakeLayer(ModModelLayers.CATALYST_ARMOR_MODEL));
-        DIARKRITE_MAGE_ARMOR_MODEL = new DiarkriteMageArmorModel(bake.bakeLayer(ModModelLayers.DIARKRITE_MAGE_ARMOR_MODEL));
-        DIARKRITE_MAGE_ARMOR_MODEL_LEGS = new DiarkriteMageArmorModel(bake.bakeLayer(ModModelLayers.DIARKRITE_MAGE_ARMOR_MODEL_LEGS));
-        ANTHEKTITE_MAGE_ARMOR_MODEL = new AnthektiteMageArmorModel(bake.bakeLayer(ModModelLayers.ANTHEKTITE_MAGE_ARMOR_MODEL));
-        ANTHEKTITE_MAGE_ARMOR_MODEL_LEGS = new AnthektiteMageArmorModel(bake.bakeLayer(ModModelLayers.ANTHEKTITE_MAGE_ARMOR_MODEL_LEGS));
-        STYLISH_ARMOR_MODEL = new StylishArmorModel(bake.bakeLayer(ModModelLayers.STYLISH_ARMOR_MODEL));
-        HORNED_ARMOR_MODEL = new HornedArmorModel(bake.bakeLayer(ModModelLayers.HORNED_ARMOR_MODEL));
-        SAMURAI_ARMOR_MODEL = new SamuraiArmorModel(bake.bakeLayer(ModModelLayers.SAMURAI_ARMOR_MODEL));
-        CLOTHED_CUIRASS_MODEL = new ClothedCuirassModel(bake.bakeLayer(ModModelLayers.CLOTHED_CUIRASS_MODEL));
-        SD_SAMURAI_ARMOR_MODEL = new SDSamuraiArmorModel(bake.bakeLayer(ModModelLayers.SD_SAMURAI_ARMOR_MODEL));
-        SD_SAMURAI_ARMOR_MODEL_LEGS = new SDSamuraiArmorModel(bake.bakeLayer(ModModelLayers.SD_SAMURAI_ARMOR_MODEL_LEGS));
-        SD_SAMURAI_LIGHT_ARMOR_MODEL = new SDSamuraiLightArmorModel(bake.bakeLayer(ModModelLayers.SD_SAMURAI_LIGHT_ARMOR_MODEL));
-        SD_SAMURAI_LIGHT_ARMOR_MODEL_LEGS = new SDSamuraiLightArmorModel(bake.bakeLayer(ModModelLayers.SD_SAMURAI_LIGHT_ARMOR_MODEL_LEGS));
-        SD_SAMURAI_MASTER_ARMOR_MODEL = new SDSamuraiMasterArmorModel(bake.bakeLayer(ModModelLayers.SD_SAMURAI_MASTER_ARMOR_MODEL));
-        SD_SAMURAI_MASTER_ARMOR_MODEL_LEGS = new SDSamuraiMasterArmorModel(bake.bakeLayer(ModModelLayers.SD_SAMURAI_MASTER_ARMOR_MODEL_LEGS));
+        TEST_CATALYST_ARMOR_MODEL = new CatalystArmorModel<>(bake.bakeLayer(ModModelLayers.TEST_CATALYST_ARMOR_MODEL));
     }
 
     public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
         if (!init) initializedModels();
         Item item = itemStack.getItem();
 
-        if (item == ModItems.STEEL_HELMET.get() ||
-                item == ModItems.STEEL_CHESTPLATE.get() ||
-                item == ModItems.STEEL_BOOTS.get()||
-                item == ModItems.DIARKRITE_HELMET.get() ||
-                item == ModItems.DIARKRITE_CHESTPLATE.get() ||
-                item == ModItems.DIARKRITE_BOOTS.get()||
-                item == ModItems.ANTHEKTITE_HELMET.get() ||
-                item == ModItems.ANTHEKTITE_CHESTPLATE.get() ||
-                item == ModItems.ANTHEKTITE_BOOTS.get()) {
+        if (item == EItems.STEEL_HELMET.get() ||
+                item == EItems.STEEL_CHESTPLATE.get() ||
+                item == EItems.STEEL_BOOTS.get()||
+                item == EItems.DIARKRITE_HELMET.get() ||
+                item == EItems.DIARKRITE_CHESTPLATE.get() ||
+                item == EItems.DIARKRITE_BOOTS.get()||
+                item == EItems.ANTHEKTITE_HELMET.get() ||
+                item == EItems.ANTHEKTITE_CHESTPLATE.get() ||
+                item == EItems.ANTHEKTITE_BOOTS.get()) {
             return EXTENDED_ARMOR_MODEL;}
-        if (item == ModItems.STEEL_LEGGINGS.get() ||
-                item == ModItems.DIARKRITE_LEGGINGS.get() ||
-                item == ModItems.ANTHEKTITE_LEGGINGS.get()) {
+        if (item == EItems.STEEL_LEGGINGS.get() ||
+                item == EItems.DIARKRITE_LEGGINGS.get() ||
+                item == EItems.ANTHEKTITE_LEGGINGS.get()) {
             return EXTENDED_ARMOR_MODEL_LEGS;
         }
 
-        if ((item == ModItems.CATALYST_CHESTPLATE.get())) {
+        if ((item == EItems.CATALYST_CHESTPLATE.get())) {
             return CATALYST_ARMOR_MODEL;
+        }
+
+        if ((item == EItems.TEST_CATALYST_CHESTPLATE.get())) {
+            if (getEquippedCore(itemStack).isPresent()) {
+                CatalystCore core = CustomRegistries.getCatalystCore(getEquippedCore(itemStack).get());
+                return core.getHumanoidArmorModel(livingEntity, itemStack, equipmentSlot, TEST_CATALYST_ARMOR_MODEL);
+            }
+            return TEST_CATALYST_ARMOR_MODEL;
         }
 
         return original;

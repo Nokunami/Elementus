@@ -27,13 +27,15 @@ public class SlashTrailParticle extends HugeExplosionParticle {
         super.tick();
         this.setSpriteFromAge(this.sprites);
         this.oRoll = this.roll;
-        if (this.age >= totalLifetime/2) {
-            rotAlphaSize(-this.rotSpeed * 0.1F, -0.03F, -0.005F);
-        } else if (this.age >= totalLifetime/4) {
-            rotAlphaSize(-this.rotSpeed * 0.25F, -0.06F, 0.015F);
-        } else {
-            rotAlphaSize(-this.rotSpeed * 0.05F, -0.015F, 0.075F);
-        }
+//        if (this.age >= totalLifetime/2) {
+//            rotAlphaSize(-this.rotSpeed * 0.1F, -0.03F, -0.005F);
+//        } else if (this.age >= totalLifetime/4) {
+//            rotAlphaSize(-this.rotSpeed * 0.25F, -0.06F, 0.015F);
+//        } else {
+//            rotAlphaSize(-this.rotSpeed * 0.05F, -0.015F, 0.075F);
+//        }
+        rotSpeed -= rotSpeed * 0.01F;
+        alpha -= 0.05F;
 
         this.roll += (float) (this.rotSpeed * (Math.PI * 0.01));
     }
@@ -50,15 +52,10 @@ public class SlashTrailParticle extends HugeExplosionParticle {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
-
-        public Provider(SpriteSet pSprites) {
-            this.sprites = pSprites;
-        }
+        public record Provider(SpriteSet sprites) implements ParticleProvider<SimpleParticleType> {
 
         public Particle createParticle(@NotNull SimpleParticleType pType, @NotNull ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-            return new SlashTrailParticle(pLevel, pX, pY, pZ, pXSpeed, this.sprites);
+                return new SlashTrailParticle(pLevel, pX, pY, pZ, pXSpeed, this.sprites);
+            }
         }
-    }
 }

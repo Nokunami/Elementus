@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.nokunami.elementus.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "LivingEntityMixin",
+    "MobEffectUtilMixin",
+    "VibrationSelectorMixin"
+  ],
+  "client": [
+    "client.CapeLayerMixin",
+    "client.HangingSignEditScreenMixin",
+    "client.HumanoidArmorLayerAccessor",
+    "client.HumanoidArmorLayerMixin",
+    "client.ItemInHandRendererMixin"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "elementus.refmap.json"
+}
