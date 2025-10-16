@@ -2,13 +2,14 @@ package net.nokunami.elementus.common.entity.ai.goal.steelGolem;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.monster.Enemy;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
@@ -17,7 +18,7 @@ import java.util.function.Predicate;
 import static net.nokunami.elementus.common.entity.MobUtil.alliedAttacked;
 
 public class SteelGolemAttackGoal extends MeleeAttackGoal {
-    private SteelGolem steelGolem;
+    private AstaliteGolem golem;
     protected int attackDelay = 10;
     protected int ticksTilNextAttack = 20;
     protected int fastAttackDelay = 10;
@@ -26,147 +27,160 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     protected int ticksTilNextAoeAttack = 15;
     protected boolean shouldCountTillNextAttack = false;
     protected LivingEntity golemOwner;
-    private final Predicate<Entity> aoeFilter = (e -> (alliedAttacked(steelGolem, e) || (golemOwner != null && alliedAttacked(golemOwner, e))));
+    private final Predicate<Entity> aoeFilter = (e -> (alliedAttacked(golem, e) || (golemOwner != null && alliedAttacked(golemOwner, e))));
 
-    public SteelGolemAttackGoal(SteelGolem golem, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
+    public SteelGolemAttackGoal(AstaliteGolem golem, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
         super(golem, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
-//        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
-        this.steelGolem = golem;
-        this.golemOwner = golem.getOwner() != null ? golem.getOwner() : null;
+//        setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        this.golem = golem;
+        golemOwner = golem.getOwner() != null ? golem.getOwner() : null;
     }
 
     @Override
     protected void checkAndPerformAttack(@NotNull LivingEntity enemy, double distToEnemySqr) {
-        if (isEnemyWithinAttackDistance(enemy, distToEnemySqr)) {
+        if (distanceToStartAttackWindUp(enemy, distToEnemySqr)) {
             shouldCountTillNextAttack = true;
 
             if(isTimeToStartAttackAnimation()) {
-                steelGolem.setAttacking(true);
-                this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+                golem.setAttacking(true);
+                setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
             }
-            if(isTimeToAttack()) {
-                this.mob.getLookControl().setLookAt(enemy.getX(), enemy.getEyeY(), enemy.getZ());
+            if(isTimeToAttack() && distanceToStartAttack(enemy, distToEnemySqr)) {
+                mob.getLookControl().setLookAt(enemy.getX(), enemy.getEyeY(), enemy.getZ());
                 performAttack(enemy);
             }
 
             if(isTimeToStartAoeAttackAnimation()) {
-                steelGolem.setAoeAttacking(true);
-                steelGolem.setAttackType(2);
+                golem.setAoeAttacking(true);
+                golem.setAttackType(2);
             }
-            if(isTimeToAoeAttack()) {
-                this.mob.getLookControl().setLookAt(enemy.getX(), enemy.getEyeY(), enemy.getZ());
+            if(isTimeToAoeAttack() && distanceToStartAttack(enemy, distToEnemySqr)) {
+//                mob.getLookControl().setLookAt(enemy.getX(), enemy.getEyeY(), enemy.getZ());
                 performAoeAttack(enemy);
             }
 
         } else {
             resetAttackCooldown();
             shouldCountTillNextAttack = false;
-            steelGolem.setAttacking(false);
-            steelGolem.setAoeAttacking(false);
-            steelGolem.attackAnimTimeout = 0;
-            steelGolem.aoeAttackAnimTimeout = 0;
+            golem.setAttacking(false);
+            golem.setAoeAttacking(false);
+            golem.attackAnimTimeout = 0;
+            golem.aoeAttackAnimTimeout = 0;
         }
     }
 
-    boolean isEnemyWithinAttackDistance(LivingEntity enemy, double distToEnemySqr) {
-        return distToEnemySqr <= this.getAttackReachSqr(enemy) * 2.25;
+    boolean distanceToStartAttackWindUp(LivingEntity enemy, double distToEnemySqr) {
+        return distToEnemySqr <= getAttackReachSqr(enemy) * 2.5;
+    }
+
+    boolean distanceToStartAttack(LivingEntity enemy, double distToEnemySqr) {
+        return distToEnemySqr <= getAttackReachSqr(enemy) * 2.25;
     }
 
     protected void resetAttackCooldown() {
-        if (steelGolem.getFastAttack()) {
-            this.ticksTilNextFastAttack = this.adjustedTickDelay(fastAttackDelay * 2);
-        } else this.ticksTilNextAttack = this.adjustedTickDelay(attackDelay * 2);
+        if (golem.getFastAttack()) {
+            ticksTilNextFastAttack = adjustedTickDelay(fastAttackDelay * 2);
+        } else ticksTilNextAttack = adjustedTickDelay(attackDelay * 2);
     }
-
     protected boolean isTimeToStartAttackAnimation() {
-        if (steelGolem.getAoeTimer() <= 0) {
+        if (golem.getAoeTimer() <= 0) {
             return false;
         } else {
-            if (steelGolem.getFastAttack()) {
-                return this.ticksTilNextFastAttack <= fastAttackDelay;
-            } else return this.ticksTilNextAttack <= attackDelay;
+            if (golem.getFastAttack()) {
+                return ticksTilNextFastAttack <= fastAttackDelay;
+            } else return ticksTilNextAttack <= attackDelay;
         }
     }
-
     protected boolean isTimeToAttack() {
-        if (steelGolem.getFastAttack()) {
-            return this.ticksTilNextFastAttack <= 0;
-        } else return this.ticksTilNextAttack <= 0;
+        if (golem.getFastAttack()) {
+            return ticksTilNextFastAttack <= 0;
+        } else return ticksTilNextAttack <= 0;
     }
-
     protected int getTicksUntilNextAttack() {
-        if (steelGolem.getFastAttack()) {
-            return this.ticksTilNextFastAttack;
-        } else return this.ticksTilNextAttack;
+        if (golem.getFastAttack()) {
+            return ticksTilNextFastAttack;
+        } else return ticksTilNextAttack;
+    }
+    protected void performAttack(LivingEntity enemy) {
+        resetAttackCooldown();
+        mob.swing(InteractionHand.MAIN_HAND);
+        mob.doHurtTarget(enemy);
     }
 
-    protected void performAttack(LivingEntity enemy) {
-        this.resetAttackCooldown();
-        this.mob.swing(InteractionHand.MAIN_HAND);
-        this.mob.doHurtTarget(enemy);
+    protected boolean isTimeToStartCritAttackAnimation() {
+//        if (steelGolem.getAoeTimer() <= 0) {
+//            return false;
+//        } else {
+//            if (steelGolem.getFastAttack()) {
+//                return ticksTilNextFastAttack <= fastAttackDelay;
+//            } else return ticksTilNextAttack <= attackDelay;
+//        }
+        return golem.fallDistance > 0.0F
+                && !golem.onGround() && !golem.onClimbable()
+                && !golem.isInWater() && !golem.hasEffect(MobEffects.BLINDNESS)
+                && !golem.isPassenger();
+    }
+    protected boolean isTimeToCritAttack() {
+//        if (steelGolem.getFastAttack()) {
+//            return ticksTilNextFastAttack <= 0;
+//        } else return ticksTilNextAttack <= 0;
+        return false;
     }
 
     protected void resetAoeAttackCooldown() {
-        this.ticksTilNextAoeAttack = this.adjustedTickDelay(aoeAttackDelay * 2);
-        this.steelGolem.setAoeTimer(steelGolem.aoeAnimTimeout);
+        ticksTilNextAoeAttack = adjustedTickDelay(aoeAttackDelay * 2);
+        golem.setAoeTimer(golem.aoeAnimTimeout);
     }
-
     protected boolean isTimeToStartAoeAttackAnimation() {
-        return ticksTilNextAoeAttack <= aoeAttackDelay && this.steelGolem.getAoeTimer() <= 0;
+        return ticksTilNextAoeAttack <= aoeAttackDelay && golem.getAoeTimer() <= 0;
     }
-
     protected boolean isTimeToAoeAttack() {
-        return ticksTilNextAoeAttack <= 0 && steelGolem.getAoeTimer() <= 0;
+        return ticksTilNextAoeAttack <= 0 && golem.getAoeTimer() <= 0;
     }
-
     protected void performAoeAttack(LivingEntity enemy) {
-        this.groundAttack(enemy);
-        this.resetAoeAttackCooldown();
-        this.steelGolem.setAttackType(2);
-        this.mob.swing(InteractionHand.MAIN_HAND);
-        this.mob.getNavigation().stop();
-        this.mob.doHurtTarget(enemy);
+        groundAttack(enemy);
+        resetAoeAttackCooldown();
+        golem.setAttackType(2);
+        mob.swing(InteractionHand.MAIN_HAND);
+        mob.getNavigation().stop();
+        mob.doHurtTarget(enemy);
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (!steelGolem.isChassisCompromised()) {
-            if (steelGolem.getAoeTimer() > 20) {
+        if (!golem.isChassisCompromised()) {
+            if (golem.getAoeTimer() > 20) {
                 if (shouldCountTillNextAttack) {
-                    if (steelGolem.getFastAttack()) {
-                        this.ticksTilNextFastAttack = Math.max(this.ticksTilNextFastAttack - 1, 0);
-                    } else {
-                        this.ticksTilNextAttack = Math.max(this.ticksTilNextAttack - 1, 0);
-                    }
+                    if (golem.getFastAttack())
+                        ticksTilNextFastAttack = Math.max(ticksTilNextFastAttack - 1, 0);
+                    else ticksTilNextAttack = Math.max(ticksTilNextAttack - 1, 0);
                 }
-            } else {
-                this.ticksTilNextAoeAttack = Math.max(this.ticksTilNextAoeAttack - 1,0);
-            }
+            } else ticksTilNextAoeAttack = Math.max(ticksTilNextAoeAttack - 1,0);
         }
     }
 
     @Override
     public void stop() {
         super.stop();
-        steelGolem.setAttacking(false);
-        steelGolem.setAoeAttacking(false);
+        golem.setAttacking(false);
+        golem.setAoeAttacking(false);
     }
 
     @Override
     public boolean canUse() {
-        return !steelGolem.isChassisCompromised() && super.canUse();
+        return !golem.isChassisCompromised() && super.canUse();
     }
 
     private void groundAttack(LivingEntity livingEntity) {
-        if (this.steelGolem.onGround()) {
-            this.steelGolem.playSound(SoundEvents.GENERIC_EXPLODE, 1.4F, 1.4F);
-            this.steelGolem.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
-            for (Entity entity : this.steelGolem.level().getEntitiesOfClass(LivingEntity.class, this.steelGolem.getBoundingBox().inflate(6.0D), aoeFilter)) {
-                if (entity instanceof Enemy || entity == steelGolem.getTarget() || (livingEntity instanceof Mob target && (target.getTarget() == this.mob))) {
+        if (golem.onGround()) {
+            golem.playSound(SoundEvents.GENERIC_EXPLODE, 1.4F, 1.4F);
+            golem.playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 1.0F);
+            for (Entity entity : golem.level().getEntitiesOfClass(LivingEntity.class, golem.getBoundingBox().inflate(6.0D), aoeFilter)) {
+                if (entity instanceof Enemy || entity == golem.getTarget() || (livingEntity instanceof Mob target && (target.getTarget() == mob))) {
                     if (entity.onGround()) {
-                        boolean flag = entity.hurt(this.steelGolem.damageSources().mobAttack(this.steelGolem),
-                                (float) this.steelGolem.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.75F);
+                        boolean flag = entity.hurt(golem.damageSources().mobAttack(golem),
+                                (float) golem.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.75F);
                         if (flag) {
                             entity.getDeltaMovement().add(0.0D, 0.2D, 0.0D);
                         }
@@ -178,8 +192,8 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     }
 
     private void launch(Entity entity) {
-        double d0 = entity.getX() - this.steelGolem.getX();
-        double d1 = entity.getZ() - this.steelGolem.getZ();
+        double d0 = entity.getX() - golem.getX();
+        double d1 = entity.getZ() - golem.getZ();
         double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
         entity.push(d0 / d2 * 1.25D, 0.2D, d1 / d2 * 1.25D);
     }

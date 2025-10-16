@@ -218,6 +218,7 @@ public class ELangGen extends LanguageProvider {
         add("tag.item.elementus.steel_recyclable", "Steel Recyclable");
         add("tag.item.elementus.movcadia_logs", "Movcadia Logs");
         add("tag.item.elementus.catalyst.items", "Catalyst Cores");
+        add("entity.elementus.steel_golem_down", "Steel Golem powered down, Current Chassis Health: %s");
     }
     void effectsTL() {
         add("effect.elementus.beacon_power", "Beacon Power");
@@ -287,12 +288,12 @@ public class ELangGen extends LanguageProvider {
 
         add(corePrefix + "ignitium.title", "Inferno Reflex");
         add(corePrefix + "ignitium.desc", "A fraction of Ingis' power.");
-        add(corePrefix + "ignitium.desc_1", "Randomly sets attackers on fire and apply Blazing Brand.");
-        add(corePrefix + "ignitium.desc_2", "Immunity to Blazing Brand.");
+        add(corePrefix + "ignitium.desc_1", "| Randomly sets attackers on fire and apply Blazing Brand.");
+        add(corePrefix + "ignitium.desc_2", "| Immunity to Blazing Brand.");
         add(corePrefix + "cursium.title", "Cursed");
-        add(corePrefix + "cursium.desc", "Cursed undead worrier.");
-        add(corePrefix + "cursium.desc_1", "Revives upon death.");
-        add(corePrefix + "cursium.desc_2", "Chance to dodge attacks, chances increase if it's a projectile.");
+        add(corePrefix + "cursium.desc", "Cursed with undeath.");
+        add(corePrefix + "cursium.desc_1", "| Revives upon death.");
+        add(corePrefix + "cursium.desc_2", "| Chance to dodge attacks, chances increase if it's a projectile.");
         add(corePrefix + "essence_of_sea.title", "Essence of Sea");
         add(corePrefix + "essence_of_sea.desc", "Work In Progress.");
 

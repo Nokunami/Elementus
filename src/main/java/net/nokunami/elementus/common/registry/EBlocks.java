@@ -7,6 +7,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -29,7 +30,12 @@ public class EBlocks {
     public static final RegistryObject<Block> ANTHEKTITE_BLOCK = BLOCKS.register("anthektite_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
     public static final RegistryObject<Block> STEEL_BLOCK = BLOCKS.register("steel_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
+                    .requiresCorrectToolForDrops()
+                    .strength(5.0F, 6.0F)
+                    .sound(SoundType.METAL)));
 
     public static final RegistryObject<Block> STEEL_BARS = BLOCKS.register("steel_bars",
             () -> new IronBarsBlock(BlockBehaviour.Properties.copy(STEEL_BLOCK.get()).noCollission()));
@@ -39,6 +45,39 @@ public class EBlocks {
             () -> new StairBlock(STEEL_TILES.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> STEEL_TILE_SLAB = BLOCKS.register("steel_tile_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+
+    public static final RegistryObject<Block> ASTALITE_BARS = BLOCKS.register("astalite_bars",
+            () -> new IronBarsBlock(BlockBehaviour.Properties.copy(STEEL_BLOCK.get()).noCollission()));
+    public static final RegistryObject<Block> ASTALITE_TILES = BLOCKS.register("astalite_tiles",
+            () -> new Block(BlockBehaviour.Properties.copy(EBlocks.STEEL_BLOCK.get())));
+    public static final RegistryObject<Block> ASTALITE_TILE_STAIR = BLOCKS.register("astalite_tile_stair",
+            () -> new StairBlock(ASTALITE_TILES.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> ASTALITE_TILE_SLAB = BLOCKS.register("astalite_tile_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> ASTALITE_DOOR = BLOCKS.register("astalite_door",
+            () -> new DoorBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .requiresCorrectToolForDrops()
+                    .strength(5.0F)
+                    .noOcclusion()
+                    .pushReaction(PushReaction.DESTROY), ModBlockSetType.ASTALITE_BLOC_SET));
+    public static final RegistryObject<Block> ASTALITE_TRAPDOOR = BLOCKS.register("astalite_trapdoor",
+            () -> new DoorBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .requiresCorrectToolForDrops()
+                    .strength(5.0F)
+                    .noOcclusion()
+                    .pushReaction(PushReaction.DESTROY), ModBlockSetType.ASTALITE_BLOC_SET));
+    public static final RegistryObject<Block> ASTALITE_LANTERN = BLOCKS.register("astalite_lantern",
+            () -> new LanternBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .forceSolidOn()
+                    .requiresCorrectToolForDrops()
+                    .strength(3.5F)
+                    .sound(SoundType.LANTERN)
+                    .lightLevel((state) ->  15)
+                    .noOcclusion()
+                    .pushReaction(PushReaction.DESTROY)));
 
     public static final RegistryObject<Block> MOVCADIA_ROOTED_DIRT = BLOCKS.register("movcadia_rooted_dirt",
             () -> new RootedDirtBlock(BlockBehaviour.Properties.copy(Blocks.ROOTED_DIRT)));

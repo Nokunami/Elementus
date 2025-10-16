@@ -1,16 +1,20 @@
 package net.nokunami.elementus.common.item;
 
+import com.google.common.collect.Multimap;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +29,19 @@ public class SteelGolemUpgradeItem extends Item {
     private final ResourceLocation texture;
     public String identifier;
 
-    public void onArmorTick(Level level, SteelGolem entity) {
+    public SteelGolemUpgradeItem(String identifier, Item.Properties properties, GolemUpgradeProperties golemUpgradeProperties) {
+        super(properties);
+        this.texture = modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png");
+        this.identifier = identifier;
+        this.properties = golemUpgradeProperties;
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        return slot == EquipmentSlot.CHEST ? properties.getAttributes().get() : super.getAttributeModifiers(slot, stack);
+    }
+
+    public void onArmorTick(Level level, AstaliteGolem entity) {
         if (!entity.isChassisBroken()) {
             for (Pair<MobEffectInstance, Float> pair : properties.getEffects()) {
                 if (!level.isClientSide && pair.getFirst() != null && level.random.nextFloat() < pair.getSecond()) {
@@ -33,13 +49,6 @@ public class SteelGolemUpgradeItem extends Item {
                 }
             }
         }
-    }
-
-    public SteelGolemUpgradeItem(String identifier, Item.Properties properties, GolemUpgradeProperties golemUpgradeProperties) {
-        super(properties);
-        this.texture = modLoc(TEX_FOLDER + "armor/golem_armor_" + identifier + ".png");
-        this.identifier = identifier;
-        this.properties = golemUpgradeProperties;
     }
 
     public ResourceLocation getTexture() {

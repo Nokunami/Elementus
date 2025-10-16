@@ -4,10 +4,10 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemChestAnimation;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import org.jetbrains.annotations.NotNull;
 
-public class SteelGolemChestModel<T extends SteelGolem> extends SteelGolemModel<T> {
+public class SteelGolemChestModel<T extends AstaliteGolem> extends SteelGolemModel<T> {
     private final ModelPart chestTop;
     private final ModelPart chestBottom;
     private final ModelPart chestLatch;

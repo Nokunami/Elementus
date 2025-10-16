@@ -26,13 +26,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.nokunami.elementus.api.ICatalystTrim;
-import net.nokunami.elementus.api.IClientCatalystExtension;
+import net.nokunami.elementus.client.extensions.ICatalystTrim;
+import net.nokunami.elementus.client.extensions.IClientCatalystExtension;
 import net.nokunami.elementus.client.ClientProxy;
 import net.nokunami.elementus.client.ModAtlases;
 import net.nokunami.elementus.client.gui.screens.inventory.tooltip.ClientCatalystTooltip;
@@ -44,7 +43,6 @@ import net.nokunami.elementus.client.render.entity.steelGolem.SteelGolemRenderer
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
 import net.nokunami.elementus.client.render.vehicle.ModChestRenderer;
-import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
 import net.nokunami.elementus.common.config.ModConfig;
 import net.nokunami.elementus.common.item.ItemPredicateRegister;
 import net.nokunami.elementus.common.registry.ModBlockEntityType;
@@ -136,7 +134,7 @@ public class ElementusClient {
     }
 
     public static Model getArmorModel(LivingEntity entityLiving, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> _default) {
-        return IClientCatalystExtension.of(stack).getGenericArmorModel(entityLiving, stack, slot, _default);
+        return IClientCatalystExtension.ofCore(stack).getGenericArmorModel(entityLiving, stack, slot, _default);
     }
 
     @SuppressWarnings("unchecked")

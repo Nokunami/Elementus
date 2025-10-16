@@ -8,7 +8,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.nokunami.elementus.ElementusClient;
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.armor.CatalystArmorModel;
 import net.nokunami.elementus.client.model.armor.CatalystBaseModel;
@@ -63,7 +62,7 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
         if ((item == EItems.TEST_CATALYST_CHESTPLATE.get())) {
             if (getEquippedCore(itemStack).isPresent()) {
                 CatalystCore core = CustomRegistries.getCatalystCore(getEquippedCore(itemStack).get());
-                return core.getHumanoidArmorModel(livingEntity, itemStack, equipmentSlot, TEST_CATALYST_ARMOR_MODEL);
+                return core.getHumanoidArmorModel(livingEntity, getEquippedCore(itemStack).get(), equipmentSlot, TEST_CATALYST_ARMOR_MODEL);
             }
             return TEST_CATALYST_ARMOR_MODEL;
         }

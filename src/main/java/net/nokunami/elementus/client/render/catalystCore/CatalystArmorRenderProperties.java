@@ -5,18 +5,13 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.nokunami.elementus.api.IClientCatalystExtension;
+import net.nokunami.elementus.client.extensions.IClientCatalystExtension;
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.armor.CatalystArmorModel;
 import net.nokunami.elementus.client.model.armor.CatalystBaseModel;
-import net.nokunami.elementus.client.model.armor.ExtendedArmorModel;
-import net.nokunami.elementus.common.catalystCore.CompatCoreRegistry;
-import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
+import net.nokunami.elementus.common.registry.CompatCoreRegistry;
 import net.nokunami.elementus.common.registry.CustomRegistries;
-import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -38,14 +33,11 @@ public class CatalystArmorRenderProperties implements IClientCatalystExtension {
     @Override
     public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> original) {
         if (!init) initializedModels();
-//        ItemStack stack = entity.getItemBySlot(EquipmentSlot.CHEST);
-//        if (stack.is(EItems.TEST_CATALYST_CHESTPLATE.get())) {
-//            CustomRegistries.getCatalystCore(stack).getCoreStack();
-//        }
-        Optional<ItemStack> core = getEquippedCore(stack);
-        if (core.isPresent() && CustomRegistries.getCatalystCore(core.get()) == CompatCoreRegistry.CataclysmCores.IGNITIUM.get())
-            return CATALYST_ARMOR_MODEL;
 
-        return original;
+//        Optional<ItemStack> core = getEquippedCore(stack);
+//        if (core.isPresent() && CustomRegistries.getCatalystCore(core.get()) == CompatCoreRegistry.CataclysmCores.IGNITIUM.get())
+//            return CATALYST_ARMOR_MODEL;
+
+        return TEST_CATALYST_ARMOR_MODEL;
     }
 }

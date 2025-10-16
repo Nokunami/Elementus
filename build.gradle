@@ -251,7 +251,7 @@ dependencies {
 //    runtimeOnly fg.deobf("curse.maven:refurbished-furniture-897116:${refurbished_furniture_version}")
 //    runtimeOnly fg.deobf("maven.modrinth:silent-gear:${silent_gear_version}")
     runtimeOnly fg.deobf("maven.modrinth:l_enders-cataclysm:${l_enders_cataclysm_version}")
-//    runtimeOnly fg.deobf("curse.maven:mowzies-mobs-250498:${mowzies_mobs_version}")
+    runtimeOnly fg.deobf("curse.maven:mowzies-mobs-250498:${mowzies_mobs_version}")
 //    runtimeOnly fg.deobf("curse.maven:crackers-wither-storm-mod-621405:${crackers_wither_storm_mod_version}")
 //    runtimeOnly fg.deobf("curse.maven:banilla-claws-neoforge-653966:${banilla_claws_version}")
 //    runtimeOnly fg.deobf("curse.maven:archery-expansion-1164945:${archery_expansion_version}")

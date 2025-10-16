@@ -7,18 +7,11 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.nokunami.elementus.api.ICatalystTrim;
+import net.nokunami.elementus.client.extensions.ICatalystTrim;
 import net.nokunami.elementus.client.model.ModModelLayers;
-import net.nokunami.elementus.client.model.armor.CatalystArmorModel;
 import net.nokunami.elementus.client.model.armor.CatalystArmorTrimModel;
-import net.nokunami.elementus.client.model.armor.CatalystBaseModel;
-import net.nokunami.elementus.client.model.armor.ExtendedArmorModel;
-import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
-import net.nokunami.elementus.common.registry.CustomRegistries;
 import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
-
-import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.getEquippedCore;
 
 public class CatalystTrimRenderProperties implements ICatalystTrim {
     private static boolean init;

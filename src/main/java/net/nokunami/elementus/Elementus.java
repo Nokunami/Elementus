@@ -87,7 +87,7 @@ public class Elementus {
         ModEntityType.register(modEventBus);
         ModLootModifiers.register(modEventBus);
         ESoundEvents.register(modEventBus);
-        ModMobEffects.register(modEventBus);
+        EMobEffects.register(modEventBus);
         EEnchantments.register(modEventBus);
         ModTrunkPlacer.register(modEventBus);
         ModParticleTypes.register(modEventBus);
@@ -99,7 +99,9 @@ public class Elementus {
         modEventBus.addListener(this::addPackFinders);
         modEventBus.addListener(this::commonSetup);
         ModNetwork.setup();
+
         modEventBus.addListener(ClientEvents::itemDecorations);
+        modEventBus.addListener(ClientEvents::onRegisterKeybinds);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
@@ -108,7 +110,7 @@ public class Elementus {
         ComposterBlock.COMPOSTABLES.put(EItems.MOVCADIA_LEAVES.get(), 0.3F);
         ComposterBlock.COMPOSTABLES.put(EItems.FLOWERING_MOVCADIA_LEAVES.get(), 0.3F);
         CATALYST_CORE_LIST.forEach(core -> CORE_ITEM_MAP.put(core.getCoreStack().getItem(), core));
-//        CATALYST_CORE_LIST.forEach(core -> CORE_ID_MAP.put(core.getCoreStack().getItem(), core.getId(core.getCoreStack())));
+        CATALYST_CORE_LIST.forEach(core -> CORE_ITEMSTACK_MAP.put(core.itemStack, core));
     }
 
     public void addPackFinders(AddPackFindersEvent event) {

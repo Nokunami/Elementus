@@ -6,7 +6,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
 import net.nokunami.elementus.common.registry.CustomRegistries;
 
 import java.util.function.Supplier;

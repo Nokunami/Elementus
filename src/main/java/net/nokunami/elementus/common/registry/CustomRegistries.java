@@ -1,6 +1,8 @@
 package net.nokunami.elementus.common.registry;
 
 import com.google.common.collect.Multimap;
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -8,17 +10,17 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
 import net.minecraftforge.registries.RegistryBuilder;
 import net.minecraftforge.registries.RegistryManager;
-import net.nokunami.elementus.common.catalystCore.Abilities;
-import net.nokunami.elementus.common.catalystCore.CoreAttributes;
-import net.nokunami.elementus.common.catalystCore.ability.CatalystAbility;
+import net.nokunami.elementus.common.catalystCore.AbstractActiveAbility;
+import net.nokunami.elementus.common.catalystCore.PassiveCatalystAbility;
 import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
+
+import java.util.List;
 
 import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.Elementus.modLoc;
@@ -39,18 +41,24 @@ public class CustomRegistries {
         if (stream1.isPresent()) {
             return stream1.get().getValue();
         }
-        return new CatalystCore("fallback", Items.BARRIER, new CoreAttributes.Builder().ability(new CatalystAbility(new Abilities.Builder().build())).build());
+        return new CatalystCore(() -> new ItemStack(Items.BARRIER), ChatFormatting.DARK_PURPLE);
     }
 
     public static String getCatalystId(ItemStack stack) {
-        return getCatalystCore(stack).getId();
+        var id = RegistryManager.ACTIVE.getRegistry(CATALYST_CORE_KEY).getEntries();
+        var stream1 = id.stream().filter(c -> c.getValue().getCoreStack().is(stack.getItem())).findAny();
+        return stream1.map(entry -> entry.getKey().location().getPath()).orElse("missing");
     }
 
-    public static CatalystAbility getCatalystAbility(ItemStack stack) {
-        return getCatalystCore(stack).getAbility();
+    public static List<Pair<PassiveCatalystAbility, Float>> getPassiveAbility(ItemStack stack) {
+        return getCatalystCore(stack).getPassiveAbility();
+    }
+
+    public static AbstractActiveAbility getCatalystAbility1(ItemStack stack, int slot) {
+        return getCatalystCore(stack).getActiveAbility(slot);
     }
 
     public static Multimap<Attribute, AttributeModifier> getCatalystAttribute(ItemStack stack) {
-        return getCatalystCore(stack).getAbility().getAttributes().get();
+        return getCatalystCore(stack).getAttributes().get();
     }
 }

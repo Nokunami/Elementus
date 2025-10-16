@@ -7,7 +7,7 @@ import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -21,7 +21,7 @@ public class SteelGolemNearestAttackableGoal<T extends LivingEntity> extends Tar
     protected LivingEntity target;
     /** This filter is applied to the Entity search. Only matching entities will be targeted. */
     protected TargetingConditions targetConditions;
-    private final SteelGolem steelGolem;
+    private final AstaliteGolem steelGolem;
 
 //    public SteelGolemNearestAttackableGoal(SteelGolem golem, Class<T> pTargetType, boolean pMustSee) {
 //        this(golem, pTargetType, DEFAULT_RANDOM_INTERVAL, pMustSee, false, null);
@@ -35,7 +35,7 @@ public class SteelGolemNearestAttackableGoal<T extends LivingEntity> extends Tar
 //        this(golem, pTargetType, DEFAULT_RANDOM_INTERVAL, pMustSee, pMustReach, null);
 //    }
 
-    public SteelGolemNearestAttackableGoal(SteelGolem golem, Class<T> pTargetType, int pRandomInterval, boolean pMustSee, boolean pMustReach, @Nullable Predicate<LivingEntity> pTargetPredicate) {
+    public SteelGolemNearestAttackableGoal(AstaliteGolem golem, Class<T> pTargetType, int pRandomInterval, boolean pMustSee, boolean pMustReach, @Nullable Predicate<LivingEntity> pTargetPredicate) {
         super(golem, pMustSee, pMustReach);
         this.targetType = pTargetType;
         this.randomInterval = reducedTickDelay(pRandomInterval);

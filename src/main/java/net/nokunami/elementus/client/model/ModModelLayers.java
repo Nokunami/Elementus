@@ -9,10 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.nokunami.elementus.client.model.armor.*;
-import net.nokunami.elementus.client.model.mob.SteelGolemArmorModel;
-import net.nokunami.elementus.client.model.mob.SteelGolemChestModel;
-import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.client.model.mob.SteelGolemSaddleModel;
+import net.nokunami.elementus.client.model.mob.*;
 import net.nokunami.elementus.client.model.projectile.AnthektiteSlashModel;
 import net.nokunami.elementus.client.model.projectile.SwordDanceSlashModel;
 
@@ -47,6 +44,8 @@ public class ModModelLayers {
     public static final ModelLayerLocation STEEL_GOLEM_ARMOR = createLocation("steel_golem_armor");
     public static final ModelLayerLocation STEEL_GOLEM_CHEST = createLocation("steel_golem_chest");
 
+    public static final ModelLayerLocation ASTALITE_GOLEM = createLocation("astalite_golem");
+
     public static final ModelLayerLocation ANTHEKTITE_SLASH = createLocation("anthektite_slash");
     public static final ModelLayerLocation SWORD_DANCE_SLASH = createLocation("sword_dance_slash");
 
@@ -75,6 +74,8 @@ public class ModModelLayers {
         event.registerLayerDefinition(STEEL_GOLEM_SADDLE, SteelGolemSaddleModel::createSaddleLayer);
         event.registerLayerDefinition(STEEL_GOLEM_ARMOR, SteelGolemArmorModel::createBodyLayer);
         event.registerLayerDefinition(STEEL_GOLEM_CHEST, SteelGolemChestModel::createChestLayer);
+
+        event.registerLayerDefinition(ASTALITE_GOLEM, AstaliteGolemModel::createBodyLayer);
 
         event.registerLayerDefinition(ANTHEKTITE_SLASH, AnthektiteSlashModel::createLayer);
         event.registerLayerDefinition(SWORD_DANCE_SLASH, SwordDanceSlashModel::createLayer);

@@ -203,21 +203,25 @@ public class WrathTridentEntity extends AbstractArrow {
     }
 
     protected boolean tryPickup(@NotNull Player player) {
-        return this.tryPickup1(player) || this.isNoPhysics() && this.ownedBy(player)/* && player.getInventory().add(this.getPickupItem())*/;
+//        return this.tryPickup1(player) || this.isNoPhysics() && this.ownedBy(player)/* && player.getInventory().add(this.getPickupItem())*/;
+        return checkPickup(player) || this.isNoPhysics() && this.ownedBy(player)/* && player.getInventory().add(this.getPickupItem())*/;
+//        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && (player.getInventory().add(getSlotId(), this.getPickupItem()) || player.getInventory().add(this.getPickupItem()));
     }
 
-    private boolean tryPickup1(Player player) {
-        switch (this.pickup) {
-            case ALLOWED:
+    private boolean checkPickup(Player player) {
+        return switch (this.pickup) {
+            case ALLOWED -> {
+//                Inventory inv = player.getInventory();
+//                if (inv.getItem(this.getSlotId()).isEmpty())
+//                    return inv.add(this.getSlotId(), this.getPickupItem());
+//                else if (inv.isEmpty())
+//                    return inv.add(this.getPickupItem());
                 Inventory inv = player.getInventory();
-                if (inv.getItem(this.getSlotId()).isEmpty())
-                    return inv.add(this.getSlotId(), this.getPickupItem());
-                else if (inv.isEmpty())
-                    return inv.add(this.getPickupItem());
-            case CREATIVE_ONLY:
-                return player.getAbilities().instabuild;
-            default: return false;
-        }
+                yield inv.add(getSlotId(), this.getPickupItem());
+            }
+            case CREATIVE_ONLY -> player.getAbilities().instabuild;
+            default -> false;
+        };
     }
 
     protected @NotNull SoundEvent getDefaultHitGroundSoundEvent() {

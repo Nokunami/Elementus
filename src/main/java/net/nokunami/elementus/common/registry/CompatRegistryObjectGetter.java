@@ -5,7 +5,6 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import static com.github.L_Ender.cataclysm.init.ModItems.IGNITIUM_INGOT;
 import static net.nokunami.elementus.Elementus.modLoc;
 import static net.nokunami.elementus.ModChecker.cataclysmID;
 import static net.nokunami.elementus.ModChecker.ironsSpellbooksID;

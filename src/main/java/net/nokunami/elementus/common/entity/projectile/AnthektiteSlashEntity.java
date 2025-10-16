@@ -35,9 +35,9 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
-import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.EItems;
-import net.nokunami.elementus.common.registry.ModMobEffects;
+import net.nokunami.elementus.common.registry.EMobEffects;
+import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.ModParticleTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -292,7 +292,7 @@ public class AnthektiteSlashEntity extends Projectile {
             entity.hurt(source, damage);
         }
         if (this.getChargeable()) {
-            if (!entity.hasEffect(ModMobEffects.ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()))
+            if (!entity.hasEffect(EMobEffects.ANTHEKTITE_SWORD_DANCE.get()))
                 AnthektiteChargeBlade.setCharge(this.getItemStack(), 1);
             this.setChargeable(false);
         }

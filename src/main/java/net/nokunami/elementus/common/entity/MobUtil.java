@@ -2,6 +2,7 @@ package net.nokunami.elementus.common.entity;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -85,5 +86,39 @@ public class MobUtil {
 
     public static void playEntitySound(Entity entity, SoundEvent sound, float volume, float pitch) {
         entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), sound, entity.getSoundSource(), volume, pitch);
+    }
+
+    public static void applyEffect(Entity entity, MobEffect mobEffect) {
+        applyEffect(entity, mobEffect, 0, 0, true, true, true);
+    }
+
+    public static void applyEffect(Entity entity, Supplier<MobEffect> mobEffect) {
+        applyEffect(entity, mobEffect.get(), 0, 0, true, true, true);
+    }
+
+    public static void applyEffect(Entity entity, MobEffect mobEffect, boolean... booleans) {
+        applyEffect(entity, mobEffect, 0, 0, booleans[0], booleans[1], booleans[2]);
+    }
+
+    public static void applyEffect(Entity entity, Supplier<MobEffect> mobEffect, boolean... booleans) {
+        applyEffect(entity, mobEffect.get(), 0, 0, booleans[0], booleans[1], booleans[2]);
+    }
+
+    public static void applyEffect(Entity entity, MobEffect mobEffect, int... num) {
+        applyEffect(entity, mobEffect, num[0], num[1], true, true, true);
+    }
+
+    public static void applyEffect(Entity entity, Supplier<MobEffect> mobEffect, int... num) {
+        applyEffect(entity, mobEffect.get(), num[0], num[1], true, true, true);
+    }
+
+    public static void applyEffect(Entity entity, Supplier<MobEffect> mobEffect, int duration, int amp, boolean ambient, boolean visible, boolean showIcon) {
+        applyEffect(entity, mobEffect.get(), duration, amp, ambient, visible, showIcon);
+    }
+
+    public static void applyEffect(Entity entity, MobEffect mobEffect, int duration, int amp, boolean ambient, boolean visible, boolean showIcon) {
+        if (entity instanceof LivingEntity living) {
+            living.addEffect(new MobEffectInstance(mobEffect, duration, amp, ambient, visible, showIcon));
+        }
     }
 }

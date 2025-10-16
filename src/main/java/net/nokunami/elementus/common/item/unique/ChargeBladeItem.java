@@ -2,11 +2,8 @@ package net.nokunami.elementus.common.item.unique;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +12,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -28,7 +28,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ForgeMod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +35,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static net.nokunami.elementus.ModChecker.betterCombat;
@@ -76,23 +74,49 @@ public class ChargeBladeItem extends SwordItem {
     }
 
     public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
-        return UseAnim.CUSTOM;
+        return UseAnim.BLOCK;
     }
 
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            @Override
-            public HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
-                return IClientItemExtensions.super.getArmPose(entityLiving, hand, itemStack);
-            }
-
-            @Override
-            public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
-                return IClientItemExtensions.super.applyForgeHandTransform(poseStack, player, arm, itemInHand, partialTick, equipProcess, swingProcess);
-            }
-        });
-    }
+//    @Override
+//    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+//        consumer.accept(new IClientItemExtensions() {
+//
+//            private static final HumanoidModel.ArmPose SWING_POSE = HumanoidModel.ArmPose.create("TEST_SWING", false, (model, entity, arm) -> {
+//                if (arm == HumanoidArm.RIGHT) {
+//                    model.rightArm.xRot = (float) (Math.random() * Math.PI * 2);
+//                } else {
+//                    model.leftArm.xRot = (float) (Math.random() * Math.PI * 2);
+//                }
+//            });
+//
+//            @Override
+//            public HumanoidModel.ArmPose getArmPose(LivingEntity entityLiving, InteractionHand hand, ItemStack itemStack) {
+//                if (!itemStack.isEmpty()) {
+//                    if (entityLiving.getUsedItemHand() == hand && entityLiving.getUseItemRemainingTicks() > 0) {
+//                        return SWING_POSE;
+//                    }
+//                }
+//                return HumanoidModel.ArmPose.EMPTY;
+//            }
+//
+//            @Override
+//            public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
+//                applyItemArmTransform(poseStack, arm);
+//                if (player.getUseItem() != itemInHand) {
+//                    return true;
+//                }
+//                if (player.isUsingItem()) {
+//                    poseStack.translate(0, -0.05, 0);
+//                }
+//                return true;
+//            }
+//
+//            private void applyItemArmTransform(PoseStack poseStack, HumanoidArm arm) {
+//                int i = arm == HumanoidArm.RIGHT ? 1 : -1;
+//                poseStack.translate(i * 0.56F, -0.52F, -0.72F);
+//            }
+//        });
+//    }
 
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
@@ -102,7 +126,7 @@ public class ChargeBladeItem extends SwordItem {
 
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-        return super.shouldCauseReequipAnimation(oldStack, newStack, slotChanged);
+        return slotChanged;
     }
 
     @Override

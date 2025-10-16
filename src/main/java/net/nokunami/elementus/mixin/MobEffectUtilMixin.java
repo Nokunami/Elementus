@@ -3,7 +3,7 @@ package net.nokunami.elementus.mixin;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
-import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
+import net.nokunami.elementus.common.registry.EMobEffects;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,8 +17,8 @@ public class MobEffectUtilMixin {
     private static void beaconPowerHaste(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
         int defaultValue = cir.getReturnValue();
         int netherStarHaste = 0;
-        if (entity.hasEffect(ElementusEffects.BEACON_POWER.get())) {
-            int level = entity.getEffect(ElementusEffects.BEACON_POWER.get()).getAmplifier();
+        if (entity.hasEffect(EMobEffects.BEACON_POWER.get())) {
+            int level = entity.getEffect(EMobEffects.BEACON_POWER.get()).getAmplifier();
             netherStarHaste = CatalystArmorConfig.NSHaste + level;
         }
         cir.setReturnValue(Math.max(defaultValue, netherStarHaste));
@@ -26,7 +26,7 @@ public class MobEffectUtilMixin {
 
     @Inject(method = "hasDigSpeed", at = @At(value = "RETURN"), cancellable = true)
     private static void beaconPowerBoolean(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-        if (entity.hasEffect(ElementusEffects.BEACON_POWER.get())) {
+        if (entity.hasEffect(EMobEffects.BEACON_POWER.get())) {
             cir.setReturnValue(true);
         }
     }

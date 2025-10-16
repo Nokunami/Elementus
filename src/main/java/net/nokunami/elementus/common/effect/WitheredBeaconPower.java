@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
-import net.nokunami.elementus.common.registry.ModMobEffects;
+import net.nokunami.elementus.common.registry.EMobEffects;
 import org.jetbrains.annotations.NotNull;
 
 @Mod.EventBusSubscriber
@@ -26,7 +26,7 @@ public class WitheredBeaconPower extends ModMobEffect {
     @SubscribeEvent
     public static void resistanceEffect(LivingDamageEvent event) {
         var entity = event.getEntity();
-        var effect = entity.getEffect(ModMobEffects.ElementusEffects.WITHERED_BEACON_POWER.get());
+        var effect = entity.getEffect(EMobEffects.WITHERED_BEACON_POWER.get());
         if (effect != null) {
             int level = effect.getAmplifier();
             float reduction = 1 - getReductionAmount(level);
@@ -45,7 +45,7 @@ public class WitheredBeaconPower extends ModMobEffect {
 
     @Override
     public void applyEffectTick(@NotNull LivingEntity pLivingEntity, int pAmplifier) {
-        if (this == ModMobEffects.ElementusEffects.WITHERED_BEACON_POWER.get()) {
+        if (this == EMobEffects.WITHERED_BEACON_POWER.get()) {
             if (pLivingEntity.getHealth() < pLivingEntity.getMaxHealth()) {
                 pLivingEntity.heal(2.0F);
             }
@@ -55,7 +55,7 @@ public class WitheredBeaconPower extends ModMobEffect {
     @SubscribeEvent
     public static void healingReduction(LivingHealEvent event) {
         var entity = event.getEntity();
-        var effect = entity.getEffect(ModMobEffects.ElementusEffects.WITHERED_BEACON_POWER.get());
+        var effect = entity.getEffect(EMobEffects.WITHERED_BEACON_POWER.get());
         if (effect != null) {
             float heal = event.getAmount();
             event.setAmount(heal * ((float) CatalystArmorConfig.WNSRegenPenalty / 100));
@@ -64,7 +64,7 @@ public class WitheredBeaconPower extends ModMobEffect {
 
     @Override
     public boolean isDurationEffectTick(int pDuration, int pAmplifier) {
-        if (this == ModMobEffects.ElementusEffects.WITHERED_BEACON_POWER.get()) {
+        if (this == EMobEffects.WITHERED_BEACON_POWER.get()) {
             int k = 50 >> pAmplifier;
             if (k > 0) {
                 return pDuration % k == 0;

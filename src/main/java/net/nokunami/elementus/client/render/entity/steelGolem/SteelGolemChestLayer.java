@@ -14,27 +14,27 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemChestModel;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemChestLayer extends RenderLayer<SteelGolem, SteelGolemModel<SteelGolem>> {
-    private final SteelGolemChestModel<SteelGolem> model;
+public class SteelGolemChestLayer extends RenderLayer<AstaliteGolem, SteelGolemModel<AstaliteGolem>> {
+    private final SteelGolemChestModel<AstaliteGolem> model;
 
-    public SteelGolemChestLayer(RenderLayerParent<SteelGolem, SteelGolemModel<SteelGolem>> renderer, EntityModelSet modelSet) {
+    public SteelGolemChestLayer(RenderLayerParent<AstaliteGolem, SteelGolemModel<AstaliteGolem>> renderer, EntityModelSet modelSet) {
         super(renderer);
         this.model = new SteelGolemChestModel<>(modelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_CHEST));
     }
 
-    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, SteelGolem steelGolem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (!steelGolem.isInvisible()) {
-            if (steelGolem.hasChest()) {
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, AstaliteGolem astaliteGolem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (!astaliteGolem.isInvisible()) {
+            if (astaliteGolem.hasChest()) {
                 ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chest.png");
                 this.getParentModel().copyPropertiesTo(this.model);
-                this.model.prepareMobModel(steelGolem, limbSwing, limbSwingAmount, partialTicks);
-                this.model.setupAnim(steelGolem, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                this.model.prepareMobModel(astaliteGolem, limbSwing, limbSwingAmount, partialTicks);
+                this.model.setupAnim(astaliteGolem, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
                 VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(resourcelocation));
                 this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             }

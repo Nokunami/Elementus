@@ -1,9 +1,13 @@
 package net.nokunami.elementus.common.item;
 
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraftforge.common.util.Lazy;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -14,16 +18,16 @@ public class GolemUpgradeProperties {
     private final double toughness;
     private final boolean isNotPushable;
     private final boolean isFastAttack;
+    private final Lazy<Multimap<Attribute, AttributeModifier>> attributes;
     private final List<Pair<Supplier<MobEffectInstance>, Float>> effects;
-    private final List<Pair<Supplier<AttributeModifier>, Float>> attributes;
 
     public GolemUpgradeProperties(GolemUpgradeProperties.Builder builder) {
         this.armor = builder.armor;
         this.toughness = builder.toughness;
         this.isNotPushable = builder.pushable;
         this.isFastAttack = builder.fastAttack;
-        this.effects = builder.effects;
         this.attributes = builder.attributes;
+        this.effects = builder.effects;
     }
 
     public int getArmor() {
@@ -46,8 +50,12 @@ public class GolemUpgradeProperties {
         return this.effects.stream().map(pair -> Pair.of(pair.getFirst() != null ? pair.getFirst().get() : null, pair.getSecond())).collect(Collectors.toList());
     }
 
-    public List<Pair<AttributeModifier, Float>> getAttributes() {
-        return this.attributes.stream().map(pair -> Pair.of(pair.getFirst() != null ? pair.getFirst().get() : null, pair.getSecond())).collect(Collectors.toList());
+    public Lazy<Multimap<Attribute, AttributeModifier>> getAttributes() {
+        return attributes;
+    }
+
+    private static ImmutableMultimap.Builder<Attribute, AttributeModifier> emptyAttributes() {
+        return ImmutableMultimap.builder();
     }
 
     public static class Builder {
@@ -55,8 +63,8 @@ public class GolemUpgradeProperties {
         private double toughness;
         private boolean pushable;
         private boolean fastAttack;
+        private Lazy<Multimap<Attribute, AttributeModifier>> attributes = Lazy.of(emptyAttributes()::build);
         private final List<Pair<Supplier<MobEffectInstance>, Float>> effects = Lists.newArrayList();
-        private final List<Pair<Supplier<AttributeModifier>, Float>> attributes = Lists.newArrayList();
 
         public GolemUpgradeProperties.Builder armor(int amount) {
             this.armor = amount;
@@ -78,13 +86,16 @@ public class GolemUpgradeProperties {
             return this;
         }
 
-        public GolemUpgradeProperties.Builder effect(Supplier<MobEffectInstance> effectIn) {
-            this.effects.add(Pair.of(effectIn, 1F));
+        public Builder armorAttributes(Supplier<ImmutableMultimap.Builder<Attribute, AttributeModifier>> attributes) {
+            return armorAttributes(attributes.get());
+        }
+        public Builder armorAttributes(ImmutableMultimap.Builder<Attribute, AttributeModifier> attributes) {
+            this.attributes = Lazy.of(attributes::build);
             return this;
         }
 
-        public GolemUpgradeProperties.Builder attribute(Supplier<AttributeModifier> effectIn) {
-            this.attributes.add(Pair.of(effectIn, 1F));
+        public GolemUpgradeProperties.Builder effect(Supplier<MobEffectInstance> effectIn) {
+            this.effects.add(Pair.of(effectIn, 1F));
             return this;
         }
 

@@ -1,8 +1,6 @@
 package net.nokunami.elementus.event;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -15,9 +13,8 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.client.settings.KeyModifier;
-import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.event.ItemStackedOnOtherEvent;
+import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -28,9 +25,9 @@ import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.network.ChargeBladeAbilityPacket;
 import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.EItems;
-import org.lwjgl.glfw.GLFW;
 
 import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.client.EKeyMap.*;
 import static net.nokunami.elementus.common.catalystCore.core.CatalystCore.CORE_ITEM_MAP;
 
 @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
@@ -80,18 +77,7 @@ public class ClientEvents {
         }
     }
 
-    public static void scroll(InputEvent.MouseScrollingEvent event) {
-        int direction = Mth.clamp((int) event.getScrollDelta(), -1, 1);
-        Minecraft minecraft = Minecraft.getInstance();
-        if(minecraft.level == null || minecraft.screen != null || Minecraft.getInstance().isPaused() || minecraft.player == null) return;
-
-//        if (minecraft.player.containerMenu.getSlot()) {
-//        }
-//        ModNetwork.sendToServer();
-    }
-
     public static void itemDecorations(RegisterItemDecorationsEvent event) {
-//        event.register(ModItems.CATALYST_CHESTPLATE.get(), new CatalystCoreItemDecoration());
         event.register(EItems.TEST_CATALYST_CHESTPLATE.get(), new CatalystCoreItemDecoration());
         event.register(EItems.DIARKRITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
         event.register(EItems.ANTHEKTITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
@@ -103,20 +89,14 @@ public class ClientEvents {
         event.register(EItems.MOVCADIA_HOE.get(), new ItemBarItemDecoration());
     }
 
-    public static final Lazy<KeyMapping> TEST_KEY = Lazy.of(() -> new KeyMapping(
-            "key.elementus.catalyst_ability_1",
-            KeyConflictContext.UNIVERSAL,
-            KeyModifier.ALT,
-            InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_C,
-            KeyMapping.CATEGORY_GAMEPLAY));
+    public static void onRegisterKeybinds(RegisterKeyMappingsEvent event) {
+        event.register(CATALYST_ABILITY_KEY_1);
+        event.register(CATALYST_ABILITY_KEY_2);
+        event.register(CATALYST_ABILITY_KEY_3);
+    }
 
     @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
     public static class ModBus {
-        @SubscribeEvent
-        public static void registerKeybinds(RegisterKeyMappingsEvent event) {
-            event.register(TEST_KEY.get());
-        }
 
         @SubscribeEvent
         public static void registerGui(RegisterGuiOverlaysEvent event) {

@@ -9,21 +9,15 @@ import net.nokunami.elementus.common.registry.ESoundEvents;
 import static net.nokunami.elementus.Elementus.MODID;
 
 public class ESoundGen extends SoundDefinitionsProvider {
-    /**
-     * Creates a new instance of this data provider.
-     *
-     * @param output The {@linkplain PackOutput} instance provided by the data generator.
-     * @param modId  The mod ID of the current mod.
-     * @param helper The existing file helper provided by the event you are initializing this provider in.
-     */
+
     public ESoundGen(PackOutput output, String modId, ExistingFileHelper helper) {
         super(output, modId, helper);
     }
 
     @Override
     public void registerSounds() {
-//        itemSoundEntries();
-//        entitySoundEntries();
+        itemSoundEntries();
+        entitySoundEntries();
     }
 
     void itemSoundEntries() {
@@ -64,25 +58,27 @@ public class ESoundGen extends SoundDefinitionsProvider {
 
         add(ESoundEvents.DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE, definition()
                 .subtitle(itemSub + "diarkrite_charge_blade.block")
-                .with(itemSound("diarkrite_charge_blade/sword_resonance_block0"),
-                        itemSound("diarkrite_charge_blade/sword_resonance_block1"),
-                        itemSound("diarkrite_charge_blade/sword_resonance_block2")));
+                .with(itemSound("diarkrite_charge_blade/sword_resonance_block1"),
+                        itemSound("diarkrite_charge_blade/sword_resonance_block2"),
+                        itemSound("diarkrite_charge_blade/sword_resonance_block3")));
         add(ESoundEvents.DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE, definition()
                 .subtitle(itemSub + "diarkrite_charge_blade.parry")
-                .with(itemSound("diarkrite_charge_blade/sword_resonance_parry0"),
-                        itemSound("diarkrite_charge_blade/sword_resonance_parry1"),
+                .with(itemSound("diarkrite_charge_blade/sword_resonance_parry1"),
                         itemSound("diarkrite_charge_blade/sword_resonance_parry2")));
         add(ESoundEvents.DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE, definition()
                 .subtitle(itemSub + "diarkrite_charge_blade.resonate")
-                .with(itemSound("diarkrite_charge_blade/sword_resonance0"),
-                        itemSound("diarkrite_charge_blade/sword_resonance1"),
-                        itemSound("diarkrite_charge_blade/sword_resonance2")));
+                .with(itemSound("diarkrite_charge_blade/sonic_resonance1"),
+                        itemSound("diarkrite_charge_blade/sonic_resonance2"),
+                        itemSound("diarkrite_charge_blade/sonic_resonance3")));
 
         add(ESoundEvents.DIARKRITE_CHARGE_BLADE_BURST, definition()
                 .subtitle(itemSub + "diarkrite_charge_blade.burst")
-                .with(itemSound("diarkrite_charge_blade/burst1"),
-                        itemSound("diarkrite_charge_blade/burst2"),
-                        itemSound("diarkrite_charge_blade/burst3")));
+//                .with(itemSound("diarkrite_charge_blade/burst1"),
+//                        itemSound("diarkrite_charge_blade/burst2"),
+//                        itemSound("diarkrite_charge_blade/burst3")));
+                .with(sound("mob/warden/sonic_boom1"),
+                        sound("mob/warden/sonic_boom2"),
+                        sound("mob/warden/sonic_boom3")));
         add(ESoundEvents.DIARKRITE_CHARGE_BLADE_BURST_CURSED, definition()
                 .subtitle(itemSub + "diarkrite_charge_blade.burst_cursed")
                 .with(itemSound("diarkrite_charge_blade/burst_cursed1"),
@@ -99,21 +95,29 @@ public class ESoundGen extends SoundDefinitionsProvider {
                         itemSound("diarkrite_charge_blade/condensed_burst_cursed2")));
         add(ESoundEvents.DIARKRITE_CHARGE_BLADE_PULSE_BURST, definition()
                 .subtitle(itemSub + "diarkrite_charge_blade.pulse_burst")
-                .with(itemSound("diarkrite_charge_blade/pulse_burst1"),
-                        itemSound("diarkrite_charge_blade/pulse_burst2")));
+//                .with(itemSound("diarkrite_charge_blade/pulse_burst1"),
+//                        itemSound("diarkrite_charge_blade/pulse_burst2")));
+                .with(sound("mob/warden/sonic_boom1"),
+                        sound("mob/warden/sonic_boom1")));
         add(ESoundEvents.DIARKRITE_CHARGE_BLADE_PULSE_BURST_CURSED, definition()
                 .subtitle(itemSub + "diarkrite_charge_blade.pulse_burst_cursed")
-                .with(itemSound("diarkrite_charge_blade/pulse_burst_cursed1"),
-                        itemSound("diarkrite_charge_blade/pulse_burst_cursed2")));
+//                .with(itemSound("diarkrite_charge_blade/pulse_burst_cursed1"),
+//                        itemSound("diarkrite_charge_blade/pulse_burst_cursed2")));
+                .with(sound("mob/warden/sonic_boom1"),
+                        sound("mob/warden/sonic_boom1")));
 
         add(ESoundEvents.ANTHEKTITE_CHARGE_BLADE_WIND_SLASH, definition()
                 .subtitle(itemSub + "anthektite_charge_blade.wind_slash")
-                .with(itemSound("anthektite_charge_blade/wind_slash1"),
-                        itemSound("anthektite_charge_blade/wind_slash2")));
+//                .with(itemSound("anthektite_charge_blade/wind_slash1"),
+//                        itemSound("anthektite_charge_blade/wind_slash2")));
+                .with(sound("entity/endereye/dead1"),
+                        sound("entity/endereye/dead2")));
         add(ESoundEvents.ANTHEKTITE_CHARGE_BLADE_CLEAVE, definition()
                 .subtitle(itemSub + "anthektite_charge_blade.cleave")
-                .with(itemSound("anthektite_charge_blade/cleave1"),
-                        itemSound("anthektite_charge_blade/cleave2")));
+//                .with(itemSound("anthektite_charge_blade/cleave1"),
+//                        itemSound("anthektite_charge_blade/cleave2")));
+                .with(sound("entity/endereye/dead1"),
+                        sound("entity/endereye/dead2")));
         add(ESoundEvents.ANTHEKTITE_CHARGE_BLADE_RUSH, definition()
                 .subtitle(itemSub + "anthektite_charge_blade.rush")
                 .with(itemSound("anthektite_charge_blade/rush")));
@@ -126,7 +130,7 @@ public class ESoundGen extends SoundDefinitionsProvider {
                 .with(sound("mob/irongolem/repair")));
         add(ESoundEvents.STEEL_GOLEM_DOWN, definition()
                 .subtitle(itemSub + "steel_golem.down")
-                .with(entitySound("steel_golem/down")));
+                .with(mobSound("steel_golem/down")));
         add(ESoundEvents.STEEL_GOLEM_REVIVE, definition()
                 .subtitle(itemSub + "steel_golem.revive")
                 .with(sound("mob/irongolem/repair")));
@@ -157,5 +161,8 @@ public class ESoundGen extends SoundDefinitionsProvider {
     }
     private SoundDefinition.Sound entitySound(String path) {
         return sound(MODID + ":entity/" + path);
+    }
+    private SoundDefinition.Sound mobSound(String path) {
+        return sound(MODID + ":mob/" + path);
     }
 }

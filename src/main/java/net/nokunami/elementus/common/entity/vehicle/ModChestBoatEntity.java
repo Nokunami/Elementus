@@ -14,8 +14,8 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidType;
-import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.EItems;
+import net.nokunami.elementus.common.registry.ModEntityType;
 import org.jetbrains.annotations.NotNull;
 
 public class ModChestBoatEntity extends ChestBoat {

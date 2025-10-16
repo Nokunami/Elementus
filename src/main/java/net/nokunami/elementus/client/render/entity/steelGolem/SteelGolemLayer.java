@@ -13,7 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -22,25 +22,25 @@ import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.Elementus.modLoc;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemLayer extends RenderLayer<SteelGolem, SteelGolemModel<SteelGolem>> {
-    private static final Map<SteelGolem.Crackiness, ResourceLocation> GOLEM_CRACKS = ImmutableMap.of(
-            SteelGolem.Crackiness.LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_low.png"),
-            SteelGolem.Crackiness.MEDIUM, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_medium.png"),
-            SteelGolem.Crackiness.HIGH, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_high.png")
+public class SteelGolemLayer extends RenderLayer<AstaliteGolem, SteelGolemModel<AstaliteGolem>> {
+    private static final Map<AstaliteGolem.Crackiness, ResourceLocation> GOLEM_CRACKS = ImmutableMap.of(
+            AstaliteGolem.Crackiness.LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_low.png"),
+            AstaliteGolem.Crackiness.MEDIUM, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_medium.png"),
+            AstaliteGolem.Crackiness.HIGH, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_high.png")
     );
-    private static final Map<SteelGolem.ChassisCrackiness, ResourceLocation> CHASSIS_CRACKS = ImmutableMap.of(
-            SteelGolem.ChassisCrackiness.VERYLOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_very_low.png"),
-            SteelGolem.ChassisCrackiness.LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_low.png"),
-            SteelGolem.ChassisCrackiness.MEDIUM, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_medium.png"),
-            SteelGolem.ChassisCrackiness.HIGH, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_high.png")
+    private static final Map<AstaliteGolem.ChassisCrackiness, ResourceLocation> CHASSIS_CRACKS = ImmutableMap.of(
+            AstaliteGolem.ChassisCrackiness.VERYLOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_very_low.png"),
+            AstaliteGolem.ChassisCrackiness.LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_low.png"),
+            AstaliteGolem.ChassisCrackiness.MEDIUM, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_medium.png"),
+            AstaliteGolem.ChassisCrackiness.HIGH, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_high.png")
     );
 
-    public SteelGolemLayer(RenderLayerParent<SteelGolem, SteelGolemModel<SteelGolem>> render) {
+    public SteelGolemLayer(RenderLayerParent<AstaliteGolem, SteelGolemModel<AstaliteGolem>> render) {
         super(render);
     }
 
     @Override
-    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, SteelGolem golem, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, AstaliteGolem golem, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
         int fullBright = 15728880;
         float eyeRGB = 1;
         if (golem.isChassisBroken()) {
@@ -55,14 +55,14 @@ public class SteelGolemLayer extends RenderLayer<SteelGolem, SteelGolemModel<Ste
             VertexConsumer vertex = buffer.getBuffer(renderLayer);
             this.getParentModel().renderToBuffer(poseStack, vertex, fullBright, OverlayTexture.NO_OVERLAY, eyeRGB, eyeRGB, eyeRGB, eyeRGB);
 
-            SteelGolem.Crackiness steelgolem$crackiness = golem.getCrackiness();
-            if (steelgolem$crackiness != SteelGolem.Crackiness.NONE) {
+            AstaliteGolem.Crackiness steelgolem$crackiness = golem.getCrackiness();
+            if (steelgolem$crackiness != AstaliteGolem.Crackiness.NONE) {
                 ResourceLocation golemCracks = GOLEM_CRACKS.get(steelgolem$crackiness);
                 renderColoredCutoutModel(this.getParentModel(), golemCracks, poseStack, buffer, packedLight, golem, 1.0F, 1.0F, 1.0F);
             }
 
-            SteelGolem.ChassisCrackiness steelgolem$chassis = golem.getChassisCrackiness();
-            if (steelgolem$chassis != SteelGolem.ChassisCrackiness.NONE) {
+            AstaliteGolem.ChassisCrackiness steelgolem$chassis = golem.getChassisCrackiness();
+            if (steelgolem$chassis != AstaliteGolem.ChassisCrackiness.NONE) {
                 ResourceLocation chassisCracks = CHASSIS_CRACKS.get(steelgolem$chassis);
                 renderColoredCutoutModel(this.getParentModel(), chassisCracks, poseStack, buffer, packedLight, golem, 1.0F, 1.0F, 1.0F);
             }

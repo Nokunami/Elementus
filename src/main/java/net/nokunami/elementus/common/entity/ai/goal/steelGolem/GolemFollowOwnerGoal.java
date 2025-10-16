@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 
 import java.util.EnumSet;
@@ -81,7 +81,7 @@ public class GolemFollowOwnerGoal extends Goal {
     }
 
     private boolean unableToMove() {
-        if (tamable instanceof SteelGolem golem) {
+        if (tamable instanceof AstaliteGolem golem) {
             return golem.isChassisBroken();
         }
         return this.tamable.isOrderedToSit() || this.tamable.isPassenger() || this.tamable.isLeashed();

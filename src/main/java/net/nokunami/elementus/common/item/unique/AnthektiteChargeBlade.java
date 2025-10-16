@@ -30,7 +30,7 @@ import net.nokunami.elementus.common.entity.projectile.RushProjectileEntity;
 import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
 import net.nokunami.elementus.common.network.AnthektiteChargeBladeSlashPacket;
 import net.nokunami.elementus.common.network.ModNetwork;
-import net.nokunami.elementus.common.registry.ModMobEffects;
+import net.nokunami.elementus.common.registry.EMobEffects;
 import net.nokunami.elementus.common.registry.ESoundEvents;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +59,7 @@ public class AnthektiteChargeBlade extends ChargeBladeItem {
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         super.inventoryTick(stack, level, entity, slotId, isSelected);
-        setState(stack, entity instanceof LivingEntity living && living.hasEffect(ModMobEffects.ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()));
+        setState(stack, entity instanceof LivingEntity living && living.hasEffect(EMobEffects.ANTHEKTITE_SWORD_DANCE.get()));
     }
 
     @Override
@@ -110,7 +110,7 @@ public class AnthektiteChargeBlade extends ChargeBladeItem {
                 slash.setBlockPos(player.blockPosition());
                 slash.setDamage(5);
                 slash.setDiscardDistance(16);
-                slash.setChargeable(!player.hasEffect(ModMobEffects.ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()));
+                slash.setChargeable(!player.hasEffect(EMobEffects.ANTHEKTITE_SWORD_DANCE.get()));
                 slash.setItemStack(player.getItemInHand(hand));
                 slash.launchSlash(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 1.0F);
                 level.addFreshEntity(slash);

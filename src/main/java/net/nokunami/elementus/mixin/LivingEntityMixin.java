@@ -21,7 +21,7 @@ import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
 import net.nokunami.elementus.common.item.DiarkriteBootsItem;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.registry.EItems;
-import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
+import net.nokunami.elementus.common.registry.EMobEffects;
 import net.nokunami.elementus.common.registry.ESoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,7 +63,7 @@ public abstract class LivingEntityMixin extends Entity {
             if ((Object) this instanceof LivingEntity livingEntity) {
                 ItemStack chestplateItem = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
                 if (chestplateItem.is(EItems.CATALYST_CHESTPLATE.get()) && CatalystArmorItem.catalystActivator(chestplateItem).equals(totem) &&
-                        !livingEntity.hasEffect(ElementusEffects.TOTEM_COOLDOWN.get()))  {
+                        !livingEntity.hasEffect(EMobEffects.TOTEM_COOLDOWN.get()))  {
                     if (entity instanceof ServerPlayer serverplayer) {
                         serverplayer.awardStat(Stats.ITEM_USED.get(Items.TOTEM_OF_UNDYING), 1);
                         CriteriaTriggers.USED_TOTEM.trigger(serverplayer, chestplateItem);
@@ -75,45 +75,21 @@ public abstract class LivingEntityMixin extends Entity {
                     this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, CatalystArmorConfig.totem_AbsorbDuration, CatalystArmorConfig.totem_AbsorbAmp));
                     this.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, CatalystArmorConfig.totem_FireResDuration, CatalystArmorConfig.totem_FireResAmp));
                     if (CatalystArmorConfig.totem_Cooldown > 0) {
-                        this.addEffect(new MobEffectInstance(ElementusEffects.TOTEM_COOLDOWN.get(), CatalystArmorConfig.totem_Cooldown, 0));
+                        this.addEffect(new MobEffectInstance(EMobEffects.TOTEM_COOLDOWN.get(), CatalystArmorConfig.totem_Cooldown, 0));
                     }
                     livingEntity.level().broadcastEntityEvent(this, (byte)35);
                     cir.setReturnValue(true);
                 }
-
-//                ItemStack testChestplateItem = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
-//                Optional<ItemStack> coreStack = getContents(testChestplateItem).findAny();
-//                boolean isCorePresent = coreStack.isPresent();
-//                if (testChestplateItem.is(ModItems.TEST_CATALYST_CHESTPLATE.get()))  {
-//                    if (isCorePresent && CATALYST_CORE_MAP.containsKey(coreStack.get().getItem()) && !livingEntity.hasEffect(ElementusEffects.TOTEM_COOLDOWN.get())) {
-//                        if (entity instanceof ServerPlayer serverplayer) {
-//                            serverplayer.awardStat(Stats.ITEM_USED.get(coreStack.get().getItem()), 1);
-//                            CriteriaTriggers.USED_TOTEM.trigger(serverplayer, chestplateItem);
-//                        }
-//
-//                        this.setHealth(1.0F);
-//                        this.removeAllEffects();
-//                        CATALYST_CORE_MAP.get(coreStack.get().getItem()).postDeathEffects(this, level());
-//                        livingEntity.level().broadcastEntityEvent(this, (byte)35);
-//                        cir.setReturnValue(true);
-//                    }
-//                }
             }
         }
     }
 
     @Inject(method = "calculateFallDamage", at = @At("RETURN"), cancellable = true)
     private void Elementus$calculateFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
-        MobEffectInstance beaconPower = this.getEffect(ElementusEffects.BEACON_POWER.get());
-        MobEffectInstance witheredBeaconPower = this.getEffect(ElementusEffects.WITHERED_BEACON_POWER.get());
+        MobEffectInstance beaconPower = this.getEffect(EMobEffects.BEACON_POWER.get());
+        MobEffectInstance witheredBeaconPower = this.getEffect(EMobEffects.WITHERED_BEACON_POWER.get());
         float f0 = beaconPower != null ? beaconPower.getAmplifier() + 1 : 0;
         float f1 = witheredBeaconPower != null ? witheredBeaconPower.getAmplifier() + 1 : 0;
-
-        float t2 = 0;
-
-        if (beaconPower != null) {
-            t2 = beaconPower.getAmplifier() + 1;
-        }
 
         if (beaconPower != null || witheredBeaconPower != null) {
             cir.setReturnValue((int) (Mth.ceil(fallDistance - 3.0F - Math.max(f0, f1)) * damageMultiplier));
@@ -128,8 +104,8 @@ public abstract class LivingEntityMixin extends Entity {
             }
         }
         float ori = cir.getReturnValue();
-        MobEffectInstance beaconPower = this.getEffect(ElementusEffects.BEACON_POWER.get());
-        MobEffectInstance witheredBeaconPower = this.getEffect(ElementusEffects.WITHERED_BEACON_POWER.get());
+        MobEffectInstance beaconPower = this.getEffect(EMobEffects.BEACON_POWER.get());
+        MobEffectInstance witheredBeaconPower = this.getEffect(EMobEffects.WITHERED_BEACON_POWER.get());
         float f0 = beaconPower != null ? beaconPower.getAmplifier() + 1 : ori;
         float f1 = witheredBeaconPower != null ? witheredBeaconPower.getAmplifier() + 1 : ori;
 

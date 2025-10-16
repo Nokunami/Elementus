@@ -11,11 +11,11 @@ import net.nokunami.elementus.client.animation.definitions.SteelGolemAnimation;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemAttackAnimation;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemChestAnimation;
 import net.nokunami.elementus.client.model.ModelUtil;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> {
+public class SteelGolemModel<T extends AstaliteGolem> extends HierarchicalModel<T> {
     public final float walkMaxAnimSpeed = 4.5F;
     public final float walkAnimScaleFactor = 100;
     private final ModelPart root;

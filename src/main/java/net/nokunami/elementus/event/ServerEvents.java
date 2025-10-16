@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.message.MessageParticle;
+import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -46,22 +47,27 @@ import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
+import net.nokunami.elementus.common.capability.CatalystExhaustionProvider;
+import net.nokunami.elementus.common.catalystCore.PassiveCatalystAbility;
 import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade;
 import net.nokunami.elementus.common.item.unique.TestCatalystArmorItem;
+import net.nokunami.elementus.common.network.CatalystExhaustionSyncPacket;
+import net.nokunami.elementus.common.network.ModNetwork;
 import net.nokunami.elementus.common.registry.*;
 
 import java.util.List;
@@ -74,12 +80,12 @@ import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnParticle
 import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.*;
 import static net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade.*;
 import static net.nokunami.elementus.common.registry.EEnchantments.RESONANCE;
+import static net.nokunami.elementus.common.registry.ESoundEvents.*;
 import static net.nokunami.elementus.common.registry.ModParticleTypes.PARRY;
 import static net.nokunami.elementus.common.registry.ModParticleTypes.PARRY_RESONANCE;
-import static net.nokunami.elementus.common.registry.ESoundEvents.*;
 import static net.nokunami.elementus.event.VillagerTradeEnchantment.createForEnchantment;
 
-@Mod.EventBusSubscriber(modid = Elementus.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = Elementus.MODID)
 public class ServerEvents {
     private static final int parryWindow = 6;
 
@@ -189,16 +195,28 @@ public class ServerEvents {
     @SubscribeEvent
     public void CatalystArmorPostDamageEvent(LivingDamageEvent event) {
         ItemStack itemStack = event.getEntity().getItemBySlot(EquipmentSlot.CHEST);
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof TestCatalystArmorItem) {
-            getEquippedCore(itemStack).ifPresent(core -> CatalystCore.getInstance(core).postDamageEvent(event));
+        var core = getEquippedCore(itemStack);
+        Level level = event.getEntity().level();
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof TestCatalystArmorItem && core.isPresent()) {
+            for(Pair<PassiveCatalystAbility, Float> pair : CustomRegistries.getCatalystCore(core.get()).getPassiveAbility()) {
+                if (!level.isClientSide && pair.getFirst() != null && level.random.nextFloat() < pair.getSecond()) {
+                    pair.getFirst().postDamageEvent(event);
+                }
+            }
         }
     }
 
     @SubscribeEvent
     public void CatalystArmorPostDeathEvent(LivingDeathEvent event) {
         ItemStack itemStack = event.getEntity().getItemBySlot(EquipmentSlot.CHEST);
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof TestCatalystArmorItem) {
-            getEquippedCore(itemStack).ifPresent(core -> CatalystCore.getInstance(core).postDeathEvent(event));
+        var core = getEquippedCore(itemStack);
+        Level level = event.getEntity().level();
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof TestCatalystArmorItem && core.isPresent()) {
+            for(Pair<PassiveCatalystAbility, Float> pair : CustomRegistries.getCatalystCore(core.get()).getPassiveAbility()) {
+                if (!level.isClientSide && pair.getFirst() != null && level.random.nextFloat() < pair.getSecond()) {
+                    pair.getFirst().postDeathEvent(event);
+                }
+            }
         }
     }
 
@@ -347,9 +365,12 @@ public class ServerEvents {
                     }
                 }
                 blockpos = blockpattern$blockpatternmatch.getBlock(1, 2, 0).getPos();
-                SteelGolem steelgolem = ModEntityType.STEEL_GOLEM.get().create(level);
+                AstaliteGolem steelgolem = ModEntityType.STEEL_GOLEM.get().create(level);
                 assert steelgolem != null;
                 steelgolem.setPlayerCreated(true);
+                if (event.getEntity() != null && event.getEntity() instanceof Player player) {
+                    steelgolem.tame(player);
+                }
                 steelgolem.moveTo((double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.05D, (double) blockpos.getZ() + 0.5D, 0.0F, 0.0F);
                 level.addFreshEntity(steelgolem);
 
@@ -509,5 +530,17 @@ public class ServerEvents {
     }
 
     public void steelGolemConversion(LivingConversionEvent event) {
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if(event.side == LogicalSide.SERVER) {
+            event.player.getCapability(CatalystExhaustionProvider.CAP).ifPresent(exhaustion -> {
+                if(exhaustion.getExhaustion() > 0 && event.player.tickCount % 20 == 0) { // Once Every 10 Seconds on Avg
+                    exhaustion.subExhaustion(1);
+                    ModNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.player), new CatalystExhaustionSyncPacket(exhaustion.getExhaustion()));
+                }
+            });
+        }
     }
 }

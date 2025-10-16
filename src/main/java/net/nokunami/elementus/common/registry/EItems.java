@@ -12,10 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.common.config.ItemConfig;
 import net.nokunami.elementus.common.config.TierConfig;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
-import net.nokunami.elementus.common.item.GolemUpgradeProperties;
-import net.nokunami.elementus.common.item.ModBoatItem;
-import net.nokunami.elementus.common.item.ModBowItem;
-import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
+import net.nokunami.elementus.common.item.*;
 import net.nokunami.elementus.common.item.basic.*;
 import net.nokunami.elementus.common.item.unique.*;
 
@@ -193,7 +190,9 @@ public class EItems {
 
     public static final RegistryObject<Item> REINFORCED_PLATING_GOLEM_UPGRADE = ITEMS.register("reinforced_plating_golem_upgrade",
             () -> new SteelGolemUpgradeItem("reinforced_plating", new Item.Properties(), new GolemUpgradeProperties.Builder()
-                    .armor(10).toughness(8).isNotPushable()
+//                    .armor(10).toughness(8)
+                    .armorAttributes(SteelGolemUpgradeAttributes.reinforcedPlating())
+                    .isNotPushable()
                     .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 0, 1)).build()));
 
     public static final RegistryObject<Item> DAMAGE_GOLEM_UPGRADE = ITEMS.register("damage_golem_upgrade",

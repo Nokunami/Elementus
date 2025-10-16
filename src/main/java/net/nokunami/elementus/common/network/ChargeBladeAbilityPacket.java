@@ -12,8 +12,8 @@ import net.minecraftforge.network.NetworkEvent;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade;
+import net.nokunami.elementus.common.registry.EMobEffects;
 import net.nokunami.elementus.common.registry.ModDamageTypes;
-import net.nokunami.elementus.common.registry.ModMobEffects.ElementusEffects;
 
 import java.util.function.Supplier;
 
@@ -73,13 +73,13 @@ public class ChargeBladeAbilityPacket {
                     setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
                     cooldown = 40;
                 } else {
-                    if (player.hasEffect(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get())) {
+                    if (player.hasEffect(EMobEffects.ANTHEKTITE_SWORD_DANCE.get())) {
                         AnthektiteChargeBlade.swordDanceSlash(player, hand);
                         cooldown = 240;
                         shouldStopUsing = true;
                         player.swing(hand, true);
-                    } else if (!player.hasEffect(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get()) && (getCharge(stack) >= getChargeStack(stack) || player.isCreative())) {
-                        player.addEffect(new MobEffectInstance(ElementusEffects.ANTHEKTITE_SWORD_DANCE.get(), 600));
+                    } else if (!player.hasEffect(EMobEffects.ANTHEKTITE_SWORD_DANCE.get()) && (getCharge(stack) >= getChargeStack(stack) || player.isCreative())) {
+                        player.addEffect(new MobEffectInstance(EMobEffects.ANTHEKTITE_SWORD_DANCE.get(), 600));
                         setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
                         cooldown = 10;
                     }

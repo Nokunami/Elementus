@@ -5,8 +5,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.capability.TestArmorCap;
-import net.nokunami.elementus.common.capability.TestArmorCapProvider;
+import net.nokunami.elementus.common.capability.CatalystExhaustion;
+import net.nokunami.elementus.common.capability.CatalystExhaustionProvider;
 
 @Mod.EventBusSubscriber(modid = Elementus.MODID)
 public class ModEvents {
@@ -117,13 +117,16 @@ public class ModEvents {
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
-            event.getOriginal().getCapability(TestArmorCapProvider.TEST_ARMOR_CAP).ifPresent(oldCap ->
-                    event.getOriginal().getCapability(TestArmorCapProvider.TEST_ARMOR_CAP).ifPresent(newCap -> newCap.copy(oldCap)));
+//            event.getOriginal().getCapability(TestArmorCapProvider.TEST_ARMOR_CAP).ifPresent(oldCap ->
+//                    event.getOriginal().getCapability(TestArmorCapProvider.TEST_ARMOR_CAP).ifPresent(newCap -> newCap.copy(oldCap)));
+            event.getOriginal().getCapability(CatalystExhaustionProvider.CAP).ifPresent(oldCap ->
+                    event.getOriginal().getCapability(CatalystExhaustionProvider.CAP).ifPresent(newCap -> newCap.copyExhaustion(oldCap)));
         }
     }
 
     @SubscribeEvent
     public static void registerCaps(RegisterCapabilitiesEvent event) {
-        event.register(TestArmorCap.class);
+//        event.register(TestArmorCap.class);
+        event.register(CatalystExhaustion.class);
     }
 }

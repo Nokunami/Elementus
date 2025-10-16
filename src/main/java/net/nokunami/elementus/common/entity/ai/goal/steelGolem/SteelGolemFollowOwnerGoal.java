@@ -11,15 +11,15 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 
 import java.util.EnumSet;
 
 public class SteelGolemFollowOwnerGoal extends Goal {
     private static final int MIN_HORIZONTAL_DISTANCE_WHEN_TELEPORTING = 2;
-    private static final int MAX_HORIZONTAL_DISTANCE_WHEN_TELEPORTING = 5;
-    private static final int MAX_VERTICAL_DISTANCE_WHEN_TELEPORTING = 3;
-    private final SteelGolem steelGolem;
+    private static final int MAX_HORIZONTAL_DISTANCE_TELEPORTING = 5;
+    private static final int MAX_VERTICAL_DISTANCE_TELEPORTING = 3;
+    private final AstaliteGolem steelGolem;
     private LivingEntity owner;
     private final LevelReader level;
     private final double speedModifier;
@@ -36,7 +36,11 @@ public class SteelGolemFollowOwnerGoal extends Goal {
     private final float aggroTeleportDistance;
     private final boolean brokenChassis;
 
-    public SteelGolemFollowOwnerGoal(SteelGolem golem, double normalSpeed, double aggroSpeed, float startDistance, float aggroStartDistance, float stopDistance, float aggroStopDistance, boolean canFly, int teleportDistance, int aggroTeleportDistance) {
+    public SteelGolemFollowOwnerGoal(AstaliteGolem golem, goalInfo info) {
+        this(golem, info.speedModifier, info.aggroSpeedModifier, info.startDistance, info.aggroStartDistance, info.stopDistance, info.aggroStopDistance, false, info.teleportDistance, info.aggroTeleportDistance);
+    }
+
+    public SteelGolemFollowOwnerGoal(AstaliteGolem golem, double normalSpeed, double aggroSpeed, float startDistance, float aggroStartDistance, float stopDistance, float aggroStopDistance, boolean canFly, int teleportDistance, int aggroTeleportDistance) {
         this.steelGolem = golem;
         this.level = golem.level();
         this.navigation = golem.getNavigation();
@@ -142,9 +146,9 @@ public class SteelGolemFollowOwnerGoal extends Goal {
     private void teleportToOwner() {
         BlockPos blockpos = this.owner.blockPosition();
         for(int i = 0; i < 10; ++i) {
-            int j = randomIntInclusive(-MAX_HORIZONTAL_DISTANCE_WHEN_TELEPORTING, MAX_HORIZONTAL_DISTANCE_WHEN_TELEPORTING);
-            int k = randomIntInclusive(-MAX_VERTICAL_DISTANCE_WHEN_TELEPORTING, MAX_VERTICAL_DISTANCE_WHEN_TELEPORTING);
-            int l = randomIntInclusive(-MAX_HORIZONTAL_DISTANCE_WHEN_TELEPORTING, MAX_HORIZONTAL_DISTANCE_WHEN_TELEPORTING);
+            int j = randomIntInclusive(-MAX_HORIZONTAL_DISTANCE_TELEPORTING, MAX_HORIZONTAL_DISTANCE_TELEPORTING);
+            int k = randomIntInclusive(-MAX_VERTICAL_DISTANCE_TELEPORTING, MAX_VERTICAL_DISTANCE_TELEPORTING);
+            int l = randomIntInclusive(-MAX_HORIZONTAL_DISTANCE_TELEPORTING, MAX_HORIZONTAL_DISTANCE_TELEPORTING);
             boolean bl = maybeTeleportTo(blockpos.getX() + j, blockpos.getY() + k, blockpos.getZ() + l);
 
             if(bl)
@@ -181,5 +185,54 @@ public class SteelGolemFollowOwnerGoal extends Goal {
 
     private int randomIntInclusive(int pMin, int pMax) {
         return this.steelGolem.getRandom().nextInt(pMax - pMin + 1) + pMin;
+    }
+
+    public static class goalInfo {
+        double speedModifier = 0;
+        float startDistance = 0;
+        float stopDistance = 0;
+        int teleportDistance = 0;
+        double aggroSpeedModifier = speedModifier;
+        float aggroStartDistance = startDistance;
+        float aggroStopDistance = stopDistance;
+        int aggroTeleportDistance = teleportDistance;
+
+        public goalInfo speed(double amount) {
+            this.speedModifier = amount;
+            return this;
+        }
+        public goalInfo start(int amount) {
+            this.startDistance = amount;
+            return this;
+        }
+        public goalInfo stop(int amount) {
+            this.stopDistance = amount;
+            return this;
+        }
+        public goalInfo teleport(int amount) {
+            this.teleportDistance = amount;
+            return this;
+        }
+
+        public goalInfo speedAggro(double amount1, double amount2) {
+            this.speedModifier = amount1;
+            this.aggroSpeedModifier = amount2;
+            return this;
+        }
+        public goalInfo startAggro(int amount1, int amount2) {
+            this.startDistance = amount1;
+            this.aggroStartDistance = amount2;
+            return this;
+        }
+        public goalInfo stopAggro(int amount1, int amount2) {
+            this.stopDistance = amount1;
+            this.aggroStopDistance = amount2;
+            return this;
+        }
+        public goalInfo teleportAggro(int amount1, int amount2) {
+            this.teleportDistance = amount1;
+            this.aggroTeleportDistance = amount2;
+            return this;
+        }
     }
 }

@@ -29,24 +29,20 @@ public class SonicBoomBurstStartParticle extends HugeExplosionParticle {
     public void tick() {
         super.tick();
         this.setSpriteFromAge(this.sprites);
+//        alpha -= 0.05F;
         this.oRoll = this.roll;
         this.roll += (float)Math.PI * this.rotSpeed * 2.0F;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
-
-        public Provider(SpriteSet pSprites) {
-            this.sprites = pSprites;
-        }
+        public record Provider(SpriteSet sprites) implements ParticleProvider<SimpleParticleType> {
 
         public Particle createParticle(@NotNull SimpleParticleType pType, @NotNull ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-            SonicBoomBurstStartParticle particle = new SonicBoomBurstStartParticle(pLevel, pX, pY, pZ, pXSpeed, this.sprites);
-            particle.rCol = 1;
-            particle.gCol = 1;
-            particle.bCol = 1;
-            return particle;
+                SonicBoomBurstStartParticle particle = new SonicBoomBurstStartParticle(pLevel, pX, pY, pZ, pXSpeed, this.sprites);
+                particle.rCol = 1;
+                particle.gCol = 1;
+                particle.bCol = 1;
+                return particle;
+            }
         }
-    }
 }

@@ -14,21 +14,21 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemArmorModel;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.item.DyeableSteelGolemUpgradeItem;
 import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemArmorLayer extends RenderLayer<SteelGolem, SteelGolemModel<SteelGolem>> {
-    private final SteelGolemArmorModel<SteelGolem> model;
+public class SteelGolemArmorLayer extends RenderLayer<AstaliteGolem, SteelGolemModel<AstaliteGolem>> {
+    private final SteelGolemArmorModel<AstaliteGolem> model;
 
-    public SteelGolemArmorLayer(RenderLayerParent<SteelGolem, SteelGolemModel<SteelGolem>> renderer, EntityModelSet modelSet) {
+    public SteelGolemArmorLayer(RenderLayerParent<AstaliteGolem, SteelGolemModel<AstaliteGolem>> renderer, EntityModelSet modelSet) {
         super(renderer);
         this.model = new SteelGolemArmorModel<>(modelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_ARMOR));
     }
 
-    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, SteelGolem steelGolem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, AstaliteGolem steelGolem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         ItemStack itemStack = steelGolem.getArmor();
         if (itemStack.getItem() instanceof SteelGolemUpgradeItem armorItem) {
             this.getParentModel().copyPropertiesTo(this.model);

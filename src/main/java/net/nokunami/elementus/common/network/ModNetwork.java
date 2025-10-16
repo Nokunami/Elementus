@@ -28,6 +28,7 @@ public class ModNetwork {
         INSTANCE.registerMessage(id(), SteelGolemInventoryPacket.class, SteelGolemInventoryPacket::encode, SteelGolemInventoryPacket::decode, SteelGolemInventoryPacket::consume);
         INSTANCE.registerMessage(id(), CatalystDeathItemDisplayPacket.class, CatalystDeathItemDisplayPacket::encode, CatalystDeathItemDisplayPacket::decode, CatalystDeathItemDisplayPacket::consume);
         INSTANCE.registerMessage(id(), CatalystDeathParticlePacket.class, CatalystDeathParticlePacket::encode, CatalystDeathParticlePacket::decode, CatalystDeathParticlePacket::consume);
+        INSTANCE.registerMessage(id(), CatalystExhaustionSyncPacket.class, CatalystExhaustionSyncPacket::encode, CatalystExhaustionSyncPacket::decode, CatalystExhaustionSyncPacket::consume);
     }
 
     public static <MSG> void sendTo(Player player, MSG msg) {

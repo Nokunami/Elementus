@@ -34,8 +34,8 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
-import net.nokunami.elementus.common.registry.ModEntityType;
 import net.nokunami.elementus.common.registry.EItems;
+import net.nokunami.elementus.common.registry.ModEntityType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;

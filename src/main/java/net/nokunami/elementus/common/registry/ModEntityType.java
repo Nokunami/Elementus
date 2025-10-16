@@ -7,7 +7,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.projectile.*;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
 import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
@@ -20,8 +20,8 @@ public class ModEntityType {
     public static final RegistryObject<EntityType<ModChestBoatEntity>> MOVCADIA_CHEST_BOAT = ENTITY_TYPES.register("movcadia_chest_boat",
             () -> EntityType.Builder.<ModChestBoatEntity>of(ModChestBoatEntity::new, MobCategory.MISC).sized(1.375f, 0.5625f).build("movcadia_chest_boat"));
 
-    public static final RegistryObject<EntityType<SteelGolem>> STEEL_GOLEM = ENTITY_TYPES.register("steel_golem",
-            () -> EntityType.Builder.of(SteelGolem::new, MobCategory.CREATURE).sized(SteelGolem.rawBbWidth, SteelGolem.rawBbHeight).build("steel_golem"));
+    public static final RegistryObject<EntityType<AstaliteGolem>> STEEL_GOLEM = ENTITY_TYPES.register("steel_golem",
+            () -> EntityType.Builder.of(AstaliteGolem::new, MobCategory.CREATURE).sized(AstaliteGolem.rawBbWidth, AstaliteGolem.rawBbHeight).build("steel_golem"));
 
     public static final RegistryObject<EntityType<AnthektiteSlashEntity>> ANTHEKTITE_SLASH = ENTITY_TYPES.register("anthektite_slash",
             () -> EntityType.Builder.<AnthektiteSlashEntity>of(AnthektiteSlashEntity::new, MobCategory.MISC).sized(0.75F, 0.5F).build("anthektite_slash"));
