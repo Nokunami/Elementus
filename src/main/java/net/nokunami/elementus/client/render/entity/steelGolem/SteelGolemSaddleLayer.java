@@ -15,20 +15,21 @@ import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
 import net.nokunami.elementus.client.model.mob.SteelGolemSaddleModel;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemSaddleLayer extends RenderLayer<AstaliteGolem, SteelGolemModel<AstaliteGolem>> {
-    private final SteelGolemSaddleModel<AstaliteGolem> model1;
+public class SteelGolemSaddleLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
+    private final SteelGolemSaddleModel<T> model1;
 
-    public SteelGolemSaddleLayer(RenderLayerParent<AstaliteGolem, SteelGolemModel<AstaliteGolem>> pRenderer, EntityModelSet pModelSet) {
+    public SteelGolemSaddleLayer(RenderLayerParent<T, SteelGolemModel<T>> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
         this.model1 = new SteelGolemSaddleModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_SADDLE));
     }
 
-    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, AstaliteGolem golem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, T golem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (golem.isSaddled()) {
             ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_saddle.png");
             VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(resourcelocation));

@@ -1,0 +1,29 @@
+{
+  "values": [
+    "minecraft:evoker",
+    {
+      "id": "goety:obsidian_monolith",
+      "required": false
+    },
+    {
+      "id": "goety:inferno",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:umvuthana_crane",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:umvuthana_follower_raptor",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:umvuthana_raptor",
+      "required": false
+    },
+    {
+      "id": "mowziesmobs:umvuthana",
+      "required": false
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import net.nokunami.elementus.common.catalystCore.PassiveCatalystAbility;
 import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
 
 import java.util.List;
+import java.util.Map;
 
 import static net.nokunami.elementus.Elementus.MODID;
 import static net.nokunami.elementus.Elementus.modLoc;
@@ -35,19 +36,27 @@ public class CustomRegistries {
         event.create(new RegistryBuilder<CatalystCore>().setName(CATALYST_CORE_RL));
     }
 
+    public static final CatalystCore fallBackCore = new CatalystCore(() -> new ItemStack(Items.BARRIER), ChatFormatting.DARK_PURPLE);
+
     public static CatalystCore getCatalystCore(ItemStack stack) {
         var id = RegistryManager.ACTIVE.getRegistry(CATALYST_CORE_KEY).getEntries();
         var stream1 = id.stream().filter(c -> c.getValue().getCoreStack().is(stack.getItem())).findAny();
         if (stream1.isPresent()) {
             return stream1.get().getValue();
         }
-        return new CatalystCore(() -> new ItemStack(Items.BARRIER), ChatFormatting.DARK_PURPLE);
+        return fallBackCore;
     }
 
     public static String getCatalystId(ItemStack stack) {
         var id = RegistryManager.ACTIVE.getRegistry(CATALYST_CORE_KEY).getEntries();
         var stream1 = id.stream().filter(c -> c.getValue().getCoreStack().is(stack.getItem())).findAny();
         return stream1.map(entry -> entry.getKey().location().getPath()).orElse("missing");
+    }
+
+    public static CatalystCore getCoreInstance(String string) {
+        var id = RegistryManager.ACTIVE.getRegistry(CATALYST_CORE_KEY).getEntries();
+        var stream1 = id.stream().filter(c -> c.getValue().getId().equals(string)).findAny();
+        return stream1.isPresent() ? stream1.get().getValue() : fallBackCore;
     }
 
     public static List<Pair<PassiveCatalystAbility, Float>> getPassiveAbility(ItemStack stack) {

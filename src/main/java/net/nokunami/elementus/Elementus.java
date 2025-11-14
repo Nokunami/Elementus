@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -78,8 +79,8 @@ public class Elementus {
 
         CatalystISSConfig.reload();
 
-        ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, ModConfig.CLIENT_SPEC, "elementus/client.toml");
-        ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.COMMON, ModConfig.COMMON_SPEC, "elementus/common.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, EConfig.CLIENT_SPEC, "elementus/client.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, EConfig.COMMON_SPEC, "elementus/common.toml");
 
         EItems.register(modEventBus);
         EBlocks.register(modEventBus);
@@ -90,7 +91,7 @@ public class Elementus {
         EMobEffects.register(modEventBus);
         EEnchantments.register(modEventBus);
         ModTrunkPlacer.register(modEventBus);
-        ModParticleTypes.register(modEventBus);
+        EParticleTypes.register(modEventBus);
         CatalystCoreRegistry.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new ServerEvents());

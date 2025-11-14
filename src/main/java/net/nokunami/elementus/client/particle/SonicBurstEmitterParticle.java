@@ -8,7 +8,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.common.registry.ModParticleTypes;
+import net.nokunami.elementus.common.registry.EParticleTypes;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
@@ -35,7 +35,7 @@ public class SonicBurstEmitterParticle extends NoRenderParticle {
                 this.level.addParticle(ParticleTypes.SONIC_BOOM, d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
                 ++particleType;
             } else {
-                this.level.addParticle(ModParticleTypes.SONIC_BURST.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
+                this.level.addParticle(EParticleTypes.SONIC_BURST.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
                 --particleType;
             }
         }

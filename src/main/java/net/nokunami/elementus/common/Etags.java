@@ -125,8 +125,13 @@ public class Etags {
         }
     }
     public static class Entity {
-        public static final TagKey<EntityType<?>> STEEL_GOLEM_PRIORITY_TARGETS = elementusTag("steel_golem_priority_targets");
-        public static final TagKey<EntityType<?>> STEEL_GOLEM_AVOID = elementusTag("steel_golem_avoid_targets");
+        public static final TagKey<EntityType<?>> STEEL_GOLEM_PRIORITY_TARGETS = elementusTag("astalite_golem_priority_targets");
+        public static final TagKey<EntityType<?>> STEEL_GOLEM_AVOID = elementusTag("astalite_golem_avoid_targets");
+        public static final TagKey<EntityType<?>> DIARKRITE_GOLEM_PRIORITY_TARGETS = elementusTag("diarkrite_golem_priority_targets");
+        public static final TagKey<EntityType<?>> DIARKRITE_GOLEM_AVOID = elementusTag("diarkrite_golem_avoid_targets");
+        public static final TagKey<EntityType<?>> ANTHEKTITE_GOLEM_PRIORITY_TARGETS = elementusTag("anthektite_golem_priority_targets");
+        public static final TagKey<EntityType<?>> ANTHEKTITE_GOLEM_AVOID = elementusTag("anthektite_golem_avoid_targets");
+
         public static final TagKey<EntityType<?>> FAW_ATTACKABLE_BUT_NOT_ASSIMILABLE = modTag("fromanotherworld", "attackable_but_not_assimilable");
         public static final TagKey<EntityType<?>> FAW_NOT_AFRAID_OF_THINGS = modTag("fromanotherworld", "not_afraid_of_things");
 

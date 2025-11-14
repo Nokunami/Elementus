@@ -32,7 +32,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.ElementusClient;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.config.ModConfig;
+import net.nokunami.elementus.common.config.EConfig;
 import net.nokunami.elementus.common.registry.ESoundEvents;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import nonamecrackers2.witherstormmod.common.init.WitherStormModItems;
@@ -189,12 +189,12 @@ public class CatalystArmorItem extends ArmorItem {
 
     @Override
     public boolean canBeDepleted() {
-        return !ModConfig.COMMON.catalystArmorDurability.get();
+        return !EConfig.COMMON.catalystArmorDurability.get();
     }
 
     @Override
     public boolean isRepairable(@NotNull ItemStack stack) {
-        return ModConfig.COMMON.catalystArmorDurability.get();
+        return EConfig.COMMON.catalystArmorDurability.get();
     }
 
     public static boolean isFlyEnabled(ItemStack stack) {
@@ -212,7 +212,7 @@ public class CatalystArmorItem extends ArmorItem {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
                 if (nextFlightTick % 20 == 0) {
-                    if (!ModConfig.COMMON.catalystArmorDurability.get()) {
+                    if (!EConfig.COMMON.catalystArmorDurability.get()) {
                         stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(EquipmentSlot.CHEST));
                     }
                 }
@@ -224,7 +224,7 @@ public class CatalystArmorItem extends ArmorItem {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return !ModConfig.COMMON.catalystArmorDurability.get() ? super.canApplyAtEnchantingTable(stack, enchantment) : enchantment != Enchantments.MENDING && super.canApplyAtEnchantingTable(stack, enchantment);
+        return !EConfig.COMMON.catalystArmorDurability.get() ? super.canApplyAtEnchantingTable(stack, enchantment) : enchantment != Enchantments.MENDING && super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
     @Override

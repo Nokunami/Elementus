@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
 import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
+import net.nokunami.elementus.common.registry.CustomRegistries;
 import net.nokunami.elementus.common.registry.EItems;
 import net.nokunami.elementus.common.registry.EMobEffects;
 import net.nokunami.elementus.common.registry.ESoundEvents;
@@ -340,6 +341,16 @@ public class CatalystItemUtil {
     }
     public static Optional<ItemStack> getEquippedElytra(ItemStack stack) {
         return getCatalystContents(stack).filter(elytra -> elytra.is(Etags.Items.CATALYST_ELYTRA)).findAny();
+    }
+
+    public static String getCoreInstance(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        return tag.getString("CoreInstance");
+    }
+
+    public static String setCoreInstance(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putString("CoreInstance", CustomRegistries.getCatalystId(stack));
     }
 
     public enum mobEffectType {

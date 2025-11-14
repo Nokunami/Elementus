@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "goety:hell_cloud",
+      "required": false
+    },
+    {
+      "id": "goety:fire_tornado",
+      "required": false
+    }
+  ]
+}

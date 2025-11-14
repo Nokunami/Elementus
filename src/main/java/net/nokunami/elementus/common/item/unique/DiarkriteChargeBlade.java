@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
@@ -29,8 +30,9 @@ import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.common.config.UniqueItemConfig;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.entity.projectile.PulseBurstEntity;
+import net.nokunami.elementus.common.item.EItemUtil;
 import net.nokunami.elementus.common.registry.ESoundEvents;
-import net.nokunami.elementus.common.registry.ModParticleTypes;
+import net.nokunami.elementus.common.registry.EParticleTypes;
 import net.nokunami.elementus.common.registry.ModTiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -65,8 +67,8 @@ public class DiarkriteChargeBlade extends ChargeBladeItem {
         Minecraft mc = Minecraft.getInstance();
         assert mc.player != null;
         boolean creative = mc.player.isCreative();
-        String damageModifierText = isEnchantedWith(stack, SACRIFICE_CURSE) ? " (+125%)" : "";
-        ChatFormatting damageModifierColor = isEnchantedWith(stack, SACRIFICE_CURSE) || isEnchantedWith(stack, CONDENSED_BURST) ? ChatFormatting.GOLD : ChatFormatting.DARK_AQUA;
+        String damageModifierText = EItemUtil.enchantedWith(stack, SACRIFICE_CURSE) ? " (+125%)" : "";
+        ChatFormatting damageModifierColor = EItemUtil.enchantedWith(stack, SACRIFICE_CURSE) || EItemUtil.enchantedWith(stack, CONDENSED_BURST) ? ChatFormatting.GOLD : ChatFormatting.DARK_AQUA;
         double damage = getChargeAmount(stack, false) * diarkriteChargeBladeSonicDamage;
         double damageR = getChargeAmount(stack, creative) * diarkriteChargeBladeSonicDamage;
         double damageNumber = Math.round(damage * 10.0) / 10.0;
@@ -78,22 +80,22 @@ public class DiarkriteChargeBlade extends ChargeBladeItem {
         tooltip.add(Component.translatable(getDescriptionId() + ".damage_desc").withStyle(ChatFormatting.GRAY)
                 .append(damageText).append(Component.translatable(damageModifierText).withStyle((damageModifierColor))));
         if (Screen.hasShiftDown()) {
-            if (isEnchantedWith(stack, SACRIFICE_CURSE)) {
+            if (EItemUtil.enchantedWith(stack, SACRIFICE_CURSE)) {
                 if (!(diarkriteChargeBladeSacrificeDamageBonus <= 0))
-                    tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY).append(CommonComponents.space()
-                            .append(Component.translatable(getDescriptionId() + ".damage_bonus_sacrifice", Math.round((diarkriteChargeBladeSacrificeDamageBonus + 1) * 100))
-                                    .append(Component.translatable("enchantment.elementus.sacrifice_curse")).withStyle(ChatFormatting.YELLOW))));
+                    tooltip.add(Component.literal("| ").withStyle(ChatFormatting.GRAY).append(
+                            Component.translatable(getDescriptionId() + ".damage_bonus_sacrifice", Math.round((diarkriteChargeBladeSacrificeDamageBonus + 1) * 100))
+                                    .append(Component.translatable("enchantment.elementus.sacrifice_curse")).withStyle(ChatFormatting.YELLOW)));
                 if (!(diarkriteChargeBladeSelfSacrificeDamage <= 0))
-                    tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY).append(CommonComponents.space()
-                            .append(Component.translatable(getDescriptionId() + ".self_sacrifice_damage", Math.round(diarkriteChargeBladeSelfSacrificeDamage * 100))
-                                    .append(Component.translatable("enchantment.elementus.sacrifice_curse")).withStyle(ChatFormatting.RED))));
+                    tooltip.add(Component.literal("| ").withStyle(ChatFormatting.GRAY).append(
+                            Component.translatable(getDescriptionId() + ".self_sacrifice_damage", Math.round(diarkriteChargeBladeSelfSacrificeDamage * 100))
+                                    .append(Component.translatable("enchantment.elementus.sacrifice_curse")).withStyle(ChatFormatting.RED)));
             }
-            if (isEnchantedWith(stack, CONDENSED_BURST)) tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY).append(CommonComponents.space()
+            if (EItemUtil.enchantedWith(stack, CONDENSED_BURST)) tooltip.add(Component.literal("| ").withStyle(ChatFormatting.GRAY)
                     .append(Component.translatable(getDescriptionId() + ".charge_penalty_condensed_burst", Math.round((((float) diarkriteChargeBladeChargePenalty / diarkriteChargeBladeBaseCharge) - 1) * 100))
-                            .append(Component.translatable("enchantment.elementus.condensed_burst")).withStyle(ChatFormatting.RED))));
-            if (isEnchantedWith(stack, CHARGE_STACKING)) tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY).append(CommonComponents.space()
+                            .append(Component.translatable("enchantment.elementus.condensed_burst")).withStyle(ChatFormatting.RED)));
+            if (EItemUtil.enchantedWith(stack, CHARGE_STACKING)) tooltip.add(Component.literal("|").withStyle(ChatFormatting.GRAY)
                     .append(Component.translatable(getDescriptionId() + ".multi_charge", Math.round(((float) (getMaxCharge(stack) / getChargeStack(stack)) - 1)) * 100)
-                            .append(Component.translatable("enchantment.elementus.multi_charge")).withStyle(ChatFormatting.GREEN))));
+                            .append(Component.translatable("enchantment.elementus.multi_charge")).withStyle(ChatFormatting.GREEN)));
         }
         friendlyFireTooltip(tooltip, stack);
         if (stack.isEnchanted()) tooltip.add(CommonComponents.EMPTY);
@@ -101,7 +103,11 @@ public class DiarkriteChargeBlade extends ChargeBladeItem {
 
     @Override
     public int getBarColor(@NotNull ItemStack stack) {
-        return isEnchantedWith(stack, SACRIFICE_CURSE) ? 16733525 : 7924965;
+        return EItemUtil.enchantedWith(stack, SACRIFICE_CURSE) ? 16733525 : 7924965;
+    }
+    @Override
+    public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
+        return getChargedState(stack);
     }
 
     @Override
@@ -110,20 +116,20 @@ public class DiarkriteChargeBlade extends ChargeBladeItem {
     }
 
     public static float boomRadius(ItemStack stack) {
-        return isEnchantedWith(stack, RUSH) || isEnchantedWith(stack, CONDENSED_BURST) ? 1.25F : 2.5F;
+        return EItemUtil.enchantedWith(stack, RUSH) || EItemUtil.enchantedWith(stack, CONDENSED_BURST) ? 1.25F : 2.5F;
     }
 
     public static float boomRange(ItemStack stack) {
-        return isEnchantedWith(stack, CONDENSED_BURST) ? BOOM_RANGE :  isEnchantedWith(stack, RUSH) ? RUSH_RANGE : BURST_RANGE;
+        return EItemUtil.enchantedWith(stack, CONDENSED_BURST) ? BOOM_RANGE :  EItemUtil.enchantedWith(stack, RUSH) ? RUSH_RANGE : BURST_RANGE;
     }
 
     /// Crossbow Expansion code
     public static void createBoom(Level level, LivingEntity livingEntity, ItemStack stack) {
         float chargeAmount = getChargeAmount(stack, ((Player)livingEntity).isCreative());
-        boolean isCursed = isEnchantedWith(stack, SACRIFICE_CURSE);
-        boolean isCondensed = isEnchantedWith(stack, CONDENSED_BURST);
-        SimpleParticleType particleTypes = isCursed && !isCondensed ? ModParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get() : isCursed ? ModParticleTypes.SACRIFICE_SONIC_BOOM.get() : isCondensed ? ParticleTypes.SONIC_BOOM : ModParticleTypes.SONIC_BURST_EMITTER.get();
-        SimpleParticleType startParticle = isCursed ? ModParticleTypes.SACRIFICE_SONIC_BOOM_START.get() : ModParticleTypes.SONIC_BOOM_START.get();
+        boolean isCursed = EItemUtil.enchantedWith(stack, SACRIFICE_CURSE);
+        boolean isCondensed = EItemUtil.enchantedWith(stack, CONDENSED_BURST);
+        SimpleParticleType particleTypes = isCursed && !isCondensed ? EParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get() : isCursed ? EParticleTypes.SACRIFICE_SONIC_BOOM.get() : isCondensed ? ParticleTypes.SONIC_BOOM : EParticleTypes.SONIC_BURST_EMITTER.get();
+        SimpleParticleType startParticle = isCursed ? EParticleTypes.SACRIFICE_SONIC_BOOM_START.get() : EParticleTypes.SONIC_BOOM_START.get();
         Vec3 target = livingEntity.getEyePosition().add(Vec3.directionFromRotation(livingEntity.getXRot(), livingEntity.yHeadRot).scale(boomRange(stack)));
         Vec3 source = livingEntity.getEyePosition();
         Vec3 offsetToTarget = target.subtract(source);
@@ -143,17 +149,17 @@ public class DiarkriteChargeBlade extends ChargeBladeItem {
             ));
         }
         hitSet.remove(livingEntity);
-        if (!livingEntity.onGround() || isEnchantedWith(stack, RUSH))
-            applyRecoil(livingEntity, livingEntity, chargeAmount * (isEnchantedWith(stack, RUSH) ? 2 : 1), isEnchantedWith(stack, RUSH));
+        if (!livingEntity.onGround() || EItemUtil.enchantedWith(stack, RUSH))
+            MobUtil.applyRecoil(livingEntity, livingEntity, chargeAmount * (EItemUtil.enchantedWith(stack, RUSH) ? 2 : 1), EItemUtil.enchantedWith(stack, RUSH));
 
         for(Entity hitTarget : hitSet) {
             if (hitTarget instanceof LivingEntity living) {
                 living.hurt(livingEntity.damageSources().sonicBoom(livingEntity), (float) UniqueItemConfig.diarkriteChargeBladeSonicDamage * chargeAmount);
-                applyRecoil(living, livingEntity, chargeAmount, true);
+                MobUtil.applyRecoil(living, livingEntity, chargeAmount, true);
             }
         }
 
-        if (isEnchantedWith(stack, PULSE_BURST)) {
+        if (EItemUtil.enchantedWith(stack, PULSE_BURST)) {
             if (!level.isClientSide) {
                 PulseBurstEntity slash = new PulseBurstEntity(level, livingEntity);
                 slash.setDamage(5);
@@ -169,7 +175,7 @@ public class DiarkriteChargeBlade extends ChargeBladeItem {
         setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
         SoundEvent burstSound = isCursed ? ESoundEvents.DIARKRITE_CHARGE_BLADE_BURST_CURSED.get() : ESoundEvents.DIARKRITE_CHARGE_BLADE_BURST.get();
         SoundEvent condensedSound = isCursed ? ESoundEvents.DIARKRITE_CHARGE_BLADE_CONDENSED_BURST_CURSED.get() : ESoundEvents.DIARKRITE_CHARGE_BLADE_CONDENSED_BURST.get();
-        if (isEnchantedWith(stack, CONDENSED_BURST)) {
+        if (EItemUtil.enchantedWith(stack, CONDENSED_BURST)) {
             level.playSound(null, livingEntity, condensedSound, SoundSource.PLAYERS, 5.0F, 1.0F);
         } else {
             level.playSound(null, livingEntity, burstSound, SoundSource.PLAYERS, 2.5F, 1.0F);

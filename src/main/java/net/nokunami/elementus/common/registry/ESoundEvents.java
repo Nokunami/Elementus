@@ -39,6 +39,9 @@ public class ESoundEvents {
     public static final RegistryObject<SoundEvent> STEEL_GOLEM_DOWN = SOUNDS.register("steel_golem_down",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "entity.steel_golem.down")));
 
+    public static final RegistryObject<SoundEvent> STEEL_GOLEM_DEATH = SOUNDS.register("steel_golem_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "entity.steel_golem.death")));
+
     public static final RegistryObject<SoundEvent> STEEL_GOLEM_REVIVE = SOUNDS.register("steel_golem_revive",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "entity.steel_golem.revive")));
 

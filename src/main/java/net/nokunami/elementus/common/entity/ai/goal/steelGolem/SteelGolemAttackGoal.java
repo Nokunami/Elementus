@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
@@ -18,7 +19,7 @@ import java.util.function.Predicate;
 import static net.nokunami.elementus.common.entity.MobUtil.alliedAttacked;
 
 public class SteelGolemAttackGoal extends MeleeAttackGoal {
-    private AstaliteGolem golem;
+    private SteelGolem golem;
     protected int attackDelay = 10;
     protected int ticksTilNextAttack = 20;
     protected int fastAttackDelay = 10;
@@ -29,9 +30,8 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
     protected LivingEntity golemOwner;
     private final Predicate<Entity> aoeFilter = (e -> (alliedAttacked(golem, e) || (golemOwner != null && alliedAttacked(golemOwner, e))));
 
-    public SteelGolemAttackGoal(AstaliteGolem golem, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
+    public SteelGolemAttackGoal(SteelGolem golem, double pSpeedModifier, boolean pFollowingTargetEvenIfNotSeen) {
         super(golem, pSpeedModifier, pFollowingTargetEvenIfNotSeen);
-//        setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
         this.golem = golem;
         golemOwner = golem.getOwner() != null ? golem.getOwner() : null;
     }
@@ -107,23 +107,13 @@ public class SteelGolemAttackGoal extends MeleeAttackGoal {
         mob.doHurtTarget(enemy);
     }
 
-    protected boolean isTimeToStartCritAttackAnimation() {
-//        if (steelGolem.getAoeTimer() <= 0) {
-//            return false;
-//        } else {
-//            if (steelGolem.getFastAttack()) {
-//                return ticksTilNextFastAttack <= fastAttackDelay;
-//            } else return ticksTilNextAttack <= attackDelay;
-//        }
+    protected boolean initiateCritAttack() {
         return golem.fallDistance > 0.0F
                 && !golem.onGround() && !golem.onClimbable()
                 && !golem.isInWater() && !golem.hasEffect(MobEffects.BLINDNESS)
                 && !golem.isPassenger();
     }
     protected boolean isTimeToCritAttack() {
-//        if (steelGolem.getFastAttack()) {
-//            return ticksTilNextFastAttack <= 0;
-//        } else return ticksTilNextAttack <= 0;
         return false;
     }
 

@@ -28,21 +28,6 @@ public class CompatCoreRegistry {
     public static class CataclysmCores {
         public static final DeferredRegister<CatalystCore> CORE = DeferredRegister.create(CATALYST_CORE_RL, MODID);
 
-//        public static final RegistryObject<CatalystCore> IGNITIUM = CORE.register("ignitium", () -> new CatalystCore("ignitium", IGNITIUM_INGOT.get(), new CatalystCoreAttributes.Builder()
-//                .tooltipColor(ChatFormatting.GOLD)
-//                .passiveAbility(CatalystAbilities.IGNITIUM)
-//                .build()));
-//        public static final RegistryObject<CatalystCore> CURSIUM = CORE.register("cursium", () -> new CatalystCore("cursium", CURSIUM_INGOT.get(), new CatalystCoreAttributes.Builder()
-//                .tooltipColor(ChatFormatting.DARK_AQUA)
-//                .passiveAbility(CatalystAbilities.CURSIUM)
-//                .build()));
-//        public static final RegistryObject<CatalystCore> ESSENCE_OF_STORM = CORE.register("essence_of_storm", () -> new CatalystCore("essence_of_storm", ESSENCE_OF_THE_STORM.get(), new CatalystCoreAttributes.Builder()
-//                .tooltipColor(ChatFormatting.AQUA)
-//                .passiveAbility(CatalystAbilities.ESSENCE_OF_STORM)
-//                .build()));
-
-//        public static final RegistryObject<CatalystCore> IGNITIUM = registerCore("ignitium", IGNITIUM_INGOT, ChatFormatting.GOLD, new CatalystCoreAttributes.Builder()
-//                .passiveAbility(CatalystAbilities.IGNITIUM));
         public static final RegistryObject<CatalystCore> IGNITIUM = CORE.register("ignitium", IgnitiumCatalystCore::new);
         public static final RegistryObject<CatalystCore> CURSIUM = registerCore("cursium", CURSIUM_INGOT, ChatFormatting.DARK_AQUA, new CatalystCoreAttributes.Builder()
                 .passiveAbility(CatalystAbilities.CURSIUM));
@@ -88,10 +73,6 @@ public class CompatCoreRegistry {
 
         public static final RegistryObject<Item> WITHERED_NETHER_STAR = RegistryObject.create(modLoc(witherStormModID, "withered_nether_star"), ForgeRegistries.ITEMS);
 
-//        public static final RegistryObject<CatalystCore> WITHERED_BEACON_POWER = CORE.register("withered_beacon_power", () -> new CatalystCore("withered_beacon_power", WITHERED_NETHER_STAR.get(), new CatalystCoreAttributes.Builder()
-//                .tooltipColor(ChatFormatting.DARK_PURPLE)
-//                .passiveAbility(CatalystAbilities.WITHERED_NETHER_STAR)
-//                .build()));
         public static final RegistryObject<CatalystCore> WITHERED_BEACON_POWER = registerCore("withered_beacon_power", WITHERED_NETHER_STAR, ChatFormatting.DARK_PURPLE, new CatalystCoreAttributes.Builder()
                 .passiveAbility(CatalystAbilities.WITHERED_BEACON_POWER));
 

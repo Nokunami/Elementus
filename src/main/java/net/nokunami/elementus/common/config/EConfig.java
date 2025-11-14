@@ -2,7 +2,7 @@ package net.nokunami.elementus.common.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class ModConfig {
+public class EConfig {
     public static final ForgeConfigSpec.Builder CONFIG_CLIENT = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec.Builder CONFIG_COMMON = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec CLIENT_SPEC;

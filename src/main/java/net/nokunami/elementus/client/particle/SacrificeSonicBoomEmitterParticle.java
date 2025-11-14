@@ -7,7 +7,7 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.common.registry.ModParticleTypes;
+import net.nokunami.elementus.common.registry.EParticleTypes;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
@@ -31,10 +31,10 @@ public class SacrificeSonicBoomEmitterParticle extends NoRenderParticle {
             double d1 = this.y + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
             double d2 = this.z + (this.random.nextDouble() - this.random.nextDouble()) * 2.0D;
             if (particleType < 1) {
-                this.level.addParticle(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
+                this.level.addParticle(EParticleTypes.SACRIFICE_SONIC_BOOM.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
                 ++particleType;
             } else {
-                this.level.addParticle(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
+                this.level.addParticle(EParticleTypes.SACRIFICE_SONIC_BOOM.get(), d0, d1, d2, (float)this.life / (float) lifeTime, 0.0D, 0.0D);
                 --particleType;
             }
         }

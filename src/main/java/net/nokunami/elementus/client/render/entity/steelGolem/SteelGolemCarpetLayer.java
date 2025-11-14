@@ -15,20 +15,21 @@ import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemCarpetLayer extends RenderLayer<AstaliteGolem, SteelGolemModel<AstaliteGolem>> {
-    private final SteelGolemModel<AstaliteGolem> model;
+public class SteelGolemCarpetLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
+    private final SteelGolemModel<T> model;
 
-    public SteelGolemCarpetLayer(RenderLayerParent<AstaliteGolem, SteelGolemModel<AstaliteGolem>> pRenderer, EntityModelSet pModelSet) {
+    public SteelGolemCarpetLayer(RenderLayerParent<T, SteelGolemModel<T>> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
         this.model = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_CARPET));
     }
 
-    public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, AstaliteGolem pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         if (!pLivingEntity.isInvisible()) {
             if (pLivingEntity.getDripCarpet().is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION)) {
                 ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/carpet/steel_golem_" + pLivingEntity.getDripCarpet().getItem() + ".png");

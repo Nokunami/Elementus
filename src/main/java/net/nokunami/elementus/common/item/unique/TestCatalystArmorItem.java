@@ -35,9 +35,8 @@ import net.nokunami.elementus.client.extensions.ICatalystTrim;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.catalystCore.CatalystArmorAttributes;
-import net.nokunami.elementus.common.config.ModConfig;
+import net.nokunami.elementus.common.config.EConfig;
 import net.nokunami.elementus.common.registry.CustomRegistries;
-import net.nokunami.elementus.common.registry.ESoundEvents;
 import net.nokunami.elementus.common.registry.ModArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,15 +59,12 @@ public class TestCatalystArmorItem extends ArmorItem implements ICatalystTrim {
 
     private Object renderTrimProperties;
 
-    public Object getRenderTrimPropertiesInternal() {
-        return renderTrimProperties;
-    }
+    public Object getRenderTrimPropertiesInternal() { return renderTrimProperties; }
 
     private void initClient() {
         // Minecraft instance isn't available in datagen, so don't call initializeClient if in datagen
-        if (FMLEnvironment.dist == Dist.CLIENT && !FMLLoader.getLaunchHandler().isData()) {
+        if (FMLEnvironment.dist == Dist.CLIENT && !FMLLoader.getLaunchHandler().isData())
             initializeClientTrim(properties -> this.renderTrimProperties = properties);
-        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -77,9 +73,7 @@ public class TestCatalystArmorItem extends ArmorItem implements ICatalystTrim {
     }
 
     @Override
-    public @NotNull ModArmorMaterials getMaterial() {
-        return this.material;
-    }
+    public @NotNull ModArmorMaterials getMaterial() { return this.material; }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
@@ -108,44 +102,32 @@ public class TestCatalystArmorItem extends ArmorItem implements ICatalystTrim {
 
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
-        if (!level.isClientSide && entity instanceof Player player) {
-            if (player.getItemBySlot(EquipmentSlot.CHEST).equals(stack)) {
+        if (!level.isClientSide && entity instanceof Player player)
+            if (player.getItemBySlot(EquipmentSlot.CHEST).equals(stack))
                 getEquippedCore(stack).ifPresent(core -> CustomRegistries.getCatalystCore(core).tick(entity, level));
-            }
-        }
     }
 
     @Override
-    public boolean canBeHurtBy(@NotNull DamageSource source) {
-        return false;
-    }
+    public boolean canBeHurtBy(@NotNull DamageSource source) { return false; }
 
     @Override
-    public int getEntityLifespan(ItemStack stack, Level level) {
-        return Integer.MAX_VALUE;
-    }
+    public int getEntityLifespan(ItemStack stack, Level level) { return Integer.MAX_VALUE; }
 
     @Override
-    public boolean canBeDepleted() {
-        return !ModConfig.COMMON.catalystArmorDurability.get();
-    }
+    public boolean canBeDepleted() { return !EConfig.COMMON.catalystArmorDurability.get(); }
 
     @Override
-    public boolean isRepairable(@NotNull ItemStack stack) {
-        return ModConfig.COMMON.catalystArmorDurability.get();
-    }
+    public boolean isRepairable(@NotNull ItemStack stack) { return EConfig.COMMON.catalystArmorDurability.get(); }
 
     @Override
-    public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
-        return getEquippedElytra(stack).isPresent();
-    }
+    public boolean canElytraFly(ItemStack stack, LivingEntity entity) { return getEquippedElytra(stack).isPresent(); }
 
     @Override
     public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
         if (!entity.level().isClientSide) {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
-                if (!ModConfig.COMMON.catalystArmorDurability.get()) {
+                if (!EConfig.COMMON.catalystArmorDurability.get()) {
                     if (nextFlightTick % 20 == 0) {
                         stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(EquipmentSlot.CHEST));
                     }
@@ -158,13 +140,11 @@ public class TestCatalystArmorItem extends ArmorItem implements ICatalystTrim {
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return !ModConfig.COMMON.catalystArmorDurability.get() ? super.canApplyAtEnchantingTable(stack, enchantment) : enchantment != Enchantments.MENDING && super.canApplyAtEnchantingTable(stack, enchantment);
+        return !EConfig.COMMON.catalystArmorDurability.get() ? super.canApplyAtEnchantingTable(stack, enchantment) : enchantment != Enchantments.MENDING && super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
     @Override
-    public boolean isEnchantable(@NotNull ItemStack pStack) {
-        return this.getMaxStackSize(pStack) == 1;
-    }
+    public boolean isEnchantable(@NotNull ItemStack pStack) { return this.getMaxStackSize(pStack) == 1; }
 
     // Insert Code
 
@@ -249,9 +229,6 @@ public class TestCatalystArmorItem extends ArmorItem implements ICatalystTrim {
     }
 
     private void playEquipSound(Player entity, ItemStack stack) {
-//        if (stack.is(Etags.Items.CATALYST_ELYTRA))
-//            entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
-//        else entity.playSound(ESoundEvents.CATALYST_ARMOR_ACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
         if (stack.is(Etags.Items.CATALYST_ELYTRA))
             entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
         else CustomRegistries.getCatalystCore(stack).equipSound(entity, stack);
@@ -259,6 +236,7 @@ public class TestCatalystArmorItem extends ArmorItem implements ICatalystTrim {
     private void playUnequipSound(Player entity, ItemStack stack) {
         if (stack.is(Etags.Items.CATALYST_ELYTRA))
             entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
-        else entity.playSound(ESoundEvents.CATALYST_ARMOR_DEACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
+//        else entity.playSound(ESoundEvents.CATALYST_ARMOR_DEACTIVATE.get(), 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);
+        else CustomRegistries.getCoreInstance(CatalystItemUtil.getCoreInstance(stack)).equipSound(entity, stack);
     }
 }

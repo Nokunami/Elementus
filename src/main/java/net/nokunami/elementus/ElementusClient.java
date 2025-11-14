@@ -38,23 +38,23 @@ import net.nokunami.elementus.client.gui.screens.inventory.tooltip.ClientCatalys
 import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.particle.*;
 import net.nokunami.elementus.client.render.entity.armor.CatalystElytraLayer;
+import net.nokunami.elementus.client.render.entity.astaliteGolem.AstaliteGolemRenderer;
 import net.nokunami.elementus.client.render.entity.projectile.*;
 import net.nokunami.elementus.client.render.entity.steelGolem.SteelGolemRenderer;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
 import net.nokunami.elementus.client.render.vehicle.ModChestRenderer;
-import net.nokunami.elementus.common.config.ModConfig;
+import net.nokunami.elementus.common.config.EConfig;
 import net.nokunami.elementus.common.item.ItemPredicateRegister;
 import net.nokunami.elementus.common.registry.ModBlockEntityType;
 import net.nokunami.elementus.common.registry.ModBlockSetType;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModParticleTypes;
+import net.nokunami.elementus.common.registry.EParticleTypes;
 
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Elementus.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ElementusClient {
-    public static CommonProxy PROXY = DistExecutor.safeRunForDist(
-            () -> ClientProxy::new, () -> CommonProxy::new);
+    public static CommonProxy PROXY = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
@@ -67,7 +67,8 @@ public class ElementusClient {
 
         EntityRenderers.register(ModEntityType.MOVCADIA_BOAT.get(), pContext -> new ModBoatRenderer(pContext, false));
         EntityRenderers.register(ModEntityType.MOVCADIA_CHEST_BOAT.get(), pContext -> new ModBoatRenderer(pContext, true));
-        EntityRenderers.register(ModEntityType.STEEL_GOLEM.get(), SteelGolemRenderer::new);
+        EntityRenderers.register(ModEntityType.ASTALITE_GOLEM.get(), AstaliteGolemRenderer::new);
+        EntityRenderers.register(ModEntityType.OLD_STEEL_GOLEM.get(), SteelGolemRenderer::new);
         EntityRenderers.register(ModEntityType.ANTHEKTITE_SLASH.get(), AnthektiteSlashRenderer::new);
         EntityRenderers.register(ModEntityType.RUSH_PROJECTILE.get(), RushProjectileEntityRenderer::new);
         EntityRenderers.register(ModEntityType.SWORD_DANCE_SLASH.get(), SwordDanceSlashRenderer::new);
@@ -75,7 +76,7 @@ public class ElementusClient {
         EntityRenderers.register(ModEntityType.WRATH_TRIDENT.get(), TestTridentRenderer::new);
 
 
-        if (ModConfig.CLIENT.lavaRendererType.get()) {
+        if (EConfig.CLIENT.lavaRendererType.get()) {
             ItemBlockRenderTypes.setRenderLayer(Fluids.LAVA, RenderType.translucent());
         }
     }
@@ -117,20 +118,20 @@ public class ElementusClient {
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticleTypes.PARRY.get(), ParryParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.PARRY_RESONANCE.get(), ParryParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SONIC_BURST.get(), SonicBurstParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SONIC_BOOM_START.get(), SonicBoomBurstStartParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BOOM.get(), SonicBoomParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BURST.get(), SonicBurstParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SACRIFICE_SONIC_BOOM_START.get(), SonicBoomBurstStartParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SLASH_IMPACT.get(), AnthektiteSlashImpactParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SLASH_CLASH.get(), AnthektiteSlashImpactParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.SLASH_TRAIL.get(), SlashTrailParticle.Provider::new);
-        event.registerSpriteSet(ModParticleTypes.RUSH_TRAIL.get(), RushTrailParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.PARRY.get(), ParryParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.PARRY_RESONANCE.get(), ParryParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.SONIC_BURST.get(), SonicBurstParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.SONIC_BOOM_START.get(), SonicBoomBurstStartParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.SACRIFICE_SONIC_BOOM.get(), SonicBoomParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.SACRIFICE_SONIC_BURST.get(), SonicBurstParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.SACRIFICE_SONIC_BOOM_START.get(), SonicBoomBurstStartParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.SLASH_IMPACT.get(), AnthektiteSlashImpactParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.SLASH_CLASH.get(), AnthektiteSlashImpactParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.SLASH_TRAIL.get(), SlashTrailParticle.Provider::new);
+        event.registerSpriteSet(EParticleTypes.RUSH_TRAIL.get(), RushTrailParticle.Provider::new);
 //        event.registerSpriteSet(ModParticleTypes.SLASH_AFTER_EFFECT.get(), new SlashAfterEffectsParticle.Provider());
-        event.registerSpecial(ModParticleTypes.SONIC_BURST_EMITTER.get(), new SonicBurstEmitterParticle.Provider());
-        event.registerSpecial(ModParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get(), new SacrificeSonicBoomEmitterParticle.Provider());
+        event.registerSpecial(EParticleTypes.SONIC_BURST_EMITTER.get(), new SonicBurstEmitterParticle.Provider());
+        event.registerSpecial(EParticleTypes.SACRIFICE_SONIC_BURST_EMITTER.get(), new SacrificeSonicBoomEmitterParticle.Provider());
     }
 
     public static Model getArmorModel(LivingEntity entityLiving, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> _default) {

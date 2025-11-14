@@ -29,6 +29,7 @@ public class ModItemModelData extends ModItemModelProvider {
 
         generatedItem(EItems.CRUSHED_REMNANT, "compat/create");
 
+        spawnEggItem(EItems.ASTALITE_GOLEM_SPAWN_EGG);
         spawnEggItem(EItems.STEEL_GOLEM_SPAWN_EGG);
 
         handheldItem(EItems.STEEL_SWORD, "tools");

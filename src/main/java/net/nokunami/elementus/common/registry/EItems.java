@@ -12,6 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.nokunami.elementus.common.config.ItemConfig;
 import net.nokunami.elementus.common.config.TierConfig;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
+import net.nokunami.elementus.common.item.basic.MovcadiaAxeItem;
 import net.nokunami.elementus.common.item.*;
 import net.nokunami.elementus.common.item.basic.*;
 import net.nokunami.elementus.common.item.unique.*;
@@ -66,10 +67,13 @@ public class EItems {
     public static final RegistryObject<Item> CRUSHED_REMNANT = ITEMS.register("crushed_remnant",
             () -> new Item(new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> STEEL_GOLEM_SPAWN_EGG = ITEMS.register("steel_golem_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntityType.STEEL_GOLEM, 14144729, 7238279, new Item.Properties()));
+    public static final RegistryObject<Item> ASTALITE_GOLEM_SPAWN_EGG = ITEMS.register("astalite_golem_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityType.ASTALITE_GOLEM, 14144729, 7238279, new Item.Properties()));
 
-    public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword", () -> new ModSwordItem(ModTiers.STEEL,
+    public static final RegistryObject<Item> STEEL_GOLEM_SPAWN_EGG = ITEMS.register("steel_golem_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntityType.OLD_STEEL_GOLEM, 14144729, 7238279, new Item.Properties()));
+
+    public static final RegistryObject<Item> STEEL_SWORD = ITEMS.register("steel_sword", () -> new ESwordItem(ModTiers.STEEL,
             ItemConfig.steelSwordDamage, (float) ItemConfig.steelSwordAttackSpeed + steelSpeed, new Item.Properties()));
 
     public static final RegistryObject<Item> STEEL_SHOVEL = ITEMS.register("steel_shovel", () -> new ShovelItem(ModTiers.STEEL,
@@ -85,13 +89,13 @@ public class EItems {
             ItemConfig.steelHoeDamage, (float) ItemConfig.steelHoeAttackSpeed, new Item.Properties()));
 
 
-    public static final RegistryObject<Item> DIARKRITE_SWORD = ITEMS.register("diarkrite_sword", () -> new ModSwordItem(ModTiers.DIARKRITE,
+    public static final RegistryObject<Item> DIARKRITE_SWORD = ITEMS.register("diarkrite_sword", () -> new ESwordItem(ModTiers.DIARKRITE,
             ItemConfig.diarkriteSwordDamage, (float) ItemConfig.diarkriteSwordAttackSpeed + diarkriteSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> DIARKRITE_SHOVEL = ITEMS.register("diarkrite_shovel", () -> new ShovelItem(ModTiers.DIARKRITE,
             (float) ItemConfig.diarkriteShovelDamage, (float) ItemConfig.diarkriteShovelAttackSpeed, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> DIARKRITE_PICKAXE = ITEMS.register("diarkrite_pickaxe", () -> new ModPickaxeItem(ModTiers.DIARKRITE,
+    public static final RegistryObject<Item> DIARKRITE_PICKAXE = ITEMS.register("diarkrite_pickaxe", () -> new EPickaxeItem(ModTiers.DIARKRITE,
             ItemConfig.diarkritePickaxeDamage, (float) ItemConfig.diarkritePickaxeAttackSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> DIARKRITE_AXE = ITEMS.register("diarkrite_axe", () -> new AxeItem(ModTiers.DIARKRITE,
@@ -101,13 +105,13 @@ public class EItems {
             ItemConfig.diarkriteHoeDamage, (float) ItemConfig.diarkriteHoeAttackSpeed, new Item.Properties().fireResistant()));
 
 
-    public static final RegistryObject<Item> ANTHEKTITE_SWORD = ITEMS.register("anthektite_sword", () -> new ModSwordItem(ModTiers.ANTHEKTITE,
+    public static final RegistryObject<Item> ANTHEKTITE_SWORD = ITEMS.register("anthektite_sword", () -> new ESwordItem(ModTiers.ANTHEKTITE,
             ItemConfig.anthektiteSwordDamage, (float) ItemConfig.anthektiteSwordAttackSpeed + anthektiteSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> ANTHEKTITE_SHOVEL = ITEMS.register("anthektite_shovel", () -> new ShovelItem(ModTiers.ANTHEKTITE,
             (float) ItemConfig.anthektiteShovelDamage, (float) ItemConfig.anthektiteShovelAttackSpeed, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> ANTHEKTITE_PICKAXE = ITEMS.register("anthektite_pickaxe", () -> new ModPickaxeItem(ModTiers.ANTHEKTITE,
+    public static final RegistryObject<Item> ANTHEKTITE_PICKAXE = ITEMS.register("anthektite_pickaxe", () -> new EPickaxeItem(ModTiers.ANTHEKTITE,
             ItemConfig.anthektitePickaxeDamage, (float) ItemConfig.anthektitePickaxeAttackSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> ANTHEKTITE_AXE = ITEMS.register("anthektite_axe", () -> new AxeItem(ModTiers.ANTHEKTITE,
@@ -117,19 +121,19 @@ public class EItems {
             ItemConfig.anthektiteHoeDamage, (float) ItemConfig.anthektiteHoeAttackSpeed, new Item.Properties().fireResistant()));
 
 
-    public static final RegistryObject<Item> MOVCADIA_SWORD = ITEMS.register("movcadia_sword", () -> new ModSwordItem(ModTiers.MOVCADIA,
+    public static final RegistryObject<Item> MOVCADIA_SWORD = ITEMS.register("movcadia_sword", () -> new MovcadiaSwordItem(ModTiers.MOVCADIA,
             ItemConfig.movcadiaSwordDamage, (float) ItemConfig.movcadiaSwordAttackSpeed + movcadiaSpeed, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> MOVCADIA_SHOVEL = ITEMS.register("movcadia_shovel", () -> new ModShovelItem(ModTiers.MOVCADIA,
+    public static final RegistryObject<Item> MOVCADIA_SHOVEL = ITEMS.register("movcadia_shovel", () -> new MovcadiaShovelItem(ModTiers.MOVCADIA,
             (float) ItemConfig.movcadiaShovelDamage, (float) ItemConfig.movcadiaShovelAttackSpeed, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> MOVCADIA_PICKAXE = ITEMS.register("movcadia_pickaxe", () -> new ModPickaxeItem(ModTiers.MOVCADIA,
+    public static final RegistryObject<Item> MOVCADIA_PICKAXE = ITEMS.register("movcadia_pickaxe", () -> new MovcadiaPickaxeItem(ModTiers.MOVCADIA,
             ItemConfig.movcadiaPickaxeDamage, (float) ItemConfig.movcadiaPickaxeAttackSpeed, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> MOVCADIA_AXE = ITEMS.register("movcadia_axe", () -> new ModAxeItem(ModTiers.MOVCADIA,
+    public static final RegistryObject<Item> MOVCADIA_AXE = ITEMS.register("movcadia_axe", () -> new MovcadiaAxeItem(ModTiers.MOVCADIA,
             (float) ItemConfig.movcadiaAxeDamage, (float) ItemConfig.movcadiaAxeAttackSpeed + movcadiaSpeed, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<Item> MOVCADIA_HOE = ITEMS.register("movcadia_hoe", () -> new ModHoeItem(ModTiers.MOVCADIA,
+    public static final RegistryObject<Item> MOVCADIA_HOE = ITEMS.register("movcadia_hoe", () -> new MovcadiaHoeItem(ModTiers.MOVCADIA,
             ItemConfig.movcadiaHoeDamage, (float) ItemConfig.movcadiaHoeAttackSpeed, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> DIARKRITE_CHARGE_BLADE = ITEMS.register("diarkrite_charge_blade", DiarkriteChargeBlade::new);

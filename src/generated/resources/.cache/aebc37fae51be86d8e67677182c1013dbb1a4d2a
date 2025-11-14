@@ -1,4 +1,4 @@
-// 1.20.1	2025-10-05T22:26:27.1890263	Item Models: elementus
+// 1.20.1	2025-10-16T16:28:11.7983584	Item Models: elementus
 1750916832f41cf9f87511296e3aa8d75d813884 assets/elementus/models/item/anthektite_axe.json
 1344df550c4bc0f7e94f2d1cf1f83bc6e514c84f assets/elementus/models/item/anthektite_block.json
 16012a3759abb6d390955761b9b47b27d0a5a186 assets/elementus/models/item/anthektite_boots.json
@@ -97,6 +97,7 @@ c98676d3e200a67b6e6a5cc4b83c8489ecb66496 assets/elementus/models/item/anthektite
 42ae29aafdfb58a81ed60be9e58d09925e875d72 assets/elementus/models/item/anthektite_shield_blocking.json
 bdc23a781c8bde819e5d2561936c47d2c8ad9864 assets/elementus/models/item/anthektite_shovel.json
 2c31e6c2abef0793cc07852dec612a7e8301a904 assets/elementus/models/item/anthektite_sword.json
+63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/elementus/models/item/astalite_golem_spawn_egg.json
 694598e2d615a07763ee730cbdb305d9c15dd50e assets/elementus/models/item/atelis_scrap.json
 9b5a15b985e06c4b2c50421475e262be15d08e7a assets/elementus/models/item/atelis_upgrade_smithing_template.json
 d053a6668054e2cebf4c69c6479f903879fd9a83 assets/elementus/models/item/catalyst_chestplate.json

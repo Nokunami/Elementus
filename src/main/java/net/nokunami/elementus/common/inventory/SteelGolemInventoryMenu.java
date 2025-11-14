@@ -11,15 +11,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 import org.jetbrains.annotations.NotNull;
 
 public class SteelGolemInventoryMenu extends AbstractContainerMenu {
     private final Container container;
-    private final AstaliteGolem golem;
+    private final SteelGolem golem;
 
 
-    public SteelGolemInventoryMenu(int containerId, Inventory inventory, Container container, final AstaliteGolem steelGolem) {
+    public SteelGolemInventoryMenu(int containerId, Inventory inventory, Container container, final SteelGolem steelGolem) {
         super(null, containerId);
         this.container = container;
         this.golem = steelGolem;

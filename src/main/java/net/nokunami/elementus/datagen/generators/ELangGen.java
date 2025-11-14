@@ -3,10 +3,7 @@ package net.nokunami.elementus.datagen.generators;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.common.data.LanguageProvider;
-import net.nokunami.elementus.common.registry.EBlocks;
-import net.nokunami.elementus.common.registry.EEnchantments;
-import net.nokunami.elementus.common.registry.EItems;
-import net.nokunami.elementus.common.registry.ModEntityType;
+import net.nokunami.elementus.common.registry.*;
 
 import java.util.function.Supplier;
 
@@ -48,6 +45,7 @@ public class ELangGen extends LanguageProvider {
         addItem(EItems.MOVCADIA_BERRIES, "Movcadia Berries");
         addItem(EItems.GLISTERING_MOVCADIA_BERRIES, "Glistering Movcadia Berries");
 
+        addItem(EItems.ASTALITE_GOLEM_SPAWN_EGG, "Astalite Golem Spawn Egg");
         addItem(EItems.STEEL_GOLEM_SPAWN_EGG, "Steel Golem Spawn Egg");
 
         addItem(EItems.STEEL_SWORD, "Steel Sword");
@@ -221,14 +219,15 @@ public class ELangGen extends LanguageProvider {
         add("entity.elementus.steel_golem_down", "Steel Golem powered down, Current Chassis Health: %s");
     }
     void effectsTL() {
-        add("effect.elementus.beacon_power", "Beacon Power");
-        add("effect.elementus.totem_cooldown", "Catalyst Totem Exhaustion");
-        add("effect.elementus.withered_beacon_power", "Withered Beacon Power");
+        addEffect(EMobEffects.BEACON_POWER, "Beacon Power");
+        addEffect(EMobEffects.TOTEM_COOLDOWN, "Catalyst Totem Exhaustion");
+        addEffect(EMobEffects.WITHERED_BEACON_POWER, "Withered Beacon Power");
     }
     void entityTL() {
         addEntityType(ModEntityType.MOVCADIA_BOAT, "Movcadia Boat");
         addEntityType(ModEntityType.MOVCADIA_CHEST_BOAT, "Movcadia Boat with Chest");
-        addEntityType(ModEntityType.STEEL_GOLEM, "Steel Golem");
+        addEntityType(ModEntityType.ASTALITE_GOLEM, "Astalite Golem");
+        addEntityType(ModEntityType.OLD_STEEL_GOLEM, "Steel Golem");
 //        addEntityType(ModEntityType.DIARKRITE_GOLEM, "Diarkrite Golem");
 //        addEntityType(ModEntityType.ANTHEKTITE_GOLEM, "Anthektite Golem");
         addEntityType(ModEntityType.ANTHEKTITE_SLASH, "Wind Slash");
@@ -238,96 +237,112 @@ public class ELangGen extends LanguageProvider {
         addEntityType(ModEntityType.WRATH_TRIDENT, "Wrath of The Sea");
     }
     void subtitlesTL() {
-        add("subtitles.elementus.item.catalyst_armor_activation", "Catalyst armor activates");
-        add("subtitles.elementus.item.catalyst_armor_deactivation", "Catalyst armor deactivates");
-        add("subtitles.elementus.item.diarkrite_shield_block", "Heavy shield block");
-        add("subtitles.elementus.item.anthektite_shield_block", "Heavy shield block");
+        addSub("item.catalyst_armor_activation", "Catalyst armor activates");
+        addSub("item.catalyst_armor_deactivation", "Catalyst armor deactivates");
+        addSub("item.diarkrite_shield_block", "Heavy shield block");
+        addSub("item.anthektite_shield_block", "Heavy shield block");
 
-        add("subtitles.elementus.item.charge_blade.block", "Sword blocks");
-        add("subtitles.elementus.item.charge_blade.parry", "Sword parries");
-        add("subtitles.elementus.item.diarkrite_charge_blade.burst", "Sonic burst");
-        add("subtitles.elementus.item.diarkrite_charge_blade.burst_cursed", "Sonic burst");
-        add("subtitles.elementus.item.diarkrite_charge_blade.condensed_burst", "Condensed burst");
-        add("subtitles.elementus.item.diarkrite_charge_blade.condensed_burst_cursed", "Condensed burst");
-        add("subtitles.elementus.item.anthektite_charge_blade.wind_slash", "Wind slash");
-        add("subtitles.elementus.item.anthektite_charge_blade.cleave", "Cleave");
-        add("subtitles.elementus.item.anthektite_charge_blade.rush", "Rush");
+        addSub("item.charge_blade.block", "Sword blocks");
+        addSub("item.charge_blade.parry", "Sword parries");
+        addSub("item.diarkrite_charge_blade.burst", "Sonic burst");
+        addSub("item.diarkrite_charge_blade.burst_cursed", "Sonic burst");
+        addSub("item.diarkrite_charge_blade.condensed_burst", "Condensed burst");
+        addSub("item.diarkrite_charge_blade.condensed_burst_cursed", "Condensed burst");
+        addSub("item.anthektite_charge_blade.wind_slash", "Wind slash");
+        addSub("item.anthektite_charge_blade.cleave", "Cleave");
+        addSub("item.anthektite_charge_blade.rush", "Rush");
 
-        add("subtitles.elementus.entity.steel_golem.repair", "Steel Golem repaired");
-        add("subtitles.elementus.entity.steel_golem.down", "Steel Golem breaks down");
-        add("subtitles.elementus.entity.steel_golem.revive", "Steel Golem rises");
-        add("subtitles.elementus.entity.steel_golem.saddled", "Steel Golem saddled");
-        add("subtitles.elementus.entity.steel_golem.chested", "Steel Golem chested");
-        add("subtitles.elementus.entity.steel_golem.armored", "Steel Golem armored");
-        add("subtitles.elementus.entity.steel_golem.leave_swag", "Steel Golem camouflaged");
-        add("subtitles.elementus.entity.steel_golem.carpet_swag", "Steel Golem dripped out");
+        addSub("entity.steel_golem.repair", "Steel Golem repaired");
+        addSub("entity.steel_golem.down", "Steel Golem breaks down");
+        addSub("entity.steel_golem.death", "Steel Golem dies");
+        addSub("entity.steel_golem.revive", "Steel Golem rises");
+        addSub("entity.steel_golem.saddled", "Steel Golem saddled");
+        addSub("entity.steel_golem.chested", "Steel Golem chested");
+        addSub("entity.steel_golem.armored", "Steel Golem armored");
+        addSub("entity.steel_golem.leave_swag", "Steel Golem camouflaged");
+        addSub("entity.steel_golem.carpet_swag", "Steel Golem dripped out");
     }
     void damageTL() {
         add("death.attack.elementus.sacrificial", "%1$s sacrificed too much");
         add("death.attack.elementus.sacrificial.player", "%1$s was sacrificed while trying to escape %2$s");
     }
     void configTL() {
-        add("config.elementus.lava_renderer", "Replace Lava Renderer.");
-        add("config.elementus.diarkriteEfficiency.desc", "Diarkrite Pickaxe Efficiency.");
-        add("config.elementus.catalystArmorDurability.desc", "Catalyst Armor Durability.");
-        add("config.elementus.catalystTotemAbility.desc", "Catalyst Armor Totem Ability.");
-        add("config.elementus.arcaneSharpnessTreasure.desc", "Arcane Sharpness Treasure.");
-        add("config.elementus.arcaneSharpnessPercent", "Arcane Sharpness Damage Percent.");
-        add("config.elementus.arcaneSharpnessPercent.desc", "Item's enchantability * this.");
-        add("config.elementus.arcaneSharpnessIncompatibility", "Arcane Sharpness.");
-        add("config.elementus.arcaneSharpnessIncompatibility.desc", "Arcane Sharpness Enchantment Compatibility.");
+        addConfig("lava_renderer", "Replace Lava Renderer.");
+        addConfig("diarkriteEfficiency.desc", "Diarkrite Pickaxe Efficiency.");
+        addConfig("catalystArmorDurability.desc", "Catalyst Armor Durability.");
+        addConfig("catalystTotemAbility.desc", "Catalyst Armor Totem Ability.");
+        addConfig("arcaneSharpnessTreasure.desc", "Arcane Sharpness Treasure.");
+        addConfig("arcaneSharpnessPercent", "Arcane Sharpness Damage Percent.");
+        addConfig("arcaneSharpnessPercent.desc", "Item's enchantability * this.");
+        addConfig("arcaneSharpnessIncompatibility", "Arcane Sharpness.");
+        addConfig("arcaneSharpnessIncompatibility.desc", "Arcane Sharpness Enchantment Compatibility.");
     }
     void catalystTL() {
-        String corePrefix = "catalyst_core." + MODID + ".";
-        add(corePrefix + "beacon_power.title", "Beacon Power");
-        add(corePrefix + "beacon_power.desc", "Power of a Beacon, but mobile.");
-        add(corePrefix + "heart_of_the_sea.title", "Heart of the Sea");
-        add(corePrefix + "heart_of_the_sea.desc", "Conduit Power on the go.");
-        add(corePrefix + "totem_of_undying.title", "Totem of Undying");
-        add(corePrefix + "totem_of_undying.desc", "A second chance after death.");
+        addCore("beacon_power.title", "Beacon Power");
+        addCore("beacon_power.desc", "Power of a Beacon, but mobile.");
+        addCore("heart_of_the_sea.title", "Heart of the Sea");
+        addCore("heart_of_the_sea.desc", "Conduit Power on the go.");
+        addCore("totem_of_undying.title", "Totem of Undying");
+        addCore("totem_of_undying.desc", "A second chance after death.");
 
-        add(corePrefix + "ignitium.title", "Inferno Reflex");
-        add(corePrefix + "ignitium.desc", "A fraction of Ingis' power.");
-        add(corePrefix + "ignitium.desc_1", "| Randomly sets attackers on fire and apply Blazing Brand.");
-        add(corePrefix + "ignitium.desc_2", "| Immunity to Blazing Brand.");
-        add(corePrefix + "cursium.title", "Cursed");
-        add(corePrefix + "cursium.desc", "Cursed with undeath.");
-        add(corePrefix + "cursium.desc_1", "| Revives upon death.");
-        add(corePrefix + "cursium.desc_2", "| Chance to dodge attacks, chances increase if it's a projectile.");
-        add(corePrefix + "essence_of_sea.title", "Essence of Sea");
-        add(corePrefix + "essence_of_sea.desc", "Work In Progress.");
+        addCore("ignitium.title", "Inferno Reflex");
+        addCore("ignitium.desc", "A fraction of Ingis' power.");
+        addCore("ignitium.desc_1", "| Randomly sets attackers on fire and apply Blazing Brand.");
+        addCore("ignitium.desc_2", "| Immunity to Blazing Brand.");
+        addCore("cursium.title", "Cursed");
+        addCore("cursium.desc", "Cursed with undeath.");
+        addCore("cursium.desc_1", "| Revives upon death.");
+        addCore("cursium.desc_2", "| Chance to dodge attacks, chances increase if it's a projectile.");
+        addCore("essence_of_sea.title", "Essence of Sea");
+        addCore("essence_of_sea.desc", "Work In Progress.");
 
-        add(corePrefix + "arcane_ingot.title", "Arcane Ingot (deprecated)");
-        add(corePrefix + "arcane_ingot.desc", "Arcane Imbuement");
-        add(corePrefix + "fire_irons_spellbooks.title", "Fire Arcane Power");
-        add(corePrefix + "fire_irons_spellbooks.desc", "Arcane Imbuement of Flames");
-        add(corePrefix + "ice_irons_spellbooks.title", "Ice Arcane Power");
-        add(corePrefix + "ice_irons_spellbooks.desc", "Arcane Imbuement of Ice");
-        add(corePrefix + "ender_irons_spellbooks.title", "Ender Arcane Power");
-        add(corePrefix + "ender_irons_spellbooks.desc", "Arcane Imbuement of Ender");
-        add(corePrefix + "lightning_irons_spellbooks.title", "Lightning Arcane Power");
-        add(corePrefix + "lightning_irons_spellbooks.desc", "Arcane Imbuement of Lightning");
-        add(corePrefix + "blood_irons_spellbooks.title", "Blood Arcane Power");
-        add(corePrefix + "blood_irons_spellbooks.desc", "Arcane Imbuement of Blood");
-        add(corePrefix + "holy_irons_spellbooks.title", "Holy Arcane Power");
-        add(corePrefix + "holy_irons_spellbooks.desc", "Arcane Imbuement of Holy Light");
-        add(corePrefix + "evocation_irons_spellbooks.title", "Evocation Arcane Power");
-        add(corePrefix + "evocation_irons_spellbooks.desc", "Arcane Imbuement of Evocation");
-        add(corePrefix + "nature_irons_spellbooks.title", "Nature Arcane Power");
-        add(corePrefix + "nature_irons_spellbooks.desc", "Arcane Imbuement of Nature");
-        add(corePrefix + "mana_irons_spellbooks.title", "Condensed Arcane Power");
-        add(corePrefix + "mana_irons_spellbooks.desc", "Arcane Imbuement of Overflowing Mana");
-        add(corePrefix + "cooldown_irons_spellbooks.title", "Swift Arcane Power");
-        add(corePrefix + "cooldown_irons_spellbooks.desc", "Arcane Imbuement of Swiftness");
-        add(corePrefix + "protection_irons_spellbooks.title", "Protective Arcane Power");
-        add(corePrefix + "protection_irons_spellbooks.desc", "Arcane Imbuement of Protection");
+        addCore("arcane_ingot.title", "Arcane Ingot (deprecated)");
+        addCore("arcane_ingot.desc", "Arcane Imbuement");
+        addCore("fire_irons_spellbooks.title", "Fire Arcane Power");
+        addCore("fire_irons_spellbooks.desc", "Arcane Imbuement of Flames");
+        addCore("ice_irons_spellbooks.title", "Ice Arcane Power");
+        addCore("ice_irons_spellbooks.desc", "Arcane Imbuement of Ice");
+        addCore("ender_irons_spellbooks.title", "Ender Arcane Power");
+        addCore("ender_irons_spellbooks.desc", "Arcane Imbuement of Ender");
+        addCore("lightning_irons_spellbooks.title", "Lightning Arcane Power");
+        addCore("lightning_irons_spellbooks.desc", "Arcane Imbuement of Lightning");
+        addCore("blood_irons_spellbooks.title", "Blood Arcane Power");
+        addCore("blood_irons_spellbooks.desc", "Arcane Imbuement of Blood");
+        addCore("holy_irons_spellbooks.title", "Holy Arcane Power");
+        addCore("holy_irons_spellbooks.desc", "Arcane Imbuement of Holy Light");
+        addCore("evocation_irons_spellbooks.title", "Evocation Arcane Power");
+        addCore("evocation_irons_spellbooks.desc", "Arcane Imbuement of Evocation");
+        addCore("nature_irons_spellbooks.title", "Nature Arcane Power");
+        addCore("nature_irons_spellbooks.desc", "Arcane Imbuement of Nature");
+        addCore("mana_irons_spellbooks.title", "Condensed Arcane Power");
+        addCore("mana_irons_spellbooks.desc", "Arcane Imbuement of Overflowing Mana");
+        addCore("cooldown_irons_spellbooks.title", "Swift Arcane Power");
+        addCore("cooldown_irons_spellbooks.desc", "Arcane Imbuement of Swiftness");
+        addCore("protection_irons_spellbooks.title", "Protective Arcane Power");
+        addCore("protection_irons_spellbooks.desc", "Arcane Imbuement of Protection");
 
-        add(corePrefix + "withered_beacon_power.title", "Corrupted Beacon Power");
-        add(corePrefix + "withered_beacon_power.desc", "The shadow of The World Eater");
+        addCore("withered_beacon_power.title", "Corrupted Beacon Power");
+        addCore("withered_beacon_power.desc", "The shadow of The World Eater");
     }
 
     public void enchantTL(Supplier<? extends Enchantment> key, String name, String desc) {
         addEnchantment(key, name);
         add(key.get() + ".desc", desc);
+    }
+    
+    public void addSub(String id, String translation) {
+        addCustom("subtitles", id, translation);
+    }
+    
+    public void addConfig(String id, String translation) {
+        addCustom("config", id, translation);
+    }
+    
+    public void addCore(String id, String translation) {
+        addCustom("catalyst_core", id, translation);
+    }
+    
+    public void addCustom(String prefix, String id, String translation) {
+        add(prefix + "." + MODID + "." + id, translation);
     }
 }

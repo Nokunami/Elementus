@@ -81,9 +81,8 @@ public class CatalystCore implements IClientCatalystExtension {
 
     private void initClient() {
         // Minecraft instance isn't available in datagen, so don't call initializeClient if in datagen
-        if (FMLEnvironment.dist == Dist.CLIENT && !FMLLoader.getLaunchHandler().isData()) {
+        if (FMLEnvironment.dist == Dist.CLIENT && !FMLLoader.getLaunchHandler().isData())
             initializeClient(properties -> this.renderProperties = properties);
-        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -96,12 +95,8 @@ public class CatalystCore implements IClientCatalystExtension {
         return i != null ? i.getPath() : "missing";
     }
 
-    public ItemStack getCoreStack() {
-        return new ItemStack(item);
-    }
-    public List<Pair<PassiveCatalystAbility, Float>> getPassiveAbility() {
-        return coreAttributes.getPassiveAbility();
-    }
+    public ItemStack getCoreStack() { return new ItemStack(item); }
+    public List<Pair<PassiveCatalystAbility, Float>> getPassiveAbility() { return coreAttributes.getPassiveAbility(); }
 
     public String getBaseTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         Optional<ItemStack> core = getEquippedCore(stack);
@@ -110,22 +105,15 @@ public class CatalystCore implements IClientCatalystExtension {
         return core.map(itemStack -> String.format(Locale.ROOT, coreTexture, MODID, CustomRegistries.getCatalystId(itemStack))).orElse(base);
     }
 
-    public static boolean filter(ItemStack stack) {
-        return CORE_ITEM_MAP.containsKey(stack.getItem());
-    }
+    public static boolean filter(ItemStack stack) { return CORE_ITEM_MAP.containsKey(stack.getItem()); }
 
-    public static CatalystCore getInstance(ItemStack stack) {
-        return CORE_ITEM_MAP.get(stack.getItem());
-    }
+    public static CatalystCore getInstance(ItemStack stack) { return CORE_ITEM_MAP.get(stack.getItem()); }
 
-    public ChatFormatting tooltipColor() {
-        return chatFormatting;
-    }
+    public ChatFormatting tooltipColor() { return chatFormatting; }
 
     /**
-     * Tooltip Provider for Catalyst Core
-     * <p>
-     * Override this for custom tooltips
+     * <p>Tooltip Provider for Catalyst Core</p>
+     * <p>Override this for custom tooltips</p>
      */
     public void tooltip(ItemStack stack, @NotNull List<Component> tooltip) {
         CatalystCore core = CustomRegistries.getCatalystCore(stack);
@@ -139,25 +127,17 @@ public class CatalystCore implements IClientCatalystExtension {
             }
     }
 
-    public Lazy<Multimap<Attribute, AttributeModifier>> getAttributes() {
-        return armorAttributes;
-    }
+    public Lazy<Multimap<Attribute, AttributeModifier>> getAttributes() { return armorAttributes; }
 
     public void tick(Entity entity, Level level) {
-        for(Pair<PassiveCatalystAbility, Float> pair : coreAttributes.getPassiveAbility()) {
-            if (!level.isClientSide && pair.getFirst() != null && level.random.nextFloat() < pair.getSecond()) {
+        for(Pair<PassiveCatalystAbility, Float> pair : coreAttributes.getPassiveAbility())
+            if (!level.isClientSide && pair.getFirst() != null && level.random.nextFloat() < pair.getSecond())
                 pair.getFirst().tick(level, entity);
-            }
-        }
     }
 
-    public AbstractActiveAbility getActiveAbility(int slot) {
-        return coreAttributes.getCatalystAbilities().get(slot);
-    }
+    public AbstractActiveAbility getActiveAbility(int slot) { return coreAttributes.getCatalystAbilities().get(slot); }
 
-    public List<AbstractActiveAbility> getActiveAbilityList() {
-        return coreAttributes.getCatalystAbilities();
-    }
+    public List<AbstractActiveAbility> getActiveAbilityList() { return coreAttributes.getCatalystAbilities(); }
 
     public void equipSound(Entity entity, ItemStack stack) {
         MobUtil.playEntitySound(entity, ESoundEvents.CATALYST_ARMOR_ACTIVATE, 0.75F, 0.6F + entity.level().getRandom().nextFloat() * 0.4F);

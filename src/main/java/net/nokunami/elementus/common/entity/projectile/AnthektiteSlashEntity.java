@@ -38,7 +38,7 @@ import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.EItems;
 import net.nokunami.elementus.common.registry.EMobEffects;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModParticleTypes;
+import net.nokunami.elementus.common.registry.EParticleTypes;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -229,7 +229,7 @@ public class AnthektiteSlashEntity extends Projectile {
                 ++tickD;
 
             if (tickD == 1)
-                this.level().addParticle(ModParticleTypes.SLASH_IMPACT.get(), this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z, -vec3.x, -vec3.y, -vec3.z);
+                this.level().addParticle(EParticleTypes.SLASH_IMPACT.get(), this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z, -vec3.x, -vec3.y, -vec3.z);
             else if (tickD >= 1)
                 this.discard();
 
@@ -242,7 +242,7 @@ public class AnthektiteSlashEntity extends Projectile {
                 } else {
                     double discardDistance1 = Mth.square(this.getDiscardDistance() - 2);
                     if (this.level().isClientSide() && blockPos <= discardDistance1) {
-                        this.level().addParticle(ModParticleTypes.SLASH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+                        this.level().addParticle(EParticleTypes.SLASH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
                     }
                     delay = 0;
                 }
@@ -255,7 +255,7 @@ public class AnthektiteSlashEntity extends Projectile {
             if (!targets.isEmpty()){
                 for (Entity entity: targets){
                     if (entity instanceof AnthektiteSlashEntity slash && (slash.getTrueOwner() == null || !slash.getTrueOwner().isAlliedTo(this.getTrueOwner()))) {
-                        this.level().addParticle(ModParticleTypes.SLASH_CLASH.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+                        this.level().addParticle(EParticleTypes.SLASH_CLASH.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
                         this.discard();
                     } else if (entity instanceof LivingEntity living && entity != this.getTrueOwner()) {
                         damage1 += EnchantmentHelper.getDamageBonus(this.getItemStack(), (living).getMobType());
@@ -288,7 +288,7 @@ public class AnthektiteSlashEntity extends Projectile {
     private void hurtMob(LivingEntity entity, DamageSource source, float damage) {
         if (!alreadyHitEntities.contains(entity)) {
             this.alreadyHitEntities.add(entity);
-            this.level().addParticle(ModParticleTypes.SLASH_IMPACT.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+            this.level().addParticle(EParticleTypes.SLASH_IMPACT.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
             entity.hurt(source, damage);
         }
         if (this.getChargeable()) {

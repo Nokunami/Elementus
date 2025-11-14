@@ -15,20 +15,21 @@ import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemChestModel;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemChestLayer extends RenderLayer<AstaliteGolem, SteelGolemModel<AstaliteGolem>> {
-    private final SteelGolemChestModel<AstaliteGolem> model;
+public class SteelGolemChestLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
+    private final SteelGolemChestModel<T> model;
 
-    public SteelGolemChestLayer(RenderLayerParent<AstaliteGolem, SteelGolemModel<AstaliteGolem>> renderer, EntityModelSet modelSet) {
+    public SteelGolemChestLayer(RenderLayerParent<T, SteelGolemModel<T>> renderer, EntityModelSet modelSet) {
         super(renderer);
         this.model = new SteelGolemChestModel<>(modelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_CHEST));
     }
 
-    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, AstaliteGolem astaliteGolem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, T astaliteGolem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!astaliteGolem.isInvisible()) {
             if (astaliteGolem.hasChest()) {
                 ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chest.png");

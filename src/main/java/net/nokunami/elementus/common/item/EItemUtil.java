@@ -6,11 +6,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.Etags;
+import net.nokunami.elementus.common.config.EConfig;
 import net.nokunami.elementus.common.config.TierConfig;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import static net.nokunami.elementus.common.registry.ModTiers.*;
 
@@ -19,8 +23,6 @@ public class EItemUtil {
         if (diarkriteTier(tier) && stack.getItem() instanceof PickaxeItem) {
             tooltip.add(Component.translatable("item.elementus.diarkrite_pickaxe.desc").withStyle(ChatFormatting.DARK_AQUA));
         }
-        if (tier.equals(MOVCADIA))
-            tooltip.add(Component.translatable("item.elementus.movcadia_tool.desc").withStyle(ChatFormatting.DARK_PURPLE));
     }
 
     public static float toolMiningSpeed(float originalSpeed, ItemStack stack, BlockState state) {
@@ -29,7 +31,7 @@ public class EItemUtil {
         if (var5 instanceof DiggerItem diggerItem) {
             Tier tier = diggerItem.getTier();
             if (diggerItem.isCorrectToolForDrops(stack, state)) {
-                if (matchBlockState(state)) {
+                if (matchBlockState(state) && EConfig.COMMON.diarkriteEfficiency.get()) {
                     if (diarkriteTier(tier) && stack.getItem() instanceof PickaxeItem) {
                         newSpeed *= (float) TierConfig.diarkriteAdditionalEfficiency;
                     }
@@ -94,5 +96,9 @@ public class EItemUtil {
         player.playSound(SoundEvents.ENDER_EYE_DEATH);
         otherStack.shrink(1);
         setMovcadiaEssence(stack);
+    }
+
+    public static boolean enchantedWith(ItemStack stack, Supplier<? extends Enchantment> enchantment) {
+        return EnchantmentHelper.getTagEnchantmentLevel(enchantment.get(), stack) > 0;
     }
 }

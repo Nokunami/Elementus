@@ -15,24 +15,25 @@ import net.nokunami.elementus.client.model.ModModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
 import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.MODID;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemLeavesLayer extends RenderLayer<AstaliteGolem, SteelGolemModel<AstaliteGolem>> {
-    private final SteelGolemModel<AstaliteGolem> model1;
-    private final SteelGolemModel<AstaliteGolem> model2;
-    private final SteelGolemModel<AstaliteGolem> modelE;
+public class SteelGolemLeavesLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
+    private final SteelGolemModel<T> model1;
+    private final SteelGolemModel<T> model2;
+    private final SteelGolemModel<T> modelE;
 
-    public SteelGolemLeavesLayer(RenderLayerParent<AstaliteGolem, SteelGolemModel<AstaliteGolem>> pRenderer, EntityModelSet pModelSet) {
+    public SteelGolemLeavesLayer(RenderLayerParent<T, SteelGolemModel<T>> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
         this.model1 = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_EXTRA_1));
         this.model2 = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_EXTRA_2S));
         this.modelE = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_EXTRA_3S));
     }
 
-    public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, AstaliteGolem pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         int fullBright = 15728880;
         if (!pLivingEntity.isInvisible()) {
             if (pLivingEntity.isCamouflaged().is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION)) {

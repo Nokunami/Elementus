@@ -25,6 +25,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
+import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.entity.projectile.AnthektiteSlashEntity;
 import net.nokunami.elementus.common.entity.projectile.RushProjectileEntity;
 import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
@@ -160,10 +161,10 @@ public class AnthektiteChargeBlade extends ChargeBladeItem {
         level.playSound(null, player, ESoundEvents.ANTHEKTITE_CHARGE_BLADE_RUSH.get(), SoundSource.PLAYERS, 1.0F, 1F);
         if (!level.isClientSide) {
             if (player.onGround() && player.getViewXRot(player.tickCount) > -5) {
-                applyRecoil(player, player, 1.25, 0, 1.25, true);
+                MobUtil.applyRecoil(player, player, 1.25, 0, 1.25, true);
                 player.addDeltaMovement(player.getDeltaMovement().add(0, 0.5, 0));
 //                player.sendSystemMessage(Component.literal("Yo"));
-            } else applyRecoil(player, player, 2, 2, 2, true);
+            } else MobUtil.applyRecoil(player, player, 2, 2, 2, true);
 //            player.sendSystemMessage(Component.literal(String.valueOf(player.getViewXRot(player.tickCount))));
             RushProjectileEntity slash = new RushProjectileEntity(level, player);
             slash.setOwnerId(player.getUUID());

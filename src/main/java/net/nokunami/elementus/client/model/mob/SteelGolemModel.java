@@ -12,10 +12,11 @@ import net.nokunami.elementus.client.animation.definitions.SteelGolemAttackAnima
 import net.nokunami.elementus.client.animation.definitions.SteelGolemChestAnimation;
 import net.nokunami.elementus.client.model.ModelUtil;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemModel<T extends AstaliteGolem> extends HierarchicalModel<T> {
+public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> {
     public final float walkMaxAnimSpeed = 4.5F;
     public final float walkAnimScaleFactor = 100;
     private final ModelPart root;
@@ -142,7 +143,7 @@ public class SteelGolemModel<T extends AstaliteGolem> extends HierarchicalModel<
         AnimationDefinition loopAttackAnim = entity.getAttackType() == 0 ? SteelGolemAttackAnimation.leftAttackLoop : entity.getAttackType() == 1 ? SteelGolemAttackAnimation.rightAttackLoop : SteelGolemAttackAnimation.upswingAttackLoop4;
 //        AnimationDefinition endAttackAnim = entity.getAttackType() == 0 ? SteelGolemAttackAnimation.leftAttackEnd : entity.getAttackType() == 1 ? SteelGolemAttackAnimation.rightAttackEnd : SteelGolemAttackAnimation.upswingAttackEnd3;
 
-        this.animate(entity.attackLoopAnimationState, loopAttackAnim, ageInTicks);
+        this.animate(entity.attackAnimationState, loopAttackAnim, ageInTicks);
         this.animate(entity.upswingAttackAnimationState, SteelGolemAttackAnimation.upswingAttackLoop4, ageInTicks);
 
         if (entity.isCrouching()) {

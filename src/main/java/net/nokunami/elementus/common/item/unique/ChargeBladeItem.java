@@ -27,15 +27,14 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
+import net.nokunami.elementus.common.item.EItemUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import static net.nokunami.elementus.ModChecker.betterCombat;
 import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeBaseCharge;
@@ -131,7 +130,7 @@ public class ChargeBladeItem extends SwordItem {
 
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
-        if (isEnchantedWith(stack, RESONANCE) && getResonanceTick(stack) > 0) {
+        if (EItemUtil.enchantedWith(stack, RESONANCE) && getResonanceTick(stack) > 0) {
             setResonanceTick(stack, getResonanceTick(stack) - 1);
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
@@ -154,10 +153,6 @@ public class ChargeBladeItem extends SwordItem {
             friendlyFireStr.substring(0, 1).toUpperCase(Locale.ROOT) + friendlyFireStr.substring(1)).withStyle(ChatFormatting.GRAY));
     }
 
-    public static boolean isEnchantedWith(ItemStack stack, Supplier<? extends Enchantment> enchantment) {
-        return EnchantmentHelper.getTagEnchantmentLevel(enchantment.get(), stack) > 0;
-    }
-
     public static void setCharge(ItemStack stack, int amount) {
         stack.getOrCreateTag().putInt(CHARGE_TAG, Math.min(getCharge(stack) + amount, getMaxCharge(stack)));
     }
@@ -173,18 +168,18 @@ public class ChargeBladeItem extends SwordItem {
 
     public static int getMaxCharge(ItemStack stack) {
         int level = EnchantmentHelper.getTagEnchantmentLevel(CHARGE_STACKING.get(), stack);
-        return getChargeStack(stack) * (isEnchantedWith(stack, CHARGE_STACKING) ? level + 1 : 1);
+        return getChargeStack(stack) * (EItemUtil.enchantedWith(stack, CHARGE_STACKING) ? level + 1 : 1);
     }
 
     public static int getChargeStack(ItemStack stack) {
-        return isEnchantedWith(stack, CONDENSED_BURST) ? diarkriteChargeBladeChargePenalty : diarkriteChargeBladeBaseCharge;
+        return EItemUtil.enchantedWith(stack, CONDENSED_BURST) ? diarkriteChargeBladeChargePenalty : diarkriteChargeBladeBaseCharge;
     }
 
     public static float getChargeAmount(ItemStack stack, boolean b) {
         float i0 = Math.min(getCharge(stack), getChargeStack(stack));
         float i1 = getChargeStack(stack);
         float base = !b ? (i0 / i1) : 1;
-        if (isEnchantedWith(stack, SACRIFICE_CURSE)) base += 1.25F;
+        if (EItemUtil.enchantedWith(stack, SACRIFICE_CURSE)) base += 1.25F;
         return base;
     }
 
@@ -197,7 +192,7 @@ public class ChargeBladeItem extends SwordItem {
     }
 
     public static void setResonanceCharge(ItemStack stack, int amount) {
-        if (isEnchantedWith(stack, RESONANCE)) {
+        if (EItemUtil.enchantedWith(stack, RESONANCE)) {
             stack.getOrCreateTag().putInt(RESONANCE_CHARGE_TAG, (int) Math.min(getResonanceCharge(stack) + amount, getChargeStack(stack) * 1.5));
         }
     }
@@ -242,11 +237,6 @@ public class ChargeBladeItem extends SwordItem {
     }
 
     @Override
-    public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
-        return true;
-    }
-
-    @Override
     public boolean canBeHurtBy(@NotNull DamageSource pDamageSource) {
         return false;
     }
@@ -258,19 +248,19 @@ public class ChargeBladeItem extends SwordItem {
 
     @Override
     public boolean isBarVisible(@NotNull ItemStack pStack) {
-        return !isEnchantedWith(pStack, CHARGE_STACKING) && getCharge(pStack) > 0;
+        return !EItemUtil.enchantedWith(pStack, CHARGE_STACKING) && getCharge(pStack) > 0;
     }
 
     public boolean isMultiBarVisible(@NotNull ItemStack pStack) {
-        return isEnchantedWith(pStack, CHARGE_STACKING) && getCharge(pStack) > 0;
+        return EItemUtil.enchantedWith(pStack, CHARGE_STACKING) && getCharge(pStack) > 0;
     }
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack stack, LivingEntity target, @NotNull LivingEntity attacker) {
-        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !isEnchantedWith(stack, SACRIFICE_CURSE)) {
+        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !EItemUtil.enchantedWith(stack, SACRIFICE_CURSE)) {
             setCharge(stack, 1);
             ServerLevel level = (ServerLevel)attacker.level();
-            if (isEnchantedWith(stack, RESONANCE) && !getChargedState(stack)) setResonanceCharge(stack, 1);
+            if (EItemUtil.enchantedWith(stack, RESONANCE) && !getChargedState(stack)) setResonanceCharge(stack, 1);
             if (!attacker.level().isClientSide && getChargedState(stack)) {
                 level.playSound(null, target, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 0);
             }
@@ -280,30 +270,5 @@ public class ChargeBladeItem extends SwordItem {
 
     public boolean canParry() {
         return false;
-    }
-
-    /// ArcheryExpansion code: BowItemMixin
-    public static void applyRecoil(Entity target,Entity source, double aX, double aY, double aZ, boolean type) {
-        Vec3 lookDirection = source.getViewVector(1.0f);
-        double fX = -aX;
-        double fY = -aY;
-        double fZ = -aZ;
-        if (type) {
-            fX = aX;
-            fY = aY;
-            fZ = aZ;
-        }
-        Vec3 knockback = lookDirection.multiply(fX, fY, fZ);
-
-        target.setDeltaMovement(
-                source.getDeltaMovement().x + knockback.x,
-                source.getDeltaMovement().y + knockback.y,
-                source.getDeltaMovement().z + knockback.z
-        );
-        target.hurtMarked = true;
-    }
-
-    public static void applyRecoil(Entity target,Entity source, double amount, boolean type) {
-        applyRecoil(target, source, amount, amount, amount, type);
     }
 }

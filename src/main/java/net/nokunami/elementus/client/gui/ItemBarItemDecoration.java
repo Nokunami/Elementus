@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.client.IItemDecorator;
+import net.nokunami.elementus.common.item.IMovcadiaTool;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.registry.EEnchantments;
 import net.nokunami.elementus.common.registry.EItems;
@@ -63,11 +64,7 @@ public class ItemBarItemDecoration implements IItemDecorator {
                     }
                 }
             }
-            if (stack.getItem() == EItems.MOVCADIA_SWORD.get() ||
-                    stack.getItem() == EItems.MOVCADIA_SHOVEL.get() ||
-                    stack.getItem() == EItems.MOVCADIA_PICKAXE.get() ||
-                    stack.getItem() == EItems.MOVCADIA_AXE.get() ||
-                    stack.getItem() == EItems.MOVCADIA_HOE.get()) {
+            if (stack.getItem() instanceof IMovcadiaTool) {
                 int r = getEssenceBarWidth(stack);
                 int i = 12054986;
                 int minX = xOffset + 2;

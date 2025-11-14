@@ -28,14 +28,14 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModParticleTypes;
+import net.nokunami.elementus.common.registry.EParticleTypes;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static net.nokunami.elementus.common.item.unique.ChargeBladeItem.isEnchantedWith;
+import static net.nokunami.elementus.common.item.EItemUtil.enchantedWith;
 import static net.nokunami.elementus.common.registry.EEnchantments.SACRIFICE_CURSE;
 
 public class PulseBurstEntity extends Projectile {
@@ -198,13 +198,13 @@ public class PulseBurstEntity extends Projectile {
 
     public void tick() {
         int totalDelay = 6;
-        ParticleOptions burstEmitter = ModParticleTypes.SONIC_BOOM_START.get();
-        ParticleOptions trail = ModParticleTypes.SONIC_BURST.get();
+        ParticleOptions burstEmitter = EParticleTypes.SONIC_BOOM_START.get();
+        ParticleOptions trail = EParticleTypes.SONIC_BURST.get();
         if (!this.getItemStack().isEmpty()) {
             this.setFriendlyFire(AnthektiteChargeBlade.getFriendlyFire(this.getItemStack()));
-            if (isEnchantedWith(this.getItemStack(), SACRIFICE_CURSE)) {
-                burstEmitter = ModParticleTypes.SACRIFICE_SONIC_BOOM_START.get();
-                trail = ModParticleTypes.SACRIFICE_SONIC_BURST.get();
+            if (enchantedWith(this.getItemStack(), SACRIFICE_CURSE)) {
+                burstEmitter = EParticleTypes.SACRIFICE_SONIC_BOOM_START.get();
+                trail = EParticleTypes.SACRIFICE_SONIC_BURST.get();
             }
         }
 

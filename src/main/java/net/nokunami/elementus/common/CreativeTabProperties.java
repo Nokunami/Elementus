@@ -18,6 +18,7 @@ public class CreativeTabProperties {
         MutableHashedLinkedMap<ItemStack, CreativeModeTab.TabVisibility> entries = event.getEntries();
         // SpawnEgg
         if (tab == CreativeModeTabs.SPAWN_EGGS) {
+            putBefore(entries, Items.ALLAY_SPAWN_EGG, EItems.ASTALITE_GOLEM_SPAWN_EGG);
             putAfter(entries, Items.SQUID_SPAWN_EGG, EItems.STEEL_GOLEM_SPAWN_EGG);
         }
         // Food

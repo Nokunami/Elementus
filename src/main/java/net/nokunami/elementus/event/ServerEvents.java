@@ -8,11 +8,11 @@ import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -47,6 +47,7 @@ import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
 import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.ItemStackedOnOtherEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -61,7 +62,9 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.capability.CatalystExhaustionProvider;
 import net.nokunami.elementus.common.catalystCore.PassiveCatalystAbility;
 import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
+import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.item.EItemUtil;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade;
@@ -73,6 +76,7 @@ import net.nokunami.elementus.common.registry.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static net.nokunami.elementus.ModChecker.cataclysm;
 import static net.nokunami.elementus.common.entity.MobUtil.blockVec;
@@ -81,8 +85,8 @@ import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.*;
 import static net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade.*;
 import static net.nokunami.elementus.common.registry.EEnchantments.RESONANCE;
 import static net.nokunami.elementus.common.registry.ESoundEvents.*;
-import static net.nokunami.elementus.common.registry.ModParticleTypes.PARRY;
-import static net.nokunami.elementus.common.registry.ModParticleTypes.PARRY_RESONANCE;
+import static net.nokunami.elementus.common.registry.EParticleTypes.PARRY;
+import static net.nokunami.elementus.common.registry.EParticleTypes.PARRY_RESONANCE;
 import static net.nokunami.elementus.event.VillagerTradeEnchantment.createForEnchantment;
 
 @Mod.EventBusSubscriber(modid = Elementus.MODID)
@@ -351,6 +355,7 @@ public class ServerEvents {
     @SubscribeEvent
     public void spawnSteelGolemEvent(BlockEvent.EntityPlaceEvent event) {
         Block block = event.getPlacedBlock().getBlock();
+        Entity blockPlacer = event.getEntity();
         if (block instanceof CarvedPumpkinBlock) {
             BlockPos blockpos = event.getPos();
             Level level = Objects.requireNonNull(event.getEntity()).level();
@@ -365,11 +370,11 @@ public class ServerEvents {
                     }
                 }
                 blockpos = blockpattern$blockpatternmatch.getBlock(1, 2, 0).getPos();
-                AstaliteGolem steelgolem = ModEntityType.STEEL_GOLEM.get().create(level);
+                AstaliteGolem steelgolem = ModEntityType.ASTALITE_GOLEM.get().create(level);
                 assert steelgolem != null;
                 steelgolem.setPlayerCreated(true);
-                if (event.getEntity() != null && event.getEntity() instanceof Player player) {
-                    steelgolem.tame(player);
+                if (blockPlacer instanceof Player player) {
+                    steelgolem.tameGolem(player);
                 }
                 steelgolem.moveTo((double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.05D, (double) blockpos.getZ() + 0.5D, 0.0F, 0.0F);
                 level.addFreshEntity(steelgolem);
@@ -398,7 +403,7 @@ public class ServerEvents {
             boolean emptyItem = stack.isEmpty();
             boolean currentCharge = getCharge(stack) < getMaxCharge(stack);
             boolean startResonance = getResonanceCharge(stack) > 0;
-            if (!emptyItem && stack.getItem() instanceof DiarkriteChargeBlade && isEnchantedWith(stack, RESONANCE) && entity instanceof Player player
+            if (!emptyItem && stack.getItem() instanceof DiarkriteChargeBlade && EItemUtil.enchantedWith(stack, RESONANCE) && entity instanceof Player player
                     && currentCharge && startResonance && !player.isUsingItem() && level.getGameTime() % 100 == 0) {
                 setCharge(stack, 1);
                 setResonanceCharge(stack, -1);
@@ -434,65 +439,74 @@ public class ServerEvents {
             for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = eventEntity.getItemBySlot(slot);
             boolean parry = eventEntity.getTicksUsingItem() <= parryWindow;
+            boolean perfectParry = eventEntity.getTicksUsingItem() <= parryWindow / 2;
 
             if (!stack.isEmpty() && stack.getItem() instanceof ChargeBladeItem && usingItem) {
                 float soundVol = 1;
-                SoundEvent soundEvent = isEnchantedWith(stack, RESONANCE) ? DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE.get() : CHARGE_BLADE_BLOCK.get();
-                float damageAmount = 0;
+                Supplier<SoundEvent> soundEvent = EItemUtil.enchantedWith(stack, RESONANCE) ? DIARKRITE_CHARGE_BLADE_BLOCK_RESONANCE : CHARGE_BLADE_BLOCK;
+                float parryAmount = 0;
                 float knockback = 0;
                 if (((ChargeBladeItem)stack.getItem()).canParry() && parry) {
-                    soundEvent = isEnchantedWith(stack, RESONANCE) ? DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE.get() : CHARGE_BLADE_PARRY.get();
-                    ParticleOptions parryParticle = isEnchantedWith(stack, RESONANCE) ? PARRY_RESONANCE.get() : PARRY.get();
-                    parryParticle(level, eventEntity, parryParticle);
-                    setCharge(stack, 1);
-                    soundVol = 1.5F;
-                    damageAmount = event.getAmount();
-                    knockback = 2;
-                    removeStuckEntities(event);
+                    if (perfectParry) {
+                        soundEvent = EItemUtil.enchantedWith(stack, RESONANCE) ? () -> SoundEvents.EXPERIENCE_ORB_PICKUP : () -> SoundEvents.EXPERIENCE_ORB_PICKUP ;
+                        parryParticle(level, eventEntity, EItemUtil.enchantedWith(stack, RESONANCE) ? PARRY_RESONANCE.get() : PARRY.get());
+                        parryAmount = event.getAmount();
+                        setCharge(stack, 2);
+                        soundVol = 2F;
+                        knockback = 4;
+                    } else {
+                        soundEvent = EItemUtil.enchantedWith(stack, RESONANCE) ? DIARKRITE_CHARGE_BLADE_PARRY_RESONANCE : CHARGE_BLADE_PARRY;
+                        parryParticle(level, eventEntity, EItemUtil.enchantedWith(stack, RESONANCE) ? PARRY_RESONANCE.get() : PARRY.get());
+                        parryAmount = event.getAmount() / 2;
+                        setCharge(stack, 1);
+                        soundVol = 1.25F;
+                        knockback = 2;
+                    }
+                    playerStuff(event);
                     event.setCanceled(true);
                 } else if (!damageSource.is(DamageTypeTags.BYPASSES_SHIELD) && !flag) {
-                    event.setAmount(damage - (damage * damageAbsorption(stack)));
+                    blockAction(event, stack, damage - (damage * damageAbsorption(stack)));
                     knockback = 1;
                 } else if (stack.getItem() instanceof DiarkriteChargeBlade && damageSource.is(DamageTypes.SONIC_BOOM)) {
-                    soundEvent = DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE.get();
-                    event.setAmount(event.getAmount() * 0.8F);
-                    setCharge(stack, (int) event.getAmount() / 2);
+                    soundEvent = DIARKRITE_CHARGE_BLADE_SONIC_RESONANCE;
+                    blockAction(event, false, stack, event.getAmount() * 0.8F, event.getAmount() / 2);
                 }
-                level.playSound(null, eventEntity, soundEvent, SoundSource.PLAYERS, soundVol, randomFloat);
-                setCharge(stack, 1);
+                level.playSound(null, eventEntity, soundEvent.get(), SoundSource.PLAYERS, soundVol, randomFloat);
+//                setCharge(stack, 1);
                 setResonanceCharge(stack, 1);
-                applyRecoil(directAttacker, eventEntity, knockback, true);
+                MobUtil.applyRecoil(directAttacker, eventEntity, knockback, true);
 
-                if ((directAttacker instanceof LivingEntity living && parry)) {
-                    parry(level, (Player) eventEntity, living, damageAmount);
-                }
-                if (attacker instanceof LivingEntity living && ((isEnchantedWith(stack, RESONANCE) && parry))) {
-                    parry(level, (Player) eventEntity, living, damageAmount);
-                }
+                if ((directAttacker instanceof LivingEntity living && parry)) parry(level, (Player) eventEntity, living, parryAmount);
+                if (attacker instanceof LivingEntity living && ((EItemUtil.enchantedWith(stack, RESONANCE) && parry))) parry(level, (Player) eventEntity, living, parryAmount);
             }
         }
     }
 
-    private void blockAction(LivingHurtEvent event, boolean cancelEvent, float damage, ItemStack stack, double chargeAmount) {
+    private void blockAction(LivingHurtEvent event, boolean cancelEvent, ItemStack stack, float damage, double chargeAmount) {
         event.setCanceled(cancelEvent);
         event.setAmount(damage);
         setCharge(stack, (int) chargeAmount);
     }
 
-    private void blockAction(LivingHurtEvent event, float damage, ItemStack stack, double chargeAmount) {
-        blockAction(event, false, damage, stack, chargeAmount);
+    private void blockAction(LivingHurtEvent event, ItemStack stack, float damage, double chargeAmount) {
+        blockAction(event, true, stack, damage, chargeAmount);
     }
 
-    private void removeStuckEntities(LivingHurtEvent event) {
+    private void blockAction(LivingHurtEvent event, ItemStack stack, float damage) {
+        blockAction(event, stack, damage, 0);
+    }
+
+    private void playerStuff(LivingHurtEvent event) {
         DamageSource damageSource = event.getSource();
         LivingEntity eventEntity = event.getEntity();
         Entity directEntity = damageSource.getDirectEntity();
 
+        eventEntity.hurtDuration = 0;
+        eventEntity.hurtTime = 0;
+        eventEntity.hurtMarked = false;
         if (directEntity instanceof Projectile projectile) {
             // this is horrible
-            if (projectile instanceof AbstractArrow ) {
-                eventEntity.setArrowCount(eventEntity.getArrowCount() - 1);
-            }
+            if (projectile instanceof AbstractArrow ) eventEntity.setArrowCount(eventEntity.getArrowCount() - 1);
         }
         if (directEntity instanceof Bee) eventEntity.setStingerCount(eventEntity.getStingerCount() - 1);
     }
@@ -516,7 +530,7 @@ public class ServerEvents {
                 vec31 = new Vec3(vec31.x, 0.0D, vec31.z);
 
                 if (vec31.dot(viewVec) < 0.0D) {
-                    if (entity.getUseItem().getItem() instanceof ChargeBladeItem bladeItem && entity.isUsingItem() && entity.getTicksUsingItem() <= parryWindow && bladeItem.canParry() && !isEnchantedWith(stack, RESONANCE)) {
+                    if (entity.getUseItem().getItem() instanceof ChargeBladeItem bladeItem && entity.isUsingItem() && entity.getTicksUsingItem() <= parryWindow && bladeItem.canParry() && !EItemUtil.enchantedWith(stack, RESONANCE)) {
                         Elementus.LOGGER.debug("testHit2 this deflects \"i hope\"");
 //                        event.setCanceled(true);
                         event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);

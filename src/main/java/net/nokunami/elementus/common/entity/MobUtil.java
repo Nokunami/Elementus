@@ -1,6 +1,7 @@
 package net.nokunami.elementus.common.entity;
 
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -85,7 +86,15 @@ public class MobUtil {
     }
 
     public static void playEntitySound(Entity entity, SoundEvent sound, float volume, float pitch) {
-        entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), sound, entity.getSoundSource(), volume, pitch);
+        playEntitySound(entity, sound, entity.getSoundSource(), volume, pitch);
+    }
+
+    public static void playEntitySound(Entity entity, Supplier<SoundEvent> sound, SoundSource source, float volume, float pitch) {
+        playEntitySound(entity, sound.get(), source, volume, pitch);
+    }
+
+    public static void playEntitySound(Entity entity, SoundEvent sound, SoundSource source, float volume, float pitch) {
+        entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), sound, source, volume, pitch);
     }
 
     public static void applyEffect(Entity entity, MobEffect mobEffect) {
@@ -120,5 +129,30 @@ public class MobUtil {
         if (entity instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(mobEffect, duration, amp, ambient, visible, showIcon));
         }
+    }
+
+    /// ArcheryExpansion code: BowItemMixin
+    public static void applyRecoil(Entity target,Entity source, double aX, double aY, double aZ, boolean type) {
+        Vec3 lookDirection = source.getViewVector(1.0f);
+        double fX = -aX;
+        double fY = -aY;
+        double fZ = -aZ;
+        if (type) {
+            fX = aX;
+            fY = aY;
+            fZ = aZ;
+        }
+        Vec3 knockback = lookDirection.multiply(fX, fY, fZ);
+
+        target.setDeltaMovement(
+                source.getDeltaMovement().x + knockback.x,
+                source.getDeltaMovement().y + knockback.y,
+                source.getDeltaMovement().z + knockback.z
+        );
+        target.hurtMarked = true;
+    }
+
+    public static void applyRecoil(Entity target, Entity source, double amount, boolean type) {
+        applyRecoil(target, source, amount, amount, amount, type);
     }
 }

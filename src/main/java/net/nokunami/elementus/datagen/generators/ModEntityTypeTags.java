@@ -30,8 +30,30 @@ public class ModEntityTypeTags extends EntityTypeTagsProvider {
                 .addOptional(new ResourceLocation("mowziesmobs", "umvuthana_follower_raptor"))
                 .addOptional(new ResourceLocation("mowziesmobs", "umvuthana_raptor"))
                 .addOptional(new ResourceLocation("mowziesmobs", "umvuthana"));
+        this.tag(Etags.Entity.DIARKRITE_GOLEM_PRIORITY_TARGETS)
+                .add(EntityType.EVOKER)
+                .addOptional(new ResourceLocation("goety", "obsidian_monolith"))
+                .addOptional(new ResourceLocation("goety", "inferno"))
+                .addOptional(new ResourceLocation("mowziesmobs", "umvuthana_crane"))
+                .addOptional(new ResourceLocation("mowziesmobs", "umvuthana_follower_raptor"))
+                .addOptional(new ResourceLocation("mowziesmobs", "umvuthana_raptor"))
+                .addOptional(new ResourceLocation("mowziesmobs", "umvuthana"));
+        this.tag(Etags.Entity.ANTHEKTITE_GOLEM_PRIORITY_TARGETS)
+                .add(EntityType.EVOKER)
+                .addOptional(new ResourceLocation("goety", "obsidian_monolith"))
+                .addOptional(new ResourceLocation("goety", "inferno"))
+                .addOptional(new ResourceLocation("mowziesmobs", "umvuthana_crane"))
+                .addOptional(new ResourceLocation("mowziesmobs", "umvuthana_follower_raptor"))
+                .addOptional(new ResourceLocation("mowziesmobs", "umvuthana_raptor"))
+                .addOptional(new ResourceLocation("mowziesmobs", "umvuthana"));
 
         this.tag(Etags.Entity.STEEL_GOLEM_AVOID)
+                .addOptional(new ResourceLocation("goety", "hell_cloud"))
+                .addOptional(new ResourceLocation("goety", "fire_tornado"));
+        this.tag(Etags.Entity.DIARKRITE_GOLEM_AVOID)
+                .addOptional(new ResourceLocation("goety", "hell_cloud"))
+                .addOptional(new ResourceLocation("goety", "fire_tornado"));
+        this.tag(Etags.Entity.ANTHEKTITE_GOLEM_AVOID)
                 .addOptional(new ResourceLocation("goety", "hell_cloud"))
                 .addOptional(new ResourceLocation("goety", "fire_tornado"));
     }

@@ -123,28 +123,57 @@ public class ESoundGen extends SoundDefinitionsProvider {
                 .with(itemSound("anthektite_charge_blade/rush")));
     }
     void entitySoundEntries() {
-        String itemSub = "subtitles." + MODID + ".entity";
+        String sub = "subtitles." + MODID + ".entity";
 
+        add(ESoundEvents.STEEL_GOLEM_STEP, definition()
+                .subtitle(sub + "steel_golem.step")
+//                .with(mobSound("steel_golem/walk1"))
+//                .with(mobSound("steel_golem/walk2"))
+//                .with(mobSound("steel_golem/walk3"))
+//                .with(mobSound("steel_golem/walk4"))
+                .with(sound("mob/irongolem/walk1"))
+                .with(sound("mob/irongolem/walk2"))
+                .with(sound("mob/irongolem/walk3"))
+                .with(sound("mob/irongolem/walk4"))
+        );
+        add(ESoundEvents.STEEL_GOLEM_HURT, definition()
+                .subtitle(sub + "steel_golem.hurt")
+//                .with(mobSound("steel_golem/hit1"))
+//                .with(mobSound("steel_golem/hit2"))
+//                .with(mobSound("steel_golem/hit3"))
+//                .with(mobSound("steel_golem/hit4"))
+                .with(sound("mob/irongolem/hit1"))
+                .with(sound("mob/irongolem/hit2"))
+                .with(sound("mob/irongolem/hit3"))
+                .with(sound("mob/irongolem/hit4"))
+        );
+//        add(ESoundEvents.STEEL_GOLEM_AMBIENT, definition()
+//                .subtitle(sub + "steel_golem.ambient")
+//                .with(sound("mob/irongolem/repair")));
         add(ESoundEvents.STEEL_GOLEM_REPAIR, definition()
-                .subtitle(itemSub + "steel_golem.repair")
+                .subtitle(sub + "steel_golem.repair")
                 .with(sound("mob/irongolem/repair")));
         add(ESoundEvents.STEEL_GOLEM_DOWN, definition()
-                .subtitle(itemSub + "steel_golem.down")
+                .subtitle(sub + "steel_golem.down")
                 .with(mobSound("steel_golem/down")));
+        add(ESoundEvents.STEEL_GOLEM_DEATH, definition()
+                .subtitle(sub + "steel_golem.death")
+//                .with(mobSound("steel_golem/death")));
+                .with(sound("mob/irongolem/death")));
         add(ESoundEvents.STEEL_GOLEM_REVIVE, definition()
-                .subtitle(itemSub + "steel_golem.revive")
+                .subtitle(sub + "steel_golem.revive")
                 .with(sound("mob/irongolem/repair")));
         add(ESoundEvents.STEEL_GOLEM_SADDLED, definition()
-                .subtitle(itemSub + "steel_golem.saddled")
+                .subtitle(sub + "steel_golem.saddled")
                 .with(sound("mob/horse/leather")));
         add(ESoundEvents.STEEL_GOLEM_CHESTED, definition()
-                .subtitle(itemSub + "steel_golem.chested")
+                .subtitle(sub + "steel_golem.chested")
                 .with(sound("mob/chicken/plop")));
         add(ESoundEvents.STEEL_GOLEM_ARMORED, definition()
-                .subtitle(itemSub + "steel_golem.armored")
+                .subtitle(sub + "steel_golem.armored")
                 .with(sound("mob/horse/armor")));
         add(ESoundEvents.STEEL_GOLEM_LEAVES_SWAG, definition()
-                .subtitle(itemSub + "steel_golem.leaves_swag")
+                .subtitle(sub + "steel_golem.leaves_swag")
                 .with(sound("block/azalea/break1"),
                         sound("block/azalea/break2"),
                         sound("block/azalea/break3"),
@@ -152,7 +181,7 @@ public class ESoundGen extends SoundDefinitionsProvider {
                         sound("block/azalea/break5"),
                         sound("block/azalea/break6")));
         add(ESoundEvents.STEEL_GOLEM_CARPET_SWAG, definition()
-                .subtitle(itemSub + "steel_golem.carpet_swag")
+                .subtitle(sub + "steel_golem.carpet_swag")
                 .with(sound("mob/llama/swag")));
     }
 

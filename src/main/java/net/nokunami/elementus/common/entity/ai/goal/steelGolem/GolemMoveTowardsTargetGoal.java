@@ -4,13 +4,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.phys.Vec3;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.TamableGolem;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
-public class SteelGolemMoveTowardsTargetGoal extends Goal {
-    private final AstaliteGolem mob;
+public class GolemMoveTowardsTargetGoal extends Goal {
+    private final TamableGolem mob;
     @Nullable
     private LivingEntity target;
     private double wantedX;
@@ -19,7 +19,7 @@ public class SteelGolemMoveTowardsTargetGoal extends Goal {
     private final double speedModifier;
     private final float within;
 
-    public SteelGolemMoveTowardsTargetGoal(AstaliteGolem mob, double speed, float within) {
+    public GolemMoveTowardsTargetGoal(TamableGolem mob, double speed, float within) {
         this.mob = mob;
         this.speedModifier = speed;
         this.within = within;
@@ -39,7 +39,7 @@ public class SteelGolemMoveTowardsTargetGoal extends Goal {
         } else if (this.target.distanceToSqr(this.mob) > (double)(this.within * this.within)) {
             return false;
         } else {
-            Vec3 vec3 = DefaultRandomPos.getPosTowards(this.mob, 16, 7, this.target.position(), (double)((float)Math.PI / 2F));
+            Vec3 vec3 = DefaultRandomPos.getPosTowards(this.mob, 16, 7, this.target.position(), (float)Math.PI / 2F);
             if (vec3 == null) {
                 return false;
             } else {

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.TamableGolem;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -21,7 +22,7 @@ public class SteelGolemNearestAttackableGoal<T extends LivingEntity> extends Tar
     protected LivingEntity target;
     /** This filter is applied to the Entity search. Only matching entities will be targeted. */
     protected TargetingConditions targetConditions;
-    private final AstaliteGolem steelGolem;
+    private final TamableGolem golem;
 
 //    public SteelGolemNearestAttackableGoal(SteelGolem golem, Class<T> pTargetType, boolean pMustSee) {
 //        this(golem, pTargetType, DEFAULT_RANDOM_INTERVAL, pMustSee, false, null);
@@ -35,13 +36,13 @@ public class SteelGolemNearestAttackableGoal<T extends LivingEntity> extends Tar
 //        this(golem, pTargetType, DEFAULT_RANDOM_INTERVAL, pMustSee, pMustReach, null);
 //    }
 
-    public SteelGolemNearestAttackableGoal(AstaliteGolem golem, Class<T> pTargetType, int pRandomInterval, boolean pMustSee, boolean pMustReach, @Nullable Predicate<LivingEntity> pTargetPredicate) {
+    public SteelGolemNearestAttackableGoal(TamableGolem golem, Class<T> pTargetType, int pRandomInterval, boolean pMustSee, boolean pMustReach, @Nullable Predicate<LivingEntity> pTargetPredicate) {
         super(golem, pMustSee, pMustReach);
         this.targetType = pTargetType;
         this.randomInterval = reducedTickDelay(pRandomInterval);
         this.setFlags(EnumSet.of(Goal.Flag.TARGET));
         this.targetConditions = TargetingConditions.forCombat().range(this.getFollowDistance()).selector(pTargetPredicate);
-        this.steelGolem = golem;
+        this.golem = golem;
     }
 
     /**
@@ -49,9 +50,9 @@ public class SteelGolemNearestAttackableGoal<T extends LivingEntity> extends Tar
      * method as well.
      */
     public boolean canUse() {
-        if (!steelGolem.getAggroState()) {
+        if (!golem.getAggroState()) {
             return false;
-        } else if (this.randomInterval > 0 && this.steelGolem.getRandom().nextInt(this.randomInterval) != 0) {
+        } else if (this.randomInterval > 0 && this.golem.getRandom().nextInt(this.randomInterval) != 0) {
             return false;
         } else {
             this.findTarget();
@@ -60,17 +61,17 @@ public class SteelGolemNearestAttackableGoal<T extends LivingEntity> extends Tar
     }
 
     protected AABB getTargetSearchArea(double pTargetDistance) {
-        return this.steelGolem.getBoundingBox().inflate(pTargetDistance, 4.0D, pTargetDistance);
+        return this.golem.getBoundingBox().inflate(pTargetDistance, 4.0D, pTargetDistance);
     }
 
     protected void findTarget() {
-        if (steelGolem.getAggroState()) {
+        if (golem.getAggroState()) {
             if (this.targetType != Player.class && this.targetType != ServerPlayer.class) {
-                this.target = this.steelGolem.level().getNearestEntity(this.steelGolem.level()
+                this.target = this.golem.level().getNearestEntity(this.golem.level()
                                 .getEntitiesOfClass(this.targetType, this.getTargetSearchArea(this.getFollowDistance()), (living) -> true),
-                        this.targetConditions, this.steelGolem, this.steelGolem.getX(), this.steelGolem.getEyeY(), this.steelGolem.getZ());
+                        this.targetConditions, this.golem, this.golem.getX(), this.golem.getEyeY(), this.golem.getZ());
             } else {
-                this.target = this.steelGolem.level().getNearestPlayer(this.targetConditions, this.steelGolem, this.steelGolem.getX(), this.steelGolem.getEyeY(), this.steelGolem.getZ());
+                this.target = this.golem.level().getNearestPlayer(this.targetConditions, this.golem, this.golem.getX(), this.golem.getEyeY(), this.golem.getZ());
             }
         }
     }
@@ -79,8 +80,8 @@ public class SteelGolemNearestAttackableGoal<T extends LivingEntity> extends Tar
      * Execute a one shot task or start executing a continuous task
      */
     public void start() {
-        if (steelGolem.getAggroState()) {
-            this.steelGolem.setTarget(this.target);
+        if (golem.getAggroState()) {
+            this.golem.setTarget(this.target);
             super.start();
         }
     }

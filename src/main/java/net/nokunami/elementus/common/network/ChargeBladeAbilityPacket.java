@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
+import net.nokunami.elementus.common.item.EItemUtil;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.item.unique.DiarkriteChargeBlade;
@@ -60,15 +61,15 @@ public class ChargeBladeAbilityPacket {
         if (!level.isClientSide && !player.isSpectator() && player.isUsingItem()) {
             int cooldown = 0;
             boolean shouldStopUsing = false;
-            if (stack.getItem() instanceof DiarkriteChargeBlade && (getCharge(stack) > 2 || isEnchantedWith(stack, SACRIFICE_CURSE) || player.isCreative())) {
+            if (stack.getItem() instanceof DiarkriteChargeBlade && (getCharge(stack) > 2 || EItemUtil.enchantedWith(stack, SACRIFICE_CURSE) || player.isCreative())) {
                 createBoom(level, player, stack);
-                if (isEnchantedWith(stack, SACRIFICE_CURSE)) player.hurt(level.damageSources().source(ModDamageTypes.SACRIFICIAL), player.getMaxHealth() * (float) diarkriteChargeBladeSelfSacrificeDamage);
+                if (EItemUtil.enchantedWith(stack, SACRIFICE_CURSE)) player.hurt(level.damageSources().source(ModDamageTypes.SACRIFICIAL), player.getMaxHealth() * (float) diarkriteChargeBladeSelfSacrificeDamage);
                 cooldown = 10;
                 shouldStopUsing = true;
                 player.swing(hand, true);
             }
             if (stack.getItem() instanceof AnthektiteChargeBlade) {
-                if (isEnchantedWith(stack, RUSH) && (getCharge(stack) >= getChargeStack(stack) || player.isCreative())) {
+                if (EItemUtil.enchantedWith(stack, RUSH) && (getCharge(stack) >= getChargeStack(stack) || player.isCreative())) {
                     AnthektiteChargeBlade.rush(player);
                     setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
                     cooldown = 40;

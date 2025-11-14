@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import net.nokunami.elementus.client.gui.screens.inventory.SteelGolemInventoryScreen;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
-import net.nokunami.elementus.common.inventory.SteelGolemInventoryMenu;
+import net.nokunami.elementus.common.inventory.AstaliteGolemInventoryMenu;
 
 import java.util.function.Supplier;
 
@@ -40,7 +40,7 @@ public record SteelGolemInventoryPacket(int id, int size, int entityId) {
             Entity entity = player.level().getEntity(packet.entityId());
             if (entity instanceof AstaliteGolem steelGolem) {
                 LocalPlayer localPlayer = Minecraft.getInstance().player;
-                SteelGolemInventoryMenu container = new SteelGolemInventoryMenu(packet.id(), player.getInventory(), steelGolem.inventory, steelGolem);
+                AstaliteGolemInventoryMenu container = new AstaliteGolemInventoryMenu(packet.id(), player.getInventory(), steelGolem.inventory, steelGolem);
                 localPlayer.containerMenu = container;
                 Minecraft.getInstance().setScreen(new SteelGolemInventoryScreen(container, player.getInventory(), steelGolem));
             }

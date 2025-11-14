@@ -48,6 +48,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     private static final EntityDataAccessor<Boolean> IS_AOE_ATTACKING = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> AOE_TIMER = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> ATTACK_TYPE = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> ATTACK_COOLDOWN = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> ATTACK_PERFORMED = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> AGGRO = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> CHASSIS_STATUS = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CHASSIS_HEALTH = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
@@ -61,6 +63,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public final AnimationState repairedAnim = new AnimationState();
     public final AnimationState chestOpened = new AnimationState();
     public final AnimationState chestClosed = new AnimationState();
+    public final AnimationState ridden = new AnimationState();
+    public final AnimationState unRide = new AnimationState();
 
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private int remainingPersistentAngerTime;
@@ -84,6 +88,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         this.createInventory();
     }
 
+    ////////////////////////////////////// DATA START //////////////////////////////////////
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -92,6 +98,8 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         entityData.define(IS_AOE_ATTACKING, false);
         entityData.define(AOE_TIMER, 100);
         entityData.define(ATTACK_TYPE, 0);
+        entityData.define(ATTACK_COOLDOWN, 0);
+        entityData.define(ATTACK_PERFORMED, false);
         entityData.define(AGGRO, true);
         entityData.define(CHASSIS_HEALTH, 5);
         entityData.define(CHASSIS_STATUS, false);
@@ -103,6 +111,10 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putInt("AoeTimer", getAoeTimer());
+        tag.putInt("AttackType", getAttackType());
+        tag.putInt("AttackCooldown", getAttackCooldown());
+        tag.putBoolean("AttackPerformed", getAttackPerformed());
         tag.putBoolean("PlayerCreated", isPlayerCreated());
         if (!inventory.getItem(0).isEmpty())
             tag.put("SaddleItem", inventory.getItem(0).save(new CompoundTag()));
@@ -130,6 +142,10 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setPlayerCreated(tag.getBoolean("PlayerCreated"));
+        setAoeTimer(tag.getInt("AoeTimer"));
+        setAttackType(tag.getInt("AttackType"));
+        setAttackCooldown(tag.getInt("AttackCooldown"));
+        setAttackPerformed(tag.getBoolean("AttackPerformed"));
         if (tag.contains("SaddleItem", 10)) {
             ItemStack itemStack = ItemStack.of(tag.getCompound("SaddleItem"));
             if (itemStack.is(Items.SADDLE)) inventory.setItem(0, itemStack);
@@ -154,140 +170,56 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         readPersistentAngerSaveData(level(), tag);
     }
 
-    public boolean isPlayerCreated() {
-        return entityData.get(IS_PLAYER_CREATED);
-    }
-    public void setPlayerCreated(boolean playerMade) {
-        entityData.set(IS_PLAYER_CREATED, playerMade);
-    }
+    public boolean isPlayerCreated() { return entityData.get(IS_PLAYER_CREATED); }
+    public void setPlayerCreated(boolean playerMade) { entityData.set(IS_PLAYER_CREATED, playerMade); }
 
-    public boolean hasChest() {
-        return entityData.get(DATA_ID_CHEST);
-    }
+    public boolean hasChest() { return entityData.get(DATA_ID_CHEST); }
+    public void setChest(boolean pChested) { entityData.set(DATA_ID_CHEST, pChested); }
 
-    public void setAttacking(boolean attacking) {
-        entityData.set(IS_ATTACKING, attacking);
-    }
-    public boolean isAttacking() {
-        return entityData.get(IS_ATTACKING);
-    }
+    public void setAttacking(boolean attacking) { entityData.set(IS_ATTACKING, attacking); }
+    public boolean isAttacking() { return entityData.get(IS_ATTACKING); }
     
-    public void setAoeAttacking(boolean b) {
-        entityData.set(IS_AOE_ATTACKING, b);
-    }
+    public void setAoeAttacking(boolean b) { entityData.set(IS_AOE_ATTACKING, b); }
+    public boolean isAoeAttacking() { return entityData.get(IS_AOE_ATTACKING); }
 
-    public boolean isAoeAttacking() {
-        return entityData.get(IS_AOE_ATTACKING);
-    }
-    public int getAoeTimer() {
-        return entityData.get(AOE_TIMER);
-    }
+    public int getAoeTimer() { return entityData.get(AOE_TIMER); }
+    public void setAoeTimer(int i) { entityData.set(AOE_TIMER, i); }
+    public void resetAoeTimer() { setAoeTimer(320); }
 
-    public void setAoeTimer(int i) {
-        entityData.set(AOE_TIMER, i);
-    }
-    public void setAttackType(int type) {
-        entityData.set(ATTACK_TYPE, type);
-    }
+    public void setAttackType(int type) { entityData.set(ATTACK_TYPE, type); }
+    public int getAttackType() { return entityData.get(ATTACK_TYPE); }
 
-    public int getAttackType() {
-        return entityData.get(ATTACK_TYPE);
-    }
+    public void setAttackCooldown(int type) { entityData.set(ATTACK_COOLDOWN, type); }
+    public int getAttackCooldown() { return entityData.get(ATTACK_COOLDOWN); }
 
-    public void setAggroState(boolean state) {
-        entityData.set(AGGRO, state);
-    }
-    public boolean getAggroState() {
-        return entityData.get(AGGRO);
-    }
+    public void setAttackPerformed(boolean type) { entityData.set(ATTACK_PERFORMED, type); }
+    public boolean getAttackPerformed() { return entityData.get(ATTACK_PERFORMED); }
 
-    public void setChest(boolean pChested) {
-        entityData.set(DATA_ID_CHEST, pChested);
-    }
-    public boolean chestOpened() {
-        return entityData.get(CHEST_OPEN);
-    }
+    public void setAggroState(boolean state) { entityData.set(AGGRO, state); }
+    public boolean getAggroState() { return entityData.get(AGGRO); }
 
-    public void isChestOpened(boolean open) {
-        entityData.set(CHEST_OPEN, open);
-    }
-    public int getChassisHealth() {
-        return entityData.get(CHASSIS_HEALTH);
-    }
+    public boolean chestOpened() { return entityData.get(CHEST_OPEN); }
+    public void isChestOpened(boolean open) { entityData.set(CHEST_OPEN, open); }
 
-    public void setChassisHealth(int health) {
-        entityData.set(CHASSIS_HEALTH, health);
-    }
-    public void setChassisState(boolean state) {
-        entityData.set(CHASSIS_STATUS, state);
-    }
+    public int getChassisHealth() { return entityData.get(CHASSIS_HEALTH); }
+    public void setChassisHealth(int health) { entityData.set(CHASSIS_HEALTH, health); }
 
-    public int getBrokenTick() {
-        return entityData.get(BROKEN_TICK);
-    }
-    public void setBrokenTick(int i) {
-        entityData.set(BROKEN_TICK, i);
-    }
-    
-    public boolean isChassisBroken() {
-        return entityData.get(CHASSIS_STATUS);
-    }
-    public boolean isChassisCompromised() {
-        return false;
-    }
+    public void setChassisState(boolean state) { entityData.set(CHASSIS_STATUS, state); }
+    public boolean isChassisBroken() { return entityData.get(CHASSIS_STATUS); }
 
-    @Override
-    public boolean causeFallDamage(float pFallDistance, float pMultiplier, @NotNull DamageSource pSource) {
-        return false;
-    }
+    public int getBrokenTick() { return entityData.get(BROKEN_TICK); }
+    public void setBrokenTick(int i) { entityData.set(BROKEN_TICK, i); }
 
-    ////////////////////////////////////// NEUTRAL START //////////////////////////////////////
-
-    public void startPersistentAngerTimer() {
-        setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random));
-    }
-
-    public void setRemainingPersistentAngerTime(int time) {
-        remainingPersistentAngerTime = time;
-    }
-
-    public int getRemainingPersistentAngerTime() {
-        return remainingPersistentAngerTime;
-    }
-
-    public void setPersistentAngerTarget(@Nullable UUID target) {
-        persistentAngerTarget = target;
-    }
-
-    @Nullable
-    public UUID getPersistentAngerTarget() {
-        return persistentAngerTarget;
-    }
-
-    public boolean canAttackType(@NotNull EntityType<?> type) {
-        if (isPlayerCreated() && type == EntityType.PLAYER) {
-            return false;
-        } else {
-            return type != EntityType.CREEPER && super.canAttackType(type);
-        }
-    }
-
-    @Override
-    public boolean isAngry() {
-        return !isChassisBroken() && NeutralMob.super.isAngry();
-    }
-
-    ////////////////////////////////////// NEUTRAL END //////////////////////////////////////
+    ////////////////////////////////////// DATA END //////////////////////////////////////
 
     ////////////////////////////////////// INVENTORY START //////////////////////////////////////
 
+    /// Returns the created inventory size
     protected int getInventorySize() {
         return hasChest() ? 17 : INV_BASE_COUNT;
     }
 
-    public int getInventoryColumns() {
-        return 5;
-    }
+    public int getInventoryColumns() { return 5; }
 
     protected void playChestEquipsSound() {
         playSound(ESoundEvents.STEEL_GOLEM_CHESTED.get(), 1.0F, (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
@@ -324,7 +256,6 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     protected void updateContainerEquipment() {
         if (!level().isClientSide) {
             setSaddle(inventory.getItem(0));
-//            setSaddleFlag(!inventory.getItem(0).isEmpty());
         }
     }
 
@@ -337,13 +268,10 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         }
     }
 
-    public boolean isSaddleable() {
-        return isAlive() && isTame();
-    }
+    public boolean isSaddleable() { return isAlive() && isTame(); }
 
-    public boolean isSaddled() {
-        return !getItemBySlot(EquipmentSlot.HEAD).isEmpty();
-    }
+    public boolean isSaddled() { return !getItemBySlot(EquipmentSlot.HEAD).isEmpty(); }
+
     private void setSaddle(ItemStack stack) {
         setItemSlot(EquipmentSlot.HEAD, stack);
         setDropChance(EquipmentSlot.HEAD, 0.0F);
@@ -361,8 +289,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         }
     }
 
-    public void openCustomInventoryScreen(@NotNull Player pPlayer) {
-    }
+    public void openCustomInventoryScreen(@NotNull Player pPlayer) { }
 
     public InteractionResult openInventory(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
@@ -519,9 +446,71 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         return null;
     }
 
+    public boolean hasInventoryChanged(@NotNull Container pInventory) { return inventory != pInventory; }
+
     ////////////////////////////////////// INVENTORY END //////////////////////////////////////
+
+    ////////////////////////////////////// ENTITY LOGIC START //////////////////////////////////////
+
+    public boolean isPushable() { return !isVehicle(); }
+
+    @Override
+    public boolean dismountsUnderwater() { return false; }
+
+    /// <p>When the {@link LivingEntity#die(DamageSource)} triggers, it checks for this method.</p>
+    /// <p>If it returns true the golem dies, otherwise it goes into a "broken" state.
+    public boolean isChassisCompromised() { return false; }
+
+    @Override
+    public boolean causeFallDamage(float pFallDistance, float pMultiplier, @NotNull DamageSource pSource) { return false; }
+
+    @Override
+    public @Nullable AgeableMob getBreedOffspring(@NotNull ServerLevel pLevel, @NotNull AgeableMob pOtherParent) { return null; }
+
+    protected int decreaseAirSupply(int pAir) { return pAir; }
+
+    @Override
+    public boolean isAffectedByPotions() { return !isChassisBroken() && super.isAffectedByPotions(); }
+
+    @Override
+    public boolean attackable() { return !isChassisBroken() && super.attackable(); }
+
+    @Override
+    public boolean canAttack(@NotNull LivingEntity pTarget) { return !isChassisBroken() && super.canAttack(pTarget); }
+
+    @Override
+    public boolean canBeLeashed(@NotNull Player player) { return !isLeashed() && !isAngry(); }
+
+    @Override
+    public boolean isAttackable() { return !isChassisBroken(); }
+
+    @Override
+    protected boolean isImmobile() {
+        return isChassisBroken() || (isPlayerCreated() && !isTame()) || super.isImmobile();
+    }
+
+    public void startPersistentAngerTimer() { setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(random)); }
+
+    public void setRemainingPersistentAngerTime(int time) { remainingPersistentAngerTime = time; }
+
+    public int getRemainingPersistentAngerTime() { return remainingPersistentAngerTime; }
+
+    public void setPersistentAngerTarget(@Nullable UUID target) { persistentAngerTarget = target; }
+
+    @Nullable
+    public UUID getPersistentAngerTarget() { return persistentAngerTarget; }
+
+    public boolean canAttackType(@NotNull EntityType<?> type) {
+        if (isPlayerCreated() && type == EntityType.PLAYER) return false;
+        else return type != EntityType.CREEPER && super.canAttackType(type);
+    }
+
+    @Override
+    public boolean isAngry() { return !isChassisBroken() && NeutralMob.super.isAngry(); }
+
+    ////////////////////////////////////// ENTITY LOGIC END //////////////////////////////////////
     
-    ////////////////////////////////////// RIDDING START //////////////////////////////////////
+    ////////////////////////////////////// RIDEABLE START //////////////////////////////////////
 
     protected void tickRidden(@NotNull Player pPlayer, @NotNull Vec3 pTravelVector) {
         super.tickRidden(pPlayer, pTravelVector);
@@ -539,19 +528,13 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
 //            }
 //        }
     }
+
     public boolean isJumping() {
         return isJumping;
     }
+
     public void setIsJumping(boolean pJumping) {
         isJumping = pJumping;
-    }
-
-    public boolean isPushable() {
-        return !isVehicle();
-    }
-    @Override
-    public boolean dismountsUnderwater() {
-        return false;
     }
 
     @Override
@@ -593,8 +576,7 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     @Override
-    public void onPlayerJump(int pJumpPower) {
-    }
+    public void onPlayerJump(int pJumpPower) { }
 
     @Override
     public boolean canJump() {
@@ -602,12 +584,10 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
     }
 
     @Override
-    public void handleStartJump(int pJumpPower) {
-    }
+    public void handleStartJump(int pJumpPower) { }
 
     @Override
-    public void handleStopJump() {
-    }
+    public void handleStopJump() { }
 
     protected int getMaxPassengers() {
         return 1;
@@ -676,7 +656,9 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
         }
     }
     
-    ////////////////////////////////////// RIDDING END //////////////////////////////////////
+    ////////////////////////////////////// RIDEABLE END //////////////////////////////////////
+
+    ////////////////////////////////////// INTERACTION START //////////////////////////////////////
 
     @Override
     public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
@@ -689,17 +671,31 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
             equipArmor(player, itemStack);
             return InteractionResult.SUCCESS;
         }
-        if (isSaddleable() && itemStack.is(Items.SADDLE))
-            equipSaddle(SoundSource.NEUTRAL);
+        if (isSaddleable() && itemStack.is(Items.SADDLE)) equipSaddle(SoundSource.NEUTRAL);
         return super.mobInteract(player, hand);
+    }
+
+    ////////////////////////////////////// INTERACTION END //////////////////////////////////////
+
+    ////////////////////////////////////// MISC //////////////////////////////////////
+
+    public void groundSlamAttack() { }
+
+    public void tameGolem(Player player) {
+        if (!isPlayerCreated()) setPlayerCreated(true);
+        tame(player);
+        navigation.stop();
+        setTarget(null);
+        setOrderedToSit(false);
+        setInSittingPose(false);
+        level().broadcastEntityEvent(this, (byte) 7);
     }
 
     protected LazyOptional<?> itemHandler = null;
 
     @Override
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-        if (isAlive() && capability == ForgeCapabilities.ITEM_HANDLER && itemHandler != null)
-            return itemHandler.cast();
+        if (isAlive() && capability == ForgeCapabilities.ITEM_HANDLER && itemHandler != null) return itemHandler.cast();
         return super.getCapability(capability, facing);
     }
 
@@ -711,45 +707,5 @@ public abstract class TamableGolem extends TamableAnimal implements ContainerLis
             itemHandler = null;
             oldHandler.invalidate();
         }
-    }
-
-    public boolean hasInventoryChanged(@NotNull Container pInventory) {
-        return inventory != pInventory;
-    }
-    
-    ////////////////////////////////////// MISC //////////////////////////////////////
-    
-    @Override
-    public @Nullable AgeableMob getBreedOffspring(@NotNull ServerLevel pLevel, @NotNull AgeableMob pOtherParent) {
-        return null;
-    }
-
-    protected int decreaseAirSupply(int pAir) {
-        return pAir;
-    }
-
-    @Override
-    public boolean isAffectedByPotions() {
-        return !isChassisBroken() && super.isAffectedByPotions();
-    }
-
-    @Override
-    public boolean attackable() {
-        return !isChassisBroken() && super.attackable();
-    }
-
-    @Override
-    public boolean canAttack(@NotNull LivingEntity pTarget) {
-        return !isChassisBroken() && super.canAttack(pTarget);
-    }
-
-    @Override
-    public boolean canBeLeashed(@NotNull Player player) {
-        return !isLeashed() && !isAngry();
-    }
-
-    @Override
-    public boolean isAttackable() {
-        return !isChassisBroken();
     }
 }

@@ -95,11 +95,11 @@ public class ItemPredicateRegister {
                 -> entity != null && entity.isUsingItem() && entity.getUseItem() == itemStack ? 1.0F : 0.0F);
 
         ItemProperties.register(item, modLoc("sacrifice"), (itemStack, level, entity, i)
-                -> isEnchantedWith(itemStack, SACRIFICE_CURSE) ? 1 : 0);
+                -> EItemUtil.enchantedWith(itemStack, SACRIFICE_CURSE) ? 1 : 0);
         ItemProperties.register(item, modLoc("charge_stacking"), (itemStack, level, entity, i)
-                -> isEnchantedWith(itemStack, CHARGE_STACKING) ? 1 : 0);
+                -> EItemUtil.enchantedWith(itemStack, CHARGE_STACKING) ? 1 : 0);
         ItemProperties.register(item, modLoc("charge_stacking"), (itemStack, level, entity, i)
-                -> isEnchantedWith(itemStack, RUSH) ? 1 : 0);
+                -> EItemUtil.enchantedWith(itemStack, RUSH) ? 1 : 0);
 
         ItemProperties.register(item, modLoc("charge"), (itemStack, level, entity, i) -> {
             float i0 = Math.min(getCharge(itemStack), getMaxCharge(itemStack));

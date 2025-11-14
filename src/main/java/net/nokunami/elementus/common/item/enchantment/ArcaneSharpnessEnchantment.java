@@ -9,7 +9,7 @@ import net.minecraft.world.item.enchantment.DamageEnchantment;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.config.ModConfig;
+import net.nokunami.elementus.common.config.EConfig;
 import org.jetbrains.annotations.NotNull;
 
 public class ArcaneSharpnessEnchantment extends Enchantment {
@@ -20,15 +20,15 @@ public class ArcaneSharpnessEnchantment extends Enchantment {
 
     @Override
     public float getDamageBonus(int level, MobType mobType, ItemStack enchantedItem) {
-        return (float) (enchantedItem.getEnchantmentValue()* ModConfig.COMMON.arcaneSharpnessPercent.get());
+        return (float) (enchantedItem.getEnchantmentValue()* EConfig.COMMON.arcaneSharpnessPercent.get());
     }
 
     public boolean isTreasureOnly() {
-        return ModConfig.COMMON.arcaneSharpnessTreasure.get();
+        return EConfig.COMMON.arcaneSharpnessTreasure.get();
     }
 
     public boolean checkCompatibility(@NotNull Enchantment pEnch) {
-        if (ModConfig.COMMON.arcaneSharpnessIncompatibility.get()) {
+        if (EConfig.COMMON.arcaneSharpnessIncompatibility.get()) {
             return !(pEnch instanceof DamageEnchantment);
         } return false;
     }

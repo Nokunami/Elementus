@@ -29,7 +29,7 @@ import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
 import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.ModParticleTypes;
+import net.nokunami.elementus.common.registry.EParticleTypes;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -217,7 +217,7 @@ public class RushProjectileEntity extends Projectile {
             ++this.delay;
         } else {
             if (this.getTrueOwner() != null && !this.getTrueOwner().onGround())
-                this.level().addParticle(ModParticleTypes.RUSH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+                this.level().addParticle(EParticleTypes.RUSH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
             this.delay = 0;
         }
 
