@@ -11,10 +11,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemArmorModel;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.item.DyeableSteelGolemUpgradeItem;
 import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
@@ -26,7 +25,7 @@ public class SteelGolemArmorLayer<T extends SteelGolem> extends RenderLayer<T, S
 
     public SteelGolemArmorLayer(RenderLayerParent<T, SteelGolemModel<T>> renderer, EntityModelSet modelSet) {
         super(renderer);
-        this.model = new SteelGolemArmorModel<>(modelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_ARMOR));
+        this.model = new SteelGolemArmorModel<>(modelSet.bakeLayer(EModelLayers.STEEL_GOLEM_ARMOR));
     }
 
     public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, T steelGolem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {

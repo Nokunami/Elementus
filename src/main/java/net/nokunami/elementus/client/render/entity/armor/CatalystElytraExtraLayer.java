@@ -16,7 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.armor.CatalystBaseModel;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.unique.CatalystItemUtil;
@@ -30,7 +30,7 @@ public class CatalystElytraExtraLayer<T extends LivingEntity, M extends EntityMo
 
     public CatalystElytraExtraLayer(RenderLayerParent<T, M> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer, pModelSet);
-        this.catalystBaseModel = new CatalystBaseModel<>(pModelSet.bakeLayer(ModModelLayers.CATALYST_ARMOR_MODEL));
+        this.catalystBaseModel = new CatalystBaseModel<>(pModelSet.bakeLayer(EModelLayers.CATALYST_ARMOR_MODEL));
     }
 
     public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {

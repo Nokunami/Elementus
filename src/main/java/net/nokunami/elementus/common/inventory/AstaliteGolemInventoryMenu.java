@@ -9,9 +9,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
+import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
+import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 
 public class AstaliteGolemInventoryMenu extends AbstractContainerMenu {
@@ -19,24 +20,24 @@ public class AstaliteGolemInventoryMenu extends AbstractContainerMenu {
     private final AstaliteGolem golem;
 
 
-    public AstaliteGolemInventoryMenu(int containerId, Inventory inventory, Container container, final AstaliteGolem steelGolem) {
+    public AstaliteGolemInventoryMenu(int containerId, Inventory inventory, Container golemContainer1, final AstaliteGolem steelGolem) {
         super(null, containerId);
-        this.container = container;
-        this.golem = steelGolem;
+        container = golemContainer1;
+        golem = steelGolem;
         int i = 3;
-        container.startOpen(inventory.player);
+        golemContainer1.startOpen(inventory.player);
         golem.isChestOpened(true);
-        if (hasChest(golem)) this.golem.level().playSound(null, this.golem.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
-        this.addSlot(new Slot(container, 0, 8, 18) {
+        if (hasChest(golem)) golem.level().playSound(null, golem.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.NEUTRAL, 0.5F, 1);
+        addSlot(new Slot(golemContainer1, 0, 8, 18) {
             public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.is(Items.SADDLE) && !this.hasItem() && golem.isSaddleable();
+                return stack.is(Items.SADDLE) && !hasItem() && golem.isSaddleable();
             }
             public int getMaxStackSize() {
                 return 1;
             }
         });
 
-        this.addSlot(new Slot(container, 1, 8, 36) {
+        addSlot(new Slot(golemContainer1, 1, 8, 36) {
             public boolean mayPlace(@NotNull ItemStack stack) {
                 return golem.isArmor(stack);
             }
@@ -45,18 +46,18 @@ public class AstaliteGolemInventoryMenu extends AbstractContainerMenu {
             }
         });
 
-        this.addSlot(new Slot(container, 2, 8, 54) {
+        addSlot(new Slot(golemContainer1, 2, 8, 54) {
             public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION);
+                return stack.is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION);
             }
             public int getMaxStackSize() {
                 return 1;
             }
         });
 
-        this.addSlot(new Slot(container, 3, 8, 72) {
+        addSlot(new Slot(golemContainer1, 3, 8, 72) {
             public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION);
+                return stack.is(EItemTags.STEEL_GOLEM_CARPET_DECORATION);
             }
             public int getMaxStackSize() {
                 return 1;
@@ -65,7 +66,7 @@ public class AstaliteGolemInventoryMenu extends AbstractContainerMenu {
 
         //Damn its hard-coded to only have 24 slots (on clientside)
         //Will return to this concept when i have time.
-//        this.addSlot(new Slot(container, 4, 62, 72) {
+//        addSlot(new Slot(golemContainer1, 4, 62, 72) {
 //            public boolean mayPlace(@NotNull ItemStack stack) {
 //                return stack.is(Tags.Items.DYES);
 //            }
@@ -79,28 +80,29 @@ public class AstaliteGolemInventoryMenu extends AbstractContainerMenu {
 //            }
 //        });
 
-        if (this.hasChest(golem)) {
-            for(int k = 0; k < 4; ++k) {
-                for(int l = 0; l < steelGolem.getInventoryColumns(); ++l) {
-                    this.addSlot(new Slot(container, 4 + l + k * steelGolem.getInventoryColumns(), 80 + l * 18, 18 + k * 18));
-                }
-            }
+//        for(int k = 0; k < 2; ++k)
+//            for(int l = 0; l < 10; ++l)
+//                addSlot(new Slot(golemContainer1, 4 + l + k * steelGolem.getInventoryColumns(), 80 + l * 18, 18 + k * 18));
+        if (hasChest(golem)) {
+            for(int k = 0; k < 2; ++k)
+                for(int l = 0; l < steelGolem.getInventoryColumns(); ++l)
+                    addSlot(new Slot(golemContainer1, 4 + l + k * steelGolem.getInventoryColumns(), 80 + l * 18, 18 + k * 18));
         }
 
         for(int i1 = 0; i1 < i; ++i1) {
             for(int k1 = 0; k1 < 9; ++k1) {
-                this.addSlot(new Slot(inventory, k1 + i1 * 9 + 9, 8 + k1 * 18, 120 + i1 * 18 - 18));
+                addSlot(new Slot(inventory, k1 + i1 * 9 + 9, 8 + k1 * 18, 120 + i1 * 18 - 18));
             }
         }
 
         for(int j1 = 0; j1 < 9; ++j1) {
-            this.addSlot(new Slot(inventory, j1, 8 + j1 * 18, 160));
+            addSlot(new Slot(inventory, j1, 8 + j1 * 18, 160));
         }
 
     }
 
     public boolean stillValid(@NotNull Player player) {
-        return !this.golem.hasInventoryChanged(this.container) && this.container.stillValid(player) && this.golem.isAlive() && this.golem.distanceTo(player) < 8.0F;
+        return !golem.hasInventoryChanged(container) && container.stillValid(player) && golem.isAlive() && golem.distanceTo(player) < 8.0F;
     }
 
     private boolean hasChest(TamableGolem golem) {
@@ -109,42 +111,42 @@ public class AstaliteGolemInventoryMenu extends AbstractContainerMenu {
 
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
+        Slot slot = slots.get(index);
         if (slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            if (index < this.container.getContainerSize()) {
-                if (!this.moveItemStackTo(itemstack1, this.container.getContainerSize(), this.slots.size(), true)) {
+            if (index < container.getContainerSize()) {
+                if (!moveItemStackTo(itemstack1, container.getContainerSize(), slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(itemstack1, 0, this.container.getContainerSize(), false)) {
+            } else if (!moveItemStackTo(itemstack1, 0, container.getContainerSize(), false)) {
                 return ItemStack.EMPTY;
             }
-            int i = this.container.getContainerSize();
+            int i = container.getContainerSize();
             if (index < i) {
-                if (!this.moveItemStackTo(itemstack1, i, this.slots.size(), true)) {
+                if (!moveItemStackTo(itemstack1, i, slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(1).mayPlace(itemstack1) && !this.getSlot(1).hasItem()) {
-                if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
+            } else if (getSlot(1).mayPlace(itemstack1) && !getSlot(1).hasItem()) {
+                if (!moveItemStackTo(itemstack1, 1, 2, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(0).mayPlace(itemstack1)) {
-                if (!this.moveItemStackTo(itemstack1, 0, 1, false)) {
+            } else if (getSlot(0).mayPlace(itemstack1)) {
+                if (!moveItemStackTo(itemstack1, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (i <= 2 || !this.moveItemStackTo(itemstack1, 2, i, false)) {
+            } else if (i <= 2 || !moveItemStackTo(itemstack1, 2, i, false)) {
                 int j = i + 27;
                 int k = j + 9;
                 if (index >= j && index < k) {
-                    if (!this.moveItemStackTo(itemstack1, i, j, false)) {
+                    if (!moveItemStackTo(itemstack1, i, j, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (index < j) {
-                    if (!this.moveItemStackTo(itemstack1, j, k, false)) {
+                    if (!moveItemStackTo(itemstack1, j, k, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (!this.moveItemStackTo(itemstack1, j, j, false)) {
+                } else if (!moveItemStackTo(itemstack1, j, j, false)) {
                     return ItemStack.EMPTY;
                 }
 
@@ -163,8 +165,9 @@ public class AstaliteGolemInventoryMenu extends AbstractContainerMenu {
 
     public void removed(@NotNull Player player) {
         super.removed(player);
-        this.container.stopOpen(player);
-        if (hasChest(golem)) this.golem.level().playSound(null, this.golem.blockPosition(), SoundEvents.CHEST_CLOSE, SoundSource.NEUTRAL, 0.5F, 1);
+        container.stopOpen(player);
+        if (hasChest(golem)) golem.level().playSound(null, golem.blockPosition(), SoundEvents.CHEST_CLOSE, SoundSource.NEUTRAL, 0.5F, 1);
         golem.isChestOpened(false);
+        golem.isRenderedOnClient = false;
     }
 }

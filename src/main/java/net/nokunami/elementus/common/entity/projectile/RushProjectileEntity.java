@@ -27,9 +27,9 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.MobUtil;
-import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
-import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.EParticleTypes;
+import net.nokunami.elementus.common.item.unique.BladeOfSurgingWinds;
+import net.nokunami.elementus.common.registry.EEntityTypes;
+import net.nokunami.elementus.common.registry.EParticles;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -70,7 +70,7 @@ public class RushProjectileEntity extends Projectile {
     }
 
     public RushProjectileEntity(Level pLevel, LivingEntity pShooter) {
-        this(ModEntityType.RUSH_PROJECTILE.get(), pShooter, pLevel);
+        this(EEntityTypes.RUSH_PROJECTILE.get(), pShooter, pLevel);
     }
 
     public float getDamage() {
@@ -203,7 +203,7 @@ public class RushProjectileEntity extends Projectile {
 
     public void tick() {
         if (!this.getItemStack().isEmpty()) {
-            this.setFriendlyFire(AnthektiteChargeBlade.getFriendlyFire(this.getItemStack()));
+            this.setFriendlyFire(BladeOfSurgingWinds.getFriendlyFire(this.getItemStack()));
         }
 
         Entity owner = this.getOwner();
@@ -217,7 +217,7 @@ public class RushProjectileEntity extends Projectile {
             ++this.delay;
         } else {
             if (this.getTrueOwner() != null && !this.getTrueOwner().onGround())
-                this.level().addParticle(EParticleTypes.RUSH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+                this.level().addParticle(EParticles.RUSH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
             this.delay = 0;
         }
 

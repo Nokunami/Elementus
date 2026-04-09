@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.projectile.SwordDanceSlashModel;
 import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +37,7 @@ public class SwordDanceSlashRenderer extends EntityRenderer<SwordDanceSlashEntit
 
     public SwordDanceSlashRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
-        this.model = new SwordDanceSlashModel(pContext.bakeLayer(ModModelLayers.SWORD_DANCE_SLASH));
+        this.model = new SwordDanceSlashModel(pContext.bakeLayer(EModelLayers.SWORD_DANCE_SLASH));
     }
 
     @Override

@@ -15,8 +15,8 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.registry.EBlocks;
+import net.nokunami.elementus.common.tags.EBlockTags;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -40,15 +40,15 @@ public class MovcadiaTrunkPlacer extends TrunkPlacer {
     }
 
     private static boolean isDirt(LevelSimulatedReader pLevel, BlockPos pPos) {
-        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(Etags.Blocks.MOVCADIA_ROOTED_DIRT));
+        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(EBlockTags.MOVCADIA_ROOTED_DIRT));
     }
 
     private static boolean isStone(LevelSimulatedReader pLevel, BlockPos pPos) {
-        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(Etags.Blocks.MOVCADIA_ROOTED_STONE));
+        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(EBlockTags.MOVCADIA_ROOTED_STONE));
     }
 
     private static boolean isDeepslate(LevelSimulatedReader pLevel, BlockPos pPos) {
-        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(Etags.Blocks.MOVCADIA_ROOTED_DEEPSLATE));
+        return pLevel.isStateAtPosition(pPos, (blockState) -> blockState.is(EBlockTags.MOVCADIA_ROOTED_DEEPSLATE));
     }
 
     protected static void setBlock(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random, BlockPos pos, TreeConfiguration config) {

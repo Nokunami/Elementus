@@ -22,6 +22,7 @@ public class ModChecker {
     public static String archeryExpID = "archeryexp";
     public static String createID = "create";
     public static String betterCombatID = "bettercombat";
+    public static String friendsandfoesID = "friendsandfoes";
 
     public static boolean farmersDelight = ModList.get().isLoaded(farmersDelightID);
     public static boolean piercingPaxels = ModList.get().isLoaded(piercingPaxelsID);
@@ -41,4 +42,5 @@ public class ModChecker {
     public static boolean archeryExp = ModList.get().isLoaded(archeryExpID);
     public static boolean create = ModList.get().isLoaded(createID);
     public static boolean betterCombat = ModList.get().isLoaded(betterCombatID);
+    public static boolean friendsandfoes = ModList.get().isLoaded(friendsandfoesID);
 }

@@ -11,14 +11,13 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
 import net.nokunami.elementus.client.model.mob.SteelGolemSaddleModel;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemSaddleLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
@@ -26,12 +25,12 @@ public class SteelGolemSaddleLayer<T extends SteelGolem> extends RenderLayer<T, 
 
     public SteelGolemSaddleLayer(RenderLayerParent<T, SteelGolemModel<T>> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
-        this.model1 = new SteelGolemSaddleModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_SADDLE));
+        this.model1 = new SteelGolemSaddleModel<>(pModelSet.bakeLayer(EModelLayers.STEEL_GOLEM_SADDLE));
     }
 
     public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, T golem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (golem.isSaddled()) {
-            ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_saddle.png");
+            ResourceLocation resourcelocation = new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_saddle.png");
             VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(resourcelocation));
             this.getParentModel().copyPropertiesTo(this.model1);
             this.model1.prepareMobModel(golem, limbSwing, limbSwingAmount, partialTicks);

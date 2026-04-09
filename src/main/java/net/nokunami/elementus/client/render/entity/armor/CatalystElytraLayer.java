@@ -18,25 +18,23 @@ import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.armor.CatalystElytraModel;
-import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.unique.CatalystItemUtil;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.Elementus.MODID;
-import static net.nokunami.elementus.common.registry.EItems.CATALYST_CHESTPLATE;
-import static net.nokunami.elementus.common.registry.EItems.TEST_CATALYST_CHESTPLATE;
+import static net.nokunami.elementus.Elementus.modLoc;
+import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.getEquippedElytra;
+import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.hasElytra;
 
-@OnlyIn(Dist.CLIENT)
 public class CatalystElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraLayer<T, M> {
     private final CatalystElytraModel<T> catalystElytraModel;
     private final CatalystElytraModel<T> elytraModel;
 
     public CatalystElytraLayer(RenderLayerParent<T, M> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer, pModelSet);
-        this.catalystElytraModel = new CatalystElytraModel<>(pModelSet.bakeLayer(ModModelLayers.CATALYST_ELYTRA_MODEL));
-        this.elytraModel = new CatalystElytraModel<>(pModelSet.bakeLayer(ModModelLayers.CATALYST_BASE_ELYTRA_MODEL));
+        this.catalystElytraModel = new CatalystElytraModel<>(pModelSet.bakeLayer(EModelLayers.CATALYST_ELYTRA_MODEL));
+        this.elytraModel = new CatalystElytraModel<>(pModelSet.bakeLayer(EModelLayers.CATALYST_BASE_ELYTRA_MODEL));
     }
 
     public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -44,7 +42,7 @@ public class CatalystElytraLayer<T extends LivingEntity, M extends EntityModel<T
         int type = 0;
         if (shouldRender(itemstack, livingEntity)) {
             ResourceLocation resourcelocation;
-            ResourceLocation resourcelocation1 = getCatalystElytraTexture(itemstack, livingEntity);
+//            ResourceLocation resourcelocation1 = getCatalystElytraTexture(itemstack, livingEntity);
             if (livingEntity instanceof AbstractClientPlayer abstractclientplayer) {
                 if (abstractclientplayer.isElytraLoaded() && abstractclientplayer.getElytraTextureLocation() != null) {
                     resourcelocation = abstractclientplayer.getElytraTextureLocation();
@@ -59,20 +57,22 @@ public class CatalystElytraLayer<T extends LivingEntity, M extends EntityModel<T
                 resourcelocation = getElytraTexture(itemstack, livingEntity);
             }
 
-            elytraModelType(type, poseStack, buffer, packedLight, livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, resourcelocation, resourcelocation1, itemstack);
+            elytraModelType(type, poseStack, buffer, packedLight, livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, resourcelocation, itemstack);
         }
     }
 
-    public boolean shouldRender(@NotNull ItemStack stack, LivingEntity entity) {
-        return entity.getItemBySlot(EquipmentSlot.CHEST).is(CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(stack).findAny().isPresent() ||
-                entity.getItemBySlot(EquipmentSlot.CHEST).is(TEST_CATALYST_CHESTPLATE.get()) && CatalystItemUtil.getEquippedElytra(stack).isPresent();
+    public boolean shouldRender(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
+//        return entity.getItemBySlot(EquipmentSlot.CHEST).is(CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(stack).findAny().isPresent() ||
+//                entity.getItemBySlot(EquipmentSlot.CHEST).is(TEST_CATALYST_CHESTPLATE.get()) && CatalystItemUtil.getEquippedElytra(stack).isPresent();
+        return hasElytra(stack);
     }
 
     public @NotNull ResourceLocation getElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
-        if (stack.is(CATALYST_CHESTPLATE.get()))
-            return new ResourceLocation(MODID, CatalystItemUtil.getElytraTexture(stack));
-        else
-            return new ResourceLocation(MODID, CatalystItemUtil.getTestElytraTexture(stack));
+//        if (stack.is(CATALYST_CHESTPLATE.get()))
+//            return new ResourceLocation(EID, CatalystItemUtil.getElytraTexture(stack));
+//        else
+//            return new ResourceLocation(EID, CatalystItemUtil.getTestElytraTexture(stack));
+        return modLoc(CatalystItemUtil.getElytraTexture(stack));
     }
 
     public @NotNull ResourceLocation getCatalystElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
@@ -83,18 +83,18 @@ public class CatalystElytraLayer<T extends LivingEntity, M extends EntityModel<T
         return new ResourceLocation(CatalystItemUtil.baseTextures(stack, entity));
     }
 
-    public void elytraModelType(int type, PoseStack poseStack, MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, ResourceLocation resourcelocation1, ResourceLocation resourcelocation2, ItemStack itemStack) {
+    public void elytraModelType(int type, PoseStack poseStack, MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, ResourceLocation resourcelocation1, ItemStack itemStack) {
         poseStack.pushPose();
-        poseStack.translate(0.0F, 0.0F, 0.125F);
+        poseStack.translate(0, 0, 0.125F);
         VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.armorCutoutNoCull(resourcelocation1), false, itemStack.hasFoil());
         if (type == 1) {
-            this.getParentModel().copyPropertiesTo(this.elytraModel);
-            this.elytraModel.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            this.elytraModel.renderBase(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            getParentModel().copyPropertiesTo(elytraModel);
+            elytraModel.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+            elytraModel.renderBase(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         } else {
-            this.getParentModel().copyPropertiesTo(this.catalystElytraModel);
-            this.catalystElytraModel.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            this.catalystElytraModel.renderCatalyst(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            getParentModel().copyPropertiesTo(catalystElytraModel);
+            catalystElytraModel.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+            catalystElytraModel.renderCatalyst(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         }
         poseStack.popPose();
     }

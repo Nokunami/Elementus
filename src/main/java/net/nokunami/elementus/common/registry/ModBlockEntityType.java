@@ -12,7 +12,7 @@ import net.nokunami.elementus.common.block.entity.ModHangingSignBlockEntity;
 import net.nokunami.elementus.common.block.entity.ModSignBlockEntity;
 
 public class ModBlockEntityType {
-    private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Elementus.MODID);
+    private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Elementus.EID);
 
     public static final RegistryObject<BlockEntityType<ModChestBlockEntity>> MOD_CHEST = BLOCK_ENTITIES.register("mod_chest",
             () -> BlockEntityType.Builder.of((pos, state)-> new ModChestBlockEntity(pos, state, ModChests.MOVCADIA),

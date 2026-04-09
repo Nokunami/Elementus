@@ -33,9 +33,10 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.MobUtil;
-import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
+import net.nokunami.elementus.common.item.unique.BladeOfSurgingWinds;
+import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
+import net.nokunami.elementus.common.registry.EEntityTypes;
 import net.nokunami.elementus.common.registry.EItems;
-import net.nokunami.elementus.common.registry.ModEntityType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -44,6 +45,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+
+import static net.nokunami.elementus.common.item.unique.ChargeBladeItem.setCharge;
 
 public class SwordDanceSlashEntity extends Projectile {
     protected static final EntityDataAccessor<Optional<UUID>> OWNER_UNIQUE_ID = SynchedEntityData.defineId(SwordDanceSlashEntity.class, EntityDataSerializers.OPTIONAL_UUID);
@@ -75,7 +78,7 @@ public class SwordDanceSlashEntity extends Projectile {
     }
 
     public SwordDanceSlashEntity(Level pLevel, LivingEntity pShooter) {
-        this(ModEntityType.SWORD_DANCE_SLASH.get(), pShooter, pLevel);
+        this(EEntityTypes.SWORD_DANCE_SLASH.get(), pShooter, pLevel);
         this.weapon = pShooter.getMainHandItem();
     }
 
@@ -194,7 +197,7 @@ public class SwordDanceSlashEntity extends Projectile {
     }
 
     public void tick() {
-        this.setFriendlyFire(AnthektiteChargeBlade.getFriendlyFire(this.weapon));
+        this.setFriendlyFire(BladeOfSurgingWinds.getFriendlyFire(this.weapon));
 
         if (this.getTrueOwner() != null) {
             if (this.tickCount >= 12) {
@@ -237,8 +240,9 @@ public class SwordDanceSlashEntity extends Projectile {
 
     private void hurtMob(LivingEntity entity, DamageSource source, float damage) {
         if (!alreadyHitEntities.contains(entity)) {
+            setCharge(getItemStack(), 1);
             entity.hurt(source, damage);
-            this.alreadyHitEntities.add(entity);
+            alreadyHitEntities.add(entity);
         }
     }
 

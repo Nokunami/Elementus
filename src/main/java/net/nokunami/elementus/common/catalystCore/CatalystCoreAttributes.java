@@ -1,7 +1,11 @@
 package net.nokunami.elementus.common.catalystCore;
 
 import com.mojang.datafixers.util.Pair;
-import org.apache.commons.compress.utils.Lists;
+import net.minecraftforge.common.util.Lazy;
+import net.minecraftforge.registries.RegistryObject;
+import net.nokunami.elementus.common.catalystCore.ability.AbilityHolder;
+import net.nokunami.elementus.common.catalystCore.ability.PassiveCatalystAbility;
+import net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +14,12 @@ import java.util.stream.Collectors;
 
 public class CatalystCoreAttributes {
     List<Pair<PassiveCatalystAbility, Float>> passiveAbility;
-    List<AbstractActiveAbility> catalystAbilities;
+//    List<AbstractActiveAbility> activeAbilities;
+    List<AbilityHolder> activeAbilities;
 
     public CatalystCoreAttributes(Builder builder) {
         passiveAbility = builder.passiveAbility;
-        catalystAbilities = builder.catalystAbilities;
+        activeAbilities = builder.catalystAbilities1;
     }
 
 //    public PassiveCatalystAbility getPassiveAbility() {
@@ -24,13 +29,17 @@ public class CatalystCoreAttributes {
         return this.passiveAbility.stream().map(pair -> Pair.of(pair.getFirst() != null ? pair.getFirst() : null, pair.getSecond())).collect(Collectors.toList());
     }
 
-    public List<AbstractActiveAbility> getCatalystAbilities() {
-        return catalystAbilities;
+//    public List<AbstractActiveAbility> getActiveAbilities() {
+//        return activeAbilities;
+//    }
+    public List<AbilityHolder> getActiveAbilities() {
+        return activeAbilities;
     }
 
     public static class Builder {
-        private final List<Pair<PassiveCatalystAbility, Float>> passiveAbility = Lists.newArrayList();
-        List<AbstractActiveAbility> catalystAbilities = new ArrayList<>();
+        private final List<Pair<PassiveCatalystAbility, Float>> passiveAbility = new ArrayList<>();
+//        List<AbstractActiveAbility> catalystAbilities = new ArrayList<>();
+        List<AbilityHolder> catalystAbilities1 = new ArrayList<>();
 
         public Builder passiveAbility(PassiveCatalystAbility ability) {
             passiveAbility.add(Pair.of(ability, 1F));
@@ -41,11 +50,15 @@ public class CatalystCoreAttributes {
             return this;
         }
 
-        public Builder catalystAbilities(Supplier<AbstractActiveAbility> ability) {
-            return catalystAbilities(ability.get());
-        }
-        public Builder catalystAbilities(AbstractActiveAbility ability) {
-            catalystAbilities.add(ability);
+//        public Builder activeAbilities(AbilityHolder holder) { return activeAbilities(holder.getAbility()); }
+//        public Builder activeAbilities(Supplier<AbstractActiveAbility> ability) { return activeAbilities(ability.get()); }
+//        public Builder activeAbilities(AbilityHolder holder) { return activeAbilities(holder.getAbility().get()); }
+//        public Builder activeAbilities(AbstractActiveAbility ability) {
+//            catalystAbilities.add(ability);
+//            return this;
+//        }
+        public Builder activeAbility(AbilityHolder holder) {
+            catalystAbilities1.add(holder);
             return this;
         }
 

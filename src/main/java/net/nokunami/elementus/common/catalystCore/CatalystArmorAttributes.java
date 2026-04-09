@@ -4,11 +4,14 @@ import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
+import net.nokunami.elementus.common.config.EConfig;
 
 import java.util.UUID;
 import java.util.function.Supplier;
 
 import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
+import static net.nokunami.elementus.common.catalystCore.core.IgnitiumCatalystCore.isSoulFired;
 import static net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig.*;
 import static net.nokunami.elementus.common.config.catalystConfigs.CatalystISSConfig.*;
 import static net.nokunami.elementus.common.registry.CompatRegistryObjectGetter.IronsAttributeRegistry.*;
@@ -20,20 +23,28 @@ public class CatalystArmorAttributes {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ARMOR, new AttributeModifier(armorUUID, "Armor modifier", armor, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(armorUUID, "Armor toughness", toughness, AttributeModifier.Operation.ADDITION));
-        if (KnockbackResist > 0) {
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(armorUUID, "Knockback resistance", knockbackResist, AttributeModifier.Operation.ADDITION));
-        }
-        if (AttackSpeed > 0) {
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(armorUUID, "Attack Speed", attackSpeed, AttributeModifier.Operation.MULTIPLY_TOTAL));
-        }
-        if (MovementSpeed > 0) {
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(armorUUID, "MovementSpeed", moveSpeed, AttributeModifier.Operation.MULTIPLY_BASE));
-        }
+        toggleableAttribute(builder, Attributes.KNOCKBACK_RESISTANCE, "Armor knockback resistance", knockbackResist, AttributeModifier.Operation.ADDITION);
+        toggleableAttribute(builder, Attributes.ATTACK_SPEED, "Armor attack speed", attackSpeed, AttributeModifier.Operation.MULTIPLY_BASE);
+        toggleableAttribute(builder, Attributes.MOVEMENT_SPEED, "Armor movement speed", moveSpeed, AttributeModifier.Operation.MULTIPLY_BASE);
         return builder;
     }
 
     public static ImmutableMultimap.Builder<Attribute, AttributeModifier> baseAttributes() {
-        return baseAttributes(Armor, Toughness, KnockbackResist, AttackSpeed, MovementSpeed);
+        var common = EConfig.COMMON.CATALYST_ARMOR;
+        var attr = common.attributesConfig;
+        var armor = common.armor;
+//        return baseAttributes(Armor, Toughness, KnockbackResist, AttackSpeed, MovementSpeed);
+        return baseAttributes(armor.get(), attr.toughness.get(), attr.knockback.get(), attr.attackSpeed.get(), attr.movementSpeed.get());
+    }
+
+    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> ignitium(ItemStack stack) {
+        var common = EConfig.COMMON.CATALYST_ARMOR;
+        var attr = common.attributesConfig;
+        var armor = common.armor.get() + (isSoulFired(stack) ? 8 : 0);
+        double toughness = attr.toughness.get() + (isSoulFired(stack) ? 4 : 0);
+        double attackSpeed = attr.attackSpeed.get() + (isSoulFired(stack) ? 0.2 : 0);
+        double moveSpeed = attr.movementSpeed.get() + (isSoulFired(stack) ? 0.15 : 0);
+        return baseAttributes(armor, toughness, attr.knockback.get(), attackSpeed, moveSpeed);
     }
 
     public static ImmutableMultimap.Builder<Attribute, AttributeModifier> arcaneIngot() {
@@ -153,13 +164,13 @@ public class CatalystArmorAttributes {
         }
         return builder;
     }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> cooldownRune() {
+    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> recoveryRune() {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
         if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", cooldownRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", cooldownRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", cooldownRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", cooldownRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            toggleableAttribute(builder, MAX_MANA, "Max Mana", recoveryRune_MaxMana, AttributeModifier.Operation.ADDITION);
+            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", recoveryRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            toggleableAttribute(builder, SPELL_POWER, "Spell Power", recoveryRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", recoveryRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
         }
         return builder;
     }
@@ -183,9 +194,9 @@ public class CatalystArmorAttributes {
         return builder;
     }
 
-//    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> toggleableAttribute(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder, Attribute attribute, String name, double value, AttributeModifier.Operation operation) {
-//        return toggleableAttribute(builder, value != 0, attribute, name, value, operation);
-//    }
+    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> toggleableAttribute(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder, Attribute attribute, String name, double value, AttributeModifier.Operation operation) {
+        return toggleableAttribute(builder, value != 0, attribute, name, value, operation);
+    }
     public static ImmutableMultimap.Builder<Attribute, AttributeModifier> toggleableAttribute(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder, Supplier<Attribute> attribute, String name, double value, AttributeModifier.Operation operation) {
         return toggleableAttribute(builder, value != 0, attribute.get(), name, value, operation);
     }

@@ -248,14 +248,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
     protected void steelRecycleSmelt(Consumer<FinishedRecipe> consumer, Ingredient ingredient, float experience, String critName) {
-        SimpleCookingRecipeBuilder.smelting(ingredient, RecipeCategory.MISC, EItems.STEEL_SCRAP.get(), experience, 200)
-                .unlockedBy(critName, has(EItems.STEEL_INGOT.get()))
-                .save(consumer, this.name(getItemName(EItems.STEEL_SCRAP.get()) + "_from_smelting"));
+        SimpleCookingRecipeBuilder.smelting(ingredient, RecipeCategory.MISC, EItems.ASTALITE_SCRAP.get(), experience, 200)
+                .unlockedBy(critName, has(EItems.ASTALITE_INGOT.get()))
+                .save(consumer, this.name(getItemName(EItems.ASTALITE_SCRAP.get()) + "_from_smelting"));
     }
     protected void steelRecycleBlast(Consumer<FinishedRecipe> consumer, Ingredient ingredient, float experience, String critName) {
-        SimpleCookingRecipeBuilder.blasting(ingredient, RecipeCategory.MISC, EItems.STEEL_SCRAP.get(), experience, 100)
-                .unlockedBy(critName, has(EItems.STEEL_INGOT.get()))
-                .save(consumer, this.name(getItemName(EItems.STEEL_SCRAP.get()) + "_from_blasting"));
+        SimpleCookingRecipeBuilder.blasting(ingredient, RecipeCategory.MISC, EItems.ASTALITE_SCRAP.get(), experience, 100)
+                .unlockedBy(critName, has(EItems.ASTALITE_INGOT.get()))
+                .save(consumer, this.name(getItemName(EItems.ASTALITE_SCRAP.get()) + "_from_blasting"));
     }
 
     protected void wood(Consumer<FinishedRecipe> consumer, Supplier<? extends  Item> log, Supplier<? extends  Item> result) {

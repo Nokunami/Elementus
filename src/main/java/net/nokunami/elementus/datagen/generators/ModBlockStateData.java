@@ -16,7 +16,7 @@ public class ModBlockStateData extends ModBlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        block(EBlocks.STEEL_BLOCK, "building/");
+        block(EBlocks.ASTALITE_BLOCK, "building/");
         block(EBlocks.DIARKRITE_BLOCK, "building/");
         block(EBlocks.ANTHEKTITE_BLOCK, "building/");
         columnBlock(EBlocks.REMNANT, EBlocks.REMNANT, "misc/");

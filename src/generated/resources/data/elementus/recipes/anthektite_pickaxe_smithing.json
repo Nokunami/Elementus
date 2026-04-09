@@ -4,7 +4,7 @@
     "tag": "forge:ingots/anthektite"
   },
   "base": {
-    "item": "elementus:steel_pickaxe"
+    "item": "elementus:astalite_pickaxe"
   },
   "result": {
     "item": "elementus:anthektite_pickaxe"

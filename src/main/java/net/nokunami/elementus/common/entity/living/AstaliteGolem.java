@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
@@ -26,13 +27,11 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.BodyRotationControl;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Ghast;
@@ -52,19 +51,25 @@ import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.minecraftforge.network.PacketDistributor;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.EntityConfig;
-import net.nokunami.elementus.common.entity.ai.control.SmoothBodyControl;
+import net.nokunami.elementus.common.entity.CombatAction;
+import net.nokunami.elementus.common.entity.MobUtil;
+import net.nokunami.elementus.common.entity.MovementType;
+import net.nokunami.elementus.common.entity.ai.goal.*;
 import net.nokunami.elementus.common.entity.ai.goal.astaliteGolem.AstaliteGolemAttackGoal;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.*;
 import net.nokunami.elementus.common.entity.ai.navigation.GolemNavigation;
+import net.nokunami.elementus.common.entity.living.combat.AttackStyle;
+import net.nokunami.elementus.common.entity.living.combat.IAdaptiveAttacker;
 import net.nokunami.elementus.common.inventory.AstaliteGolemInventoryMenu;
-import net.nokunami.elementus.common.item.GolemUpgradeProperties;
 import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
-import net.nokunami.elementus.common.network.ModNetwork;
-import net.nokunami.elementus.common.network.SteelGolemInventoryPacket;
-import net.nokunami.elementus.common.registry.ESoundEvents;
+import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.common.network.client.GolemInventoryS2CPacket;
+import net.nokunami.elementus.common.network.syncer.EEntityDataSerializers;
+import net.nokunami.elementus.common.registry.ESounds;
+import net.nokunami.elementus.common.tags.EDamageTypeTags;
+import net.nokunami.elementus.common.tags.EEntityTags;
+import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -78,17 +83,22 @@ import static net.nokunami.elementus.Elementus.modLoc;
 import static net.nokunami.elementus.common.entity.MobUtil.tamedMob;
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnParticlesOnEntity;
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnWideParticlesOnEntity;
-import static net.nokunami.elementus.common.registry.ESoundEvents.STEEL_GOLEM_REPAIR;
-import static net.nokunami.elementus.common.registry.ESoundEvents.STEEL_GOLEM_REVIVE;
+import static net.nokunami.elementus.common.registry.ESounds.STEEL_GOLEM_REPAIR;
+import static net.nokunami.elementus.common.registry.ESounds.STEEL_GOLEM_REVIVE;
 
 @SuppressWarnings("deprecation")
-public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShearable {
+public class AstaliteGolem extends TamableGolem implements IForgeShearable, IMossOverTime, IAdaptiveAttacker {
     private static final EntityDataAccessor<Boolean> FAST_ATTACK = SynchedEntityData.defineId(AstaliteGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_WAXED = SynchedEntityData.defineId(AstaliteGolem.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> MOSS_TIMER = SynchedEntityData.defineId(AstaliteGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MOSS_STAGE = SynchedEntityData.defineId(AstaliteGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SIT_TICK = SynchedEntityData.defineId(AstaliteGolem.class, EntityDataSerializers.INT);
-    public final AnimationState attackAnimationState = new AnimationState();
+    private static final EntityDataAccessor<Integer> CURRENT_ATTACK_ARM = SynchedEntityData.defineId(AstaliteGolem.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<MovementType> MOVEMENT_TYPE = SynchedEntityData.defineId(AstaliteGolem.class, EEntityDataSerializers.MOVEMENT_TYPE);
+    private static final EntityDataAccessor<CombatAction> COMBAT_ACTION = SynchedEntityData.defineId(AstaliteGolem.class, EEntityDataSerializers.COMBAT_ACTION);
+    private static final EntityDataAccessor<Float> SPRINT = SynchedEntityData.defineId(AstaliteGolem.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> SPRINT_O = SynchedEntityData.defineId(AstaliteGolem.class, EntityDataSerializers.FLOAT);
+    public final AnimationState golemAttackAnim = new AnimationState();
     public final AnimationState upswingAttackAnimationState = new AnimationState();
     public int attackAnimTimeout = 0;
     public int aoeAttackAnimTimeout = 0;
@@ -98,19 +108,20 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
     public int eyeLayerTick;
     public Predicate<Entity> GOLEM_SURROUNDING_TARGETS = (entity) -> entity instanceof  Mob mob
             && ((entity instanceof Enemy || entity == getTarget()) || (getOwner() != null && mob.getTarget() == getOwner()));
-    public float
-    public static float rawBbWidth = 1.6F;
-    public static float rawBbHeight = 2.9F;
+    private Entity priorityTarget;
+    private Entity annoyingTarget;
+    private Entity rangedTarget;
+    private Entity currentTarget;
 
-    public AstaliteGolem(EntityType<? extends TamableGolem> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
+    public AstaliteGolem(EntityType<? extends AstaliteGolem> type, Level level) {
+        super(type, level);
         createInventory();
         setCanEquipChest(true);
         setMaxUpStep(1.5F);
         setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0);
     }
 
-    ////////////////////////////////////// DATA //////////////////////////////////////
+    // ----- [ DATA ]
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
@@ -124,31 +135,43 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
                 ;
     }
 
+    public float getBBWidth() { return 0; }
+    public float getBBHeight() { return 0; }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
+        entityData.define(FAST_ATTACK, false);
         entityData.define(IS_WAXED, false);
         entityData.define(MOSS_TIMER, 0);
         entityData.define(MOSS_STAGE, 0);
         entityData.define(SIT_TICK, 0);
-        entityData.define(FAST_ATTACK, false);
+        entityData.define(CURRENT_ATTACK_ARM, 0);
+        entityData.define(MOVEMENT_TYPE, MovementType.STAND);
+        entityData.define(COMBAT_ACTION, CombatAction.NONE);
+        entityData.define(SPRINT, 0F);
+        entityData.define(SPRINT_O, 0F);
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putBoolean("FastAttack", getFastAttack());
         tag.putBoolean("Waxed", isWaxed());
         tag.putInt("MossTimer", getMossTimer());
         tag.putInt("MossStage", getMossStage());
+        tag.putInt("SitTick", getSitTick());
         if (!inventory.getItem(1).isEmpty())
             tag.put("ArmorItem", inventory.getItem(1).save(new CompoundTag()));
         if (!inventory.getItem(2).isEmpty())
             tag.put("LeavesDecoration", inventory.getItem(2).save(new CompoundTag()));
         if (!inventory.getItem(3).isEmpty())
             tag.put("DecorItem", inventory.getItem(3).save(new CompoundTag()));
-        tag.putInt("SitTick", getSitTick());
-        tag.putBoolean("FastAttack", getFastAttack());
+        tag.putInt("CurrentAttackArm", getCurrentAttackArm());
+        tag.putString("MovementType", getMovementType().toString());
+        tag.putString("CombatAction", getCombatAction().toString());
     }
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        setFastAttack(tag.getBoolean("FastAttack"));
         setWaxed(tag.getBoolean("Waxed"));
         setMossTimer(tag.getInt("MossTimer"));
         setMossStage(tag.getInt("MossStage"));
@@ -159,32 +182,50 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         }
         if (tag.contains("LeavesDecoration", 10)) {
             ItemStack leaves = ItemStack.of(tag.getCompound("LeavesDecoration"));
-            if (leaves.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION))
+            if (leaves.is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION))
                 inventory.setItem(2, leaves);
         }
         if (tag.contains("DecorItem", 10))
             inventory.setItem(3, ItemStack.of(tag.getCompound("DecorItem")));
         updateContainerEquipment();
         setSitTick(tag.getInt("SitTick"));
-        setFastAttack(tag.getBoolean("FastAttack"));
+        setCurrentAttackArm(tag.getInt("CurrentAttackArm"));
+        setMovementType(MovementType.valueOf(tag.getString("MovementType")));
+        setCombatAction(CombatAction.valueOf(tag.getString("CombatAction")));
+//        setSprintPercent(tag.getFloat("Sprint"));
     }
-
-    public int getMossTimer() { return entityData.get(MOSS_TIMER); }
-    public void setMossTimer(int ticks) { entityData.set(MOSS_TIMER, ticks); }
-
-    public int getMossStage() { return entityData.get(MOSS_STAGE); }
-    public void setMossStage(int stage) { entityData.set(MOSS_STAGE, stage); }
-
-    public boolean isWaxed() { return entityData.get(IS_WAXED); }
-    public void setWaxed(boolean i) { entityData.set(IS_WAXED, i); }
-
-    public int getSitTick() { return entityData.get(SIT_TICK); }
-    public void setSitTick(int i) { entityData.set(SIT_TICK, i); }
 
     public boolean getFastAttack() { return entityData.get(FAST_ATTACK); }
     public void setFastAttack(boolean b) { entityData.set(FAST_ATTACK, b); }
 
-    ////////////////////////////////////// INVENTORY //////////////////////////////////////
+    public boolean isWaxed() { return entityData.get(IS_WAXED); }
+    public void setWaxed(boolean i) { entityData.set(IS_WAXED, i); }
+
+    @Override public int getMossTimer() { return entityData.get(MOSS_TIMER); }
+    @Override public void setMossTimer(int ticks) { entityData.set(MOSS_TIMER, ticks); }
+
+    @Override public int getMossStage() { return entityData.get(MOSS_STAGE); }
+    @Override public void setMossStage(int stage) { entityData.set(MOSS_STAGE, stage); }
+
+    public int getSitTick() { return entityData.get(SIT_TICK); }
+    public void setSitTick(int i) { entityData.set(SIT_TICK, i); }
+
+    public int getCurrentAttackArm() { return entityData.get(CURRENT_ATTACK_ARM); }
+    public void setCurrentAttackArm(int i) { entityData.set(CURRENT_ATTACK_ARM, i); }
+
+    public MovementType getMovementType() { return entityData.get(MOVEMENT_TYPE); }
+    public void setMovementType(MovementType type) { entityData.set(MOVEMENT_TYPE, type); }
+
+    public CombatAction getCombatAction() { return entityData.get(COMBAT_ACTION); }
+    public void setCombatAction(CombatAction type) { entityData.set(COMBAT_ACTION, type); }
+
+    public float getSprintPercent() { return entityData.get(SPRINT); }
+    public void setSprintPercent(float type) { entityData.set(SPRINT, type); }
+
+    public float getSprintOPercent() { return entityData.get(SPRINT_O); }
+    public void setSprintOPercent(float type) { entityData.set(SPRINT_O, type); }
+
+    // ----- [ INVENTORY ]
 
     @Override
     protected void updateContainerEquipment() {
@@ -198,25 +239,19 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         }
     }
 
-    public ItemStack getArmor() {
-        return getItemBySlot(EquipmentSlot.CHEST);
-    }
+    public ItemStack getArmor() { return getItemBySlot(EquipmentSlot.CHEST); }
     private void setArmor(ItemStack stack) {
         setItemSlot(EquipmentSlot.CHEST, stack);
         setDropChance(EquipmentSlot.CHEST, 0.0F);
     }
 
-    public ItemStack isCamouflaged() {
-        return getItemBySlot(EquipmentSlot.LEGS);
-    }
+    public ItemStack isCamouflaged() { return getItemBySlot(EquipmentSlot.LEGS); }
     private void wearCamouflaged(ItemStack stack) {
         setItemSlot(EquipmentSlot.LEGS, stack);
         setDropChance(EquipmentSlot.LEGS, 0.0F);
     }
 
-    public ItemStack getDripCarpet() {
-        return getItemBySlot(EquipmentSlot.FEET);
-    }
+    public ItemStack getDripCarpet() { return getItemBySlot(EquipmentSlot.FEET); }
     private void wearDripCarpet(ItemStack stack) {
         setItemSlot(EquipmentSlot.FEET, stack);
         setDropChance(EquipmentSlot.FEET, 0.0F);
@@ -226,8 +261,8 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         setArmor(stack);
         if (!level().isClientSide) {
             if (stack.getItem() instanceof SteelGolemUpgradeItem item) {
-                if (!stack.isEmpty()) getAttributes().removeAttributeModifiers(item.getGolemAttributes(EquipmentSlot.CHEST));
-                if (!stack.isEmpty()) getAttributes().addTransientAttributeModifiers(item.getGolemAttributes(EquipmentSlot.CHEST));
+                if (!stack.isEmpty()) getAttributes().removeAttributeModifiers(item.getGolemAttributes());
+                if (!stack.isEmpty()) getAttributes().addTransientAttributeModifiers(item.getGolemAttributes());
             }
         }
     }
@@ -242,11 +277,11 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         ItemStack leaves1 = isCamouflaged();
         ItemStack carpet1 = getDripCarpet();
         if (tickCount > 20 && isArmor(armor1) && armor != armor1)
-            playSound(ESoundEvents.STEEL_GOLEM_ARMORED.get(), 0.5F, 1.0F);
+            playSound(ESounds.STEEL_GOLEM_ARMORED.get(), 0.5F, 1.0F);
         if (tickCount > 20 && leaves != leaves1)
-            playSound(ESoundEvents.STEEL_GOLEM_LEAVES_SWAG.get(), 0.5F, 1.0F);
+            playSound(ESounds.STEEL_GOLEM_LEAVES_SWAG.get(), 0.5F, 1.0F);
         if (tickCount > 20 && carpet != carpet1)
-            playSound(ESoundEvents.STEEL_GOLEM_CARPET_SWAG.get(), 0.5F, 1.0F);
+            playSound(ESounds.STEEL_GOLEM_CARPET_SWAG.get(), 0.5F, 1.0F);
     }
 
     @Override
@@ -256,7 +291,7 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
                 if (serverplayer.containerMenu != serverplayer.inventoryMenu) serverplayer.closeContainer();
                 isChestOpened(true);
                 serverplayer.nextContainerCounter();
-                ModNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> serverplayer), new SteelGolemInventoryPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
+                ENetwork.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
                 serverplayer.containerMenu = new AstaliteGolemInventoryMenu(serverplayer.containerCounter, serverplayer.getInventory(), inventory, this);
                 serverplayer.initMenu(serverplayer.containerMenu);
                 MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(serverplayer, serverplayer.containerMenu));
@@ -270,54 +305,31 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         return InteractionResult.SUCCESS;
     }
 
-    protected int getInventorySize() {
-        return 24;
-    }
+    @Override protected int getInventorySize() { return 24; }
+    @Override public boolean canWearArmor() { return true; }
 
-    @Override
-    public boolean canWearArmor() {
-        return true;
-    }
-
-    @Override
-    public boolean isArmor(@NotNull ItemStack stack) {
+    @Override public boolean isArmor(@NotNull ItemStack stack) {
         return stack.getItem() instanceof SteelGolemUpgradeItem;
     }
 
-    ////////////////////////////////////// ENTITY LOGIC //////////////////////////////////////
+    // ----- [ ENTITY LOGIC ]
 
     @Override
     protected void registerGoals() {
-        goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
-        goalSelector.addGoal(0, new AvoidEntityGoal<>(this, LivingEntity.class, 6, 1, 1.2, e -> e.getType().is(Etags.Entity.STEEL_GOLEM_AVOID)));
+//        goalSelector.addGoal(0, new AdaptiveAttackGoal<>(this));
+//        goalSelector.addGoal(0, new AdaptiveAttackMoveGoal<>(this));
+        goalSelector.addGoal(0, new MossGrowGoal<>(this));
+        goalSelector.addGoal(0, new MovementTypeGoal(this));
+        goalSelector.addGoal(0, new AvoidEntityGoal<>(this, LivingEntity.class, 6, 1, 1.2, e -> e.getType().is(EEntityTags.STEEL_GOLEM_AVOID)));
         goalSelector.addGoal(1, new AstaliteGolemAttackGoal(this, 1.2D, true));
         goalSelector.addGoal(2, new GolemMoveTowardsTargetGoal(this, 0.9D, 32.0F));
         goalSelector.addGoal(2, new GolemFollowOwnerGoal(this, new GolemFollowOwnerGoal.goalInfo().
                 speed(1, 1.25).start(8, 20).stop(6, 9).teleport(12, 28)));
-//        goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 12.0F) {
-//            @Override
-//            public boolean canUse() {
-//                return !isInSittingPose() && !isChassisBroken() && super.canUse();
-//            }
-//        });
         goalSelector.addGoal(7, new GolemLookGoal(this, new GolemLookGoal.goalInfo().lookAt(Player.class, 12)));
-
-        goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 0.5D) {
-            @Override
-            public boolean canUse() {
-                return !isInSittingPose() && !isChassisBroken() && super.canUse();
-            }
-        });
-//        goalSelector.addGoal(8, new RandomLookAroundGoal(this) {
-//            @Override
-//            public boolean canUse() {
-//                return !isInSittingPose() && !isChassisBroken() && super.canUse();
-//            }
-//        });
+        goalSelector.addGoal(7, new GolemStrollGoal(this, 0.5D));
         goalSelector.addGoal(8, new GolemLookGoal(this));
-
         targetSelector.addGoal(0, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
-                (entity) -> entity.getType().is(Etags.Entity.STEEL_GOLEM_PRIORITY_TARGETS)));
+                (entity) -> entity.getType().is(EEntityTags.STEEL_GOLEM_PRIORITY_TARGETS)));
         targetSelector.addGoal(0, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
                 (entity) -> entity instanceof Mob mob && getOwner() != null && mob.getTarget() == getOwner()));
         targetSelector.addGoal(1, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
@@ -332,29 +344,32 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
     @Override
     public void baseTick() {
         super.baseTick();
+        setCustomName(Component.literal(String.valueOf(getAttackCooldown())));
         List<Entity> list = level().getEntities(this, getBoundingBox().inflate(0.2F, -0.01F, 0.2F), EntitySelector.pushableBy(this));
         Set<Entity> entitySet = new HashSet<>(level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(2), GOLEM_SURROUNDING_TARGETS));
+
+//        float f = getActTick() < getAnimDelay() && isProducingSun() && !isPlantSleeping() ? 1 : -2;
+//        brightnessLayerO = brightnessLayer;
+//        brightnessLayer = Mth.clamp(brightnessLayer + (f / (getAnimDelay())), 0, 1);
+        float f = (float) (getMovementType().equals(MovementType.RUN) ? 1 : -1) / 50;
+        setSprintOPercent(getSprintPercent());
+        setSprintPercent(Mth.clamp(getSprintPercent() + f, 0, 1));
 
         if (level().isClientSide) setupAnim();
 
         if (!level().isClientSide) {
             updatePersistentAnger((ServerLevel) level(), true);
+            if (getControllingPassenger() == null) setMovementType(MovementType.WALK);
 
-            if (!isTame() && isPlayerCreated()) {
-                setOrderedToSit(true);
-                setInSittingPose(true);
-//                List<Entity> player = level().getEntities(this, getBoundingBox().inflate(2F, 0.5F, 2F), e -> e instanceof Player);
-//                if (!player.isEmpty()) {
-//                    tameGolem((Player) player.get(0));
-//                }
-            }
+            if (!isTamed() && isPlayerCreated()) sit(true);
 
-            if (isInSittingPose() || isChassisBroken() || (isPlayerCreated() && !isTame())) {
-                if (getMossStage() < 3 && !isWaxed()) setMossTimer(getMossTimer() + 1);
-                if (getSitTick() < 15) setSitTick(getSitTick() + 1);
+            setSitTick(Math.max(getSitTick() - 1, 0));
+
+            if (isOrderedToSit() || isChassisBroken() || (isPlayerCreated() && !isTamed())) {
+//                if (getSitTick() < 6) setSitTick(getSitTick() + 1);
                 setPose(Pose.SITTING);
             } else {
-                if (getSitTick() > 0) setSitTick(getSitTick() - 1);
+//                if (getSitTick() > 0) setSitTick(getSitTick() - 1);
                 setPose(Pose.STANDING);
             }
 
@@ -366,20 +381,15 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
                 if (getBrokenTick() > 0) setBrokenTick(getBrokenTick() - 1);
             }
 
-            if (getMossTimer() > 144000) {
-                setMossStage(getMossStage() + 1);
-                setMossTimer(0);
-            }
-
             if (!getArmor().isEmpty() && getArmor().getItem() instanceof SteelGolemUpgradeItem armorItem) {
                 armorItem.onArmorTick(level(), this);
             }
 
             setFastAttack(getArmor().getItem() instanceof SteelGolemUpgradeItem upgradeItem && upgradeItem.isFastAttack());
-            setSprinting(isSprinting());
+//            setSprinting(isSprinting());
         }
 
-        if (!list.isEmpty() && isInSittingPose()) {
+        if (!list.isEmpty() && isOrderedToSit()) {
             boolean flag = !level().isClientSide && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
                 if (isSaddled() && flag && getPassengers().size() < getMaxPassengers() && hasEnoughSpaceFor(entity) && !(entity instanceof Enemy)) {
@@ -440,18 +450,10 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         return new Vec3i(getDirection().getStepX(), getDirection().getStepY(), getDirection().getStepZ());
     }
 
-    @Override
-    public boolean dampensVibrations() {
-        return isCrouching();
-    }
+    @Override public boolean dampensVibrations() { return isCrouching(); }
+    @Override public boolean isDiscrete() { return isCrouching(); }
 
-    @Override
-    public boolean isDiscrete() {
-        return isCrouching();
-    }
-
-    @Override
-    protected @NotNull MovementEmission getMovementEmission() {
+    @Override protected @NotNull MovementEmission getMovementEmission() {
         return isCrouching() ? MovementEmission.NONE : super.getMovementEmission();
     }
 
@@ -460,37 +462,32 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         return new GolemNavigation(this, level);
     }
 
-    @Override
-    public int getMaxFallDistance() {
-        return getTarget() != null ? 3 + (int) (getHealth() - 1.0F) : 3;
-    }
+    @Override public int getMaxFallDistance() { return getTarget() != null ? 3 + (int) (getHealth() - 1.0F) : 3; }
 
     @Override
-    public void handleEntityEvent(byte pId) {
-        if (pId == 4) {
-            if (getAttackType() == 2) {
-                spawnWideParticlesOnEntity(level(), position(), ParticleTypes.EXPLOSION, this, UniformInt.of(1, 2));
-                spawnWideParticlesOnEntity(level(), position(), ParticleTypes.CAMPFIRE_COSY_SMOKE, this, UniformInt.of(1, 3));
-                aoeAttackAnimTimeout = 15;
-            }
-            attackAnimTimeout = 10;
-            playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 0.5F);
-        } else {
-            super.handleEntityEvent(pId);
+    public void customEntityEvent() {
+        if (getAttackType() == 2) {
+            spawnWideParticlesOnEntity(level(), position(), ParticleTypes.EXPLOSION, this, UniformInt.of(1, 2));
+            spawnWideParticlesOnEntity(level(), position(), ParticleTypes.CAMPFIRE_COSY_SMOKE, this, UniformInt.of(1, 3));
+            aoeAttackAnimTimeout = 15;
         }
+        attackAnimTimeout = 10;
+        playSound(SoundEvents.IRON_GOLEM_ATTACK, 1.0F, 0.5F);
     }
 
     @Override
     public boolean wantsToAttack(@NotNull LivingEntity target, @NotNull LivingEntity owner) {
         if (!(target instanceof Creeper) && !(target instanceof Ghast)) {
             if (target instanceof AstaliteGolem golem) {
-                return !golem.isTame() || golem.getOwner() != owner;
-            } else if ((target instanceof Player && owner instanceof Player && !((Player)owner).canHarmPlayer((Player) target)) || (target instanceof OwnableEntity o && o.getOwner() != null)) {
+                return !golem.isTamed() || golem.getOwner() != owner;
+            } else if ((target instanceof Player && owner instanceof Player && !((Player)owner).canHarmPlayer((Player) target))/* || (target instanceof OwnableEntity o && o.getOwner() != null)*/) {
                 return false;
             } /*else if (target instanceof OwnableEntity o && o.getOwner() != null) {
                 return false;
-            } */else {
+            } else {
                 return !(target instanceof TamableAnimal) || !((TamableAnimal)target).isTame();
+            }*/ else {
+                return !(target instanceof OwnableEntity o && o.getOwner() != null);
             }
         } else {
             return false;
@@ -498,42 +495,13 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
     }
 
     @Override
-    public boolean canBeSeenAsEnemy() {
-        return !isChassisBroken() && super.canBeSeenAsEnemy();
-    }
-
-    @Override
     public @NotNull EntityDimensions getDimensions(@NotNull Pose pose) {
-        if (pose == Pose.SITTING) {
-            return EntityDimensions.scalable(rawBbWidth, rawBbHeight - 0.75F);
-        } else if (pose == Pose.CROUCHING) {
-            return EntityDimensions.scalable(rawBbWidth, rawBbHeight - 1);
-        } else return super.getDimensions(pose);
+        float sitting = getPose() == Pose.SITTING ? 0.5F : 0;
+        float crouch = getPose() == Pose.CROUCHING ? 0.6F : 0;
+        return EntityDimensions.scalable(getBBWidth(), getBBHeight() - Math.max(sitting, crouch));
     }
 
-    @Override
-    public boolean isNoAi() {
-        return isChassisBroken() && super.isNoAi();
-    }
-
-    @Override
-    public boolean isChassisCompromised() {
-        if (getHealth() <= 0)
-            if (isPlayerCreated() && getChassisHealth() > 1) {
-                stopAllAttackAnimation();
-                setChassisState(true);
-                setChassisHealth(getChassisHealth() - 1);
-                setHealth(1);
-                stopBeingAngry();
-                setAggressive(false);
-                setOrderedToSit(false);
-                return false;
-            } else return true;
-        else return false;
-    }
-
-    @Override
-    public boolean canSprint() { return true; }
+    @Override public boolean canSprint() { return true; }
 
     @Override
     public void die(@NotNull DamageSource cause) {
@@ -541,12 +509,25 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
             dead = false;
             if (!level().isClientSide && level().getGameRules().getBoolean(GameRules.RULE_SHOWDEATHMESSAGES) && getOwner() instanceof ServerPlayer) {
                 getOwner().sendSystemMessage(Component.translatable("entity.elementus.steel_golem_down", getChassisHealth()));
-                stopBeingAngry();
-                ejectPassengers();
             }
         } else super.die(cause);
-        stopBeingAngry();
         ejectPassengers();
+        stopBeingAngry();
+    }
+
+    @Override
+    public boolean isChassisCompromised() {
+        if (getHealth() <= 0)
+            if (isPlayerCreated() && getChassisHealth() > 1) {
+                setHealth(1);
+                stopAllAnimation();
+                setChassisState(true);
+                setChassisHealth(getChassisHealth() - 1);
+                setAggressive(false);
+                sit(false);
+                return false;
+            } else return true;
+        else return false;
     }
 
     @Override
@@ -567,14 +548,13 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         return block instanceof MultifaceBlock || block.defaultBlockState().getBlock() == LAVA || block.defaultBlockState().getBlock() == WATER || block.isPossibleToRespawnInThis(block.defaultBlockState());
     }
 
-    ////////////////////////////////////// RIDEABLE //////////////////////////////////////
+    // ----- [ RIDEABLE ]
 
     @Override
     protected void positionRider(@NotNull Entity passenger, @NotNull MoveFunction moveFunction) {
-        float height = rawBbHeight;
-        float sitting = ((float) getSitTick() /15) * 0.75F;
+        float sitting = ((float) (1 - (getSitTick()) / getDefaultSitTick())) * 0.4F;
         float crouch = getPose() == Pose.CROUCHING ? 1 : 0;
-        double passengerRidingOffset = (height - Math.max(sitting, crouch)) * 0.75D;
+        double passengerRidingOffset = (getBBHeight() - Math.max(sitting, crouch)) * 0.85D;
         if (hasPassenger(passenger)) {
             float dro = 0.75F;
             Vec3 offset = (switch (getPassengers().stream().toList().indexOf(passenger)) {
@@ -587,13 +567,9 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         }
     }
 
-    @Override
-    protected boolean canAddPassenger(@NotNull Entity passenger) {
-        return getPassengers().size() < getMaxPassengers();
-    }
+    @Override protected boolean canAddPassenger(@NotNull Entity passenger) { return getPassengers().size() < getMaxPassengers(); }
 
-    @Override
-    protected int getMaxPassengers() { return 3; }
+    @Override protected int getMaxPassengers() { return 3; }
 
     public boolean hasEnoughSpaceFor(Entity entity) {
         return entity.getBbWidth() < getBbWidth() || entity.getBbHeight() < getBbHeight();
@@ -601,15 +577,14 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
 
     @Override
     protected float getRiddenSpeed(@NotNull Player player) {
-        float f = player.isSprinting() ? 0.1F : 0.0F;
-        return (float) (getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.3F) + f;
+        return (float) (getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.3F) + (player.isSprinting() ? 0.1F : 0);
     }
 
-    ////////////////////////////////////// INTERACTION //////////////////////////////////////
+    // ----- [ INTERACTION ]
 
     @Override
     public boolean isInvulnerableTo(@NotNull DamageSource source) {
-        return super.isInvulnerableTo(source) || (isChassisBroken() && getChassisHealth() != 0) && (source.is(Etags.DamageTypes.STEEL_GOLEM_IMMUNE) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
+        return super.isInvulnerableTo(source) || (isChassisBroken() && getChassisHealth() != 0) && (source.is(EDamageTypeTags.STEEL_GOLEM_IMMUNE) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
     }
 
     @Override
@@ -622,11 +597,12 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
 
     @Override
     public boolean isPushable() {
-        if (getArmor().getItem() instanceof SteelGolemUpgradeItem golemUpgradeItem) {
-            GolemUpgradeProperties golemUpgradeProperties = golemUpgradeItem.getGolemUpgradeProperties();
-            return golemUpgradeProperties != null && !golemUpgradeItem.isNotPushable() && !(isInSittingPose() || isChassisBroken() || isVehicle());
-        }
-        return !(isInSittingPose() || isChassisBroken() || isVehicle());
+//        if (getArmor().getItem() instanceof SteelGolemUpgradeItem golemUpgradeItem) {
+//            GolemUpgradeProperties golemUpgradeProperties = golemUpgradeItem.getGolemUpgradeProperties();
+//            return golemUpgradeProperties != null && !golemUpgradeItem.isNotPushable() && !(isOrderedToSit() || isChassisBroken() || isVehicle());
+//        }
+//        return !(isOrderedToSit() || isChassisBroken() || isVehicle());
+        return false;
     }
 
     @Override
@@ -661,7 +637,7 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         Crackiness steelgolem$crackiness = getCrackiness();
         boolean flag = super.hurt(source, amount);
         if (!level().isClientSide) {
-            if (!isWearingArmor() || (isWearingArmor() && (amount > getMaxHealth() / 5 || getHealth() < getMaxHealth() / 2))) setOrderedToSit(false);
+            if (!isWearingArmor() || (isWearingArmor() && (amount > getMaxHealth() / 5 || getHealth() < getMaxHealth() / 2))) sit(false);
         }
 
         if (flag && getCrackiness() != steelgolem$crackiness) playSound(SoundEvents.IRON_GOLEM_DAMAGE, 1.0F, 1.0F);
@@ -672,7 +648,7 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
     @Override
     public boolean canBeCollidedWith() {
         if (!getArmor().isEmpty() && getArmor().getItem() instanceof SteelGolemUpgradeItem armorItem) {
-            return armorItem.isNotPushable() && (isInSittingPose() || isChassisBroken());
+            return armorItem.isNotPushable() && (isOrderedToSit() || isChassisBroken());
         } else return super.canBeCollidedWith();
     }
 
@@ -681,7 +657,11 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         double d0 = vec3.y;
         boolean saddleHeight = d0 >= getBbHeight() * 0.65F;
 
-        if (saddleHeight && isInSittingPose() && isTame() && !isChassisBroken() && isSaddled()) {
+        if (saddleHeight && isOrderedToSit() && isTamed() && !isChassisBroken() && isSaddled()) {
+            if (!getPassengers().isEmpty() && isOwnedBy(player) && player.isSecondaryUseActive()) {
+                ejectPassengers();
+                return InteractionResult.SUCCESS;
+            }
             return doPlayerRide(player);
         } else return super.interactAt(player, vec3, hand);
     }
@@ -690,24 +670,25 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
     public @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         boolean canHeal = getHealth() < getMaxHealth();
-        boolean shearMoss = itemStack.is(Items.SHEARS) && getMossStage() > 0 && readyForShearing();
-        boolean leaves = itemStack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION) && isCamouflaged().isEmpty();
-        boolean carpet = itemStack.is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION) && getDripCarpet().isEmpty();
+        boolean leaves = itemStack.is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION) && isCamouflaged().isEmpty();
+        boolean carpet = itemStack.is(EItemTags.STEEL_GOLEM_CARPET_DECORATION) && getDripCarpet().isEmpty();
         boolean wax = itemStack.is(Items.HONEYCOMB) && !isWaxed();
         boolean scrapWax = itemStack.is(ItemTags.AXES) && isWaxed();
         boolean chassisCondition = getChassisHealth() < 5;
-        boolean healItem = itemStack.is(Etags.Items.STEEL_GOLEM_HEAL) || itemStack.is(Etags.Items.STEEL_GOLEM_REPAIR_HALF);
-        boolean repair = itemStack.is(Etags.Items.STEEL_GOLEM_REPAIR_FULL);
+        boolean healItem = itemStack.is(EItemTags.STEEL_GOLEM_HEAL) || itemStack.is(EItemTags.STEEL_GOLEM_REPAIR_HALF);
+        boolean repair = itemStack.is(EItemTags.STEEL_GOLEM_REPAIR_FULL);
         boolean aggroStateChanger = (itemStack.is(ItemTags.SWORDS) || itemStack.is(ItemTags.AXES)) && player.isSecondaryUseActive();
+        InteractionResult interactionresult = super.mobInteract(player, hand);
 
-        if (isPlayerCreated() && !isTame() || player.isCreative()) tameGolem(player);
+        if ((isPlayerCreated() || player.isCreative()) && !isTamed()) tame(player);
 
         if ((canHeal && healItem) || (chassisCondition && repair))
             return healGolem(player, itemStack);
         else {
-            if (shearMoss)
-                return trimMoss(player, hand);
-            if (isInSittingPose() && !isAngry() && player.isSecondaryUseActive())
+            if (isShearable(itemStack, level(), blockPosition())) {
+                return interactionresult;
+            }
+            if (isOrderedToSit() && !isAngry() && player.isSecondaryUseActive())
                 return openInventory(player);
             if (isOwnedBy(player)) {
                 if (aggroStateChanger)
@@ -716,22 +697,22 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
                     return setGolemEquipable(player, hand);
             }
 
-            InteractionResult interactionresult = super.mobInteract(player, hand);
-            if ((!interactionresult.consumesAction() || isBaby()) && isOwnedBy(player)) {
-                return sitOrder();
+            if ((!interactionresult.consumesAction() || isBaby()) && isOwnedBy(player) && getSitTick() == 0 && !isChassisBroken()) {
+                return sit(!isOrderedToSit());
             } else {
                 return interactionresult;
             }
         }
     }
 
-    public InteractionResult sitOrder() {
-        if (getSitTick() == 0 || getSitTick() == 15) {
-            setOrderedToSit(!isOrderedToSit());
-        }
-        jumping = false;
-        navigation.stop();
-        return InteractionResult.SUCCESS;
+    @Override
+    public InteractionResult sit(boolean sit) {
+        setSitTick(getDefaultSitTick());
+        return super.sit(sit);
+    }
+
+    public int getDefaultSitTick() {
+        return 0;
     }
 
     public InteractionResult setGolemEquipable(Player player, InteractionHand hand) {
@@ -753,31 +734,24 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
             playSound(SoundEvents.AXE_WAX_OFF);
             spawnParticlesOnEntity(level(), position(), ParticleTypes.WAX_OFF, this, UniformInt.of(3, 5));
         } else {
-            inventory.setItem(stack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION) ? 2 : 3, stack.copyWithCount(1));
+            inventory.setItem(stack.is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION) ? 2 : 3, stack.copyWithCount(1));
             if (!player.isCreative()) stack.shrink(1);
         }
         navigation.stop();
         return InteractionResult.SUCCESS;
     }
 
-    public InteractionResult trimMoss(Player player, InteractionHand hand) {
-        ItemStack itemStack = player.getItemInHand(hand);
-        shear(SoundSource.PLAYERS);
-        gameEvent(GameEvent.SHEAR, player);
-        itemStack.hurtAndBreak(1, player, (item) -> item.broadcastBreakEvent(hand));
-        return InteractionResult.SUCCESS;
-    }
-
     public InteractionResult healGolem(Player player, ItemStack stack) {
         boolean chassisCondition = getChassisHealth() < 5;
-        boolean repairHalf = stack.is(Etags.Items.STEEL_GOLEM_REPAIR_HALF);
-        boolean repairFull = stack.is(Etags.Items.STEEL_GOLEM_REPAIR_FULL);
+        boolean repairHalf = stack.is(EItemTags.STEEL_GOLEM_REPAIR_HALF);
+        boolean repairFull = stack.is(EItemTags.STEEL_GOLEM_REPAIR_FULL);
         float randomFloat = 1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F;
         int b = isChassisBroken() ? 1 : 0;
 
         float healAmount = 1;
         if (repairHalf) healAmount = 0.5F;
 
+        if (isChassisBroken() && isOrderedToSit()) sit(true);
         setChassisState(false);
         if (chassisCondition && repairFull) setChassisHealth(getChassisHealth() + 1);
         heal((int) ((EntityConfig.steelGolem_MaxHealth / EntityConfig.steelGolem_RepairAmount) * healAmount) - b);
@@ -789,13 +763,14 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
     public InteractionResult aggroStateChange() {
         navigation.stop();
         setAggroState(!getAggroState());
-        setTarget(null);
+//        setTarget(null);
+        stopBeingAngry();
         return InteractionResult.SUCCESS;
     }
 
     @Override
     public boolean isShearable(@NotNull ItemStack item, Level level, BlockPos pos) {
-        return getMossStage() > 0 && !isChassisBroken();
+        return item.is(Items.SHEARS) && getMossStage() > 0 && !isChassisBroken();
     }
 
     @Override
@@ -803,34 +778,17 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
         level.playSound(null, this, SoundEvents.MOSS_BREAK, player == null ? SoundSource.BLOCKS : SoundSource.PLAYERS, 1.0F, 1.0F);
         gameEvent(GameEvent.SHEAR, player);
         if (!level.isClientSide) {
-            int i = 1 + random.nextInt(3);
+            setMossStage(getMossStage() - 1);
 
             List<ItemStack> items = new ArrayList<>();
-            for (int j = 0; j < i; ++j) {
+            for (int j = 0; j < getMossStage() + random.nextInt(3); ++j)
                 items.add(new ItemStack(Items.MOSS_BLOCK));
-            }
             return items;
         }
         return Collections.emptyList();
     }
 
-    @Override
-    public void shear(@NotNull SoundSource pSource) {
-        level().playSound(null, this, SoundEvents.SHEEP_SHEAR, pSource, 1.0F, 1.0F);
-        setMossStage(getMossStage() - 1);
-
-        ItemEntity itemEntity = spawnAtLocation(new ItemStack(Items.MOSS_BLOCK));
-        if (itemEntity != null) {
-            itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().add((random.nextFloat() - random.nextFloat()) * 0.1F, random.nextFloat() * 0.05F, (random.nextFloat() - random.nextFloat()) * 0.1F));
-        }
-    }
-
-    @Override
-    public boolean readyForShearing() {
-        return getMossStage() > 0 && !isChassisCompromised();
-    }
-
-    ////////////////////////////////////// CLIENT DATA //////////////////////////////////////
+    // ----- [ CLIENT DATA ]
 
     /// Animation stuff, mostly
     private void setupAnim() {
@@ -840,8 +798,8 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
                     setAttackType(0);
                 } else setAttackType(1);
                 attackAnimTimeout = getArmor().getItem() instanceof SteelGolemUpgradeItem upgradeItem && upgradeItem.isFastAttack() ? 10 : 20;
-                attackAnimationState.stop();
-                attackAnimationState.start(tickCount);
+                golemAttackAnim.stop();
+                golemAttackAnim.start(tickCount);
             } else {
                 --attackAnimTimeout;
             }
@@ -849,7 +807,7 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
             if (isAoeAttacking() && aoeAttackAnimTimeout <= 0 && getAoeTimer() <= 0) {
                 setAttackType(2);
                 aoeAttackAnimTimeout = 35;
-                attackAnimationState.stop();
+                golemAttackAnim.stop();
                 upswingAttackAnimationState.stop();
                 upswingAttackAnimationState.start(tickCount);
             } else {
@@ -864,101 +822,203 @@ public class AstaliteGolem extends TamableGolem implements Shearable, IForgeShea
             if (eyeLayerBrightness > 0) eyeLayerBrightness -= (0.0F + eyeLayerBrightness) * 0.02F;
         }
 
-        sitFromStandAnimState.animateWhen(isInSittingPose() && !(getBrokenTick() > 0), tickCount);
-        standFromSitAnimState.animateWhen(!isInSittingPose(), tickCount);
+        sitAnim.animateWhen(isOrderedToSit() && !(getBrokenTick() > 0), tickCount);
+        standAnim.animateWhen(!isOrderedToSit(), tickCount);
 
         brokenAnim.animateWhen(isChassisBroken(), tickCount);
         repairedAnim.animateWhen(!isChassisBroken() && getBrokenTick() != 0, tickCount);
 
-        ridden.animateWhen(isVehicle(), tickCount);
-        unRide.animateWhen(!isVehicle(), tickCount);
+        riddenAnim.animateWhen(isVehicle(), tickCount);
+        unRideAnim.animateWhen(!isVehicle(), tickCount);
 
         chestOpened.animateWhen(chestOpened(), tickCount);
         chestClosed.animateWhen(!chestOpened(), tickCount);
     }
 
-    public void stopAllAttackAnimation() { attackAnimationState.stop(); }
-
     @Override
-    public int getMaxHeadXRot() {
-        return isInSittingPose() || isVehicle() ? 0 : super.getMaxHeadXRot();
+    public AnimationState actionAnim(int i) {
+        return switch (i) {
+            case 8 -> golemAttackAnim;
+            case 9 -> upswingAttackAnimationState;
+            default -> super.actionAnim(i);
+        };
     }
 
     @Override
-    protected @NotNull BodyRotationControl createBodyControl() { return new SmoothBodyControl(this); }
+    public void stopAllAnimation() {
+        super.stopAllAnimation();
+        golemAttackAnim.stop();
+    }
+
+    @Override public int getMaxHeadXRot() { return isOrderedToSit() || isVehicle() ? 0 : super.getMaxHeadXRot(); }
+
+//    @Override protected @NotNull BodyRotationControl createBodyControl() { return new SmoothBodyControl(this); }
 
     public boolean canSpawnSprintParticle() {
         return getDeltaMovement().horizontalDistanceSqr() > (double)2.5000003E-7F && random.nextInt(5) == 0;
     }
 
-    @Override
-    protected void playStepSound(@NotNull BlockPos pPos, @NotNull BlockState pBlock) {
-        playSound(ESoundEvents.STEEL_GOLEM_STEP.get(), 2.0F, 0.5F);
+    @Override protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState block) { playSound(ESounds.STEEL_GOLEM_STEP.get(), 2.0F, 0.5F); }
+    @Override public void playAmbientSound() { playSound(ESounds.STEEL_GOLEM_AMBIENT.get()); }
+    @Override protected SoundEvent getHurtSound(@NotNull DamageSource source) { return isChassisCompromised() ? null : ESounds.STEEL_GOLEM_HURT.get(); }
+    @Override protected SoundEvent getDeathSound() { return isChassisCompromised() ? ESounds.STEEL_GOLEM_DEATH.get() : ESounds.STEEL_GOLEM_DOWN.get(); }
+
+    @Override public @NotNull Vec3 getLeashOffset() { return new Vec3(0, 0.95F * getEyeHeight(), getBbWidth() * 0.4F); }
+
+    @Override public boolean thoseWhoGrow() {
+        return getMossStage() < 3 && !isWaxed() && (isOrderedToSit() || isChassisBroken() || (isPlayerCreated() && !isTamed()));
     }
 
-    @Override
-    protected SoundEvent getDeathSound() {
-        return isChassisCompromised() ? ESoundEvents.STEEL_GOLEM_DEATH.get() : ESoundEvents.STEEL_GOLEM_DOWN.get();
-    }
-
-//    @Override
-//    public void playAmbientSound() {
-//        playSound(ESoundEvents.STEEL_GOLEM_AMBIENT.get());
-//    }
-
-    @Override
-    protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {
-        return isChassisCompromised() ? null : ESoundEvents.STEEL_GOLEM_HURT.get();
-    }
-
-    @Override
-    public @NotNull Vec3 getLeashOffset() {
-        return new Vec3(0.0D, 0.95F * getEyeHeight(), getBbWidth() * 0.4F);
-    }
-
-    public AstaliteGolem.Crackiness getCrackiness() { return Crackiness.byFraction(getHealth() / getMaxHealth()); }
-
-    public ChassisCrackiness getChassisCrackiness() { return ChassisCrackiness.byFraction((float) getChassisHealth() / 5 , isPlayerCreated()); }
+    public Crackiness getCrackiness() { return Crackiness.byFraction(getHealth() / getMaxHealth()); }
 
     public enum Crackiness {
-        NONE(1.0F),
-        LOW(0.75F),
-        MEDIUM(0.5F),
-        HIGH(0.25F);
+        NONE(1.0F), LOW(0.75F), MEDIUM(0.5F), HIGH(0.25F);
 
         private static final List<AstaliteGolem.Crackiness> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((crack) -> crack.fraction)).collect(ImmutableList.toImmutableList());
 
         private final float fraction;
-        Crackiness(float pFraction) {
-            fraction = pFraction;
-        }
+        Crackiness(float f) { fraction = f; }
 
         public static AstaliteGolem.Crackiness byFraction(float pFraction) {
-            for(AstaliteGolem.Crackiness steelgolem$crackiness : BY_DAMAGE)
-                if (pFraction < steelgolem$crackiness.fraction) return steelgolem$crackiness;
+            for(AstaliteGolem.Crackiness crackiness : BY_DAMAGE)
+                if (pFraction < crackiness.fraction) return crackiness;
             return NONE;
         }
-
     }
 
-    public enum ChassisCrackiness {
-        NONE(1.0F),
-        VERY_LOW(0.81F),
-        LOW(0.61F),
-        MEDIUM(0.41F),
-        HIGH(0.21F);
+    public ChassisDamage getChassisDamage() { return ChassisDamage.byFraction((float) getChassisHealth() / 5 , isPlayerCreated() || isTamed()); }
 
-        private static final List<ChassisCrackiness> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((crack) -> crack.fraction)).collect(ImmutableList.toImmutableList());
+    public enum ChassisDamage {
+        NONE(1.0F), VERY_LOW(0.81F), LOW(0.61F), MEDIUM(0.41F), HIGH(0.21F);
+
+        private static final List<ChassisDamage> BY_DAMAGE = Stream.of(values()).sorted(Comparator.comparingDouble((crack) -> crack.fraction)).collect(ImmutableList.toImmutableList());
 
         private final float fraction;
-        ChassisCrackiness(float pFraction) {
-            fraction = pFraction;
-        }
+        ChassisDamage(float f) { fraction = f; }
 
-        public static ChassisCrackiness byFraction(float pFraction, boolean a) {
-            for(ChassisCrackiness steelGolem$chassis : BY_DAMAGE)
-                if (a && pFraction < steelGolem$chassis.fraction) return steelGolem$chassis;
+        public static ChassisDamage byFraction(float fraction, boolean a) {
+            for(ChassisDamage chassisDamage : BY_DAMAGE)
+                if (a && fraction < chassisDamage.fraction) return chassisDamage;
             return NONE;
         }
+    }
+
+    // ----- [ ADAPTIVE ATTACK ]
+
+    @Override public Entity getPriorityTarget() { return priorityTarget; }
+    @Override public void setPriorityTarget(Entity target) { priorityTarget = target; }
+
+    @Override public Entity getAnnoyingTarget() { return annoyingTarget; }
+    @Override public void setAnnoyingTarget(Entity target) { annoyingTarget = target; }
+
+    @Override public Entity getRangedTarget() { return rangedTarget; }
+    @Override public void setRangedTarget(Entity target) { rangedTarget = target; }
+
+    @Override public Entity getCurrentTarget() { return currentTarget; }
+    @Override public void setCurrentTarget(Entity target) { currentTarget = target; }
+
+    @Override
+    public void attackRecord() {
+        MobUtil.sendOwnerMsgs(this, Component.literal("test attack record"));
+    }
+
+    @Override
+    public void hurtRecord(Entity target) {
+        MobUtil.sendOwnerMsgs(this, Component.literal("test hurt record"));
+    }
+
+    @Override
+    public void movement() {
+        if (getCurrentTarget() != null) {
+            Entity target = getCurrentTarget();
+
+            double distToStop = Mth.square(2);
+
+            if (distanceTo(target) > distToStop) {
+                getNavigation().moveTo(target, 1);
+            }
+        }
+    }
+
+    @Override
+    public void postAttack() {
+        setAttackCooldown(60);
+    }
+
+    @Override
+    public void performAttack() {
+        if (!isChassisBroken()) {
+//            if (isAttacking() && attackAnimTimeout <= 0 && getAoeTimer() > 10) {
+//                if (getAttackType() == 1) {
+//                    setAttackType(0);
+//                } else setAttackType(1);
+//                attackAnimTimeout = getArmor().getItem() instanceof SteelGolemUpgradeItem upgradeItem && upgradeItem.isFastAttack() ? 10 : 20;
+//                sendAnimEvent(8);
+//                normalJap();
+//                golemAttackAnim.stop();
+//                golemAttackAnim.start(tickCount);
+//            } else {
+//                --attackAnimTimeout;
+//            }
+//
+//            if (isAoeAttacking() && aoeAttackAnimTimeout <= 0 && getAoeTimer() <= 0) {
+//                setAttackType(2);
+//                aoeAttackAnimTimeout = 35;
+//                golemAttackAnim.stop();
+//                upswingAttackAnimationState.stop();
+//                upswingAttackAnimationState.start(tickCount);
+//            } else {
+//                --aoeAttackAnimTimeout;
+//            }
+            setAttackCooldown(Math.max(0, getAttackCooldown() -1));
+            if (getAttackCooldown() <= 0) normalJap();
+//            if ((float) golemAttackAnim.getAccumulatedTime() > 333F) broadcastCustomEntityEvent();
+            if ((float) golemAttackAnim.getAccumulatedTime() > 333F) broadcastCustomEntityEvent();
+        }
+    }
+
+//    public void normalJap() {
+//        Vec3 target = getEyePosition().add(Vec3.directionFromRotation(getXRot(), yHeadRot)/*.scale(0.5)*/);
+//        Vec3 source = getEyePosition();
+//        Vec3 offsetToTarget = target.subtract(source);
+//        Vec3 normalized = offsetToTarget.normalize();
+//        Set<Entity> hitSet = new HashSet<>();
+//
+//        for(int particleIndex = 1; particleIndex < Mth.floor(offsetToTarget.length()) + 2; ++particleIndex) {
+//            Vec3 particle = source.add(normalized.scale(particleIndex));
+//            KnockbackUtil knockbackUtil = KnockbackUtil.knockbackUtil(level(), this, particle.x, particle.y, particle.z, 1);
+//
+//            hitSet.addAll(level().getEntitiesOfClass(LivingEntity.class, new AABB(new BlockPos((int) particle.x, (int) particle.y, (int) particle.z))
+//                    .inflate(2), e -> MobUtil.can(this, e)
+//            ));
+//            knockbackUtil.knockback();
+//        }
+//        hitSet.remove(this);
+//        for(Entity hitTarget : hitSet) {
+//            if (hitTarget instanceof LivingEntity living) {
+////                MobUtil.hurt(living, attacker.damageSources().sonicBoom(attacker), (float) UniqueItemConfig.diarkriteChargeBladeSonicDamage * chargeAmount, 0);
+////                doHurtTarget(hitTarget);
+//                if (doHurtTarget(hitTarget)) hurtRecord(hitTarget);
+//            }
+//        }
+//        broadcastAnimEvent(8, false);
+//        setAttackCooldown(60);
+//    }
+    public void normalJap() {
+        Set<Entity> hitSet = aoeSet(this, getXRot(), getYRot(), 1, e -> MobUtil.isSeenAsEnemy(this, e));
+
+        hitSet.remove(this);
+        for(Entity hitTarget : hitSet) {
+            if (hitTarget instanceof LivingEntity) {
+                if (doHurtTarget(hitTarget)) hurtRecord(hitTarget);
+            }
+        }
+        broadcastAnimEvent(8, false);
+        setAttackCooldown(60);
+    }
+
+    @Override
+    public Properties info() {
+        return new Properties(this).defaultAttackStyle(AttackStyle.STANDARD).attackSpeed(0);
     }
 }

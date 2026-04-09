@@ -4,7 +4,7 @@
     "tag": "forge:ingots/anthektite"
   },
   "base": {
-    "item": "elementus:steel_shovel"
+    "item": "elementus:astalite_shovel"
   },
   "result": {
     "item": "elementus:anthektite_shovel"

@@ -6,10 +6,10 @@
       "item": "elementus:steel_block"
     },
     "/": {
-      "item": "elementus:steel_ingot"
+      "item": "elementus:astalite_ingot"
     },
     "@": {
-      "item": "elementus:steel_chestplate"
+      "item": "elementus:astalite_chestplate"
     }
   },
   "pattern": [

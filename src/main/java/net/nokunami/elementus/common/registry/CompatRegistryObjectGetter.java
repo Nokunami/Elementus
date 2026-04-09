@@ -1,5 +1,6 @@
 package net.nokunami.elementus.common.registry;
 
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -12,15 +13,16 @@ import static net.nokunami.elementus.ModChecker.ironsSpellbooksID;
 public class CompatRegistryObjectGetter {
 
 
-    public static class CatalysmItems {
-        private static RegistryObject<Item> getItem(String id) {
-            return RegistryObject.create(modLoc(cataclysmID, id), ForgeRegistries.ITEMS);
-        }
+    public static class Catalysm {
+        private static RegistryObject<Item> getItem(String id) { return RegistryObject.create(modLoc(cataclysmID, id), ForgeRegistries.ITEMS); }
+        private static RegistryObject<SoundEvent> getSound(String id) { return RegistryObject.create(modLoc(cataclysmID, id), ForgeRegistries.SOUND_EVENTS); }
 
         public static final RegistryObject<Item> IGNITIUM_INGOT = getItem("ignitium_ingot");
         public static final RegistryObject<Item> CURSIUM_INGOT = getItem("cursium_ingot");
         public static final RegistryObject<Item> ESSENCE_OF_THE_STORM = getItem("essence_of_the_storm");
+        public static final RegistryObject<Item> VOID_CORE = getItem("void_core");
 
+//        public static final RegistryObject<SoundEvent> BOLT_STRIKE = getSound("bolt_strike");
     }
 
     public static class IronsItemRegistry {
@@ -37,7 +39,7 @@ public class CompatRegistryObjectGetter {
         public static final RegistryObject<Item> EVOCATION_RUNE = getItem("evocation_rune");
         public static final RegistryObject<Item> NATURE_RUNE = getItem("nature_rune");
         public static final RegistryObject<Item> MANA_RUNE = getItem("arcane_rune");
-        public static final RegistryObject<Item> COOLDOWN_RUNE = getItem("cooldown_rune");
+        public static final RegistryObject<Item> RECOVERY_RUNE = getItem("cooldown_rune");
         public static final RegistryObject<Item> PROTECTION_RUNE = getItem("protection_rune");
     }
 

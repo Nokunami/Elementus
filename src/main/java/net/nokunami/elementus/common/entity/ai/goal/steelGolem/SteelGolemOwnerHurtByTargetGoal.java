@@ -24,7 +24,7 @@ public class SteelGolemOwnerHurtByTargetGoal extends TargetGoal {
      * method as well.
      */
     public boolean canUse() {
-        if (this.tameAnimal.isTame() && !this.tameAnimal.isOrderedToSit()) {
+        if (this.tameAnimal.isTamed() && !this.tameAnimal.isOrderedToSit()) {
             LivingEntity livingentity = this.tameAnimal.getOwner();
             if (livingentity == null) {
                 return false;

@@ -11,15 +11,16 @@ import net.nokunami.elementus.common.effect.*;
 import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
 
 public class EMobEffects {
-    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Elementus.MODID);
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Elementus.EID);
 
     public static final RegistryObject<MobEffect> TOTEM_COOLDOWN = EFFECTS.register("totem_cooldown", CatalystTotemExhuastEffect::new);
     public static final RegistryObject<MobEffect> BEACON_POWER = EFFECTS.register("beacon_power", NetherStarEffect::new);
     public static final RegistryObject<MobEffect> WITHERED_BEACON_POWER = EFFECTS.register("withered_beacon_power", WitheredBeaconPower::new);
     public static final RegistryObject<MobEffect> ANTHEKTITE_SWORD_DANCE = EFFECTS.register("sword_dance", SwordDanceEffect::new);
+    public static final RegistryObject<MobEffect> SACRIFICE_PENALTY = EFFECTS.register("sacrifice_penalty", SacrificePenaltyEffect::new);
 
     public static class ISSEffects {
-        public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Elementus.MODID);
+        public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Elementus.EID);
 
         public static final RegistryObject<MobEffect> ADD_ISS_MANA = EFFECTS.register("additional_iss_mana", AdditionalIssManaEffect::new);
 

@@ -12,12 +12,12 @@ import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
-import net.minecraft.world.entity.monster.piglin.PiglinAi;;
 import net.minecraft.world.entity.schedule.Activity;
-import net.minecraft.world.level.GameRules;
 import net.nokunami.elementus.common.entity.living.PiglinGuardsman;
 
 import java.util.Optional;
+
+;
 
 public class PiglinGuardsmanAi {
     private static final int ANGER_DURATION = 600;

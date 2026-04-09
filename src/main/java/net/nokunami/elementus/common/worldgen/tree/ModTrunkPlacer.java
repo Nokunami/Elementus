@@ -9,7 +9,7 @@ import net.nokunami.elementus.Elementus;
 
 public class ModTrunkPlacer {
     public static final DeferredRegister<TrunkPlacerType<?>> TRUNK_PLACER = DeferredRegister.create(
-            Registries.TRUNK_PLACER_TYPE, Elementus.MODID);
+            Registries.TRUNK_PLACER_TYPE, Elementus.EID);
 
     public static final RegistryObject<TrunkPlacerType<MovcadiaTrunkPlacer>> MOVCADIA_TRUNK_PLACER = TRUNK_PLACER
             .register("movcadia_trunk_placer", () -> new TrunkPlacerType<>(MovcadiaTrunkPlacer.CODEC));

@@ -1,16 +1,23 @@
 package net.nokunami.elementus.datagen.generators;
 
+import net.minecraft.client.KeyMapping;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.nokunami.elementus.client.EKeyMap;
+import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
 import net.nokunami.elementus.common.registry.*;
+import net.nokunami.elementus.common.registry.tempCompat.CompatCoreRegistry.*;
 
 import java.util.function.Supplier;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
+import static net.nokunami.elementus.ModChecker.*;
+import static net.nokunami.elementus.datagen.generators.ESoundGen.getSub;
 
 public class ELangGen extends LanguageProvider {
-    public static String itemPrefix = "item." + MODID + ".";
+    public static String itemPrefix = "item." + EID + ".";
+    public static String enchantPrefix = "enchantment." + EID + ".";
 
     public ELangGen(PackOutput output, String modid, String locale) {
         super(output, modid, locale);
@@ -23,6 +30,7 @@ public class ELangGen extends LanguageProvider {
         blockTL();
         guiTL();
         enchantmentTL();
+        specialEnchantmentDescTL();
         advancements();
         miscTL();
         effectsTL();
@@ -31,13 +39,14 @@ public class ELangGen extends LanguageProvider {
         damageTL();
         configTL();
         catalystTL();
+        keyMap();
     }
 
     void itemTranslations() {
-        addItem(EItems.CRUDE_STEEL, "Crude Steel");
-        addItem(EItems.STEEL_SCRAP, "Steel Scrap");
-        addItem(EItems.STEEL_INGOT, "Steel Ingot");
-        addItem(EItems.STEEL_NUGGET, "Steel Nugget");
+        addItem(EItems.CRUDE_STEEL, "Crude Astalite");
+        addItem(EItems.ASTALITE_SCRAP, "Astalite Scrap");
+        addItem(EItems.ASTALITE_INGOT, "Astalite Ingot");
+        addItem(EItems.ASTALITE_NUGGET, "Astalite Nugget");
         addItem(EItems.ATELIS_SCRAP, "Atelis Scrap");
         addItem(EItems.DIARKRITE_INGOT, "Diarkrite Ingot");
         addItem(EItems.ANTHEKTITE_INGOT, "Anthektite Ingot");
@@ -45,14 +54,16 @@ public class ELangGen extends LanguageProvider {
         addItem(EItems.MOVCADIA_BERRIES, "Movcadia Berries");
         addItem(EItems.GLISTERING_MOVCADIA_BERRIES, "Glistering Movcadia Berries");
 
+        addItem(EItems.MOVCADIA_ESSENCE, "Movcadia Essence");
+
         addItem(EItems.ASTALITE_GOLEM_SPAWN_EGG, "Astalite Golem Spawn Egg");
         addItem(EItems.STEEL_GOLEM_SPAWN_EGG, "Steel Golem Spawn Egg");
 
-        addItem(EItems.STEEL_SWORD, "Steel Sword");
-        addItem(EItems.STEEL_SHOVEL, "Steel Shovel");
-        addItem(EItems.STEEL_PICKAXE, "Steel Pickaxe");
-        addItem(EItems.STEEL_AXE, "Steel Axe");
-        addItem(EItems.STEEL_HOE, "Steel Hoe");
+        addItem(EItems.ASTALITE_SWORD, "Astalite Sword");
+        addItem(EItems.ASTALITE_SHOVEL, "Astalite Shovel");
+        addItem(EItems.ASTALITE_PICKAXE, "Astalite Pickaxe");
+        addItem(EItems.ASTALITE_AXE, "Astalite Axe");
+        addItem(EItems.ASTALITE_HOE, "Astalite Hoe");
         addItem(EItems.DIARKRITE_SWORD, "Diarkrite Sword");
         addItem(EItems.DIARKRITE_SHOVEL, "Diarkrite Shovel");
         addItem(EItems.DIARKRITE_PICKAXE, "Diarkrite Pickaxe");
@@ -69,22 +80,22 @@ public class ELangGen extends LanguageProvider {
         addItem(EItems.MOVCADIA_AXE, "Movcadia Axe");
         addItem(EItems.MOVCADIA_HOE, "Movcadia Hoe");
 
-        addItem(EItems.DIARKRITE_CHARGE_BLADE, "Diarkrite Charge Blade");
-        addItem(EItems.ANTHEKTITE_CHARGE_BLADE, "Anthektite Charge Blade");
+        addItem(EItems.DIARKRITE_CHARGE_BLADE, "Blade of Resonance");
+        addItem(EItems.ANTHEKTITE_CHARGE_BLADE, "Blade of Wind Charging");
         addItem(EItems.WRATH_TRIDENT, "Wrath of The Sea");
 
-        addItem(EItems.STEEL_SHIELD, "Steel Shield");
+        addItem(EItems.ASTALITE_SHIELD, "Astalite Shield");
         addItem(EItems.DIARKRITE_SHIELD, "Diarkrite Shield");
         addItem(EItems.ANTHEKTITE_SHIELD, "Anthektite Shield");
 
-        addItem(EItems.STEEL_BOW, "Steel Bow");
+        addItem(EItems.ASTALITE_BOW, "Astalite Bow");
         addItem(EItems.DIARKRITE_BOW, "Diarkrite Bow");
         addItem(EItems.ANTHEKTITE_BOW, "Anthektite Bow");
 
-        addItem(EItems.STEEL_HELMET, "Steel Helmet");
-        addItem(EItems.STEEL_CHESTPLATE, "Steel Chestplate");
-        addItem(EItems.STEEL_LEGGINGS, "Steel Leggings");
-        addItem(EItems.STEEL_BOOTS, "Steel Boots");
+        addItem(EItems.ASTALITE_HELMET, "Astalite Helmet");
+        addItem(EItems.ASTALITE_CHESTPLATE, "Astalite Chestplate");
+        addItem(EItems.ASTALITE_LEGGINGS, "Astalite Leggings");
+        addItem(EItems.ASTALITE_BOOTS, "Astalite Boots");
         addItem(EItems.DIARKRITE_HELMET, "Diarkrite Helmet");
         addItem(EItems.DIARKRITE_CHESTPLATE, "Diarkrite Chestplate");
         addItem(EItems.DIARKRITE_LEGGINGS, "Diarkrite Leggings");
@@ -95,7 +106,7 @@ public class ELangGen extends LanguageProvider {
         addItem(EItems.ANTHEKTITE_BOOTS, "Anthektite Boots");
 
         addItem(EItems.CATALYST_CHESTPLATE, "Catalyst Chestplate");
-        addItem(EItems.TEST_CATALYST_CHESTPLATE, "Test Catalyst Chestplate");
+//        addItem(EItems.TEST_CATALYST_CHESTPLATE, "Test Catalyst Chestplate");
 
         addItem(EItems.REINFORCED_PLATING_GOLEM_UPGRADE, "Golem Upgrade");
 
@@ -113,7 +124,10 @@ public class ELangGen extends LanguageProvider {
         add(itemPrefix + "diarkrite_pickaxe.desc", "Mines hard blocks faster.");
         add(itemPrefix + "catalyst_core.desc", "Can be used as Catalyst Core.");
 
-        add(itemPrefix + "catalyst_chestplate.elytra_equipped", "Elytra Equipped!");
+        add(itemPrefix + "catalyst_chestplate.elytra_equipped", "Elytra equipped.");
+        add(itemPrefix + "catalyst_chestplate.trim_diabled", "Trim disabled.");
+        add(itemPrefix + "catalyst_chestplate.trim_enabled", "Trim visible.");
+        add(itemPrefix + "catalyst_chestplate.show_more", "Press shift for info.");
         add(itemPrefix + "catalyst_chestplate.core_equipped_legacy", "Catalyst Core NBT tag has change, please remove core!");
         add(itemPrefix + "catalyst_chestplate.elytra_equipped_legacy", "Elytra NBT tag has change, please remove elytra!");
 
@@ -123,22 +137,19 @@ public class ELangGen extends LanguageProvider {
         add(itemPrefix + "diarkrite_charge_blade.cursed_damage_desc", "Current Charge: %s + 25% of Max Health");
         add(itemPrefix + "diarkrite_charge_blade.damage_desc", "Damage: ");
         add(itemPrefix + "diarkrite_charge_blade.damage_ratio_shift_desc", "Current Burst Damage: %s");
-        add(itemPrefix + "diarkrite_charge_blade.damage_bonus_sacrifice", "+%s%% Damage from ");
-        add(itemPrefix + "diarkrite_charge_blade.self_sacrifice_damage", "-%s%% Health from ");
-        add(itemPrefix + "diarkrite_charge_blade.charge_penalty_condensed_burst", "+%s%% Charge Penalty from ");
-        add(itemPrefix + "diarkrite_charge_blade.multi_charge", "+%s%% Bonus Charge from ");
+
         add(itemPrefix + "movcadia_tool.desc", "Tool degrades with use.");
     }
     void blockTL() {
-        addBlock(EBlocks.STEEL_BLOCK, "Block of Steel");
+        addBlock(EBlocks.ASTALITE_BLOCK, "Block of Astalite");
         addBlock(EBlocks.DIARKRITE_BLOCK, "Block of Diarkrite");
         addBlock(EBlocks.ANTHEKTITE_BLOCK, "Block of Anthektite");
         addBlock(EBlocks.REMNANT, "Remnant");
 
-        addBlock(EBlocks.STEEL_BARS, "Steel Bars");
-        addBlock(EBlocks.STEEL_TILES, "Steel Tiles");
-        addBlock(EBlocks.STEEL_TILE_STAIR, "Steel Tile Stair");
-        addBlock(EBlocks.STEEL_TILE_SLAB, "Steel Tile Slab");
+        addBlock(EBlocks.STEEL_BARS, "Astalite Bars");
+        addBlock(EBlocks.STEEL_TILES, "Astalite Tiles");
+        addBlock(EBlocks.STEEL_TILE_STAIR, "Astalite Tile Stair");
+        addBlock(EBlocks.STEEL_TILE_SLAB, "Astalite Tile Slab");
 
         addBlock(EBlocks.MOVCADIA_SAPLING, "Movcadia Sapling");
 
@@ -194,6 +205,13 @@ public class ELangGen extends LanguageProvider {
         enchantTL(EEnchantments.CHARGE_STACKING, "Charge Stacking", "Adds additional charge stacks.");
         enchantTL(EEnchantments.PULSE_BURST, "Pulse Burst", "Burst from Charge blade turns into a pulsing projectile.");
     }
+    void specialEnchantmentDescTL() {
+        enchantSpecialDescTL(EEnchantments.SACRIFICE_CURSE, "bonus_desc", "+%s%% Damage from %s");
+        enchantSpecialDescTL(EEnchantments.SACRIFICE_CURSE, "penalty_desc", "-%s%% Health from %s");
+        enchantSpecialDescTL(EEnchantments.CONDENSED_BURST, "penalty_desc", "+%s%% Charge Penalty from %s");
+        enchantSpecialDescTL(EEnchantments.CHARGE_STACKING, "bonus_1_desc", "+%s%% Bonus Charge from %s");
+        enchantSpecialDescTL(EEnchantments.CHARGE_STACKING, "bonus_2_desc", "-%s%% Cooldown from %s");
+    }
     void advancements() {
         add("advancements.story.smelt_steel.title", "But Steel's heavier than feathers!");
         add("advancements.story.smelt_steel.description", "Obtain Steel Ingot.");
@@ -209,11 +227,11 @@ public class ELangGen extends LanguageProvider {
         add("advancements.story.mine_astalite.description", "Discover the origin of astalite, so that's why it's warm.");
     }
     void miscTL() {
-        add("trim_material.elementus.steel", "Steel Material");
+        add("trim_material.elementus.steel", "Astalite Material");
         add("trim_material.elementus.diarkrite", "Diarkrite Material");
         add("trim_material.elementus.anthektite", "Anthektite Material");
 
-        add("tag.item.elementus.steel_recyclable", "Steel Recyclable");
+        add("tag.item.elementus.steel_recyclable", "Astalite Recyclable");
         add("tag.item.elementus.movcadia_logs", "Movcadia Logs");
         add("tag.item.elementus.catalyst.items", "Catalyst Cores");
         add("entity.elementus.steel_golem_down", "Steel Golem powered down, Current Chassis Health: %s");
@@ -222,45 +240,54 @@ public class ELangGen extends LanguageProvider {
         addEffect(EMobEffects.BEACON_POWER, "Beacon Power");
         addEffect(EMobEffects.TOTEM_COOLDOWN, "Catalyst Totem Exhaustion");
         addEffect(EMobEffects.WITHERED_BEACON_POWER, "Withered Beacon Power");
+        addEffect(EMobEffects.SACRIFICE_PENALTY, "Sacrifice Penalty");
     }
     void entityTL() {
-        addEntityType(ModEntityType.MOVCADIA_BOAT, "Movcadia Boat");
-        addEntityType(ModEntityType.MOVCADIA_CHEST_BOAT, "Movcadia Boat with Chest");
-        addEntityType(ModEntityType.ASTALITE_GOLEM, "Astalite Golem");
-        addEntityType(ModEntityType.OLD_STEEL_GOLEM, "Steel Golem");
+        addEntityType(EEntityTypes.MOVCADIA_BOAT, "Movcadia Boat");
+        addEntityType(EEntityTypes.MOVCADIA_CHEST_BOAT, "Movcadia Boat with Chest");
+        addEntityType(EEntityTypes.OLD_STEEL_GOLEM, "Steel Golem");
+        addEntityType(EEntityTypes.ASTALITE_GOLEM_CARRIER, "Astalite Golem");
+        addEntityType(EEntityTypes.ASTALITE_GOLEM_LONGARM, "Astalite Golem Longarm");
 //        addEntityType(ModEntityType.DIARKRITE_GOLEM, "Diarkrite Golem");
 //        addEntityType(ModEntityType.ANTHEKTITE_GOLEM, "Anthektite Golem");
-        addEntityType(ModEntityType.ANTHEKTITE_SLASH, "Wind Slash");
-        addEntityType(ModEntityType.PULSE_BURST, "Pulse Burst");
-        addEntityType(ModEntityType.RUSH_PROJECTILE, "Rush");
-        addEntityType(ModEntityType.SWORD_DANCE_SLASH, "Slash");
-        addEntityType(ModEntityType.WRATH_TRIDENT, "Wrath of The Sea");
+        addEntityType(EEntityTypes.ANTHEKTITE_SLASH, "Wind Slash");
+        addEntityType(EEntityTypes.PULSE_BURST, "Pulse Burst");
+        addEntityType(EEntityTypes.RUSH_PROJECTILE, "Rush");
+        addEntityType(EEntityTypes.SWORD_DANCE_SLASH, "Slash");
+        addEntityType(EEntityTypes.WRATH_TRIDENT, "Wrath of The Sea");
     }
     void subtitlesTL() {
-        addSub("item.catalyst_armor_activation", "Catalyst armor activates");
-        addSub("item.catalyst_armor_deactivation", "Catalyst armor deactivates");
-        addSub("item.diarkrite_shield_block", "Heavy shield block");
-        addSub("item.anthektite_shield_block", "Heavy shield block");
+        add(getSub(ESounds.CATALYST_ARMOR_ACTIVATE), "Catalyst armor activates");
+        add(getSub(ESounds.CATALYST_ARMOR_DEACTIVATE), "Catalyst armor deactivates");
 
-        addSub("item.charge_blade.block", "Sword blocks");
-        addSub("item.charge_blade.parry", "Sword parries");
-        addSub("item.diarkrite_charge_blade.burst", "Sonic burst");
-        addSub("item.diarkrite_charge_blade.burst_cursed", "Sonic burst");
-        addSub("item.diarkrite_charge_blade.condensed_burst", "Condensed burst");
-        addSub("item.diarkrite_charge_blade.condensed_burst_cursed", "Condensed burst");
-        addSub("item.anthektite_charge_blade.wind_slash", "Wind slash");
-        addSub("item.anthektite_charge_blade.cleave", "Cleave");
-        addSub("item.anthektite_charge_blade.rush", "Rush");
+        add(getSub(ESounds.DIARKRITE_SHIELD_BLOCK), "Heavy shield block");
+        add(getSub(ESounds.ANTHEKTITE_SHIELD_BLOCK), "Shield block");
 
-        addSub("entity.steel_golem.repair", "Steel Golem repaired");
-        addSub("entity.steel_golem.down", "Steel Golem breaks down");
-        addSub("entity.steel_golem.death", "Steel Golem dies");
-        addSub("entity.steel_golem.revive", "Steel Golem rises");
-        addSub("entity.steel_golem.saddled", "Steel Golem saddled");
-        addSub("entity.steel_golem.chested", "Steel Golem chested");
-        addSub("entity.steel_golem.armored", "Steel Golem armored");
-        addSub("entity.steel_golem.leave_swag", "Steel Golem camouflaged");
-        addSub("entity.steel_golem.carpet_swag", "Steel Golem dripped out");
+        add(getSub(ESounds.CHARGE_BLADE_BLOCK), "Sword impact");
+        add(getSub(ESounds.CHARGE_BLADE_PARRY), "Sword parries");
+
+        add(getSub(ESounds.BOR_BURST), "Sonic burst");
+        add(getSub(ESounds.BOR_BURST_CURSED), "Sonic burst");
+        add(getSub(ESounds.BOR_CONDENSED_BURST), "Condensed burst");
+        add(getSub(ESounds.BOR_CONDENSED_BURST_CURSED), "Condensed burst");
+
+        add(getSub(ESounds.BOSW_WIND_SLASH), "Wind slash");
+        add(getSub(ESounds.BOSW_CLEAVE), "Cleave");
+        add(getSub(ESounds.BOSW_RUSH), "Rush");
+
+        add(getSub(ESounds.STEEL_GOLEM_REPAIR), "Golem repaired");
+        add(getSub(ESounds.STEEL_GOLEM_DOWN), "Golem breaks down");
+        add(getSub(ESounds.STEEL_GOLEM_DEATH), "Golem dies");
+        add(getSub(ESounds.STEEL_GOLEM_REVIVE), "Golem rises");
+
+        add(getSub(ESounds.STEEL_GOLEM_SADDLED), "Golem saddled");
+        add(getSub(ESounds.STEEL_GOLEM_CHESTED), "Golem chested");
+        add(getSub(ESounds.STEEL_GOLEM_ARMORED), "Golem armored");
+        add(getSub(ESounds.STEEL_GOLEM_LEAVES_SWAG), "Golem camouflaged");
+        add(getSub(ESounds.STEEL_GOLEM_CARPET_SWAG), "Golem dripped out");
+
+        add(getSub(ESounds.ARMOR_EQUIP_DIARKRITE), "Diarkrite armor clangs");
+        add(getSub(ESounds.ARMOR_EQUIP_ANTHEKTITE), "Anthektite armor clangs");
     }
     void damageTL() {
         add("death.attack.elementus.sacrificial", "%1$s sacrificed too much");
@@ -278,56 +305,82 @@ public class ELangGen extends LanguageProvider {
         addConfig("arcaneSharpnessIncompatibility.desc", "Arcane Sharpness Enchantment Compatibility.");
     }
     void catalystTL() {
-        addCore("beacon_power.title", "Beacon Power");
-        addCore("beacon_power.desc", "Power of a Beacon, but mobile.");
-        addCore("heart_of_the_sea.title", "Heart of the Sea");
-        addCore("heart_of_the_sea.desc", "Conduit Power on the go.");
-        addCore("totem_of_undying.title", "Totem of Undying");
-        addCore("totem_of_undying.desc", "A second chance after death.");
+        add("catalyst_ability.elementus.cooldown", "%s is on cooldown");
 
-        addCore("ignitium.title", "Inferno Reflex");
-        addCore("ignitium.desc", "A fraction of Ingis' power.");
-        addCore("ignitium.desc_1", "| Randomly sets attackers on fire and apply Blazing Brand.");
-        addCore("ignitium.desc_2", "| Immunity to Blazing Brand.");
-        addCore("cursium.title", "Cursed");
-        addCore("cursium.desc", "Cursed with undeath.");
-        addCore("cursium.desc_1", "| Revives upon death.");
-        addCore("cursium.desc_2", "| Chance to dodge attacks, chances increase if it's a projectile.");
-        addCore("essence_of_sea.title", "Essence of Sea");
-        addCore("essence_of_sea.desc", "Work In Progress.");
+        addCore(CatalystCoreRegistry.BEACON_POWER, "Beacon Power");
+        addCoreDesc(CatalystCoreRegistry.BEACON_POWER, "Power of a Beacon, but mobile.");
+        addCore(CatalystCoreRegistry.HEART_OF_THE_SEA, "Heart of the Sea");
+        addCoreDesc(CatalystCoreRegistry.HEART_OF_THE_SEA, "Conduit Power on the go.");
+        addCore(CatalystCoreRegistry.TOTEM_OF_UNDYING, "Totem of Undying");
+        addCoreDesc(CatalystCoreRegistry.TOTEM_OF_UNDYING, "A second chance after death.");
+        addCore(CatalystCoreRegistry.END_SHIFTER, "End Shifter");
+        addCoreDesc(CatalystCoreRegistry.END_SHIFTER, "Your location in space shifts constantly.");
+        addCore(CatalystCoreRegistry.WAYFINDER, "Wayfinder");
+        addCoreDesc(CatalystCoreRegistry.WAYFINDER, "The lodestone.");
 
-        addCore("arcane_ingot.title", "Arcane Ingot (deprecated)");
-        addCore("arcane_ingot.desc", "Arcane Imbuement");
-        addCore("fire_irons_spellbooks.title", "Fire Arcane Power");
-        addCore("fire_irons_spellbooks.desc", "Arcane Imbuement of Flames");
-        addCore("ice_irons_spellbooks.title", "Ice Arcane Power");
-        addCore("ice_irons_spellbooks.desc", "Arcane Imbuement of Ice");
-        addCore("ender_irons_spellbooks.title", "Ender Arcane Power");
-        addCore("ender_irons_spellbooks.desc", "Arcane Imbuement of Ender");
-        addCore("lightning_irons_spellbooks.title", "Lightning Arcane Power");
-        addCore("lightning_irons_spellbooks.desc", "Arcane Imbuement of Lightning");
-        addCore("blood_irons_spellbooks.title", "Blood Arcane Power");
-        addCore("blood_irons_spellbooks.desc", "Arcane Imbuement of Blood");
-        addCore("holy_irons_spellbooks.title", "Holy Arcane Power");
-        addCore("holy_irons_spellbooks.desc", "Arcane Imbuement of Holy Light");
-        addCore("evocation_irons_spellbooks.title", "Evocation Arcane Power");
-        addCore("evocation_irons_spellbooks.desc", "Arcane Imbuement of Evocation");
-        addCore("nature_irons_spellbooks.title", "Nature Arcane Power");
-        addCore("nature_irons_spellbooks.desc", "Arcane Imbuement of Nature");
-        addCore("mana_irons_spellbooks.title", "Condensed Arcane Power");
-        addCore("mana_irons_spellbooks.desc", "Arcane Imbuement of Overflowing Mana");
-        addCore("cooldown_irons_spellbooks.title", "Swift Arcane Power");
-        addCore("cooldown_irons_spellbooks.desc", "Arcane Imbuement of Swiftness");
-        addCore("protection_irons_spellbooks.title", "Protective Arcane Power");
-        addCore("protection_irons_spellbooks.desc", "Arcane Imbuement of Protection");
+        if (cataclysm) {
+            addCore(CataclysmCores.IGNITIUM, "Inferno Reflex");
+            addCoreDesc(CataclysmCores.IGNITIUM, "A fraction of Ingis' power.");
+            addCoreDesc(CataclysmCores.IGNITIUM, ".desc_1", "| Randomly sets attackers on fire and apply Blazing Brand.");
+            addCoreDesc(CataclysmCores.IGNITIUM, ".desc_2", "| Immunity to Blazing Brand.");
+            addCore(CataclysmCores.CURSIUM_WARRIOR, "Cursed Worrier");
+            addCoreDesc(CataclysmCores.CURSIUM_WARRIOR, "Cursed with undeath.");
+            addCoreDesc(CataclysmCores.CURSIUM_WARRIOR, ".desc_1", "| Revives upon death.");
+            addCoreDesc(CataclysmCores.CURSIUM_WARRIOR, ".desc_2", "| Chance to dodge attacks, chances increase if it's a projectile.");
+            addCore(CataclysmCores.ESSENCE_OF_THE_STORM, "Essence of The Storm");
+            addCoreDesc(CataclysmCores.ESSENCE_OF_THE_STORM, "Work In Progress.");
+        }
 
-        addCore("withered_beacon_power.title", "Corrupted Beacon Power");
-        addCore("withered_beacon_power.desc", "The shadow of The World Eater");
+        if (ironsSpellbooks) {
+            addCore(IronsSpellbooksCores.ISS_FIRE, "Fire Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_FIRE, "Arcane Imbuement of Flames.");
+            addCore(IronsSpellbooksCores.ISS_ICE, "Ice Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_ICE, "Arcane Imbuement of Ice.");
+            addCore(IronsSpellbooksCores.ISS_ENDER, "Ender Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_ENDER, "Arcane Imbuement of Ender.");
+            addCore(IronsSpellbooksCores.ISS_LIGHTNING, "Lightning Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_LIGHTNING, "Arcane Imbuement of Lightning.");
+            addCore(IronsSpellbooksCores.ISS_BLOOD, "Blood Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_BLOOD, "Arcane Imbuement of Blood.");
+            addCore(IronsSpellbooksCores.ISS_HOLY, "Holy Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_HOLY, "Arcane Imbuement of Holy Light.");
+            addCore(IronsSpellbooksCores.ISS_EVOCATION, "Evocation Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_EVOCATION, "Arcane Imbuement of Evocation.");
+            addCore(IronsSpellbooksCores.ISS_NATURE, "Nature Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_NATURE, "Arcane Imbuement of Nature.");
+            addCore(IronsSpellbooksCores.ISS_ARCANE, "Condensed Arcane Power");
+            addCoreDesc(IronsSpellbooksCores.ISS_ARCANE, "Arcane Imbuement of Overflowing Mana.");
+            addCore(IronsSpellbooksCores.ISS_COOLDOWN, "Arcane Recovery");
+            addCoreDesc(IronsSpellbooksCores.ISS_COOLDOWN, "Arcane Imbuement of Recovery.");
+            addCore(IronsSpellbooksCores.ISS_PROTECTION, "Arcane Protection");
+            addCoreDesc(IronsSpellbooksCores.ISS_PROTECTION, "Arcane Imbuement of Protection.");
+        }
+
+        if (witherStormMod) {
+            addCore(WitherstormModCores.WITHERED_BEACON_POWER, "Corrupted Beacon Power");
+            addCoreDesc(WitherstormModCores.WITHERED_BEACON_POWER, "The shadow of The World Eater. (WIP)");
+        }
+
+        if (friendsandfoes) {
+            addCore(FriendsAndFoesCores.FREEZE, "Totem of Freezing");
+            addCoreDesc(FriendsAndFoesCores.FREEZE, "Freezing.");
+            addCore(FriendsAndFoesCores.ILLUSION, "Totem of Illusion");
+            addCoreDesc(FriendsAndFoesCores.ILLUSION, "Illusions.");
+        }
+    }
+
+    void keyMap() {
+        addKey(EKeyMap.CATALYST_ABILITY_KEY, "Catalyst Ability");
+        addKey(EKeyMap.CATALYST_ABILITY_SWITCH_KEY, "Ability Selection");
     }
 
     public void enchantTL(Supplier<? extends Enchantment> key, String name, String desc) {
         addEnchantment(key, name);
-        add(key.get() + ".desc", desc);
+        add(key.get().getDescriptionId() + ".desc", desc);
+    }
+
+    public void enchantSpecialDescTL(Supplier<? extends Enchantment> key, String id, String desc) {
+        add(key.get().getDescriptionId() + "." + id, desc);
     }
     
     public void addSub(String id, String translation) {
@@ -338,11 +391,28 @@ public class ELangGen extends LanguageProvider {
         addCustom("config", id, translation);
     }
     
-    public void addCore(String id, String translation) {
+    public void addCoreDesc(String id, String translation) {
         addCustom("catalyst_core", id, translation);
     }
     
     public void addCustom(String prefix, String id, String translation) {
-        add(prefix + "." + MODID + "." + id, translation);
+        add(prefix + "." + EID + "." + id, translation);
+    }
+
+    public void addKey(KeyMapping key, String translation) {
+        add(key.getName(), translation);
+    }
+
+    public void addCore(Supplier<CatalystCore> key, String name) {
+        add(key.get().getDescriptionId(), name);
+    }
+    public void addCore(Supplier<CatalystCore> key, String name, boolean condition) {
+        if (condition) addCore(key, name);
+    }
+    public void addCoreDesc(Supplier<CatalystCore> key, String name) {
+        add(key.get().getDescriptionId() + ".desc", name);
+    }
+    public void addCoreDesc(Supplier<CatalystCore> key, String suffix, String name) {
+        add(key.get().getDescriptionId() + suffix, name);
     }
 }

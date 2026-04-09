@@ -1,8 +1,7 @@
 {
   "values": [
-    "elementus:steel_chestplate",
+    "elementus:astalite_chestplate",
     "elementus:diarkrite_chestplate",
-    "elementus:anthektite_chestplate",
-    "elementus:test_catalyst_chestplate"
+    "elementus:anthektite_chestplate"
   ]
 }

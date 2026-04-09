@@ -11,6 +11,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 import net.nokunami.elementus.common.inventory.AstaliteGolemInventoryMenu;
+import net.nokunami.elementus.common.inventory.SteelGolemInventoryMenu;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -19,7 +20,7 @@ import static net.nokunami.elementus.Elementus.modLoc;
 
 // Code from Cataclysm Ministrosity
 @OnlyIn(Dist.CLIENT)
-public class SteelGolemInventoryScreen extends AbstractContainerScreen<AstaliteGolemInventoryMenu> {
+public class SteelGolemInventoryScreen extends AbstractContainerScreen<SteelGolemInventoryMenu> {
     private static final ResourceLocation RESOURCE_LOCATION = modLoc("textures/gui/container/steel_golem.png");
     private static final Component MISSING_UPGRADE_TOOLTIP = Component.translatable("container.steel_golem.missing_upgrade_tooltip");
     private static final Component MISSING_LEAVES_TOOLTIP = Component.translatable("container.steel_golem.missing_leaves_tooltip");
@@ -28,7 +29,7 @@ public class SteelGolemInventoryScreen extends AbstractContainerScreen<AstaliteG
     private float xMouse;
     private float yMouse;
 
-    public SteelGolemInventoryScreen(AstaliteGolemInventoryMenu inventoryMenu, Inventory inventory, TamableGolem steelGolem) {
+    public SteelGolemInventoryScreen(SteelGolemInventoryMenu inventoryMenu, Inventory inventory, TamableGolem steelGolem) {
         super(inventoryMenu, inventory, steelGolem.getDisplayName());
         this.golem = steelGolem;
         this.inventoryLabelY = this.imageHeight - 75;

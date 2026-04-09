@@ -22,26 +22,18 @@ import javax.annotation.Nullable;
 public interface HumanoidArmorLayerAccessor {
     // Credits to Xaidee of TeamGelena, PssbleTrngle
 
-    @Invoker
-    Model invokeGetArmorModelHook(LivingEntity entity, ItemStack itemStack, EquipmentSlot slot, HumanoidModel<? extends LivingEntity> model);
+    @Invoker Model invokeGetArmorModelHook(LivingEntity entity, ItemStack itemStack, EquipmentSlot slot, HumanoidModel<? extends LivingEntity> model);
 
-    @Invoker
-    void invokeRenderTrim(ArmorMaterial p_289690_, PoseStack p_289687_, MultiBufferSource p_289643_, int p_289683_, ArmorTrim p_289692_, Model p_289663_, boolean p_289651_);
+    @Invoker void invokeRenderTrim(ArmorMaterial material, PoseStack poseStack, MultiBufferSource buffer, int packedLight, ArmorTrim trim, Model model, boolean p_289651_);
 
+    @Invoker void invokeSetPartVisibility(HumanoidModel<? extends LivingEntity> model, EquipmentSlot slot);
 
-    @Invoker
-    void invokeSetPartVisibility(HumanoidModel<? extends LivingEntity> p_117126_, EquipmentSlot p_117127_);
-
-    @Invoker
-    boolean invokeUsesInnerModel(EquipmentSlot p_117129_);
+    @Invoker boolean invokeUsesInnerModel(EquipmentSlot slot);
 
 
-    @Invoker
-    ResourceLocation invokeGetArmorResource(Entity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type);
+    @Invoker ResourceLocation invokeGetArmorResource(Entity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type);
 
-    @Invoker
-    void invokeRenderModel(PoseStack p_289664_, MultiBufferSource p_289689_, int p_289681_, ArmorItem p_289650_, Model p_289658_, boolean p_289668_, float p_289678_, float p_289674_, float p_289693_, ResourceLocation armorResource);
+    @Invoker void invokeRenderModel(PoseStack poseStack, MultiBufferSource buffer, int packedLight, ArmorItem armorItem, Model model, boolean innerModel, float red, float green, float blue, ResourceLocation armorResource);
 
-    @Invoker
-    void invokeRenderGlint(PoseStack p_289673_, MultiBufferSource p_289654_, int p_289649_, Model p_289659_);
+    @Invoker void invokeRenderGlint(PoseStack poseStack, MultiBufferSource buffer, int packedLight, Model model);
 }

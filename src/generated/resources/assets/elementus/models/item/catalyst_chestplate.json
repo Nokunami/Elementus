@@ -2,45 +2,94 @@
   "parent": "minecraft:item/generated",
   "overrides": [
     {
-      "model": "elementus:item/catalyst_chestplate_nether_star",
+      "model": "elementus:item/catalyst_chestplate_quartz_trim",
       "predicate": {
-        "elementus:catalyst": 0.11
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.1
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_ignitium_ingot",
+      "model": "elementus:item/catalyst_chestplate_iron_trim",
       "predicate": {
-        "elementus:catalyst": 0.12
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.2
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_arcane_ingot",
+      "model": "elementus:item/catalyst_chestplate_netherite_trim",
       "predicate": {
-        "elementus:catalyst": 0.13
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.3
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_heart_of_the_sea",
+      "model": "elementus:item/catalyst_chestplate_redstone_trim",
       "predicate": {
-        "elementus:catalyst": 0.14
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.4
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_totem_of_undying",
+      "model": "elementus:item/catalyst_chestplate_copper_trim",
       "predicate": {
-        "elementus:catalyst": 0.15
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.5
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_cursium_ingot",
+      "model": "elementus:item/catalyst_chestplate_gold_trim",
       "predicate": {
-        "elementus:catalyst": 0.16
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.6
       }
     },
     {
-      "model": "elementus:item/catalyst_chestplate_withered_nether_star",
+      "model": "elementus:item/catalyst_chestplate_emerald_trim",
       "predicate": {
-        "elementus:catalyst": 0.17
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.7
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_diamond_trim",
+      "predicate": {
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.8
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_lapis_trim",
+      "predicate": {
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 0.9
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_amethyst_trim",
+      "predicate": {
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 1.0
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_steel_trim",
+      "predicate": {
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 1.1
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_diarkrite_trim",
+      "predicate": {
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 1.2
+      }
+    },
+    {
+      "model": "elementus:item/catalyst_chestplate_anthektite_trim",
+      "predicate": {
+        "elementus:show_trim": 1.0,
+        "minecraft:trim_type": 1.3
       }
     }
   ],

@@ -17,8 +17,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidType;
 import net.nokunami.elementus.common.registry.EBlocks;
+import net.nokunami.elementus.common.registry.EEntityTypes;
 import net.nokunami.elementus.common.registry.EItems;
-import net.nokunami.elementus.common.registry.ModEntityType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.IntFunction;
@@ -31,7 +31,7 @@ public class ModBoatEntity extends Boat {
     }
 
     public ModBoatEntity(Level level, double pX, double pY, double pZ) {
-        this(ModEntityType.MOVCADIA_BOAT.get(), level);
+        this(EEntityTypes.MOVCADIA_BOAT.get(), level);
         this.setPos(pX, pY, pZ);
         this.xo = pX;
         this.yo = pY;

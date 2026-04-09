@@ -4,7 +4,7 @@
     "tag": "forge:ingots/diarkrite"
   },
   "base": {
-    "item": "elementus:steel_shield"
+    "item": "elementus:astalite_shield"
   },
   "result": {
     "item": "elementus:diarkrite_shield"

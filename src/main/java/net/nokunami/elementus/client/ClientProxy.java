@@ -9,24 +9,13 @@ import net.nokunami.elementus.client.render.catalystCore.CatalystArmorRenderProp
 import net.nokunami.elementus.client.render.item.CatalystTrimRenderProperties;
 import net.nokunami.elementus.client.render.item.CustomArmorRenderProperties;
 
+import static net.nokunami.elementus.Elementus.EID;
+
 @OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(modid = Elementus.MODID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = EID, value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
-    public ClientProxy() {
-    }
 
-    @Override
-    public Object getArmorRenderProperties() {
-        return new CustomArmorRenderProperties();
-    }
-
-    @Override
-    public Object getArmorCatalystRenderProperties() {
-        return new CatalystArmorRenderProperties();
-    }
-
-    @Override
-    public Object getArmorCatalystTrimRenderProperties() {
-        return new CatalystTrimRenderProperties();
-    }
+    @Override public Object getArmorRenderProperties() { return new CustomArmorRenderProperties(); }
+    @Override public Object getArmorCatalystRenderProperties() { return new CatalystArmorRenderProperties(); }
+    @Override public Object getArmorCatalystTrimRenderProperties() { return new CatalystTrimRenderProperties(); }
 }

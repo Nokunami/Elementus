@@ -19,7 +19,9 @@ import net.minecraftforge.client.model.generators.loaders.SeparateTransformsMode
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.nokunami.elementus.common.item.unique.TestCatalystArmorItem;
 import net.nokunami.elementus.datagen.ModTrimMaterials;
+import org.objectweb.asm.commons.TableSwitchGenerator;
 
 import java.util.List;
 import java.util.Objects;
@@ -343,11 +345,18 @@ public class ModItemModelProvider extends ItemModelProvider {
                         .texture("layer1", trimResLoc);
 
                 // Non-trimmed armorItem file (normal variant)
-                this.withExistingParent(itemName(item.get()), mcLoc("item/generated"))
-                        .override()
-                        .model(new ModelFile.UncheckedModelFile(trimNameResLoc))
-                        .predicate(mcLoc("trim_type"), (float) trimValue).end()
-                        .texture("layer0", modLoc("item/" + loc + "/" + itemName(item.get())));
+                if (item.get() instanceof TestCatalystArmorItem) {
+                    withExistingParent(itemName(item.get()), mcLoc("item/generated"))
+                            .override().model(new ModelFile.UncheckedModelFile(trimNameResLoc))
+                            .predicate(mcLoc("trim_type"), (float) trimValue)
+                            .predicate(modLoc("show_trim"), 1).end()
+                            .texture("layer0", modLoc("item/" + loc + "/" + itemName(item.get())));
+                } else {
+                    withExistingParent(itemName(item.get()), mcLoc("item/generated"))
+                            .override().model(new ModelFile.UncheckedModelFile(trimNameResLoc))
+                            .predicate(mcLoc("trim_type"), (float) trimValue).end()
+                            .texture("layer0", modLoc("item/" + loc + "/" + itemName(item.get())));
+                }
                 trimValue += 0.1;
             }
         }

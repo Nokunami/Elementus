@@ -11,7 +11,6 @@ import net.nokunami.elementus.client.animation.definitions.SteelGolemAnimation;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemAttackAnimation;
 import net.nokunami.elementus.client.animation.definitions.SteelGolemChestAnimation;
 import net.nokunami.elementus.client.model.ModelUtil;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
@@ -150,12 +149,12 @@ public class SteelGolemModel<T extends SteelGolem> extends HierarchicalModel<T> 
             this.applyStatic(SteelGolemAnimation.crouch);
         }
 
-        this.animate(entity.sitFromStandAnimState, SteelGolemAnimation.sitFromStand, ageInTicks);
-        this.animate(entity.standFromSitAnimState, SteelGolemAnimation.standFromSit, ageInTicks);
+        this.animate(entity.sitAnim, SteelGolemAnimation.sitFromStand, ageInTicks);
+        this.animate(entity.standAnim, SteelGolemAnimation.standFromSit, ageInTicks);
         this.animate(entity.brokenAnim, SteelGolemAnimation.brokenDown, ageInTicks);
         this.animate(entity.repairedAnim, SteelGolemAnimation.repairUp, ageInTicks);
-        this.animate(entity.ridden, SteelGolemAnimation.ridden, ageInTicks);
-        this.animate(entity.unRide, SteelGolemAnimation.unRide, ageInTicks);
+        this.animate(entity.riddenAnim, SteelGolemAnimation.ridden, ageInTicks);
+        this.animate(entity.unRideAnim, SteelGolemAnimation.unRide, ageInTicks);
         if (!entity.isChassisBroken()) {
             if (entity.isVehicle() || entity.isSprinting()) {
                 this.animateWalk(SteelGolemAnimation.walkCycleWhileRidden, limbSwing, limbSwingAmount, walkMaxAnimSpeed, walkAnimScaleFactor);

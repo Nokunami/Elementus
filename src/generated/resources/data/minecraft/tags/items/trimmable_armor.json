@@ -1,9 +1,9 @@
 {
   "values": [
-    "elementus:steel_helmet",
-    "elementus:steel_chestplate",
-    "elementus:steel_leggings",
-    "elementus:steel_boots",
+    "elementus:astalite_helmet",
+    "elementus:astalite_chestplate",
+    "elementus:astalite_leggings",
+    "elementus:astalite_boots",
     "elementus:anthektite_helmet",
     "elementus:anthektite_chestplate",
     "elementus:anthektite_leggings",
@@ -12,6 +12,6 @@
     "elementus:diarkrite_chestplate",
     "elementus:diarkrite_leggings",
     "elementus:diarkrite_boots",
-    "elementus:test_catalyst_chestplate"
+    "elementus:catalyst_chestplate"
   ]
 }

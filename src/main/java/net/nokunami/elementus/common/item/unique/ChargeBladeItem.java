@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
@@ -27,8 +28,12 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
-import net.nokunami.elementus.common.item.EItemUtil;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,11 +42,10 @@ import java.util.Locale;
 import java.util.UUID;
 
 import static net.nokunami.elementus.ModChecker.betterCombat;
-import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeBaseCharge;
-import static net.nokunami.elementus.common.config.UniqueItemConfig.diarkriteChargeBladeChargePenalty;
+import static net.nokunami.elementus.common.item.EItemUtil.enchantedWith;
 import static net.nokunami.elementus.common.registry.EEnchantments.*;
 
-public class ChargeBladeItem extends SwordItem {
+public abstract class ChargeBladeItem extends SwordItem {
     public static final String CHARGE_TAG = "Charge";
     public static final String RESONANCE_CHARGE_TAG = "ResonanceCharge";
     public static final String RESONANCE_TICK_TAG = "ResonanceTick";
@@ -130,7 +134,7 @@ public class ChargeBladeItem extends SwordItem {
 
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
-        if (EItemUtil.enchantedWith(stack, RESONANCE) && getResonanceTick(stack) > 0) {
+        if (enchantedWith(stack, RESONANCE) && getResonanceTick(stack) > 0) {
             setResonanceTick(stack, getResonanceTick(stack) - 1);
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
@@ -162,24 +166,21 @@ public class ChargeBladeItem extends SwordItem {
         return tag != null ? tag.getInt(CHARGE_TAG) : 0;
     }
 
-    public static boolean getChargedState(ItemStack stack) {
-        return getCharge(stack) >= getMaxCharge(stack);
-    }
+    public boolean getChargedState(ItemStack stack) { return getCharge(stack) >= getMaxCharge(stack); }
 
     public static int getMaxCharge(ItemStack stack) {
         int level = EnchantmentHelper.getTagEnchantmentLevel(CHARGE_STACKING.get(), stack);
-        return getChargeStack(stack) * (EItemUtil.enchantedWith(stack, CHARGE_STACKING) ? level + 1 : 1);
+        if (stack.getItem() instanceof ChargeBladeItem item) return item.getChargeStack(stack) * (enchantedWith(stack, CHARGE_STACKING) ? level + 1 : 1);
+        return 0;
     }
 
-    public static int getChargeStack(ItemStack stack) {
-        return EItemUtil.enchantedWith(stack, CONDENSED_BURST) ? diarkriteChargeBladeChargePenalty : diarkriteChargeBladeBaseCharge;
-    }
+    public abstract int getChargeStack(ItemStack stack);
 
-    public static float getChargeAmount(ItemStack stack, boolean b) {
+    public float getChargeAmount(ItemStack stack, boolean b) {
         float i0 = Math.min(getCharge(stack), getChargeStack(stack));
         float i1 = getChargeStack(stack);
         float base = !b ? (i0 / i1) : 1;
-        if (EItemUtil.enchantedWith(stack, SACRIFICE_CURSE)) base += 1.25F;
+        if (enchantedWith(stack, SACRIFICE_CURSE)) base += 1.25F;
         return base;
     }
 
@@ -192,8 +193,9 @@ public class ChargeBladeItem extends SwordItem {
     }
 
     public static void setResonanceCharge(ItemStack stack, int amount) {
-        if (EItemUtil.enchantedWith(stack, RESONANCE)) {
-            stack.getOrCreateTag().putInt(RESONANCE_CHARGE_TAG, (int) Math.min(getResonanceCharge(stack) + amount, getChargeStack(stack) * 1.5));
+        if (enchantedWith(stack, RESONANCE)) {
+            ChargeBladeItem item = (ChargeBladeItem) stack.getItem();
+            stack.getOrCreateTag().putInt(RESONANCE_CHARGE_TAG, (int) Math.min(getResonanceCharge(stack) + amount, item.getChargeStack(stack) * 1.5));
         }
     }
 
@@ -248,19 +250,19 @@ public class ChargeBladeItem extends SwordItem {
 
     @Override
     public boolean isBarVisible(@NotNull ItemStack pStack) {
-        return !EItemUtil.enchantedWith(pStack, CHARGE_STACKING) && getCharge(pStack) > 0;
+        return !enchantedWith(pStack, CHARGE_STACKING) && getCharge(pStack) > 0;
     }
 
     public boolean isMultiBarVisible(@NotNull ItemStack pStack) {
-        return EItemUtil.enchantedWith(pStack, CHARGE_STACKING) && getCharge(pStack) > 0;
+        return enchantedWith(pStack, CHARGE_STACKING) && getCharge(pStack) > 0;
     }
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack stack, LivingEntity target, @NotNull LivingEntity attacker) {
-        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !EItemUtil.enchantedWith(stack, SACRIFICE_CURSE)) {
+        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !enchantedWith(stack, SACRIFICE_CURSE)) {
             setCharge(stack, 1);
             ServerLevel level = (ServerLevel)attacker.level();
-            if (EItemUtil.enchantedWith(stack, RESONANCE) && !getChargedState(stack)) setResonanceCharge(stack, 1);
+            if (enchantedWith(stack, RESONANCE) && !getChargedState(stack)) setResonanceCharge(stack, 1);
             if (!attacker.level().isClientSide && getChargedState(stack)) {
                 level.playSound(null, target, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 0);
             }
@@ -268,7 +270,32 @@ public class ChargeBladeItem extends SwordItem {
         return super.hurtEnemy(stack, target, attacker);
     }
 
-    public boolean canParry() {
-        return false;
+    @Override
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction) && super.canPerformAction(stack, toolAction);
+    }
+
+    public abstract void blockDirectEvent(LivingHurtEvent event, ItemStack stack);
+
+    public abstract void blockProjectileEvent(ProjectileImpactEvent event, ItemStack stack, LivingEntity entity, Projectile projectile, Vec3 vec3);
+
+    public abstract ChargeBladeAbility castAbility(Player player, Level level, ItemStack stack, InteractionHand hand);
+
+    public static class ChargeBladeAbility {
+        int cooldown;
+        boolean stopUsingItem = false;
+
+        public ChargeBladeAbility setCooldown(int cooldown) {
+            this.cooldown = cooldown;
+            return this;
+        }
+
+        public ChargeBladeAbility shouldStopUsingItem(boolean stopUsingItem) {
+            this.stopUsingItem = stopUsingItem;
+            return this;
+        }
+
+        public int getCooldown() { return cooldown; }
+        public boolean stopUsingItem() { return stopUsingItem; }
     }
 }

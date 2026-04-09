@@ -4,11 +4,14 @@
   "key": {
     "#": {
       "item": "elementus:movcadia_planks"
+    },
+    "L": {
+      "item": "elementus:movcadia_log"
     }
   },
   "pattern": [
     "###",
-    "# #",
+    "#L#",
     "###"
   ],
   "result": {

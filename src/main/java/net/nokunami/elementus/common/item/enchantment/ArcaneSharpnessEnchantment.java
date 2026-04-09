@@ -8,14 +8,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.DamageEnchantment;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.EConfig;
+import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 
 public class ArcaneSharpnessEnchantment extends Enchantment {
 
-    public ArcaneSharpnessEnchantment(Rarity pRarity, EnchantmentCategory pCategory, EquipmentSlot... pApplicableSlots) {
-        super(pRarity, pCategory, pApplicableSlots);
+    public static ArcaneSharpnessEnchantment init() {
+        return new ArcaneSharpnessEnchantment(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, EquipmentSlot.MAINHAND);
+    }
+
+    public ArcaneSharpnessEnchantment(Rarity rarity, EnchantmentCategory category, EquipmentSlot... applicableSlots) {
+        super(rarity, category, applicableSlots);
     }
 
     @Override
@@ -35,6 +39,6 @@ public class ArcaneSharpnessEnchantment extends Enchantment {
 
     public boolean canEnchant(@NotNull ItemStack stack) {
         Item item = stack.getItem();
-        return item instanceof AxeItem || stack.is(Etags.Items.ARCANE_SHARPNESS_COMPATIBLE) || super.canEnchant(stack);
+        return item instanceof AxeItem || stack.is(EItemTags.ARCANE_SHARPNESS_COMPATIBLE) || super.canEnchant(stack);
     }
 }

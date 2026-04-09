@@ -9,8 +9,8 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.registry.EBlocks;
+import net.nokunami.elementus.common.tags.EBlockTags;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -20,7 +20,7 @@ import static net.nokunami.elementus.Elementus.modLoc;
 
 public class ModBlockTagsData extends BlockTagsProvider {
     public ModBlockTagsData(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> compFeaHoldP, @Nullable ExistingFileHelper existHelper) {
-        super(packOutput, compFeaHoldP, Elementus.MODID, existHelper);
+        super(packOutput, compFeaHoldP, Elementus.EID, existHelper);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ModBlockTagsData extends BlockTagsProvider {
                 .add(EBlocks.MOVCADIA_CHEST.get())
                 .addOptional(modLoc("movcadia_cabinet")).addOptional(modLoc("movcadia_table"));
 
-        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(EBlocks.STEEL_BLOCK.get(), EBlocks.ANTHEKTITE_BLOCK.get(), EBlocks.DIARKRITE_BLOCK.get(), EBlocks.REMNANT.get(),
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(EBlocks.ASTALITE_BLOCK.get(), EBlocks.ANTHEKTITE_BLOCK.get(), EBlocks.DIARKRITE_BLOCK.get(), EBlocks.REMNANT.get(),
                         EBlocks.STEEL_BARS.get(), EBlocks.STEEL_TILES.get(), EBlocks.STEEL_TILE_STAIR.get(), EBlocks.STEEL_TILE_SLAB.get())
                 .addOptional(modLoc("diarkrite_iron_block")).addOptional(modLoc("diarkrite_gold_block"))
                 .addOptional(modLoc("diarkrite_emerald_block")).addOptional(modLoc("diarkrite_diamond_block"))
@@ -61,7 +61,7 @@ public class ModBlockTagsData extends BlockTagsProvider {
                 .addOptional(modLoc("anthektite_iron_block")).addOptional(modLoc("anthektite_gold_block"))
                 .addOptional(modLoc("anthektite_emerald_block")).addOptional(modLoc("anthektite_diamond_block"));
 
-        tag(BlockTags.NEEDS_IRON_TOOL).add(EBlocks.STEEL_BLOCK.get(), EBlocks.STEEL_TILES.get(), EBlocks.STEEL_TILE_STAIR.get(), EBlocks.STEEL_TILE_SLAB.get());
+        tag(BlockTags.NEEDS_IRON_TOOL).add(EBlocks.ASTALITE_BLOCK.get(), EBlocks.STEEL_TILES.get(), EBlocks.STEEL_TILE_STAIR.get(), EBlocks.STEEL_TILE_SLAB.get());
 
         tag(BlockTags.SWORD_EFFICIENT).add(EBlocks.MOVCADIA_LEAVES.get(), EBlocks.FLOWERING_MOVCADIA_LEAVES.get());
 
@@ -120,7 +120,7 @@ public class ModBlockTagsData extends BlockTagsProvider {
                 EBlocks.STRIPPED_MOVCADIA_LOG.get(), EBlocks.MOVCADIA_WOOD.get(),
                 EBlocks.STRIPPED_MOVCADIA_WOOD.get(), EBlocks.FLOWERING_MOVCADIA_LEAVES.get());
 
-        tag(BlockTags.BEACON_BASE_BLOCKS).add(EBlocks.STEEL_BLOCK.get(), EBlocks.ANTHEKTITE_BLOCK.get(), EBlocks.DIARKRITE_BLOCK.get())
+        tag(BlockTags.BEACON_BASE_BLOCKS).add(EBlocks.ASTALITE_BLOCK.get(), EBlocks.ANTHEKTITE_BLOCK.get(), EBlocks.DIARKRITE_BLOCK.get())
                 .addOptional(modLoc("diarkrite_iron_block")).addOptional(modLoc("diarkrite_gold_block"))
                 .addOptional(modLoc("diarkrite_emerald_block")).addOptional(modLoc("diarkrite_diamond_block"))
 
@@ -152,12 +152,12 @@ public class ModBlockTagsData extends BlockTagsProvider {
 
     private void forgeTags() {
         //Storage Blocks
-        tag(Tags.Blocks.STORAGE_BLOCKS).add(EBlocks.STEEL_BLOCK.get(), EBlocks.STEEL_BLOCK.get())
-                .addTag(Etags.Blocks.STEEL_STORAGE_BLOCK).addTag(Etags.Blocks.DIARKRITE_STORAGE_BLOCK)
-                .addTag(Etags.Blocks.ANTHEKTITE_STORAGE_BLOCK);
-        tag(Etags.Blocks.STEEL_STORAGE_BLOCK).add(EBlocks.STEEL_BLOCK.get());
-        tag(Etags.Blocks.DIARKRITE_STORAGE_BLOCK).add(EBlocks.DIARKRITE_BLOCK.get());
-        tag(Etags.Blocks.ANTHEKTITE_STORAGE_BLOCK).add(EBlocks.ANTHEKTITE_BLOCK.get());
+        tag(Tags.Blocks.STORAGE_BLOCKS).add(EBlocks.ASTALITE_BLOCK.get(), EBlocks.ASTALITE_BLOCK.get())
+                .addTag(EBlockTags.STEEL_STORAGE_BLOCK).addTag(EBlockTags.DIARKRITE_STORAGE_BLOCK)
+                .addTag(EBlockTags.ANTHEKTITE_STORAGE_BLOCK);
+        tag(EBlockTags.STEEL_STORAGE_BLOCK).add(EBlocks.ASTALITE_BLOCK.get());
+        tag(EBlockTags.DIARKRITE_STORAGE_BLOCK).add(EBlocks.DIARKRITE_BLOCK.get());
+        tag(EBlockTags.ANTHEKTITE_STORAGE_BLOCK).add(EBlocks.ANTHEKTITE_BLOCK.get());
 
         //Fences
         tag(Tags.Blocks.FENCE_GATES_WOODEN).add(EBlocks.MOVCADIA_FENCE.get());
@@ -168,17 +168,17 @@ public class ModBlockTagsData extends BlockTagsProvider {
     }
 
     private void elementusTags() {
-        tag(Etags.Blocks.MOVCADIA_LOGS).add(EBlocks.MOVCADIA_LOG.get(), EBlocks.STRIPPED_MOVCADIA_LOG.get())
+        tag(EBlockTags.MOVCADIA_LOGS).add(EBlocks.MOVCADIA_LOG.get(), EBlocks.STRIPPED_MOVCADIA_LOG.get())
                 .add(EBlocks.MOVCADIA_WOOD.get(), EBlocks.STRIPPED_MOVCADIA_WOOD.get());
 
-        tag(Etags.Blocks.DIARKRITE_EFFICIENT).addTag(BlockTags.NEEDS_DIAMOND_TOOL)
+        tag(EBlockTags.DIARKRITE_EFFICIENT).addTag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .addOptionalTag(new ResourceLocation("forge", "needs_netherite_tools"));
 
-        tag(Etags.Blocks.MOVCADIA_GROWS_ON).add(Blocks.DIRT, Blocks.SAND, Blocks.TERRACOTTA, Blocks.SNOW_BLOCK, Blocks.POWDER_SNOW)
+        tag(EBlockTags.MOVCADIA_GROWS_ON).add(Blocks.DIRT, Blocks.SAND, Blocks.TERRACOTTA, Blocks.SNOW_BLOCK, Blocks.POWDER_SNOW)
                 .addTag(BlockTags.BASE_STONE_OVERWORLD).addTag(BlockTags.DIRT).addTag(Tags.Blocks.STONE);
 
-        tag(Etags.Blocks.MOVCADIA_ROOTED_DIRT).add(Blocks.DIRT, Blocks.ROOTED_DIRT, Blocks.GRASS_BLOCK, Blocks.MYCELIUM, Blocks.PODZOL);
-        tag(Etags.Blocks.MOVCADIA_ROOTED_STONE).add(Blocks.STONE);
-        tag(Etags.Blocks.MOVCADIA_ROOTED_DEEPSLATE).add(Blocks.DEEPSLATE);
+        tag(EBlockTags.MOVCADIA_ROOTED_DIRT).add(Blocks.DIRT, Blocks.ROOTED_DIRT, Blocks.GRASS_BLOCK, Blocks.MYCELIUM, Blocks.PODZOL);
+        tag(EBlockTags.MOVCADIA_ROOTED_STONE).add(Blocks.STONE);
+        tag(EBlockTags.MOVCADIA_ROOTED_DEEPSLATE).add(Blocks.DEEPSLATE);
     }
 }

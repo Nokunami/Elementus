@@ -8,14 +8,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.client.IItemDecorator;
 import net.nokunami.elementus.common.item.IMovcadiaTool;
+import net.nokunami.elementus.common.item.ISecondaryBar;
+import net.nokunami.elementus.common.item.basic.EShieldItem;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.registry.EEnchantments;
-import net.nokunami.elementus.common.registry.EItems;
 
 import static net.nokunami.elementus.common.item.EItemUtil.getEssenceBarWidth;
 import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
+import static net.nokunami.elementus.common.item.basic.EShieldItem.getBufferValue;
 
 public class ItemBarItemDecoration implements IItemDecorator {
+    private final int DEFAULT_BG_COLOR = -16777216;
+
     @Override
     public boolean render(GuiGraphics guiGraphics, Font font, ItemStack stack, int xOffset, int yOffset) {
         if (!stack.isEmpty()) {
@@ -64,27 +68,31 @@ public class ItemBarItemDecoration implements IItemDecorator {
                     }
                 }
             }
-            if (stack.getItem() instanceof IMovcadiaTool) {
-                int r = getEssenceBarWidth(stack);
-                int i = 12054986;
-                int minX = xOffset + 2;
-                int minY = yOffset + 11;
-                if (!stack.isBarVisible()) minY = yOffset + 13;
-                int color = -16777216;
-                int barColor = i|-16777216;
-                if (getMovcadiaEssence(stack) > 0) {
-                    guiGraphics.fill(RenderType.guiOverlay(),
-                            minX, minY,
-                            minX + 13, minY + 2,
-                            color);
-                    guiGraphics.fill(RenderType.guiOverlay(),
-                            minX, minY,
-                            minX + r, minY + 1,
-                            barColor);
-                }
+            if (stack.getItem() instanceof ISecondaryBar bar) {
+                simpleBar(guiGraphics, stack, xOffset, yOffset, bar.isSecondBarVisible(stack), bar.getSecondBarWidth(stack), bar.getSecondBarColor(stack));
             }
             posestack.popPose();
         }
         return false;
+    }
+
+    private void simpleBar(GuiGraphics gui, ItemStack stack, int xOffset, int yOffset, boolean visible, int amount, int fgColor) {
+        simpleBar(gui, stack, xOffset, yOffset, visible, amount, DEFAULT_BG_COLOR, fgColor);
+    }
+    private void simpleBar(GuiGraphics gui, ItemStack stack, int xOffset, int yOffset, boolean visible, int amount, int bgColor, int fgColor) {
+        int minX = xOffset + 2;
+        int minY = yOffset + 11;
+        if (!stack.isBarVisible()) minY = yOffset + 13;
+        int barColor = fgColor | bgColor;
+        if (visible) {
+            gui.fill(RenderType.guiOverlay(),
+                    minX, minY,
+                    minX + 13, minY + 2,
+                    bgColor);
+            gui.fill(RenderType.guiOverlay(),
+                    minX, minY,
+                    minX + amount, minY + 1,
+                    barColor);
+        }
     }
 }

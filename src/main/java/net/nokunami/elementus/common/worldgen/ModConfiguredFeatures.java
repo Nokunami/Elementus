@@ -29,8 +29,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTes
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.registry.EBlocks;
+import net.nokunami.elementus.common.tags.EBlockTags;
 import net.nokunami.elementus.common.worldgen.tree.MegaMovcadiaTrunkPlacer;
 import net.nokunami.elementus.common.worldgen.tree.MovcadiaTrunkPlacer;
 
@@ -101,11 +101,11 @@ public class ModConfiguredFeatures {
                 new TwoLayersFeatureSize(1, 0, 2)).build());
 
         FeatureUtils.register(context, ROOTED_MOVCADIA, Feature.ROOT_SYSTEM, new RootSystemConfiguration(
-                PlacementUtils.inlinePlaced(treeHoldergetter.getOrThrow(MOVCADIA_MEGA_TREE)), 3, 3, Etags.Blocks.MOVCADIA_GROWS_ON,
+                PlacementUtils.inlinePlaced(treeHoldergetter.getOrThrow(MOVCADIA_MEGA_TREE)), 3, 3, EBlockTags.MOVCADIA_GROWS_ON,
                 BlockStateProvider.simple(Blocks.ROOTED_DIRT), 20, 200, 3, 2,
                 BlockStateProvider.simple(Blocks.HANGING_ROOTS), 20, 2,
                 BlockPredicate.allOf(BlockPredicate.anyOf(BlockPredicate.matchesBlocks(List.of(Blocks.AIR, Blocks.CAVE_AIR, Blocks.VOID_AIR)),
-                BlockPredicate.matchesTag(Etags.Blocks.MOVCADIA_GROWS_ON)), BlockPredicate.matchesTag(Direction.DOWN.getNormal(), Etags.Blocks.MOVCADIA_GROWS_ON))));
+                BlockPredicate.matchesTag(EBlockTags.MOVCADIA_GROWS_ON)), BlockPredicate.matchesTag(Direction.DOWN.getNormal(), EBlockTags.MOVCADIA_GROWS_ON))));
 
 //        FeatureUtils.register(context, TALL_MANGROVE, Feature.TREE, (new TreeConfiguration.TreeConfigurationBuilder(
 //                BlockStateProvider.simple(Blocks.MANGROVE_LOG),
@@ -123,7 +123,7 @@ public class ModConfiguredFeatures {
 
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Elementus.MODID, name));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Elementus.EID, name));
     }
 
     private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<ConfiguredFeature<?, ?>> context,

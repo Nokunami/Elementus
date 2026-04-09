@@ -8,7 +8,6 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,7 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,7 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
 import static net.nokunami.elementus.Elementus.modLoc;
 
 public class SteelGolemUpgradeItem extends Item {
@@ -51,7 +49,7 @@ public class SteelGolemUpgradeItem extends Item {
 //        return slot == EquipmentSlot.CHEST ? properties.getAttributes().get() : super.getAttributeModifiers(slot, stack);
 //    }
 
-    public Multimap<Attribute, AttributeModifier> getGolemAttributes(EquipmentSlot slot) {
+    public Multimap<Attribute, AttributeModifier> getGolemAttributes(/*EquipmentSlot slot*/) {
         return properties.getAttributes().get();
     }
 
@@ -89,8 +87,7 @@ public class SteelGolemUpgradeItem extends Item {
         components.add(Component.translatable("item.elementus.golem_upgrade.upgrades").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.GOLD));
         bonusDescription(components, "item.elementus.golem_upgrade.pushable", properties.isNotPushable());
         bonusDescription(components, "item.elementus.golem_upgrade.fast_attack", properties.isFastAttack());
-        components.add(CommonComponents.space());
-
+//        components.add(CommonComponents.space());
         attributeTooltip(stack, components);
 
 //        components.add(Component.translatable("item.elementus.golem_upgrade.modifier_equip").withStyle(ChatFormatting.GRAY));
@@ -99,17 +96,18 @@ public class SteelGolemUpgradeItem extends Item {
     }
 
     public void attributeTooltip(@NotNull ItemStack stack, List<Component> components) {
-        for(EquipmentSlot equipmentslot : EquipmentSlot.values()) {
-//            Multimap<Attribute, AttributeModifier> multimap = this.getAttributeModifiers(equipmentslot, this);
-            Multimap<Attribute, AttributeModifier> multimap = getGolemAttributes(equipmentslot);
-            if (!multimap.isEmpty()) {
-                components.add(CommonComponents.EMPTY);
-                components.add(Component.translatable("item.elementus.golem_upgrade.modifier_equip").withStyle(ChatFormatting.GRAY));
+//        for(EquipmentSlot equipmentslot : EquipmentSlot.values()) {
+////            Multimap<Attribute, AttributeModifier> multimap = this.getAttributeModifiers(equipmentslot, this);
+//        }
+        Multimap<Attribute, AttributeModifier> multimap = getGolemAttributes();
+        if (!multimap.isEmpty()) {
+            components.add(CommonComponents.EMPTY);
+            components.add(Component.translatable("item.elementus.golem_upgrade.modifier_equip").withStyle(ChatFormatting.GRAY));
 
-                for(Map.Entry<Attribute, AttributeModifier> entry : multimap.entries()) {
-                    AttributeModifier attributemodifier = entry.getValue();
-                    double d0 = attributemodifier.getAmount();
-                    boolean flag = false;
+            for(Map.Entry<Attribute, AttributeModifier> entry : multimap.entries()) {
+                AttributeModifier attributemodifier = entry.getValue();
+                double d0 = attributemodifier.getAmount();
+                boolean flag = false;
 //                    if (pPlayer != null) {
 //                        if (attributemodifier.getId() == Item.BASE_ATTACK_DAMAGE_UUID) {
 //                            d0 += pPlayer.getAttributeBaseValue(Attributes.ATTACK_DAMAGE);
@@ -121,25 +119,24 @@ public class SteelGolemUpgradeItem extends Item {
 //                        }
 //                    }
 
-                    double d1;
-                    if (attributemodifier.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
-                        if (entry.getKey().equals(Attributes.KNOCKBACK_RESISTANCE)) {
-                            d1 = d0 * 10.0D;
-                        } else {
-                            d1 = d0;
-                        }
+                double d1;
+                if (attributemodifier.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL) {
+                    if (entry.getKey().equals(Attributes.KNOCKBACK_RESISTANCE)) {
+                        d1 = d0 * 10.0D;
                     } else {
-                        d1 = d0 * 100.0D;
+                        d1 = d0;
                     }
+                } else {
+                    d1 = d0 * 100.0D;
+                }
 
                     /*if (flag) {
                         components.add(CommonComponents.space().append(Component.translatable("attribute.modifier.equals." + attributemodifier.getOperation().toValue(), ATTRIBUTE_MODIFIER_FORMAT.format(d1), Component.translatable(entry.getKey().getDescriptionId()))).withStyle(ChatFormatting.DARK_GREEN));
                     } else*/ if (d0 > 0.0D) {
-                        components.add(Component.translatable("attribute.modifier.plus." + attributemodifier.getOperation().toValue(), ATTRIBUTE_MODIFIER_FORMAT.format(d1), Component.translatable(entry.getKey().getDescriptionId())).withStyle(ChatFormatting.BLUE));
-                    } else if (d0 < 0.0D) {
-                        d1 *= -1.0D;
-                        components.add(Component.translatable("attribute.modifier.take." + attributemodifier.getOperation().toValue(), ATTRIBUTE_MODIFIER_FORMAT.format(d1), Component.translatable(entry.getKey().getDescriptionId())).withStyle(ChatFormatting.RED));
-                    }
+                    components.add(Component.translatable("attribute.modifier.plus." + attributemodifier.getOperation().toValue(), ATTRIBUTE_MODIFIER_FORMAT.format(d1), Component.translatable(entry.getKey().getDescriptionId())).withStyle(ChatFormatting.BLUE));
+                } else if (d0 < 0.0D) {
+                    d1 *= -1.0D;
+                    components.add(Component.translatable("attribute.modifier.take." + attributemodifier.getOperation().toValue(), ATTRIBUTE_MODIFIER_FORMAT.format(d1), Component.translatable(entry.getKey().getDescriptionId())).withStyle(ChatFormatting.RED));
                 }
             }
         }
@@ -166,6 +163,6 @@ public class SteelGolemUpgradeItem extends Item {
 
     @Override
     public @NotNull String getDescriptionId() {
-        return "item." + MODID + ".golem_upgrade";
+        return "item." + EID + ".golem_upgrade";
     }
 }

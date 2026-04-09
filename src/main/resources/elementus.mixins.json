@@ -4,17 +4,10 @@
   "package": "net.nokunami.elementus.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LivingEntityMixin",
-    "MobEffectUtilMixin",
-    "PathNavigationMixin",
-    "VibrationSelectorMixin"
   ],
   "client": [
-    "client.CapeLayerMixin",
-    "client.HangingSignEditScreenMixin",
     "client.HumanoidArmorLayerAccessor",
-    "client.HumanoidArmorLayerMixin",
-    "client.ItemInHandRendererMixin"
+    "client.HumanoidArmorLayerMixin"
   ],
   "server": [
   ],

@@ -29,16 +29,16 @@ public class ModAtlases {
 
     private static Material createSignMaterial(WoodType woodType) {
         ResourceLocation location = new ResourceLocation(woodType.name());
-        return new Material(SIGN_SHEET, new ResourceLocation(Elementus.MODID, "entity/signs/" + location.getPath()));
+        return new Material(SIGN_SHEET, new ResourceLocation(Elementus.EID, "entity/signs/" + location.getPath()));
     }
 
     private static Material createHangingSignMaterial(WoodType woodType) {
         ResourceLocation location = new ResourceLocation(woodType.name());
-        return new Material(SIGN_SHEET, new ResourceLocation(Elementus.MODID, "entity/signs/hanging/" + location.getPath()));
+        return new Material(SIGN_SHEET, new ResourceLocation(Elementus.EID, "entity/signs/hanging/" + location.getPath()));
     }
 
     public static Material getChestMaterial(String chestName) {
-        return new Material(CHEST_SHEET, new ResourceLocation(Elementus.MODID, "entity/tiles/chest/" + chestName));
+        return new Material(CHEST_SHEET, new ResourceLocation(Elementus.EID, "entity/tiles/chest/" + chestName));
     }
 
     public static Material getSignMaterial(WoodType pWoodType) {

@@ -28,7 +28,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
@@ -52,8 +51,6 @@ import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.minecraftforge.network.PacketDistributor;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.EntityConfig;
 import net.nokunami.elementus.common.entity.ai.control.SmoothBodyControl;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.*;
@@ -61,9 +58,12 @@ import net.nokunami.elementus.common.entity.ai.navigation.GolemNavigation;
 import net.nokunami.elementus.common.inventory.SteelGolemInventoryMenu;
 import net.nokunami.elementus.common.item.GolemUpgradeProperties;
 import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
-import net.nokunami.elementus.common.network.ModNetwork;
-import net.nokunami.elementus.common.network.SteelGolemInventoryPacket;
-import net.nokunami.elementus.common.registry.ESoundEvents;
+import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.common.network.client.GolemInventoryS2CPacket;
+import net.nokunami.elementus.common.registry.ESounds;
+import net.nokunami.elementus.common.tags.EDamageTypeTags;
+import net.nokunami.elementus.common.tags.EEntityTags;
+import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,8 +75,8 @@ import static net.nokunami.elementus.Elementus.modLoc;
 import static net.nokunami.elementus.common.entity.MobUtil.tamedMob;
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnParticlesOnEntity;
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnWideParticlesOnEntity;
-import static net.nokunami.elementus.common.registry.ESoundEvents.STEEL_GOLEM_REPAIR;
-import static net.nokunami.elementus.common.registry.ESoundEvents.STEEL_GOLEM_REVIVE;
+import static net.nokunami.elementus.common.registry.ESounds.STEEL_GOLEM_REPAIR;
+import static net.nokunami.elementus.common.registry.ESounds.STEEL_GOLEM_REVIVE;
 
 @SuppressWarnings("deprecation")
 public class SteelGolem extends TamableGolem implements Shearable, IForgeShearable {
@@ -95,8 +95,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
     public int eyeLayerTick;
     public Predicate<Entity> GOLEM_SURROUNDING_TARGETS = (entity) -> entity instanceof  Mob mob
             && ((entity instanceof Enemy || entity == getTarget()) || (getOwner() != null && mob.getTarget() == getOwner()));
-    public static float rawBbWidth = 1.6F;
-    public static float rawBbHeight = 2.9F;
+    public static float rawBbWidth = 1.6F, rawBbHeight = 2.9F;
 
     public SteelGolem(EntityType<? extends TamableGolem> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -155,7 +154,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
         }
         if (tag.contains("LeavesDecoration", 10)) {
             ItemStack leaves = ItemStack.of(tag.getCompound("LeavesDecoration"));
-            if (leaves.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION))
+            if (leaves.is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION))
                 inventory.setItem(2, leaves);
         }
         if (tag.contains("DecorItem", 10))
@@ -236,8 +235,8 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 //                }
 //            }
             if (stack.getItem() instanceof SteelGolemUpgradeItem item) {
-                if (!stack.isEmpty()) getAttributes().removeAttributeModifiers(item.getGolemAttributes(EquipmentSlot.CHEST));
-                if (!stack.isEmpty()) getAttributes().addTransientAttributeModifiers(item.getGolemAttributes(EquipmentSlot.CHEST));
+                if (!stack.isEmpty()) getAttributes().removeAttributeModifiers(item.getGolemAttributes(/*EquipmentSlot.CHEST*/));
+                if (!stack.isEmpty()) getAttributes().addTransientAttributeModifiers(item.getGolemAttributes(/*EquipmentSlot.CHEST*/));
             }
         }
     }
@@ -252,11 +251,11 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
         ItemStack leaves1 = isCamouflaged();
         ItemStack carpet1 = getDripCarpet();
         if (tickCount > 20 && isArmor(armor1) && armor != armor1)
-            playSound(ESoundEvents.STEEL_GOLEM_ARMORED.get(), 0.5F, 1.0F);
+            playSound(ESounds.STEEL_GOLEM_ARMORED.get(), 0.5F, 1.0F);
         if (tickCount > 20 && leaves != leaves1)
-            playSound(ESoundEvents.STEEL_GOLEM_LEAVES_SWAG.get(), 0.5F, 1.0F);
+            playSound(ESounds.STEEL_GOLEM_LEAVES_SWAG.get(), 0.5F, 1.0F);
         if (tickCount > 20 && carpet != carpet1)
-            playSound(ESoundEvents.STEEL_GOLEM_CARPET_SWAG.get(), 0.5F, 1.0F);
+            playSound(ESounds.STEEL_GOLEM_CARPET_SWAG.get(), 0.5F, 1.0F);
     }
 
     @Override
@@ -266,7 +265,9 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
                 if (serverplayer.containerMenu != serverplayer.inventoryMenu) serverplayer.closeContainer();
                 isChestOpened(true);
                 serverplayer.nextContainerCounter();
-                ModNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> serverplayer), new SteelGolemInventoryPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
+//                ENetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> serverplayer), new SteelGolemInventoryPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
+//                ENetwork.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
+                ENetwork.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
                 serverplayer.containerMenu = new SteelGolemInventoryMenu(serverplayer.containerCounter, serverplayer.getInventory(), inventory, this);
                 serverplayer.initMenu(serverplayer.containerMenu);
                 MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(serverplayer, serverplayer.containerMenu));
@@ -300,8 +301,8 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 
     @Override
     protected void registerGoals() {
-        goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
-        goalSelector.addGoal(0, new AvoidEntityGoal<>(this, LivingEntity.class, 6, 1, 1.2, e -> e.getType().is(Etags.Entity.STEEL_GOLEM_AVOID)));
+//        goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
+        goalSelector.addGoal(0, new AvoidEntityGoal<>(this, LivingEntity.class, 6, 1, 1.2, e -> e.getType().is(EEntityTags.STEEL_GOLEM_AVOID)));
         goalSelector.addGoal(1, new SteelGolemAttackGoal(this, 1.2D, true));
         goalSelector.addGoal(2, new GolemMoveTowardsTargetGoal(this, 0.9D, 32.0F));
         goalSelector.addGoal(2, new GolemFollowOwnerGoal(this, new GolemFollowOwnerGoal.goalInfo().
@@ -317,7 +318,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
         goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 0.5D) {
             @Override
             public boolean canUse() {
-                return !isInSittingPose() && !isChassisBroken() && super.canUse();
+                return !isOrderedToSit() && !isChassisBroken() && super.canUse();
             }
         });
 //        goalSelector.addGoal(8, new RandomLookAroundGoal(this) {
@@ -329,7 +330,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
         goalSelector.addGoal(8, new GolemLookGoal(this));
 
         targetSelector.addGoal(0, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
-                (entity) -> entity.getType().is(Etags.Entity.STEEL_GOLEM_PRIORITY_TARGETS)));
+                (entity) -> entity.getType().is(EEntityTags.STEEL_GOLEM_PRIORITY_TARGETS)));
         targetSelector.addGoal(0, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
                 (entity) -> entity instanceof Mob mob && getOwner() != null && mob.getTarget() == getOwner()));
         targetSelector.addGoal(1, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
@@ -352,16 +353,16 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
         if (!level().isClientSide) {
             updatePersistentAnger((ServerLevel) level(), true);
 
-            if (!isTame() && isPlayerCreated()) {
+            if (!isTamed() && isPlayerCreated()) {
                 setOrderedToSit(true);
-                setInSittingPose(true);
+//                setInSittingPose(true);
 //                List<Entity> player = level().getEntities(this, getBoundingBox().inflate(2F, 0.5F, 2F), e -> e instanceof Player);
 //                if (!player.isEmpty()) {
 //                    tameGolem((Player) player.get(0));
 //                }
             }
 
-            if (isInSittingPose() || isChassisBroken() || (isPlayerCreated() && !isTame())) {
+            if (isOrderedToSit() || isChassisBroken() || (isPlayerCreated() && !isTamed())) {
                 if (getMossStage() < 3 && !isWaxed()) setMossTimer(getMossTimer() + 1);
                 if (getSitTick() < 15) setSitTick(getSitTick() + 1);
                 setPose(Pose.SITTING);
@@ -391,7 +392,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
             setSprinting(isSprinting());
         }
 
-        if (!list.isEmpty() && isInSittingPose()) {
+        if (!list.isEmpty() && isOrderedToSit()) {
             boolean flag = !level().isClientSide && !(getControllingPassenger() instanceof Player);
             for (Entity entity : list) {
                 if (isSaddled() && flag && getPassengers().size() < getMaxPassengers() && hasEnoughSpaceFor(entity) && !(entity instanceof Enemy)) {
@@ -496,7 +497,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
     public boolean wantsToAttack(@NotNull LivingEntity target, @NotNull LivingEntity owner) {
         if (!(target instanceof Creeper) && !(target instanceof Ghast)) {
             if (target instanceof SteelGolem golem) {
-                return !golem.isTame() || golem.getOwner() != owner;
+                return !golem.isTamed() || golem.getOwner() != owner;
             } else if ((target instanceof Player && owner instanceof Player && !((Player)owner).canHarmPlayer((Player) target)) || (target instanceof OwnableEntity o && o.getOwner() != null)) {
                 return false;
             } /*else if (target instanceof OwnableEntity o && o.getOwner() != null) {
@@ -532,10 +533,10 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
     public boolean isChassisCompromised() {
         if (getHealth() <= 0)
             if (isPlayerCreated() && getChassisHealth() > 1) {
-                stopAllAttackAnimation();
+                setHealth(1);
+                stopAllAnimation();
                 setChassisState(true);
                 setChassisHealth(getChassisHealth() - 1);
-                setHealth(1);
                 stopBeingAngry();
                 setAggressive(false);
                 setOrderedToSit(false);
@@ -627,7 +628,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 //            return true;
 //        }
 //        return super.isInvulnerableTo(source);
-        return super.isInvulnerableTo(source) || (isChassisBroken() && getChassisHealth() != 0) && (source.is(Etags.DamageTypes.STEEL_GOLEM_IMMUNE) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
+        return super.isInvulnerableTo(source) || (isChassisBroken() && getChassisHealth() != 0) && (source.is(EDamageTypeTags.STEEL_GOLEM_IMMUNE) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY));
     }
 
     @Override
@@ -642,9 +643,9 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
     public boolean isPushable() {
         if (getArmor().getItem() instanceof SteelGolemUpgradeItem golemUpgradeItem) {
             GolemUpgradeProperties golemUpgradeProperties = golemUpgradeItem.getGolemUpgradeProperties();
-            return golemUpgradeProperties != null && !golemUpgradeItem.isNotPushable() && !(isInSittingPose() || isChassisBroken() || isVehicle());
+            return golemUpgradeProperties != null && !golemUpgradeItem.isNotPushable() && !(isOrderedToSit() || isChassisBroken() || isVehicle());
         }
-        return !(isInSittingPose() || isChassisBroken() || isVehicle());
+        return !(isOrderedToSit() || isChassisBroken() || isVehicle());
     }
 
     @Override
@@ -690,7 +691,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
     @Override
     public boolean canBeCollidedWith() {
         if (!getArmor().isEmpty() && getArmor().getItem() instanceof SteelGolemUpgradeItem armorItem) {
-            return armorItem.isNotPushable() && (isInSittingPose() || isChassisBroken());
+            return armorItem.isNotPushable() && (isOrderedToSit() || isChassisBroken());
         } else return super.canBeCollidedWith();
     }
 
@@ -699,7 +700,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
         double d0 = vec3.y;
         boolean saddleHeight = d0 >= getBbHeight() * 0.65F;
 
-        if (saddleHeight && isInSittingPose() && isTame() && !isChassisBroken() && isSaddled()) {
+        if (saddleHeight && isOrderedToSit() && isTamed() && !isChassisBroken() && isSaddled()) {
             return doPlayerRide(player);
         } else return super.interactAt(player, vec3, hand);
     }
@@ -709,13 +710,13 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
         ItemStack itemStack = player.getItemInHand(hand);
         boolean canHeal = getHealth() < getMaxHealth();
         boolean shearMoss = itemStack.is(Items.SHEARS) && getMossStage() > 0 && readyForShearing();
-        boolean leaves = itemStack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION) && isCamouflaged().isEmpty();
-        boolean carpet = itemStack.is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION) && getDripCarpet().isEmpty();
+        boolean leaves = itemStack.is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION) && isCamouflaged().isEmpty();
+        boolean carpet = itemStack.is(EItemTags.STEEL_GOLEM_CARPET_DECORATION) && getDripCarpet().isEmpty();
         boolean wax = itemStack.is(Items.HONEYCOMB) && !isWaxed();
         boolean scrapWax = itemStack.is(ItemTags.AXES) && isWaxed();
         boolean chassisCondition = getChassisHealth() < 5;
-        boolean healItem = itemStack.is(Etags.Items.STEEL_GOLEM_HEAL) || itemStack.is(Etags.Items.STEEL_GOLEM_REPAIR_HALF);
-        boolean repair = itemStack.is(Etags.Items.STEEL_GOLEM_REPAIR_FULL);
+        boolean healItem = itemStack.is(EItemTags.STEEL_GOLEM_HEAL) || itemStack.is(EItemTags.STEEL_GOLEM_REPAIR_HALF);
+        boolean repair = itemStack.is(EItemTags.STEEL_GOLEM_REPAIR_FULL);
         boolean aggroStateChanger = (itemStack.is(ItemTags.SWORDS) || itemStack.is(ItemTags.AXES)) && player.isSecondaryUseActive();
 
         if ((canHeal && healItem) || (chassisCondition && repair))
@@ -723,7 +724,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
         else {
             if (shearMoss)
                 return trimMoss(player, hand);
-            if (isInSittingPose() && !isAngry() && player.isSecondaryUseActive())
+            if (isOrderedToSit() && !isAngry() && player.isSecondaryUseActive())
                 return openInventory(player);
             if (isOwnedBy(player)) {
                 if (aggroStateChanger)
@@ -734,7 +735,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 
             InteractionResult interactionresult = super.mobInteract(player, hand);
             if ((!interactionresult.consumesAction() || isBaby()) && isOwnedBy(player)) {
-                return sitOrder();
+                return sit(!isOrderedToSit());
             } else {
                 return interactionresult;
             }
@@ -769,7 +770,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
             playSound(SoundEvents.AXE_WAX_OFF);
             spawnParticlesOnEntity(level(), position(), ParticleTypes.WAX_OFF, this, UniformInt.of(3, 5));
         } else {
-            inventory.setItem(stack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION) ? 2 : 3, stack.copyWithCount(1));
+            inventory.setItem(stack.is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION) ? 2 : 3, stack.copyWithCount(1));
             if (!player.isCreative()) stack.shrink(1);
         }
         navigation.stop();
@@ -786,8 +787,8 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 
     public InteractionResult healGolem(Player player, ItemStack stack) {
         boolean chassisCondition = getChassisHealth() < 5;
-        boolean repairHalf = stack.is(Etags.Items.STEEL_GOLEM_REPAIR_HALF);
-        boolean repairFull = stack.is(Etags.Items.STEEL_GOLEM_REPAIR_FULL);
+        boolean repairHalf = stack.is(EItemTags.STEEL_GOLEM_REPAIR_HALF);
+        boolean repairFull = stack.is(EItemTags.STEEL_GOLEM_REPAIR_FULL);
         float randomFloat = 1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F;
         int b = isChassisBroken() ? 1 : 0;
 
@@ -850,7 +851,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 
     ////////////////////////////////////// CLIENT DATA START //////////////////////////////////////
 
-    public void stopAllAttackAnimation() { attackAnimationState.stop(); }
+    public void stopAllAnimation() { attackAnimationState.stop(); }
 
     private void setupAnim() {
         if (!isChassisBroken()) {
@@ -887,14 +888,14 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
             }
         }
 
-        sitFromStandAnimState.animateWhen(isInSittingPose() && !(getBrokenTick() > 0), tickCount);
-        standFromSitAnimState.animateWhen(!isInSittingPose(), tickCount);
+        sitAnim.animateWhen(isOrderedToSit() && !(getBrokenTick() > 0), tickCount);
+        standAnim.animateWhen(!isOrderedToSit(), tickCount);
 
         brokenAnim.animateWhen(isChassisBroken(), tickCount);
         repairedAnim.animateWhen(!isChassisBroken() && getBrokenTick() != 0, tickCount);
 
-        ridden.animateWhen(isVehicle(), tickCount);
-        unRide.animateWhen(!isVehicle(), tickCount);
+        riddenAnim.animateWhen(isVehicle(), tickCount);
+        unRideAnim.animateWhen(!isVehicle(), tickCount);
 
         chestOpened.animateWhen(chestOpened(), tickCount);
         chestClosed.animateWhen(!chestOpened(), tickCount);
@@ -902,7 +903,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 
     @Override
     public int getMaxHeadXRot() {
-        return isInSittingPose() || isVehicle() ? 0 : super.getMaxHeadXRot();
+        return isOrderedToSit() || isVehicle() ? 0 : super.getMaxHeadXRot();
     }
 
     @Override
@@ -917,7 +918,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
     }
 
     protected SoundEvent getDeathSound() {
-        return isChassisCompromised() ? SoundEvents.IRON_GOLEM_DEATH : ESoundEvents.STEEL_GOLEM_DOWN.get();
+        return isChassisCompromised() ? SoundEvents.IRON_GOLEM_DEATH : ESounds.STEEL_GOLEM_DOWN.get();
     }
 
     protected SoundEvent getHurtSound(@NotNull DamageSource pDamageSource) {

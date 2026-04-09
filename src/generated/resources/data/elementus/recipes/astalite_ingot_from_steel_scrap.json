@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "item": "elementus:astalite_scrap"
+    }
+  ],
+  "result": {
+    "item": "elementus:astalite_ingot"
+  }
+}

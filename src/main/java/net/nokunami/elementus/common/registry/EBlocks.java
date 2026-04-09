@@ -7,7 +7,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -20,7 +19,7 @@ import net.nokunami.elementus.common.block.*;
 import net.nokunami.elementus.common.block.entity.ModRotatedPillarBlock;
 
 public class EBlocks {
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Elementus.MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Elementus.EID);
 
 
     public static final RegistryObject<Block> REMNANT = BLOCKS.register("remnant",
@@ -29,7 +28,7 @@ public class EBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
     public static final RegistryObject<Block> ANTHEKTITE_BLOCK = BLOCKS.register("anthektite_block",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.NETHERITE_BLOCK)));
-    public static final RegistryObject<Block> STEEL_BLOCK = BLOCKS.register("steel_block",
+    public static final RegistryObject<Block> ASTALITE_BLOCK = BLOCKS.register("steel_block",
             () -> new Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
                     .instrument(NoteBlockInstrument.IRON_XYLOPHONE)
@@ -38,7 +37,7 @@ public class EBlocks {
                     .sound(SoundType.METAL)));
 
     public static final RegistryObject<Block> STEEL_BARS = BLOCKS.register("steel_bars",
-            () -> new IronBarsBlock(BlockBehaviour.Properties.copy(STEEL_BLOCK.get()).noCollission()));
+            () -> new IronBarsBlock(BlockBehaviour.Properties.copy(ASTALITE_BLOCK.get()).noCollission()));
     public static final RegistryObject<Block> STEEL_TILES = BLOCKS.register("steel_tiles",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> STEEL_TILE_STAIR = BLOCKS.register("steel_tile_stair",
@@ -47,9 +46,9 @@ public class EBlocks {
             () -> new SlabBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
     public static final RegistryObject<Block> ASTALITE_BARS = BLOCKS.register("astalite_bars",
-            () -> new IronBarsBlock(BlockBehaviour.Properties.copy(STEEL_BLOCK.get()).noCollission()));
+            () -> new IronBarsBlock(BlockBehaviour.Properties.copy(ASTALITE_BLOCK.get()).noCollission()));
     public static final RegistryObject<Block> ASTALITE_TILES = BLOCKS.register("astalite_tiles",
-            () -> new Block(BlockBehaviour.Properties.copy(EBlocks.STEEL_BLOCK.get())));
+            () -> new Block(BlockBehaviour.Properties.copy(EBlocks.ASTALITE_BLOCK.get())));
     public static final RegistryObject<Block> ASTALITE_TILE_STAIR = BLOCKS.register("astalite_tile_stair",
             () -> new StairBlock(ASTALITE_TILES.get().defaultBlockState(), BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> ASTALITE_TILE_SLAB = BLOCKS.register("astalite_tile_slab",

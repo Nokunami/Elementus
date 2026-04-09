@@ -13,72 +13,71 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.util.Lazy;
-import net.nokunami.elementus.ElementusClient;
-import net.nokunami.elementus.common.registry.ModArmorMaterials;
+import net.nokunami.elementus.EClient;
+import net.nokunami.elementus.common.config.configSets.armor.ArmorMaterialConfig;
+import net.nokunami.elementus.common.registry.EArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import static net.nokunami.elementus.common.catalystCore.CatalystArmorAttributes.toggleableAttribute;
+import static net.nokunami.elementus.common.config.CommonConfig.getArmorConfig;
+import static net.nokunami.elementus.common.registry.EArmorMaterials.EnumArmorMaterials.HEALTH_FUNCTION_FOR_TYPE;
+
 
 public class ElementusArmorItem extends ArmorItem {
-    protected final ModArmorMaterials material;
-//    protected final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    protected final Lazy<Multimap<Attribute, AttributeModifier>> defaultModifiers;
+//    protected final EArmorMaterials.EnumArmorMaterials material;
+//    protected final Lazy<Multimap<Attribute, AttributeModifier>> defaultModifiers;
 
-    public ElementusArmorItem(ModArmorMaterials material, Type type, Properties properties) {
+    public ElementusArmorItem(EArmorMaterials.EnumArmorMaterials material, Type type, Properties properties) {
         super(material, type, properties);
-        this.material = material;
-//        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-//        UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
-//        builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(), AttributeModifier.Operation.ADDITION));
-//        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(), AttributeModifier.Operation.ADDITION));
-//        if (this.knockbackResistance > 0) {
-//            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Knockback resistance", this.knockbackResistance, AttributeModifier.Operation.ADDITION));
-//        }
-//        for (Map.Entry<Attribute, AttributeModifier> modifierEntry : material.getAdditionalAttributes().entrySet()) {
-//            AttributeModifier atr = modifierEntry.getValue();
-//            atr = new AttributeModifier(uuid, atr.getName(), atr.getAmount(), atr.getOperation());
-//            builder.put(modifierEntry.getKey(), atr);
-//        }
-//
-//        this.defaultModifiers = builder.build();
-        defaultModifiers = Lazy.of(() -> createDefaultAttributeModifiers(this.getDefense(), this.getToughness(), knockbackResistance).build());
+//        this.material = material;
+//        defaultModifiers = Lazy.of(createDefaultAttributeModifiers()::build);
     }
 
-    @Override
-    public @NotNull ModArmorMaterials getMaterial() {
-        return this.material;
-    }
+//    @Override public @NotNull EArmorMaterials.EnumArmorMaterials getMaterial() { return material; }
 
     // Attribute code from biomancy
-    protected ImmutableMultimap.Builder<Attribute, AttributeModifier> createDefaultAttributeModifiers(int defense, float toughness, float knockback) {
+    protected ImmutableMultimap.Builder<Attribute, AttributeModifier> createDefaultAttributeModifiers() {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
-        builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", defense, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", toughness, AttributeModifier.Operation.ADDITION));
-        if (knockback != 0) {
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Knockback resistance", knockback, AttributeModifier.Operation.ADDITION));
-        }
-        for (Map.Entry<Attribute, AttributeModifier> modifierEntry : material.getAdditionalAttributes().entrySet()) {
-            AttributeModifier atr = modifierEntry.getValue();
-            atr = new AttributeModifier(uuid, atr.getName(), atr.getAmount(), atr.getOperation());
-            builder.put(modifierEntry.getKey(), atr);
-        }
+        builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", getDefense(), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", getToughness(), AttributeModifier.Operation.ADDITION));
+        toggleableAttribute(builder, Attributes.KNOCKBACK_RESISTANCE, "Armor knockback resistance", getKnockbackResistance(), AttributeModifier.Operation.ADDITION);
+        toggleableAttribute(builder, Attributes.ATTACK_SPEED, "Armor attack speed", getAttackSpeed(), AttributeModifier.Operation.MULTIPLY_BASE);
+        toggleableAttribute(builder, Attributes.MOVEMENT_SPEED, "Armor movement speed", getMovementSpeed(), AttributeModifier.Operation.MULTIPLY_BASE);
         return builder;
     }
 
-    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
-        return pEquipmentSlot == this.type.getSlot() ? defaultModifiers.get() : super.getDefaultAttributeModifiers(pEquipmentSlot);
+//    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot pEquipmentSlot) {
+//        return pEquipmentSlot == this.type.getSlot() ? defaultModifiers.get() : super.getDefaultAttributeModifiers(pEquipmentSlot);
+//    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        return slot == getEquipmentSlot() ? createDefaultAttributeModifiers().build() : super.getAttributeModifiers(slot, stack);
     }
+
+    public ArmorMaterialConfig config () {
+        return getArmorConfig(getMaterial());
+    }
+
+    @Override public int getDefense() { return config().getArmor().get(getType()); }
+    @Override public float getToughness() { return config().attributesConfig.toughness.get().floatValue(); }
+    public float getKnockbackResistance() { return config().attributesConfig.knockback.get().floatValue(); }
+    public float getAttackSpeed() { return config().attributesConfig.attackSpeed.get().floatValue(); }
+    public float getMovementSpeed() { return config().attributesConfig.movementSpeed.get().floatValue(); }
+
+    @Override public int getMaxDamage(ItemStack stack) { return HEALTH_FUNCTION_FOR_TYPE.get(getType()) * config().getDurability(); }
+    @Override public int getEnchantmentValue(ItemStack stack) { return config().getEnchantability(); }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void initializeClient(@NotNull Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) ElementusClient.PROXY.getArmorRenderProperties());
+        consumer.accept((IClientItemExtensions) EClient.PROXY.getArmorRenderProperties());
     }
 
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
@@ -87,7 +86,6 @@ public class ElementusArmorItem extends ArmorItem {
         String domain = "elementus";
         boolean helmet = slot == EquipmentSlot.HEAD;
         boolean leggings = slot == EquipmentSlot.LEGS;
-
         return String.format(Locale.ROOT, "%s:textures/models/armor/%s_layer_" + (helmet | leggings ? "2.png" : "1.png"), domain, texture);
     }
 }

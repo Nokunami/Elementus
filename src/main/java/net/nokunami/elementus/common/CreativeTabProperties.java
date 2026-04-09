@@ -19,6 +19,7 @@ public class CreativeTabProperties {
         // SpawnEgg
         if (tab == CreativeModeTabs.SPAWN_EGGS) {
             putBefore(entries, Items.ALLAY_SPAWN_EGG, EItems.ASTALITE_GOLEM_SPAWN_EGG);
+            putBefore(entries, Items.ALLAY_SPAWN_EGG, EItems.ASTALITE_GOLEM_LONGARM_SPAWN_EGG);
             putAfter(entries, Items.SQUID_SPAWN_EGG, EItems.STEEL_GOLEM_SPAWN_EGG);
         }
         // Food
@@ -30,10 +31,10 @@ public class CreativeTabProperties {
         if (tab == CreativeModeTabs.INGREDIENTS) {
             putAfter(entries, Items.ANCIENT_DEBRIS, EItems.REMNANT);
 
-            putAfter(entries, Items.IRON_NUGGET, EItems.STEEL_NUGGET);
+            putAfter(entries, Items.IRON_NUGGET, EItems.ASTALITE_NUGGET);
             putAfter(entries, Items.IRON_INGOT, EItems.CRUDE_STEEL);
-            putAfter(entries, EItems.CRUDE_STEEL, EItems.STEEL_INGOT);
-            putAfter(entries, EItems.STEEL_INGOT, EItems.STEEL_SCRAP);
+            putAfter(entries, EItems.CRUDE_STEEL, EItems.ASTALITE_INGOT);
+            putAfter(entries, EItems.ASTALITE_INGOT, EItems.ASTALITE_SCRAP);
 
             putAfter(entries, Items.NETHERITE_INGOT, EItems.ATELIS_SCRAP);
             putAfter(entries, EItems.ATELIS_SCRAP, EItems.DIARKRITE_INGOT);
@@ -46,24 +47,24 @@ public class CreativeTabProperties {
         // Weapons
         if (tab == CreativeModeTabs.COMBAT) {
             // Swords
-            putAfter(entries, Items.NETHERITE_SWORD, EItems.STEEL_SWORD);
-            putAfter(entries, EItems.STEEL_SWORD, EItems.DIARKRITE_SWORD);
+            putAfter(entries, Items.NETHERITE_SWORD, EItems.ASTALITE_SWORD);
+            putAfter(entries, EItems.ASTALITE_SWORD, EItems.DIARKRITE_SWORD);
             putAfter(entries, EItems.DIARKRITE_SWORD, EItems.ANTHEKTITE_SWORD);
             putAfter(entries, EItems.ANTHEKTITE_SWORD, EItems.MOVCADIA_SWORD);
 
             // Axes
-            putAfter(entries, Items.NETHERITE_AXE, EItems.STEEL_AXE);
-            putAfter(entries, EItems.STEEL_AXE, EItems.DIARKRITE_AXE);
+            putAfter(entries, Items.NETHERITE_AXE, EItems.ASTALITE_AXE);
+            putAfter(entries, EItems.ASTALITE_AXE, EItems.DIARKRITE_AXE);
             putAfter(entries, EItems.DIARKRITE_AXE, EItems.ANTHEKTITE_AXE);
             putAfter(entries, EItems.ANTHEKTITE_AXE, EItems.MOVCADIA_AXE);
 
             // Shields
-            putAfter(entries, Items.SHIELD, EItems.STEEL_SHIELD);
-            putAfter(entries, EItems.STEEL_SHIELD, EItems.DIARKRITE_SHIELD);
+            putAfter(entries, Items.SHIELD, EItems.ASTALITE_SHIELD);
+            putAfter(entries, EItems.ASTALITE_SHIELD, EItems.DIARKRITE_SHIELD);
             putAfter(entries, EItems.DIARKRITE_SHIELD, EItems.ANTHEKTITE_SHIELD);
             // Bows
-            putAfter(entries, Items.BOW, EItems.STEEL_BOW);
-            putAfter(entries, EItems.STEEL_BOW, EItems.DIARKRITE_BOW);
+            putAfter(entries, Items.BOW, EItems.ASTALITE_BOW);
+            putAfter(entries, EItems.ASTALITE_BOW, EItems.DIARKRITE_BOW);
             putAfter(entries, EItems.DIARKRITE_BOW, EItems.ANTHEKTITE_BOW);
             // Special Weapon
             putAfter(entries, Items.TRIDENT, EItems.DIARKRITE_CHARGE_BLADE);
@@ -71,12 +72,12 @@ public class CreativeTabProperties {
             putAfter(entries, EItems.ANTHEKTITE_CHARGE_BLADE, EItems.WRATH_TRIDENT);
 
             // Armor
-            putAfter(entries, Items.NETHERITE_BOOTS, EItems.STEEL_HELMET);
-            putAfter(entries, EItems.STEEL_HELMET, EItems.STEEL_CHESTPLATE);
-            putAfter(entries, EItems.STEEL_CHESTPLATE, EItems.STEEL_LEGGINGS);
-            putAfter(entries, EItems.STEEL_LEGGINGS, EItems.STEEL_BOOTS);
+            putAfter(entries, Items.NETHERITE_BOOTS, EItems.ASTALITE_HELMET);
+            putAfter(entries, EItems.ASTALITE_HELMET, EItems.ASTALITE_CHESTPLATE);
+            putAfter(entries, EItems.ASTALITE_CHESTPLATE, EItems.ASTALITE_LEGGINGS);
+            putAfter(entries, EItems.ASTALITE_LEGGINGS, EItems.ASTALITE_BOOTS);
 
-            putAfter(entries, EItems.STEEL_BOOTS, EItems.DIARKRITE_HELMET);
+            putAfter(entries, EItems.ASTALITE_BOOTS, EItems.DIARKRITE_HELMET);
             putAfter(entries, EItems.DIARKRITE_HELMET, EItems.DIARKRITE_CHESTPLATE);
             putAfter(entries, EItems.DIARKRITE_CHESTPLATE, EItems.DIARKRITE_LEGGINGS);
             putAfter(entries, EItems.DIARKRITE_LEGGINGS, EItems.DIARKRITE_BOOTS);
@@ -92,12 +93,12 @@ public class CreativeTabProperties {
         }
         // Tools
         if (tab == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            putAfter(entries, Items.NETHERITE_HOE, EItems.STEEL_SHOVEL);
-            putAfter(entries, EItems.STEEL_SHOVEL, EItems.STEEL_PICKAXE);
-            putAfter(entries, EItems.STEEL_PICKAXE, EItems.STEEL_AXE);
-            putAfter(entries, EItems.STEEL_AXE, EItems.STEEL_HOE);
+            putAfter(entries, Items.NETHERITE_HOE, EItems.ASTALITE_SHOVEL);
+            putAfter(entries, EItems.ASTALITE_SHOVEL, EItems.ASTALITE_PICKAXE);
+            putAfter(entries, EItems.ASTALITE_PICKAXE, EItems.ASTALITE_AXE);
+            putAfter(entries, EItems.ASTALITE_AXE, EItems.ASTALITE_HOE);
 
-            putAfter(entries, EItems.STEEL_HOE, EItems.DIARKRITE_SHOVEL);
+            putAfter(entries, EItems.ASTALITE_HOE, EItems.DIARKRITE_SHOVEL);
             putAfter(entries, EItems.DIARKRITE_SHOVEL, EItems.DIARKRITE_PICKAXE);
             putAfter(entries, EItems.DIARKRITE_PICKAXE, EItems.DIARKRITE_AXE);
             putAfter(entries, EItems.DIARKRITE_AXE, EItems.DIARKRITE_HOE);

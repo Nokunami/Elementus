@@ -32,13 +32,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.entity.MobUtil;
-import net.nokunami.elementus.common.item.unique.AnthektiteChargeBlade;
+import net.nokunami.elementus.common.item.unique.BladeOfSurgingWinds;
+import net.nokunami.elementus.common.registry.EEntityTypes;
 import net.nokunami.elementus.common.registry.EItems;
 import net.nokunami.elementus.common.registry.EMobEffects;
-import net.nokunami.elementus.common.registry.ModEntityType;
-import net.nokunami.elementus.common.registry.EParticleTypes;
+import net.nokunami.elementus.common.registry.EParticles;
+import net.nokunami.elementus.common.tags.EBlockTags;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -76,7 +76,7 @@ public class AnthektiteSlashEntity extends Projectile {
     }
 
     public AnthektiteSlashEntity(Level pLevel, LivingEntity pShooter) {
-        this(ModEntityType.ANTHEKTITE_SLASH.get(), pShooter, pLevel);
+        this(EEntityTypes.ANTHEKTITE_SLASH.get(), pShooter, pLevel);
     }
 
     public void launchSlash(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
@@ -217,7 +217,7 @@ public class AnthektiteSlashEntity extends Projectile {
 
     public void tick() {
         if (!this.getItemStack().isEmpty())
-            this.setFriendlyFire(AnthektiteChargeBlade.getFriendlyFire(this.getItemStack()));
+            this.setFriendlyFire(BladeOfSurgingWinds.getFriendlyFire(this.getItemStack()));
 
         Vec3 vec3 = this.getDeltaMovement();
 
@@ -229,7 +229,7 @@ public class AnthektiteSlashEntity extends Projectile {
                 ++tickD;
 
             if (tickD == 1)
-                this.level().addParticle(EParticleTypes.SLASH_IMPACT.get(), this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z, -vec3.x, -vec3.y, -vec3.z);
+                this.level().addParticle(EParticles.SLASH_IMPACT.get(), this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z, -vec3.x, -vec3.y, -vec3.z);
             else if (tickD >= 1)
                 this.discard();
 
@@ -242,7 +242,7 @@ public class AnthektiteSlashEntity extends Projectile {
                 } else {
                     double discardDistance1 = Mth.square(this.getDiscardDistance() - 2);
                     if (this.level().isClientSide() && blockPos <= discardDistance1) {
-                        this.level().addParticle(EParticleTypes.SLASH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+                        this.level().addParticle(EParticles.SLASH_TRAIL.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
                     }
                     delay = 0;
                 }
@@ -255,7 +255,7 @@ public class AnthektiteSlashEntity extends Projectile {
             if (!targets.isEmpty()){
                 for (Entity entity: targets){
                     if (entity instanceof AnthektiteSlashEntity slash && (slash.getTrueOwner() == null || !slash.getTrueOwner().isAlliedTo(this.getTrueOwner()))) {
-                        this.level().addParticle(EParticleTypes.SLASH_CLASH.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+                        this.level().addParticle(EParticles.SLASH_CLASH.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
                         this.discard();
                     } else if (entity instanceof LivingEntity living && entity != this.getTrueOwner()) {
                         damage1 += EnchantmentHelper.getDamageBonus(this.getItemStack(), (living).getMobType());
@@ -268,7 +268,7 @@ public class AnthektiteSlashEntity extends Projectile {
         AABB aabb = this.getBoundingBox().inflate(0.2D);
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockstate = this.level().getBlockState(blockpos);
-            if (blockstate.is(BlockTags.MINEABLE_WITH_HOE) && !blockstate.is(Etags.Blocks.ANTHEKTITE_SLASH_BLACKLIST)) {
+            if (blockstate.is(BlockTags.MINEABLE_WITH_HOE) && !blockstate.is(EBlockTags.ANTHEKTITE_SLASH_BLACKLIST)) {
                 ItemStack itemStack = this.getItemStack();
                 if (this.getItemStack() == null || this.getItemStack().isEmpty()){
                     itemStack = new ItemStack(EItems.ANTHEKTITE_CHARGE_BLADE.get());
@@ -286,15 +286,16 @@ public class AnthektiteSlashEntity extends Projectile {
     }
 
     private void hurtMob(LivingEntity entity, DamageSource source, float damage) {
-        if (!alreadyHitEntities.contains(entity)) {
-            this.alreadyHitEntities.add(entity);
-            this.level().addParticle(EParticleTypes.SLASH_IMPACT.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+        if (!alreadyHitEntities.contains(entity) && entity != getTrueOwner()) {
+            alreadyHitEntities.add(entity);
+            if (tickCount > 6) level().addParticle(EParticles.SLASH_IMPACT.get(), this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
             entity.hurt(source, damage);
+            entity.invulnerableTime = 0;
         }
         if (this.getChargeable()) {
             if (!entity.hasEffect(EMobEffects.ANTHEKTITE_SWORD_DANCE.get()))
-                AnthektiteChargeBlade.setCharge(this.getItemStack(), 1);
-            this.setChargeable(false);
+                BladeOfSurgingWinds.setCharge(getItemStack(), 1);
+            setChargeable(false);
         }
     }
 

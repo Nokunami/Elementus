@@ -17,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.armor.ExtendedArmorModel;
 import net.nokunami.elementus.common.item.DiarkriteBootsItem;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ public class DiarkriteEmissiveLayer<T extends LivingEntity, M extends EntityMode
 
     public DiarkriteEmissiveLayer(RenderLayerParent<T, M> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
-        this.diarkriteEmissive = new ExtendedArmorModel<>(pModelSet.bakeLayer(ModModelLayers.EXTENDED_ARMOR_MODEL));
+        this.diarkriteEmissive = new ExtendedArmorModel<>(pModelSet.bakeLayer(EModelLayers.EXTENDED_ARMOR_MODEL));
     }
 
     public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {

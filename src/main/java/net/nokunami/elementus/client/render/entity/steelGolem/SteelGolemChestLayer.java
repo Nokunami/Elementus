@@ -11,14 +11,13 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemChestModel;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemChestLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
@@ -26,13 +25,13 @@ public class SteelGolemChestLayer<T extends SteelGolem> extends RenderLayer<T, S
 
     public SteelGolemChestLayer(RenderLayerParent<T, SteelGolemModel<T>> renderer, EntityModelSet modelSet) {
         super(renderer);
-        this.model = new SteelGolemChestModel<>(modelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_CHEST));
+        this.model = new SteelGolemChestModel<>(modelSet.bakeLayer(EModelLayers.STEEL_GOLEM_CHEST));
     }
 
     public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, T astaliteGolem, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!astaliteGolem.isInvisible()) {
             if (astaliteGolem.hasChest()) {
-                ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chest.png");
+                ResourceLocation resourcelocation = new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_chest.png");
                 this.getParentModel().copyPropertiesTo(this.model);
                 this.model.prepareMobModel(astaliteGolem, limbSwing, limbSwingAmount, partialTicks);
                 this.model.setupAnim(astaliteGolem, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);

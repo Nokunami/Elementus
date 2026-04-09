@@ -13,27 +13,26 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
 import static net.nokunami.elementus.Elementus.modLoc;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
     private static final Map<SteelGolem.Crackiness, ResourceLocation> GOLEM_CRACKS = ImmutableMap.of(
-            SteelGolem.Crackiness.LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_low.png"),
-            SteelGolem.Crackiness.MEDIUM, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_medium.png"),
-            SteelGolem.Crackiness.HIGH, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_crackiness_high.png")
+            SteelGolem.Crackiness.LOW, new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_crackiness_low.png"),
+            SteelGolem.Crackiness.MEDIUM, new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_crackiness_medium.png"),
+            SteelGolem.Crackiness.HIGH, new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_crackiness_high.png")
     );
     private static final Map<SteelGolem.ChassisCrackiness, ResourceLocation> CHASSIS_CRACKS = ImmutableMap.of(
-            SteelGolem.ChassisCrackiness.VERY_LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_very_low.png"),
-            SteelGolem.ChassisCrackiness.LOW, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_low.png"),
-            SteelGolem.ChassisCrackiness.MEDIUM, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_medium.png"),
-            SteelGolem.ChassisCrackiness.HIGH, new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_high.png")
+            SteelGolem.ChassisCrackiness.VERY_LOW, new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_very_low.png"),
+            SteelGolem.ChassisCrackiness.LOW, new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_low.png"),
+            SteelGolem.ChassisCrackiness.MEDIUM, new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_medium.png"),
+            SteelGolem.ChassisCrackiness.HIGH, new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_chassis_crackiness_high.png")
     );
 
     public SteelGolemLayer(RenderLayerParent<T, SteelGolemModel<T>> render) {
@@ -51,7 +50,7 @@ public class SteelGolemLayer<T extends SteelGolem> extends RenderLayer<T, SteelG
         eyeRGB = Mth.clamp(eyeRGB, 0.0F, 1.0F);
         if (!golem.isInvisible()) {
             String location = golem.getAggroState() ? "aggressive" : "neutral";
-            ResourceLocation eyeTexture = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/steel_golem_" + location + ".png");
+            ResourceLocation eyeTexture = new ResourceLocation(EID, "textures/entity/golem/steel_golem/steel_golem_" + location + ".png");
             RenderType renderLayer = RenderType.entityTranslucentEmissive(eyeTexture);
             VertexConsumer vertex = buffer.getBuffer(renderLayer);
             this.getParentModel().renderToBuffer(poseStack, vertex, fullBright, OverlayTexture.NO_OVERLAY, eyeRGB, eyeRGB, eyeRGB, eyeRGB);

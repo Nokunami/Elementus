@@ -1,24 +1,43 @@
 package net.nokunami.elementus.common.item.basic;
 
+import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.item.IMovcadiaTool;
+import net.nokunami.elementus.common.item.ISecondaryBar;
+import net.nokunami.elementus.common.registry.ETier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-import static net.nokunami.elementus.common.item.EItemUtil.setMovcadiaEssence;
+import static net.nokunami.elementus.common.item.EItemUtil.getEssenceBarWidth;
+import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
 
-public class MovcadiaSwordItem extends ESwordItem implements IMovcadiaTool {
+public class MovcadiaSwordItem extends ESwordItem implements IMovcadiaTool, ISecondaryBar {
 
-    public MovcadiaSwordItem(Tier tier, int attackDamage, float attackSpeed, Properties properties) {
-        super(tier, attackDamage, attackSpeed, properties);
+    public MovcadiaSwordItem() { super(ETier.EnumTiers.MOVCADIA, new Properties().fireResistant()); }
+
+    @Override
+    public ImmutableMultimap.Builder<Attribute, AttributeModifier> attributes(ItemStack stack) {
+        double attackDamage = getDamage();
+        double attackSpeed = getAttackSpeed();
+
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        attackDamage *= Math.min(1, (1 - (((float) stack.getDamageValue() / 2) / (float) stack.getMaxDamage())));
+        attackSpeed *= Math.max(1, ((float) (stack.getMaxDamage() + stack.getDamageValue() * 0.25) / (float) stack.getMaxDamage()));
+        if (getMovcadiaEssence(stack) > 0) attackSpeed /= 1.3F;
+
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(Item.BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(Item.BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
+        return builder;
     }
 
     @Override
@@ -29,11 +48,10 @@ public class MovcadiaSwordItem extends ESwordItem implements IMovcadiaTool {
 
     @Override
     public boolean overrideOtherStackedOnMe(@NotNull ItemStack stack, @NotNull ItemStack other, @NotNull Slot slot, @NotNull ClickAction action, @NotNull Player player, @NotNull SlotAccess access) {
-        return IMovcadiaTool.super.overrideOtherStackedOnMe(stack, other, slot, action, player, access);
+        return IMovcadiaTool.super.clickOnStack(stack, other, slot, action, player, access);
     }
 
-    @Override
-    public float getDestroySpeed(@NotNull ItemStack stack, @NotNull BlockState state) {
-        return getMovcadiaDestroySpeed(stack, state, super.getDestroySpeed(stack, state));
-    }
+    @Override public boolean isSecondBarVisible(ItemStack stack) { return getMovcadiaEssence(stack) > 0; }
+    @Override public int getSecondBarWidth(ItemStack stack) { return getEssenceBarWidth(stack); }
+    @Override public int getSecondBarColor(ItemStack stack) { return 12054986; }
 }

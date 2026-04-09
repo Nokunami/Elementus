@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.projectile.AnthektiteSlashModel;
 import net.nokunami.elementus.common.entity.projectile.AnthektiteSlashEntity;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ public class AnthektiteSlashRenderer extends EntityRenderer<AnthektiteSlashEntit
 
     public AnthektiteSlashRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
-        this.model = new AnthektiteSlashModel(pContext.bakeLayer(ModModelLayers.ANTHEKTITE_SLASH));
+        this.model = new AnthektiteSlashModel(pContext.bakeLayer(EModelLayers.ANTHEKTITE_SLASH));
     }
 
     @Override
@@ -40,6 +40,8 @@ public class AnthektiteSlashRenderer extends EntityRenderer<AnthektiteSlashEntit
             float yRot = -((float) (Mth.atan2(motion.z, motion.x) * (double) (180F / (float) Math.PI)) + 90.0F);
             poseStack.mulPose(Axis.YP.rotationDegrees(yRot));
             poseStack.mulPose(Axis.XP.rotationDegrees(xRot));
+//            poseStack.mulPose(Axis.ZN.rotation(entityRenderDispatcher.cameraOrientation()));
+            poseStack.mulPose(entityRenderDispatcher.cameraOrientation().scale(0.1F));
 
             VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
             this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F,1.0F, 1.0F);

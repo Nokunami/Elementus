@@ -4,7 +4,7 @@
     "tag": "forge:ingots/anthektite"
   },
   "base": {
-    "item": "elementus:steel_chestplate"
+    "item": "elementus:astalite_chestplate"
   },
   "result": {
     "item": "elementus:anthektite_chestplate"

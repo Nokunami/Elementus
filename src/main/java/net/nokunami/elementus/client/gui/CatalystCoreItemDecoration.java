@@ -12,7 +12,7 @@ import net.nokunami.elementus.common.item.unique.TestCatalystArmorItem;
 public class CatalystCoreItemDecoration implements IItemDecorator {
     @Override
     public boolean render(GuiGraphics guiGraphics, Font font, ItemStack stack, int xOffset, int yOffset) {
-        CustomGui gui = new CustomGui(Minecraft.getInstance(), guiGraphics.bufferSource());
+//        CustomGui gui = new CustomGui(Minecraft.getInstance(), guiGraphics.bufferSource());
         if (!stack.isEmpty() && stack.getItem() instanceof TestCatalystArmorItem) {
             PoseStack posestack = guiGraphics.pose();
             posestack.pushPose();

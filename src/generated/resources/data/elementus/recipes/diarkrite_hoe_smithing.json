@@ -4,7 +4,7 @@
     "tag": "forge:ingots/diarkrite"
   },
   "base": {
-    "item": "elementus:steel_hoe"
+    "item": "elementus:astalite_hoe"
   },
   "result": {
     "item": "elementus:diarkrite_hoe"

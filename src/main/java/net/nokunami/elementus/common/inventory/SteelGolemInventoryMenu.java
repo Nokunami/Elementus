@@ -9,10 +9,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
+import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 
 public class SteelGolemInventoryMenu extends AbstractContainerMenu {
@@ -48,7 +47,7 @@ public class SteelGolemInventoryMenu extends AbstractContainerMenu {
 
         this.addSlot(new Slot(container, 2, 8, 54) {
             public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION);
+                return stack.is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION);
             }
             public int getMaxStackSize() {
                 return 1;
@@ -57,7 +56,7 @@ public class SteelGolemInventoryMenu extends AbstractContainerMenu {
 
         this.addSlot(new Slot(container, 3, 8, 72) {
             public boolean mayPlace(@NotNull ItemStack stack) {
-                return stack.is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION);
+                return stack.is(EItemTags.STEEL_GOLEM_CARPET_DECORATION);
             }
             public int getMaxStackSize() {
                 return 1;

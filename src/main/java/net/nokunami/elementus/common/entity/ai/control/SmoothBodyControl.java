@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.control.BodyRotationControl;
  */
 public class SmoothBodyControl extends BodyRotationControl {
     private final Mob mob;
-    private static final float MAX_ROTATE = 75;
+    private static final float MAX_ROTATE = 135;
     private int rotationTickCounter;
     private static final int HISTORY_SIZE = 10;
     private float prevRenderYawHead;

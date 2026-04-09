@@ -55,7 +55,7 @@ public class ModChestRenderer<T extends ModChestBlockEntity & LidBlockEntity> ex
     }
 
     public static Material getChestID(String path) {
-        return new Material(Sheets.CHEST_SHEET, new ResourceLocation(Elementus.MODID, "entity/chest/" + path)) {};
+        return new Material(Sheets.CHEST_SHEET, new ResourceLocation(Elementus.EID, "entity/chest/" + path)) {};
     }
 
     private Material getChestTexture(ModChestBlockEntity tile, ChestType type) {

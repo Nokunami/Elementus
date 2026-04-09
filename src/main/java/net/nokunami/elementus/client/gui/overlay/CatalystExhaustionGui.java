@@ -22,12 +22,11 @@ public class CatalystExhaustionGui implements IGuiOverlay {
     @Override
     public void render(ForgeGui gui, GuiGraphics guiGraphics, float partialTick, int screenWidth, int screenHeight) {
         int x = screenWidth / 2;
-        int y = screenHeight;
 
         if (CatalystExhaustionClient.getExhaustion() > 0) {
             for(int i = 0; i < 10; i++) {
                 guiGraphics.blit(EMPTY,
-                        x - 94 + (i * 8), y - 54,
+                        x - 94 + (i * 8), screenHeight - 54,
                         0,0,
                         9,9,
                         9,9);
@@ -38,7 +37,7 @@ public class CatalystExhaustionGui implements IGuiOverlay {
                     int smallChunk = CatalystExhaustionClient.getExhaustionSmallChunk();
                     if(smallChunk > 0) {
                         guiGraphics.blit(ICON[smallChunk - 1],
-                                x - 94 + (i * 8),y - 54,
+                                x - 94 + (i * 8), screenHeight - 54,
                                 0,0,
                                 9,9,
                                 9,9);

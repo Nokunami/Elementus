@@ -50,7 +50,7 @@ public class GolemLookGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (mob.isInSittingPose() || mob.isChassisBroken()) return false;
+        if (mob.isOrderedToSit() || mob.isChassisBroken()) return false;
         else if (!lookAtEntity) {
             return mob.getRandom().nextFloat() < DEFAULT_PROBABILITY;
         } else {

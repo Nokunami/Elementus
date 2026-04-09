@@ -1,12 +1,6 @@
 package net.nokunami.elementus.common.catalystCore;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.ExtraCodecs;
-import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.LivingEntity;
-import net.nokunami.elementus.common.capability.CatalystExhaustion;
+import net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility;
 import org.jetbrains.annotations.NotNull;
 
 public class CatalystAbilityInstance implements Comparable<AbstractActiveAbility> {

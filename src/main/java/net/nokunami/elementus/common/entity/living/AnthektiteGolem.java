@@ -14,12 +14,12 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.config.EntityConfig;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.GolemFollowOwnerGoal;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.GolemOwnerHurtByGoal;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.GolemOwnerHurtGoal;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.SteelGolemNearestAttackableGoal;
+import net.nokunami.elementus.common.tags.EEntityTags;
 import org.jetbrains.annotations.NotNull;
 
 public class AnthektiteGolem extends TamableGolem {
@@ -44,13 +44,13 @@ public class AnthektiteGolem extends TamableGolem {
 
     @Override
     protected void registerGoals() {
-        goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
-        goalSelector.addGoal(0, new AvoidEntityGoal<>(this, LivingEntity.class, 6, 1, 1.2, e -> e.getType().is(Etags.Entity.ANTHEKTITE_GOLEM_AVOID)));
+//        goalSelector.addGoal(0, new SitWhenOrderedToGoal(this));
+        goalSelector.addGoal(0, new AvoidEntityGoal<>(this, LivingEntity.class, 6, 1, 1.2, e -> e.getType().is(EEntityTags.ANTHEKTITE_GOLEM_AVOID)));
         goalSelector.addGoal(1, new GolemFollowOwnerGoal(this, new GolemFollowOwnerGoal.goalInfo()
                 .speed(1, 1.25).start(8, 20).stop(6, 9).teleport(12, 28)));
 
         targetSelector.addGoal(0, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
-                (entity) -> entity.getType().is(Etags.Entity.ANTHEKTITE_GOLEM_PRIORITY_TARGETS)));
+                (entity) -> entity.getType().is(EEntityTags.ANTHEKTITE_GOLEM_PRIORITY_TARGETS)));
         targetSelector.addGoal(0, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
                 (entity) -> entity instanceof Mob mob && getOwner() != null && mob.getTarget() == getOwner()));
         targetSelector.addGoal(1, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,

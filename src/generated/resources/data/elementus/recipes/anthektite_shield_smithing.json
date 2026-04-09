@@ -4,7 +4,7 @@
     "tag": "forge:ingots/anthektite"
   },
   "base": {
-    "item": "elementus:steel_shield"
+    "item": "elementus:astalite_shield"
   },
   "result": {
     "item": "elementus:anthektite_shield"

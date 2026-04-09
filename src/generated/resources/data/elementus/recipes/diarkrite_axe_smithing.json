@@ -4,7 +4,7 @@
     "tag": "forge:ingots/diarkrite"
   },
   "base": {
-    "item": "elementus:steel_axe"
+    "item": "elementus:astalite_axe"
   },
   "result": {
     "item": "elementus:diarkrite_axe"

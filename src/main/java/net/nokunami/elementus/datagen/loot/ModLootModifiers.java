@@ -12,7 +12,7 @@ public class ModLootModifiers {
 
     public static class ElementusLootModifiers {
         public static final DeferredRegister<Codec<? extends IGlobalLootModifier>>
-                LOOT_MODIFIER_SERIALIZER = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Elementus.MODID);
+                LOOT_MODIFIER_SERIALIZER = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, Elementus.EID);
 
         public static final RegistryObject<Codec<? extends IGlobalLootModifier>> ADD_ITEM = LOOT_MODIFIER_SERIALIZER
                 .register("add_item", ModLootModifier.CODEC);

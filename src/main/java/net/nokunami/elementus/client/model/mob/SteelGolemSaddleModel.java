@@ -3,7 +3,6 @@ package net.nokunami.elementus.client.model.mob;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 
 public class SteelGolemSaddleModel<T extends SteelGolem> extends SteelGolemModel<T> {

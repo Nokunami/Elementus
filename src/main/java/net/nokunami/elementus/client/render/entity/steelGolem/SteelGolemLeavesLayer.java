@@ -11,14 +11,13 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemLeavesLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
@@ -28,16 +27,16 @@ public class SteelGolemLeavesLayer<T extends SteelGolem> extends RenderLayer<T, 
 
     public SteelGolemLeavesLayer(RenderLayerParent<T, SteelGolemModel<T>> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
-        this.model1 = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_EXTRA_1));
-        this.model2 = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_EXTRA_2S));
-        this.modelE = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_EXTRA_3S));
+        this.model1 = new SteelGolemModel<>(pModelSet.bakeLayer(EModelLayers.STEEL_GOLEM_EXTRA_1));
+        this.model2 = new SteelGolemModel<>(pModelSet.bakeLayer(EModelLayers.STEEL_GOLEM_EXTRA_2S));
+        this.modelE = new SteelGolemModel<>(pModelSet.bakeLayer(EModelLayers.STEEL_GOLEM_EXTRA_3S));
     }
 
     public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         int fullBright = 15728880;
         if (!pLivingEntity.isInvisible()) {
-            if (pLivingEntity.isCamouflaged().is(Etags.Items.STEEL_GOLEM_LEAVES_DECORATION)) {
-                ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/leaves/steel_golem_" + pLivingEntity.isCamouflaged().getItem() + ".png");
+            if (pLivingEntity.isCamouflaged().is(EItemTags.STEEL_GOLEM_LEAVES_DECORATION)) {
+                ResourceLocation resourcelocation = new ResourceLocation(EID, "textures/entity/golem/steel_golem/leaves/steel_golem_" + pLivingEntity.isCamouflaged().getItem() + ".png");
                 VertexConsumer vertexconsumer = pBuffer.getBuffer(RenderType.entityCutoutNoCull(resourcelocation));
                 this.getParentModel().copyPropertiesTo(this.model1);
                 this.model1.prepareMobModel(pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTicks);

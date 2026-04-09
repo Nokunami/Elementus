@@ -5,9 +5,13 @@ import net.minecraft.client.model.Model;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.nokunami.elementus.ElementusClient;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.nokunami.elementus.EClient;
 import net.nokunami.elementus.common.registry.CustomRegistries;
 import org.jetbrains.annotations.NotNull;
+
+import static net.nokunami.elementus.common.registry.CustomRegistries.CatalystCoreHelper.CatalystCoreUtil;
 
 public interface IClientCatalystExtension {
     /// Copied from @param IClientItemExtension
@@ -15,7 +19,8 @@ public interface IClientCatalystExtension {
     IClientCatalystExtension DEFAULT = new IClientCatalystExtension() { };
 
     static IClientCatalystExtension ofCore(ItemStack core) {
-        return CustomRegistries.getCatalystCore(core).getRenderPropertiesInternal() instanceof IClientCatalystExtension e ? e : DEFAULT;
+//        return CustomRegistries.getCatalystCore(core).getRenderPropertiesInternal() instanceof IClientCatalystExtension e ? e : DEFAULT;
+        return CatalystCoreUtil(core).getCore().getRenderPropertiesInternal() instanceof IClientCatalystExtension e ? e : DEFAULT;
     }
 
     /**
@@ -28,6 +33,7 @@ public interface IClientCatalystExtension {
      * @return A HumanoidModel to be rendered. Relevant properties are to be copied over by the caller.
      * @see #getGenericArmorModel(LivingEntity, ItemStack, EquipmentSlot, HumanoidModel)
      */
+    @OnlyIn(Dist.CLIENT)
     @NotNull
     default HumanoidModel<?> getHumanoidArmorModel(LivingEntity entity, ItemStack core, EquipmentSlot slot, HumanoidModel<?> original) {
         return original;
@@ -47,11 +53,12 @@ public interface IClientCatalystExtension {
      * @return A Model to be rendered. Relevant properties must be copied over manually.
      * @see #getHumanoidArmorModel(LivingEntity, ItemStack, EquipmentSlot, HumanoidModel)
      */
+    @OnlyIn(Dist.CLIENT)
     @NotNull
     default Model getGenericArmorModel(LivingEntity entity, ItemStack core, EquipmentSlot slot, HumanoidModel<?> original) {
         HumanoidModel<?> replacement = getHumanoidArmorModel(entity, core, slot, original);
         if (replacement != original) {
-            ElementusClient.copyModelProperties(original, replacement);
+            EClient.copyModelProperties(original, replacement);
             return replacement;
         }
         return original;

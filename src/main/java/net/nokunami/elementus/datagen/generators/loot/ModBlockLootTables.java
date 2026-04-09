@@ -36,7 +36,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.dropSelf(EBlocks.STEEL_BLOCK.get());
+        this.dropSelf(EBlocks.ASTALITE_BLOCK.get());
         this.dropSelf(EBlocks.DIARKRITE_BLOCK.get());
         this.dropSelf(EBlocks.ANTHEKTITE_BLOCK.get());
         this.dropSelf(EBlocks.REMNANT.get());

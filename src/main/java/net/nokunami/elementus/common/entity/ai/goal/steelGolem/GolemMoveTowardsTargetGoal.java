@@ -32,7 +32,7 @@ public class GolemMoveTowardsTargetGoal extends Goal {
      */
     public boolean canUse() {
         this.target = this.mob.getTarget();
-        if (mob.isChassisBroken() || mob.getAoeTimer() <= 0 || mob.isInSittingPose())
+        if (mob.isChassisBroken() || mob.getAoeTimer() <= 0 || mob.isOrderedToSit())
             return false;
         else if (this.target == null) {
             return false;

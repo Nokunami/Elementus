@@ -24,6 +24,6 @@ public class DatapackEntriesBuilder extends DatapackBuiltinEntriesProvider {
             .add(Registries.DAMAGE_TYPE, ModDamageTypesTag::bootstrap);
 
     public DatapackEntriesBuilder(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries, BUILDER, Set.of(Elementus.MODID));
+        super(output, registries, BUILDER, Set.of(Elementus.EID));
     }
 }

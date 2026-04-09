@@ -11,14 +11,13 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.ModModelLayers;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.mob.SteelGolemModel;
-import net.nokunami.elementus.common.Etags;
-import net.nokunami.elementus.common.entity.living.AstaliteGolem;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
+import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
 
 @OnlyIn(Dist.CLIENT)
 public class SteelGolemCarpetLayer<T extends SteelGolem> extends RenderLayer<T, SteelGolemModel<T>> {
@@ -26,13 +25,13 @@ public class SteelGolemCarpetLayer<T extends SteelGolem> extends RenderLayer<T, 
 
     public SteelGolemCarpetLayer(RenderLayerParent<T, SteelGolemModel<T>> pRenderer, EntityModelSet pModelSet) {
         super(pRenderer);
-        this.model = new SteelGolemModel<>(pModelSet.bakeLayer(ModModelLayers.STEEL_GOLEM_CARPET));
+        this.model = new SteelGolemModel<>(pModelSet.bakeLayer(EModelLayers.STEEL_GOLEM_CARPET));
     }
 
     public void render(@NotNull PoseStack pPoseStack, @NotNull MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTicks, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         if (!pLivingEntity.isInvisible()) {
-            if (pLivingEntity.getDripCarpet().is(Etags.Items.STEEL_GOLEM_CARPET_DECORATION)) {
-                ResourceLocation resourcelocation = new ResourceLocation(MODID, "textures/entity/golem/steel_golem/carpet/steel_golem_" + pLivingEntity.getDripCarpet().getItem() + ".png");
+            if (pLivingEntity.getDripCarpet().is(EItemTags.STEEL_GOLEM_CARPET_DECORATION)) {
+                ResourceLocation resourcelocation = new ResourceLocation(EID, "textures/entity/golem/steel_golem/carpet/steel_golem_" + pLivingEntity.getDripCarpet().getItem() + ".png");
                 this.getParentModel().copyPropertiesTo(this.model);
                 this.model.prepareMobModel(pLivingEntity, pLimbSwing, pLimbSwingAmount, pPartialTicks);
                 this.model.setupAnim(pLivingEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);

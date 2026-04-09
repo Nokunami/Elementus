@@ -20,7 +20,7 @@ public class GolemOwnerHurtByGoal extends TargetGoal {
 
     @Override
     public boolean canUse() {
-        if (this.golem.isTame() && !this.golem.isOrderedToSit() && !this.golem.isChassisBroken()) {
+        if (this.golem.isTamed() && !this.golem.isOrderedToSit() && !this.golem.isChassisBroken()) {
             LivingEntity livingentity = this.golem.getOwner();
             if (livingentity == null) {
                 return false;

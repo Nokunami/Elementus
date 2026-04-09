@@ -4,7 +4,7 @@
     "tag": "forge:ingots/anthektite"
   },
   "base": {
-    "item": "elementus:steel_hoe"
+    "item": "elementus:astalite_hoe"
   },
   "result": {
     "item": "elementus:anthektite_hoe"

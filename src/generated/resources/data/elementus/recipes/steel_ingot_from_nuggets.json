@@ -4,7 +4,7 @@
   "group": "steel_ingot",
   "key": {
     "#": {
-      "item": "elementus:steel_nugget"
+      "item": "elementus:astalite_nugget"
     }
   },
   "pattern": [
@@ -13,7 +13,7 @@
     "###"
   ],
   "result": {
-    "item": "elementus:steel_ingot"
+    "item": "elementus:astalite_ingot"
   },
   "show_notification": true
 }

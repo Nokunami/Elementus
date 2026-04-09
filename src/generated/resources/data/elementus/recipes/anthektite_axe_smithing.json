@@ -4,7 +4,7 @@
     "tag": "forge:ingots/anthektite"
   },
   "base": {
-    "item": "elementus:steel_axe"
+    "item": "elementus:astalite_axe"
   },
   "result": {
     "item": "elementus:anthektite_axe"

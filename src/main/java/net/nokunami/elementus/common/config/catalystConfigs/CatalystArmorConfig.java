@@ -85,7 +85,7 @@ public class CatalystArmorConfig {
     private void setDefaults() {
         Durability = 40;
         Enchantability = 20;
-        Armor = 8;
+        Armor = 10;
         Toughness = 4;
         KnockbackResist = 0.1;
         AttackSpeed = 0.0;

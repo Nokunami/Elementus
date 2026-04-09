@@ -25,8 +25,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.item.unique.WrathTrident;
-import net.nokunami.elementus.common.registry.ModEntityType;
+import net.nokunami.elementus.common.item.unique.WrathTridentItem;
+import net.nokunami.elementus.common.registry.EEntityTypes;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -36,6 +36,7 @@ public class WrathTridentEntity extends AbstractArrow {
     private static final EntityDataAccessor<ItemStack> ITEM_STACK = SynchedEntityData.defineId(WrathTridentEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(WrathTridentEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> ID_SLOT = SynchedEntityData.defineId(WrathTridentEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> DROPPED = SynchedEntityData.defineId(WrathTridentEntity.class, EntityDataSerializers.BOOLEAN);
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
     public static float bbWidth = 0.5F;
@@ -46,21 +47,22 @@ public class WrathTridentEntity extends AbstractArrow {
     }
 
     public WrathTridentEntity(Level level, LivingEntity entity, ItemStack stack) {
-        super(ModEntityType.WRATH_TRIDENT.get(), entity, level);
-        this.setTridentItem(stack.copy());
-        this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));
-        this.setSlotId(WrathTrident.getSlotId(stack));
+        super(EEntityTypes.WRATH_TRIDENT.get(), entity, level);
+        setTridentItem(stack.copy());
+        entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(stack));
+        setSlotId(WrathTridentItem.getSlotId(stack));
     }
 
-    public static WrathTridentEntity trident(Level level, Entity entity, ItemStack stack) {
-        WrathTridentEntity trident = new WrathTridentEntity(ModEntityType.WRATH_TRIDENT.get(), level);
+    public static WrathTridentEntity dropped(Level level, Entity entity, ItemStack stack) {
+        WrathTridentEntity trident = new WrathTridentEntity(EEntityTypes.WRATH_TRIDENT.get(), level);
         Vec3 position = entity.position();
+        trident.setDropped(true);
         trident.setPos(position);
         trident.setDeltaMovement(entity.getDeltaMovement().scale(1.5F));
-        trident.setOwner(level.getPlayerByUUID(UUID.fromString(WrathTrident.getOwnerTag(stack))));
+        trident.setOwner(level.getPlayerByUUID(UUID.fromString(WrathTridentItem.getOwnerTag(stack))));
         trident.setTridentItem(stack);
         trident.pickup = Pickup.ALLOWED;
-        trident.setSlotId(WrathTrident.getSlotId(stack));
+        trident.setSlotId(WrathTridentItem.getSlotId(stack));
         trident.setLoyalty((byte)EnchantmentHelper.getLoyalty(stack));
 
         return trident;
@@ -69,156 +71,134 @@ public class WrathTridentEntity extends AbstractArrow {
     @Override
     protected void onHitBlock(@NotNull BlockHitResult hitResult) {
         super.onHitBlock(hitResult);
-        this.setSoundEvent(SoundEvents.TRIDENT_HIT_GROUND);
+        setSoundEvent(SoundEvents.TRIDENT_HIT_GROUND);
     }
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(ITEM_STACK, ItemStack.EMPTY);
-        this.entityData.define(ID_LOYALTY, (byte)0);
-        this.entityData.define(ID_SLOT, 0);
+        entityData.define(ITEM_STACK, ItemStack.EMPTY);
+        entityData.define(ID_LOYALTY, (byte)0);
+        entityData.define(ID_SLOT, 0);
+        entityData.define(DROPPED, false);
     }
 
     public void tick() {
-        if (this.inGroundTime > 4) {
-            this.dealtDamage = true;
+        if (inGroundTime > 4) {
+            dealtDamage = true;
         }
 
-        Entity entity = this.getOwner();
-        int i = this.getLoyalty();
-        if (i > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
-            if (!this.isAcceptableReturnOwner()) {
-                if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
-                    this.spawnAtLocation(this.getPickupItem(), 0.1F);
-                }
-                this.discard();
-            } else {
-                this.setNoPhysics(true);
-                Vec3 vec3 = entity.getEyePosition().subtract(this.position());
-                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015D * (double)i, this.getZ());
-                if (this.level().isClientSide)
-                    this.yOld = this.getY();
-
-                float distanceMulti = Mth.clampedLerp(this.distanceTo(entity)/5, 1, 4);
-
+        Entity entity = getOwner();
+        int i = getLoyalty();
+        if (i > 0 && (dealtDamage || isNoPhysics()) && entity != null || isBelowWorld()) {
+            if (!isAcceptableReturnOwner()) {
+//                if (!level().isClientSide && pickup == AbstractArrow.Pickup.ALLOWED) {
+//                    spawnAtLocation(getPickupItem(), 0.1F);
+//                }
+//                discard();
+                if (isBelowWorld()) setDeltaMovement(Vec3.ZERO);
+                else setDeltaMovement(getDeltaMovement().add(0, -1, 0));
+            } else if (isAcceptableReturnOwner()) {
+                setNoPhysics(true);
+                Vec3 vec3 = entity.getEyePosition().subtract(position());
+                setPosRaw(getX(), getY() + vec3.y * 0.015D * (double)i, getZ());
+                if (level().isClientSide) yOld = getY();
+                float distanceMulti = Mth.clampedLerp(distanceTo(entity) / 5, 1, 4);
                 double d0 = (0.05D * (double)i) * distanceMulti;
-                this.setDeltaMovement(this.getDeltaMovement().scale(Mth.clamp(this.distanceTo(entity)/10, 0.95, 0.99)).add(vec3.normalize().scale(d0)));
-                this.getBoundingBox().inflate(5);
-                if (this.clientSideReturnTridentTickCount == 0) {
-                    this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
+                setDeltaMovement(getDeltaMovement().scale(Mth.clamp(distanceTo(entity)/10, 0.95, 0.99)).add(vec3.normalize().scale(d0)));
+                getBoundingBox().inflate(5);
+                if (clientSideReturnTridentTickCount == 0) {
+                    playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
                 }
-
-                ++this.clientSideReturnTridentTickCount;
+                ++clientSideReturnTridentTickCount;
             }
+        }
+
+        if (getOwner() != null) {
+
         }
 
         super.tick();
     }
 
-    private boolean isAcceptableReturnOwner() {
-        Entity entity = this.getOwner();
-        if (entity != null && entity.isAlive()) {
-            return !(entity instanceof ServerPlayer) || !entity.isSpectator();
-        } else {
-            return false;
-        }
+    public boolean isBelowWorld() {
+        return (getY() < (double) (level().getMinBuildHeight() - 64));
     }
 
-    public ItemStack getTridentItem() {
-        return this.entityData.get(ITEM_STACK);
+    @Override protected void onBelowWorld() {
+        setNoPhysics(true);
     }
 
-    public void setTridentItem(ItemStack stack) {
-        this.entityData.set(ITEM_STACK, stack);
+    public boolean isAcceptableReturnOwner() {
+        return getOwner() != null && getOwner().isAlive() && !(getOwner() instanceof ServerPlayer || getOwner().isSpectator());
     }
 
-    public byte getLoyalty() {
-        return this.entityData.get(ID_LOYALTY);
-    }
+    public ItemStack getTridentItem() { return entityData.get(ITEM_STACK); }
+    public void setTridentItem(ItemStack stack) { entityData.set(ITEM_STACK, stack); }
 
-    public void setLoyalty(byte b) {
-        this.entityData.set(ID_LOYALTY, b);
-    }
+    public byte getLoyalty() { return entityData.get(ID_LOYALTY); }
+    public void setLoyalty(byte b) { entityData.set(ID_LOYALTY, b); }
 
-    public int getSlotId() {
-        return this.entityData.get(ID_SLOT);
-    }
+    public int getSlotId() { return entityData.get(ID_SLOT); }
+    public void setSlotId(int i) { entityData.set(ID_SLOT, i); }
 
-    public void setSlotId(int i) {
-        this.entityData.set(ID_SLOT, i);
-    }
+    public boolean isDropped() { return entityData.get(DROPPED); }
+    public void setDropped(boolean b) { entityData.set(DROPPED, b); }
 
-    public @NotNull ItemStack getPickupItem() {
-        return this.getTridentItem().copy();
-    }
+    public @NotNull ItemStack getPickupItem() { return getTridentItem().copy(); }
 
     @Nullable
     protected EntityHitResult findHitEntity(@NotNull Vec3 startVec, @NotNull Vec3 endVec) {
-        return this.dealtDamage ? null : super.findHitEntity(startVec, endVec);
+        return dealtDamage ? null : super.findHitEntity(startVec, endVec);
     }
 
     protected void onHitEntity(EntityHitResult result) {
         Entity entity = result.getEntity();
         float f = 8.0F;
         if (entity instanceof LivingEntity livingentity)
-            f += EnchantmentHelper.getDamageBonus(this.getTridentItem(), livingentity.getMobType());
+            f += EnchantmentHelper.getDamageBonus(getTridentItem(), livingentity.getMobType());
 
-        Entity owner = this.getOwner();
-        DamageSource damagesource = this.damageSources().trident(this, owner == null ? this : owner);
-        this.dealtDamage = true;
+        Entity owner = getOwner();
+        DamageSource damagesource = damageSources().trident(this, owner == null ? this : owner);
+        dealtDamage = true;
         SoundEvent soundevent = SoundEvents.TRIDENT_HIT;
         if (entity.hurt(damagesource, f)) {
-//            if (entity.getType() == EntityType.ENDERMAN)
-//                return;
-
             if (entity instanceof LivingEntity livingEntity) {
                 if (owner != null) {
                     EnchantmentHelper.doPostHurtEffects(livingEntity, owner);
                     EnchantmentHelper.doPostDamageEffects((LivingEntity) owner, livingEntity);
                 }
-                this.doPostHurtEffects(livingEntity);
+                doPostHurtEffects(livingEntity);
             }
         }
 
-        this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
+        setDeltaMovement(getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
         float f1 = 1.0F;
-        if (this.level() instanceof ServerLevel && this.level().isThundering() && this.isChanneling()) {
+        if (level() instanceof ServerLevel /*&& level().isThundering()*/ && isChanneling()) {
             BlockPos blockpos = entity.blockPosition();
-            if (this.level().canSeeSky(blockpos)) {
-                LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level());
-                if (lightningbolt != null) {
-                    lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
-                    lightningbolt.setCause(owner instanceof ServerPlayer ? (ServerPlayer)owner : null);
-                    this.level().addFreshEntity(lightningbolt);
-                    soundevent = SoundEvents.TRIDENT_THUNDER;
-                    f1 = 5.0F;
-                }
+            LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(level());
+            if (lightningbolt != null) {
+                lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
+                lightningbolt.setCause(owner instanceof ServerPlayer ? (ServerPlayer) owner : null);
+                level().addFreshEntity(lightningbolt);
+                soundevent = SoundEvents.TRIDENT_THUNDER;
+                f1 = 5.0F;
             }
         }
-        this.playSound(soundevent, f1, 1.0F);
+        playSound(soundevent, f1, 1.0F);
     }
 
     public boolean isChanneling() {
-        return EnchantmentHelper.hasChanneling(this.getTridentItem());
+        return EnchantmentHelper.hasChanneling(getTridentItem());
     }
 
     protected boolean tryPickup(@NotNull Player player) {
-//        return this.tryPickup1(player) || this.isNoPhysics() && this.ownedBy(player)/* && player.getInventory().add(this.getPickupItem())*/;
-        return checkPickup(player) || this.isNoPhysics() && this.ownedBy(player)/* && player.getInventory().add(this.getPickupItem())*/;
-//        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && (player.getInventory().add(getSlotId(), this.getPickupItem()) || player.getInventory().add(this.getPickupItem()));
+        return checkPickup(player) || isNoPhysics() && ownedBy(player) && player.getInventory().add(getPickupItem());
     }
 
     private boolean checkPickup(Player player) {
-        return switch (this.pickup) {
-            case ALLOWED -> {
-//                Inventory inv = player.getInventory();
-//                if (inv.getItem(this.getSlotId()).isEmpty())
-//                    return inv.add(this.getSlotId(), this.getPickupItem());
-//                else if (inv.isEmpty())
-//                    return inv.add(this.getPickupItem());
-                Inventory inv = player.getInventory();
-                yield inv.add(getSlotId(), this.getPickupItem());
-            }
+        Inventory inv = player.getInventory();
+        return switch (pickup) {
+            case ALLOWED -> inv.getItem(getSlotId()).isEmpty() ? inv.add(getSlotId(), getPickupItem()) : inv.add(getPickupItem());
             case CREATIVE_ONLY -> player.getAbilities().instabuild;
             default -> false;
         };
@@ -230,7 +210,7 @@ public class WrathTridentEntity extends AbstractArrow {
 
     @Override
     public void playerTouch(@NotNull Player player) {
-        if (this.ownedBy(player) || this.getOwner() == null) {
+        if (ownedBy(player) || getOwner() == null) {
             super.playerTouch(player);
         }
     }
@@ -241,25 +221,27 @@ public class WrathTridentEntity extends AbstractArrow {
         if (!stack.isEmpty()) {
             ItemStack itemStack = ItemStack.of(stack);
             if (itemStack.isEmpty()) Elementus.LOGGER.warn("Unable to load Trident from: {}", stack);
-            this.setTridentItem(itemStack);
+            setTridentItem(itemStack);
         }
 
-        this.dealtDamage = tag.getBoolean("DealtDamage");
-        this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(this.getTridentItem()));
-        this.setSlotId(tag.getInt("Slot"));
+        dealtDamage = tag.getBoolean("DealtDamage");
+        entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(getTridentItem()));
+        setSlotId(tag.getInt("Slot"));
+        setDropped(tag.getBoolean("Dropped"));
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        if (!this.getTridentItem().isEmpty())
-            tag.put("Trident", this.getTridentItem().save(new CompoundTag()));
-        tag.putBoolean("DealtDamage", this.dealtDamage);
-        tag.putInt("Slot", this.getSlotId());
+        if (!getTridentItem().isEmpty())
+            tag.put("Trident", getTridentItem().save(new CompoundTag()));
+        tag.putBoolean("DealtDamage", dealtDamage);
+        tag.putInt("Slot", getSlotId());
+        tag.putBoolean("Dropped", isDropped());
     }
 
     public void tickDespawn() {
-        int i = this.getLoyalty();
-        if (this.pickup != AbstractArrow.Pickup.ALLOWED || i <= 0) {
+        int i = getLoyalty();
+        if (pickup != AbstractArrow.Pickup.ALLOWED || i <= 0) {
             super.tickDespawn();
         }
 

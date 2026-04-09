@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
@@ -21,11 +22,10 @@ import net.nokunami.elementus.common.CreativeTabProperties;
 import net.nokunami.elementus.common.config.*;
 import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
 import net.nokunami.elementus.common.config.catalystConfigs.CatalystISSConfig;
-import net.nokunami.elementus.common.network.ModNetwork;
+import net.nokunami.elementus.common.network.ENetwork;
 import net.nokunami.elementus.common.registry.*;
 import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
 import net.nokunami.elementus.datagen.loot.ModLootModifiers;
-import net.nokunami.elementus.event.ClientEvents;
 import net.nokunami.elementus.event.ServerEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,13 +33,15 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
+import static net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility.ABILITIES;
+import static net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility.ABILITIES_MAP;
 import static net.nokunami.elementus.common.catalystCore.core.CatalystCore.*;
 
-@Mod(MODID)
-@Mod.EventBusSubscriber(modid = MODID)
+@Mod(EID)
+@Mod.EventBusSubscriber(modid = EID)
 public class Elementus {
-    public static final String MODID = "elementus";
+    public static final String EID = "elementus";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String CONFIG_VERSION = "1.4";
     public static final Path TIER_CONFIG_PATH = configPath("tier_config.toml");
@@ -60,7 +62,7 @@ public class Elementus {
     }
 
     public static ResourceLocation modLoc(String location) {
-        return modLoc(MODID, location);
+        return modLoc(EID, location);
     }
 
     public static ResourceLocation modLoc(String id, String location) {
@@ -79,30 +81,35 @@ public class Elementus {
 
         CatalystISSConfig.reload();
 
+        modEventBus.addListener(EConfig::load);
+        modEventBus.addListener(EConfig::reload);
+
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, EConfig.CLIENT_SPEC, "elementus/client.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, EConfig.COMMON_SPEC, "elementus/common.toml");
 
         EItems.register(modEventBus);
         EBlocks.register(modEventBus);
         ModBlockEntityType.register(modEventBus);
-        ModEntityType.register(modEventBus);
+        EEntityTypes.register(modEventBus);
         ModLootModifiers.register(modEventBus);
-        ESoundEvents.register(modEventBus);
+        ESounds.register(modEventBus);
         EMobEffects.register(modEventBus);
         EEnchantments.register(modEventBus);
         ModTrunkPlacer.register(modEventBus);
-        EParticleTypes.register(modEventBus);
+        EParticles.register(modEventBus);
         CatalystCoreRegistry.register(modEventBus);
+        CatalystAbilities.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, ECapabilities::attachEntityCapability);
 
         modEventBus.addListener(CreativeTabProperties::addCreative);
         modEventBus.addListener(this::addPackFinders);
         modEventBus.addListener(this::commonSetup);
-        ModNetwork.setup();
 
-        modEventBus.addListener(ClientEvents::itemDecorations);
-        modEventBus.addListener(ClientEvents::onRegisterKeybinds);
+
+//        modEventBus.addListener(ClientEvents::itemDecorations);
+//        modEventBus.addListener(ClientEvents::onRegisterKeybinds);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
@@ -112,6 +119,9 @@ public class Elementus {
         ComposterBlock.COMPOSTABLES.put(EItems.FLOWERING_MOVCADIA_LEAVES.get(), 0.3F);
         CATALYST_CORE_LIST.forEach(core -> CORE_ITEM_MAP.put(core.getCoreStack().getItem(), core));
         CATALYST_CORE_LIST.forEach(core -> CORE_ITEMSTACK_MAP.put(core.itemStack, core));
+        ABILITIES.forEach(ability -> ABILITIES_MAP.put(ability.getId(), ability));
+        event.enqueueWork(ENetwork::setup);
+        EGameRules.init();
     }
 
     public void addPackFinders(AddPackFindersEvent event) {

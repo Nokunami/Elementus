@@ -4,7 +4,7 @@
     "tag": "forge:ingots/diarkrite"
   },
   "base": {
-    "item": "elementus:steel_leggings"
+    "item": "elementus:astalite_leggings"
   },
   "result": {
     "item": "elementus:diarkrite_leggings"

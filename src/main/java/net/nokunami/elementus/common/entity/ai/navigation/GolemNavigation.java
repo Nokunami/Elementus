@@ -24,7 +24,7 @@ public class GolemNavigation extends GroundPathNavigation {
     }
 
     protected @NotNull PathFinder createPathFinder(int pMaxVisitedNodes) {
-        nodeEvaluator = new WalkNodeEvaluator();
+        nodeEvaluator = new CustomWalkNodeEvaluator();
         nodeEvaluator.setCanOpenDoors(true);
         nodeEvaluator.setCanPassDoors(true);
         nodeEvaluator.setCanFloat(false);

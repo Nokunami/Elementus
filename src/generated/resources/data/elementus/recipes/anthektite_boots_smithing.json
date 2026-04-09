@@ -4,7 +4,7 @@
     "tag": "forge:ingots/anthektite"
   },
   "base": {
-    "item": "elementus:steel_boots"
+    "item": "elementus:astalite_boots"
   },
   "result": {
     "item": "elementus:anthektite_boots"

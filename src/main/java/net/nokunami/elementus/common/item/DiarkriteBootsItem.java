@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.Lazy;
 import net.nokunami.elementus.common.item.basic.ElementusArmorItem;
-import net.nokunami.elementus.common.registry.ModArmorMaterials;
+import net.nokunami.elementus.common.registry.EArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -27,7 +27,7 @@ import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
 public class DiarkriteBootsItem extends ElementusArmorItem {
     private final Lazy<Multimap<Attribute, AttributeModifier>> silencedAttributes;
 
-    public DiarkriteBootsItem(ModArmorMaterials material, Type type, Properties properties) {
+    public DiarkriteBootsItem(EArmorMaterials.EnumArmorMaterials material, Type type, Properties properties) {
         super(material, type, properties);
         silencedAttributes = Lazy.of(() -> createDefaultAttributeModifiers().build());
     }
@@ -50,7 +50,7 @@ public class DiarkriteBootsItem extends ElementusArmorItem {
             if (getSculkSilencer(stack)) {
                 return silencedAttributes.get();
             } else {
-                return defaultModifiers.get();
+                return super.getAttributeModifiers(slot, stack);
             }
         }
         return ImmutableMultimap.of();

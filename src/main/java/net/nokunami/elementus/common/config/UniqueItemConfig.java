@@ -32,6 +32,7 @@ public class UniqueItemConfig {
     public static double diarkriteChargeBladeSacrificeDamageBonus;
     public static double diarkriteChargeBladeSelfSacrificeDamage;
     public static int diarkriteChargeBladeChargePenalty;
+//    public static GenericChargeBladeConfig BoRGC;
 
     // Anthektite Charge Weapon
     public static int anthektiteChargeBladeDamage;
@@ -62,6 +63,7 @@ public class UniqueItemConfig {
         diarkriteChargeBladeSacrificeDamageBonus = 0.25;
         diarkriteChargeBladeSelfSacrificeDamage = 0.25;
         diarkriteChargeBladeChargePenalty = 10;
+//        BoRGC = new GenericChargeBladeConfig(3, -2.7, 1, 7);
 
         anthektiteChargeBladeDamage = 3;
         anthektiteChargeBladeAttackSpeed = -1.9;
@@ -129,6 +131,15 @@ public class UniqueItemConfig {
                         case "diarkriteChargeBlade.SacrificeDamageBonus": diarkriteChargeBladeSacrificeDamageBonus = value; break;
                         case "diarkriteChargeBlade.SelfSacrificeDamage": diarkriteChargeBladeSelfSacrificeDamage = value; break;
                         case "diarkriteChargeBlade.ChargePenalty": diarkriteChargeBladeChargePenalty = (int) value; break;
+
+//                        case "bladeOfResonance.Damage": BoRGC = (int) value; break;
+//                        case "bladeOfResonance.AttackSpeed": diarkriteChargeBladeAttackSpeed = value; break;
+//                        case "bladeOfResonance.AttackReach": diarkriteChargeBladeAttackReach = value; break;
+//                        case "bladeOfResonance.SonicDamage": diarkriteChargeBladeSonicDamage = value; break;
+//                        case "bladeOfResonance.BaseCharge": diarkriteChargeBladeBaseCharge = (int) value; break;
+//                        case "bladeOfResonance.SacrificeDamageBonus": diarkriteChargeBladeSacrificeDamageBonus = value; break;
+//                        case "bladeOfResonance.SelfSacrificeDamage": diarkriteChargeBladeSelfSacrificeDamage = value; break;
+//                        case "bladeOfResonance.ChargePenalty": diarkriteChargeBladeChargePenalty = (int) value; break;
 
                         case "anthektiteChargeBlade.Damage": anthektiteChargeBladeDamage = (int) value; break;
                         case "anthektiteChargeBlade.AttackSpeed": anthektiteChargeBladeAttackSpeed = value; break;
@@ -198,5 +209,77 @@ public class UniqueItemConfig {
         } catch (IOException e) {
             logger.warn("Could not save configuration file: ", e);
         }
+    }
+
+    public static class GenericChargeBladeConfig {
+        int ChargeBladeDamage;
+        float AttackSpeed;
+        float AttackReach;
+        int BaseCharge;
+
+        public GenericChargeBladeConfig(int damage, double attackSpeed, double attackReach, int baseCharge) {
+            ChargeBladeDamage = damage;
+            AttackSpeed = (float) attackSpeed;
+            AttackReach = (float) attackReach;
+            BaseCharge = baseCharge;
+        }
+
+        public int getDamage() {
+            return ChargeBladeDamage;
+        }
+        public GenericChargeBladeConfig setDamage(int damage) {
+            ChargeBladeDamage = damage;
+            return this;
+        }
+
+        public float getSpeed() {
+            return AttackSpeed;
+        }
+        public GenericChargeBladeConfig setSpeed(double speed) {
+            AttackSpeed = (float) speed;
+            return this;
+        }
+
+        public float getReach() {
+            return AttackReach;
+        }
+        public GenericChargeBladeConfig setReach(double reach) {
+            AttackReach = (float) reach;
+            return this;
+        }
+
+        public float getBaseCharge() {
+            return BaseCharge;
+        }
+        public GenericChargeBladeConfig setBaseCharge(int charge) {
+            BaseCharge = charge;
+            return this;
+        }
+    }
+
+    public static class BoRConfig {
+        float SonicDamage;
+        float SacrificeBonusDamage;
+        float SacrificePenaltyDamage;
+        int ChargePenalty;
+
+        public float getBurstDamage() {
+            return SonicDamage;
+        }
+
+        public float getSacrificeBonusDamage() {
+            return SacrificeBonusDamage;
+        }
+
+        public float getSacrificePenaltyDamage() {
+            return SacrificePenaltyDamage;
+        }
+
+        public int getChargePenalty() {
+            return ChargePenalty;
+        }
+    }
+
+    public static class BoSWConfig {
     }
 }

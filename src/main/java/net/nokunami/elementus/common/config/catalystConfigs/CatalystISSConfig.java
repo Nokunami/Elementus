@@ -91,11 +91,11 @@ public class CatalystISSConfig {
     public static double arcaneRune_SPower;
     public static double arcaneRune_SResist;
     
-    public static double cooldownRune_MaxMana;
-    public static double cooldownRune_ManaRegen;
-    public static double cooldownRune_SPower;
-    public static double cooldownRune_SResist;
-    public static double cooldownRune_Cooldown;
+    public static double recoveryRune_MaxMana;
+    public static double recoveryRune_ManaRegen;
+    public static double recoveryRune_SPower;
+    public static double recoveryRune_SResist;
+    public static double recoveryRune_Cooldown;
     
     public static double protectionRune_MaxMana;
     public static double protectionRune_ManaRegen;
@@ -176,11 +176,11 @@ public class CatalystISSConfig {
         arcaneRune_SPower = 0.0;
         arcaneRune_SResist = 0.0;
 
-        cooldownRune_MaxMana = 25;
-        cooldownRune_ManaRegen = 0.1;
-        cooldownRune_SPower = 0.0;
-        cooldownRune_SResist = 0.0;
-        cooldownRune_Cooldown = 0.3;
+        recoveryRune_MaxMana = 25;
+        recoveryRune_ManaRegen = 0.1;
+        recoveryRune_SPower = 0.0;
+        recoveryRune_SResist = 0.0;
+        recoveryRune_Cooldown = 0.3;
 
         protectionRune_MaxMana = 50;
         protectionRune_ManaRegen = 0.0;
@@ -299,10 +299,11 @@ public class CatalystISSConfig {
                         case "ArcaneRune.SpellPower": arcaneRune_SPower = value; break;
                         case "ArcaneRune.SpellResist": arcaneRune_SResist = value; break;
 
-                        case "CooldownRune.MaxMana": cooldownRune_MaxMana = (int) value; break;
-                        case "CooldownRune.ManaRegen": cooldownRune_ManaRegen = value; break;
-                        case "CooldownRune.SpellPower": cooldownRune_SPower = value; break;
-                        case "CooldownRune.SpellResist": cooldownRune_SResist = value; break;
+                        case "RecoveryRune.MaxMana": recoveryRune_MaxMana = (int) value; break;
+                        case "RecoveryRune.ManaRegen": recoveryRune_ManaRegen = value; break;
+                        case "RecoveryRune.SpellPower": recoveryRune_SPower = value; break;
+                        case "RecoveryRune.SpellResist": recoveryRune_SResist = value; break;
+                        case "RecoveryRune.Cooldown": recoveryRune_Cooldown = value; break;
 
                         case "ProtectionRune.MaxMana": protectionRune_MaxMana = (int) value; break;
                         case "ProtectionRune.ManaRegen": protectionRune_ManaRegen = value; break;
@@ -410,11 +411,12 @@ public class CatalystISSConfig {
             writer.write("# Default: " + arcaneRune_ManaRegen + "\n" + "  ArcaneRune.ManaRegen = " + arcaneRune_ManaRegen + "\n");
             writer.write("# Default: " + arcaneRune_SPower + "\n" + "  ArcaneRune.SpellPower = " + arcaneRune_SPower + "\n");
             writer.write("# Default: " + arcaneRune_SResist + "\n" + "  ArcaneRune.SpellResist = " + arcaneRune_SResist + "\n");
-            writer.write("[IronsSpellbooks.CooldownRune]\n");
-            writer.write("# Default: " + cooldownRune_MaxMana + "\n" + "  CooldownRune.MaxMana = " + cooldownRune_MaxMana + "\n");
-            writer.write("# Default: " + cooldownRune_ManaRegen + "\n" + "  CooldownRune.ManaRegen = " + cooldownRune_ManaRegen + "\n");
-            writer.write("# Default: " + cooldownRune_SPower + "\n" + "  CooldownRune.SpellPower = " + cooldownRune_SPower + "\n");
-            writer.write("# Default: " + cooldownRune_SResist + "\n" + "  CooldownRune.SpellResist = " + cooldownRune_SResist + "\n");
+            writer.write("[IronsSpellbooks.RecoveryRune]\n");
+            writer.write("# Default: " + recoveryRune_MaxMana + "\n" + "  RecoveryRune.MaxMana = " + recoveryRune_MaxMana + "\n");
+            writer.write("# Default: " + recoveryRune_ManaRegen + "\n" + "  RecoveryRune.ManaRegen = " + recoveryRune_ManaRegen + "\n");
+            writer.write("# Default: " + recoveryRune_SPower + "\n" + "  RecoveryRune.SpellPower = " + recoveryRune_SPower + "\n");
+            writer.write("# Default: " + recoveryRune_SResist + "\n" + "  RecoveryRune.SpellResist = " + recoveryRune_SResist + "\n");
+            writer.write("# Default: " + recoveryRune_Cooldown + "\n" + "  RecoveryRune.Cooldown = " + recoveryRune_Cooldown + "\n");
             writer.write("[IronsSpellbooks.ProtectionRune]\n");
             writer.write("# Default: " + protectionRune_MaxMana + "\n" + "  ProtectionRune.MaxMana = " + protectionRune_MaxMana + "\n");
             writer.write("# Default: " + protectionRune_ManaRegen + "\n" + "  ProtectionRune.ManaRegen = " + protectionRune_ManaRegen + "\n");

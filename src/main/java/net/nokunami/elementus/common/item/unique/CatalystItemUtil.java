@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.init.ModEffect;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -13,23 +14,27 @@ import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
 import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
+import net.nokunami.elementus.common.item.EItemUtil;
 import net.nokunami.elementus.common.registry.CustomRegistries;
 import net.nokunami.elementus.common.registry.EItems;
 import net.nokunami.elementus.common.registry.EMobEffects;
-import net.nokunami.elementus.common.registry.ESoundEvents;
+import net.nokunami.elementus.common.registry.ESounds;
+import net.nokunami.elementus.common.tags.EItemTags;
 
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
-import static net.nokunami.elementus.Elementus.MODID;
+import static net.nokunami.elementus.Elementus.EID;
 import static net.nokunami.elementus.ModChecker.cataclysm;
 import static net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig.*;
 import static net.nokunami.elementus.common.item.unique.CatalystArmorItem.catalystActivator;
+import static net.nokunami.elementus.common.registry.CustomRegistries.CatalystCoreHelper.CatalystCoreUtil;
+import static net.nokunami.elementus.common.registry.CustomRegistries.getCatalystCore;
 
 public class CatalystItemUtil {
     public static final String netherStar = "nether_star";
@@ -40,11 +45,12 @@ public class CatalystItemUtil {
     public static final String cursium = "cursium_ingot";
     public static final String witheredNetherStar = "withered_nether_star";
 
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void netherStar(ItemStack s, Player p) {
         boolean healthActivation = p.getMaxHealth() / 2.0F >= p.getHealth();
         if (catalystActivator(s).equals(CatalystItemUtil.netherStar)) {
             if (healthActivation && !p.getCooldowns().isOnCooldown(s.getItem())) {
-                p.playSound(ESoundEvents.CATALYST_ARMOR_ACTIVATE.get(), 1.25F, 1.5F + p.level().getRandom().nextFloat() * 0.4F);
+                p.playSound(ESounds.CATALYST_ARMOR_ACTIVATE.get(), 1.25F, 1.5F + p.level().getRandom().nextFloat() * 0.4F);
                 p.removeEffect(EMobEffects.BEACON_POWER.get());
                 if (!p.hasEffect(EMobEffects.BEACON_POWER.get())) {
                     p.addEffect(new MobEffectInstance(EMobEffects.BEACON_POWER.get(), 100 + CatalystArmorConfig.NSDuration, CatalystArmorConfig.NSBoostedAmp));
@@ -58,6 +64,7 @@ public class CatalystItemUtil {
             }
         }
     }
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void ignitium(ItemStack s, Player p) {
         boolean healthActivation = p.getMaxHealth() / 2.0F >= p.getHealth();
         if (catalystActivator(s).equals(CatalystItemUtil.ignitium)) {
@@ -74,11 +81,13 @@ public class CatalystItemUtil {
             }
         }
     }
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void arcane(ItemStack s, Player p) {
         if (catalystActivator(s).equals(CatalystItemUtil.arcane)) {
             p.addEffect(new MobEffectInstance(EMobEffects.ISSEffects.ADD_ISS_MANA.get(), 0, 0, false, false, true));
         }
     }
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void heartSea(ItemStack s, Player p) {
         if (catalystActivator(s).equals(CatalystItemUtil.heartSea)) {
             if (p.isInWaterOrRain()) {
@@ -87,6 +96,7 @@ public class CatalystItemUtil {
             }
         }
     }
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void witheredNetherStar(ItemStack s, Player p) {
         boolean healthActivation = p.getMaxHealth() / 2.0F >= p.getHealth();
         if (catalystActivator(s).equals(CatalystItemUtil.witheredNetherStar)) {
@@ -100,6 +110,7 @@ public class CatalystItemUtil {
         }
     }
 
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void alliedMobEffects(Entity entity, int type) {
         int amp1 = 1;
         int amp2 = 2;
@@ -125,6 +136,7 @@ public class CatalystItemUtil {
         }
     }
 
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void effectRadius(Player p, ItemStack stack, Level w, int type) {
         Level level = p.level();
         String catalyst = catalystActivator(stack);
@@ -157,6 +169,7 @@ public class CatalystItemUtil {
         }
     }
 
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void areaEffect(Player p, Level w, int type, int range) {
         for (Entity entity : w.getEntities(p, p.getBoundingBox().inflate(range))) {
             if (entity instanceof LivingEntity livingEntity) {
@@ -175,6 +188,7 @@ public class CatalystItemUtil {
         }
     }
 
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public static void mobEffect(Entity entity, mobEffectType effect, int duration, int amp, boolean ambient, boolean visible, boolean icon) {
         if (duration != 0) {
             if (entity instanceof LivingEntity livingEntity) {
@@ -193,166 +207,7 @@ public class CatalystItemUtil {
         }
     }
 
-    public static int getTextureType(ItemStack stack) {
-        return stack.getOrCreateTag().getInt("TextureType");
-    }
-
-    public static void changeTextureType(ItemStack stack, int type) {
-        stack.getOrCreateTag().putInt("TextureType", type);
-    }
-
-    public static int getContentLWeight(ItemStack pStack) {
-        return getContentsL(pStack).mapToInt(ItemStack::getCount).sum();
-    }
-
-    public static int checkElytraEquiped(ItemStack pStack) {
-        return getElytraEquiped(pStack).mapToInt(ItemStack::getCount).sum();
-    }
-
-    public static Optional<ItemStack> removeCoreL(ItemStack stack) {
-        ListTag items = stack.getOrCreateTag().getList("Items", 10);
-        ItemStack itemstack = ItemStack.of(items.getCompound(0));
-
-        if (!stack.getOrCreateTag().contains("Items")) {
-            return Optional.empty();
-        } else {
-            if (items.isEmpty()) {
-                return Optional.empty();
-            } else {
-                items.remove(0);
-                if (items.isEmpty()) {
-                    stack.removeTagKey("Items");
-                }
-                return Optional.of(itemstack);
-            }
-        }
-    }
-
-    public static Optional<ItemStack> removeEquipedElytra(ItemStack stack) {
-        ListTag items = stack.getOrCreateTag().getList("ElytraEquiped", 10);
-        ItemStack itemstack = ItemStack.of(items.getCompound(0));
-
-        if (!stack.getOrCreateTag().contains("ElytraEquiped")) {
-            return Optional.empty();
-        } else {
-            if (items.isEmpty()) {
-                return Optional.empty();
-            } else {
-                items.remove(0);
-                if (items.isEmpty()) {
-                    stack.removeTagKey("ElytraEquiped");
-                }
-                return Optional.of(itemstack);
-            }
-        }
-    }
-
-    public static Stream<ItemStack> getContentsL(ItemStack stack) {
-        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("Items", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
-    }
-
-    public static Stream<ItemStack> getElytraEquipped(ItemStack stack) {
-        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("ElytraEquipped", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
-    }
-
-    public static Stream<ItemStack> getElytraEquiped(ItemStack stack) {
-        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("ElytraEquiped", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
-    }
-
-    public static Stream<ItemStack> getContents(ItemStack stack) {
-        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("Core", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    public static Stream<ItemStack> getCatalystContents(ItemStack stack) {
-        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("CatalystItems", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
-    }
-
-    public static int getContentAmount(ItemStack stack) {
-//        return getContents1(stack).mapToInt(ItemStack::getCount).sum();
-        return getCatalystContents(stack).mapToInt(itemStack -> getWeight(itemStack) * itemStack.getCount()).sum();
-    }
-
-//    private static Optional<CompoundTag> getMatchingItem(ItemStack stack, ListTag list) {
-//        return stack.is(Items.BUNDLE) ? Optional.empty() :
-//                list.stream()
-//                        .filter(CompoundTag.class::isInstance)
-//                        .map(CompoundTag.class::cast)
-//                        .filter((p_186350_) -> ItemStack.isSameItemSameTags(ItemStack.of(p_186350_), stack))
-//                        .findFirst();
-//    }
-
-    public static int getWeight(ItemStack stack) {
-        return 1;
-    }
-
-    public static int insertStack(ItemStack chestplate, ItemStack insertStack) {
-        if (!insertStack.isEmpty() && (CatalystCore.filter(insertStack) && getEquippedCore(chestplate).isEmpty() || insertStack.is(Etags.Items.CATALYST_ELYTRA) && getEquippedElytra(chestplate).isEmpty())) {
-            CompoundTag compoundtag = chestplate.getOrCreateTag();
-            int maxSize = 2;
-            if (!compoundtag.contains("CatalystItems")) {
-                compoundtag.put("CatalystItems", new ListTag());
-            }
-
-            int contentWeight = getContentAmount(chestplate);
-            int weight = getWeight(insertStack);
-            int k = Math.min(insertStack.getCount(), (maxSize - contentWeight) / weight);
-            if (k == 0) {
-                return 0;
-            } else {
-                ListTag catalystItems = compoundtag.getList("CatalystItems", 10);
-                ItemStack copied = insertStack.copyWithCount(k);
-                CompoundTag newTag = new CompoundTag();
-                copied.save(newTag);
-                if (catalystItems.isEmpty() || CatalystCore.filter(copied))
-                    catalystItems.add(0, newTag);
-                else if (getEquippedCore(chestplate).isPresent() && copied.is(Etags.Items.CATALYST_ELYTRA))
-                    catalystItems.add(1, newTag);
-                return k;
-            }
-        } else {
-            return 0;
-        }
-    }
-
-    public static Optional<ItemStack> takeStack(ItemStack stack) {
-        ListTag catalystItems = stack.getOrCreateTag().getList("CatalystItems", 10);
-        if (!stack.getOrCreateTag().contains("CatalystItems")) return Optional.empty();
-
-        else {
-            if (catalystItems.isEmpty()) return Optional.empty();
-            else {
-                ItemStack itemstack = ItemStack.of(catalystItems.getCompound(0));
-                catalystItems.remove(0);
-                if (catalystItems.isEmpty()) {
-                    stack.removeTagKey("CatalystItems");
-                    if (stack.getOrCreateTag().contains("TextureType"))
-                        stack.removeTagKey("TextureType");
-                }
-                return Optional.of(itemstack);
-            }
-        }
-    }
-
-    public static Optional<ItemStack> getEquippedCore(ItemStack stack) {
-        return getCatalystContents(stack).filter(CatalystCore::filter).findAny();
-    }
-    public static Optional<ItemStack> getEquippedElytra(ItemStack stack) {
-        return getCatalystContents(stack).filter(elytra -> elytra.is(Etags.Items.CATALYST_ELYTRA)).findAny();
-    }
-
-    public static String getCoreInstance(ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTag();
-        return tag.getString("CoreInstance");
-    }
-
-    public static String setCoreInstance(ItemStack stack) {
-        CompoundTag tag = stack.getOrCreateTag();
-        tag.putString("CoreInstance", CustomRegistries.getCatalystId(stack));
-    }
-
+    @Deprecated(forRemoval = true, since = "1.20.1")
     public enum mobEffectType {
         JUMP("jump"),
         SPEED("speed"),
@@ -373,39 +228,196 @@ public class CatalystItemUtil {
         }
     }
 
-
-    //Textures
-    public static String armorTexture(ItemStack stack, Entity entity) {
-        return baseTextures(stack, entity);
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static boolean isCatalystChestplate(LivingEntity entity) {
+        return EItemUtil.isEquipment(entity, EItems.CATALYST_CHESTPLATE.get());
     }
+
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static int getContentLWeight(ItemStack pStack) {
+        return getContentsL(pStack).mapToInt(ItemStack::getCount).sum();
+    }
+
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static int checkElytraEquiped(ItemStack pStack) {
+        return getElytraEquiped(pStack).mapToInt(ItemStack::getCount).sum();
+    }
+
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static Optional<ItemStack> removeCoreL(ItemStack stack) {
+        ListTag items = stack.getOrCreateTag().getList("Items", 10);
+        ItemStack itemstack = ItemStack.of(items.getCompound(0));
+
+        if (!stack.getOrCreateTag().contains("Items")) {
+            return Optional.empty();
+        } else {
+            if (items.isEmpty()) {
+                return Optional.empty();
+            } else {
+                items.remove(0);
+                if (items.isEmpty()) {
+                    stack.removeTagKey("Items");
+                }
+                return Optional.of(itemstack);
+            }
+        }
+    }
+
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static Optional<ItemStack> removeEquipedElytra(ItemStack stack) {
+        ListTag items = stack.getOrCreateTag().getList("ElytraEquiped", 10);
+        ItemStack itemstack = ItemStack.of(items.getCompound(0));
+
+        if (!stack.getOrCreateTag().contains("ElytraEquiped")) {
+            return Optional.empty();
+        } else {
+            if (items.isEmpty()) {
+                return Optional.empty();
+            } else {
+                items.remove(0);
+                if (items.isEmpty()) {
+                    stack.removeTagKey("ElytraEquiped");
+                }
+                return Optional.of(itemstack);
+            }
+        }
+    }
+
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static Stream<ItemStack> getContentsL(ItemStack stack) {
+        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("Items", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
+    }
+
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static Stream<ItemStack> getElytraEquipped(ItemStack stack) {
+        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("ElytraEquipped", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
+    }
+
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static Stream<ItemStack> getElytraEquiped(ItemStack stack) {
+        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("ElytraEquiped", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
+    }
+
+    @Deprecated(forRemoval = true, since = "1.20.1")
+    public static Stream<ItemStack> getContents(ItemStack stack) {
+        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("Core", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
+    }
+
+    //----- [ Core Contents ]
+
+    public static Stream<ItemStack> getCatalystContents(ItemStack stack) {
+        return stack.getTag() == null ? Stream.empty() : stack.getTag().getList("CatalystItems", 10).stream().map(CompoundTag.class::cast).map(ItemStack::of);
+    }
+
+    public static int getContentAmount(ItemStack stack) {
+        return getCatalystContents(stack).mapToInt(itemStack -> getWeight(itemStack) * itemStack.getCount()).sum();
+    }
+
+    public static int getWeight(ItemStack stack) {
+        return 1;
+    }
+
+    public static int insertStack(ItemStack chestplate, ItemStack insertStack) {
+//        if (!insertStack.isEmpty() && (CatalystCore.filter(insertStack) && getEquippedCore(chestplate).isEmpty() || insertStack.is(EItemTags.CATALYST_ELYTRA) && !hasElytra(chestplate))) {
+        if (!insertStack.isEmpty() && (canEquipCore(chestplate, insertStack) || canEquipElytra(chestplate, insertStack))) {
+            if (!insertStack.is(EItemTags.CATALYST_ELYTRA)) setCoreInstance(chestplate, insertStack);
+            CompoundTag compoundtag = chestplate.getOrCreateTag();
+            int maxSize = 2;
+            if (!compoundtag.contains("CatalystItems")) compoundtag.put("CatalystItems", new ListTag());
+
+            int contentWeight = getContentAmount(chestplate);
+            int weight = getWeight(insertStack);
+            int k = Math.min(insertStack.getCount(), 1);
+            if (k == 0) {
+                return 0;
+            } else {
+                ListTag catalystItems = compoundtag.getList("CatalystItems", 10);
+                ItemStack copied = insertStack.copyWithCount(k);
+                CompoundTag newTag = new CompoundTag();
+                copied.save(newTag);
+                if (catalystItems.isEmpty() || CatalystCore.filter(insertStack))
+                    catalystItems.add(0, newTag);
+                else if (getEquippedCore(chestplate).isPresent() && insertStack.is(EItemTags.CATALYST_ELYTRA))
+                    catalystItems.add(1, newTag);
+                return k;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    public static Optional<ItemStack> takeStack(ItemStack stack) {
+        ListTag catalystItems = stack.getOrCreateTag().getList("CatalystItems", 10);
+        if (!stack.getOrCreateTag().contains("CatalystItems")) return Optional.empty();
+        else {
+            if (catalystItems.isEmpty()) return Optional.empty();
+            else {
+                int selection = Mth.clamp(Selection.get(stack), 0, catalystItems.size() - 1);
+                ItemStack itemstack = ItemStack.of(catalystItems.getCompound(selection));
+                catalystItems.remove(selection);
+                if (catalystItems.isEmpty()) stack.removeTagKey("CatalystItems");
+                removeTextureType(stack);
+                CatalystCoreUtil(stack).getCoreFromString(getCoreInstance(stack)).onCoreRemove(stack);
+                return Optional.of(itemstack);
+            }
+        }
+    }
+
+    public static Optional<ItemStack> getEquippedCore(ItemStack stack) {
+        return getCatalystContents(stack).filter(CatalystCore::filter).findAny();
+    }
+    public static Optional<ItemStack> getEquippedElytra(ItemStack stack) {
+        return getCatalystContents(stack).filter(elytra -> elytra.is(EItemTags.CATALYST_ELYTRA)).findAny();
+    }
+    public static boolean hasCore(ItemStack stack) { return getEquippedCore(stack).isPresent(); }
+    public static boolean hasElytra(ItemStack stack) { return getEquippedElytra(stack).isPresent(); }
+
+    public static boolean canEquipCore(ItemStack chest, ItemStack stack) { return CatalystCore.filter(stack) && !hasCore(chest); }
+    public static boolean canEquipElytra(ItemStack chest, ItemStack stack) { return stack.is(EItemTags.CATALYST_ELYTRA) && !hasElytra(chest); }
+
+    public static String getCoreInstance(ItemStack stack) { return stack.getOrCreateTag().getString("CoreInstance"); }
+    public static void setCoreInstance(ItemStack stack, ItemStack core) { stack.getOrCreateTag().putString("CoreInstance", getCatalystCore(core).getWithNamespace()); }
+
+    // ----- [ TEXTURES ]
+
+    public static int getTrimVisibility(ItemStack stack) {
+        boolean hasTrim = isTrimmed(stack);
+        return Mth.clamp(stack.getOrCreateTag().getInt("TrimVisibility"), hasTrim ? 1 : 0, hasTrim ? 2 : 0);
+    }
+    public static void setTrimVisibility(ItemStack stack, int i) { stack.getOrCreateTag().putInt("TrimVisibility", i); }
+
+    public static boolean isTrimmed(ItemStack stack) { return stack.getTag() != null && stack.getTag().contains("Trim"); }
+
+    public static int getTextureType(ItemStack stack) { return stack.getOrCreateTag().getInt("TextureType"); }
+    public static void setTextureType(ItemStack stack, int type) { stack.getOrCreateTag().putInt("TextureType", type); }
+    public static void removeTextureType(ItemStack stack) { if (!hasCore(stack)) stack.getOrCreateTag().remove("TextureType"); }
+
+    public static String armorTexture(ItemStack stack, Entity entity) { return baseTextures(stack, entity); }
 
     public static String baseTextures(ItemStack stack, Entity entity) {
         String base = "%s:textures/models/armor/catalyst/catalyst_armor_layer.png";
         String format = "%s:textures/models/armor/catalyst/catalyst_%s_armor_layer.png";
-        String armor = String.format(Locale.ROOT, format, MODID, catalystActivator(stack));
+        String armor = String.format(Locale.ROOT, format, EID, catalystActivator(stack));
         if (getContentLWeight(stack) > 0 ) {
             if (catalystActivator(stack).equals(ignitium)) {
                 if (entity instanceof LivingEntity livingEntity && livingEntity.getMaxHealth() / 2.0F >= livingEntity.getHealth()) {
-                    return String.format(Locale.ROOT, format, MODID, ignitium + "_soul");
+                    return String.format(Locale.ROOT, format, EID, ignitium + "_soul");
                 }
-                return String.format(Locale.ROOT, format, MODID, ignitium);
+                return String.format(Locale.ROOT, format, EID, ignitium);
             }
             return armor;
         }
-        return String.format(Locale.ROOT, base, MODID);
-    }
-
-    private static String elytraTexture(ItemStack stack) {
-        if (getElytraEquipped(stack).findAny().isPresent()) {
-            getElytraEquipped(stack).findAny().get().getItem();
-        }
-        return "elytra";
+        return String.format(Locale.ROOT, base, EID);
     }
 
     public static String getElytraTexture(ItemStack stack) {
-        return String.format(Locale.ROOT, "textures/models/armor/catalyst/elytra/catalyst_%s.png", elytraTexture(stack));
+        AtomicReference<String> str = new AtomicReference<>("elytra");
+        getCatalystContents(stack).filter(elytra -> elytra.is(EItemTags.CATALYST_ELYTRA)).findAny().ifPresent(e -> str.set(String.valueOf(e.getItem())));
+        return String.format(Locale.ROOT, "textures/models/armor/catalyst/elytra/catalyst_%s.png", str.get());
+        //TODO: make this registerable like catalyst cores.
     }
 
+    @Deprecated
     private static String testElytraTexture(ItemStack stack) {
         if (getElytraEquipped(stack).findAny().isPresent()) {
             getElytraEquipped(stack).findAny().get().getItem();
@@ -413,12 +425,13 @@ public class CatalystItemUtil {
         return "elytra";
     }
 
+    @Deprecated
     public static String getTestElytraTexture(ItemStack stack) {
         return String.format(Locale.ROOT, "textures/models/armor/catalyst/elytra/catalyst_%s.png", testElytraTexture(stack));
     }
 
     public static class Selection {
-        public static final String SELECTED = "Selected";
+        private static final String SELECTED = "Selected";
 
         public static int get(ItemStack stack) {
             CompoundTag tag = stack.getOrCreateTag();
@@ -434,6 +447,14 @@ public class CatalystItemUtil {
             CompoundTag tag = stack.getTag();
             var count = tag != null ? Math.max(tag.getList("CatalystItems", 10).size(), 1) : 1;
             set(stack, Math.floorMod(get(stack) + amount, count));
+        }
+
+        public static void select(ItemStack stack, int amount) {
+            CompoundTag tag = stack.getTag();
+//            var count = tag != null ? Math.max(tag.getList("CatalystItems", 10).size(), 1) : 1;
+            var count = tag != null ? Math.max(2, 1) : 1;
+//            set(stack, Math.floorMod(get(stack) + amount, count));
+            set(stack, Mth.clamp(get(stack) + amount, 0, isTrimmed(stack) ? 2 : 1));
         }
     }
 }

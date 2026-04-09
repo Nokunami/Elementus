@@ -4,8 +4,8 @@ import moze_intel.projecte.PECore;
 import moze_intel.projecte.api.data.CustomConversionProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.nokunami.elementus.common.Etags;
 import net.nokunami.elementus.common.registry.EItems;
+import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -21,7 +21,7 @@ public class PECustomConversionData extends CustomConversionProvider {
         createConversionBuilder(PECore.rl("elementus"))
 //                .before(ModItems.CRUDE_STEEL.get(), 1_280)
 //                .before(Etags.Items.ORES_ATELIS, 24_576)
-                .before(Etags.Items.INGOTS_STEEL, 1_350)
+                .before(EItemTags.INGOTS_STEEL, 1_350)
 //                .before(ModItems.ATELIS_SCRAP.get(), 12_288)
 //                .before(ModItems.DIARKRITE_INGOT.get(), 77_906)
 //                .before(ModItems.ANTHEKTITE_INGOT.get(), 77_906)

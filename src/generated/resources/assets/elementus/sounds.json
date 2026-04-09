@@ -17,11 +17,26 @@
     ],
     "subtitle": "subtitles.elementus.entitysteel_golem.chested"
   },
+  "entity.steel_golem.death": {
+    "sounds": [
+      "mob/irongolem/death"
+    ],
+    "subtitle": "subtitles.elementus.entitysteel_golem.death"
+  },
   "entity.steel_golem.down": {
     "sounds": [
       "elementus:mob/steel_golem/down"
     ],
     "subtitle": "subtitles.elementus.entitysteel_golem.down"
+  },
+  "entity.steel_golem.hurt": {
+    "sounds": [
+      "mob/irongolem/hit1",
+      "mob/irongolem/hit2",
+      "mob/irongolem/hit3",
+      "mob/irongolem/hit4"
+    ],
+    "subtitle": "subtitles.elementus.entitysteel_golem.hurt"
   },
   "entity.steel_golem.leaves_swag": {
     "sounds": [
@@ -52,6 +67,15 @@
     ],
     "subtitle": "subtitles.elementus.entitysteel_golem.saddled"
   },
+  "entity.steel_golem.step": {
+    "sounds": [
+      "mob/irongolem/walk1",
+      "mob/irongolem/walk2",
+      "mob/irongolem/walk3",
+      "mob/irongolem/walk4"
+    ],
+    "subtitle": "subtitles.elementus.entitysteel_golem.step"
+  },
   "item.anthektite_charge_blade.cleave": {
     "sounds": [
       "entity/endereye/dead1",
@@ -78,7 +102,16 @@
       "elementus:item/diarkrite_shield/block2",
       "elementus:item/diarkrite_shield/block3"
     ],
-    "subtitle": "subtitles.elementus.item.anthektite_shield_block"
+    "subtitle": "subtitles.elementus.item.anthektite_shield.block"
+  },
+  "item.armor.equip_diarkrite": {
+    "sounds": [
+      "elementus:item/armor/equip_diarkrite1",
+      "elementus:item/armor/equip_diarkrite2",
+      "elementus:item/armor/equip_diarkrite3",
+      "elementus:item/armor/equip_diarkrite4"
+    ],
+    "subtitle": "subtitles.elementus.item.armor.equip_diarkrite"
   },
   "item.catalyst_armor.activate": {
     "sounds": [
@@ -86,14 +119,14 @@
       "elementus:item/catalyst_armor/activate2",
       "elementus:item/catalyst_armor/activate3"
     ],
-    "subtitle": "subtitles.elementus.item.catalyst_armor_activation"
+    "subtitle": "subtitles.elementus.item.catalyst_armor.activate"
   },
   "item.catalyst_armor.deactivate": {
     "sounds": [
       "elementus:item/catalyst_armor/deactivate1",
       "elementus:item/catalyst_armor/deactivate2"
     ],
-    "subtitle": "subtitles.elementus.item.catalyst_armor_deactivation"
+    "subtitle": "subtitles.elementus.item.catalyst_armor.deactivate"
   },
   "item.charge_blade.block": {
     "sounds": [
@@ -117,7 +150,7 @@
       "elementus:item/diarkrite_charge_blade/sword_resonance_block2",
       "elementus:item/diarkrite_charge_blade/sword_resonance_block3"
     ],
-    "subtitle": "subtitles.elementus.item.diarkrite_charge_blade.block"
+    "subtitle": "subtitles.elementus.item.diarkrite_charge_blade.block_resonance"
   },
   "item.diarkrite_charge_blade.burst": {
     "sounds": [
@@ -155,7 +188,7 @@
       "elementus:item/diarkrite_charge_blade/sword_resonance_parry1",
       "elementus:item/diarkrite_charge_blade/sword_resonance_parry2"
     ],
-    "subtitle": "subtitles.elementus.item.diarkrite_charge_blade.parry"
+    "subtitle": "subtitles.elementus.item.diarkrite_charge_blade.parry_resonance"
   },
   "item.diarkrite_charge_blade.pulse_burst": {
     "sounds": [
@@ -177,7 +210,7 @@
       "elementus:item/diarkrite_charge_blade/sonic_resonance2",
       "elementus:item/diarkrite_charge_blade/sonic_resonance3"
     ],
-    "subtitle": "subtitles.elementus.item.diarkrite_charge_blade.resonate"
+    "subtitle": "subtitles.elementus.item.diarkrite_charge_blade.sonic_resonance"
   },
   "item.diarkrite_shield.block": {
     "sounds": [
@@ -185,6 +218,6 @@
       "elementus:item/diarkrite_shield/block2",
       "elementus:item/diarkrite_shield/block3"
     ],
-    "subtitle": "subtitles.elementus.item.diarkrite_shield_block"
+    "subtitle": "subtitles.elementus.item.diarkrite_shield.block"
   }
 }
