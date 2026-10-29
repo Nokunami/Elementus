@@ -11,20 +11,24 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.nokunami.elementus.common.item.IETier;
 import net.nokunami.elementus.common.item.IMovcadiaTool;
 import net.nokunami.elementus.common.item.ISecondaryBar;
-import net.nokunami.elementus.common.registry.ETier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-import static net.nokunami.elementus.common.item.EItemUtil.getEssenceBarWidth;
-import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
+import static net.nokunami.elementus.api.util.EItemUtil.getEssenceBarWidth;
+import static net.nokunami.elementus.api.util.EItemUtil.getMovcadiaEssence;
 
 public class MovcadiaShovelItem extends EShovelItem implements IMovcadiaTool, ISecondaryBar {
 
-    public MovcadiaShovelItem() {
-        super(ETier.EnumTiers.MOVCADIA, new Properties().fireResistant());
+    public MovcadiaShovelItem(IETier tier, double damage, double speed, Properties properties) {
+        super(tier, damage, speed, properties);
+    }
+
+    public MovcadiaShovelItem(IETier tier, double damage, double speed) {
+        super(tier, damage, speed, new Properties().fireResistant());
     }
 
     @Override

@@ -1,10 +1,16 @@
-// 1.20.1	2025-08-15T10:46:28.8512183	Tags for minecraft:block mod id elementus
+// 1.20.1	2026-07-19T23:38:37.0431513	Tags for minecraft:block mod id elementus
+0486bc608618a689e2c34cfd3dfe84c278750f38 data/aether/tags/blocks/gravitite_ability_blacklist.json
+986c1e147ae675c82714a652fca7bb51bdcbd442 data/aether/tags/blocks/non_tunnel_replaceable.json
 71d46d8d9077c91285e2d64d6c47396ff8f26913 data/elementus/tags/blocks/diarkrite_efficient.json
 a5ccd42e6d1ff8f83ab7b319a0f170e3c7e33447 data/elementus/tags/blocks/movcadia_grows_on.json
 a0b5a4c32f395e746a011df6476367c16ee3d7c8 data/elementus/tags/blocks/movcadia_logs.json
 965b6a5353209b6388e04a00dcbd69ab309d1ab9 data/elementus/tags/blocks/movcadia_rooted_deepslate.json
 aadb1e35a329c2f48ea4060dc8b3f6962e71b1b8 data/elementus/tags/blocks/movcadia_rooted_dirt.json
 f92c41ce4c3dd51d875dafefe81e048bf6b8f9ed data/elementus/tags/blocks/movcadia_rooted_stone.json
+3a95e2ffc7973f459691f91451785e469082b1d5 data/elementus/tags/blocks/needs_anthektite_tool.json
+a249c46329a41538f49a564e1f14338aaf1be5a0 data/elementus/tags/blocks/needs_astalite_tool.json
+3a95e2ffc7973f459691f91451785e469082b1d5 data/elementus/tags/blocks/needs_diarkrite_tool.json
+32b13946c4cd1f944b029659ccce5fcb2adad4ff data/elementus/tags/blocks/needs_movcadia_tool.json
 65116b695c5206b0607abf75eb3bf4002ceb8784 data/forge/tags/blocks/chests.json
 65116b695c5206b0607abf75eb3bf4002ceb8784 data/forge/tags/blocks/chests/wooden.json
 9be4ee16fa7f38c79febd2498951f860bced0207 data/forge/tags/blocks/fence_gates/wooden.json
@@ -12,6 +18,7 @@ b5721baf6374cb7d8ded94559d036761a19d264f data/forge/tags/blocks/storage_blocks.j
 0ead1c564f93285fae66c97ae726271d04951332 data/forge/tags/blocks/storage_blocks/anthektite.json
 0d3dd4dd42391a8ad32d06be49210205eef850e0 data/forge/tags/blocks/storage_blocks/diarkrite.json
 05f2a0186ba2e1c5f623c7e18ff14b32e23449bf data/forge/tags/blocks/storage_blocks/steel.json
+986c1e147ae675c82714a652fca7bb51bdcbd442 data/irons_spellbooks/tags/blocks/guarded_by_wizards.json
 1bd737ed3de5e6a94f53e433f3210ad16667af64 data/minecraft/tags/blocks/beacon_base_blocks.json
 0590ff5409cbc977e0ba76e0e6e360d5ffdb53c7 data/minecraft/tags/blocks/buttons.json
 c62bdec374c982caa72eafa4bdecc7135c61c981 data/minecraft/tags/blocks/ceiling_hanging_signs.json
@@ -51,3 +58,4 @@ c3734d10cfbdddfd72c73070c0586a45e414c754 data/minecraft/tags/blocks/wooden_doors
 113be7f85d70123f321b32db1fac7b88943a46cf data/minecraft/tags/blocks/wooden_slabs.json
 aa6e9c0a4cff9abc580246f5d0bb9cb41eadd356 data/minecraft/tags/blocks/wooden_stairs.json
 dfde8b78be574055b982ee449d101647f2db8e90 data/minecraft/tags/blocks/wooden_trapdoors.json
+31cada16b5bc056b69d9666a4cf756178616f636 data/witherstormmod/tags/blocks/wither_storm_nature_cluster_whitelist.json

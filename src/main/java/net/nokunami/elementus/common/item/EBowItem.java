@@ -14,12 +14,13 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.nokunami.elementus.ModChecker;
+import net.nokunami.elementus.ElementusModCheck;
 import net.nokunami.elementus.common.capability.itemNotifier.ItemNotifier;
-import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.common.network.ENet;
+import net.nokunami.elementus.config.EConfig;
 import net.nokunami.elementus.common.network.server.ItemNotifierDingC2SPacket;
 import net.nokunami.elementus.common.network.server.ItemNotifierResetC2SPacket;
-import net.nokunami.elementus.common.registry.ETier;
+import net.nokunami.elementus.common.registry.ETiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,8 +33,8 @@ public class EBowItem extends BowItem {
     private static final Component ANTHEKTITE_TOOLTIP_INFO = Component.translatableWithFallback("item.elementus.anthektite_bow_info", "Quick draw").withStyle(ChatFormatting.AQUA);
     private static final Component ANTHEKTITE_TOOLTIP_DESC = Component.translatableWithFallback("item.elementus.anthektite_bow_desc", "Shorter draw time").withStyle(ChatFormatting.DARK_GRAY);
 
-    public EBowItem(Properties pProperties, Tier tier) {
-        super(pProperties);
+    public EBowItem(Properties properties, Tier tier) {
+        super(properties.defaultDurability(EConfig.toolConfig.get(tier).bowDurability));
         this.tier = tier;
     }
 
@@ -57,10 +58,10 @@ public class EBowItem extends BowItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        if (!getTier().equals(ETier.EnumTiers.ASTALITE) || ModChecker.archeryExp) {
-            tooltip.add(getTier().equals(ETier.EnumTiers.DIARKRITE) ? DIARKRITE_TOOLTIP_INFO : ANTHEKTITE_TOOLTIP_INFO);
+        if (!getTier().equals(ETiers.ASTALITE) || ElementusModCheck.archeryExp) {
+            tooltip.add(getTier().equals(ETiers.DIARKRITE) ? DIARKRITE_TOOLTIP_INFO : ANTHEKTITE_TOOLTIP_INFO);
             if (Screen.hasShiftDown()) {
-                tooltip.add(getTier().equals(ETier.EnumTiers.DIARKRITE) ? DIARKRITE_TOOLTIP_DESC : ANTHEKTITE_TOOLTIP_DESC);
+                tooltip.add(getTier().equals(ETiers.DIARKRITE) ? DIARKRITE_TOOLTIP_DESC : ANTHEKTITE_TOOLTIP_DESC);
             }
         }
     }
@@ -79,7 +80,7 @@ public class EBowItem extends BowItem {
 //                        c -> {
 //                            int dih1 = c.getDing();
 //                            if (f > 0.9 && dih1 < 1 || f > 1.9 && dih1 < 2) {
-//                                ENetwork.sendToServer(new ItemNotifierDingC2SPacket());
+//                                ENet.sendToServer(new ItemNotifierDingC2SPacket());
 //                                level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 1 / (level.getRandom().nextFloat() * 0.1F + 0.8F) + f * 0.5F);
 //                            }
 //                        }
@@ -87,7 +88,7 @@ public class EBowItem extends BowItem {
                 ItemNotifier in = ItemNotifier.instance(player);
                 int dih1 = in.getDing();
                 if (f > 0.9 && dih1 < 1 || f > 1.9 && dih1 < 2) {
-                    ENetwork.sendToServer(new ItemNotifierDingC2SPacket(f));
+                    ENet.sendToServer(new ItemNotifierDingC2SPacket(f));
 //                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 1 / (level.getRandom().nextFloat() * 0.1F + 0.8F) + f * 0.5F);
                 }
             }
@@ -96,12 +97,12 @@ public class EBowItem extends BowItem {
 
     @Override
     public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
-        ENetwork.sendToServer(new ItemNotifierResetC2SPacket());
+        ENet.sendToServer(new ItemNotifierResetC2SPacket());
     }
 
     @Override
     public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int timeLeft) {
-        if (ModChecker.archeryExp) super.releaseUsing(stack, level, entity, timeLeft);
+        if (ElementusModCheck.archeryExp) super.releaseUsing(stack, level, entity, timeLeft);
         else if (entity instanceof Player player) {
             boolean arrowCheck = player.getAbilities().instabuild || stack.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0;
             ItemStack itemstack = player.getProjectile(stack);
@@ -153,7 +154,7 @@ public class EBowItem extends BowItem {
     }
 
     public float getPowerForTick(int charge) {
-        boolean dir = getTier().equals(ETier.EnumTiers.DIARKRITE);
+        boolean dir = getTier().equals(ETiers.DIARKRITE);
 
         float power = (float) charge / getPullLimit();
         power = (power * power + power * 2) / 3;
@@ -164,7 +165,7 @@ public class EBowItem extends BowItem {
     }
 
     public float getPullLimit() {
-        return getTier().equals(ETier.EnumTiers.DIARKRITE) ? 30 : getTier().equals(ETier.EnumTiers.ANTHEKTITE) ? 15 : 20;
+        return getTier().equals(ETiers.DIARKRITE) ? 30 : getTier().equals(ETiers.ANTHEKTITE) ? 15 : 20;
     }
 
     public static void setDing(ItemStack stack, int i) {

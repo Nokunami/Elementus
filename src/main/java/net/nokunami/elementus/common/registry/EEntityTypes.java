@@ -11,11 +11,11 @@ import net.nokunami.elementus.common.entity.CatalystTotemMarker;
 import net.nokunami.elementus.common.entity.boss.FragmentedWither;
 import net.nokunami.elementus.common.entity.living.AstaliteGolemCarrier;
 import net.nokunami.elementus.common.entity.living.AstaliteGolemLongarm;
+import net.nokunami.elementus.common.entity.living.Automaton;
 import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.entity.projectile.*;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
 import net.nokunami.elementus.common.entity.vehicle.ModChestBoatEntity;
-import net.nokunami.elementus.common.registry.tempCompat.CompatEntityTypes;
 
 public class EEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Elementus.EID);
@@ -55,8 +55,8 @@ public class EEntityTypes {
     public static final RegistryObject<EntityType<CatalystTotemMarker>> CATALYST_TOTEM_MARKER = ENTITY_TYPES.register("catalyst_totem_marker",
             () -> EntityType.Builder.of(CatalystTotemMarker::new, MobCategory.MISC).fireImmune().sized(0.3F, 0.3F).build("catalyst_totem_marker"));
 
-    public static void register(IEventBus eventBus) {
-        ENTITY_TYPES.register(eventBus);
-        CompatEntityTypes.register(eventBus);
-    }
+    public static final RegistryObject<EntityType<Automaton>> AUTOMATON = ENTITY_TYPES.register("automaton",
+            () -> EntityType.Builder.of(Automaton::new, MobCategory.MISC).fireImmune().sized(AstaliteGolemLongarm.rawBbWidth, AstaliteGolemLongarm.rawBbHeight).build("automaton"));
+
+    public static void register(IEventBus eventBus) { ENTITY_TYPES.register(eventBus); }
 }

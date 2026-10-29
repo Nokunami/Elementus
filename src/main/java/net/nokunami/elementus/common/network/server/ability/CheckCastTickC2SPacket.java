@@ -2,8 +2,8 @@ package net.nokunami.elementus.common.network.server.ability;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
-import net.nokunami.elementus.common.capability.cAbility.CAbility;
-import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.common.capability.abilityData.AbilityData;
+import net.nokunami.elementus.common.network.ENet;
 import net.nokunami.elementus.common.network.client.ability.SyncCastTickS2CPacket;
 
 import java.util.function.Supplier;
@@ -19,9 +19,9 @@ public class CheckCastTickC2SPacket {
         ctx.get().enqueueWork(() -> {
             var player = ctx.get().getSender();
             if (player != null) {
-                var ca = CAbility.instance(player);
+                var ca = AbilityData.instance(player);
                 if (ca.getCastTick() != tick) {
-                    ENetwork.sendTo(player, new SyncCastTickS2CPacket(ca.getCastTick()));
+                    ENet.sendTo(player, new SyncCastTickS2CPacket(ca.getCastTick()));
                 }
             }
         });

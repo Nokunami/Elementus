@@ -134,7 +134,7 @@ public class ERecipeData extends ModRecipeProvider {
         smithingCombatTransform(writer, EItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, EItems.ASTALITE_BOW, EItemTags.INGOTS_DIARKRITE, EItems.DIARKRITE_BOW);
         smithingCombatTransform(writer, EItems.ATELIS_UPGRADE_SMITHING_TEMPLATE, EItems.ASTALITE_BOW, EItemTags.INGOTS_ANTHEKTITE, EItems.ANTHEKTITE_BOW);
 
-        smithingCombatTransform(writer, EItems.WEAPON_FRAGMENT, EItems.DIARKRITE_SWORD, Items.SCULK_CATALYST, EItems.DIARKRITE_CHARGE_BLADE);
+        smithingCombatTransform(writer, EItems.WEAPON_FRAGMENT, EItems.DIARKRITE_SWORD, Items.SCULK_CATALYST, EItems.BLADE_OF_RESONANCE);
         smithingCombatTransform(writer, EItems.WEAPON_FRAGMENT, EItems.ANTHEKTITE_SWORD, Items.SCULK_CATALYST, EItems.ANTHEKTITE_CHARGE_BLADE);
 
         //Ingredients

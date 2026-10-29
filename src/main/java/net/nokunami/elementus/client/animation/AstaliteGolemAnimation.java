@@ -1,10 +1,9 @@
 package net.nokunami.elementus.client.animation;// Save this class in your mod and generate all required imports
 
 import net.minecraft.client.animation.AnimationChannel;
-import net.minecraft.client.animation.AnimationChannel.*;
+import net.minecraft.client.animation.AnimationChannel.Interpolations;
+import net.minecraft.client.animation.AnimationChannel.Targets;
 import net.minecraft.client.animation.AnimationDefinition;
-import net.minecraft.client.animation.Keyframe;
-import net.minecraft.client.animation.KeyframeAnimations;
 
 import static net.minecraft.client.animation.KeyframeAnimations.degreeVec;
 import static net.minecraft.client.animation.KeyframeAnimations.posVec;

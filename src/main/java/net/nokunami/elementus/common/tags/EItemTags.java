@@ -5,7 +5,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-import static net.nokunami.elementus.ModChecker.*;
+import static net.nokunami.elementus.ElementusModCheck.*;
 
 public class EItemTags {
     public static final TagKey<Item> INGOTS_STEEL = forgeTag("ingots/steel");
@@ -21,13 +21,12 @@ public class EItemTags {
     public static final TagKey<Item> REPAIRS_MOVCADIA_EQUIPMENT = elementusTag("repairs_movcadia_equipment");
 
     public static final TagKey<Item> REPAIRS_CATALYST_ARMOR = elementusTag("repairs_catalyst_armor");
-    public static final TagKey<Item> CATALYST_ITEMS = elementusTag("catalyst/core");
-    public static final TagKey<Item> CATALYST_ELYTRA = elementusTag("catalyst/elytra");
-    public static final TagKey<Item> CORE_NETHER_STAR = elementusTag("catalyst/nether_star");
-    public static final TagKey<Item> CORE_HEART_OF_THE_SEA = elementusTag("catalyst/heart_of_the_sea");
-    public static final TagKey<Item> CORE_TOTEM_OF_UNDYING = elementusTag("catalyst/totem_of_undying");
+
+    public static final TagKey<Item> REPAIRS_LEAVI_PACK = elementusTag("repairs_leavi_pack");
 
     public static final TagKey<Item> ARCANE_SHARPNESS_COMPATIBLE = elementusTag("arcane_sharpness_compatible");
+
+    public static final TagKey<Item> REPAIR_ON_KILL = elementusTag("repair_on_kill");
 
     public static final TagKey<Item> TOUGH_PICAXE = elementusTag("tough_pickaxe");
     public static final TagKey<Item> EFFICIENT_PICKAXE = elementusTag("efficient_pickaxe");
@@ -73,7 +72,7 @@ public class EItemTags {
         return ItemTags.create(new ResourceLocation("forge", name));
     }
 
-    private static TagKey<Item> elementusTag(String name) {
+    static TagKey<Item> elementusTag(String name) {
         return ItemTags.create(new ResourceLocation("elementus", name));
     }
 

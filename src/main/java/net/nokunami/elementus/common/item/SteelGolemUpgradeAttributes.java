@@ -5,7 +5,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-import static net.nokunami.elementus.common.catalystCore.CatalystArmorAttributes.armorUUID;
+import static net.nokunami.elementus.common.item.AttributeUtil.armorUUID;
 
 public class SteelGolemUpgradeAttributes {
 

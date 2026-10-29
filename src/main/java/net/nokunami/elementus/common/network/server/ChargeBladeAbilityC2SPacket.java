@@ -6,13 +6,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
+import net.nokunami.elementus.common.item.enchantment.IChargeBladeEnchantment;
+import net.nokunami.elementus.common.item.unique.ChargeBladeAbility;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 
 import java.util.function.Supplier;
-
-import static net.nokunami.elementus.common.item.unique.BladeOfResonance.*;
 
 /// Code from SpartanObliviousSpartan's SpartanShields mod
 public class ChargeBladeAbilityC2SPacket {
@@ -51,9 +53,14 @@ public class ChargeBladeAbilityC2SPacket {
             boolean shouldStopUsing = false;
             if (stack.getItem() instanceof ChargeBladeItem chargeBladeItem) {
                 ChargeBladeAbility ability = chargeBladeItem.castAbility(player, level, stack, hand);
+                for (Enchantment enchantment : EnchantmentHelper.getEnchantments(stack).keySet()) {
+                    if (enchantment instanceof IChargeBladeEnchantment bladeEnchantment) {
+                        bladeEnchantment.postUseEvent(player);
+                    }
+                }
                 cooldown = ability.getCooldown();
                 shouldStopUsing = ability.stopUsingItem();
-                player.resetAttackStrengthTicker();
+//                player.resetAttackStrengthTicker();
             }
             if (!player.isCreative()) {
                 player.getCooldowns().addCooldown(stack.getItem(), cooldown);

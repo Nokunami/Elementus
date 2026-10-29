@@ -36,7 +36,7 @@ public class MegaMovcadiaTrunkPlacer extends TrunkPlacer {
 
     @Override
     protected @NotNull TrunkPlacerType<?> type() {
-        return ModTrunkPlacer.MEGA_MOVCADIA_TRUNK_PLACER.get();
+        return ETrunkPlacer.MEGA_MOVCADIA_TRUNK_PLACER.get();
     }
 
     private static boolean isDirt(LevelSimulatedReader pLevel, BlockPos pPos) {

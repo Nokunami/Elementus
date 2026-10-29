@@ -1,17 +1,17 @@
 package net.nokunami.elementus.common.catalystCore;
 
-import net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility;
+import net.nokunami.elementus.common.catalystCore.ability.AbstractAbility;
 import org.jetbrains.annotations.NotNull;
 
-public class CatalystAbilityInstance implements Comparable<AbstractActiveAbility> {
-    private final AbstractActiveAbility ability;
+public class CatalystAbilityInstance implements Comparable<AbstractAbility> {
+    private final AbstractAbility ability;
     private int exhaustion;
     private int strain;
 //    private CatalystExhaustion catalystExhaustion;
     private boolean state;
     private int cooldown;
 
-    public CatalystAbilityInstance(AbstractActiveAbility ability, int exhaustion, int strain, int cooldown) {
+    public CatalystAbilityInstance(AbstractAbility ability, int exhaustion, int strain, int cooldown) {
         this.ability = ability;
         this.exhaustion = exhaustion;
         this.strain = strain;
@@ -19,7 +19,7 @@ public class CatalystAbilityInstance implements Comparable<AbstractActiveAbility
     }
 
     @Override
-    public int compareTo(@NotNull AbstractActiveAbility o) {
+    public int compareTo(@NotNull AbstractAbility o) {
         return 0;
     }
 

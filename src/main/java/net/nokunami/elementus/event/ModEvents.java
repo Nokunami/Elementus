@@ -24,7 +24,7 @@ public class ModEvents {
         public static void itemDecorations(RegisterItemDecorationsEvent event) {
             event.register(EItems.CATALYST_CHESTPLATE.get(), new CatalystCoreItemDecoration());
 //            event.register(EItems.TEST_CATALYST_CHESTPLATE.get(), new CatalystCoreItemDecoration());
-            event.register(EItems.DIARKRITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
+            event.register(EItems.BLADE_OF_RESONANCE.get(), new ItemBarItemDecoration());
             event.register(EItems.ANTHEKTITE_CHARGE_BLADE.get(), new ItemBarItemDecoration());
 
             event.register(EItems.MOVCADIA_SWORD.get(), new ItemBarItemDecoration());

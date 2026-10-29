@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
-import net.nokunami.elementus.common.inventory.AstaliteGolemInventoryMenu;
 import net.nokunami.elementus.common.inventory.SteelGolemInventoryMenu;
 import org.jetbrains.annotations.NotNull;
 

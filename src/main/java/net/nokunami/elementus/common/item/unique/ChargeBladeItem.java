@@ -1,19 +1,16 @@
 package net.nokunami.elementus.common.item.unique;
 
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -34,6 +31,10 @@ import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.nokunami.elementus.common.item.AttributeUtil;
+import net.nokunami.elementus.common.item.IETier;
+import net.nokunami.elementus.common.item.basic.ESwordItem;
+import net.nokunami.elementus.common.item.enchantment.IChargeBladeEnchantment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,44 +42,34 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import static net.nokunami.elementus.ModChecker.betterCombat;
-import static net.nokunami.elementus.common.item.EItemUtil.enchantedWith;
+import static net.nokunami.elementus.ElementusModCheck.betterCombat;
+import static net.nokunami.elementus.api.util.EItemUtil.enchantedWith;
 import static net.nokunami.elementus.common.registry.EEnchantments.*;
 
-public abstract class ChargeBladeItem extends SwordItem {
+public abstract class ChargeBladeItem extends ESwordItem {
     public static final String CHARGE_TAG = "Charge";
     public static final String RESONANCE_CHARGE_TAG = "ResonanceCharge";
     public static final String RESONANCE_TICK_TAG = "ResonanceTick";
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    protected static final UUID BASE_ATTACK_REACH_UUID = UUID.fromString("fe181be2-3fd8-4a90-ba64-a4a06cef6d27");
+    protected static final UUID ATTACK_REACH_UUID = UUID.fromString("fe181be2-3fd8-4a90-ba64-a4a06cef6d27");
 
-    public ChargeBladeItem(Tier pTier, int attackDamage, float attackSpeed, float attackReach, Item.Properties properties) {
-        super(pTier, attackDamage, attackSpeed, properties);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        this.defaultModifiers = createAttributes(builder, attackDamage, attackSpeed, attackReach).build();
+    public ChargeBladeItem(IETier pTier, int attackDamage, float attackSpeed, float attackReach, Item.Properties properties) {
+        super(pTier, 0, 0, properties);
     }
 
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
-    }
+//    @Override
+//    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+//        return slot.equals(EquipmentSlot.MAINHAND) ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
+//    }
 
     protected ImmutableMultimap.Builder<Attribute, AttributeModifier> createAttributes(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder, int attackDamage, float attackSpeed, float attackReach) {
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage + this.getTier().getAttackDamageBonus(), AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
-        if (!betterCombat) {
-            if (attackDamage != 0) builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ATTACK_REACH_UUID, "Weapon modifier", attackReach, AttributeModifier.Operation.ADDITION));
-        }
+        AttributeUtil.toggleableAttribute(builder, ATTACK_REACH_UUID, !betterCombat, ForgeMod.ENTITY_REACH, "Weapon modifier", attackReach, AttributeModifier.Operation.ADDITION);
         return builder;
     }
 
-    public int getUseDuration(@NotNull ItemStack pStack) {
-        return 72000;
-    }
-
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
-        return UseAnim.BLOCK;
-    }
+    public int getUseDuration(@NotNull ItemStack stack) { return 72000; }
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) { return UseAnim.BLOCK; }
 
 //    @Override
 //    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -176,17 +167,23 @@ public abstract class ChargeBladeItem extends SwordItem {
 
     public abstract int getChargeStack(ItemStack stack);
 
-    public float getChargeAmount(ItemStack stack, boolean b) {
+    public float getChargeAmount(ItemStack stack, boolean isCreative) {
+//        float i0 = Math.min(getCharge(stack), getChargeStack(stack));
+//        float i1 = getChargeStack(stack);
+//        return !isCreative ? (i0 / i1) : 1;
         float i0 = Math.min(getCharge(stack), getChargeStack(stack));
         float i1 = getChargeStack(stack);
-        float base = !b ? (i0 / i1) : 1;
-        if (enchantedWith(stack, SACRIFICE_CURSE)) base += 1.25F;
+        float base = !isCreative ? (i0 / i1) : 1;
+//        if (enchantedWith(stack, SACRIFICE_CURSE)) base += 1.25F;
+        for (Enchantment enchantment : EnchantmentHelper.getEnchantments(stack).keySet()) {
+            if (enchantment instanceof IChargeBladeEnchantment bladeEnch) {
+                base += (float) bladeEnch.attributes().chargeDamageMultiplier();
+            }
+        }
         return base;
     }
 
-    public static boolean getFriendlyFire(ItemStack stack) {
-        return stack.getOrCreateTag().getBoolean("FriendlyFire");
-    }
+    public static boolean getFriendlyFire(ItemStack stack) { return stack.getOrCreateTag().getBoolean("FriendlyFire"); }
 
     public static void setFriendlyFire(ItemStack stack, boolean b) {
         stack.getOrCreateTag().putBoolean("FriendlyFire", b);
@@ -233,15 +230,9 @@ public abstract class ChargeBladeItem extends SwordItem {
         return super.canApplyAtEnchantingTable(stack, enchantment) && enchantment != Enchantments.UNBREAKING && enchantment != Enchantments.MENDING;
     }
 
-    @Override
-    public boolean isDamageable(ItemStack stack) {
-        return false;
-    }
+    @Override public boolean isDamageable(ItemStack stack) { return false; }
 
-    @Override
-    public boolean canBeHurtBy(@NotNull DamageSource pDamageSource) {
-        return false;
-    }
+    @Override public boolean canBeHurtBy(@NotNull DamageSource pDamageSource) { return false; }
 
     @Override
     public int getBarWidth(@NotNull ItemStack pStack) {
@@ -259,15 +250,13 @@ public abstract class ChargeBladeItem extends SwordItem {
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack stack, LivingEntity target, @NotNull LivingEntity attacker) {
-        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !enchantedWith(stack, SACRIFICE_CURSE)) {
-            setCharge(stack, 1);
-            ServerLevel level = (ServerLevel)attacker.level();
-            if (enchantedWith(stack, RESONANCE) && !getChargedState(stack)) setResonanceCharge(stack, 1);
-            if (!attacker.level().isClientSide && getChargedState(stack)) {
-                level.playSound(null, target, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 0);
-            }
+        if (attacker.level() instanceof ServerLevel serverLevel) {
+            hurtTarget(stack, target, attacker, serverLevel);
         }
         return super.hurtEnemy(stack, target, attacker);
+    }
+
+    protected void hurtTarget(ItemStack stack, LivingEntity target, LivingEntity attacker, ServerLevel level) {
     }
 
     @Override
@@ -280,22 +269,4 @@ public abstract class ChargeBladeItem extends SwordItem {
     public abstract void blockProjectileEvent(ProjectileImpactEvent event, ItemStack stack, LivingEntity entity, Projectile projectile, Vec3 vec3);
 
     public abstract ChargeBladeAbility castAbility(Player player, Level level, ItemStack stack, InteractionHand hand);
-
-    public static class ChargeBladeAbility {
-        int cooldown;
-        boolean stopUsingItem = false;
-
-        public ChargeBladeAbility setCooldown(int cooldown) {
-            this.cooldown = cooldown;
-            return this;
-        }
-
-        public ChargeBladeAbility shouldStopUsingItem(boolean stopUsingItem) {
-            this.stopUsingItem = stopUsingItem;
-            return this;
-        }
-
-        public int getCooldown() { return cooldown; }
-        public boolean stopUsingItem() { return stopUsingItem; }
-    }
 }

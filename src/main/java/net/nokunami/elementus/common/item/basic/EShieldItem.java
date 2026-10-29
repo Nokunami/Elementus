@@ -13,13 +13,18 @@ import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.ModChecker;
+import net.nokunami.elementus.ElementusModCheck;
+import net.nokunami.elementus.config.EConfig;
+import net.nokunami.elementus.api.util.EItemUtil;
 import net.nokunami.elementus.common.item.ISecondaryBar;
-import net.nokunami.elementus.common.registry.ETier;
+import net.nokunami.elementus.common.registry.ETiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import static net.nokunami.elementus.api.util.EItemUtil.isAnthektite;
+import static net.nokunami.elementus.api.util.EItemUtil.isDiarkrite;
 
 public class EShieldItem extends ShieldItem implements ISecondaryBar {
     private final Tier tier;
@@ -31,18 +36,18 @@ public class EShieldItem extends ShieldItem implements ISecondaryBar {
     private static final Component ANTHEKTITE_TOOLTIP_DESC = Component.translatableWithFallback("item.elementus.anthektite_shield_desc", "Instant block + fast cooldown").withStyle(ChatFormatting.DARK_GRAY);
     private final int buffer;
 
-    public EShieldItem(Properties pProperties, int bufferValue, Tier modTiers) {
-        super(pProperties);
+    public EShieldItem(Tier modTiers) {
+        super(isDiarkrite(modTiers) || isAnthektite(modTiers) ? new Properties().defaultDurability(EConfig.toolConfig.getShield(modTiers)).fireResistant() : new Properties().defaultDurability(EConfig.toolConfig.getShield(modTiers)));
         tier = modTiers;
-        buffer = bufferValue;
+        buffer = EConfig.toolConfig.get(modTiers).shieldBuffer;
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        if (!getTier().equals(ETier.EnumTiers.ASTALITE) || ModChecker.archeryExp) {
-            tooltip.add(getTier().equals(ETier.EnumTiers.DIARKRITE) ? DIARKRITE_TOOLTIP_INFO : ANTHEKTITE_TOOLTIP_INFO);
+        if (!tier.equals(ETiers.ASTALITE) || ElementusModCheck.shieldExp) {
+            tooltip.add(isDiarkrite(tier) ? DIARKRITE_TOOLTIP_INFO : ANTHEKTITE_TOOLTIP_INFO);
             if (Screen.hasShiftDown()) {
-                tooltip.add(getTier().equals(ETier.EnumTiers.DIARKRITE) ? DIARKRITE_TOOLTIP_DESC : ANTHEKTITE_TOOLTIP_DESC);
+                tooltip.add(isDiarkrite(tier) ? DIARKRITE_TOOLTIP_DESC : ANTHEKTITE_TOOLTIP_DESC);
             }
         }
     }
@@ -61,24 +66,13 @@ public class EShieldItem extends ShieldItem implements ISecondaryBar {
         }
     }
 
-    public Tier getTier() {
-        return this.tier;
-    }
-
     public boolean isValidRepairItem(@NotNull ItemStack toRepair, @NotNull ItemStack repair) {
-        return tier.getRepairIngredient().test(repair) || super.isValidRepairItem(toRepair, repair);
+//        return tier.getRepairIngredient().test(repair) || super.isValidRepairItem(toRepair, repair);
+        return EItemUtil.getRepairItem(repair, tier);
     }
 
     public void applyCustomCooldown(Player player, ItemStack stack) {
-        int cooldown = 100;
-//        int buffer = 0;
-        if (getTier().equals(ETier.EnumTiers.DIARKRITE)) {
-            cooldown = 160;
-//            buffer = 3;
-        }
-        if (getTier().equals(ETier.EnumTiers.ANTHEKTITE)) {
-            cooldown = 60;
-        }
+        int cooldown = isDiarkrite(tier) ? 160 : isAnthektite(tier) ? 60 : 100;
         if (getBufferValue(stack) < buffer) {
             setBufferValue(stack, getBufferValue(stack) + 1);
         } else {
@@ -89,9 +83,7 @@ public class EShieldItem extends ShieldItem implements ISecondaryBar {
     }
 
     public boolean applyCustomDelay(ItemStack stack, int useTime) {
-        int delay = 5;
-        if (getTier().equals(ETier.EnumTiers.DIARKRITE)) delay = 7;
-        if (getTier().equals(ETier.EnumTiers.ANTHEKTITE)) delay = 0;
+        int delay = isDiarkrite(tier) ? 7 : isAnthektite(tier) ? 0 : 5;
         return getUseDuration(stack) - useTime >= delay;
     }
 
@@ -107,9 +99,7 @@ public class EShieldItem extends ShieldItem implements ISecondaryBar {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putInt(BUFFER_TICK_TAG_NAME, tick);
     }
-    public static int getBufferTick(ItemStack stack) {
-        return stack.getOrCreateTag().getInt(BUFFER_TICK_TAG_NAME);
-    }
+    public static int getBufferTick(ItemStack stack) { return stack.getOrCreateTag().getInt(BUFFER_TICK_TAG_NAME); }
 
 //    public int getBufferBarColor(ItemStack stack) {
 //        float f = Math.max(0.0F, (buffer - (float) getBufferValue(stack)) / buffer);
@@ -120,23 +110,12 @@ public class EShieldItem extends ShieldItem implements ISecondaryBar {
 //        return Math.round(13.0F - (float) (buffer - getBufferValue(stack)) * 13.0F / (float) buffer);
 //    }
 
-    @Override
-    public @NotNull SoundEvent getEquipSound() {
-        return SoundEvents.ARMOR_EQUIP_IRON;
-    }
+    @Override public @NotNull SoundEvent getEquipSound() { return SoundEvents.ARMOR_EQUIP_IRON; }
 
-    @Override
-    public boolean isSecondBarVisible(ItemStack stack) {
-        return getBufferValue(stack) > 0;
-    }
+    @Override public boolean isSecondBarVisible(ItemStack stack) { return getBufferValue(stack) > 0; }
+    @Override public int getSecondBarWidth(ItemStack stack) { return Math.round(13 - (float) (buffer - getBufferValue(stack)) * 13 / (float) buffer); }
 
-    @Override
-    public int getSecondBarWidth(ItemStack stack) {
-        return Math.round(13 - (float) (buffer - getBufferValue(stack)) * 13 / (float) buffer);
-    }
-
-    @Override
-    public int getSecondBarColor(ItemStack stack) {
+    @Override public int getSecondBarColor(ItemStack stack) {
         float f = Math.max(0, (buffer - (float) getBufferValue(stack)) / buffer);
         return Mth.hsvToRgb(f / 3, 1, 1);
     }

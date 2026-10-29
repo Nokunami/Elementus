@@ -1,9 +1,9 @@
-//package net.nokunami.elementus.client.particle;
+//package net.nokunami.elementus.overlayConfig.particle;
 //
 //import com.mojang.blaze3d.vertex.VertexConsumer;
-//import net.minecraft.client.Camera;
-//import net.minecraft.client.multiplayer.ClientLevel;
-//import net.minecraft.client.particle.*;
+//import net.minecraft.overlayConfig.Camera;
+//import net.minecraft.overlayConfig.multiplayer.ClientLevel;
+//import net.minecraft.overlayConfig.particle.*;
 //import net.minecraft.util.Mth;
 //import net.minecraft.world.level.gameevent.PositionSource;
 //import net.minecraft.world.phys.Vec3;

@@ -19,10 +19,7 @@ public class ModDamageTypeTagsData extends DamageTypeTagsProvider {
         super(pOutput, pLookupProvider, modId, existingFileHelper);
     }
 
-    @Override
-    protected void addTags(HolderLookup.@NotNull Provider pProvider) {
-        this.elementusTags();
-    }
+    @Override protected void addTags(HolderLookup.@NotNull Provider pProvider) { elementusTags(); }
 
     private void elementusTags() {
         tag(EDamageTypeTags.STEEL_GOLEM_IMMUNE).add(DamageTypes.FALL);
@@ -32,5 +29,6 @@ public class ModDamageTypeTagsData extends DamageTypeTagsProvider {
         tag(DamageTypeTags.BYPASSES_ENCHANTMENTS).addOptional(EDamageTypes.SACRIFICIAL.location());
         tag(DamageTypeTags.BYPASSES_RESISTANCE).addOptional(EDamageTypes.SACRIFICIAL.location());
         tag(DamageTypeTags.BYPASSES_SHIELD).addOptional(EDamageTypes.SACRIFICIAL.location());
+        tag(DamageTypeTags.NO_IMPACT).addOptional(EDamageTypes.SACRIFICIAL.location());
     }
 }

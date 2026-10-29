@@ -1,16 +1,12 @@
 package net.nokunami.elementus.common.entity.ai.goal;
 
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.nokunami.elementus.common.entity.living.combat.IAdaptiveAttacker;
-
-import java.util.EnumSet;
 
 public class AdaptiveAttackGoal<T extends Mob & IAdaptiveAttacker> extends Goal {
     T mob;

@@ -13,9 +13,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.nokunami.elementus.common.capability.cAbility.CAbility;
-import net.nokunami.elementus.common.catalystCore.ability.AbilityType;
-import net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility;
+import net.nokunami.elementus.common.capability.abilityData.AbilityData;
+import net.nokunami.elementus.common.catalystCore.ability.AbstractAbility;
+import net.nokunami.elementus.config.CatalystArmorConfig;
+import net.nokunami.elementus.config.EConfig;
 import net.nokunami.elementus.common.entity.MobUtil;
 
 import java.util.List;
@@ -23,17 +24,23 @@ import java.util.List;
 import static net.nokunami.elementus.common.entity.MobUtil.POVHitResult;
 import static net.nokunami.elementus.common.entity.MobUtil.teleportEntity;
 
-public class GroupTeleportAbility extends AbstractActiveAbility {
-    int cooldown = 10;
+public class GroupTeleportAbility extends AbstractAbility {
+    CatalystArmorConfig.voidShifter.groupTeleport config = EConfig.catalystConfig.voidShifter.groupTeleportAbility;
+    int cooldown = config.baseCooldown;
 
-    public GroupTeleportAbility() { super(new AbilityProperties(AbilityType.TRIGGERED).setCastDuration(20)); }
-
-    @Override public int getCooldown() { return cooldown; }
+    public GroupTeleportAbility() { super(); }
 
     @Override
-    public boolean castAbility(LivingEntity entity, Level level, CAbility ca) {
+    public AbilityProperties properties() {
+        return new AbilityProperties(cooldown)
+                .setCastOnRelease(true)
+                .setPreCastDuration(config.castDuration);
+    }
+
+    @Override
+    public boolean castAbility(LivingEntity entity, Level level, AbilityData data) {
         if (!level.isClientSide()) {
-            double max = 64;
+            double max = config.range;
             var hitResult = POVHitResult(level, entity, max, ClipContext.Fluid.NONE);
             BlockPos clickedPos = hitResult.getBlockPos();
             Direction direction = hitResult.getDirection();
@@ -49,8 +56,8 @@ public class GroupTeleportAbility extends AbstractActiveAbility {
             if (blockState(level, blockPos.above()).isSolid()) blockPos = clickedPos.relative(direction);
             Vec3 tp = blockPos.getCenter().add(0, -0.5, 0);
 
-            int d = (int) distanceTo(entity.getEyePosition(), tp);
-            cooldown = Math.max(d * 4, 40);
+            int d = (int) (config.cooldownMod.get().component2() ? (distanceTo(entity.getEyePosition(), tp) * config.cooldownMod.get().component1()) : config.baseCooldown);
+            cooldown = Math.max(d, config.baseCooldown);
             List<LivingEntity> livingEntities = level.getEntitiesOfClass(LivingEntity.class, new AABB(entity.blockPosition()).inflate(2));
             for (LivingEntity living : livingEntities) {
                 if (living.isAlliedTo(entity) && !MobUtil.isTargetingFriendly(living)) {

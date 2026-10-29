@@ -7,10 +7,13 @@ package net.nokunami.elementus.common.catalystCore.ability;
  * <p>"CONSTANT" is only active if the key is pressed down.<p>
  */
 public enum AbilityType {
-    PASSIVE, TRIGGERED, DELAYED_TRIGGER, TOGGLED, CONSTANT;
+    PASSIVE, TRIGGERED, TOGGLED, CONSTANT;
 
-    public final boolean isTriggered() { return this == AbilityType.TRIGGERED; }
-//    public final boolean isDelayedTrigger() { return this == AbilityType.DELAYED_TRIGGER; }
-    public final boolean isToggled() { return this == AbilityType.TOGGLED; }
-    public final boolean isConstant() { return this == AbilityType.CONSTANT; }
+    public boolean isTriggered() { return this == AbilityType.TRIGGERED; }
+    public boolean isToggled() { return this == AbilityType.TOGGLED; }
+    public boolean isConstant() { return this == AbilityType.CONSTANT; }
+
+    public boolean movementSpeedPenalty() {
+        return isConstant() || isToggled();
+    }
 }

@@ -56,7 +56,7 @@ public class EItemModelData extends ModItemModelProvider {
         movcadiaTools(EItems.MOVCADIA_AXE, "tools");
         movcadiaTools(EItems.MOVCADIA_HOE, "tools");
 
-        diarkriteChargeBlade(EItems.DIARKRITE_CHARGE_BLADE, "weapons/diarkrite_charge_blade");
+        diarkriteChargeBlade(EItems.BLADE_OF_RESONANCE, "weapons/diarkrite_charge_blade");
         anthektiteLongsword(EItems.ANTHEKTITE_CHARGE_BLADE, "weapons/anthektite_longsword");
 
         tridentModel(EItems.WRATH_TRIDENT, "weapons");
@@ -117,7 +117,7 @@ public class EItemModelData extends ModItemModelProvider {
         fenceItem(EBlocks.MOVCADIA_FENCE, EBlocks.MOVCADIA_PLANKS, "building");
         blockItem(EBlocks.MOVCADIA_FENCE_GATE);
         generatedItem(EItems.MOVCADIA_DOOR, "miscellaneous");
-        itemBlock(EBlocks.MOVCADIA_TRAPDOOR, "_bottom");
+        blockItem(EBlocks.MOVCADIA_TRAPDOOR, "_bottom");
         blockItem(EBlocks.MOVCADIA_PRESSURE_PLATE);
         buttonItem(EBlocks.MOVCADIA_BUTTON, EBlocks.MOVCADIA_PLANKS, "building");
         generatedItem(EItems.MOVCADIA_SIGN, "miscellaneous");

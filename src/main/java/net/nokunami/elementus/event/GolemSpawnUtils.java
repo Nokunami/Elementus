@@ -89,7 +89,8 @@ public class GolemSpawnUtils {
                 }
             }
             pos = carrierPatternMatch.getBlock(1, 2, 0).getPos();
-            AstaliteGolemLongarm golem = EEntityTypes.ASTALITE_GOLEM_LONGARM.get().create(level);
+//            AstaliteGolemLongarm golem = EEntityTypes.ASTALITE_GOLEM_LONGARM.get().create(level);
+            var golem = EEntityTypes.AUTOMATON.get().create(level);
             assert golem != null;
             golem.setPlayerCreated(true);
             if (blockPlacer instanceof Player player) golem.tame(player);

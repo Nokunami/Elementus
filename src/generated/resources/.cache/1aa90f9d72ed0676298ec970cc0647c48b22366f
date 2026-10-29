@@ -1,17 +1,20 @@
-// 1.20.1	2026-04-02T16:55:20.863812	Tags for minecraft:item mod id elementus
+// 1.20.1	2026-07-19T23:38:37.058202	Tags for minecraft:item mod id elementus
 69d73b6156c998bc138b7f971b4de994b388ac8f data/alexscaves/tags/items/ferromagnetic_items.json
 f242d546a136be646a6a4a6b2cc156714ad01fe9 data/archeryexp/tags/items/anti_power_bow.json
 0e7e6e02bfde1954271a5069824a719bf3ba94d8 data/create/tags/items/modded_stripped_logs.json
+d9fa8492b3cf95f697b9823051abd6f56771b81b data/elementus/tags/items/catalyst/beacon_power.json
+e1102ee826d5ec0d457c55612bc006b93dfc1ed5 data/elementus/tags/items/catalyst/conduit_power.json
 1abe9ba869d518ac1307ae79ee14340b16807560 data/elementus/tags/items/catalyst/core.json
 e6a557e0f0c7023bf91eaaf1ba66fadae53fd806 data/elementus/tags/items/catalyst/elytra.json
-e1102ee826d5ec0d457c55612bc006b93dfc1ed5 data/elementus/tags/items/catalyst/heart_of_the_sea.json
-d9fa8492b3cf95f697b9823051abd6f56771b81b data/elementus/tags/items/catalyst/nether_star.json
 9dffb9d7eb766747226b453827c4a194d7c5911c data/elementus/tags/items/catalyst/totem_of_undying.json
+8c4603792263de771b44aee19f8f9239b6210fdb data/elementus/tags/items/catalyst/void_shifter.json
+0389e0a2b30a501b5229643fd0faa175d4922bc4 data/elementus/tags/items/catalyst/wayfinder.json
 a0b5a4c32f395e746a011df6476367c16ee3d7c8 data/elementus/tags/items/movcadia_logs.json
 e1055f360714b8b3213df5e76cacf7b8b07d7d25 data/elementus/tags/items/repairs_anthektite_equipment.json
 397980ac40f29343f7915ad9c76dc50aa6741fe0 data/elementus/tags/items/repairs_catalyst_armor.json
 b5ea726e87a698a4fbcf838d2f3ec8ed07e4b1a4 data/elementus/tags/items/repairs_diarkrite_equipment.json
 caf3a85417e5bb84cd66de37cb990cb37822ceb9 data/elementus/tags/items/repairs_steel_equipment.json
+d8482399953e8ccae09a5fefa94d4732ba080393 data/elementus/tags/items/repair_on_kill.json
 54f5f4eb011e81e346809ba3e900a37e3adb87f8 data/elementus/tags/items/steel_golem_carpet.json
 caf3a85417e5bb84cd66de37cb990cb37822ceb9 data/elementus/tags/items/steel_golem_heal.json
 a4e8097fff07f9a74259d6b5dd583f3437ff28a2 data/elementus/tags/items/steel_golem_leaves_decoration.json

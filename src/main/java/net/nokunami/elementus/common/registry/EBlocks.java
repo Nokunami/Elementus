@@ -94,10 +94,12 @@ public class EBlocks {
     public static final RegistryObject<RotatedPillarBlock> STRIPPED_MOVCADIA_WOOD = BLOCKS.register("stripped_movcadia_wood",
             () -> log(MapColor.TERRACOTTA_PURPLE, MapColor.TERRACOTTA_PURPLE, 8F, 16F, SoundType.CHERRY_WOOD));
 
-    public static final RegistryObject<Block> MOVCADIA_LEAVES = BLOCKS.register("movcadia_leaves",
-            () -> leaves(MapColor.TERRACOTTA_LIGHT_BLUE, 2F, 1F, SoundType.AZALEA_LEAVES, 0));
-    public static final RegistryObject<Block> FLOWERING_MOVCADIA_LEAVES = BLOCKS.register("flowering_movcadia_leaves",
-            () -> leaves(MapColor.TERRACOTTA_LIGHT_BLUE, 2F, 1F, SoundType.AZALEA_LEAVES, 5));
+//    public static final RegistryObject<Block> MOVCADIA_LEAVES = BLOCKS.register("movcadia_leaves",
+//            () -> leaves(MapColor.TERRACOTTA_LIGHT_BLUE, 2F, 1F, SoundType.AZALEA_LEAVES, 0));
+//    public static final RegistryObject<Block> FLOWERING_MOVCADIA_LEAVES = BLOCKS.register("flowering_movcadia_leaves",
+//            () -> leaves(MapColor.TERRACOTTA_LIGHT_BLUE, 2F, 1F, SoundType.AZALEA_LEAVES, 5));
+    public static final RegistryObject<Block> MOVCADIA_LEAVES = BLOCKS.register("movcadia_leaves", () -> new MovcadiaLeavesBlock(0));
+    public static final RegistryObject<Block> FLOWERING_MOVCADIA_LEAVES = BLOCKS.register("flowering_movcadia_leaves", () -> new MovcadiaLeavesBlock(5));
 
     public static final RegistryObject<Block> MOVCADIA_PLANKS = BLOCKS.register("movcadia_planks",
             () -> new Block(BlockBehaviour
@@ -106,7 +108,7 @@ public class EBlocks {
                     .strength(8F, 16F)
                     .sound(SoundType.CHERRY_WOOD)));
     public static final RegistryObject<StairBlock> MOVCADIA_STAIRS = BLOCKS.register("movcadia_stairs",
-            () -> new StairBlock(MOVCADIA_PLANKS.get().defaultBlockState(),
+            () -> new StairBlock(() -> MOVCADIA_PLANKS.get().defaultBlockState(),
                     BlockBehaviour.Properties.copy(MOVCADIA_PLANKS.get())));
     public static final RegistryObject<SlabBlock> MOVCADIA_SLAB = BLOCKS.register("movcadia_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.copy(MOVCADIA_PLANKS.get())));
@@ -161,11 +163,11 @@ public class EBlocks {
                 .instrument(NoteBlockInstrument.BASS).strength(destroyTime, blastResistance).sound(pSoundType));
     }
 
-    private static Boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_, EntityType<?> p_50825_) {
+    public static Boolean ocelotOrParrot(BlockState p_50822_, BlockGetter p_50823_, BlockPos p_50824_, EntityType<?> p_50825_) {
         return p_50825_ == EntityType.OCELOT || p_50825_ == EntityType.PARROT;
     }
 
-    private static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
+    public static boolean never(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
         return false;
     }
 

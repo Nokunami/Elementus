@@ -1,17 +1,15 @@
 package net.nokunami.elementus.common.entity.living;
 
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.config.EntityConfig;
-import org.jetbrains.annotations.NotNull;
+import net.nokunami.elementus.config.EConfig;
+import net.nokunami.elementus.config.EntityConfig;
 
 public class AstaliteGolemLongarm extends AstaliteGolem {
+    public static EntityConfig.baseConfig config = EConfig.entityConfig.astaliteLongArm;
     public static float rawBbWidth = 1.6F, rawBbHeight = 2.9F;
 
     public AstaliteGolemLongarm(EntityType<? extends AstaliteGolem> type, Level level) {
@@ -22,13 +20,13 @@ public class AstaliteGolemLongarm extends AstaliteGolem {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 125)
-                .add(Attributes.MOVEMENT_SPEED, 0.25)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1)
-                .add(Attributes.ATTACK_DAMAGE, 15)
-                .add(Attributes.ARMOR, 10)
-                .add(Attributes.ARMOR_TOUGHNESS, 4)
-                .add(Attributes.FOLLOW_RANGE, 32)
+                .add(Attributes.MAX_HEALTH, config.maxHealth)
+                .add(Attributes.MOVEMENT_SPEED, config.movementSpeed)
+                .add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResist)
+                .add(Attributes.ATTACK_DAMAGE, config.attackDamage)
+                .add(Attributes.ARMOR, config.armor)
+                .add(Attributes.ARMOR_TOUGHNESS, config.toughness)
+                .add(Attributes.FOLLOW_RANGE, config.followRange)
                 ;
     }
 

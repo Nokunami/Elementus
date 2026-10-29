@@ -11,13 +11,14 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.nokunami.elementus.api.util.EItemUtil;
 import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
-import static net.nokunami.elementus.common.item.EItemUtil.setMovcadiaEssence;
+import static net.nokunami.elementus.api.util.EItemUtil.getMovcadiaEssence;
+import static net.nokunami.elementus.api.util.EItemUtil.setMovcadiaEssence;
 
 public interface IMovcadiaTool {
     UUID DAMAGE_UUID = UUID.fromString("CB3F55D3-645C-4F38-A497-9C13A33DB5CF");

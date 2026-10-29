@@ -5,11 +5,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.model.mob.AstaliteGolemLongarmModel;
-import net.nokunami.elementus.client.model.mob.FragmentedWitherModel;
-import net.nokunami.elementus.common.entity.boss.FragmentedWither;
 import net.nokunami.elementus.common.entity.living.AstaliteGolemLongarm;
 import org.jetbrains.annotations.NotNull;
 

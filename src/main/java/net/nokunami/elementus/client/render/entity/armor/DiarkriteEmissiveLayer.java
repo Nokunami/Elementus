@@ -17,8 +17,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.armor.ExtendedArmorModel;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.common.item.DiarkriteBootsItem;
 import org.jetbrains.annotations.NotNull;
 

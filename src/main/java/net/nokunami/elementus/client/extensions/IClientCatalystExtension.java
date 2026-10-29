@@ -8,10 +8,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.EClient;
-import net.nokunami.elementus.common.registry.CustomRegistries;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.common.registry.CustomRegistries.CatalystCoreHelper.CatalystCoreUtil;
+import static net.nokunami.elementus.common.registry.ERegistries.CatalystCoreHelper.CatalystCoreUtil;
 
 public interface IClientCatalystExtension {
     /// Copied from @param IClientItemExtension
@@ -19,7 +18,7 @@ public interface IClientCatalystExtension {
     IClientCatalystExtension DEFAULT = new IClientCatalystExtension() { };
 
     static IClientCatalystExtension ofCore(ItemStack core) {
-//        return CustomRegistries.getCatalystCore(core).getRenderPropertiesInternal() instanceof IClientCatalystExtension e ? e : DEFAULT;
+//        return ERegistries.getCatalystCore(core).getRenderPropertiesInternal() instanceof IClientCatalystExtension e ? e : DEFAULT;
         return CatalystCoreUtil(core).getCore().getRenderPropertiesInternal() instanceof IClientCatalystExtension e ? e : DEFAULT;
     }
 

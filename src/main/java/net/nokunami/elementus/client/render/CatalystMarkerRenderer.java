@@ -1,21 +1,13 @@
 package net.nokunami.elementus.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.phys.Vec3;
 import net.nokunami.elementus.common.entity.CatalystTotemMarker;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
 
 public class CatalystMarkerRenderer<T extends CatalystTotemMarker> extends EntityRenderer<T> {
 

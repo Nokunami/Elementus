@@ -1,4 +1,4 @@
-//package net.nokunami.elementus.client.particle;
+//package net.nokunami.elementus.overlayConfig.particle;
 //
 //import com.mojang.brigadier.StringReader;
 //import com.mojang.brigadier.exceptions.CommandSyntaxException;

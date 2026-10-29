@@ -1,7 +1,6 @@
 package net.nokunami.elementus.common.entity.ai.goal;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.nokunami.elementus.common.entity.MovementType;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;

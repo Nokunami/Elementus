@@ -25,7 +25,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -51,11 +50,12 @@ import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.nokunami.elementus.common.config.EntityConfig;
 import net.nokunami.elementus.common.entity.CombatAction;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.entity.MovementType;
-import net.nokunami.elementus.common.entity.ai.goal.*;
+import net.nokunami.elementus.common.entity.ai.goal.GolemStrollGoal;
+import net.nokunami.elementus.common.entity.ai.goal.MossGrowGoal;
+import net.nokunami.elementus.common.entity.ai.goal.MovementTypeGoal;
 import net.nokunami.elementus.common.entity.ai.goal.astaliteGolem.AstaliteGolemAttackGoal;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.*;
 import net.nokunami.elementus.common.entity.ai.navigation.GolemNavigation;
@@ -63,7 +63,7 @@ import net.nokunami.elementus.common.entity.living.combat.AttackStyle;
 import net.nokunami.elementus.common.entity.living.combat.IAdaptiveAttacker;
 import net.nokunami.elementus.common.inventory.AstaliteGolemInventoryMenu;
 import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
-import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.common.network.ENet;
 import net.nokunami.elementus.common.network.client.GolemInventoryS2CPacket;
 import net.nokunami.elementus.common.network.syncer.EEntityDataSerializers;
 import net.nokunami.elementus.common.registry.ESounds;
@@ -122,18 +122,6 @@ public class AstaliteGolem extends TamableGolem implements IForgeShearable, IMos
     }
 
     // ----- [ DATA ]
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, EntityConfig.steelGolem_MaxHealth)
-                .add(Attributes.MOVEMENT_SPEED, EntityConfig.steelGolem_MovementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, EntityConfig.steelGolem_KnockbackResist)
-                .add(Attributes.ATTACK_DAMAGE, EntityConfig.steelGolem_AttackDamage)
-                .add(Attributes.ARMOR, EntityConfig.steelGolem_Armor)
-                .add(Attributes.ARMOR_TOUGHNESS, EntityConfig.steelGolem_Toughness)
-                .add(Attributes.FOLLOW_RANGE, EntityConfig.steelGolem_FollowRange)
-                ;
-    }
 
     public float getBBWidth() { return 0; }
     public float getBBHeight() { return 0; }
@@ -291,7 +279,7 @@ public class AstaliteGolem extends TamableGolem implements IForgeShearable, IMos
                 if (serverplayer.containerMenu != serverplayer.inventoryMenu) serverplayer.closeContainer();
                 isChestOpened(true);
                 serverplayer.nextContainerCounter();
-                ENetwork.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
+                ENet.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
                 serverplayer.containerMenu = new AstaliteGolemInventoryMenu(serverplayer.containerCounter, serverplayer.getInventory(), inventory, this);
                 serverplayer.initMenu(serverplayer.containerMenu);
                 MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(serverplayer, serverplayer.containerMenu));
@@ -754,7 +742,7 @@ public class AstaliteGolem extends TamableGolem implements IForgeShearable, IMos
         if (isChassisBroken() && isOrderedToSit()) sit(true);
         setChassisState(false);
         if (chassisCondition && repairFull) setChassisHealth(getChassisHealth() + 1);
-        heal((int) ((EntityConfig.steelGolem_MaxHealth / EntityConfig.steelGolem_RepairAmount) * healAmount) - b);
+        heal((int) ((getMaxHealth() / 5) * healAmount) - b);
         playSound(isChassisBroken() ? STEEL_GOLEM_REVIVE.get() : STEEL_GOLEM_REPAIR.get(), 1.0F, randomFloat);
         if (!player.isCreative()) stack.shrink(1);
         return InteractionResult.SUCCESS;

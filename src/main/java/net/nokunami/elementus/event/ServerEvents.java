@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.Entity;
@@ -27,22 +28,26 @@ import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.capability.cAbility.CAbility;
-import net.nokunami.elementus.common.capability.cAbility.CAbilityCap;
+import net.nokunami.elementus.common.capability.abilityData.AbilityData;
+import net.nokunami.elementus.common.capability.slashStack.SlashStackData;
+import net.nokunami.elementus.common.catalystCore.ability.AbilityManager;
+import net.nokunami.elementus.common.catalystCore.ability.AbilityType;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
-import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.common.network.ENet;
 import net.nokunami.elementus.common.network.client.SyncAbilitySelectionS2CPacket;
 import net.nokunami.elementus.common.registry.EEnchantments;
 import net.nokunami.elementus.common.registry.EItems;
+import net.nokunami.elementus.common.tags.EItemTags;
+import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 import java.util.Objects;
 
 import static net.nokunami.elementus.common.entity.ModParticleUtil.spawnParticlesOnEntity;
-import static net.nokunami.elementus.common.item.EItemUtil.enchantedWith;
+import static net.nokunami.elementus.api.util.EItemUtil.enchantedWith;
 import static net.nokunami.elementus.common.item.unique.BladeOfResonance.setCharge;
 import static net.nokunami.elementus.common.item.unique.ChargeBladeItem.*;
-import static net.nokunami.elementus.common.registry.CustomRegistries.CatalystCoreHelper.CatalystCoreUtil;
+import static net.nokunami.elementus.common.registry.ERegistries.CatalystCoreHelper.CatalystCoreUtil;
 import static net.nokunami.elementus.common.registry.EEnchantments.RESONANCE;
 import static net.nokunami.elementus.event.VillagerTradeEnchantment.createForEnchantment;
 
@@ -154,18 +159,45 @@ public class ServerEvents {
     }
 
     @SubscribeEvent
-    public void CatalystArmorPostHurtEvent(LivingHurtEvent event) {
-        CatalystCoreUtil(event.getEntity()).postHurt(event);
+    public void CatalystCoreHurtEvent(LivingHurtEvent event) {
+//        CatalystCoreUtil(event.getEntity()).hurtEvent(event);
+        AbilityData.instance(event.getEntity()).getAbilityStorage().onHurt(event);
     }
 
     @SubscribeEvent
-    public void CatalystArmorPostDamageEvent(LivingDamageEvent event) {
-        CatalystCoreUtil(event.getEntity()).postDamage(event);
+    public void CatalystCoreDamageEvent(LivingDamageEvent event) {
+//        CatalystCoreUtil(event.getEntity()).damageEvent(event);
+        AbilityData.instance(event.getEntity()).getAbilityStorage().onDamage(event);
     }
 
     @SubscribeEvent
-    public void CatalystArmorPostDeathEvent(LivingDeathEvent event) {
-        CatalystCoreUtil(event.getEntity()).postDeath(event);
+    public void CatalystCoreDeathEvent(LivingDeathEvent event) {
+        var entity = event.getEntity();
+        var source = event.getSource();
+//        CatalystCoreUtil(entity).deathEvent(event);
+        AbilityData.instance(entity).getAbilityStorage().onDeath(event);
+
+        if (source != null && source.getEntity() != null) {
+            var toRepairEntity = source.getEntity();
+
+            if (toRepairEntity instanceof LivingEntity living) {
+                List<ItemStack> list = Lists.newArrayList();
+                for (EquipmentSlot slot : EquipmentSlot.values()) {
+                    ItemStack stack = living.getItemBySlot(slot);
+                    if (!stack.isEmpty() && stack.is(EItemTags.REPAIR_ON_KILL) && stack.getDamageValue() > 0) list.add(stack);
+                }
+                if (!list.isEmpty()) {
+                    ItemStack toRepair = list.get(living.getRandom().nextInt(list.size()));
+                    toRepair.setDamageValue((int) (toRepair.getDamageValue() - ((toRepair.getDamageValue() * 0.1) + living.getRandom().nextIntBetweenInclusive(1, 10))));
+                    entity.playSound(SoundEvents.SCULK_BLOCK_CHARGE);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onEffectEvent(MobEffectEvent event) {
+        AbilityData.instance(event.getEntity()).getAbilityStorage().onEffect(event);
     }
 
     @SubscribeEvent
@@ -190,9 +222,7 @@ public class ServerEvents {
             boolean currentCharge = getCharge(stack) < getMaxCharge(stack);
             boolean startResonance = getResonanceCharge(stack) > 0;
             if (!stack.isEmpty()) {
-                if (stack.getItem() instanceof ChargeBladeItem && enchantedWith(stack, RESONANCE)
-//                    && entity instanceof Player player
-                    && currentCharge && startResonance) {
+                if (stack.getItem() instanceof ChargeBladeItem && enchantedWith(stack, RESONANCE) && currentCharge && startResonance) {
                     if (!entity.isUsingItem() && level.getGameTime() % 100 == 0) {
                         setCharge(stack, 1);
                         setResonanceCharge(stack, -1);
@@ -202,7 +232,8 @@ public class ServerEvents {
                 }
             }
         }
-        CAbility.onLivingTick(event);
+        AbilityData.onLivingTick(event);
+        SlashStackData.tick(event);
     }
 
     @SubscribeEvent
@@ -235,28 +266,39 @@ public class ServerEvents {
 
     @SubscribeEvent
     public void disableShieldEvent(ShieldBlockEvent event) {
+        LivingEntity eventEntity = event.getEntity();
 
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            ItemStack stack = eventEntity.getItemBySlot(slot);
+            if (!stack.isEmpty() && stack.getItem() instanceof ChargeBladeItem bladeItem) {
+                event.setCanceled(true);
+            }
+        }
     }
 
     @SubscribeEvent
     public void playerCloneEvent(PlayerEvent.Clone event) {
-//        var player = event.getEntity();
-//        var ca = CAbility.instance(player);
         if(event.isWasDeath()) {
-//            event.getOriginal().getCapability(CAbilityCap.CAP).ifPresent(
-//                    oldStore -> event.getOriginal().getCapability(CAbilityCap.CAP).ifPresent(
+//            event.getOriginal().getCapability(AbilityDataCap.CAP).ifPresent(
+//                    oldStore -> event.getOriginal().getCapability(AbilityDataCap.CAP).ifPresent(
 //                            newStore -> {
 //                                newStore.load(oldStore);
 //                                if (event.getEntity() instanceof ServerPlayer serverPlayer)
-//                                    ENetwork.sendTo(serverPlayer, new SyncAbilitySelectionS2CPacket(newStore.getSelection()));
+//                                    ENet.sendTo(serverPlayer, new SyncAbilitySelectionS2CPacket(newStore.getSelection()));
 //                            }
 //                    ));
-            var caOld = CAbility.instance(event.getOriginal());
-            var caNew = CAbility.instance(event.getEntity());
-            caNew.load(caOld);
+            var oldData = AbilityData.instance(event.getOriginal());
+            var newData = AbilityData.instance(event.getEntity());
+            newData.copy(oldData);
             if (event.getEntity() instanceof ServerPlayer player) {
-                ENetwork.sendTo(player, new SyncAbilitySelectionS2CPacket(caNew.getSelection()));
+                ENet.sendTo(player, new SyncAbilitySelectionS2CPacket(newData));
             }
         }
+    }
+
+    @SubscribeEvent
+    public void equipmentChangeEvent(LivingEquipmentChangeEvent event) {
+        var entity = event.getEntity();
+        AbilityManager.sync(entity, entity.level());
     }
 }

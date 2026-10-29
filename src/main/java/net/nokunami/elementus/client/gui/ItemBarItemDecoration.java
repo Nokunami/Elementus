@@ -7,15 +7,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.client.IItemDecorator;
-import net.nokunami.elementus.common.item.IMovcadiaTool;
 import net.nokunami.elementus.common.item.ISecondaryBar;
-import net.nokunami.elementus.common.item.basic.EShieldItem;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.registry.EEnchantments;
-
-import static net.nokunami.elementus.common.item.EItemUtil.getEssenceBarWidth;
-import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
-import static net.nokunami.elementus.common.item.basic.EShieldItem.getBufferValue;
 
 public class ItemBarItemDecoration implements IItemDecorator {
     private final int DEFAULT_BG_COLOR = -16777216;

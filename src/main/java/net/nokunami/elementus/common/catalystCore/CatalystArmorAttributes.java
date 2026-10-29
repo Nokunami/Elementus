@@ -4,200 +4,50 @@ import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ItemStack;
-import net.nokunami.elementus.common.config.EConfig;
+import net.nokunami.elementus.config.EConfig;
+import net.nokunami.elementus.common.item.AttributeUtil;
 
-import java.util.UUID;
-import java.util.function.Supplier;
-
-import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
-import static net.nokunami.elementus.common.catalystCore.core.IgnitiumCatalystCore.isSoulFired;
-import static net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig.*;
-import static net.nokunami.elementus.common.config.catalystConfigs.CatalystISSConfig.*;
-import static net.nokunami.elementus.common.registry.CompatRegistryObjectGetter.IronsAttributeRegistry.*;
+import static net.nokunami.elementus.common.item.AttributeUtil.armorUUID;
 
 public class CatalystArmorAttributes {
-    public static UUID armorUUID = UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E");
 
     public static ImmutableMultimap.Builder<Attribute, AttributeModifier> baseAttributes(int armor, double toughness, double knockbackResist, double attackSpeed, double moveSpeed) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ARMOR, new AttributeModifier(armorUUID, "Armor modifier", armor, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(armorUUID, "Armor toughness", toughness, AttributeModifier.Operation.ADDITION));
-        toggleableAttribute(builder, Attributes.KNOCKBACK_RESISTANCE, "Armor knockback resistance", knockbackResist, AttributeModifier.Operation.ADDITION);
-        toggleableAttribute(builder, Attributes.ATTACK_SPEED, "Armor attack speed", attackSpeed, AttributeModifier.Operation.MULTIPLY_BASE);
-        toggleableAttribute(builder, Attributes.MOVEMENT_SPEED, "Armor movement speed", moveSpeed, AttributeModifier.Operation.MULTIPLY_BASE);
+        AttributeUtil.toggleableAttribute(builder, Attributes.KNOCKBACK_RESISTANCE, "Armor knockback resistance", knockbackResist, AttributeModifier.Operation.ADDITION);
+        AttributeUtil.toggleableAttribute(builder, Attributes.ATTACK_SPEED, "Armor attack speed", attackSpeed, AttributeModifier.Operation.MULTIPLY_BASE);
+        AttributeUtil.toggleableAttribute(builder, Attributes.MOVEMENT_SPEED, "Armor movement speed", moveSpeed, AttributeModifier.Operation.MULTIPLY_BASE);
         return builder;
     }
 
     public static ImmutableMultimap.Builder<Attribute, AttributeModifier> baseAttributes() {
-        var common = EConfig.COMMON.CATALYST_ARMOR;
-        var attr = common.attributesConfig;
-        var armor = common.armor;
-//        return baseAttributes(Armor, Toughness, KnockbackResist, AttackSpeed, MovementSpeed);
-        return baseAttributes(armor.get(), attr.toughness.get(), attr.knockback.get(), attr.attackSpeed.get(), attr.movementSpeed.get());
+        var config = EConfig.catalystConfig.baseCatalyst;
+        return baseAttributes(config.armor, config.toughness, config.knockbackRes, config.attackSpeed, config.movementSpeed);
     }
 
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> ignitium(ItemStack stack) {
-        var common = EConfig.COMMON.CATALYST_ARMOR;
-        var attr = common.attributesConfig;
-        var armor = common.armor.get() + (isSoulFired(stack) ? 8 : 0);
-        double toughness = attr.toughness.get() + (isSoulFired(stack) ? 4 : 0);
-        double attackSpeed = attr.attackSpeed.get() + (isSoulFired(stack) ? 0.2 : 0);
-        double moveSpeed = attr.movementSpeed.get() + (isSoulFired(stack) ? 0.15 : 0);
-        return baseAttributes(armor, toughness, attr.knockback.get(), attackSpeed, moveSpeed);
+    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> beaconPower() {
+        var config = EConfig.catalystConfig.beaconPower.armor;
+        return baseAttributes(config.armor, config.toughness, config.knockbackRes, config.attackSpeed, config.movementSpeed);
     }
 
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> arcaneIngot() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", ISS_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", ISS_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", ISS_SpellPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", ISS_SpellResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> fireRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", fireRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", fireRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", fireRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", fireRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, FIRE_SPELL_POWER, "School SpellPower", fireRune_Power, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, FIRE_MAFIC_RESIST, "School SpellResist", fireRune_Resist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> iceRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", iceRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", iceRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", iceRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", iceRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, ICE_SPELL_POWER, "School SpellPower", iceRune_Power, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, ICE_MAFIC_RESIST, "School SpellResist", iceRune_Resist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> lightningRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", lightningRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", lightningRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", lightningRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", lightningRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, LIGHTNING_SPELL_POWER, "School SpellPower", lightningRune_Power, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, LIGHTNING_MAFIC_RESIST, "School SpellResist", lightningRune_Resist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> holyRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", holyRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", holyRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", holyRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", holyRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, HOLY_SPELL_POWER, "School SpellPower", holyRune_Power, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, HOLY_MAFIC_RESIST, "School SpellResist", holyRune_Resist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> enderRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", enderRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", enderRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", enderRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", enderRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, ENDER_SPELL_POWER, "School SpellPower", enderRune_Power, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, ENDER_MAFIC_RESIST, "School SpellResist", enderRune_Resist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> bloodRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", bloodRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", bloodRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", bloodRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", bloodRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, BLOOD_SPELL_POWER, "School SpellPower", bloodRune_Power, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, BLOOD_MAFIC_RESIST, "School SpellResist", bloodRune_Resist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> evocationRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", evocationRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", evocationRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", evocationRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", evocationRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, EVOCATION_SPELL_POWER, "School SpellPower", evocationRune_Power, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, EVOCATION_MAFIC_RESIST, "School SpellResist", evocationRune_Resist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> natureRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", natureRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", natureRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", natureRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", natureRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, NATURE_SPELL_POWER, "School SpellPower", natureRune_Power, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, NATURE_MAFIC_RESIST, "School SpellResist", natureRune_Resist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
+    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> totemOfUndying() {
+        var config = EConfig.catalystConfig.totemOfUndying.armor;
+        return baseAttributes(config.armor, config.toughness, config.knockbackRes, config.attackSpeed, config.movementSpeed);
     }
 
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> arcaneRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", arcaneRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", arcaneRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", arcaneRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", arcaneRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> recoveryRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", recoveryRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", recoveryRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", recoveryRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", recoveryRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> protectionRune() {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = baseAttributes();
-        if (ironsSpellbooks) {
-            toggleableAttribute(builder, MAX_MANA, "Max Mana", protectionRune_MaxMana, AttributeModifier.Operation.ADDITION);
-            toggleableAttribute(builder, MANA_REGEN, "Mana Regen", protectionRune_ManaRegen, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_POWER, "Spell Power", protectionRune_SPower, AttributeModifier.Operation.MULTIPLY_TOTAL);
-            toggleableAttribute(builder, SPELL_RESIST, "Spell Resist", protectionRune_SResist, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        }
-        return builder;
+    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> conduitPower() {
+        var config = EConfig.catalystConfig.heartOfTheSea.armor;
+        return baseAttributes(config.armor, config.toughness, config.knockbackRes, config.attackSpeed, config.movementSpeed);
     }
 
-//    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> toggleableAttribute(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder, boolean condition, Supplier<Attribute> attribute, String name, double value, AttributeModifier.Operation operation) {
-//        if (condition) builder.put(attribute.get(), new AttributeModifier(armorUUID, name, value, operation));
-//        return builder;
-//    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> toggleableAttribute(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder, boolean condition, Attribute attribute, String name, double value, AttributeModifier.Operation operation) {
-        if (condition) builder.put(attribute, new AttributeModifier(armorUUID, name, value, operation));
-        return builder;
+    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> voidShifter() {
+        var config = EConfig.catalystConfig.voidShifter.armor;
+        return baseAttributes(config.armor, config.toughness, config.knockbackRes, config.attackSpeed, config.movementSpeed);
     }
 
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> toggleableAttribute(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder, Attribute attribute, String name, double value, AttributeModifier.Operation operation) {
-        return toggleableAttribute(builder, value != 0, attribute, name, value, operation);
-    }
-    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> toggleableAttribute(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder, Supplier<Attribute> attribute, String name, double value, AttributeModifier.Operation operation) {
-        return toggleableAttribute(builder, value != 0, attribute.get(), name, value, operation);
+    public static ImmutableMultimap.Builder<Attribute, AttributeModifier> wayfinder() {
+        var config = EConfig.catalystConfig.wayfinder.armor;
+        return baseAttributes(config.armor, config.toughness, config.knockbackRes, config.attackSpeed, config.movementSpeed);
     }
 }

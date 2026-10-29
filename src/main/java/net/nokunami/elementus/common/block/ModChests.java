@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.nokunami.elementus.common.block.entity.ModChestBlockEntity;
-import net.nokunami.elementus.common.registry.ModBlockEntityType;
+import net.nokunami.elementus.common.registry.EBlockEntityType;
 
 public enum ModChests {
 
@@ -13,7 +13,7 @@ public enum ModChests {
 
     public BlockEntityType<? extends ModChestBlockEntity> getBlockEntityType() {
         return switch (this) {
-            case MOVCADIA -> ModBlockEntityType.MOD_CHEST.get();
+            case MOVCADIA -> EBlockEntityType.MOD_CHEST.get();
         };
     }
 

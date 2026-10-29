@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.nokunami.elementus.EIdentifier;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,14 +45,7 @@ public class SteelGolemUpgradeItem extends Item {
         this.properties = golemUpgradeProperties;
     }
 
-//    @Override
-//    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-//        return slot == EquipmentSlot.CHEST ? properties.getAttributes().get() : super.getAttributeModifiers(slot, stack);
-//    }
-
-    public Multimap<Attribute, AttributeModifier> getGolemAttributes(/*EquipmentSlot slot*/) {
-        return properties.getAttributes().get();
-    }
+    public Multimap<Attribute, AttributeModifier> getGolemAttributes() { return properties.getAttributes().get(); }
 
     public void onArmorTick(Level level, TamableGolem entity) {
         if (!entity.isChassisBroken()) {
@@ -85,8 +79,8 @@ public class SteelGolemUpgradeItem extends Item {
         String armorId = "item.elementus.golem_upgrade." + identifier;
         components.add(Component.translatable(armorId).withStyle(ChatFormatting.GRAY));
         components.add(Component.translatable("item.elementus.golem_upgrade.upgrades").withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.GOLD));
-        bonusDescription(components, "item.elementus.golem_upgrade.pushable", properties.isNotPushable());
-        bonusDescription(components, "item.elementus.golem_upgrade.fast_attack", properties.isFastAttack());
+        bonusDescription(components, EIdentifier.Description.golemUpgradeSolidStance, properties.isNotPushable());
+        bonusDescription(components, EIdentifier.Description.golemUpgradeFastAttack, properties.isFastAttack());
 //        components.add(CommonComponents.space());
         attributeTooltip(stack, components);
 

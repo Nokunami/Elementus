@@ -12,27 +12,33 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.nokunami.elementus.common.capability.cAbility.CAbility;
-import net.nokunami.elementus.common.catalystCore.ability.AbilityType;
-import net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility;
+import net.nokunami.elementus.common.capability.abilityData.AbilityData;
+import net.nokunami.elementus.common.catalystCore.ability.AbstractAbility;
+import net.nokunami.elementus.common.catalystCore.ability.CastType;
+import net.nokunami.elementus.config.CatalystArmorConfig;
+import net.nokunami.elementus.config.EConfig;
 
-import static net.nokunami.elementus.Elementus.modLoc;
+import static net.nokunami.elementus.api.util.ParticleUtil.particleUtil;
 import static net.nokunami.elementus.common.entity.MobUtil.POVHitResult;
 import static net.nokunami.elementus.common.entity.MobUtil.teleportEntity;
 
-public class TeleportAbility extends AbstractActiveAbility {
-    int cooldown = 10;
+public class TeleportAbility extends AbstractAbility {
+    CatalystArmorConfig.voidShifter.teleport config = EConfig.catalystConfig.voidShifter.teleportAbility;
+    int cooldown = config.baseCooldown;
 
-    public TeleportAbility() {
-        super(new AbilityProperties(AbilityType.TRIGGERED, 10));
+    @Override public AbilityProperties properties() {
+        return new AbilityProperties(cooldown)
+//                .setCastOnRelease(true)
+                .setCastType(CastType.CONSTANT)
+                .setPreCastDuration(30)
+                .setCastDuration(30)
+                ;
     }
 
-    @Override public int getCooldown() { return cooldown; }
-
     @Override
-    public boolean castAbility(LivingEntity entity, Level level, CAbility ca) {
+    public boolean castAbility(LivingEntity entity, Level level, AbilityData data) {
         if (!level.isClientSide()) {
-            double max = 64;
+            double max = config.range;
 
             var hitResult = POVHitResult(level, entity, max, ClipContext.Fluid.NONE);
             BlockPos clickedPos = hitResult.getBlockPos();
@@ -48,8 +54,8 @@ public class TeleportAbility extends AbstractActiveAbility {
             if (blockState(level, blockPos.above()).isSolid()) blockPos = clickedPos.relative(direction);
             Vec3 tp = blockPos.getCenter().add(0, -0.5, 0);
 
-            int d = (int) distanceTo(entity.getEyePosition(), tp);
-            cooldown = Math.max(d, 10);
+            int d = (int) (config.cooldownMod.get().component2() ? (distanceTo(entity.getEyePosition(), tp) * config.cooldownMod.get().component1()) : config.baseCooldown);
+            cooldown = Math.max(d, config.baseCooldown);
             if (entity.getVehicle() != null) entity.stopRiding();
             if (!entity.isFallFlying()) entity.resetFallDistance();
             teleportEntity(entity, tp);
@@ -57,8 +63,9 @@ public class TeleportAbility extends AbstractActiveAbility {
             level.playSound(null, entity, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1, 0.9F);
 
             if (level instanceof ServerLevel) ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL, tp.x + 0.5, tp.y + 0.5, tp.z + 0.5, 5, 0.5, 0.5, 0.5, 0.1);
+            return true;
         }
-        return true;
+        return super.castAbility(entity, level, data);
     }
 
     public float distanceTo(Vec3 start, Vec3 stop) {
@@ -69,8 +76,4 @@ public class TeleportAbility extends AbstractActiveAbility {
     }
 
     protected BlockState blockState(Level level, BlockPos pos) { return level.getBlockState(pos); }
-
-//    protected void teleportEntity(Entity entity, BlockPos vec3) { entity.teleportTo(vec3.getX(), vec3.getY(), vec3.getZ()); }
-//    protected void teleportEntity(Entity entity, Vec3 vec3) { entity.teleportTo(vec3.x, vec3.y, vec3.z); }
-//    protected void teleportEntity(Entity entity, double x, double y, double z) { entity.teleportTo(x, y, z); }
 }

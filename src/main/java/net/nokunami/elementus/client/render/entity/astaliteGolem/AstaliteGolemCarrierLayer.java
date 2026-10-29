@@ -11,8 +11,6 @@ import net.nokunami.elementus.client.model.mob.AstaliteGolemCarrierModel;
 import net.nokunami.elementus.common.entity.living.AstaliteGolemCarrier;
 import org.jetbrains.annotations.NotNull;
 
-import static net.nokunami.elementus.Elementus.modLoc;
-
 @OnlyIn(Dist.CLIENT)
 public class AstaliteGolemCarrierLayer<T extends AstaliteGolemCarrier> extends RenderLayer<T, AstaliteGolemCarrierModel<T>> {
 //    private static final Map<AstaliteGolem.Crackiness, ResourceLocation> CRACKS = ImmutableMap.of(

@@ -1,12 +1,5 @@
 package net.nokunami.elementus.common.level.savedData;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.saveddata.SavedData;
-
-import java.util.HashMap;
-import java.util.UUID;
-
 //public class WrathTridentLevelData extends SavedData {
 //    final ServerLevel world;
 //    private final Map<UUID, OwnedTridents> tridents = new HashMap<>();

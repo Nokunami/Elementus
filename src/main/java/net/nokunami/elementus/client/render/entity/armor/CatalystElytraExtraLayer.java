@@ -16,15 +16,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.armor.CatalystBaseModel;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.common.item.unique.CatalystArmorItem;
 import net.nokunami.elementus.common.item.unique.CatalystItemUtil;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.common.registry.EItems.CATALYST_CHESTPLATE;
 
-@OnlyIn(Dist.CLIENT)
 public class CatalystElytraExtraLayer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraLayer<T, M> {
     private final CatalystBaseModel<T> catalystBaseModel;
 
@@ -52,7 +51,7 @@ public class CatalystElytraExtraLayer<T extends LivingEntity, M extends EntityMo
         return entity.getItemBySlot(EquipmentSlot.CHEST).is(CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(stack).findAny().isPresent();
     }
 
-    public @NotNull ResourceLocation getElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
-        return new ResourceLocation(CatalystItemUtil.baseTextures(stack, entity));
-    }
+//    public @NotNull ResourceLocation getElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
+//        return new ResourceLocation(CatalystItemUtil.baseTextures(stack, entity));
+//    }
 }

@@ -10,7 +10,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.nokunami.elementus.common.entity.living.AstaliteGolem;
-import net.nokunami.elementus.common.entity.living.SteelGolem;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;

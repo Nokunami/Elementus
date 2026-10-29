@@ -10,8 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.nokunami.elementus.client.extensions.ICatalystTrim;
-import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.armor.CatalystArmorTrimModel;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;
 

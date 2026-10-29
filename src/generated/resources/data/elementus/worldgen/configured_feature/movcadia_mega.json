@@ -22,7 +22,7 @@
           "data": {
             "Name": "elementus:movcadia_leaves",
             "Properties": {
-              "distance": "7",
+              "distance": "12",
               "persistent": "false",
               "waterlogged": "false"
             }
@@ -33,7 +33,7 @@
           "data": {
             "Name": "elementus:flowering_movcadia_leaves",
             "Properties": {
-              "distance": "7",
+              "distance": "12",
               "persistent": "false",
               "waterlogged": "false"
             }

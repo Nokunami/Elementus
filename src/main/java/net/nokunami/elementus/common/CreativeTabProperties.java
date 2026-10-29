@@ -67,8 +67,8 @@ public class CreativeTabProperties {
             putAfter(entries, EItems.ASTALITE_BOW, EItems.DIARKRITE_BOW);
             putAfter(entries, EItems.DIARKRITE_BOW, EItems.ANTHEKTITE_BOW);
             // Special Weapon
-            putAfter(entries, Items.TRIDENT, EItems.DIARKRITE_CHARGE_BLADE);
-            putAfter(entries, EItems.DIARKRITE_CHARGE_BLADE, EItems.ANTHEKTITE_CHARGE_BLADE);
+            putAfter(entries, Items.TRIDENT, EItems.BLADE_OF_RESONANCE);
+            putAfter(entries, EItems.BLADE_OF_RESONANCE, EItems.ANTHEKTITE_CHARGE_BLADE);
             putAfter(entries, EItems.ANTHEKTITE_CHARGE_BLADE, EItems.WRATH_TRIDENT);
 
             // Armor

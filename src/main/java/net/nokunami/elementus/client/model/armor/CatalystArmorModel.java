@@ -2,7 +2,6 @@ package net.nokunami.elementus.client.model.armor;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
@@ -12,6 +11,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.nokunami.elementus.client.model.ArmorRenderProperties;
 import net.nokunami.elementus.client.model.ICatalystArmorPostRenderer;
@@ -42,7 +42,9 @@ public class CatalystArmorModel<T extends LivingEntity> extends HumanoidModel<T>
         leftLegEmissive = root.getChild("leftLegEmissive");
 	}
 
-	public static LayerDefinition create() {
+	public static LayerDefinition create() { return LayerDefinition.create(createMesh(), 64, 64); }
+
+	public static MeshDefinition createMesh() {
 		MeshDefinition meshdefinition = HumanoidModel.createMesh(new CubeDeformation(1), 0);
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
@@ -85,29 +87,27 @@ public class CatalystArmorModel<T extends LivingEntity> extends HumanoidModel<T>
         partdefinition.addOrReplaceChild("leftLegEmissive", CubeListBuilder.create()
                 .texOffs(0, 48).mirror().addBox(-2.1F, 0, -2, 4, 12, 4, new CubeDeformation(0.6F)).mirror(false), PartPose.offset(2, 12, 0));
 
-		return LayerDefinition.create(meshdefinition, 64, 64);
+        return meshdefinition;
 	}
 
     @Override
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-        bodyEmissive.copyFrom(body);
-        bodyEmissive.render(poseStack, buffer, LightTexture.FULL_BRIGHT, packedOverlay);
-        core.copyFrom(body);
-        core.render(poseStack, buffer, LightTexture.FULL_BRIGHT, packedOverlay);
-        leftArmEmissive.copyFrom(leftArm);
-        leftArmEmissive.render(poseStack, buffer, LightTexture.FULL_BRIGHT, packedOverlay);
-        rightArmEmissive.copyFrom(rightArm);
-        rightArmEmissive.render(poseStack, buffer, LightTexture.FULL_BRIGHT, packedOverlay);
         leftLegPart.copyFrom(leftLeg);
         leftLegPart.render(poseStack, buffer, packedLight, packedOverlay);
         rightLegPart.copyFrom(rightLeg);
         rightLegPart.render(poseStack, buffer, packedLight, packedOverlay);
-        leftLegEmissive.copyFrom(leftLeg);
-        leftLegEmissive.render(poseStack, buffer, LightTexture.FULL_BRIGHT, packedOverlay);
-        rightLegEmissive.copyFrom(rightLeg);
-        rightLegEmissive.render(poseStack, buffer, LightTexture.FULL_BRIGHT, packedOverlay);
+
+        core.copyFrom(body);
+        bodyEmissive.copyFrom(body);
+        leftArmEmissive.copyFrom(leftArm);
+        rightArmEmissive.copyFrom(rightArm);
+        leftLegEmissive.copyFrom(leftLegPart);
+        rightLegEmissive.copyFrom(rightLegPart);
+        getEmissiveParts().forEach(p -> p.render(poseStack, buffer, packedLight, packedOverlay));
     }
+
+    protected ModelPart getArmEmissive(HumanoidArm arm) { return arm == HumanoidArm.LEFT ? leftArmEmissive : rightArmEmissive; }
 
     @Override
     public List<ModelPart> getNonEmissiveParts() {
@@ -117,13 +117,5 @@ public class CatalystArmorModel<T extends LivingEntity> extends HumanoidModel<T>
     @Override
     public List<ModelPart> getEmissiveParts() {
         return List.of(core, bodyEmissive, leftArmEmissive, rightArmEmissive, leftLegEmissive, rightLegEmissive);
-    }
-
-    @Override
-    public void postRender(ArmorRenderProperties properties, PoseStack poseStack, MultiBufferSource bufferSource, LivingEntity entity, EquipmentSlot slot, int packedLight, Model model) {
-        onlyEmissive();
-        VertexConsumer buffer = bufferSource.getBuffer(ERenderType.noShadingArmor(properties.location()));
-        model.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
-        onlyNonEmissive();
     }
 }

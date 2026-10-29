@@ -1,21 +1,5 @@
 package net.nokunami.elementus.client.model;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.Model;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ItemStack;
-
 //public class GlowingArmorLayer<T extends LivingEntity, M extends HumanoidModel<T>, A extends HumanoidModel<T>> extends HumanoidArmorLayer<T, M, A>
 //{
 //    private final A innerModel;
@@ -68,7 +52,7 @@ import net.minecraft.world.item.ItemStack;
 //        return (A)(this.usesInnerModel(p_117079_) ? this.innerModel : this.outerModel);
 //    }
 //
-//    private void renderModel(PoseStack p_117107_, MultiBufferSource p_117108_, int p_117109_, boolean p_117111_, net.minecraft.client.model.Model p_117112_, float p_117114_, float p_117115_, float p_117116_, ResourceLocation armorResource, ResourceLocation eyeResource)
+//    private void renderModel(PoseStack p_117107_, MultiBufferSource p_117108_, int p_117109_, boolean p_117111_, net.minecraft.overlayConfig.model.Model p_117112_, float p_117114_, float p_117115_, float p_117116_, ResourceLocation armorResource, ResourceLocation eyeResource)
 //    {
 //        VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(p_117108_, SimplestRenderType.eyesNoAlpha(eyeResource), false, p_117111_);
 //        p_117112_.renderToBuffer(p_117107_, vertexconsumer, 240, OverlayTexture.NO_OVERLAY, p_117114_, p_117115_, p_117116_, 1.0F);

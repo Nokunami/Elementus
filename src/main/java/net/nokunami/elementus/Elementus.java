@@ -11,21 +11,17 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.resource.PathPackResources;
 import net.nokunami.elementus.common.CreativeTabProperties;
-import net.nokunami.elementus.common.config.*;
-import net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig;
-import net.nokunami.elementus.common.config.catalystConfigs.CatalystISSConfig;
-import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.config.EConfig;
+import net.nokunami.elementus.common.network.ENet;
 import net.nokunami.elementus.common.registry.*;
-import net.nokunami.elementus.common.worldgen.tree.ModTrunkPlacer;
-import net.nokunami.elementus.datagen.loot.ModLootModifiers;
+import net.nokunami.elementus.common.worldgen.tree.ETrunkPlacer;
+import net.nokunami.elementus.datagen.loot.ELootModifiers;
 import net.nokunami.elementus.event.ServerEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,8 +30,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import static net.nokunami.elementus.Elementus.EID;
-import static net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility.ABILITIES;
-import static net.nokunami.elementus.common.catalystCore.ability.activeAbility.AbstractActiveAbility.ABILITIES_MAP;
+import static net.nokunami.elementus.common.catalystCore.ability.AbstractAbility.ABILITIES;
+import static net.nokunami.elementus.common.catalystCore.ability.AbstractAbility.ABILITIES_MAP;
 import static net.nokunami.elementus.common.catalystCore.core.CatalystCore.*;
 
 @Mod(EID)
@@ -53,52 +49,34 @@ public class Elementus {
 
     public static final Path CATALYST_ISS_CONFIG_PATH = configPath("config/elementus/compat", "catalyst_core_iss_config.toml");
 
-    static Path configPath(String configPath) {
-        return configPath("config/elementus", configPath);
-    }
+    static Path configPath(String configPath) { return configPath("config/elementus", configPath); }
 
     static Path configPath(String path, String configPath) {
         return FMLPaths.getOrCreateGameRelativePath(Path.of(path)).resolve(configPath);
     }
 
-    public static ResourceLocation modLoc(String location) {
-        return modLoc(EID, location);
-    }
+    public static ResourceLocation modLoc(String location) { return modLoc(EID, location); }
+    public static ResourceLocation modLoc(String id, String location) { return new ResourceLocation(id, location); }
 
-    public static ResourceLocation modLoc(String id, String location) {
-        return new ResourceLocation(id, location);
-    }
+    public Elementus(FMLJavaModLoadingContext context) {
+        IEventBus modEventBus = context.getModEventBus();
 
-    public Elementus() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+//        CatalystArmorConfig.reload();
 
-        TierConfig.reload();
-        ItemConfig.reload();
-        UniqueItemConfig.reload();
-        ArmorConfig.reload();
-        CatalystArmorConfig.reload();
-        EntityConfig.reload();
-
-        CatalystISSConfig.reload();
-
-        modEventBus.addListener(EConfig::load);
-        modEventBus.addListener(EConfig::reload);
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, EConfig.CLIENT_SPEC, "elementus/client.toml");
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, EConfig.COMMON_SPEC, "elementus/common.toml");
+        EConfig.init();
 
         EItems.register(modEventBus);
         EBlocks.register(modEventBus);
-        ModBlockEntityType.register(modEventBus);
-        EEntityTypes.register(modEventBus);
-        ModLootModifiers.register(modEventBus);
         ESounds.register(modEventBus);
-        EMobEffects.register(modEventBus);
-        EEnchantments.register(modEventBus);
-        ModTrunkPlacer.register(modEventBus);
         EParticles.register(modEventBus);
-        CatalystCoreRegistry.register(modEventBus);
+        EMobEffects.register(modEventBus);
+        EEntityTypes.register(modEventBus);
+        ETrunkPlacer.register(modEventBus);
+        EEnchantments.register(modEventBus);
+        ELootModifiers.register(modEventBus);
+        EBlockEntityType.register(modEventBus);
         CatalystAbilities.register(modEventBus);
+        CatalystCores.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, ECapabilities::attachEntityCapability);
@@ -106,10 +84,6 @@ public class Elementus {
         modEventBus.addListener(CreativeTabProperties::addCreative);
         modEventBus.addListener(this::addPackFinders);
         modEventBus.addListener(this::commonSetup);
-
-
-//        modEventBus.addListener(ClientEvents::itemDecorations);
-//        modEventBus.addListener(ClientEvents::onRegisterKeybinds);
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {
@@ -120,7 +94,7 @@ public class Elementus {
         CATALYST_CORE_LIST.forEach(core -> CORE_ITEM_MAP.put(core.getCoreStack().getItem(), core));
         CATALYST_CORE_LIST.forEach(core -> CORE_ITEMSTACK_MAP.put(core.itemStack, core));
         ABILITIES.forEach(ability -> ABILITIES_MAP.put(ability.getId(), ability));
-        event.enqueueWork(ENetwork::setup);
+        event.enqueueWork(ENet::setup);
         EGameRules.init();
     }
 

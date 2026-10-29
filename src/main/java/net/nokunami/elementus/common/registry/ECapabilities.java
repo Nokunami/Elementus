@@ -1,6 +1,5 @@
 package net.nokunami.elementus.common.registry;
 
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
@@ -9,14 +8,16 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.nokunami.elementus.common.capability.*;
-import net.nokunami.elementus.common.capability.cAbility.CAbility;
-import net.nokunami.elementus.common.capability.cAbility.CAbilityCap;
+import net.nokunami.elementus.common.capability.EParryCap;
+import net.nokunami.elementus.common.capability.ITridentOwner;
+import net.nokunami.elementus.common.capability.TridentOwnerCapability;
+import net.nokunami.elementus.common.capability.abilityData.AbilityData;
+import net.nokunami.elementus.common.capability.abilityData.AbilityDataCap;
 import net.nokunami.elementus.common.capability.itemNotifier.ItemNotifier;
 import net.nokunami.elementus.common.capability.itemNotifier.ItemNotifierCap;
+import net.nokunami.elementus.common.capability.slashStack.SlashStackCap;
+import net.nokunami.elementus.common.capability.slashStack.SlashStackData;
 import net.nokunami.elementus.common.entity.projectile.WrathTridentEntity;
-
-import static net.nokunami.elementus.Elementus.modLoc;
 
 public class ECapabilities {
 
@@ -32,7 +33,8 @@ public class ECapabilities {
 //        event.register(CatalystAbilityCap.class);
         event.register(TridentOwnerCapability.class);
         event.register(ItemNotifier.class);
-        event.register(CAbility.class);
+        event.register(AbilityData.class);
+        event.register(SlashStackData.class);
     }
 
     public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> event) {
@@ -40,14 +42,10 @@ public class ECapabilities {
             event.addCapability(EParryCap.ID, new EParryCap.ParryCapImp.ParryProvider());
         }
         ItemNotifierCap.addCap(event);
-        CAbilityCap.addCap(event);
-        if (event.getObject() instanceof ServerPlayer serverPlayer) {
-//            if (!event.getObject().getCapability(CatalystAbilityCap.ABILITY).isPresent()) {
-//                event.addCapability(modLoc("catalyst_ability"), new CatalystAbilityCap(serverPlayer));
-//            }
-        }
+        AbilityDataCap.addCap(event);
         if (event.getObject() instanceof WrathTridentEntity) {
             event.addCapability(TridentOwnerCapability.ID, new TridentOwnerCapability());
         }
+        SlashStackCap.addCap(event);
     }
 }

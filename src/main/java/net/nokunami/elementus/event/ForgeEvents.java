@@ -6,10 +6,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ModCheck;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -21,44 +20,41 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.event.*;
+import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingConversionEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.MissingMappingsEvent;
-import net.nokunami.elementus.client.CAbilityClient;
+import net.nokunami.elementus.EIdentifier;
+import net.nokunami.elementus.ElementusModCheck;
+import net.nokunami.elementus.client.AbilityDataClient;
 import net.nokunami.elementus.client.EKeyMap;
 import net.nokunami.elementus.client.model.CustomModelProperties;
 import net.nokunami.elementus.client.model.EHierarchicalModel;
-import net.nokunami.elementus.common.capability.cAbility.CAbility;
-import net.nokunami.elementus.common.catalystCore.ability.AbilityCastManager;
+import net.nokunami.elementus.common.capability.abilityData.AbilityData;
+import net.nokunami.elementus.common.catalystCore.ability.AbilityManager;
+import net.nokunami.elementus.common.item.EBowItem;
 import net.nokunami.elementus.common.item.IMovcadiaTool;
+import net.nokunami.elementus.common.item.enchantment.IChargeBladeEnchantment;
 import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.item.unique.TestCatalystArmorItem;
-import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.common.network.ENet;
 import net.nokunami.elementus.common.network.client.SyncAbilitySelectionS2CPacket;
-import net.nokunami.elementus.common.network.server.CatalystAbilitySelectionPacket;
+import net.nokunami.elementus.common.network.server.AbilitySelectionPacket;
 import net.nokunami.elementus.common.network.server.CatalystSlotC2SPacket;
 import net.nokunami.elementus.common.network.server.ChargeBladeAbilityC2SPacket;
-import net.nokunami.elementus.common.registry.EGameRules;
-
-import java.util.HashMap;
-import java.util.Map;
+import net.nokunami.elementus.common.tags.EItemTags;
 
 import static net.nokunami.elementus.Elementus.EID;
 import static net.nokunami.elementus.Elementus.modLoc;
 import static net.nokunami.elementus.common.catalystCore.core.CatalystCore.CORE_ITEM_MAP;
-import static net.nokunami.elementus.common.registry.CustomRegistries.CatalystCoreHelper.CatalystCoreUtil;
+import static net.nokunami.elementus.common.registry.ERegistries.CatalystCoreHelper.CatalystCoreUtil;
 
 public class ForgeEvents {
 
@@ -67,17 +63,16 @@ public class ForgeEvents {
         @SubscribeEvent
         public static void itemTooltip(ItemTooltipEvent event) {
             ItemStack itemStack = event.getItemStack();
-            Player player = event.getEntity();
             if (!event.getItemStack().isEmpty()) {
                 if (CORE_ITEM_MAP.containsKey(itemStack.getItem())) {
-                    if (itemStack.is(Items.BARRIER)/* && player != null && player.isSecondaryUseActive()*/) {
-                        if (Screen.hasShiftDown()) event.getToolTip().add(Component.translatableWithFallback("item.elementus.catalyst_core.fallback_desc", "Fallback Catalyst Core").withStyle(ChatFormatting.GRAY));
+                    if (itemStack.is(Items.BARRIER)) {
+                        if (Screen.hasShiftDown()) event.getToolTip().add(Component.translatableWithFallback(EIdentifier.Description.catalystCoreFallbackDesc, "Fallback Catalyst Core").withStyle(ChatFormatting.GRAY));
                     } else {
-                        event.getToolTip().add(1, Component.translatable("item.elementus.catalyst_core.desc").withStyle(ChatFormatting.GRAY));
+                        event.getToolTip().add(1, Component.translatable(EIdentifier.Description.catalystCoreDesc).withStyle(ChatFormatting.GRAY));
                     }
                 }
                 if (itemStack.getItem() instanceof IMovcadiaTool) {
-                    event.getToolTip().add(1, Component.translatable("item.elementus.movcadia_tool.desc").withStyle(ChatFormatting.DARK_PURPLE));
+                    event.getToolTip().add(1, Component.translatable(EIdentifier.Description.movcadiaToolDesc).withStyle(ChatFormatting.DARK_PURPLE));
                     // TODO: Maybe a new tooltip
                     // Smth like [Fragile Tool] Shift for info
                     // - Tool degrades with use.
@@ -85,6 +80,9 @@ public class ForgeEvents {
                     // - Attack Speed is at %.
                     // - Mining Speed is at %.
                     // you get the gist
+                }
+                if (itemStack.is(EItemTags.REPAIR_ON_KILL)) {
+                    event.getToolTip().add(1, Component.translatableWithFallback(EIdentifier.Description.repairOnKillDesc, "Item repairs itself on kill.").withStyle(ChatFormatting.GRAY));
                 }
             }
         }
@@ -117,23 +115,12 @@ public class ForgeEvents {
                 } else return;
 
                 if(player.getCooldowns().isOnCooldown(itemStack.getItem())) return;
-                ENetwork.sendToServer(new ChargeBladeAbilityC2SPacket(hand));
+                ENet.sendToServer(new ChargeBladeAbilityC2SPacket(hand));
             }
         }
 
         @SubscribeEvent
         public static void castAbilityEvents(InputEvent.Key event) {
-//            Minecraft mc = Minecraft.getInstance();
-//            Player player = mc.player;
-//            if (mc.level == null || mc.screen != null || mc.isPaused() || player == null) return;
-//            KeyMapping key = EKeyMap.CATALYST_ABILITY_KEY;
-//            boolean isKey = event.getKey() == key.getKey().getValue();
-//
-//            if (isKey) {
-//                if (event.getAction() == InputConstants.PRESS) ENetwork.sendToServer(new CatalystAbilityC2SPacket(CastType.ON_CAST_START));
-//                if (event.getAction() == InputConstants.REPEAT) ENetwork.sendToServer(new CatalystAbilityC2SPacket(CastType.CASTING));
-//                if (event.getAction() == InputConstants.RELEASE) ENetwork.sendToServer(new CatalystAbilityC2SPacket(CastType.ON_CAST_STOP));
-//            }
             EKeyMap.onKeyDown(event);
         }
 
@@ -143,12 +130,9 @@ public class ForgeEvents {
             Player player = mc.player;
             if (mc.level == null || mc.screen != null || mc.isPaused() || player == null) return;
 
-            if (EKeyMap.CATALYST_ABILITY_SWITCH_KEY.isDown()) {
+            if (EKeyMap.ABILITY_SWITCH_KEY.isDown()) {
                 int scroll = (int) Mth.clamp(event.getScrollDelta(), -1, 1);
-                var core = CatalystCoreUtil(player);
-
-                ENetwork.sendToServer(new CatalystAbilitySelectionPacket(scroll));
-//                ENetwork.sendToServer(new CAbilitySelectionSyncS2CPacket(scroll));
+                ENet.sendToServer(new AbilitySelectionPacket(scroll));
                 event.setCanceled(true);
             }
         }
@@ -169,7 +153,7 @@ public class ForgeEvents {
                     int index = container.getMenu().slots.indexOf(hoveredSlot);
 
                     if (hoveredSlot.getItem().getItem() instanceof TestCatalystArmorItem) {
-                        ENetwork.sendToServer(new CatalystSlotC2SPacket(
+                        ENet.sendToServer(new CatalystSlotC2SPacket(
                                 menu.containerId,
                                 menu.getStateId(),
                                 index,
@@ -204,17 +188,70 @@ public class ForgeEvents {
         @SubscribeEvent
         public static void onClientTick(TickEvent.PlayerTickEvent event) {
             if (event.side.isClient() && event.phase == TickEvent.Phase.END && event.player == Minecraft.getInstance().player) {
-                CAbilityClient.getCooldowns().tick();
-                CAbilityClient.clientCastTick();
+                AbilityDataClient.clientTick();
             }
         }
 
 //        @SubscribeEvent
 //        public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
 //            if (event.getPlayer() != null) {
-//                AbilityCastManager.onServerCastStop();
+//                AbilityManager.onServerCastStop();
 //            }
 //        }
+
+//        @SubscribeEvent
+//        public static void fovEvent(ViewportEvent.ComputeFov event) {
+//            var mc = Minecraft.getInstance();
+//            var player = mc.player;
+//            var f = event.getFOV();
+//
+//            if (player != null) {
+//                var bowItem = player.getUseItem();
+//                if (player.isUsingItem()) {
+//                    if (bowItem.getItem() instanceof EBowItem bow) {
+//                        int i = player.getTicksUsingItem();
+////                        float f1 = (float) i / 20.0F;
+//                        float f1 = (float) i / bow.getPullLimit();
+//                        if (f1 > 1) {
+//                            f1 = 1;
+//                        } else {
+//                            f1 *= f1;
+//                        }
+//
+//                        f *= 1 - f1 * 0.15F;
+//                    } else if (mc.options.getCameraType().isFirstPerson() && player.isScoping()) {
+//                        f = 0.1F;
+//                    }
+//                }
+//                event.setFOV(f);
+//            }
+//        }
+        @SubscribeEvent
+        public static void fovEvent(ComputeFovModifierEvent event) {
+            if (ElementusModCheck.archeryExp) return;
+            var mc = Minecraft.getInstance();
+            var player = event.getPlayer();
+            var f = event.getFovModifier();
+
+            var bowItem = player.getUseItem();
+            if (player.isUsingItem()) {
+                if (bowItem.getItem() instanceof EBowItem bow) {
+                    int i = player.getTicksUsingItem();
+//                        float f1 = (float) i / 20.0F;
+                    float f1 = (float) i / bow.getPullLimit();
+                    if (f1 > 1) {
+                        f1 = 1;
+                    } else {
+                        f1 *= f1;
+                    }
+
+                    f *= 1 - f1 * 0.15F;
+                } else if (mc.options.getCameraType().isFirstPerson() && player.isScoping()) {
+                    f = 0.1F;
+                }
+            }
+            event.setNewFovModifier(f);
+        }
     }
 
     @Mod.EventBusSubscriber(modid = EID, bus = Mod.EventBusSubscriber.Bus.FORGE/*, value = Dist.DEDICATED_SERVER*/)
@@ -227,36 +264,37 @@ public class ForgeEvents {
                 if (player != null) {
                     ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
                     if (chest.getItem() instanceof TestCatalystArmorItem) {
-//                        ENetwork.sendTo(player, new CatalystCoreSyncPacket(chest));
-//                        ENetwork.sendTo(player, new AbilityCooldownPacket());
+//                        ENet.sendTo(player, new CatalystCoreSyncPacket(chest));
+//                        ENet.sendTo(player, new AbilityCooldownPacket());
                     }
                 }
             }
         }
 
-//        @SubscribeEvent
-//        public static void attributeModifierEvent(ItemAttributeModifierEvent event) {
-//            var item = event.getItemStack().getItem();
-//            if (EConfig.COMMON_SPEC.isLoaded()) {
-//                if (item instanceof IConfigAttributesItem config) {
-//                    config.modifyAttributes(event);
-//                }
-//            }
-//        }
+        @SubscribeEvent
+        public static void attributeModifierEvent(ItemAttributeModifierEvent event) {
+            var stack = event.getItemStack();
+            var item = stack.getItem();
+            if (!stack.getAllEnchantments().isEmpty()) {
+                for (Enchantment enchantment : stack.getAllEnchantments().keySet()) {
+                    if (enchantment instanceof IChargeBladeEnchantment bladeEnchantment) {
+
+                    }
+                }
+            }
+        }
 
         @SubscribeEvent
         public static void onLevelJoin(PlayerEvent.PlayerLoggedInEvent event) {
             if (event.getEntity() instanceof ServerPlayer player) {
-                CAbility inst = CAbility.instance(player);
-                inst.getCooldowns().sync(player);
-                ENetwork.sendTo(player, new SyncAbilitySelectionS2CPacket(inst.getSelection()));
+                AbilityManager.syncData(player);
             }
         }
 
 //        @SubscribeEvent
 //        public static void onRespawn(PlayerEvent.PlayerLoggedInEvent event) {
 //            if (event.getEntity() instanceof ServerPlayer player) {
-//                CAbility inst = CAbility.instance(player);
+//                AbilityData inst = AbilityData.instance(player);
 //                inst.getCooldowns().sync(player);
 //            }
 //        }
@@ -264,7 +302,7 @@ public class ForgeEvents {
 //        @SubscribeEvent
 //        public static void onChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
 //            if (event.getEntity() instanceof ServerPlayer player) {
-//                CAbility inst = CAbility.instance(player);
+//                AbilityData inst = AbilityData.instance(player);
 //                inst.getCooldowns().sync(player);
 //            }
 //        }
@@ -284,81 +322,12 @@ public class ForgeEvents {
 //        }
 //    }
 
-        @SubscribeEvent
-        public static void recallTrident(PlayerInteractEvent.RightClickEmpty event) {
-            ItemStack stack = event.getItemStack();
-            Player player = event.getEntity();
-            if (stack.isEmpty()) {
-            }
-        }
-    }
-
-    /// Credits: Supplementaries RemapHandler
-    private static final Map<String, String> ITEM_REMAP = new HashMap<>();
-    private static final Map<String, String> BLOCK_REMAP = new HashMap<>();
-    private static final Map<String, String> ENTITY_REMAP = new HashMap<>();
-    static {
-        ITEM_REMAP.put(modLoc("crude_steel").toString(), modLoc("raw_astalite").toString());
-        ITEM_REMAP.put(modLoc("steel_scrap").toString(), modLoc("astalite_scrap").toString());
-        ITEM_REMAP.put(modLoc("steel_ingot").toString(), modLoc("astalite_ingot").toString());
-        ITEM_REMAP.put(modLoc("steel_nugget").toString(), modLoc("astalite_nugget").toString());
-
-        ITEM_REMAP.put(modLoc("steel_sword").toString(), modLoc("astalite_sword").toString());
-        ITEM_REMAP.put(modLoc("steel_shovel").toString(), modLoc("astalite_shovel").toString());
-        ITEM_REMAP.put(modLoc("steel_pickaxe").toString(), modLoc("astalite_pickaxe").toString());
-        ITEM_REMAP.put(modLoc("steel_axe").toString(), modLoc("astalite_axe").toString());
-        ITEM_REMAP.put(modLoc("steel_hoe").toString(), modLoc("astalite_hoe").toString());
-
-        ITEM_REMAP.put(modLoc("steel_bow").toString(), modLoc("astalite_bow").toString());
-        ITEM_REMAP.put(modLoc("steel_shield").toString(), modLoc("astalite_shield").toString());
-
-        ITEM_REMAP.put(modLoc("steel_helmet").toString(), modLoc("astalite_helmet").toString());
-        ITEM_REMAP.put(modLoc("steel_chestplate").toString(), modLoc("astalite_chestplate").toString());
-        ITEM_REMAP.put(modLoc("steel_leggings").toString(), modLoc("astalite_leggings").toString());
-        ITEM_REMAP.put(modLoc("steel_boots").toString(), modLoc("astalite_boots").toString());
-
-        ITEM_REMAP.put(modLoc("diarkrite_charge_blade").toString(), modLoc("blade_of_resonance").toString());
-        ITEM_REMAP.put(modLoc("anthektite_charge_blade").toString(), modLoc("blade_of_wind_charging").toString());
-
-        ITEM_REMAP.put(modLoc("steel_block").toString(), modLoc("astalite_block").toString());
-        ITEM_REMAP.put(modLoc("steel_bars").toString(), modLoc("astalite_block").toString());
-        ITEM_REMAP.put(modLoc("steel_tiles").toString(), modLoc("astalite_block").toString());
-        ITEM_REMAP.put(modLoc("steel_tile_stair").toString(), modLoc("astalite_block").toString());
-        ITEM_REMAP.put(modLoc("steel_tile_slab").toString(), modLoc("astalite_block").toString());
-
-
-        BLOCK_REMAP.put(modLoc("steel_block").toString(), modLoc("astalite_block").toString());
-        BLOCK_REMAP.put(modLoc("steel_bars").toString(), modLoc("astalite_block").toString());
-        BLOCK_REMAP.put(modLoc("steel_tiles").toString(), modLoc("astalite_block").toString());
-        BLOCK_REMAP.put(modLoc("steel_tile_stair").toString(), modLoc("astalite_block").toString());
-        BLOCK_REMAP.put(modLoc("steel_tile_slab").toString(), modLoc("astalite_block").toString());
-
-        ENTITY_REMAP.put(modLoc("steel_golem").toString(), modLoc("astalite_golem_longarm").toString());
-        ENTITY_REMAP.put(modLoc("astalite_golem").toString(), modLoc("astalite_golem_carrier").toString());
-    }
-
-    @SubscribeEvent
-    public static void onRemap(MissingMappingsEvent event) {
-        for (var v : event.getMappings(ForgeRegistries.BLOCKS.getRegistryKey(), EID)) {
-            String rem = BLOCK_REMAP.get(v.getKey().toString());
-            if (rem != null) {
-                var b = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(rem));
-                b.ifPresent(v::remap);
-            } else v.ignore();
-        }
-        for (var v : event.getMappings(ForgeRegistries.ITEMS.getRegistryKey(), EID)) {
-            String rem = ITEM_REMAP.get(v.getKey().toString());
-            if (rem != null) {
-                var b = BuiltInRegistries.ITEM.getOptional(new ResourceLocation(rem));
-                b.ifPresent(v::remap);
-            } else v.ignore();
-        }
-        for (var v : event.getMappings(ForgeRegistries.ENTITY_TYPES.getRegistryKey(), EID)) {
-            String rem = ENTITY_REMAP.get(v.getKey().toString());
-            if (rem != null) {
-                var b = BuiltInRegistries.ENTITY_TYPE.getOptional(new ResourceLocation(rem));
-                b.ifPresent(v::remap);
-            } else v.ignore();
-        }
+//        @SubscribeEvent
+//        public static void recallTrident(PlayerInteractEvent.RightClickEmpty event) {
+//            ItemStack stack = event.getItemStack();
+//            Player player = event.getEntity();
+//            if (stack.isEmpty()) {
+//            }
+//        }
     }
 }

@@ -22,6 +22,25 @@ public class CatalystCoreRangedUtil {
     public LivingEntity destroyTarget;
     public UUID destroyTargetUUID;
 
+    public void updateDestroyTarget(LivingEntity attacker, Level level, BlockPos pos, double range, float damage) {
+        if (destroyTarget == null && destroyTargetUUID != null) {
+            destroyTarget = findDestroyTarget(level, pos, destroyTargetUUID, range);
+            destroyTargetUUID = null;
+        } else if (destroyTarget == null) {
+            List<LivingEntity> list = level.getEntitiesOfClass(LivingEntity.class, getDestroyRangeAABB(pos, range),
+                    (entity) -> entity instanceof Enemy && entity.isInWaterOrRain());
+            if (!list.isEmpty()) {
+                destroyTarget = list.get(level.random.nextInt(list.size()));
+            }
+        } else if (!destroyTarget.isAlive() || !pos.closerThan(destroyTarget.blockPosition(), range)) {
+            destroyTarget = null;
+        }
+
+        if (destroyTarget != null) {
+            level.playSound(null, destroyTarget.blockPosition(), SoundEvents.CONDUIT_ATTACK_TARGET, attacker.getSoundSource(), 1, 1);
+            destroyTarget.hurt(level.damageSources().magic(), damage);
+        }
+    }
     public void updateDestroyTarget(Level level, BlockPos pos, BlockState state, List<BlockPos> postions, double range) {
         LivingEntity livingentity = this.destroyTarget;
         int i = postions.size();

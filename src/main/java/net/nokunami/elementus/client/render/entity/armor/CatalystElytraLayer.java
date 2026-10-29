@@ -16,15 +16,12 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.client.model.armor.CatalystElytraModel;
+import net.nokunami.elementus.client.model.geom.EModelLayers;
 import net.nokunami.elementus.common.item.unique.CatalystItemUtil;
 import org.jetbrains.annotations.NotNull;
 
 import static net.nokunami.elementus.Elementus.modLoc;
-import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.getEquippedElytra;
 import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.hasElytra;
 
 public class CatalystElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraLayer<T, M> {
@@ -61,27 +58,15 @@ public class CatalystElytraLayer<T extends LivingEntity, M extends EntityModel<T
         }
     }
 
-    public boolean shouldRender(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
-//        return entity.getItemBySlot(EquipmentSlot.CHEST).is(CATALYST_CHESTPLATE.get()) && CatalystArmorItem.getElytraEquipped(stack).findAny().isPresent() ||
-//                entity.getItemBySlot(EquipmentSlot.CHEST).is(TEST_CATALYST_CHESTPLATE.get()) && CatalystItemUtil.getEquippedElytra(stack).isPresent();
-        return hasElytra(stack);
-    }
+    public boolean shouldRender(@NotNull ItemStack stack, @NotNull LivingEntity entity) { return hasElytra(stack); }
 
     public @NotNull ResourceLocation getElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
-//        if (stack.is(CATALYST_CHESTPLATE.get()))
-//            return new ResourceLocation(EID, CatalystItemUtil.getElytraTexture(stack));
-//        else
-//            return new ResourceLocation(EID, CatalystItemUtil.getTestElytraTexture(stack));
         return modLoc(CatalystItemUtil.getElytraTexture(stack));
     }
 
-    public @NotNull ResourceLocation getCatalystElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
-//        if (stack.is(CATALYST_CHESTPLATE.get()))
-//            return new ResourceLocation(CatalystItemUtil.baseTextures(stack, entity));
-//        else
-//            return new ResourceLocation(CatalystItemUtil.testBaseTextures(stack, entity));
-        return new ResourceLocation(CatalystItemUtil.baseTextures(stack, entity));
-    }
+//    public @NotNull ResourceLocation getCatalystElytraTexture(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
+//        return new ResourceLocation(CatalystItemUtil.baseTextures(stack, entity));
+//    }
 
     public void elytraModelType(int type, PoseStack poseStack, MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, ResourceLocation resourcelocation1, ItemStack itemStack) {
         poseStack.pushPose();

@@ -3,9 +3,6 @@ package net.nokunami.elementus.common.capability.itemNotifier;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.nokunami.elementus.common.capability.cAbility.CAbility;
-import net.nokunami.elementus.common.capability.cAbility.CAbilityCap;
 
 public class ItemNotifier {
     private int ding;

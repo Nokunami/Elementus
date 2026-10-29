@@ -4,15 +4,14 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.nokunami.elementus.EIdentifier;
 import net.nokunami.elementus.client.EKeyMap;
 import net.nokunami.elementus.common.catalystCore.core.CatalystCore;
 import net.nokunami.elementus.common.registry.*;
-import net.nokunami.elementus.common.registry.tempCompat.CompatCoreRegistry.*;
 
 import java.util.function.Supplier;
 
 import static net.nokunami.elementus.Elementus.EID;
-import static net.nokunami.elementus.ModChecker.*;
 import static net.nokunami.elementus.datagen.generators.ESoundGen.getSub;
 
 public class ELangGen extends LanguageProvider {
@@ -80,7 +79,7 @@ public class ELangGen extends LanguageProvider {
         addItem(EItems.MOVCADIA_AXE, "Movcadia Axe");
         addItem(EItems.MOVCADIA_HOE, "Movcadia Hoe");
 
-        addItem(EItems.DIARKRITE_CHARGE_BLADE, "Blade of Resonance");
+        addItem(EItems.BLADE_OF_RESONANCE, "Blade of Resonance");
         addItem(EItems.ANTHEKTITE_CHARGE_BLADE, "Blade of Wind Charging");
         addItem(EItems.WRATH_TRIDENT, "Wrath of The Sea");
 
@@ -114,31 +113,34 @@ public class ELangGen extends LanguageProvider {
         addItem(EItems.WEAPON_FRAGMENT, "Weapon Fragment");
     }
     void itemDescriptions() {
-        add(itemPrefix + "golem_upgrade.reinforced_plating", "Reinforced Plating");
+        add(EIdentifier.Description.golemUpgradeReinforce, "Reinforced Plating");
 //        add(itemPrefix + "golem_upgrade.damage_upgrade", "Test Damage Golem ");
-        add(itemPrefix + "golem_upgrade.modifier_equip", "When on Golem: ");
-        add(itemPrefix + "golem_upgrade.upgrades", "Upgrades: ");
-        add(itemPrefix + "golem_upgrade.pushable", "Solid Feet");
-        add(itemPrefix + "golem_upgrade.fast_attack", "Overclocked Arms");
+        add(EIdentifier.Description.golemUpgradeEquip, "When on Golem: ");
+        add(EIdentifier.Description.golemUpgrades, "Upgrades: ");
+        add(EIdentifier.Description.golemUpgradeSolidStance, "Solid Feet");
+        add(EIdentifier.Description.golemUpgradeFastAttack, "Overclocked Arms");
 
-        add(itemPrefix + "diarkrite_pickaxe.desc", "Mines hard blocks faster.");
-        add(itemPrefix + "catalyst_core.desc", "Can be used as Catalyst Core.");
+        add(EIdentifier.Description.diarkritePickaxeBonus, "Mines hard blocks faster.");
 
-        add(itemPrefix + "catalyst_chestplate.elytra_equipped", "Elytra equipped.");
-        add(itemPrefix + "catalyst_chestplate.trim_diabled", "Trim disabled.");
-        add(itemPrefix + "catalyst_chestplate.trim_enabled", "Trim visible.");
-        add(itemPrefix + "catalyst_chestplate.show_more", "Press shift for info.");
-        add(itemPrefix + "catalyst_chestplate.core_equipped_legacy", "Catalyst Core NBT tag has change, please remove core!");
-        add(itemPrefix + "catalyst_chestplate.elytra_equipped_legacy", "Elytra NBT tag has change, please remove elytra!");
+        add(EIdentifier.Description.catalystCoreDesc, "Can be used as Catalyst Core.");
+        add(EIdentifier.Description.catalystElytraEquip, "Elytra equipped.");
+        add(EIdentifier.Description.catalystTrimOff, "Trim disabled.");
+        add(EIdentifier.Description.catalystTrimOn, "Trim visible.");
 
-        add(itemPrefix + "charge_item.charge_desc", "Charge: %s/%s");
-        add(itemPrefix + "charge_item.friendly_fire_desc", "Friendly Fire: %s");
-        add(itemPrefix + "diarkrite_charge_blade.resonance_charge_desc", "Resonance Charge: %s");
-        add(itemPrefix + "diarkrite_charge_blade.cursed_damage_desc", "Current Charge: %s + 25% of Max Health");
-        add(itemPrefix + "diarkrite_charge_blade.damage_desc", "Damage: ");
-        add(itemPrefix + "diarkrite_charge_blade.damage_ratio_shift_desc", "Current Burst Damage: %s");
+        add(EIdentifier.Description.catalystCoreShowMore, "Press shift for info.");
+        add(EIdentifier.Description.catalystLegacyCore, "Catalyst Core NBT tag has change, please remove core!");
+        add(EIdentifier.Description.catalystLegacyElytra, "Elytra NBT tag has change, please remove elytra!");
 
-        add(itemPrefix + "movcadia_tool.desc", "Tool degrades with use.");
+        add(EIdentifier.Description.chargeBladeDesc, "Charge: %s/%s");
+        add(EIdentifier.Description.chargeBladeFriendlyFire, "Friendly Fire: %s");
+
+        add(EIdentifier.Description.BORDesc, "Resonance Charge: %s");
+        add(EIdentifier.Description.BORCursedDesc, "Current Charge: %s + 25% of Max Health");
+        add(EIdentifier.Description.BORDamageDesc, "Damage: ");
+        add(EIdentifier.Description.BORRatioDesc, "Current Burst Damage: %s");
+
+        add(EIdentifier.Description.movcadiaToolDesc, "Tool degrades with use.");
+        add(EIdentifier.Description.repairOnKillDesc, "Repairs on kill.");
     }
     void blockTL() {
         addBlock(EBlocks.ASTALITE_BLOCK, "Block of Astalite");
@@ -204,6 +206,8 @@ public class ELangGen extends LanguageProvider {
         enchantTL(EEnchantments.RUSH, "Blade Rush", "Rushes forward and slash any entity caught in teh dash.");
         enchantTL(EEnchantments.CHARGE_STACKING, "Charge Stacking", "Adds additional charge stacks.");
         enchantTL(EEnchantments.PULSE_BURST, "Pulse Burst", "Burst from Charge blade turns into a pulsing projectile.");
+        enchantTL(EEnchantments.CLEAVE, "Cleave", "Over stack.");
+        enchantTL(EEnchantments.TORRENT, "Torrent", "Wind slashes.");
     }
     void specialEnchantmentDescTL() {
         enchantSpecialDescTL(EEnchantments.SACRIFICE_CURSE, "bonus_desc", "+%s%% Damage from %s");
@@ -239,7 +243,6 @@ public class ELangGen extends LanguageProvider {
     void effectsTL() {
         addEffect(EMobEffects.BEACON_POWER, "Beacon Power");
         addEffect(EMobEffects.TOTEM_COOLDOWN, "Catalyst Totem Exhaustion");
-        addEffect(EMobEffects.WITHERED_BEACON_POWER, "Withered Beacon Power");
         addEffect(EMobEffects.SACRIFICE_PENALTY, "Sacrifice Penalty");
     }
     void entityTL() {
@@ -307,71 +310,21 @@ public class ELangGen extends LanguageProvider {
     void catalystTL() {
         add("catalyst_ability.elementus.cooldown", "%s is on cooldown");
 
-        addCore(CatalystCoreRegistry.BEACON_POWER, "Beacon Power");
-        addCoreDesc(CatalystCoreRegistry.BEACON_POWER, "Power of a Beacon, but mobile.");
-        addCore(CatalystCoreRegistry.HEART_OF_THE_SEA, "Heart of the Sea");
-        addCoreDesc(CatalystCoreRegistry.HEART_OF_THE_SEA, "Conduit Power on the go.");
-        addCore(CatalystCoreRegistry.TOTEM_OF_UNDYING, "Totem of Undying");
-        addCoreDesc(CatalystCoreRegistry.TOTEM_OF_UNDYING, "A second chance after death.");
-        addCore(CatalystCoreRegistry.END_SHIFTER, "End Shifter");
-        addCoreDesc(CatalystCoreRegistry.END_SHIFTER, "Your location in space shifts constantly.");
-        addCore(CatalystCoreRegistry.WAYFINDER, "Wayfinder");
-        addCoreDesc(CatalystCoreRegistry.WAYFINDER, "The lodestone.");
-
-        if (cataclysm) {
-            addCore(CataclysmCores.IGNITIUM, "Inferno Reflex");
-            addCoreDesc(CataclysmCores.IGNITIUM, "A fraction of Ingis' power.");
-            addCoreDesc(CataclysmCores.IGNITIUM, ".desc_1", "| Randomly sets attackers on fire and apply Blazing Brand.");
-            addCoreDesc(CataclysmCores.IGNITIUM, ".desc_2", "| Immunity to Blazing Brand.");
-            addCore(CataclysmCores.CURSIUM_WARRIOR, "Cursed Worrier");
-            addCoreDesc(CataclysmCores.CURSIUM_WARRIOR, "Cursed with undeath.");
-            addCoreDesc(CataclysmCores.CURSIUM_WARRIOR, ".desc_1", "| Revives upon death.");
-            addCoreDesc(CataclysmCores.CURSIUM_WARRIOR, ".desc_2", "| Chance to dodge attacks, chances increase if it's a projectile.");
-            addCore(CataclysmCores.ESSENCE_OF_THE_STORM, "Essence of The Storm");
-            addCoreDesc(CataclysmCores.ESSENCE_OF_THE_STORM, "Work In Progress.");
-        }
-
-        if (ironsSpellbooks) {
-            addCore(IronsSpellbooksCores.ISS_FIRE, "Fire Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_FIRE, "Arcane Imbuement of Flames.");
-            addCore(IronsSpellbooksCores.ISS_ICE, "Ice Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_ICE, "Arcane Imbuement of Ice.");
-            addCore(IronsSpellbooksCores.ISS_ENDER, "Ender Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_ENDER, "Arcane Imbuement of Ender.");
-            addCore(IronsSpellbooksCores.ISS_LIGHTNING, "Lightning Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_LIGHTNING, "Arcane Imbuement of Lightning.");
-            addCore(IronsSpellbooksCores.ISS_BLOOD, "Blood Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_BLOOD, "Arcane Imbuement of Blood.");
-            addCore(IronsSpellbooksCores.ISS_HOLY, "Holy Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_HOLY, "Arcane Imbuement of Holy Light.");
-            addCore(IronsSpellbooksCores.ISS_EVOCATION, "Evocation Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_EVOCATION, "Arcane Imbuement of Evocation.");
-            addCore(IronsSpellbooksCores.ISS_NATURE, "Nature Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_NATURE, "Arcane Imbuement of Nature.");
-            addCore(IronsSpellbooksCores.ISS_ARCANE, "Condensed Arcane Power");
-            addCoreDesc(IronsSpellbooksCores.ISS_ARCANE, "Arcane Imbuement of Overflowing Mana.");
-            addCore(IronsSpellbooksCores.ISS_COOLDOWN, "Arcane Recovery");
-            addCoreDesc(IronsSpellbooksCores.ISS_COOLDOWN, "Arcane Imbuement of Recovery.");
-            addCore(IronsSpellbooksCores.ISS_PROTECTION, "Arcane Protection");
-            addCoreDesc(IronsSpellbooksCores.ISS_PROTECTION, "Arcane Imbuement of Protection.");
-        }
-
-        if (witherStormMod) {
-            addCore(WitherstormModCores.WITHERED_BEACON_POWER, "Corrupted Beacon Power");
-            addCoreDesc(WitherstormModCores.WITHERED_BEACON_POWER, "The shadow of The World Eater. (WIP)");
-        }
-
-        if (friendsandfoes) {
-            addCore(FriendsAndFoesCores.FREEZE, "Totem of Freezing");
-            addCoreDesc(FriendsAndFoesCores.FREEZE, "Freezing.");
-            addCore(FriendsAndFoesCores.ILLUSION, "Totem of Illusion");
-            addCoreDesc(FriendsAndFoesCores.ILLUSION, "Illusions.");
-        }
+        addCore(CatalystCores.BEACON_POWER, "Beacon Power");
+        addCoreDesc(CatalystCores.BEACON_POWER, "Power of a Beacon, but mobile.");
+        addCore(CatalystCores.HEART_OF_THE_SEA, "Heart of the Sea");
+        addCoreDesc(CatalystCores.HEART_OF_THE_SEA, "Conduit Power on the go.");
+        addCore(CatalystCores.TOTEM_OF_UNDYING, "Totem of Undying");
+        addCoreDesc(CatalystCores.TOTEM_OF_UNDYING, "A second chance after death.");
+        addCore(CatalystCores.VOID_SHIFTER, "Void Shifter");
+        addCoreDesc(CatalystCores.VOID_SHIFTER, "Your location in space shifts constantly.");
+        addCore(CatalystCores.WAYFINDER, "Wayfinder");
+        addCoreDesc(CatalystCores.WAYFINDER, "The lodestone.");
     }
 
     void keyMap() {
-        addKey(EKeyMap.CATALYST_ABILITY_KEY, "Catalyst Ability");
-        addKey(EKeyMap.CATALYST_ABILITY_SWITCH_KEY, "Ability Selection");
+        addKey(EKeyMap.ABILITY_CAST_KEY, "Catalyst Ability");
+        addKey(EKeyMap.ABILITY_SWITCH_KEY, "Ability Selection");
     }
 
     public void enchantTL(Supplier<? extends Enchantment> key, String name, String desc) {

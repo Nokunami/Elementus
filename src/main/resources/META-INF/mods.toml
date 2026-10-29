@@ -28,6 +28,13 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies."${mod_id}"]]
+modId="fzzy_config"
+mandatory=true
+versionRange="[0.7,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies."${mod_id}"]]
 modId="farmersdelight"
 mandatory=false
 versionRange="[1.20.1-1.2,)"

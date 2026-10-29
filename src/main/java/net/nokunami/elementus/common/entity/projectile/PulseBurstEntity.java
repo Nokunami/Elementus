@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static net.nokunami.elementus.common.item.EItemUtil.enchantedWith;
+import static net.nokunami.elementus.api.util.EItemUtil.enchantedWith;
 import static net.nokunami.elementus.common.registry.EEnchantments.SACRIFICE_CURSE;
 
 public class PulseBurstEntity extends Projectile {

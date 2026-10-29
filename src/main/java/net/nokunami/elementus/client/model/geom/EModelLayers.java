@@ -21,8 +21,6 @@ public class EModelLayers {
     public static final ModelLayerLocation TEST_CATALYST_ARMOR_MODEL = createLocation("test_catalyst_armor_model");
     public static final ModelLayerLocation CATALYST_ARMOR_TRIM_MODEL = createLocation("catalyst_armor_trim_model");
 
-    public static final ModelLayerLocation CATALYST_ARMOR_VOID_GUARDIAN_MODEL = createLocation("catalyst_armor_void_guardian_model");
-
     public static final ModelLayerLocation CATALYST_ARMOR_MODEL = createLocation("catalyst_armor_model");
     public static final ModelLayerLocation CATALYST_BASE_ELYTRA_MODEL = createLocation("catalyst_base_elytra_model");
     public static final ModelLayerLocation CATALYST_ELYTRA_MODEL = createLocation("catalyst_elytra_model");
@@ -45,6 +43,7 @@ public class EModelLayers {
 
     public static final ModelLayerLocation ASTALITE_GOLEM = createLocation("astalite_golem");
     public static final ModelLayerLocation ASTALITE_GOLEM_LONGARM = createLocation("astalite_golem_longarm");
+    public static final ModelLayerLocation AUTOMATON = createLocation("automaton");
 
     public static final ModelLayerLocation ANTHEKTITE_SLASH = createLocation("anthektite_slash");
     public static final ModelLayerLocation SWORD_DANCE_SLASH = createLocation("sword_dance_slash");
@@ -58,8 +57,6 @@ public class EModelLayers {
 
         event.registerLayerDefinition(TEST_CATALYST_ARMOR_MODEL, CatalystArmorModel::create);
         event.registerLayerDefinition(CATALYST_ARMOR_TRIM_MODEL, CatalystArmorTrimModel::create);
-
-        event.registerLayerDefinition(CATALYST_ARMOR_VOID_GUARDIAN_MODEL, CatalystArmorVoidGuardianModel::create);
 
         event.registerLayerDefinition(CATALYST_ARMOR_MODEL, () -> CatalystBaseModel.createArmorLayer(new CubeDeformation(1.0F)));
         event.registerLayerDefinition(CATALYST_BASE_ELYTRA_MODEL, CatalystElytraModel::createBaseLayer);
@@ -83,6 +80,7 @@ public class EModelLayers {
 
         event.registerLayerDefinition(ASTALITE_GOLEM, AstaliteGolemCarrierModel::createBodyLayer);
         event.registerLayerDefinition(ASTALITE_GOLEM_LONGARM, AstaliteGolemLongarmModel::createBodyLayer);
+        event.registerLayerDefinition(AUTOMATON, AutomatonModel::createBodyLayer);
 
         event.registerLayerDefinition(ANTHEKTITE_SLASH, AnthektiteSlashModel::createLayer);
         event.registerLayerDefinition(SWORD_DANCE_SLASH, SwordDanceSlashModel::createLayer);

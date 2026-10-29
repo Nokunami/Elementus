@@ -36,7 +36,7 @@ public class MovcadiaTrunkPlacer extends TrunkPlacer {
 
     @Override
     protected @NotNull TrunkPlacerType<?> type() {
-        return ModTrunkPlacer.MOVCADIA_TRUNK_PLACER.get();
+        return ETrunkPlacer.MOVCADIA_TRUNK_PLACER.get();
     }
 
     private static boolean isDirt(LevelSimulatedReader pLevel, BlockPos pPos) {

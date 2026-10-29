@@ -15,7 +15,7 @@ public class AstaliteGolemLongarmRenderer<T extends AstaliteGolemLongarm> extend
 
     public AstaliteGolemLongarmRenderer(EntityRendererProvider.Context context) {
         super(context, new AstaliteGolemLongarmModel<>(context.bakeLayer(EModelLayers.ASTALITE_GOLEM_LONGARM)), 0.7F);
-        addLayer(new AstaliteGolemLongarmLayer<>(this));
+//        addLayer(new AstaliteGolemLongarmLayer<>(this));
 //        this.addLayer(new SteelGolemSaddleLayer(this, context.getModelSet()));
 //        this.addLayer(new SteelGolemLeavesLayer(this, context.getModelSet()));
 //        this.addLayer(new SteelGolemCarpetLayer(this, context.getModelSet()));

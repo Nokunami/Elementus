@@ -25,13 +25,16 @@ public class MovcadiaSapling extends SaplingBlock implements SimpleWaterloggedBl
 
     public MovcadiaSapling(Properties pProperties) {
         super(new MovcadiaTreeGrower(0.5F), pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0).setValue(AGE, 0).setValue(WATERLOGGED, Boolean.FALSE));
+        registerDefaultState(stateDefinition
+                .any()
+                .setValue(STAGE, 0)
+                .setValue(AGE, 0)
+                .setValue(WATERLOGGED, Boolean.FALSE));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(STAGE).add(AGE).add(WATERLOGGED);
     }
-
 
     protected boolean mayPlaceOn(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
         return super.mayPlaceOn(pState, pLevel, pPos)/* || pState.is(Etags.Blocks.MOVCADIA_GROWS_ON)*/;

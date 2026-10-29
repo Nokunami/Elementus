@@ -2,7 +2,6 @@ package net.nokunami.elementus.datagen.generators;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
@@ -25,12 +24,13 @@ public class ModBlockTagsData extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider pProvider) {
-        this.minecraftTags();
-        this.forgeTags();
-        this.elementusTags();
+        minecraftTags();
+        forgeTags();
+        elementusTags();
+        modCompatibilityTags();
     }
 
-    private void minecraftTags() {
+    void minecraftTags() {
         //Block Interaction Tags
         tag(BlockTags.MINEABLE_WITH_AXE).add(EBlocks.MOVCADIA_LOG.get(), EBlocks.STRIPPED_MOVCADIA_LOG.get())
                 .add(EBlocks.MOVCADIA_WOOD.get(), EBlocks.STRIPPED_MOVCADIA_WOOD.get())
@@ -149,8 +149,7 @@ public class ModBlockTagsData extends BlockTagsProvider {
                 EBlocks.STRIPPED_MOVCADIA_WOOD.get(), EBlocks.MOVCADIA_LEAVES.get(),
                 EBlocks.FLOWERING_MOVCADIA_LEAVES.get());
     }
-
-    private void forgeTags() {
+    void forgeTags() {
         //Storage Blocks
         tag(Tags.Blocks.STORAGE_BLOCKS).add(EBlocks.ASTALITE_BLOCK.get(), EBlocks.ASTALITE_BLOCK.get())
                 .addTag(EBlockTags.STEEL_STORAGE_BLOCK).addTag(EBlockTags.DIARKRITE_STORAGE_BLOCK)
@@ -166,13 +165,16 @@ public class ModBlockTagsData extends BlockTagsProvider {
         tag(Tags.Blocks.CHESTS).add(EBlocks.MOVCADIA_CHEST.get());
         tag(Tags.Blocks.CHESTS_WOODEN).add(EBlocks.MOVCADIA_CHEST.get());
     }
-
-    private void elementusTags() {
+    void elementusTags() {
+        tag(EBlockTags.NEEDS_ASTALITE_TOOL).addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+        tag(EBlockTags.NEEDS_DIARKRITE_TOOL).addOptionalTag(EBlockTags.NEEDS_NETHERITE_TOOL);
+        tag(EBlockTags.NEEDS_ANTHEKTITE_TOOL).addOptionalTag(EBlockTags.NEEDS_NETHERITE_TOOL);
+        tag(EBlockTags.NEEDS_MOVCADIA_TOOL).addTag(BlockTags.NEEDS_IRON_TOOL);
         tag(EBlockTags.MOVCADIA_LOGS).add(EBlocks.MOVCADIA_LOG.get(), EBlocks.STRIPPED_MOVCADIA_LOG.get())
                 .add(EBlocks.MOVCADIA_WOOD.get(), EBlocks.STRIPPED_MOVCADIA_WOOD.get());
 
         tag(EBlockTags.DIARKRITE_EFFICIENT).addTag(BlockTags.NEEDS_DIAMOND_TOOL)
-                .addOptionalTag(new ResourceLocation("forge", "needs_netherite_tools"));
+                .addOptionalTag(EBlockTags.NEEDS_NETHERITE_TOOL);
 
         tag(EBlockTags.MOVCADIA_GROWS_ON).add(Blocks.DIRT, Blocks.SAND, Blocks.TERRACOTTA, Blocks.SNOW_BLOCK, Blocks.POWDER_SNOW)
                 .addTag(BlockTags.BASE_STONE_OVERWORLD).addTag(BlockTags.DIRT).addTag(Tags.Blocks.STONE);
@@ -180,5 +182,25 @@ public class ModBlockTagsData extends BlockTagsProvider {
         tag(EBlockTags.MOVCADIA_ROOTED_DIRT).add(Blocks.DIRT, Blocks.ROOTED_DIRT, Blocks.GRASS_BLOCK, Blocks.MYCELIUM, Blocks.PODZOL);
         tag(EBlockTags.MOVCADIA_ROOTED_STONE).add(Blocks.STONE);
         tag(EBlockTags.MOVCADIA_ROOTED_DEEPSLATE).add(Blocks.DEEPSLATE);
+    }
+    void modCompatibilityTags() {
+        tag(EBlockTags.Aether.GRAVITITE_ABILITY_BLACKLIST)
+                .addOptional(modLoc("movcadia_fance_gate"))
+                .addOptional(modLoc("movcadia_trapdoor"))
+                .addOptional(modLoc("movcadia_pressure_plate"))
+                .addOptional(modLoc("movcadia_button"))
+        ;
+        tag(EBlockTags.Aether.NON_TUNNEL_REPLACEABLE)
+                .addOptional(modLoc("movcadia_chest"))
+        ;
+        tag(EBlockTags.IronsSpellbooks.GUARDED_BY_WIZARDS)
+                .addOptional(modLoc("movcadia_chest"))
+        ;
+        tag(EBlockTags.WitherStormMod.CLUSTER_WHITELIST)
+                .addOptional(modLoc("steel_bars"))
+                .addOptional(modLoc("astalite_bars"))
+                .addOptional(modLoc("movcadia_leaves"))
+                .addOptional(modLoc("flowering_movcadia_leaves"))
+        ;
     }
 }

@@ -9,25 +9,18 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import net.nokunami.elementus.common.config.ItemConfig;
-import net.nokunami.elementus.common.config.TierConfig;
+import net.nokunami.elementus.config.EConfig;
 import net.nokunami.elementus.common.entity.vehicle.ModBoatEntity;
 import net.nokunami.elementus.common.item.*;
 import net.nokunami.elementus.common.item.basic.*;
-import net.nokunami.elementus.common.item.unique.BladeOfSurgingWinds;
-import net.nokunami.elementus.common.item.unique.BladeOfResonance;
-import net.nokunami.elementus.common.item.unique.TestCatalystArmorItem;
-import net.nokunami.elementus.common.item.unique.WrathTridentItem;
+import net.nokunami.elementus.common.item.unique.*;
 
 import static net.nokunami.elementus.Elementus.EID;
 
 public class EItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, EID);
 
-    public static float steelSpeed = (float) TierConfig.steelWeaponSpeedModifier;
-    public static float diarkriteSpeed = (float) TierConfig.diarkriteWeaponSpeedModifier;
-    public static float anthektiteSpeed = (float) TierConfig.anthektiteWeaponSpeedModifier;
-    public static float movcadiaSpeed = (float) TierConfig.movcadiaWeaponSpeedModifier;
+    // ------ [ MATERIALS ]
 
     public static final RegistryObject<Item> CRUDE_STEEL = ITEMS.register("crude_steel",
             () -> new Item(new Item.Properties()));
@@ -69,6 +62,8 @@ public class EItems {
     public static final RegistryObject<Item> CRUSHED_REMNANT = ITEMS.register("crushed_remnant",
             () -> new Item(new Item.Properties().fireResistant()));
 
+    // ------ [ MISC ]
+
     public static final RegistryObject<Item> STEEL_GOLEM_SPAWN_EGG = ITEMS.register("steel_golem_spawn_egg",
             () -> new ForgeSpawnEggItem(EEntityTypes.OLD_STEEL_GOLEM, 14144729, 7238279, new Item.Properties()));
 
@@ -78,79 +73,79 @@ public class EItems {
     public static final RegistryObject<Item> ASTALITE_GOLEM_LONGARM_SPAWN_EGG = ITEMS.register("astalite_golem_longarm_spawn_egg",
             () -> new ForgeSpawnEggItem(EEntityTypes.ASTALITE_GOLEM_LONGARM, 14144729, 7238279, new Item.Properties()));
 
-    public static final RegistryObject<Item> ASTALITE_SWORD = ITEMS.register("astalite_sword", () -> new ESwordItem(ETier.EnumTiers.ASTALITE, new Item.Properties()));
-    public static final RegistryObject<Item> ASTALITE_SHOVEL = ITEMS.register("astalite_shovel", () -> new EShovelItem(ETier.EnumTiers.ASTALITE, new Item.Properties()));
-    public static final RegistryObject<Item> ASTALITE_PICKAXE = ITEMS.register("astalite_pickaxe", () -> new EPickaxeItem(ETier.EnumTiers.ASTALITE, new Item.Properties()));
-    public static final RegistryObject<Item> ASTALITE_AXE = ITEMS.register("astalite_axe", () -> new EAxeItem(ETier.EnumTiers.ASTALITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ASTALITE_HOE = ITEMS.register("astalite_hoe", () -> new EHoeItem(ETier.EnumTiers.ASTALITE, new Item.Properties()));
+    // ------ [ TOOLS / WEAPONS ]
 
-    public static final RegistryObject<Item> DIARKRITE_SWORD = ITEMS.register("diarkrite_sword", () -> new ESwordItem(ETier.EnumTiers.DIARKRITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_SHOVEL = ITEMS.register("diarkrite_shovel", () -> new EShovelItem(ETier.EnumTiers.DIARKRITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_PICKAXE = ITEMS.register("diarkrite_pickaxe", () -> new EPickaxeItem(ETier.EnumTiers.DIARKRITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_AXE = ITEMS.register("diarkrite_axe", () -> new EAxeItem(ETier.EnumTiers.DIARKRITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> DIARKRITE_HOE = ITEMS.register("diarkrite_hoe", () -> new EHoeItem(ETier.EnumTiers.DIARKRITE, new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> ASTALITE_SWORD = tool(ToolType.SWORD, "astalite_sword", ETiers.ASTALITE, new Item.Properties());
+    public static final RegistryObject<Item> ASTALITE_SHOVEL = tool(ToolType.SHOVEL, "astalite_shovel", ETiers.ASTALITE, new Item.Properties());
+    public static final RegistryObject<Item> ASTALITE_PICKAXE = tool(ToolType.PICKAXE, "astalite_pickaxe", ETiers.ASTALITE, new Item.Properties());
+    public static final RegistryObject<Item> ASTALITE_AXE = tool(ToolType.AXE, "astalite_axe", ETiers.ASTALITE, new Item.Properties());
+    public static final RegistryObject<Item> ASTALITE_HOE = tool(ToolType.HOE, "astalite_hoe", ETiers.ASTALITE, new Item.Properties());
 
-    public static final RegistryObject<Item> ANTHEKTITE_SWORD = ITEMS.register("anthektite_sword", () -> new ESwordItem(ETier.EnumTiers.ANTHEKTITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_SHOVEL = ITEMS.register("anthektite_shovel", () -> new EShovelItem(ETier.EnumTiers.ANTHEKTITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_PICKAXE = ITEMS.register("anthektite_pickaxe", () -> new EPickaxeItem(ETier.EnumTiers.ANTHEKTITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_AXE = ITEMS.register("anthektite_axe", () -> new EAxeItem(ETier.EnumTiers.ANTHEKTITE, new Item.Properties().fireResistant()));
-    public static final RegistryObject<Item> ANTHEKTITE_HOE = ITEMS.register("anthektite_hoe", () -> new EHoeItem(ETier.EnumTiers.ANTHEKTITE, new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> DIARKRITE_SWORD = tool(ToolType.SWORD, "diarkrite_sword", ETiers.DIARKRITE, new Item.Properties().fireResistant());
+    public static final RegistryObject<Item> DIARKRITE_SHOVEL = tool(ToolType.SHOVEL, "diarkrite_shovel", ETiers.DIARKRITE, new Item.Properties().fireResistant());
+    public static final RegistryObject<Item> DIARKRITE_PICKAXE = tool(ToolType.PICKAXE, "diarkrite_pickaxe", ETiers.DIARKRITE, new Item.Properties().fireResistant());
+    public static final RegistryObject<Item> DIARKRITE_AXE = tool(ToolType.AXE, "diarkrite_axe", ETiers.DIARKRITE, new Item.Properties().fireResistant());
+    public static final RegistryObject<Item> DIARKRITE_HOE = tool(ToolType.HOE, "diarkrite_hoe", ETiers.DIARKRITE, new Item.Properties().fireResistant());
 
-    public static final RegistryObject<Item> MOVCADIA_SWORD = ITEMS.register("movcadia_sword", MovcadiaSwordItem::new);
-    public static final RegistryObject<Item> MOVCADIA_SHOVEL = ITEMS.register("movcadia_shovel", MovcadiaShovelItem::new);
-    public static final RegistryObject<Item> MOVCADIA_PICKAXE = ITEMS.register("movcadia_pickaxe", MovcadiaPickaxeItem::new);
-    public static final RegistryObject<Item> MOVCADIA_AXE = ITEMS.register("movcadia_axe", MovcadiaAxeItem::new);
-    public static final RegistryObject<Item> MOVCADIA_HOE = ITEMS.register("movcadia_hoe", MovcadiaHoeItem::new);
+    public static final RegistryObject<Item> ANTHEKTITE_SWORD = tool(ToolType.SWORD, "anthektite_sword", ETiers.ANTHEKTITE, new Item.Properties().fireResistant());
+    public static final RegistryObject<Item> ANTHEKTITE_SHOVEL = tool(ToolType.SHOVEL, "anthektite_shovel", ETiers.ANTHEKTITE, new Item.Properties().fireResistant());
+    public static final RegistryObject<Item> ANTHEKTITE_PICKAXE = tool(ToolType.PICKAXE, "anthektite_pickaxe", ETiers.ANTHEKTITE, new Item.Properties().fireResistant());
+    public static final RegistryObject<Item> ANTHEKTITE_AXE = tool(ToolType.AXE, "anthektite_axe", ETiers.ANTHEKTITE, new Item.Properties().fireResistant());
+    public static final RegistryObject<Item> ANTHEKTITE_HOE = tool(ToolType.HOE, "anthektite_hoe", ETiers.ANTHEKTITE, new Item.Properties().fireResistant());
 
-    public static final RegistryObject<Item> DIARKRITE_CHARGE_BLADE = ITEMS.register("diarkrite_charge_blade", BladeOfResonance::new);
-    public static final RegistryObject<Item> ANTHEKTITE_CHARGE_BLADE = ITEMS.register("anthektite_charge_blade", BladeOfSurgingWinds::new);
+    public static final RegistryObject<Item> MOVCADIA_SWORD = movcadiaTool(ToolType.SWORD, "movcadia_sword", ETiers.MOVCADIA);
+    public static final RegistryObject<Item> MOVCADIA_SHOVEL = movcadiaTool(ToolType.SHOVEL, "movcadia_shovel", ETiers.MOVCADIA);
+    public static final RegistryObject<Item> MOVCADIA_PICKAXE = movcadiaTool(ToolType.PICKAXE, "movcadia_pickaxe", ETiers.MOVCADIA);
+    public static final RegistryObject<Item> MOVCADIA_AXE = movcadiaTool(ToolType.AXE, "movcadia_axe", ETiers.MOVCADIA);
+    public static final RegistryObject<Item> MOVCADIA_HOE = movcadiaTool(ToolType.HOE, "movcadia_hoe", ETiers.MOVCADIA);
 
-    public static final RegistryObject<Item> ASTALITE_SHIELD = ITEMS.register("astalite_shield",
-            () -> new EShieldItem(new Item.Properties().defaultDurability(ItemConfig.steelShieldDurability), 0, ETier.EnumTiers.ASTALITE));
-    public static final RegistryObject<Item> DIARKRITE_SHIELD = ITEMS.register("diarkrite_shield",
-            () -> new EShieldItem(new Item.Properties().defaultDurability(ItemConfig.diarkriteShieldDurability).fireResistant(), 3, ETier.EnumTiers.DIARKRITE));
-    public static final RegistryObject<Item> ANTHEKTITE_SHIELD = ITEMS.register("anthektite_shield",
-            () -> new EShieldItem(new Item.Properties().defaultDurability(ItemConfig.anthektiteShieldDurability).fireResistant(), 0, ETier.EnumTiers.ANTHEKTITE));
+    public static final RegistryObject<Item> ASTALITE_SHIELD = ITEMS.register("astalite_shield", () -> new EShieldItem(ETiers.ASTALITE));
+    public static final RegistryObject<Item> DIARKRITE_SHIELD = ITEMS.register("diarkrite_shield", () -> new EShieldItem(ETiers.DIARKRITE));
+    public static final RegistryObject<Item> ANTHEKTITE_SHIELD = ITEMS.register("anthektite_shield", () -> new EShieldItem(ETiers.ANTHEKTITE));
 
     public static final RegistryObject<Item> ASTALITE_BOW = ITEMS.register("astalite_bow",
-            () -> new EBowItem(new Item.Properties().defaultDurability(ItemConfig.steelBowDurability), ETier.EnumTiers.ASTALITE));
+            () -> new EBowItem(new Item.Properties(), ETiers.ASTALITE));
     public static final RegistryObject<Item> DIARKRITE_BOW = ITEMS.register("diarkrite_bow",
-            () -> new EBowItem(new Item.Properties().defaultDurability(ItemConfig.diarkriteBowDurability).fireResistant(), ETier.EnumTiers.DIARKRITE));
+            () -> new EBowItem(new Item.Properties().fireResistant(), ETiers.DIARKRITE));
     public static final RegistryObject<Item> ANTHEKTITE_BOW = ITEMS.register("anthektite_bow",
-            () -> new EBowItem(new Item.Properties().defaultDurability(ItemConfig.anthektiteBowDurability).fireResistant(), ETier.EnumTiers.ANTHEKTITE));
+            () -> new EBowItem(new Item.Properties().fireResistant(), ETiers.ANTHEKTITE));
+
+    // ------ [ ARMORS ]
 
     public static final RegistryObject<Item> ASTALITE_HELMET = ITEMS.register("astalite_helmet",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.ASTALITE, ArmorItem.Type.HELMET, new Item.Properties()));
+            () -> new EArmorItem(EArmorMaterials.ASTALITE, ArmorItem.Type.HELMET, new Item.Properties()));
     public static final RegistryObject<Item> ASTALITE_CHESTPLATE = ITEMS.register("astalite_chestplate",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.ASTALITE, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+            () -> new EArmorItem(EArmorMaterials.ASTALITE, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
     public static final RegistryObject<Item> ASTALITE_LEGGINGS = ITEMS.register("astalite_leggings",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.ASTALITE, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+            () -> new EArmorItem(EArmorMaterials.ASTALITE, ArmorItem.Type.LEGGINGS, new Item.Properties()));
     public static final RegistryObject<Item> ASTALITE_BOOTS = ITEMS.register("astalite_boots",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.ASTALITE, ArmorItem.Type.BOOTS, new Item.Properties()));
+            () -> new EArmorItem(EArmorMaterials.ASTALITE, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     public static final RegistryObject<Item> DIARKRITE_HELMET = ITEMS.register("diarkrite_helmet",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.DIARKRITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
+            () -> new EArmorItem(EArmorMaterials.DIARKRITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> DIARKRITE_CHESTPLATE = ITEMS.register("diarkrite_chestplate",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.DIARKRITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
+            () -> new EArmorItem(EArmorMaterials.DIARKRITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> DIARKRITE_LEGGINGS = ITEMS.register("diarkrite_leggings",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.DIARKRITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant()));
+            () -> new EArmorItem(EArmorMaterials.DIARKRITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> DIARKRITE_BOOTS = ITEMS.register("diarkrite_boots",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.DIARKRITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
+            () -> new EArmorItem(EArmorMaterials.DIARKRITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> ANTHEKTITE_HELMET = ITEMS.register("anthektite_helmet",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.ANTHEKTITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
+            () -> new EArmorItem(EArmorMaterials.ANTHEKTITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANTHEKTITE_CHESTPLATE = ITEMS.register("anthektite_chestplate",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.ANTHEKTITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
+            () -> new EArmorItem(EArmorMaterials.ANTHEKTITE, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANTHEKTITE_LEGGINGS = ITEMS.register("anthektite_leggings",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.ANTHEKTITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant()));
+            () -> new EArmorItem(EArmorMaterials.ANTHEKTITE, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> ANTHEKTITE_BOOTS = ITEMS.register("anthektite_boots",
-            () -> new ElementusArmorItem(EArmorMaterials.EnumArmorMaterials.ANTHEKTITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
+            () -> new EArmorItem(EArmorMaterials.ANTHEKTITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant()));
+
+    // ------ [ RELICS ]
+
+    public static final RegistryObject<Item> BLADE_OF_RESONANCE = ITEMS.register("diarkrite_charge_blade", BladeOfResonance::new);
+    public static final RegistryObject<Item> ANTHEKTITE_CHARGE_BLADE = ITEMS.register("anthektite_charge_blade", BladeOfSurgingWinds::new);
 
     public static final RegistryObject<Item> CATALYST_CHESTPLATE = ITEMS.register("catalyst_chestplate",
-            () -> new TestCatalystArmorItem(EArmorMaterials.EnumArmorMaterials.CATALYST, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
-
-//    public static final RegistryObject<Item> TEST_CATALYST_CHESTPLATE = ITEMS.register("test_catalyst_chestplate",
-//            () -> new TestCatalystArmorItem(ModArmorMaterials.CATALYST, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new TestCatalystArmorItem(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> WRATH_TRIDENT = ITEMS.register("wrath_trident",
             () -> new WrathTridentItem(new Item.Properties().durability(250).fireResistant().rarity(Rarity.EPIC)));
@@ -158,9 +153,13 @@ public class EItems {
 //        public static final RegistryObject<Item> DIARKRITE_BOOTS_SCULK = ITEMS.register("diarkrite_boots_sculk",
 //                () -> new DiarkriteBootsItem(ModArmorMaterials.DIARKRITE, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
+        public static final RegistryObject<Item> LEAVI_PACK = ITEMS.register("leavi_pack",
+                () -> new LeaviPackItem(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+    // ------ [ GOLEM UPGRADES ]
+
     public static final RegistryObject<Item> REINFORCED_PLATING_GOLEM_UPGRADE = ITEMS.register("reinforced_plating_golem_upgrade",
             () -> new SteelGolemUpgradeItem("reinforced_plating", new Item.Properties(), new GolemUpgradeProperties.Builder()
-//                    .armor(10).toughness(8)
                     .armorAttributes(SteelGolemUpgradeAttributes.reinforcedPlating())
                     .isNotPushable()
                     .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 0, 1)).build()));
@@ -170,8 +169,12 @@ public class EItems {
                     .armor(4).isFastAttack()
                     .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 0, 0)).build()));
 
+    // ------ [ TREE ]
+
     public static final RegistryObject<Item> MOVCADIA_SAPLING = ITEMS.register("movcadia_sapling",
             () -> new BlockItem(EBlocks.MOVCADIA_SAPLING.get(), new Item.Properties().fireResistant()));
+
+    // ------ [ BUILDING BLOCKS ]
 
     public static final RegistryObject<Item> STEEL_BLOCK = ITEMS.register("steel_block",
             () -> new BlockItem(EBlocks.ASTALITE_BLOCK.get(), new Item.Properties()));
@@ -250,7 +253,22 @@ public class EItems {
     public static final RegistryObject<Item> MOVCADIA_CHEST_BOAT = ITEMS.register("movcadia_chest_boat",
             () -> new ModBoatItem(true, ModBoatEntity.Type.MOVCADIA, new Item.Properties().fireResistant().stacksTo(1)));
 
-    public static void register(IEventBus eventBus) {
-        EItems.ITEMS.register(eventBus);
+    public static RegistryObject<Item> movcadiaTool(ToolType type, String id, IETier tier) {
+        var tool = EConfig.toolConfig.get(tier);
+        if (type == ToolType.SWORD) return ITEMS.register(id, () -> new MovcadiaSwordItem(tier, tool.sword.getDamage(tier), tool.sword.getSpeed(tier)));
+        else if (type == ToolType.SHOVEL) return ITEMS.register(id, () -> new MovcadiaShovelItem(tier, tool.shovel.getDamage(tier), tool.shovel.getSpeed(tier)));
+        else if (type == ToolType.PICKAXE) return ITEMS.register(id, () -> new MovcadiaPickaxeItem(tier, tool.pickaxe.getDamage(tier), tool.pickaxe.getSpeed(tier)));
+        else if (type == ToolType.AXE) return ITEMS.register(id, () -> new MovcadiaAxeItem(tier, tool.axe.getDamage(tier), tool.axe.getSpeed(tier)));
+        else return ITEMS.register(id, () -> new MovcadiaHoeItem(tier, tool.hoe.getDamage(tier), tool.hoe.getSpeed(tier)));
     }
+    public static RegistryObject<Item> tool(ToolType type, String id, IETier tier, Item.Properties properties) {
+        var tool = EConfig.toolConfig.get(tier);
+        if (type == ToolType.SWORD) return ITEMS.register(id, () -> new ESwordItem(tier, tool.sword.getDamage(tier), tool.sword.getSpeed(tier), properties));
+        else if (type == ToolType.SHOVEL) return ITEMS.register(id, () -> new EShovelItem(tier, tool.shovel.getDamage(tier), tool.shovel.getSpeed(tier), properties));
+        else if (type == ToolType.PICKAXE) return ITEMS.register(id, () -> new EPickaxeItem(tier, tool.pickaxe.getDamage(tier), tool.pickaxe.getSpeed(tier), properties));
+        else if (type == ToolType.AXE) return ITEMS.register(id, () -> new EAxeItem(tier, tool.axe.getDamage(tier), tool.axe.getSpeed(tier), properties));
+        else return ITEMS.register(id, () -> new EHoeItem(tier, tool.hoe.getDamage(tier), tool.hoe.getSpeed(tier), properties));
+    }
+
+    public static void register(IEventBus eventBus) { EItems.ITEMS.register(eventBus); }
 }

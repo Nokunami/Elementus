@@ -10,24 +10,30 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.CompassItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.nokunami.elementus.common.capability.cAbility.CAbility;
-import net.nokunami.elementus.common.catalystCore.ability.AbilityType;
+import net.nokunami.elementus.common.capability.abilityData.AbilityData;
+import net.nokunami.elementus.common.catalystCore.ability.AbstractAbility;
+import net.nokunami.elementus.config.CatalystArmorConfig;
+import net.nokunami.elementus.config.EConfig;
 import net.nokunami.elementus.common.entity.MobUtil;
 
 import java.util.List;
 
 import static net.nokunami.elementus.common.entity.MobUtil.teleportEntity;
-import static net.nokunami.elementus.common.registry.CustomRegistries.CatalystCoreHelper.CatalystCoreUtil;
+import static net.nokunami.elementus.common.registry.ERegistries.CatalystCoreHelper.CatalystCoreUtil;
 
-public class LodehomeAbility extends AbstractActiveAbility{
+public class LodehomeAbility extends AbstractAbility {
+    CatalystArmorConfig.wayfinder.lodehomeAbility config = EConfig.catalystConfig.wayfinder.lodehomeAbility;
 
-    public LodehomeAbility() {
-        super(new AbilityProperties(AbilityType.TRIGGERED, 6000)
-                .setCastDuration(60));
+    public LodehomeAbility() { super(); }
+
+    @Override
+    public AbilityProperties properties() {
+        return new AbilityProperties(config.cooldown)
+                .setPreCastDuration(config.castDuration);
     }
 
     @Override
-    public boolean castAbility(LivingEntity entity, Level level, CAbility ca) {
+    public boolean castAbility(LivingEntity entity, Level level, AbilityData data) {
         var core = CatalystCoreUtil(entity);
         if (!level.isClientSide) {
             if (core.hasCore() && core.getCoreStack().getItem() instanceof CompassItem) {
@@ -60,37 +66,4 @@ public class LodehomeAbility extends AbstractActiveAbility{
         }
         return false;
     }
-
-//    @Override
-//    public void onCastStop(LivingEntity entity, Level level) {
-////        var core = CatalystItemUtil.getEquippedCore(entity.getItemBySlot(EquipmentSlot.CHEST));
-//        var core = CatalystCoreUtil(entity);
-//        if (!level.isClientSide) {
-//            CAbility ca = CAbility.instance(entity);
-//            if (ca.getCastTick() > 60) {
-//                if (core.hasCore() && core.getCoreStack().getItem() instanceof CompassItem) {
-//                    CompoundTag tag = core.getCoreStack().getTag();
-//                    if (tag != null && tag.contains("LodestonePos") && tag.contains("LodestoneDimension")) {
-//                        var le = level.dimension().location().toString();
-//                        var t = tag.getString("LodestoneDimension");
-//
-//                        ResourceKey<Level> resourcekey = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(t));
-//                        ServerLevel serverlevel = ((ServerLevel) level).getServer().getLevel(resourcekey);
-//
-//                        if (entity.canChangeDimensions()) {
-//                            var bp = NbtUtils.readBlockPos(tag.getCompound("LodestonePos"));
-//                            var tp = bp.above().getCenter();
-//                            if (serverlevel != null) {
-//                                if (!le.equals(t)) entity.changeDimension(serverlevel);
-//                                entity.resetFallDistance();
-//                                entity.teleportTo(tp.x, tp.y, tp.z);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-//    @Override public ResourceLocation abilityIcon() { return icon("lodehome_icon"); }
 }

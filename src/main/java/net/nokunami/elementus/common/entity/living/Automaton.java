@@ -1,0 +1,72 @@
+package net.nokunami.elementus.common.entity.living;
+
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import net.nokunami.elementus.common.entity.ai.goal.GolemStrollGoal;
+import net.nokunami.elementus.common.entity.ai.goal.MossGrowGoal;
+import net.nokunami.elementus.common.entity.ai.goal.MovementTypeGoal;
+import net.nokunami.elementus.common.entity.ai.goal.astaliteGolem.AstaliteGolemAttackGoal;
+import net.nokunami.elementus.common.entity.ai.goal.steelGolem.*;
+import net.nokunami.elementus.common.tags.EEntityTags;
+
+import static net.nokunami.elementus.common.entity.living.AstaliteGolemLongarm.config;
+
+public class Automaton extends TamableGolem {
+//    public Vec3 hipPos;
+
+    public Automaton(EntityType<? extends TamableGolem> type, Level level) {
+        super(type, level);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, config.maxHealth)
+                .add(Attributes.MOVEMENT_SPEED, config.movementSpeed)
+                .add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResist)
+                .add(Attributes.ATTACK_DAMAGE, config.attackDamage)
+                .add(Attributes.ARMOR, config.armor)
+                .add(Attributes.ARMOR_TOUGHNESS, config.toughness)
+                .add(Attributes.FOLLOW_RANGE, config.followRange)
+                ;
+    }
+
+    // ----- [ ENTITY LOGIC ]
+
+    @Override
+    protected void registerGoals() {
+//        goalSelector.addGoal(0, new AdaptiveAttackGoal<>(this));
+//        goalSelector.addGoal(0, new AdaptiveAttackMoveGoal<>(this));
+//        goalSelector.addGoal(0, new MossGrowGoal<>(this));
+//        goalSelector.addGoal(0, new MovementTypeGoal(this));
+//        goalSelector.addGoal(0, new AvoidEntityGoal<>(this, LivingEntity.class, 6, 1, 1.2, e -> e.getType().is(EEntityTags.STEEL_GOLEM_AVOID)));
+//        goalSelector.addGoal(1, new AstaliteGolemAttackGoal(this, 1.2D, true));
+//        goalSelector.addGoal(2, new GolemMoveTowardsTargetGoal(this, 0.9D, 32.0F));
+        goalSelector.addGoal(2, new GolemFollowOwnerGoal(this, new GolemFollowOwnerGoal.goalInfo().
+                speed(1, 1.25).start(8, 20).stop(6, 9).teleport(12, 28)));
+        goalSelector.addGoal(7, new GolemLookGoal(this, new GolemLookGoal.goalInfo().lookAt(Player.class, 12)));
+        goalSelector.addGoal(7, new GolemStrollGoal(this, 0.5D));
+        goalSelector.addGoal(8, new GolemLookGoal(this));
+//        targetSelector.addGoal(0, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
+//                (entity) -> entity.getType().is(EEntityTags.STEEL_GOLEM_PRIORITY_TARGETS)));
+//        targetSelector.addGoal(0, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
+//                (entity) -> entity instanceof Mob mob && getOwner() != null && mob.getTarget() == getOwner()));
+//        targetSelector.addGoal(1, new SteelGolemNearestAttackableGoal<>(this, Mob.class, 5, false, false,
+//                (entity) -> entity instanceof Enemy && !(entity instanceof Creeper)));
+        targetSelector.addGoal(1, new GolemOwnerHurtByGoal(this));
+        targetSelector.addGoal(1, new GolemOwnerHurtGoal(this));
+        targetSelector.addGoal(2, (new HurtByTargetGoal(this)));
+        targetSelector.addGoal(3, new SteelGolemNearestAttackableGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
+        targetSelector.addGoal(4, new ResetUniversalAngerTargetGoal<>(this, false));
+    }
+}

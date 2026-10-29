@@ -1,5 +1,6 @@
 package net.nokunami.elementus.common.item.unique;
 
+import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -21,9 +22,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -37,17 +40,21 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.nokunami.elementus.Elementus;
-import net.nokunami.elementus.common.config.UniqueItemConfig;
+import net.nokunami.elementus.config.EConfig;
 import net.nokunami.elementus.common.entity.KnockbackUtil;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.entity.projectile.PulseBurstEntity;
+import net.nokunami.elementus.common.item.AttributeUtil;
 import net.nokunami.elementus.common.item.enchantment.IChargeBladeEnchantment;
-import net.nokunami.elementus.common.registry.*;
+import net.nokunami.elementus.common.registry.EParticles;
+import net.nokunami.elementus.common.registry.ESounds;
+import net.nokunami.elementus.common.registry.ETiers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,9 +64,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
+import static net.nokunami.elementus.ElementusModCheck.betterCombat;
 import static net.nokunami.elementus.common.entity.MobUtil.blockVec;
-import static net.nokunami.elementus.common.item.EItemUtil.*;
+import static net.nokunami.elementus.api.util.EItemUtil.*;
 import static net.nokunami.elementus.common.registry.EEnchantments.*;
 import static net.nokunami.elementus.common.registry.EParticles.PARRY;
 import static net.nokunami.elementus.common.registry.EParticles.PARRY_RESONANCE;
@@ -72,8 +79,20 @@ public class BladeOfResonance extends ChargeBladeItem {
     private static final int RUSH_RANGE = 8;
 
     public BladeOfResonance() {
-        super(ETier.EnumTiers.DIARKRITE, diarkriteChargeBladeDamage, (float) diarkriteChargeBladeAttackSpeed, (float) diarkriteChargeBladeAttackReach, new Properties().fireResistant().rarity(Rarity.EPIC));
+//        super(ETiers.DIARKRITE, diarkriteChargeBladeDamage, (float) diarkriteChargeBladeAttackSpeed, (float) diarkriteChargeBladeAttackReach, new Properties().fireResistant().rarity(Rarity.EPIC));
+        super(ETiers.DIARKRITE, 0, 0, 0, new Properties().fireResistant().rarity(Rarity.EPIC));
     }
+
+    public ImmutableMultimap.Builder<Attribute, AttributeModifier> attributes(ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", getDamage(), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", getAttackSpeed(), AttributeModifier.Operation.ADDITION));
+        AttributeUtil.toggleableAttribute(builder, ATTACK_REACH_UUID, !betterCombat, ForgeMod.ENTITY_REACH, "Weapon modifier", EConfig.BOR.attackReach, AttributeModifier.Operation.ADDITION);
+        return builder;
+    }
+
+    @Override public float getDamage() { return (float) EConfig.BOR.getDamage(getTier()); }
+    public double getAttackSpeed() { return EConfig.BOR.attackSpeed; }
 
     @Override
     public boolean isFoil(@NotNull ItemStack stack) {
@@ -88,10 +107,13 @@ public class BladeOfResonance extends ChargeBladeItem {
         assert mc.player != null;
         boolean creative = mc.player.isCreative();
         // TODO: make this dynamic.
-        String damageModifierText = sacrifice(stack) ? " (+125%)" : "";
+//        String damageModifierText = sacrifice(stack) ? " (+125%)" : "";
+        String damageModifierText = sacrifice(stack) ? " (" + Math.round(((float) (10 / 5) - 1) * 100) + ")" : "";
         ChatFormatting damageModifierColor = sacrifice(stack) || enchantedWith(stack, CONDENSED_BURST) ? ChatFormatting.GOLD : ChatFormatting.DARK_AQUA;
-        double damage = getChargeAmount(stack, false) * diarkriteChargeBladeSonicDamage;
-        double damageR = getChargeAmount(stack, creative) * diarkriteChargeBladeSonicDamage;
+//        double damage = getChargeAmount(stack, false) * diarkriteChargeBladeSonicDamage;
+//        double damageR = getChargeAmount(stack, creative) * diarkriteChargeBladeSonicDamage;
+        double damage = getChargeAmount(stack, false) * EConfig.BOR.sonicDamage;
+        double damageR = getChargeAmount(stack, creative) * EConfig.BOR.sonicDamage;
         double damageNumber = Math.round(damage * 10.0) / 10.0;
         double damageNumberR = Math.round(damageR * 10.0) / 10.0;
         Component damageText = Component.translatable(String.valueOf(damageNumber)).withStyle(ChatFormatting.DARK_AQUA).append(creative ? " (" + damageNumberR + ")" : "");
@@ -112,11 +134,32 @@ public class BladeOfResonance extends ChargeBladeItem {
     }
 
     @Override public int getChargeStack(ItemStack stack) {
-        return enchantedWith(stack, CONDENSED_BURST) ? diarkriteChargeBladeChargePenalty : diarkriteChargeBladeBaseCharge;
+        return enchantedWith(stack, CONDENSED_BURST) ? EConfig.BOR.chargePenalty : EConfig.BOR.baseCharge;
     }
 
+//    @Override
+//    public float getChargeAmount(ItemStack stack, boolean isCreative) {
+//        float i0 = Math.min(getCharge(stack), getChargeStack(stack));
+//        float i1 = getChargeStack(stack);
+//        float base = !isCreative ? (i0 / i1) : 1;
+////        if (enchantedWith(stack, SACRIFICE_CURSE)) base += 1.25F;
+//        for (Enchantment enchantment : EnchantmentHelper.getEnchantments(stack).keySet()) {
+//            if (enchantment instanceof IChargeBladeEnchantment bladeEnch) {
+//                base += (float) bladeEnch.attributes().chargeDamageMultiplier();
+//            }
+//        }
+//        return base;
+//    }
+
     @Override public int getBarColor(@NotNull ItemStack stack) {
-        return sacrifice(stack) ? 16733525 : 7924965;
+//        return sacrifice(stack) ? 16733525 : 7924965;
+        String s = null;
+        for (Enchantment enchantment : EnchantmentHelper.getEnchantments(stack).keySet()) {
+            if (enchantment instanceof IChargeBladeEnchantment bladeEnch && s == null) {
+                s = bladeEnch.attributes().color();
+            }
+        }
+        return s != null ? Integer.valueOf(s, 16).intValue() : 7924965;
     }
     @Override public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
         return getChargedState(stack);
@@ -219,7 +262,7 @@ public class BladeOfResonance extends ChargeBladeItem {
         Vec3 offsetToTarget = target.subtract(eyePos);
 
         Vec3 pos = eyePos.add(offsetToTarget.normalize().scale(1));
-        ((ServerLevel)level).sendParticles(particleOptions, pos.x, pos.y, pos.z, 0, 0.0F, 0.0F, 0.0F, 0.0F);
+        ((ServerLevel)level).sendParticles(particleOptions, pos.x, pos.y, pos.z, 0, 0, 0, 0, 0);
     }
 
     public void parry(Level level, Player imTheOneWhoParries, LivingEntity waltuhPutTheSwordDownWaltuh, float damageAmount) {
@@ -265,10 +308,6 @@ public class BladeOfResonance extends ChargeBladeItem {
         boolean stopUsingItem = false;
         if (stack.getItem() instanceof BladeOfResonance && (getCharge(stack) > 2 || sacrifice(stack) || player.isCreative())) {
             createBoom(level, player, stack);
-            if (sacrifice(stack)) {
-                MobUtil.hurt(player, EDamageTypes.SACRIFICIAL, player, player.getMaxHealth() * (float) diarkriteChargeBladeSelfSacrificeDamage, 0);
-                player.addEffect(new MobEffectInstance(EMobEffects.SACRIFICE_PENALTY.get(), 40));
-            }
             cooldown = chargeStacking(stack) ? 5 : 10;
             stopUsingItem = true;
             player.swing(hand, true);
@@ -310,7 +349,7 @@ public class BladeOfResonance extends ChargeBladeItem {
         if (!hitSet.isEmpty()) setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
         for(Entity hitTarget : hitSet) {
             if (hitTarget instanceof LivingEntity living) {
-                MobUtil.hurt(living, attacker.damageSources().sonicBoom(attacker), (float) UniqueItemConfig.diarkriteChargeBladeSonicDamage * chargeAmount, 0);
+                MobUtil.hurt(living, attacker.damageSources().sonicBoom(attacker), (float) EConfig.BOR.sonicDamage * chargeAmount, 0);
             }
         }
 
@@ -360,6 +399,17 @@ public class BladeOfResonance extends ChargeBladeItem {
         SoundEvent burstSound = isCursed ? ESounds.BOR_BURST_CURSED.get() : ESounds.BOR_BURST.get();
         SoundEvent condensedSound = isCursed ? ESounds.BOR_CONDENSED_BURST_CURSED.get() : ESounds.BOR_CONDENSED_BURST.get();
         return condensedBurst(stack) ? condensedSound : burstSound;
+    }
+
+    @Override
+    protected void hurtTarget(ItemStack stack, LivingEntity target, LivingEntity attacker, ServerLevel level) {
+        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1.0F) >= 0.5F && !enchantedWith(stack, SACRIFICE_CURSE)) {
+            setCharge(stack, 1);
+            if (enchantedWith(stack, RESONANCE) && !getChargedState(stack)) setResonanceCharge(stack, 1);
+            if (!attacker.level().isClientSide && getChargedState(stack)) {
+                level.playSound(null, target, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 0);
+            }
+        }
     }
 
     @Override

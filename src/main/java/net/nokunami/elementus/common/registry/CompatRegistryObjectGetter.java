@@ -1,29 +1,15 @@
 package net.nokunami.elementus.common.registry;
 
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import static net.nokunami.elementus.Elementus.modLoc;
-import static net.nokunami.elementus.ModChecker.cataclysmID;
-import static net.nokunami.elementus.ModChecker.ironsSpellbooksID;
+import static net.nokunami.elementus.ElementusModCheck.ironsSpellbooksID;
 
 public class CompatRegistryObjectGetter {
 
-
-    public static class Catalysm {
-        private static RegistryObject<Item> getItem(String id) { return RegistryObject.create(modLoc(cataclysmID, id), ForgeRegistries.ITEMS); }
-        private static RegistryObject<SoundEvent> getSound(String id) { return RegistryObject.create(modLoc(cataclysmID, id), ForgeRegistries.SOUND_EVENTS); }
-
-        public static final RegistryObject<Item> IGNITIUM_INGOT = getItem("ignitium_ingot");
-        public static final RegistryObject<Item> CURSIUM_INGOT = getItem("cursium_ingot");
-        public static final RegistryObject<Item> ESSENCE_OF_THE_STORM = getItem("essence_of_the_storm");
-        public static final RegistryObject<Item> VOID_CORE = getItem("void_core");
-
-//        public static final RegistryObject<SoundEvent> BOLT_STRIKE = getSound("bolt_strike");
-    }
 
     public static class IronsItemRegistry {
         private static RegistryObject<Item> getItem(String id) {

@@ -1,6 +1,5 @@
 package net.nokunami.elementus;
 
-import com.github.L_Ender.cataclysm.client.render.entity.Flame_Strike_Renderer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -37,25 +36,24 @@ import net.nokunami.elementus.client.extensions.ICatalystTrim;
 import net.nokunami.elementus.client.extensions.IClientCatalystExtension;
 import net.nokunami.elementus.client.gui.screens.inventory.tooltip.ClientCatalystTooltip;
 import net.nokunami.elementus.client.model.geom.EModelLayers;
+import net.nokunami.elementus.client.model.mob.AutomatonModel;
 import net.nokunami.elementus.client.particle.*;
 import net.nokunami.elementus.client.render.NoRenderRenderer;
+import net.nokunami.elementus.client.render.entity.AutomatonRenderer;
 import net.nokunami.elementus.client.render.entity.armor.CatalystElytraLayer;
 import net.nokunami.elementus.client.render.entity.astaliteGolem.AstaliteGolemCarrierRenderer;
 import net.nokunami.elementus.client.render.entity.astaliteGolem.longarm.AstaliteGolemLongarmRenderer;
 import net.nokunami.elementus.client.render.entity.fragmentedWither.FragmentedWitherRenderer;
 import net.nokunami.elementus.client.render.entity.projectile.*;
-import net.nokunami.elementus.client.render.entity.projectile.cataclysm.CatalystIgnisFireballRenderer;
 import net.nokunami.elementus.client.render.entity.steelGolem.SteelGolemRenderer;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
 import net.nokunami.elementus.client.render.vehicle.ModBoatRenderer;
 import net.nokunami.elementus.client.render.vehicle.ModChestRenderer;
-import net.nokunami.elementus.common.config.EConfig;
+import net.nokunami.elementus.config.EConfig;
 import net.nokunami.elementus.common.item.EItemPredicate;
 import net.nokunami.elementus.common.registry.*;
-import net.nokunami.elementus.common.registry.tempCompat.CompatEntityTypes;
 
 import static net.nokunami.elementus.Elementus.EID;
-import static net.nokunami.elementus.ModChecker.cataclysm;
 
 @Mod.EventBusSubscriber(modid = EID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class EClient {
@@ -75,6 +73,7 @@ public class EClient {
         EntityRenderers.register(EEntityTypes.OLD_STEEL_GOLEM.get(), SteelGolemRenderer::new);
         EntityRenderers.register(EEntityTypes.ASTALITE_GOLEM_CARRIER.get(), AstaliteGolemCarrierRenderer::new);
         EntityRenderers.register(EEntityTypes.ASTALITE_GOLEM_LONGARM.get(), AstaliteGolemLongarmRenderer::new);
+        EntityRenderers.register(EEntityTypes.AUTOMATON.get(), AutomatonRenderer::new);
         EntityRenderers.register(EEntityTypes.ANTHEKTITE_SLASH.get(), AnthektiteSlashRenderer::new);
         EntityRenderers.register(EEntityTypes.RUSH_PROJECTILE.get(), RushProjectileEntityRenderer::new);
         EntityRenderers.register(EEntityTypes.SWORD_DANCE_SLASH.get(), SwordDanceSlashRenderer::new);
@@ -85,17 +84,12 @@ public class EClient {
 
         EntityRenderers.register(EEntityTypes.CATALYST_TOTEM_MARKER.get(), NoRenderRenderer::new);
 
-        if (cataclysm) {
-            EntityRenderers.register(CompatEntityTypes.CataclysmEntities.CATALYST_IGNIS_FIREBALL.get(), CatalystIgnisFireballRenderer::new);
-            EntityRenderers.register(CompatEntityTypes.CataclysmEntities.CATALYST_FLAME_STRIKE.get(), Flame_Strike_Renderer::new);
-        }
-
-        if (EConfig.CLIENT.lavaRendererType.get()) ItemBlockRenderTypes.setRenderLayer(Fluids.LAVA, RenderType.translucent());
+        if (EConfig.overlayConfig.lavaRendererType) ItemBlockRenderTypes.setRenderLayer(Fluids.LAVA, RenderType.translucent());
     }
 
     @SubscribeEvent
     public static void registerTooltip(RegisterClientTooltipComponentFactoriesEvent event) {
-        event.register(CatalystTooltip.class ,ClientCatalystTooltip::new);
+        event.register(CatalystTooltip.class, ClientCatalystTooltip::new);
     }
 
     @SubscribeEvent
@@ -105,15 +99,15 @@ public class EClient {
 
     @SubscribeEvent
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers renderers) {
-        renderers.registerBlockEntityRenderer(ModBlockEntityType.MOD_CHEST.get(), ModChestRenderer::new);
-        renderers.registerBlockEntityRenderer(ModBlockEntityType.MOD_SIGN.get(), SignRenderer::new);
-        renderers.registerBlockEntityRenderer(ModBlockEntityType.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
+        renderers.registerBlockEntityRenderer(EBlockEntityType.MOD_CHEST.get(), ModChestRenderer::new);
+        renderers.registerBlockEntityRenderer(EBlockEntityType.MOD_SIGN.get(), SignRenderer::new);
+        renderers.registerBlockEntityRenderer(EBlockEntityType.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerElytraRenderers(EntityRenderersEvent event) {
         /// Credits to Netherite Elytra : link https://github.com/DrunkBlood/Netherite-Elytra
-        if(event instanceof EntityRenderersEvent.AddLayers addLayersEvent){
+        if(event instanceof EntityRenderersEvent.AddLayers addLayersEvent) {
             EntityModelSet entityModels = addLayersEvent.getEntityModels();
             addLayersEvent.getSkins().forEach(s -> {
                 LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> livingEntityRenderer = addLayersEvent.getSkin(s);
@@ -181,4 +175,10 @@ public class EClient {
         replacement.rightLeg.visible = original.rightLeg.visible;
         replacement.leftLeg.visible = original.leftLeg.visible;
     }
+
+//    @SubscribeEvent
+//    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+//        event.register((stack, layer) -> layer > 0 ? -1 : ((ChargeBladeItem)stack.getItem()).getChargeAmount(stack),
+//                EItems.BLADE_OF_RESONANCE.get());
+//
 }

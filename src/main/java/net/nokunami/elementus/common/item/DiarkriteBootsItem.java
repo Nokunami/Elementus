@@ -14,33 +14,29 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.util.Lazy;
-import net.nokunami.elementus.common.item.basic.ElementusArmorItem;
+import net.nokunami.elementus.common.item.basic.EArmorItem;
 import net.nokunami.elementus.common.registry.EArmorMaterials;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-import static net.nokunami.elementus.common.config.ArmorConfig.diarkriteArmor_AttackSpeed;
-import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
+import static net.nokunami.elementus.common.item.AttributeUtil.toggleableAttribute;
 
-public class DiarkriteBootsItem extends ElementusArmorItem {
-    private final Lazy<Multimap<Attribute, AttributeModifier>> silencedAttributes;
+public class DiarkriteBootsItem extends EArmorItem {
 
-    public DiarkriteBootsItem(EArmorMaterials.EnumArmorMaterials material, Type type, Properties properties) {
+    public DiarkriteBootsItem(EArmorMaterials material, Type type, Properties properties) {
         super(material, type, properties);
-        silencedAttributes = Lazy.of(() -> createDefaultAttributeModifiers().build());
     }
 
-    protected ImmutableMultimap.Builder<Attribute, AttributeModifier> createDefaultAttributeModifiers() {
+    public ImmutableMultimap.Builder<Attribute, AttributeModifier> attributes() {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(type);
         builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(), AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", diarkriteBootsToughness, AttributeModifier.Operation.ADDITION));
-        if (diarkriteBootsKnockbackResistance != 0) builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Knockback resistance", diarkriteBootsKnockbackResistance, AttributeModifier.Operation.ADDITION));
-        if (diarkriteArmor_AttackSpeed != 0) builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(uuid, "Speed Modifier", diarkriteArmor_AttackSpeed, AttributeModifier.Operation.MULTIPLY_BASE));
-        if (diarkriteBootsMovementSpeed != 0) builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Speed Modifier", diarkriteBootsMovementSpeed, AttributeModifier.Operation.MULTIPLY_BASE));
-        if (diarkriteBootsStepHeight != 0) builder.put(ForgeMod.STEP_HEIGHT_ADDITION.get(), new AttributeModifier(uuid, "Step Height Modifier", diarkriteBootsStepHeight, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", 8, AttributeModifier.Operation.ADDITION));
+        toggleableAttribute(builder, Attributes.KNOCKBACK_RESISTANCE, "Armor knockback resistance", 0.5, AttributeModifier.Operation.ADDITION);
+        toggleableAttribute(builder, Attributes.ATTACK_SPEED, "Armor attack speed", 0, AttributeModifier.Operation.ADDITION);
+        toggleableAttribute(builder, Attributes.MOVEMENT_SPEED, "Armor movement speed", -0.5, AttributeModifier.Operation.ADDITION);
+        toggleableAttribute(builder, ForgeMod.STEP_HEIGHT_ADDITION, "Armor step height", 1, AttributeModifier.Operation.ADDITION);
         return builder;
     }
 
@@ -48,7 +44,7 @@ public class DiarkriteBootsItem extends ElementusArmorItem {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         if (slot == this.type.getSlot()) {
             if (getSculkSilencer(stack)) {
-                return silencedAttributes.get();
+                return attributes().build();
             } else {
                 return super.getAttributeModifiers(slot, stack);
             }

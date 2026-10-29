@@ -1,5 +1,6 @@
 package net.nokunami.elementus.common.entity.living;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -39,7 +40,9 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.network.NetworkHooks;
+import net.nokunami.elementus.common.network.syncer.EEntityDataSerializers;
 import net.nokunami.elementus.common.registry.ESounds;
+import net.nokunami.elementus.common.registry.ModCriteriaTriggers;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -69,6 +72,9 @@ public abstract class TamableGolem extends AbstractGolem implements OwnableEntit
     private static final EntityDataAccessor<Integer> CHEST_OPEN_COUNT = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> ANIM_ID = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> ANIM_RESET = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<GolemPose> GOLEM_POSE = SynchedEntityData.defineId(TamableGolem.class, EEntityDataSerializers.GOLEM_POSE);
+    private static final EntityDataAccessor<Integer> POSE_INTERVAL = SynchedEntityData.defineId(TamableGolem.class, EntityDataSerializers.INT);
+//    private int poseInterval = 0;
     public int animId = 0;
     public boolean animReset = false;
     public final AnimationState sitAnim = new AnimationState();
@@ -98,7 +104,7 @@ public abstract class TamableGolem extends AbstractGolem implements OwnableEntit
     public SimpleContainer inventory;
     private boolean canEquipChest;
 
-    protected TamableGolem(EntityType<? extends TamableGolem> type, Level level) {
+    public TamableGolem(EntityType<? extends TamableGolem> type, Level level) {
         super(type, level);
         createInventory();
     }
@@ -128,6 +134,8 @@ public abstract class TamableGolem extends AbstractGolem implements OwnableEntit
         entityData.define(CHEST_OPEN_COUNT, 0);
         entityData.define(ANIM_ID, 0);
         entityData.define(ANIM_RESET, false);
+        entityData.define(GOLEM_POSE, GolemPose.SPAWN);
+        entityData.define(POSE_INTERVAL, 0);
     }
 
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
@@ -271,6 +279,18 @@ public abstract class TamableGolem extends AbstractGolem implements OwnableEntit
 //    public boolean isAnimReset() { return animReset; }
 //    public void setAnimReset(boolean b) { animReset = b; }
 
+    public GolemPose getGolemPose() { return entityData.get(GOLEM_POSE); }
+    public void setGolemPose(GolemPose pose) { entityData.set(GOLEM_POSE, pose); }
+    public boolean hasGolemPose(GolemPose pose) { return getGolemPose().equals(pose); }
+
+    public int getPoseInterval() { return entityData.get(POSE_INTERVAL); }
+    public void setPoseInterval(int interval) { entityData.set(POSE_INTERVAL, interval); }
+
+    public void setGolemPose(GolemPose pose, int interval) {
+        setPoseInterval(interval);
+        setGolemPose(pose);
+    }
+
     // ----- [ INVENTORY ]
 
     /// Returns the created inventory size
@@ -401,9 +421,7 @@ public abstract class TamableGolem extends AbstractGolem implements OwnableEntit
 
     protected SlotAccess createEquipmentSlotAccess(final int pSlot, final Predicate<ItemStack> pStackFilter) {
         return new SlotAccess() {
-            public @NotNull ItemStack get() {
-                return TamableGolem.this.inventory.getItem(pSlot);
-            }
+            public @NotNull ItemStack get() { return TamableGolem.this.inventory.getItem(pSlot); }
 
             public boolean set(@NotNull ItemStack stack) {
                 if (!pStackFilter.test(stack)) {
@@ -503,6 +521,13 @@ public abstract class TamableGolem extends AbstractGolem implements OwnableEntit
 
     // ----- [ ENTITY LOGIC ]
 
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (level().isClientSide())
+            animationTick();
+    }
 
     @Override
     public void handleEntityEvent(byte pId) {
@@ -717,17 +742,22 @@ public abstract class TamableGolem extends AbstractGolem implements OwnableEntit
             if (!player.getAbilities().instabuild) itemStack.shrink(1);
             return InteractionResult.SUCCESS;
         }
+        var mobInteract = super.mobInteract(player, hand);
+        if (!mobInteract.consumesAction())
+            return sit(!isOrderedToSit());
         return super.mobInteract(player, hand);
     }
 
     public InteractionResult sit(boolean sit) {
         setOrderedToSit(sit);
         if (sit) {
-            actionAnim(1).stop();
+//            actionAnim(1).stop();
             setPose(Pose.SITTING);
+            setGolemPose(GolemPose.SIT, 20);
         } else {
-            actionAnim(1).start(tickCount);
+//            actionAnim(1).start(tickCount);
             setPose(Pose.STANDING);
+            setGolemPose(GolemPose.IDLE, 20);
         }
         setJumping(false);
         navigation.stop();
@@ -738,15 +768,28 @@ public abstract class TamableGolem extends AbstractGolem implements OwnableEntit
         if (!isPlayerCreated()) setPlayerCreated(true);
         setTamed(true);
         setOwnerUUID(player.getUUID());
-        if (player instanceof ServerPlayer) {
-//            CriteriaTriggers.TAME_ANIMAL.trigger((ServerPlayer) player, this);
-        }
+        ModCriteriaTriggers.TAME_MOB.trigger(player, this);
         navigation.stop();
         setTarget(null);
         setOrderedToSit(false);
     }
 
     // ----- [ CLIENT ]
+
+    public void animationTick() {
+        int i = getPoseInterval();
+        var isZero = i == 0;
+        if (i > 0) setPoseInterval(i - 1);
+        var defaultPose = GolemPose.IDLE;
+
+        if (getGolemPose().shouldResetToIdle())
+            if (isZero) setGolemPose(defaultPose);
+
+        sitAnim.animateWhen(hasGolemPose(GolemPose.SIT), tickCount);
+        standAnim.animateWhen(hasGolemPose(GolemPose.UNSIT), tickCount);
+        brokenAnim.animateWhen(hasGolemPose(GolemPose.DAMAGED), tickCount);
+        repairedAnim.animateWhen(hasGolemPose(GolemPose.REPAIRED), tickCount);
+    }
 
     public AnimationState actionAnim(int i) {
         return switch (i) {

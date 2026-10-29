@@ -34,7 +34,6 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import net.nokunami.elementus.Elementus;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.item.unique.BladeOfSurgingWinds;
-import net.nokunami.elementus.common.item.unique.ChargeBladeItem;
 import net.nokunami.elementus.common.registry.EEntityTypes;
 import net.nokunami.elementus.common.registry.EItems;
 import org.jetbrains.annotations.NotNull;

@@ -3,13 +3,14 @@ package net.nokunami.elementus.common.item;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.nokunami.elementus.api.util.EItemUtil;
 import net.nokunami.elementus.common.registry.EItems;
 import org.infernalstudios.archeryexp.util.BowProperties;
 import org.infernalstudios.archeryexp.util.BowUtil;
 
 import static net.nokunami.elementus.Elementus.modLoc;
-import static net.nokunami.elementus.ModChecker.archeryExp;
-import static net.nokunami.elementus.common.item.EItemUtil.getMovcadiaEssence;
+import static net.nokunami.elementus.ElementusModCheck.archeryExp;
+import static net.nokunami.elementus.api.util.EItemUtil.getMovcadiaEssence;
 import static net.nokunami.elementus.common.item.unique.BladeOfResonance.getCharge;
 import static net.nokunami.elementus.common.item.unique.BladeOfResonance.getMaxCharge;
 import static net.nokunami.elementus.common.item.unique.CatalystArmorItem.catalystActivator;
@@ -34,7 +35,7 @@ public class EItemPredicate {
              bowPull(EItems.ANTHEKTITE_BOW.get());
          }
 
-         chargeBlade(EItems.DIARKRITE_CHARGE_BLADE.get());
+         chargeBlade(EItems.BLADE_OF_RESONANCE.get());
          chargeBlade(EItems.ANTHEKTITE_CHARGE_BLADE.get());
 
          movcadiaTools(EItems.MOVCADIA_SWORD.get());

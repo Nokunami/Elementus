@@ -7,14 +7,14 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.nokunami.elementus.common.config.EntityConfig;
+import net.nokunami.elementus.config.EConfig;
+import net.nokunami.elementus.config.EntityConfig;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.GolemFollowOwnerGoal;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.GolemOwnerHurtByGoal;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.GolemOwnerHurtGoal;
@@ -23,6 +23,7 @@ import net.nokunami.elementus.common.tags.EEntityTags;
 import org.jetbrains.annotations.NotNull;
 
 public class AnthektiteGolem extends TamableGolem {
+    public static EntityConfig.baseConfig config = EConfig.entityConfig.anthektiteGolem;
 
     public AnthektiteGolem(EntityType<? extends TamableGolem> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -32,13 +33,13 @@ public class AnthektiteGolem extends TamableGolem {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, EntityConfig.anthektiteGolem_MaxHealth)
-                .add(Attributes.MOVEMENT_SPEED, EntityConfig.anthektiteGolem_MovementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, EntityConfig.anthektiteGolem_KnockbackResist)
-                .add(Attributes.ATTACK_DAMAGE, EntityConfig.anthektiteGolem_AttackDamage)
-                .add(Attributes.ARMOR, EntityConfig.anthektiteGolem_Armor)
-                .add(Attributes.ARMOR_TOUGHNESS, EntityConfig.anthektiteGolem_Toughness)
-                .add(Attributes.FOLLOW_RANGE, EntityConfig.anthektiteGolem_FollowRange)
+                .add(Attributes.MAX_HEALTH, config.maxHealth)
+                .add(Attributes.MOVEMENT_SPEED, config.movementSpeed)
+                .add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResist)
+                .add(Attributes.ATTACK_DAMAGE, config.attackDamage)
+                .add(Attributes.ARMOR, config.armor)
+                .add(Attributes.ARMOR_TOUGHNESS, config.toughness)
+                .add(Attributes.FOLLOW_RANGE, config.followRange)
                 ;
     }
 

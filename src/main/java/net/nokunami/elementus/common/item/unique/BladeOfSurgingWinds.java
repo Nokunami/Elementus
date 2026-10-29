@@ -1,22 +1,26 @@
 package net.nokunami.elementus.common.item.unique;
 
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -24,59 +28,75 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.nokunami.elementus.Elementus;
+import net.nokunami.elementus.config.EConfig;
 import net.nokunami.elementus.common.entity.MobUtil;
 import net.nokunami.elementus.common.entity.projectile.AnthektiteSlashEntity;
 import net.nokunami.elementus.common.entity.projectile.RushProjectileEntity;
 import net.nokunami.elementus.common.entity.projectile.SwordDanceSlashEntity;
-import net.nokunami.elementus.common.item.EItemUtil;
-import net.nokunami.elementus.common.network.ENetwork;
+import net.nokunami.elementus.common.item.AttributeUtil;
+import net.nokunami.elementus.api.util.EItemUtil;
+import net.nokunami.elementus.common.network.ENet;
 import net.nokunami.elementus.common.network.server.BladeOfSurgingWindSlashC2SPacket;
-import net.nokunami.elementus.common.registry.EMobEffects;
-import net.nokunami.elementus.common.registry.ESounds;
-import net.nokunami.elementus.common.registry.ETier;
+import net.nokunami.elementus.common.registry.*;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import static net.nokunami.elementus.Elementus.EID;
-import static net.nokunami.elementus.common.config.UniqueItemConfig.*;
+import static net.nokunami.elementus.ElementusModCheck.betterCombat;
+import static net.nokunami.elementus.common.capability.slashStack.SlashStackData.slashData;
 import static net.nokunami.elementus.common.entity.MobUtil.blockVec;
-import static net.nokunami.elementus.common.item.EItemUtil.rush;
-import static net.nokunami.elementus.common.registry.EEnchantments.RESONANCE;
+import static net.nokunami.elementus.api.util.EItemUtil.*;
+import static net.nokunami.elementus.common.registry.EEnchantments.*;
 import static net.nokunami.elementus.common.registry.EParticles.PARRY;
-import static net.nokunami.elementus.common.registry.ESounds.CHARGE_BLADE_BLOCK;
 import static net.nokunami.elementus.common.registry.ESounds.BOR_BLOCK_RESONANCE;
+import static net.nokunami.elementus.common.registry.ESounds.CHARGE_BLADE_BLOCK;
 import static net.nokunami.elementus.event.ServerEvents.parryWindow;
 
 @Mod.EventBusSubscriber(modid = EID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BladeOfSurgingWinds extends ChargeBladeItem {
-    private final Multimap<Attribute, AttributeModifier> swordDanceAttribute;
+//    private final Multimap<Attribute, AttributeModifier> swordDanceAttribute;
 
     public BladeOfSurgingWinds() {
-        super(ETier.EnumTiers.ANTHEKTITE, anthektiteChargeBladeDamage, (float) anthektiteChargeBladeAttackSpeed, (float) anthektiteChargeBladeAttackReach, new Properties().fireResistant().rarity(Rarity.EPIC));
+        super(ETiers.ANTHEKTITE, 0, 0, 0, new Properties().fireResistant().rarity(Rarity.EPIC));
+//        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+//        this.swordDanceAttribute = createAttributes(builder, anthektiteChargeBladeAmpDamage, (float) anthektiteChargeBladeAmpAttackSpeed, (float) anthektiteChargeBladeAmpAttackReach).build();
+    }
+
+//    @Override
+//    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+//        return slot.equals(EquipmentSlot.MAINHAND) & getState(stack) ? swordDanceAttribute : super.getAttributeModifiers(slot, stack);
+//    }
+
+    public ImmutableMultimap.Builder<Attribute, AttributeModifier> attributes(ItemStack stack) {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        this.swordDanceAttribute = createAttributes(builder, anthektiteChargeBladeAmpDamage, (float) anthektiteChargeBladeAmpAttackSpeed, (float) anthektiteChargeBladeAmpAttackReach).build();
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", getDamage(), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", getAttackSpeed(), AttributeModifier.Operation.ADDITION));
+        AttributeUtil.toggleableAttribute(builder, ATTACK_REACH_UUID, !betterCombat, ForgeMod.ENTITY_REACH, "Weapon modifier", EConfig.BOSW.attackReach, AttributeModifier.Operation.ADDITION);
+        return builder;
     }
 
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot.equals(EquipmentSlot.MAINHAND) & getState(stack) ? swordDanceAttribute : super.getAttributeModifiers(slot, stack);
-    }
+    @Override public float getDamage() { return (float) EConfig.BOSW.getDamage(getTier()); }
+    public double getAttackSpeed() { return EConfig.BOSW.attackSpeed; }
 
-    @Override
-    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
-        super.inventoryTick(stack, level, entity, slotId, isSelected);
-        setState(stack, entity instanceof LivingEntity living && living.hasEffect(EMobEffects.ANTHEKTITE_SWORD_DANCE.get()));
-    }
+//    @Override
+//    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
+//        super.inventoryTick(stack, level, entity, slotId, isSelected);
+//        setState(stack, entity instanceof LivingEntity living && living.hasEffect(EMobEffects.ANTHEKTITE_SWORD_DANCE.get()));
+//    }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
@@ -85,19 +105,29 @@ public class BladeOfSurgingWinds extends ChargeBladeItem {
         if (stack.isEnchanted()) tooltip.add(CommonComponents.EMPTY);
     }
 
-    @Override
-    public int getChargeStack(ItemStack stack) {
-        return 4;
-    }
+    @Override public int getChargeStack(ItemStack stack) { return 4; }
 
-    @Override
-    public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
-        return false;
-    }
+    @Override public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) { return false; }
 
     @Override
     public boolean canBeHurtBy(DamageSource pDamageSource) {
         return pDamageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY);
+    }
+
+    @Override
+    protected void hurtTarget(ItemStack stack, LivingEntity target, LivingEntity attacker, ServerLevel level) {
+        if (target.attackable() && attacker instanceof Player player && player.getAttackStrengthScale(1) >= 0.9F) {
+            if (!attacker.level().isClientSide()) {
+                var slashStacks = slashData(target);
+                int limit = enchantedWith(stack, CLEAVE) ? 10 : 5;
+                if (slashStacks.getStacks(attacker) < limit)
+                    slashStacks.addStack(attacker);
+                setCharge(stack, 1);
+                if (!attacker.level().isClientSide && getChargedState(stack)) {
+                    level.playSound(null, target, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 1, 0);
+                }
+            }
+        }
     }
 
     @Override
@@ -199,21 +229,58 @@ public class BladeOfSurgingWinds extends ChargeBladeItem {
 //        }
         if (stack.getItem() instanceof BladeOfSurgingWinds && (getChargedState(stack) || player.isCreative())) {
             ability(level, player, stack);
-            swordDanceSlash(player, hand);
+//            swordDanceSlash(player, hand);
             cooldown = 10;
         }
         return new ChargeBladeAbility().setCooldown(cooldown).shouldStopUsingItem(shouldStopUsing);
     }
 
     public void ability(Level level, LivingEntity attacker, ItemStack stack) {
-        if (attacker.isFallFlying()) {
-            MobUtil.applyRecoil(attacker, attacker, 1.25, true);
-        } else if (!attacker.isCrouching()) {
-            if (attacker.onGround() && attacker.getViewXRot(attacker.tickCount) > -5) {
-                MobUtil.applyRecoil(attacker, attacker, 0.75, 0, 0.75, false);
-                attacker.addDeltaMovement(attacker.getDeltaMovement().add(0, 0.5, 0));
-            } else MobUtil.applyRecoil(attacker, attacker, 1, false);
+        float chargeAmount = getChargeAmount(stack, ((Player) attacker).isCreative());
+        SimpleParticleType beamParticle = sacrifice(stack) ? EParticles.SONIC_BOOM_SACRIFICE.get() : ParticleTypes.SONIC_BOOM;
+        SimpleParticleType emitter = sacrifice(stack) ? EParticles.SONIC_BURST_SACRIFICE_EMITTER.get() : EParticles.SONIC_BURST_EMITTER.get();
+        SimpleParticleType startParticle = sacrifice(stack) ? EParticles.INITIAL_BURST_SACRIFICE.get() : EParticles.INITIAL_BURST.get();
+        double radius = rush(stack) ? 1.25 : 2.5;
+        Vec3 target = attacker.getEyePosition().add(Vec3.directionFromRotation(attacker.getXRot(), attacker.yHeadRot).scale(2));
+        Vec3 source = attacker.getEyePosition();
+        Vec3 offsetToTarget = target.subtract(source);
+        Vec3 normalized = offsetToTarget.normalize();
+        boolean firstTick = true;
+        Set<Entity> hitSet = new HashSet<>();
+
+        for(int particleIndex = 0; particleIndex < Mth.floor(offsetToTarget.length()) + 2; ++particleIndex) {
+            Vec3 particle = source.add(normalized.scale(particleIndex));
+//            KnockbackUtil knockbackUtil = KnockbackUtil.knockbackUtil(level, attacker, particle.x, particle.y, particle.z, radius + (EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, attacker) * 2));
+//            if (firstTick && particleIndex == 2) {
+//                ((ServerLevel) level).sendParticles(startParticle, particle.x, particle.y, particle.z, 0, 0, 0, 0, 0);
+//                ((ServerLevel) level).sendParticles(emitter, particle.x, particle.y, particle.z, 0, 0, 0, 0, 0);
+//                firstTick = false;
+//            }
+//            if (particleIndex > 2 && condensedBurst(stack)) ((ServerLevel) level).sendParticles(beamParticle, particle.x, particle.y, particle.z, 0, 0, 0, 0, 0);
+            hitSet.addAll(level.getEntitiesOfClass(LivingEntity.class, new AABB(new BlockPos((int) particle.x, (int) particle.y, (int) particle.z))
+                    .inflate(radius), (e) -> MobUtil.chargeBade(attacker, e, getFriendlyFire(stack) && e != attacker)
+            ));
+//            knockbackUtil.knockback();
         }
+        hitSet.remove(attacker);
+        for(Entity hitTarget : hitSet) {
+            if (hitTarget instanceof LivingEntity living) {
+                var slashData = slashData(living);
+                int stacks = slashData.getStacks(attacker);
+                float bonus = 4 * stacks;
+                var damageSource = attacker instanceof Player player ? attacker.damageSources().playerAttack(player) : attacker.damageSources().mobAttack(attacker);
+                MobUtil.hurt(living, damageSource, (float) (EConfig.BOSW.burstDamage * chargeAmount) + bonus, 0);
+            }
+        }
+
+//        if (attacker.isFallFlying()) {
+//            MobUtil.applyRecoil(attacker, attacker, 1.25, true);
+//        } else if (!attacker.isCrouching()) {
+//            if (attacker.onGround() && attacker.getViewXRot(attacker.tickCount) > -5) {
+//                MobUtil.applyRecoil(attacker, attacker, 0.75, 0, 0.75, false);
+//                attacker.addDeltaMovement(attacker.getDeltaMovement().add(0, 0.5, 0));
+//            } else MobUtil.applyRecoil(attacker, attacker, 1, false);
+//        }
         MobUtil.playEntitySound(attacker, SoundEvents.PLAYER_ATTACK_SWEEP, 1, 2);
         setCharge(stack, -Math.min(getCharge(stack), getChargeStack(stack)));
     }
@@ -223,7 +290,7 @@ public class BladeOfSurgingWinds extends ChargeBladeItem {
     /// Credits: Goety Mod Death Scythe
     public static void spawnSlashProjectile(Player player, InteractionHand hand) {
         Level level = player.level();
-        if (player.getAttackStrengthScale(1.0F) >= 0.99F) {
+        if (player.getAttackStrengthScale(1.0F) >= 0.99F && enchantedWith(player.getItemInHand(hand), TORRENT)) {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), ESounds.BOSW_WIND_SLASH.get(), SoundSource.PLAYERS, 1.0F, 1.4F / (level.random.nextFloat() * 0.4F + 0.8F));
             if (!level.isClientSide) {
                 AnthektiteSlashEntity slash = new AnthektiteSlashEntity(level, player);
@@ -294,11 +361,11 @@ public class BladeOfSurgingWinds extends ChargeBladeItem {
         }
     }
 
-//    @SubscribeEvent
-//    public static void EmptyClickEvents(PlayerInteractEvent.LeftClickEmpty event) {
-//        ItemStack stack = event.getItemStack();
-//        if (!stack.isEmpty() && stack.getItem() instanceof BladeOfSurgingWinds) {
-//            ENetwork.sendToServer(new BladeOfSurgingWindSlashC2SPacket(event.getHand()));
-//        }
-//    }
+    @SubscribeEvent
+    public static void EmptyClickEvents(PlayerInteractEvent.LeftClickEmpty event) {
+        ItemStack stack = event.getItemStack();
+        if (!stack.isEmpty() && stack.getItem() instanceof BladeOfSurgingWinds) {
+            ENet.sendToServer(new BladeOfSurgingWindSlashC2SPacket(event.getHand()));
+        }
+    }
 }

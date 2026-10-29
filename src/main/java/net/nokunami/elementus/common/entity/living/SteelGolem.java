@@ -51,14 +51,15 @@ import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
-import net.nokunami.elementus.common.config.EntityConfig;
+import net.nokunami.elementus.common.network.ENet;
+import net.nokunami.elementus.config.EConfig;
+import net.nokunami.elementus.config.EntityConfig;
 import net.nokunami.elementus.common.entity.ai.control.SmoothBodyControl;
 import net.nokunami.elementus.common.entity.ai.goal.steelGolem.*;
 import net.nokunami.elementus.common.entity.ai.navigation.GolemNavigation;
 import net.nokunami.elementus.common.inventory.SteelGolemInventoryMenu;
 import net.nokunami.elementus.common.item.GolemUpgradeProperties;
 import net.nokunami.elementus.common.item.SteelGolemUpgradeItem;
-import net.nokunami.elementus.common.network.ENetwork;
 import net.nokunami.elementus.common.network.client.GolemInventoryS2CPacket;
 import net.nokunami.elementus.common.registry.ESounds;
 import net.nokunami.elementus.common.tags.EDamageTypeTags;
@@ -96,6 +97,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
     public Predicate<Entity> GOLEM_SURROUNDING_TARGETS = (entity) -> entity instanceof  Mob mob
             && ((entity instanceof Enemy || entity == getTarget()) || (getOwner() != null && mob.getTarget() == getOwner()));
     public static float rawBbWidth = 1.6F, rawBbHeight = 2.9F;
+    public static EntityConfig.baseConfig config = EConfig.entityConfig.steel;
 
     public SteelGolem(EntityType<? extends TamableGolem> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -109,13 +111,13 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, EntityConfig.steelGolem_MaxHealth)
-                .add(Attributes.MOVEMENT_SPEED, EntityConfig.steelGolem_MovementSpeed)
-                .add(Attributes.KNOCKBACK_RESISTANCE, EntityConfig.steelGolem_KnockbackResist)
-                .add(Attributes.ATTACK_DAMAGE, EntityConfig.steelGolem_AttackDamage)
-                .add(Attributes.ARMOR, EntityConfig.steelGolem_Armor)
-                .add(Attributes.ARMOR_TOUGHNESS, EntityConfig.steelGolem_Toughness)
-                .add(Attributes.FOLLOW_RANGE, EntityConfig.steelGolem_FollowRange)
+                .add(Attributes.MAX_HEALTH, config.maxHealth)
+                .add(Attributes.MOVEMENT_SPEED, config.movementSpeed)
+                .add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResist)
+                .add(Attributes.ATTACK_DAMAGE, config.attackDamage)
+                .add(Attributes.ARMOR, config.armor)
+                .add(Attributes.ARMOR_TOUGHNESS, config.toughness)
+                .add(Attributes.FOLLOW_RANGE, config.followRange)
                 ;
     }
 
@@ -265,9 +267,9 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
                 if (serverplayer.containerMenu != serverplayer.inventoryMenu) serverplayer.closeContainer();
                 isChestOpened(true);
                 serverplayer.nextContainerCounter();
-//                ENetwork.INSTANCE.send(PacketDistributor.PLAYER.with(() -> serverplayer), new SteelGolemInventoryPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
-//                ENetwork.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
-                ENetwork.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
+//                ENet.INSTANCE.send(PacketDistributor.PLAYER.with(() -> serverplayer), new SteelGolemInventoryPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
+//                ENet.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
+                ENet.sendTo(serverplayer, new GolemInventoryS2CPacket(serverplayer.containerCounter, inventory.getContainerSize(), getId()));
                 serverplayer.containerMenu = new SteelGolemInventoryMenu(serverplayer.containerCounter, serverplayer.getInventory(), inventory, this);
                 serverplayer.initMenu(serverplayer.containerMenu);
                 MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(serverplayer, serverplayer.containerMenu));
@@ -797,7 +799,7 @@ public class SteelGolem extends TamableGolem implements Shearable, IForgeShearab
 
         setChassisState(false);
         if (chassisCondition && repairFull) setChassisHealth(getChassisHealth() + 1);
-        heal((int) ((EntityConfig.steelGolem_MaxHealth / EntityConfig.steelGolem_RepairAmount) * healAmount) - b);
+        heal((int) ((getMaxHealth() / 5) * healAmount) - b);
         playSound(isChassisBroken() ? STEEL_GOLEM_REVIVE.get() : STEEL_GOLEM_REPAIR.get(), 1.0F, randomFloat);
         if (!player.isCreative()) stack.shrink(1);
         return InteractionResult.SUCCESS;

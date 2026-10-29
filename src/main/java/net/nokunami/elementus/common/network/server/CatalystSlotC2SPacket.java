@@ -8,8 +8,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 import net.nokunami.elementus.common.item.IScrollableItem;
-import net.nokunami.elementus.common.item.unique.CatalystItemUtil;
-import net.nokunami.elementus.common.item.unique.TestCatalystArmorItem;
 import net.nokunami.elementus.common.registry.EGameRules;
 
 import java.util.function.Supplier;

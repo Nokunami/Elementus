@@ -1,17 +1,10 @@
 package net.nokunami.elementus.common.entity;
 
-import com.google.common.collect.Maps;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.ProtectionEnchantment;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -19,7 +12,6 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 
 public class KnockbackUtil {
 //    private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new ExplosionDamageCalculator();
@@ -35,6 +27,9 @@ public class KnockbackUtil {
 //    private final Map<Player, Vec3> hitPlayers = Maps.newHashMap();
 //    private final Vec3 position;
 
+    public static KnockbackUtil knockbackUtil(Level level, @Nullable Entity source, Vec3 toBlow, double radius) {
+        return knockbackUtil(level, source, toBlow.x, toBlow.y, toBlow.z, radius);
+    }
     public static KnockbackUtil knockbackUtil(Level level, @Nullable Entity source, double toBlowX, double toBlowY, double toBlowZ, double radius) {
         return new KnockbackUtil(level, source, toBlowX, toBlowY, toBlowZ, radius);
     }

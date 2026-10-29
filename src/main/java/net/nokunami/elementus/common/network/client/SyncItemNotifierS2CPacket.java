@@ -3,7 +3,6 @@ package net.nokunami.elementus.common.network.client;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 import net.nokunami.elementus.client.ItemNotifierClient;
-import net.nokunami.elementus.common.capability.itemNotifier.ItemNotifier;
 
 import java.util.function.Supplier;
 

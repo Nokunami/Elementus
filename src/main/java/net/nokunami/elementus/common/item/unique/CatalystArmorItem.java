@@ -1,6 +1,5 @@
 package net.nokunami.elementus.common.item.unique;
 
-import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -14,44 +13,37 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.nokunami.elementus.EClient;
 import net.nokunami.elementus.common.catalystCore.CatalystArmorAttributes;
-import net.nokunami.elementus.common.config.EConfig;
 import net.nokunami.elementus.common.registry.EArmorMaterials;
 import net.nokunami.elementus.common.registry.ESounds;
-import net.nokunami.elementus.common.tags.EItemTags;
+import net.nokunami.elementus.common.tags.CatalystTags;
 import nonamecrackers2.witherstormmod.common.init.WitherStormModItems;
 import nonamecrackers2.witherstormmod.common.init.WitherStormModSoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static net.nokunami.elementus.ModChecker.ironsSpellbooks;
-import static net.nokunami.elementus.ModChecker.witherStormMod;
+import static net.nokunami.elementus.ElementusModCheck.ironsSpellbooks;
+import static net.nokunami.elementus.ElementusModCheck.witherStormMod;
 import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.*;
 
-@Deprecated(forRemoval = true, since = "1.20.1")
+@Deprecated(forRemoval = true, since = "1.5.0")
 public class CatalystArmorItem extends ArmorItem {
-    public final EArmorMaterials.EnumArmorMaterials material;
+    public final EArmorMaterials material;
     public static Multimap<Attribute, AttributeModifier> defaultModifiers;
     private static final String core = "Items";
     private static final String elytra = "ElytraEquipped";
@@ -59,7 +51,7 @@ public class CatalystArmorItem extends ArmorItem {
     public static int attributeCheck = 0;
 
 
-    public CatalystArmorItem(EArmorMaterials.EnumArmorMaterials material, Type type, Properties properties) {
+    public CatalystArmorItem(EArmorMaterials material, Type type, Properties properties) {
         super(material, type, properties);
         this.material = material;
 //        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
@@ -79,7 +71,7 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     @Override
-    public @NotNull EArmorMaterials.EnumArmorMaterials getMaterial() {
+    public @NotNull EArmorMaterials getMaterial() {
         return this.material;
     }
 
@@ -93,9 +85,9 @@ public class CatalystArmorItem extends ArmorItem {
         consumer.accept((IClientItemExtensions) EClient.PROXY.getArmorRenderProperties());
     }
 
-    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return armorTexture(stack, entity);
-    }
+//    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+//        return armorTexture(stack, entity);
+//    }
 
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
         if (getContents(stack).findAny().isPresent()) {
@@ -250,13 +242,13 @@ public class CatalystArmorItem extends ArmorItem {
                     playRemoveSound(player);
                     removeCore(stack).ifPresent((item) -> insertCore(stack, slot.safeInsert(item)));
                 }
-            } else if (itemstack.is(EItemTags.CATALYST_ITEMS)) {
+            } else if (itemstack.is(CatalystTags.CATALYST_ITEMS)) {
                 int i = (1 - getContentWeight(stack));
                 int j = insertCore(stack, slot.safeTake(itemstack.getCount(), i, player));
                 if (j > 0) {
                     playInsertSound(player, stack);
                 }
-            } else if (itemstack.is(EItemTags.CATALYST_ELYTRA)) {
+            } else if (itemstack.is(CatalystTags.CATALYST_ELYTRA)) {
                 int e = (1 - checkElytraEquipped(stack));
                 int g = equipElytra(stack, slot.safeTake(itemstack.getCount(), e, player));
                 if (g > 0) {
@@ -306,7 +298,7 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     private static int insertCore(ItemStack coreStack, ItemStack insertStack) {
-        if (!insertStack.isEmpty() && insertStack.is(EItemTags.CATALYST_ITEMS)) {
+        if (!insertStack.isEmpty() && insertStack.is(CatalystTags.CATALYST_ITEMS)) {
             CompoundTag tag = coreStack.getOrCreateTag();
             if (!tag.contains(core))
                 tag.put(core, new ListTag());
@@ -326,7 +318,7 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     private static int equipElytra(ItemStack coreStack, ItemStack insertStack) {
-        if (!insertStack.isEmpty() && insertStack.is(EItemTags.CATALYST_ELYTRA)) {
+        if (!insertStack.isEmpty() && insertStack.is(CatalystTags.CATALYST_ELYTRA)) {
             CompoundTag tag = coreStack.getOrCreateTag();
             if (!tag.contains(elytra)) {
                 tag.put(elytra, new ListTag());
@@ -347,7 +339,7 @@ public class CatalystArmorItem extends ArmorItem {
     }
 
     private static int equipElytraL(ItemStack coreStack, ItemStack insertStack) {
-        if (!insertStack.isEmpty() && insertStack.is(EItemTags.CATALYST_ELYTRA)) {
+        if (!insertStack.isEmpty() && insertStack.is(CatalystTags.CATALYST_ELYTRA)) {
             CompoundTag tag = coreStack.getOrCreateTag();
             if (!tag.contains(elytraL)) {
                 tag.put(elytraL, new ListTag());

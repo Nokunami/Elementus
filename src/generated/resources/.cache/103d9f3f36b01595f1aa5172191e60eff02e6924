@@ -1,4 +1,4 @@
-// 1.20.1	2025-12-29T16:10:32.1434186	Registries
+// 1.20.1	2026-07-19T23:38:37.0611052	Registries
 66915f7817b5c731e81badc1d7feabbea15846f0 data/elementus/damage_type/sacrificial.json
 e05a787066d4441657006d7abc74c2025919ce30 data/elementus/forge/biome_modifier/add_remnant_ore.json
 24986df4e7f4c2da3ae50e37e55e6b36e6c29a43 data/elementus/forge/biome_modifier/add_remnant_ore_buried.json
@@ -6,9 +6,9 @@ e05a787066d4441657006d7abc74c2025919ce30 data/elementus/forge/biome_modifier/add
 52188ec2a5774494e30d2e9a8d166041b5ebf2d1 data/elementus/trim_material/anthektite.json
 c3dbe6938af90828cefa399215c582f68ae59c00 data/elementus/trim_material/diarkrite.json
 9597857e3fdfa2d3164b44b2b43dd76110ade20e data/elementus/trim_material/steel.json
-d2c4ca48e9e3f1d540f5514880e410fcb2541221 data/elementus/worldgen/configured_feature/movcadia.json
-04f7e5876f995a13754b2faf1cfba033f7fbe506 data/elementus/worldgen/configured_feature/movcadia_mega.json
-c74dcf5a1f70a1febc116a21d19d897794b64d1d data/elementus/worldgen/configured_feature/movcadia_tall.json
+6caa5301f4a28efb81c0bd6f8fd596e9dd810192 data/elementus/worldgen/configured_feature/movcadia.json
+543582fb9cb10574d0b5f14e07f7900da5140a81 data/elementus/worldgen/configured_feature/movcadia_mega.json
+0ddb4ae8de732131adea0e789dfbef245d5b6616 data/elementus/worldgen/configured_feature/movcadia_tall.json
 e56ae5174311b470ee85ed9d4fdcf2ee6d19e23f data/elementus/worldgen/configured_feature/remnant_ore.json
 8fe0c604749414fabbbe8a98c21e9fafc4f0dd87 data/elementus/worldgen/configured_feature/remnant_ore_buried.json
 c9c2cbee380dbd49e31fe8402099923b44e91095 data/elementus/worldgen/configured_feature/rooted_movcadia.json

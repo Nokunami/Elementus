@@ -2,7 +2,6 @@ package net.nokunami.elementus.client.model;
 
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.Keyframe;
-import net.minecraft.world.entity.WalkAnimationState;
 import org.joml.Vector3f;
 
 public class CustomModelProperties {

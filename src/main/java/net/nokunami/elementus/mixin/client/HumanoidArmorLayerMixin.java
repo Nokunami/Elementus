@@ -32,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.getTrimVisibility;
-import static net.nokunami.elementus.common.registry.CustomRegistries.CatalystCoreHelper.CatalystCoreUtil;
+import static net.nokunami.elementus.common.registry.ERegistries.CatalystCoreHelper.CatalystCoreUtil;
 
 @Mixin(HumanoidArmorLayer.class)
 public class HumanoidArmorLayerMixin<T extends LivingEntity, A extends HumanoidModel<T>> {
@@ -55,18 +55,12 @@ public class HumanoidArmorLayerMixin<T extends LivingEntity, A extends HumanoidM
                 accessor.invokeSetPartVisibility(model, slot);
                 Model catalystArmorModel = accessor.invokeGetArmorModelHook(entity, itemStack, slot, model);
                 Model armorTrimModel = elementus$getCatalystTrimModelHook(entity, itemStack, slot, parent);
-//                boolean usesInnerModel = accessor.invokeUsesInnerModel(slot);
-//                boolean isCoreEquipped = getEquippedCore(itemStack).isPresent();
                 var core = CatalystCoreUtil(itemStack).getCore().getBaseTexture(itemStack, entity, slot, null);
 
-                accessor.invokeRenderModel(poseStack, bufferSource, packedLight, armorItem, catalystArmorModel, false, 1, 1, 1, accessor.invokeGetArmorResource(entity, itemStack, slot, null));
-                if (catalystArmorModel instanceof ICatalystArmorPostRenderer renderer) {
+                if (catalystArmorModel instanceof ICatalystArmorPostRenderer renderer)
                     renderer.postRender(new ArmorRenderProperties(new ResourceLocation(core)), poseStack, bufferSource, entity, slot, packedLight, catalystArmorModel);
-                }
                 ArmorTrim.getTrim(entity.level().registryAccess(), itemStack).ifPresent((trim) -> catalyst$renderTrim(armorItem.getMaterial(), poseStack, bufferSource, packedLight, itemStack, trim, armorTrimModel));
-//                ICatalystArmorPostRenderer.renderPost(new ArmorRenderProperties(new ResourceLocation(core)), poseStack, bufferSource, packedLight, entity, slot, catalystArmorModel);
                 if (itemStack.hasFoil()) accessor.invokeRenderGlint(poseStack, bufferSource, packedLight, catalystArmorModel);
-
             }
         }
     }

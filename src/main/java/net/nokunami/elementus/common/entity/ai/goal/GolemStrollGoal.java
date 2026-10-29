@@ -1,6 +1,5 @@
 package net.nokunami.elementus.common.entity.ai.goal;
 
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.nokunami.elementus.common.entity.living.TamableGolem;
 

@@ -32,13 +32,15 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.nokunami.elementus.EClient;
+import net.nokunami.elementus.api.IAbilitySupplier;
 import net.nokunami.elementus.client.extensions.ICatalystTrim;
 import net.nokunami.elementus.client.render.item.inventory.CatalystTooltip;
-import net.nokunami.elementus.common.config.EConfig;
+import net.nokunami.elementus.common.catalystCore.ability.AbstractAbility;
+import net.nokunami.elementus.config.EConfig;
 import net.nokunami.elementus.common.item.IScrollableItem;
-import net.nokunami.elementus.common.item.basic.ElementusArmorItem;
+import net.nokunami.elementus.common.item.basic.EArmorItem;
 import net.nokunami.elementus.common.registry.EArmorMaterials;
-import net.nokunami.elementus.common.tags.EItemTags;
+import net.nokunami.elementus.common.tags.CatalystTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,12 +50,15 @@ import java.util.function.Consumer;
 
 import static net.nokunami.elementus.Elementus.EID;
 import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.*;
-import static net.nokunami.elementus.common.registry.CustomRegistries.CatalystCoreHelper.CatalystCoreUtil;
-import static net.nokunami.elementus.common.registry.EArmorMaterials.EnumArmorMaterials.HEALTH_FUNCTION_FOR_TYPE;
+import static net.nokunami.elementus.common.registry.ERegistries.CatalystCoreHelper.CatalystCoreUtil;
 
-public class TestCatalystArmorItem extends ElementusArmorItem implements ICatalystTrim, IScrollableItem {
+public class TestCatalystArmorItem extends EArmorItem implements ICatalystTrim, IScrollableItem, IAbilitySupplier {
 
-    public TestCatalystArmorItem(EArmorMaterials.EnumArmorMaterials armorMaterial, Type type, Properties properties) {
+    public TestCatalystArmorItem(Properties properties) {
+        this(EArmorMaterials.CATALYST, Type.CHESTPLATE, properties);
+    }
+
+    public TestCatalystArmorItem(EArmorMaterials armorMaterial, Type type, Properties properties) {
         super(armorMaterial, type, properties);
         initClient();
     }
@@ -74,29 +79,20 @@ public class TestCatalystArmorItem extends ElementusArmorItem implements ICataly
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+    public void initializeClient(@NotNull Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) EClient.PROXY.getArmorRenderProperties());
     }
 
     public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         var helper = CatalystCoreUtil(stack);
         if (helper.hasCore()) return helper.getCore().getBaseTexture(stack, entity, slot, type);
-        return EID + ":textures/models/armor/catalyst/catalyst_chestplate.png";
+        return EID + ":textures/models/catalyst/catalyst_chestplate.png";
     }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         return slot == type.getSlot() ? CatalystCoreUtil(stack).getAttributes(slot, stack) : super.getAttributeModifiers(slot, stack);
     }
-
-    @Override public int getDefense() { return EConfig.COMMON.CATALYST_ARMOR.armor.get(); }
-    @Override public float getToughness() { return EConfig.COMMON.CATALYST_ARMOR.attributesConfig.toughness.get().floatValue(); }
-    public float getKnockbackResistance() { return EConfig.COMMON.CATALYST_ARMOR.attributesConfig.knockback.get().floatValue(); }
-    public float getAttackSpeed() { return EConfig.COMMON.CATALYST_ARMOR.attributesConfig.attackSpeed.get().floatValue(); }
-    public float getMovementSpeed() { return EConfig.COMMON.CATALYST_ARMOR.attributesConfig.movementSpeed.get().floatValue(); }
-
-    @Override public int getMaxDamage(ItemStack stack) { return HEALTH_FUNCTION_FOR_TYPE.get(getType()) * EConfig.COMMON.CATALYST_ARMOR.getDurability(); }
-    @Override public int getEnchantmentValue(ItemStack stack) { return EConfig.COMMON.CATALYST_ARMOR.getEnchantability(); }
 
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn) {
         CatalystCoreUtil(stack).tooltip(tooltip);
@@ -115,19 +111,19 @@ public class TestCatalystArmorItem extends ElementusArmorItem implements ICataly
         if (getElytraEquiped(stack).findAny().isPresent()) tooltip.add(Component.translatableWithFallback("item.elementus.catalyst_chestplate.elytra_equipped_legacy", "Elytra NBT tag has change, please remove elytra!").withStyle(ChatFormatting.DARK_RED).withStyle(ChatFormatting.UNDERLINE));
     }
 
-    @Override
-    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
-        if (!level.isClientSide && entity instanceof Player player) {
-            if (player.getItemBySlot(EquipmentSlot.CHEST).equals(stack))
-                CatalystCoreUtil(player).passiveTick(stack, level, entity, slotId, isSelected);
-        }
-    }
+//    @Override
+//    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
+//        if (!level.isClientSide && entity instanceof Player player) {
+//            if (player.getItemBySlot(EquipmentSlot.CHEST).equals(stack))
+//                CatalystCoreUtil(player).passiveTick(stack, level, slotId, isSelected);
+//        }
+//    }
 
     @Override public boolean canBeHurtBy(@NotNull DamageSource source) { return false; }
 
     @Override public int getEntityLifespan(ItemStack stack, Level level) { return Integer.MAX_VALUE; }
-    @Override public boolean canBeDepleted() { return !EConfig.COMMON.CATALYST_ARMOR.hasDurability.get(); }
-    @Override public boolean isRepairable(@NotNull ItemStack stack) { return EConfig.COMMON.CATALYST_ARMOR.hasDurability.get(); }
+    @Override public boolean canBeDepleted() { return !EConfig.catalystConfig.baseCatalyst.durability.get().component2(); }
+    @Override public boolean isRepairable(@NotNull ItemStack stack) { return EConfig.catalystConfig.baseCatalyst.durability.get().component2(); }
 
     @Override public boolean canElytraFly(ItemStack stack, LivingEntity entity) { return hasElytra(stack); }
 
@@ -136,7 +132,7 @@ public class TestCatalystArmorItem extends ElementusArmorItem implements ICataly
         if (!entity.level().isClientSide) {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
-                if (!EConfig.COMMON.CATALYST_ARMOR.hasDurability.get()) {
+                if (!EConfig.catalystConfig.baseCatalyst.durability.get().component2()) {
                     if (nextFlightTick % 20 == 0) {
                         stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(EquipmentSlot.CHEST));
                     }
@@ -148,8 +144,13 @@ public class TestCatalystArmorItem extends ElementusArmorItem implements ICataly
     }
 
     @Override
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+        return Mth.clamp(amount, 0, stack.getMaxDamage() - stack.getDamageValue() - 1);
+    }
+
+    @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return !EConfig.COMMON.CATALYST_ARMOR.hasDurability.get() ? super.canApplyAtEnchantingTable(stack, enchantment) : enchantment != Enchantments.MENDING && super.canApplyAtEnchantingTable(stack, enchantment);
+        return enchantment != Enchantments.MENDING && super.canApplyAtEnchantingTable(stack, enchantment);
     }
 
     @Override public boolean isEnchantable(@NotNull ItemStack stack) { return this.getMaxStackSize(stack) == 1; }
@@ -164,22 +165,18 @@ public class TestCatalystArmorItem extends ElementusArmorItem implements ICataly
             ItemStack slotStack = slot.getItem();
             if (slotStack.isEmpty()) {
                 if (checkElytraEquiped(chestplate) > 0) {
-                    removeEquipedElytra(chestplate).ifPresent((item) -> {
-                        insertStack(chestplate, slot.safeInsert(item));
-                    });
+                    removeEquipedElytra(chestplate).ifPresent((item) -> insertStack(chestplate, slot.safeInsert(item), player));
                 } else if (getContentLWeight(chestplate) > 0) {
-                    removeCoreL(chestplate).ifPresent((item) -> {
-                        insertStack(chestplate, slot.safeInsert(item));
-                    });
+                    removeCoreL(chestplate).ifPresent((item) -> insertStack(chestplate, slot.safeInsert(item), player));
                 } else {
-                    takeStack(chestplate).ifPresent((coreItem) -> {
-                        playUnequipSound(player, chestplate, coreItem, true);
-                        insertStack(chestplate, slot.safeInsert(coreItem));
+                    takeStack(chestplate, player).ifPresent(core -> {
+                        playUnequipSound(player, chestplate, core, true);
+                        insertStack(chestplate, slot.safeInsert(core), player);
                     });
                 }
             } else if (!slotStack.isEmpty() && canEquipCore(chestplate, slotStack) || canEquipElytra(chestplate, slotStack)) {
+                insertStack(chestplate, slot.safeTake(slotStack.getCount(), 1, player), player);
                 playEquipSound(player, chestplate, slotStack, true);
-                insertStack(chestplate, slot.safeTake(slotStack.getCount(), 1, player));
             }
 
             return true;
@@ -194,21 +191,17 @@ public class TestCatalystArmorItem extends ElementusArmorItem implements ICataly
                     int i = getTrimVisibility(chestplate);
                     setTrimVisibility(chestplate, i > 1 ? 1 : 2);
                 } else if (checkElytraEquiped(chestplate) > 0) {
-                    removeEquipedElytra(chestplate).ifPresent((item) -> {
-                        access.set(item);
-                    });
+                    removeEquipedElytra(chestplate).ifPresent(access::set);
                 } else if (getContentLWeight(chestplate) > 0) {
-                    removeCoreL(chestplate).ifPresent((item) -> {
-                        access.set(item);
-                    });
+                    removeCoreL(chestplate).ifPresent(access::set);
                 } else {
-                    takeStack(chestplate).ifPresent((core) -> {
+                    takeStack(chestplate, player).ifPresent(core -> {
                         playUnequipSound(player, chestplate, core, true);
                         access.set(core);
                     });
                 }
             } else {
-                int i = insertStack(chestplate, mouseStack);
+                int i = insertStack(chestplate, mouseStack, player);
                 playEquipSound(player, chestplate, mouseStack, i > 0);
                 mouseStack.shrink(i);
             }
@@ -230,18 +223,23 @@ public class TestCatalystArmorItem extends ElementusArmorItem implements ICataly
 
     private void playEquipSound(Player entity, ItemStack chestStack, ItemStack coreStack, boolean playSound) {
         if (playSound) {
-            if (coreStack.is(EItemTags.CATALYST_ELYTRA)) entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
+            if (coreStack.is(CatalystTags.CATALYST_ELYTRA)) entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
             else CatalystCoreUtil(entity).getCore().equipSound(entity, chestStack, coreStack);
         }
     }
     private void playUnequipSound(Player entity, ItemStack chestStack, ItemStack coreStack, boolean playSound) {
         if (playSound) {
-            if (coreStack.is(EItemTags.CATALYST_ELYTRA)) entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
+            if (coreStack.is(CatalystTags.CATALYST_ELYTRA)) entity.playSound(SoundEvents.ARMOR_EQUIP_ELYTRA, 0.75F, 1);
             else CatalystCoreUtil(chestStack).getCoreFromString(getCoreInstance(chestStack)).unequipSound(entity, chestStack, coreStack);
         }
     }
 
     @Override public void onItemScroll(ItemStack stack, int scrollAmount) {
-        Selection.select(stack, Mth.clamp(scrollAmount, -1, 1));
+        Selection.select(stack, Mth.clamp(scrollAmount, -1, 1), isTrimmed(stack) ? 2 : 1);
+    }
+
+    @Override
+    public List<AbstractAbility> getAbilities(ItemStack stack) {
+        return CatalystCoreUtil(stack).getAbilities();
     }
 }

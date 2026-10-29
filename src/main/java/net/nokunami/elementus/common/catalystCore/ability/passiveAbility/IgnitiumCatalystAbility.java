@@ -4,7 +4,6 @@ import com.github.L_Ender.cataclysm.init.ModEffect;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,13 +12,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.nokunami.elementus.common.catalystCore.ability.PassiveCatalystAbility;
 import net.nokunami.elementus.common.entity.MobUtil;
-import net.nokunami.elementus.common.registry.EMobEffects;
 
-import static net.nokunami.elementus.ModChecker.cataclysm;
-import static net.nokunami.elementus.common.config.catalystConfigs.CatalystArmorConfig.*;
-import static net.nokunami.elementus.common.entity.MobUtil.EffectApplier.EAInst;
-import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.setTextureType;
-import static net.nokunami.elementus.common.item.unique.CatalystItemUtil.getTextureType;
+import static net.nokunami.elementus.ElementusModCheck.cataclysm;
 
 public class IgnitiumCatalystAbility extends PassiveCatalystAbility {
 

@@ -1,5 +1,6 @@
 package net.nokunami.elementus.datagen.generators;
 
+import com.aetherteam.aether.AetherTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -9,7 +10,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.nokunami.elementus.common.registry.EBlocks;
 import net.nokunami.elementus.common.registry.EItems;
+import net.nokunami.elementus.common.tags.CatalystTags;
 import net.nokunami.elementus.common.tags.EItemTags;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +38,7 @@ public class EItemTagsData extends ItemTagsProvider {
     private void minecraftTags() {
         tag(ItemTags.SWORDS).add(EItems.ASTALITE_SWORD.get(), EItems.DIARKRITE_SWORD.get(), EItems.ANTHEKTITE_SWORD.get(),
                 EItems.MOVCADIA_SWORD.get(),
-                EItems.DIARKRITE_CHARGE_BLADE.get(), EItems.ANTHEKTITE_CHARGE_BLADE.get());
+                EItems.BLADE_OF_RESONANCE.get(), EItems.ANTHEKTITE_CHARGE_BLADE.get());
 
         tag(ItemTags.SHOVELS).add(EItems.ASTALITE_SHOVEL.get(), EItems.DIARKRITE_SHOVEL.get(), EItems.ANTHEKTITE_SHOVEL.get(), EItems.MOVCADIA_SHOVEL.get());
 
@@ -139,18 +142,26 @@ public class EItemTagsData extends ItemTagsProvider {
         tag(EItemTags.REPAIRS_ANTHEKTITE_EQUIPMENT).add(EItems.ANTHEKTITE_INGOT.get());
 
         tag(EItemTags.REPAIRS_CATALYST_ARMOR).addTag(EItemTags.ORES_ATELIS);
-        tag(EItemTags.CATALYST_ITEMS)
+        tag(CatalystTags.CATALYST_ITEMS)
                 .add(Items.NETHER_STAR, Items.HEART_OF_THE_SEA, Items.TOTEM_OF_UNDYING)
                 .addOptional(new ResourceLocation("cataclysm", "ignitium_ingot"))
                 .addOptional(new ResourceLocation("irons_spellbooks", "arcane_ingot"))
                 .addOptional(new ResourceLocation("cataclysm", "cursium_ingot"))
                 .addOptional(new ResourceLocation("witherstormmod", "withered_nether_star"));
-        tag(EItemTags.CATALYST_ELYTRA)
+        tag(CatalystTags.CATALYST_ELYTRA)
                 .add(net.minecraft.world.item.Items.ELYTRA);
 
-        tag(EItemTags.CORE_NETHER_STAR).add(Items.NETHER_STAR);
-        tag(EItemTags.CORE_HEART_OF_THE_SEA).add(Items.HEART_OF_THE_SEA);
-        tag(EItemTags.CORE_TOTEM_OF_UNDYING).add(Items.TOTEM_OF_UNDYING);
+        tag(CatalystTags.CORE_BEACON_POWER).add(Items.NETHER_STAR);
+        tag(CatalystTags.CORE_CONDUIT_POWER).add(Items.HEART_OF_THE_SEA);
+        tag(CatalystTags.CORE_TOTEM_OF_UNDYING).add(Items.TOTEM_OF_UNDYING);
+        tag(CatalystTags.CORE_VOID_SHIFTER).add(Items.ENDER_PEARL);
+        tag(CatalystTags.CORE_WAYFINDER).add(Items.COMPASS);
+
+        tag(EItemTags.REPAIR_ON_KILL).add(
+                EItems.DIARKRITE_SWORD.get(), EItems.DIARKRITE_SHOVEL.get(), EItems.DIARKRITE_PICKAXE.get(), EItems.DIARKRITE_AXE.get(), EItems.DIARKRITE_HOE.get(),
+                EItems.DIARKRITE_HELMET.get(), EItems.DIARKRITE_CHESTPLATE.get(), EItems.DIARKRITE_LEGGINGS.get(), EItems.DIARKRITE_BOOTS.get(),
+                EItems.DIARKRITE_SHIELD.get(), EItems.DIARKRITE_BOW.get()
+        );
 
         tag(EItemTags.STEEL_GOLEM_HEAL).add(EItems.ASTALITE_INGOT.get());
         tag(EItemTags.STEEL_GOLEM_REPAIR_HALF).add(EItems.ASTALITE_SCRAP.get());

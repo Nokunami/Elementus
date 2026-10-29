@@ -13,7 +13,7 @@ import net.nokunami.elementus.datagen.providers.EGlobalLootModifierProvider;
 import java.util.concurrent.CompletableFuture;
 
 import static net.nokunami.elementus.Elementus.EID;
-import static net.nokunami.elementus.ModChecker.projectE;
+import static net.nokunami.elementus.ElementusModCheck.projectE;
 
 @Mod.EventBusSubscriber(modid = EID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
